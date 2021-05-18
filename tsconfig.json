@@ -30,10 +30,10 @@
     "strictNullChecks": true,
     "paths": {
       "@/*": ["src/*"],
-      "webkit": ["node_modules/san-webkit/lib"],
       "webkit/*": ["node_modules/san-webkit/lib/*"],
-      "san-chart": ["node_modules/@santiment-network/chart"],
-      "san-chart/*": ["node_modules/@santiment-network/chart/*"]
+      "webkit": ["node_modules/san-webkit/lib"],
+      "san-chart/*": ["node_modules/@santiment-network/chart/*"],
+      "san-chart": ["node_modules/@santiment-network/chart"]
     }
   },
   /**
