@@ -35,7 +35,7 @@ export const queryFavoriteMetrics = () =>
   query<FavoriteMetricsQuery>(FAVORITE_METRICS_QUERY).then(accessor)
 
 export const mutateFavoriteMetrics = (metrics: string[]) =>
-  mutate(UPDATE_FAVORITES_MUTATION, {
+  mutate<any>(UPDATE_FAVORITES_MUTATION, {
     variables: {
       metrics,
     },
