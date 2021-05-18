@@ -1,0 +1,250 @@
+<script lang="ts">
+  import Checkbox from 'webkit/ui/Checkbox.svelte'
+  import Icon from 'webkit/ui/Icon.svelte'
+  import ChartWidget from '@/ChartWidget/index.svelte'
+  import { initWidget } from '@/ChartWidget/context'
+  import {
+    HolderDistributionAbsoluteMetric,
+    HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
+  } from '@/metrics/_onchain/holderDistributions'
+  import { studio } from '@/stores/studio'
+  import { buildMergedMetric } from './utils'
+
+  export let widget
+  export let isSingleWidget: boolean
+  export let deleteWidget
+
+  if (!widget.metrics)
+    widget.metrics = [
+      HolderDistributionAbsoluteMetric.holders_distribution_1_to_10,
+    ]
+  initWidget(widget)
+
+  const enum Phase {
+    None,
+    Merge,
+  }
+
+  const { Metrics } = widget
+  let isOpened = true
+  let clientWidth
+  let node
+  let phase = Phase.None
+  let mergingMetrics = new Set()
+  let mergedMetricsSet = new Set()
+  let mergedMetrics = []
+
+  $: node && updateDimensions(clientWidth, isOpened)
+  $: isMerging = phase === Phase.Merge
+
+  function onMetricClick(metric: Studio.Metric) {
+    if (isMerging) {
+      return checkMetric(metric)
+    }
+
+    if ($Metrics.length === 1 && $Metrics.includes(metric)) return
+    Metrics.toggle(metric)
+  }
+
+  function checkMetric(metric: Studio.Metric) {
+    if (mergingMetrics.has(metric)) {
+      mergingMetrics.delete(metric)
+    } else {
+      mergingMetrics.add(metric)
+    }
+    mergingMetrics = mergingMetrics
+  }
+
+  function onMergeClick() {
+    if (!isMerging) return (phase = Phase.Merge)
+
+    if (mergingMetrics.size > 1) {
+      const metric = buildMergedMetric(Array.from(mergingMetrics))
+      if (mergedMetricsSet.has(metric) === false) {
+        Metrics.add(metric)
+        mergedMetrics = Array.from(mergedMetricsSet.add(metric))
+      }
+    }
+
+    mergingMetrics = new Set()
+    phase = Phase.None
+  }
+
+  function updateDimensions(width: number, isOpened: boolean) {
+    node.firstChild.style.maxWidth = (isOpened ? width - 340 : width) + 'px'
+  }
+
+  function metricsFilter(metric: Studio.Metric) {
+    return (
+      !HolderDistributionAbsoluteMetric[metric.key] &&
+      !mergedMetricsSet.has(metric)
+    )
+  }
+
+  function onUnmergeClick(metric: Studio.Metric) {
+    mergedMetrics = Array.from(mergedMetricsSet.delete(metric))
+    Metrics.delete(metric)
+  }
+
+  function onWidgetDelete(isForced = false) {
+    if (isForced) deleteWidget()
+  }
+</script>
+
+<div class="widget row" bind:clientWidth bind:this={node}>
+  <ChartWidget
+    {widget}
+    {metricsFilter}
+    {isSingleWidget}
+    deleteWidget={onWidgetDelete} />
+
+  <div class="aside column" class:opened={isOpened}>
+    <div class="toggle">
+      <Icon
+        id="sidebar"
+        w="12"
+        h="10"
+        class="btn $style.icon"
+        on:click={() => (isOpened = !isOpened)} />
+    </div>
+
+    {#if isOpened}
+      <div class="row v-center mrg-l mrg--b">
+        <div class="body-2 txt-m">
+          {$studio.ticker} Supply Distribution
+          <div class="body-3">by number of addresses</div>
+        </div>
+        <div
+          class="merge btn border mrg-a mrg--l"
+          on:click={onMergeClick}
+          class:merging={isMerging}
+          class:confirm={isMerging && mergingMetrics.size > 1}>
+          {#if isMerging}
+            {mergingMetrics.size > 1 ? 'Confirm' : 'Cancel'}
+          {:else}
+            Merge
+          {/if}
+        </div>
+      </div>
+
+      {#if Metrics}
+        <div class="metrics column">
+          {#each mergedMetrics as metric}
+            <div
+              class="btn btn--ghost metric mrg-s mrg--b row v-center"
+              class:active={$Metrics.includes(metric)}
+              on:click={() => onMetricClick(metric)}>
+              {metric.label}
+              <div
+                class="btn unmerge mrg-s mrg--l"
+                on:click={() => onUnmergeClick(metric)}>
+                Unmerge
+              </div>
+            </div>
+          {/each}
+
+          {#each HOLDER_DISTRIBUTION_ABSOLUTE_METRICS as metric}
+            <div
+              class="btn btn--ghost metric mrg-s mrg--b row v-center"
+              class:active={isMerging
+                ? mergingMetrics.has(metric)
+                : $Metrics.includes(metric)}
+              on:click={() => onMetricClick(metric)}>
+              {#if isMerging}
+                <Checkbox
+                  class="mrg-s mrg--r"
+                  isActive={mergingMetrics.has(metric)} />
+              {/if}
+              {metric.label}
+            </div>
+          {/each}
+        </div>
+      {/if}
+    {/if}
+  </div>
+</div>
+
+<style>
+  .widget {
+    height: 100%;
+  }
+
+  .aside {
+    margin: -16px;
+    margin-left: 16px;
+    position: relative;
+  }
+
+  .opened {
+    width: 340px;
+    padding: 20px 16px;
+    border-left: 1px solid var(--porcelain);
+  }
+
+  .body-3 {
+    color: var(--waterloo);
+    font-weight: 400;
+  }
+
+  .merge {
+    padding: 5px 12px;
+    --color-hover: var(--green);
+  }
+
+  .metrics {
+    overflow: auto;
+  }
+
+  .metric {
+    padding: 6px 12px;
+    --color: var(--casper);
+    --color-hover: var(--black);
+  }
+
+  .active {
+    --color: var(--black);
+  }
+
+  .toggle {
+    position: absolute;
+    top: 15px;
+    left: -21px;
+    width: 21px;
+    border: 1px solid var(--porcelain);
+    border-right: none;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .opened .toggle {
+    left: -13px;
+    width: 13px;
+  }
+
+  .icon {
+    --fill: var(--casper);
+    --fill-hover: var(--green);
+    --bg: var(--white);
+    padding: 10px 4px;
+  }
+
+  .merging {
+    border-color: var(--red);
+    --color: var(--red);
+    --color-hover: var(--red-hover);
+  }
+
+  .confirm {
+    border-color: var(--green);
+    --color: var(--green);
+    --color-hover: var(--green-hover);
+  }
+
+  .unmerge {
+    color: var(--red);
+  }
+  .unmerge:hover {
+    color: var(--red-hover);
+    text-decoration: underline;
+  }
+</style>

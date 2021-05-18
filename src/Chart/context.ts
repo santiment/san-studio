@@ -1,0 +1,31 @@
+import type { initChart } from 'san-chart'
+import { setContext, getContext } from 'svelte'
+
+type SanChart = ReturnType<typeof initChart>
+export type Chart = SanChart & {
+  plotManager: ReturnType<typeof newPlotManager>
+  tooltip?: any
+  drawTooltip?: (point: any, y: number) => any
+}
+
+const noop = () => {} // eslint-disable-line
+export const CONTEXT = 'chartManager'
+export const setChart = (chart: Chart): void => setContext(CONTEXT, chart)
+export const getChart = (): Chart => getContext(CONTEXT)
+
+export type Plotter = (
+  chart: any,
+  scale: any,
+  data: any,
+  colors: any,
+  categories: any,
+) => any
+export const newPlotManager = () => ({
+  items: new Map<string, Plotter>(),
+  delete(id: string) {
+    this.items.set(id, noop)
+  },
+  set(id: string, clb: Plotter) {
+    this.items.set(id, clb)
+  },
+})

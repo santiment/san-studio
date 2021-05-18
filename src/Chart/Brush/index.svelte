@@ -1,0 +1,63 @@
+<script lang="ts">
+  import {
+    initBrush,
+    updateBrushState,
+    updateBrushDimensions,
+  } from 'san-chart/brush'
+  import { getChart } from '../context'
+  import { clearCtx } from '../utils'
+  import { themes } from '../theme'
+  import { setViewedIndicis, getBrushPlotItems } from './utils'
+
+  const BRUSH_HEIGHT = 40
+  const chart = getChart()
+
+  export let data
+  export let categories
+  export let colors
+  export let from, to
+  export let onChange
+  export let theme = themes[0]
+
+  const width = chart.canvasWidth
+  const brush = initBrush(chart, width, BRUSH_HEIGHT, chart.theme.brush)
+  brush.canvas.classList.add('$style.brush')
+  brush.plotBrushData = plotBrushData
+  brush.redraw = redraw
+  brush.updateWidth = updateWidth
+  brush.onChangeEnd = onChange
+  chart.brush = brush
+
+  let shouldRedraw = 1
+  $: shouldRedraw && (theme || data || categories || colors) && drawBrush()
+  $: if (setViewedIndicis(brush, data, from, to)) shouldRedraw += 1
+
+  function drawBrush() {
+    brush.paintConfig = theme.brush
+    clearCtx(brush)
+    redraw()
+  }
+
+  function plotBrushData() {
+    getBrushPlotItems(chart.plotManager).forEach((plot) => {
+      plot(brush, chart.scale, data, colors, categories)
+    })
+  }
+
+  function updateWidth(width: number) {
+    updateBrushDimensions(brush, width, BRUSH_HEIGHT)
+    redraw()
+  }
+
+  function redraw() {
+    if (data.length === 0) return
+    updateBrushState(brush, data, categories.joinedCategories)
+  }
+</script>
+
+<style>
+  .brush {
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+  }
+</style>

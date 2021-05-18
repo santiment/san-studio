@@ -1,0 +1,135 @@
+<script>
+  import { mapview, MapviewPhase } from '@/stores/mapview'
+  import { getWidgets } from '@/stores/widgets'
+  import { selectedMetrics } from '@/stores/selector'
+  import Preview from './Preview.svelte'
+  import ChartPreview from './ChartPreview.svelte'
+  import Items from './Items.svelte'
+  import ChartWidget from '@/ChartWidget/index.svelte'
+
+  const Widgets = getWidgets()
+  const centered = { block: 'center' }
+
+  $: mapview.checkActiveMetrics(
+    $selectedMetrics.items.length > 0 || $selectedMetrics.subwidgets.length > 0,
+  )
+  $: isMapview = $mapview !== MapviewPhase.None
+  $: isMetricsPhase = $mapview === MapviewPhase.Metrics
+  $: document.body.style.overflow = isMapview ? 'hidden' : ''
+
+  const onEscape = ({ key }) => key === 'Escape' && mapview.exit()
+  $: if (isMapview) {
+    window.addEventListener('keydown', onEscape)
+  } else {
+    window.removeEventListener('keydown', onEscape)
+    selectedMetrics.clear()
+  }
+
+  function onWidgetClick(widget) {
+    if ($mapview === MapviewPhase.Overview) {
+      widget.chart.canvas.scrollIntoView(centered)
+      mapview.exit()
+      return
+    }
+
+    if ($selectedMetrics.subwidgets.length) {
+      Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
+    }
+    widget.Metrics.concat($selectedMetrics.items)
+    selectedMetrics.clear()
+  }
+
+  function onNewWidgetClick() {
+    Widgets.add(ChartWidget, $selectedMetrics.items)
+    selectedMetrics.clear()
+  }
+</script>
+
+{#if isMapview}
+  <div class="mapview">
+    <div class="sticky column">
+      <div class="header">
+        <h2 class="body-1 txt-m mrg-s mrg--b">Apply metrics to the chart(s)</h2>
+        <h3 class="body-2">
+          Select metrics from the left sidebar and pick where you woud like to
+          place them
+        </h3>
+      </div>
+
+      <div class="visible">
+        <div class="widgets">
+          {#each $Widgets as widget (widget.id)}
+            <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
+          {/each}
+
+          {#if isMetricsPhase}
+            <Preview class="column hv-center" on:click={onNewWidgetClick}
+              >Add new chart</Preview>
+          {/if}
+        </div>
+      </div>
+
+      {#if isMetricsPhase}
+        <div class="selections column">
+          <Items items={$selectedMetrics.items} name="metric" />
+          <Items
+            items={$selectedMetrics.subwidgets}
+            name="widget"
+            class="mrg-s mrg--t" />
+        </div>
+      {/if}
+    </div>
+  </div>
+{/if}
+
+<style>
+  .mapview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--athens);
+    user-select: none;
+    z-index: 20;
+  }
+
+  .sticky {
+    height: 100vh;
+    top: 0;
+    position: sticky;
+    padding: 64px 25px;
+  }
+
+  .header {
+    margin: 40px 0 32px;
+  }
+
+  h3 {
+    color: var(--waterloo);
+  }
+
+  .visible {
+    overflow: auto;
+    flex: 1;
+    margin-right: -25px;
+  }
+
+  .widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 475px);
+    grid-auto-flow: row dense;
+    grid-gap: 23px;
+    flex: 1 1;
+  }
+
+  .selections {
+    border-radius: 4px;
+    background: #505573;
+    padding: 12px 24px;
+    position: absolute;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+  }
+</style>

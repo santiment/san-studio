@@ -1,0 +1,106 @@
+<script lang="ts">
+  import Icon from 'webkit/ui/Icon.svelte'
+  import { MetricCategory } from '@/metrics/graph'
+  import Item from './Item.svelte'
+
+  export let category: MetricCategory
+  export let items: Studio.SelectorNode[] = []
+  export let isFiltering: boolean
+  export let VisibleGroup: { [index: string]: boolean } = {}
+  export let onItemEnter = undefined
+  export let onItemClick = undefined
+  export let isOpened = undefined
+
+  let visible = isOpened || category === MetricCategory.Financial
+  $: GroupIndex = prepareGroups(items)
+
+  function prepareGroups(items: Studio.SelectorNode[]) {
+    const GroupIndex = {}
+    let _group: string | undefined
+
+    for (let i = 0; i < items.length; i++) {
+      const { group } = items[i]
+      if (_group === group) continue
+      _group = group
+      GroupIndex[i] = true
+    }
+
+    return GroupIndex
+  }
+
+  const toggleGroup = ({ group }: Studio.SelectorNode) =>
+    group && (VisibleGroup[group] = !VisibleGroup[group])
+</script>
+
+{#if items.length || $$slots.default}
+  <div class="category">
+    <h3
+      on:click={() => (visible = !visible)}
+      class="row v-center justify"
+      class:hidden={!visible}>
+      {category}
+      <Icon id="arrow" w="8" h="5" class="$style.arrow" />
+    </h3>
+
+    {#if visible || isFiltering}
+      <div class="items mrg-m mrg--t">
+        {#if $$slots.default}
+          <slot />
+        {:else}
+          {#each items as metric, i (metric.key)}
+            {#if GroupIndex[i]}
+              <h4
+                on:click={() => toggleGroup(metric)}
+                class="row justify v-center"
+                class:hidden={!VisibleGroup[metric.group]}>
+                {metric.group}
+                <Icon id="arrow" w="8" h="5" class="$style.arrow" />
+              </h4>
+            {/if}
+            {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
+              <Item
+                item={metric}
+                {onItemEnter}
+                on:click={onItemClick && onItemClick(metric)} />
+            {/if}
+          {/each}
+        {/if}
+      </div>
+    {/if}
+  </div>
+{/if}
+
+<style>
+  .category {
+    padding: 22px 8px 16px;
+    border-bottom: 1px solid var(--porcelain);
+    user-select: none;
+  }
+
+  h3 {
+    font-weight: 600;
+    padding: 0 8px;
+  }
+  .hidden .arrow {
+    transform: rotate(180deg);
+  }
+
+  h4 {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--waterloo);
+    fill: var(--waterloo);
+    margin: 14px 8px 8px;
+  }
+
+  h3,
+  h4 {
+    cursor: pointer;
+  }
+
+  h3:hover,
+  h4:hover {
+    fill: var(--green);
+  }
+</style>

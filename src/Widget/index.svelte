@@ -1,0 +1,46 @@
+<script lang="ts">
+  import { onMount, onDestroy } from 'svelte'
+  import { getAdapterController } from '@/adapter/context'
+  import Subwidget from './Subwidget.svelte'
+  const { onWidget } = getAdapterController()
+
+  export let i
+  export let widget
+  export let Widgets
+
+  let target
+  let destroy
+  $: isSingleWidget = $Widgets.length < 2
+
+  onMount(() => {
+    if (onWidget) destroy = onWidget(target, widget)
+  })
+  onDestroy(() => destroy && destroy(target, widget))
+</script>
+
+<div class="widget border" bind:this={target}>
+  <svelte:component
+    this={widget.Widget}
+    {widget}
+    {isSingleWidget}
+    deleteWidget={() => Widgets.delete(widget, i)} />
+</div>
+{#if widget.subwidgets}
+  {#each widget.subwidgets as subwidget}
+    <Subwidget {subwidget} parentWidget={widget} />
+  {/each}
+{/if}
+
+<style>
+  .widget {
+    margin-top: 16px;
+    height: 530px;
+    padding: 14px 16px;
+  }
+  .widget:first-child {
+    margin: 0;
+  }
+  .widget:only-child {
+    height: 100%;
+  }
+</style>
