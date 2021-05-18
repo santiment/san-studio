@@ -9,8 +9,8 @@
     "serve": "vite preview",
     "validate": "svelte-check",
     "validate:errors": "yarn validate --threshold error",
-    "lib:ts": "tsc --outDir lib --p ./tsconfig.json",
-    "lib": "npm run lib:ts && node scripts/lib.js",
+    "lib:prepare": "node scripts/prepare.js && tsc --p ./scripts/tsconfig.json && node scripts/cleanup.js",
+    "lib": "npm run lib:prepare && node scripts/lib.js",
     "install": "npm run lib"
   },
   "devDependencies": {
