@@ -7,7 +7,6 @@ const LineNode = {
 
 const BarNode = {
   BAR: 'bar',
-  AUTO_WIDTH_BAR: 'autoWidthBar',
   GREEN_RED_BAR: 'greenRedBar',
 } as const
 

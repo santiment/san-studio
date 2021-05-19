@@ -13,6 +13,7 @@
   import Drawer from '@/Chart/Drawer/index.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
   import { globals } from '@/stores/globals'
+  import { newDomainModifier } from './domain'
   import { getWidget } from './context'
   const { ChartAxes, ChartOptions, MetricSettings } = getWidget()
 
@@ -28,6 +29,7 @@
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
   $: metricSettings = getTooltipSettings(metrics, $studio.ticker)
   $: theme = themes[+$globals.isNightMode]
+  $: domainModifier = newDomainModifier(metrics, $MetricSettings)
 
   function getCategories(metrics: Studio.Metric[], MetricSettings) {
     const joinedCategories = new Array(metrics.length)
@@ -71,6 +73,7 @@
   {categories}
   {colors}
   {theme}
+  {domainModifier}
   {onChart}>
   {#if $ChartOptions.watermark}
     <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />

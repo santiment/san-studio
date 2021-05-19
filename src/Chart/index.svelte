@@ -20,6 +20,7 @@
 
   export let padding: typeof DEFAULT_PADDING
   export let data, categories, colors, scale, domainGroups
+  export let domainModifier
   export let theme = themes[0]
   export let onChart
 
@@ -30,7 +31,7 @@
   $: setChart(chart)
   $: chart && width && height && padding && updateDimensions()
   $: chart &&
-    theme &&
+    (theme || domainModifier) &&
     (shouldRedraw || data || categories || colors || scale || domainGroups) &&
     drawChart(chart)
 
@@ -64,6 +65,7 @@
     chart.colors = colors
     chart.scale = scale || linearScale
     chart.domainGroups = domainGroups
+    chart.domainModifier = domainModifier
 
     if (data.length === 0) {
       chart.points = []
@@ -72,7 +74,7 @@
         chart,
         data,
         categories.joinedCategories,
-        undefined,
+        domainModifier,
         domainGroups,
       )
 

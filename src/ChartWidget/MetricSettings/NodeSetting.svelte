@@ -11,7 +11,7 @@
   $: metricSettings = $MetricSettings[metric.key]
   $: metricNode = getMetricNode(metric, metricSettings)
 
-  const NodeToLabel = { [Node.AUTO_WIDTH_BAR]: 'Bar' }
+  const NodeToLabel = {}
   function buildNode(id: ChartNodes, label: string) {
     NodeToLabel[id] = label
     return { id, label }

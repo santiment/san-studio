@@ -66,7 +66,7 @@ export const setNodeController = (NodeController): void =>
   setContext(NODE_CONTROLLER_CONTEXT, NodeController)
 export const getNodeController = () => getContext(NODE_CONTROLLER_CONTEXT)
 export function newNodeController(Widgets, Sidewidget) {
-  const NodeController = (node: Studio.SelectorNode) => {
+  function NodeController(node: Studio.SelectorNode) {
     if (node.selectorType === SelectorType.Sidewidget) {
       return Sidewidget.set(node === get(Sidewidget) ? null : node)
     }
