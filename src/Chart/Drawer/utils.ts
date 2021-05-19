@@ -70,7 +70,10 @@ function datetimeRelativeScaler(chart, width) {
   return (x) => factor * (x - left) + firstDatetime
 }
 
-export function absoluteToRelativeCoordinates(chart, drawing): [number, number, number, number] {
+export function absoluteToRelativeCoordinates(
+  chart,
+  drawing,
+): [number, number, number, number] {
   const { width, tooltipKey, minMaxes, scale } = chart
   const { min, max } = minMaxes[tooltipKey]
 
@@ -87,7 +90,10 @@ export function absoluteToRelativeCoordinates(chart, drawing): [number, number, 
   ]
 }
 
-export function relativeToAbsoluteCoordinates(chart, drawing): [number, number, number, number] {
+export function relativeToAbsoluteCoordinates(
+  chart,
+  drawing,
+): [number, number, number, number] {
   const { tooltipKey, minMaxes } = chart
   const { min, max } = minMaxes[tooltipKey]
 
@@ -143,7 +149,8 @@ export function paintDrawings(chart) {
 }
 
 function drawMetricValueBubble(chart, theme, metricKey, y1, y2, offset) {
-  const { drawer, scale, minMaxes } = chart
+  const { drawer, scale, minMaxes, metricSettings } = chart
+  const metricDisplayer = metricSettings[metricKey]
   const { ctx } = drawer
 
   const minMax = minMaxes[metricKey]
@@ -152,14 +159,9 @@ function drawMetricValueBubble(chart, theme, metricKey, y1, y2, offset) {
   const { min, max } = minMax
   const scaleValue = scale === logScale ? valueByLogY : valueByY
 
-  const formattedY1Value = yBubbleFormatter(
-    scaleValue(chart, y1, min, max),
-   // metricKey,
-  )
-  const formattedY2Value = yBubbleFormatter(
-    scaleValue(chart, y2, min, max),
-    //metricKey,
-  )
+  const formatter = metricDisplayer?.axisFormatter || yBubbleFormatter
+  const formattedY1Value = formatter(scaleValue(chart, y1, min, max))
+  const formattedY2Value = formatter(scaleValue(chart, y2, min, max))
 
   drawValueBubbleY(chart, ctx, formattedY1Value, y1, theme, offset)
   drawValueBubbleY(chart, ctx, formattedY2Value, y2, theme, offset)

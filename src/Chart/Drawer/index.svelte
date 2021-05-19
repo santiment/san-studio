@@ -54,6 +54,7 @@
   }
 
   function setIsDrawing(value: boolean) {
+    chart.isDrawing = value
     $ChartDrawer.isDrawing = value
   }
 

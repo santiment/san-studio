@@ -77,12 +77,8 @@
     }
   }
 
-  function onBrushChange(startIndex: number, endIndex: number) {
-    const start = allTimeData[startIndex]
-    const end = allTimeData[endIndex]
-    if (start && end) {
-      studio.setPeriod(new Date(start.datetime), new Date(end.datetime))
-    }
+  function changeStudioPeriod(startDatetime: number, endDatetime: number) {
+    studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
   }
 
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {
@@ -136,7 +132,7 @@
     {domainGroups}
     from={$studio.from}
     to={$studio.to}
-    {onBrushChange}
+    {changeStudioPeriod}
     {onChart} />
 </div>
 

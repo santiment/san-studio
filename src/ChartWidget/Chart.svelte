@@ -27,7 +27,7 @@
   export let colors
   export let domainGroups
   export let from, to
-  export let onChart, onBrushChange
+  export let onChart, changeStudioPeriod
 
   const getKey = ({ key }) => key
   $: ({ ticker } = $studio)
@@ -79,6 +79,21 @@
     })
     return metricSettings
   }
+
+  function onBrushChange(startIndex: number, endIndex: number) {
+    const start = allTimeData[startIndex]
+    const end = allTimeData[endIndex]
+    if (start && end) changeStudioPeriod(start.datetime, end.datetime)
+  }
+
+  function onRangeSelect(start, end) {
+    if (start && end) {
+      const shouldSwap = start.value > end.value
+      let _start = shouldSwap ? end : start
+      let _end = shouldSwap ? start : end
+      changeStudioPeriod(_start.value, _end.value)
+    }
+  }
 </script>
 
 <Chart
@@ -87,6 +102,7 @@
   {categories}
   {colors}
   {theme}
+  {metricSettings}
   {domainGroups}
   {domainModifier}
   {onChart}>
@@ -102,7 +118,7 @@
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />
   <Drawer metricKey={axesMetricKeys[0]} />
-  <Tooltip {axesMetricKeys} {metricSettings} />
+  <Tooltip {axesMetricKeys} {metricSettings} {onRangeSelect} />
 
   <Brush
     data={allTimeData}

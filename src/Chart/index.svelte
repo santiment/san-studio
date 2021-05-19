@@ -22,6 +22,7 @@
   export let data, categories, colors, scale, domainGroups
   export let domainModifier
   export let theme = themes[0]
+  export let metricSettings
   export let onChart
 
   let width: number, height: number
@@ -30,6 +31,7 @@
   let shouldRedraw = 1
   $: setChart(chart)
   $: chart && width && height && padding && updateDimensions()
+  $: chart && (chart.metricSettings = metricSettings)
   $: chart &&
     (theme || domainModifier) &&
     (shouldRedraw || data || categories || colors || scale || domainGroups) &&

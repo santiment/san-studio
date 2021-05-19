@@ -14,25 +14,29 @@
   } from 'san-chart/events'
   import { logScale, valueByY, valueByLogY } from 'san-chart/scales'
   import { getTooltipSynchronizer } from './context'
+  import { onSelection } from './selection'
   import { clearCtx, getDateDayMonthYear } from '../utils'
   import { getChart } from '../context'
   import { getMetricAxisFormatter, MULTI_AXIS_WIDTH } from '../Axes/utils'
 
   export let axesMetricKeys = []
   export let metricSettings
+  export let onRangeSelect
 
   const tooltipSynchronizer = getTooltipSynchronizer()
   const chart = getChart()
   const { tooltip } = initTooltip(chart)
   const { canvas, ctx } = tooltip
+  canvas.style.userSelect = 'none'
 
   chart.drawTooltip = (point, y: number) => plotTooltip(chart, point, y)
   if (tooltipSynchronizer) tooltipSynchronizer.add(chart)
 
   $: chart.tooltipKey = axesMetricKeys[0]
 
+  onSelection(chart, canvas, onRangeSelect)
   canvas.onmouseleave = () => {
-    clearCtx(chart, ctx)
+    if (!chart.drawSelection) clearCtx(chart, ctx)
     if (tooltipSynchronizer) tooltipSynchronizer.sync(chart)
   }
 
@@ -44,14 +48,7 @@
     const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
 
     plotTooltip(chart, point, y)
-    if (tooltipSynchronizer) {
-      tooltipSynchronizer.sync(chart, point.value, y)
-    }
-  })
-
-  canvas.onmousedown = handlePointEvent(chart, (point) => {
-    if (!point) return
-    // if (chart.isDrawing) return
+    if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y)
   })
 
   function marker(ctx, key, _, x, y) {
@@ -63,6 +60,8 @@
     clearCtx(chart, ctx)
     const { theme, scale, minMaxes } = chart
     const { x, value: datetime } = point
+
+    chart.drawSelection?.(x, y, point)
 
     drawHoverLineX(chart, x, theme.hoverLine, 5)
     drawHoverLineY(chart, y, theme.hoverLine, 0, 20)
@@ -84,9 +83,6 @@
 
       offset += MULTI_AXIS_WIDTH
     })
-    // chart.syncTooltips(point.value)
-    // plotTooltip(chart, marker, point, e)
-
     drawTooltip(ctx, point, metricSettings, marker, theme.tooltip)
   }
 
