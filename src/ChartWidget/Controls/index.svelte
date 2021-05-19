@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Toggle from 'webkit/ui/Toggle.svelte'
   import Icon from 'webkit/ui/Icon.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
@@ -6,6 +7,8 @@
   const { ChartDrawer } = getWidget()
 
   export let chart
+  export let hasDomainGroups
+  export let isSharedAxisEnabled
   export let isSingleWidget: boolean
   export let deleteWidget
 
@@ -45,6 +48,16 @@
   {/if}
 
   <div class="studio-why-gaps mrg-a mrg--l" />
+
+  {#if hasDomainGroups}
+    <button
+      class="row v-center"
+      on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>
+      Shared axis <Toggle
+        class="mrg-s mrg--l mrg--r"
+        isActive={isSharedAxisEnabled} />
+    </button>
+  {/if}
 
   <OptionsMenu activeClass="$style._active" {isSingleWidget} {deleteWidget}>
     <div class="btn">

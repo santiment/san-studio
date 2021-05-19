@@ -19,7 +19,6 @@ SelectorNode.TopTransactionsTable = {
   shorthand: 'ttt',
   selectorType: SelectorType.Subwidget,
 }
-
 export const Subitems = {
   [Metric.price_usd.key]: [SelectorNode.spent_coin_cost],
 

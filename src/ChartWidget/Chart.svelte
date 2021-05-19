@@ -15,12 +15,15 @@
   import { globals } from '@/stores/globals'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
-  const { ChartAxes, ChartOptions, MetricSettings } = getWidget()
+  const widget = getWidget()
+  const { ChartAxes, ChartOptions } = widget
+  const { MetricSettings, MetricIndicators } = widget
 
   export let metrics: Studio.Metric[]
   export let data = []
   export let allTimeData = []
   export let colors
+  export let domainGroups
   export let from, to
   export let onChart, onBrushChange
 
@@ -38,7 +41,6 @@
       lines: [],
       bars: [],
       areas: [],
-      autoWidthBars: [],
       filledLines: [],
       gradientLines: [],
     }
@@ -73,6 +75,7 @@
   {categories}
   {colors}
   {theme}
+  {domainGroups}
   {domainModifier}
   {onChart}>
   {#if $ChartOptions.watermark}

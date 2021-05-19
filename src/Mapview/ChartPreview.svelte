@@ -62,4 +62,8 @@
     position: absolute;
     background: rgba(159, 170, 196, 0.6);
   }
+
+  .metrics {
+    flex-wrap: wrap;
+  }
 </style>

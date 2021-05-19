@@ -1,5 +1,6 @@
 import { prepareDomain } from 'san-chart/bars/greenRedBars'
 import { Metric } from '@/metrics'
+import { buildProjectMetricKey } from '@/metrics/utils'
 import { Node } from '@/Chart/nodes'
 
 const DEFAULT_DOMAIN_METRIC = new Set([
@@ -34,4 +35,39 @@ export function newDomainModifier(
     minMax.max = max
     minMax.min = min
   }
+}
+
+const getMetricDomain = ({ domainGroup }: Studio.Metric) => domainGroup
+export function groupDomains(
+  metrics: Studio.Metric[],
+  getDomain = getMetricDomain,
+) {
+  const Domain = {} as { [metricKey: string]: string[] }
+
+  const { length } = metrics
+  for (let i = 0; i < length; i++) {
+    const metric = metrics[i]
+    const { key } = metric
+    const domainGroup = getDomain(metric) || metric.domainGroup
+    if (!domainGroup) continue
+
+    if (Domain[domainGroup]) {
+      Domain[domainGroup].push(key)
+    } else {
+      Domain[domainGroup] = metrics.includes(Metric[domainGroup])
+        ? [domainGroup, key]
+        : [key]
+    }
+  }
+
+  const domainGroups = Object.values(Domain)
+  return domainGroups.length > 0 ? domainGroups : undefined
+}
+
+function getIndicatorDomainGroup(metric: Studio.Metric) {
+  const { key, indicator, base, project, domainGroup } = metric
+  return indicator ? base.key : project ? key : domainGroup
+}
+export function getIndicatorDomainGroups(metrics: Studio.Metric[]) {
+  return groupDomains(metrics, getIndicatorDomainGroup)
 }

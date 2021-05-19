@@ -10,6 +10,7 @@
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
   import { initWidget } from './context'
   import { newMetricSettingsTransformer } from './transformers'
+  import { groupDomains, getIndicatorDomainGroups } from './domain'
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -30,6 +31,7 @@
   let data = []
   let allTimeData = []
   let MetricError = new Map()
+  let isSharedAxisEnabled = false
 
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
   $: metrics = $Metrics
@@ -42,6 +44,10 @@
   $: getTimeseries(metrics, $studio, onData, onError, $MetricSettings)
   $: ChartAxes.updateMetrics(metrics, MetricError)
   $: getAllTimeData(metrics, $studio.slug, onAllTimeData, console.log)
+  $: rawDomainGroups = groupDomains(metrics)
+  $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
+  $: hasDomainGroups = !!rawDomainGroups
+  $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
 
   const onMetricSettings = (metric) => (settingsOpenedMetric = metric)
 
@@ -95,7 +101,12 @@
 </script>
 
 <div class="widget column">
-  <Controls {chart} {isSingleWidget} {deleteWidget} />
+  <Controls
+    {chart}
+    {isSingleWidget}
+    {deleteWidget}
+    {hasDomainGroups}
+    bind:isSharedAxisEnabled />
 
   <MetricsRow
     metrics={displayedMetrics}
@@ -117,6 +128,7 @@
     {data}
     {allTimeData}
     {colors}
+    {domainGroups}
     from={$studio.from}
     to={$studio.to}
     {onBrushChange}
