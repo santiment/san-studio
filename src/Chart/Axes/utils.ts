@@ -59,9 +59,7 @@ export function getDomainObject(domainGroups: string[][]) {
   const domain = {}
   for (let i = domainGroups.length - 1; i >= 0; i--) {
     const group = domainGroups[i]
-    if (group) {
-      domain[group[0]] = group.slice(1)
-    }
+    if (group) domain[group[0]] = group.slice(1)
   }
   return domain
 }
