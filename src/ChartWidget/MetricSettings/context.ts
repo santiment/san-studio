@@ -58,8 +58,7 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
         )
       })
 
-      MetricSettings = NewMetricSetings
-      set(MetricSettings)
+      set((MetricSettings = NewMetricSetings))
     },
   }
 

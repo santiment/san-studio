@@ -1,9 +1,9 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
-  import { INTERVALS, getIntervals } from './utils'
-  import Dropdown from '../Dropdown.svelte'
-  import { getMetricSettings } from '../context'
+  import { INTERVALS, getIntervals } from '@/utils/intervals'
+  import Dropdown from './Dropdown.svelte'
+  import { getMetricSettings } from './context'
   import { studio } from '@/stores/studio'
   const MetricSettings = getMetricSettings()
 

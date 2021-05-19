@@ -3,6 +3,7 @@ import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
+import { newChartDisplayStore } from './chartMetricDisplay'
 import { newChartDrawerStore } from '@/Chart/Drawer/context'
 import { newChartAxesStore } from '@/Chart/Axes/context'
 import { newChartColorsStore } from '@/Chart/colors/context'
@@ -44,6 +45,8 @@ export function initWidget(widget: any) {
   if (!widget.ChartColors)
     widget.ChartColors = newChartColorsStore(widget.colors)
   if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore()
+  if (!widget.ChartMetricDisplays)
+    widget.ChartMetricDisplays = newChartDisplayStore()
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)
   if (!widget.MetricSettings)
     widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)

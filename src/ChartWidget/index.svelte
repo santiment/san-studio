@@ -21,7 +21,7 @@
   initWidget(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
 
-  const { ChartAxes, ChartColors, IsLoaded } = widget
+  const { ChartAxes, ChartColors, IsLoaded, ChartMetricDisplays } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const onData = (newData, newLoadings) =>
     (data = mapClosestValue(newData, metrics)) && (loadings = newLoadings)
@@ -39,6 +39,7 @@
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
   $: metrics = $Metrics
   $: ChartColors.update(metrics)
+  $: ChartMetricDisplays.update(metrics)
   $: MetricSettings.update(metrics, metricSettingsTransformer)
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)

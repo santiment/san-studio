@@ -76,6 +76,7 @@
         categories.joinedCategories,
         domainModifier,
         domainGroups,
+        new Set(categories.candles),
       )
 
       chart.plotManager.items.forEach((plot) => {

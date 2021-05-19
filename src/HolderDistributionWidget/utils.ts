@@ -41,7 +41,7 @@ export function buildMergedMetric(baseMetrics) {
   return metric
 }
 
-function fetch(metric: Studio.HolderDistributionMetric, variables) {
+function fetch(variables, metric: Studio.HolderDistributionMetric) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 

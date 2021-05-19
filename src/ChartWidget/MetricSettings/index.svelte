@@ -2,7 +2,7 @@
   import { studio } from '@/stores/studio'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
-  import IntervalSetting from './IntervalSetting/index.svelte'
+  import IntervalSetting from './IntervalSetting.svelte'
   import IndicatorSetting from './IndicatorSetting/index.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
 
@@ -14,16 +14,18 @@
     : metric.getLabel?.(ticker) || `${metric.label} (${ticker})`
 </script>
 
-<div class="row mrg-xs mrg--b caption txt-m v-center">
-  {label}:
+{#key metric.key}
+  <div class="row mrg-xs mrg--b caption txt-m v-center">
+    {label}:
 
-  {#if isNotIndicator}
-    <NodeSetting {metric} />
-  {/if}
-  <ColorSetting {metric} />
-  {#if isNotIndicator}
-    <IntervalSetting {metric} />
-    <IndicatorSetting {metric} />
-  {/if}
-  <ShowAxisSetting {metric} />
-</div>
+    {#if isNotIndicator}
+      <NodeSetting {metric} />
+    {/if}
+    <ColorSetting {metric} />
+    {#if isNotIndicator}
+      <IntervalSetting {metric} />
+      <IndicatorSetting {metric} />
+    {/if}
+    <ShowAxisSetting {metric} />
+  </div>
+{/key}

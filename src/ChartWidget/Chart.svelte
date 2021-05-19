@@ -4,6 +4,7 @@
   import { FORMATTER } from '@/metrics/formatters'
   import { themes } from '@/Chart/theme'
   import Chart from '@/Chart/index.svelte'
+  import Candles from '@/Chart/Candles.svelte'
   import Lines from '@/Chart/Lines.svelte'
   import Areas from '@/Chart/Areas.svelte'
   import Bars from '@/Chart/Bars.svelte'
@@ -18,7 +19,7 @@
   import { getWidget } from './context'
   const widget = getWidget()
   const { ChartAxes, ChartOptions } = widget
-  const { MetricSettings, MetricIndicators } = widget
+  const { MetricSettings, ChartMetricDisplays } = widget
 
   export let metrics: Studio.Metric[]
   export let data = []
@@ -29,9 +30,10 @@
   export let onChart, onBrushChange
 
   const getKey = ({ key }) => key
+  $: ({ ticker } = $studio)
   $: categories = getCategories(metrics, $MetricSettings)
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
-  $: metricSettings = getTooltipSettings(metrics, $studio.ticker)
+  $: metricSettings = getTooltipSettings(metrics, ticker, $ChartMetricDisplays)
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings)
 
@@ -39,6 +41,7 @@
     const joinedCategories = new Array(metrics.length)
     const categories = {
       joinedCategories,
+      candles: [],
       lines: [],
       bars: [],
       areas: [],
@@ -55,17 +58,24 @@
 
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
     base ? label : label + ` (${ticker})`
-  function getTooltipSettings(metrics: Studio.Metric[], ticker: string) {
+  function getTooltipSettings(
+    metrics: Studio.Metric[],
+    ticker: string,
+    MetricDisplays,
+  ) {
     const metricSettings = getDefaultTooltipSettings()
     metrics.forEach((metric) => {
       const { key, formatter = FORMATTER, getLabel, axisFormatter } = metric
       const metricLabel = (getLabel || labelGetter)(ticker, metric)
 
-      metricSettings[key] = {
-        label: metricLabel,
-        formatter,
-        axisFormatter,
-      }
+      metricSettings[key] = Object.assign(
+        {
+          label: metricLabel,
+          formatter,
+          axisFormatter,
+        },
+        MetricDisplays[key],
+      )
     })
     return metricSettings
   }
@@ -86,6 +96,7 @@
 
   <Bars />
   <Areas />
+  <Candles />
   <Lines />
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}

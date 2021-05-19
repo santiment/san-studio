@@ -81,6 +81,6 @@ export function plotMetricLastValueBubble(
   const bubbleTheme = getBubbleTheme(theme.bubbles, color)
   const formatter = getMetricAxisFormatter(metricSettings, metricKey)
 
-  value = formatter(value.close || value)
+  value = formatter(value)
   drawValueBubbleY(chart, ctx, value, y, bubbleTheme, offset)
 }

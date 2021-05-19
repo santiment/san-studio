@@ -106,8 +106,11 @@ export const dataAccessor = ({ getMetric }) => getMetric.timeseriesData
 export function getTimeseries(
   metrics: Studio.Metric[],
   variables: Omit<Variables, 'key'>,
-  onData: any,
-  onError: any,
+  onData: (data: any[], loadings: Set<Studio.Metric>) => any,
+  onError: (
+    errors: Map<Studio.Metric, string>,
+    loadings: Set<Studio.Metric>,
+  ) => any,
   MetricSettings: any = {},
 ) {
   let data = [] as any[]
@@ -118,18 +121,20 @@ export function getTimeseries(
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const { key, queryKey = key, reqMeta, fetch } = metric as any
-    const { interval, slug, from, to, transform, preTransform } = Object.assign(
+    const metricSettings = MetricSettings[key]
+    const { preTransform, fetcher = fetch } = metricSettings || {}
+    const { interval, slug, from, to, transform } = Object.assign(
       {},
       variables,
-      MetricSettings[key],
+      metricSettings,
     )
 
     const vars = Object.assign(
       { key, metric: queryKey, slug, from, to, interval, transform },
       reqMeta,
     )
-    let request = fetch
-      ? fetch(metric, vars)
+    let request = fetcher
+      ? fetcher(vars, metric)
       : queryMetric(vars).then(dataAccessor)
     request = preTransform ? request.then(preTransform) : request
 
