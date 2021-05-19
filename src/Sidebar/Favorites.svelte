@@ -1,7 +1,7 @@
 <script lang="ts">
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { SelectorNode } from '@/metrics/selector'
-  import { checkIsFilterMatch } from '@/metrics/utils'
+  import { checkIsFilterMatch } from '@/metrics/selector/utils'
   import Category from './Category.svelte'
   import Item from './Item.svelte'
 

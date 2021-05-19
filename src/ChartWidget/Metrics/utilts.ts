@@ -1,7 +1,10 @@
 import { newProjectMetric } from '@/metrics/utils'
 import { cacheIndicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 
-export function convertBaseProjectMetric(metric: Studio.Metric, project) {
+export function convertBaseProjectMetric(
+  metric: Studio.Metric,
+  project: Studio.Project,
+) {
   if (metric.project) {
     const { base } = metric
     return metric.indicator ? cacheIndicator(base.base, metric.indicator) : base

@@ -1,9 +1,12 @@
 import { writable } from 'svelte/store'
 
 export type ChartAxesStore = ReturnType<typeof newChartAxesStore>
-export function newChartAxesStore() {
-  let enabled = new Set<Studio.Metric>()
-  const disabled = new Set<Studio.Metric>()
+export function newChartAxesStore(
+  defaultEnabled?: Set<Studio.Metric>,
+  defaultDisabled?: Set<Studio.Metric>,
+) {
+  let enabled = new Set<Studio.Metric>(defaultEnabled)
+  const disabled = new Set<Studio.Metric>(defaultDisabled)
   const { subscribe, set } = writable<Set<Studio.Metric>>(enabled)
 
   return {

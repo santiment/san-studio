@@ -26,8 +26,8 @@ export const setChartDrawer = (chart: ChartDrawerStore): void =>
   setContext(CONTEXT, chart)
 export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 
-export function newChartDrawerStore() {
-  const controller = Object.assign({ drawings: [] }, DRAWER)
+export function newChartDrawerStore(defaultValue?: Drawing[]) {
+  const controller = Object.assign({ drawings: defaultValue || [] }, DRAWER)
   const { subscribe, set } = writable<Drawer>(controller)
 
   const store = {

@@ -3,7 +3,10 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import { studio } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'
-  import { getMetricsSelectorGraph, filterSelectorGraph } from '@/metrics/utils'
+  import {
+    getMetricsSelectorGraph,
+    filterSelectorGraph,
+  } from '@/metrics/selector/utils'
   import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
   import Favorites from './Favorites.svelte'

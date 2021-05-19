@@ -32,7 +32,6 @@
 
   $: metrics = $Metrics
   $: ChartColors.update(metrics)
-  $: console.log($ChartColors)
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)
   $: rawColors = $ChartColors
@@ -83,7 +82,6 @@
     if (settingsOpenedMetric === metrics[index]) {
       settingsOpenedMetric = metric
     }
-
     Metrics.replace(index, metric)
   }
 

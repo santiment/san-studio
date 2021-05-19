@@ -3,7 +3,7 @@ import { writable } from 'svelte/store'
 
 type MetricSettingsStore = ReturnType<typeof newMetricIndicatorsStore>
 export type Indicators = Set<{ key: string }>
-type MetricIndicators = {
+export type MetricIndicators = {
   [metricKey: string]: Indicators | undefined
 }
 
@@ -13,8 +13,8 @@ const setMetricIndicators = (chart: MetricSettingsStore): void =>
 export const getMetricIndicators = (): MetricSettingsStore =>
   getContext(CONTEXT)
 
-export function newMetricIndicatorsStore() {
-  const MetricIndicators = {} as MetricIndicators
+export function newMetricIndicatorsStore(defaultValue?: MetricIndicators) {
+  const MetricIndicators = (defaultValue || {}) as MetricIndicators
   const { subscribe, set } = writable(MetricIndicators)
 
   const store = {

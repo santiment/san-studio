@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import { convertBaseProjectMetric } from './utilts'
 
 export type MetricsStore = ReturnType<typeof newMetricsStore>
 
@@ -35,6 +36,13 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
     concat(newMetrics: Studio.Metric[]) {
       metricSet = new Set(metrics.concat(newMetrics))
       update()
+    },
+    hasConvertedMetric(
+      metric: Studio.Metric,
+      project: Studio.Project,
+    ): boolean {
+      const { key } = convertBaseProjectMetric(metric, project)
+      return metrics.some((metric) => key === metric.key)
     },
   }
 }

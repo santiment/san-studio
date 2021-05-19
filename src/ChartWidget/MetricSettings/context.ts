@@ -6,7 +6,7 @@ export type MetricSetting = {
   node?: string
   interval?: string
 }
-type MetricSettings = {
+export type MetricSettings = {
   [metricKey: string]: MetricSetting | undefined
 }
 
@@ -15,8 +15,8 @@ const setMetricSettings = (chart: MetricSettingsStore): void =>
   setContext(CONTEXT, chart)
 export const getMetricSettings = (): MetricSettingsStore => getContext(CONTEXT)
 
-export function newMetricSettingsStore() {
-  const MetricSettings = {} as MetricSettings
+export function newMetricSettingsStore(defaultValue?: MetricSettings) {
+  const MetricSettings = (defaultValue || {}) as MetricSettings
   const { subscribe, set } = writable(MetricSettings)
 
   const store = {

@@ -22,7 +22,7 @@
 </script>
 
 {#if description}
-  <Tooltip duration={0} position="right" align="center">
+  <Tooltip duration={0} position="right" align="center" openDelay={90}>
     <div slot="trigger" bind:this={trigger}>
       <Icon id="info" class="{className} $style.info" />
     </div>

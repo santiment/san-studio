@@ -3,10 +3,12 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import MetricButton from '@/MetricButton.svelte'
+  import { getWidget } from '@/ChartWidget/context'
   import { studio } from '@/stores/studio'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { convertBaseProjectMetric } from './utilts'
+  const { Metrics } = getWidget()
 
   export let metric: Studio.Metric
   export let colors
@@ -38,6 +40,7 @@
   }
 
   function onLockClick() {
+    if (Metrics.hasConvertedMetric(metric, $studio)) return
     onLock(convertBaseProjectMetric(metric, $studio), index)
   }
 
@@ -70,7 +73,10 @@
       <Icon id="vert-dots" w="2" h="12" />
     </div>
     <div slot="tooltip" class="menu">
-      <div class="btn btn--ghost option" on:click={onLockClick}>
+      <div
+        class="btn btn--ghost option"
+        class:disabled={Metrics.hasConvertedMetric(metric, $studio)}
+        on:click={onLockClick}>
         <Icon
           id={isLocked ? 'locked' : 'unlocked'}
           w="14"
@@ -138,5 +144,10 @@
   }
   .favorited:hover {
     fill: var(--orange-hover);
+  }
+
+  .disabled {
+    background: var(--white);
+    fill: var(--mystic);
   }
 </style>
