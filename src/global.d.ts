@@ -56,4 +56,7 @@ namespace Studio {
   type HolderDistributionMetric = Metric & {
     baseMetrics: any[]
   }
+
+  type MetricSetting =
+    import('@/ChartWidget/MetricSettings/context').MetricSetting
 }

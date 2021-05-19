@@ -5,12 +5,6 @@ export const DevelopmentMetric = each(
   {
     dev_activity: {
       label: 'Development Activity',
-      reqMeta: {
-        transform: {
-          type: 'moving_average',
-          movingAverageBase: 7,
-        },
-      },
     },
   },
   (metric: Studio.Metric) => {

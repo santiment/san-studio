@@ -5,6 +5,10 @@ type MetricSettingsStore = ReturnType<typeof newMetricSettingsStore>
 export type MetricSetting = {
   node?: string
   interval?: string
+  transform?: {
+    type: string
+    movingAverageBase: number
+  }
 }
 export type MetricSettings = {
   [metricKey: string]: MetricSetting | undefined
@@ -15,19 +19,21 @@ const setMetricSettings = (chart: MetricSettingsStore): void =>
   setContext(CONTEXT, chart)
 export const getMetricSettings = (): MetricSettingsStore => getContext(CONTEXT)
 
+const noopTransformer = (_, __) => _ // eslint-disable-line
 export function newMetricSettingsStore(defaultValue?: MetricSettings) {
-  const MetricSettings = (defaultValue || {}) as MetricSettings
+  let MetricSettings = (defaultValue || {}) as MetricSettings
   const { subscribe, set } = writable(MetricSettings)
 
   const store = {
     subscribe,
+    getValue() {
+      return MetricSettings
+    },
+    getMetricSettings(metricKey: string) {
+      return MetricSettings[metricKey] || (MetricSettings[metricKey] = {})
+    },
     set(metricKey: string, setting: MetricSetting) {
-      let metricSettings = MetricSettings[metricKey]
-
-      if (!metricSettings) {
-        metricSettings = MetricSettings[metricKey] = {}
-      }
-
+      const metricSettings = store.getMetricSettings(metricKey)
       Object.assign(metricSettings, setting)
       set(MetricSettings)
     },
@@ -37,6 +43,16 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
         delete metricSettings[settingKey]
         set(MetricSettings)
       }
+    },
+    update(metrics: Studio.Metric[], transformer = noopTransformer) {
+      const NewMetricSetings = {}
+      metrics.forEach((metric) => {
+        const metricSettings = MetricSettings[metric.key] || {}
+        NewMetricSetings[metric.key] = transformer(metricSettings, metric)
+      })
+
+      MetricSettings = NewMetricSetings
+      set(MetricSettings)
     },
   }
 

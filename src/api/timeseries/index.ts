@@ -119,14 +119,14 @@ export function getTimeseries(
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const { key, queryKey = key, reqMeta, fetch } = metric as any
-    const { interval, slug, from, to } = Object.assign(
+    const { interval, slug, from, to, transform } = Object.assign(
       {},
       variables,
       MetricSettings[key],
     )
 
     const vars = Object.assign(
-      { key, metric: queryKey, slug, from, to, interval },
+      { key, metric: queryKey, slug, from, to, interval, transform },
       reqMeta,
     )
     const request = fetch

@@ -9,6 +9,7 @@
   import { mapClosestValue } from '@/Chart/utils'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
   import { initWidget } from './context'
+  import { newMetricSettingsTransformer } from './transformers'
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -30,8 +31,10 @@
   let allTimeData = []
   let MetricError = new Map()
 
+  $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
   $: metrics = $Metrics
   $: ChartColors.update(metrics)
+  $: MetricSettings.update(metrics, metricSettingsTransformer)
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)
   $: rawColors = $ChartColors
