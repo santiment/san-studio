@@ -5,7 +5,8 @@
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
-  import { downloadPng } from './download'
+  import { downloadPng } from './downloadPng'
+  import { downloadCsv } from './downloadCsv'
   import { getChartOptions } from './context'
   const chartOptions = getChartOptions()
   const widget = getWidget()
@@ -56,7 +57,10 @@
 
     <div class="divider" />
 
-    <div class="btn" class:disabled={!isPro}>
+    <div
+      class="btn"
+      class:disabled={!isPro}
+      on:click={() => isPro && downloadCsv(widget, $studio)}>
       <span>
         <Icon id="download" w="16" class="mrg-s mrg--r" />
         Download as CSV

@@ -35,8 +35,10 @@ export function transformMirroredMetric(
 ): Studio.MetricSetting {
   if (metrics.includes(MirroredMetric[metric.key])) {
     metricSettings.preTransform = preTransformMirroredMetric(metric.key)
+    metricSettings.getPreTransformValue = (value) => -value
   } else {
     delete metricSettings.preTransform
+    delete metricSettings.getPreTransformValue
   }
 
   return metricSettings

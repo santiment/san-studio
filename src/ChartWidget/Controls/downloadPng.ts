@@ -97,7 +97,6 @@ export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
   const { HH, mm, ss } = getTimeFormats(date)
   const title = `${slug} (${ticker})`
   a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].png`
-  a.download = `Test.png`
   a.href = pngCanvas.toDataURL('image/png', 1)
   a.click()
   a.remove()
