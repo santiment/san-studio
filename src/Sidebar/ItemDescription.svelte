@@ -11,14 +11,6 @@
   let trigger
   let tooltip
   $: description = item && Description[item.key]
-  $: item && cleanOldTrigger()
-
-  function cleanOldTrigger() {
-    if (tooltip && !description) {
-      tooltip.parentNode.remove()
-      if (trigger) trigger.remove()
-    }
-  }
 </script>
 
 {#if description}

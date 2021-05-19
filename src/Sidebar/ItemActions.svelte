@@ -46,7 +46,9 @@
       <ItemLabel {item} bind:active />
     </span>
 
-    <ItemDescription {item} class="$style.icon" />
+    {#key item.key}
+      <ItemDescription {item} class="$style.icon" />
+    {/key}
 
     {#if $globals.isLoggedIn && item.selectorType === undefined}
       <Icon
