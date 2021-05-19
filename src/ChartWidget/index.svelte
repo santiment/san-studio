@@ -21,16 +21,19 @@
   initWidget(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
 
-  const { ChartAxes, ChartColors } = widget
+  const { ChartAxes, ChartColors, IsLoaded } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
-  const onData = (newData) => (data = mapClosestValue(newData, metrics))
-  const onError = (Error) => (MetricError = Error)
+  const onData = (newData, newLoadings) =>
+    (data = mapClosestValue(newData, metrics)) && (loadings = newLoadings)
+  const onError = (Error, newLoadings) =>
+    (MetricError = Error) && (loadings = newLoadings)
   const onAllTimeData = (newData) => (allTimeData = newData)
 
   let chart
   let data = []
   let allTimeData = []
   let MetricError = new Map()
+  let loadings = new Set(widget.metrics)
   let isSharedAxisEnabled = false
 
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
@@ -48,6 +51,7 @@
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
   $: hasDomainGroups = !!rawDomainGroups
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
+  $: IsLoaded.set(loadings.size === 0)
 
   const onMetricSettings = (metric) => (settingsOpenedMetric = metric)
 

@@ -9,11 +9,12 @@
   export let onClick
   export let isMetricsPhase: boolean
 
-  const { ChartColors, Metrics, isBlocked } = widget
+  const { ChartColors, Metrics, IsLoaded, isBlocked } = widget
   let chart
   let canvas
 
   $: className = isBlocked ? '$style.blocked' : ''
+  $: $IsLoaded, requestAnimationFrame(drawChart)
 
   onMount(() => {
     chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight)
@@ -21,6 +22,7 @@
   })
 
   function drawChart() {
+    if (!chart) return
     clearCtx(chart)
     chart.ctx.drawImage(
       widget.chart.canvas,

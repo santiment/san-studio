@@ -29,7 +29,7 @@ type BoundariesQuery = RestrictionQuery & {
 }
 
 type MetricMinInterval = {
-  [metricKey: string]: MinInterval
+  [metricKey: string]: MinInterval | undefined
 }
 
 function precacher() {
@@ -53,5 +53,5 @@ export const queryMinInterval = () =>
 
 export const getMetricMinInterval = ({ key, queryKey = key }: Studio.Metric) =>
   queryMinInterval().then(
-    (MetricMinInterval) => MetricMinInterval[queryKey].minInterval,
+    (MetricMinInterval) => MetricMinInterval[queryKey]?.minInterval,
   )

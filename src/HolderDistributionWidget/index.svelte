@@ -5,10 +5,13 @@
   import { initWidget } from '@/ChartWidget/context'
   import {
     HolderDistributionAbsoluteMetric,
+    HolderDistributionMetric,
     HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
   } from '@/metrics/_onchain/holderDistributions'
   import { studio } from '@/stores/studio'
   import { buildMergedMetric } from './utils'
+
+  // TODO: Refactor [@vanguard | May 19, 2021]
 
   export let widget
   export let metrics = HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
@@ -35,6 +38,7 @@
   export let phase = Phase.None
   let mergingMetrics = new Set()
   let mergedMetricsSet = new Set()
+  let mergedKeysSet = new Set()
   let mergedMetrics = []
 
   $: node && updateDimensions(clientWidth, isOpened)
@@ -63,8 +67,9 @@
 
     if (mergingMetrics.size > 1) {
       const metric = buildMergedMetric(Array.from(mergingMetrics))
-      if (mergedMetricsSet.has(metric) === false) {
+      if (mergedKeysSet.has(metric.key) === false) {
         Metrics.add(metric)
+        mergedKeysSet.add(metric.key)
         mergedMetrics = Array.from(mergedMetricsSet.add(metric))
       }
     }
@@ -79,13 +84,14 @@
 
   function metricsFilter(metric: Studio.Metric) {
     return (
-      !HolderDistributionAbsoluteMetric[metric.key] &&
-      !mergedMetricsSet.has(metric)
+      !HolderDistributionMetric[metric.key] && !mergedMetricsSet.has(metric)
     )
   }
 
   function onUnmergeClick(metric: Studio.Metric) {
-    mergedMetrics = Array.from(mergedMetricsSet.delete(metric))
+    mergedMetricsSet.delete(metric)
+    mergedKeysSet.delete(metric.key)
+    mergedMetrics = Array.from(mergedMetricsSet)
     Metrics.delete(metric)
   }
 
@@ -136,19 +142,21 @@
       <slot name="tabs" />
 
       <div class="metrics column">
-        {#each mergedMetrics as metric}
-          <div
-            class="btn btn--ghost metric mrg-s mrg--b row v-center"
-            class:active={$Metrics.includes(metric)}
-            on:click={() => onMetricClick(metric)}>
-            {metric.label}
+        {#if !isMerging}
+          {#each mergedMetrics as metric}
             <div
-              class="btn unmerge mrg-s mrg--l"
-              on:click={() => onUnmergeClick(metric)}>
-              Unmerge
+              class="btn btn--ghost metric mrg-s mrg--b"
+              class:active={$Metrics.includes(metric)}
+              on:click={() => onMetricClick(metric)}>
+              {metric.label}
+              <span
+                class="btn unmerge mrg-s mrg--l"
+                on:click={() => onUnmergeClick(metric)}>
+                Unmerge
+              </span>
             </div>
-          </div>
-        {/each}
+          {/each}
+        {/if}
 
         {#each metrics as metric}
           <div
