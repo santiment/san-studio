@@ -86,7 +86,6 @@ const precacher =
         [key as any]: v,
       }
     }
-    console.log('precacher recalc')
 
     return {
       getMetric: {
@@ -119,7 +118,7 @@ export function getTimeseries(
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const { key, queryKey = key, reqMeta, fetch } = metric as any
-    const { interval, slug, from, to, transform } = Object.assign(
+    const { interval, slug, from, to, transform, preTransform } = Object.assign(
       {},
       variables,
       MetricSettings[key],
@@ -129,9 +128,10 @@ export function getTimeseries(
       { key, metric: queryKey, slug, from, to, interval, transform },
       reqMeta,
     )
-    const request = fetch
+    let request = fetch
       ? fetch(metric, vars)
       : queryMetric(vars).then(dataAccessor)
+    request = preTransform ? request.then(preTransform) : request
 
     requests[i] = request
       .then((metricData) => {

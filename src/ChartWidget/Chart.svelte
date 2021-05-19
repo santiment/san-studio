@@ -52,17 +52,18 @@
     return categories
   }
 
+  const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
+    base ? label : label + ` (${ticker})`
   function getTooltipSettings(metrics: Studio.Metric[], ticker: string) {
     const metricSettings = getDefaultTooltipSettings()
     metrics.forEach((metric) => {
-      const { key, label, formatter = FORMATTER, base, getLabel } = metric
-      const metricLabel =
-        getLabel?.(ticker) || (base ? label : label + ` (${ticker})`)
-      // TODO: Better label handling [@vanguard | May 14, 2021]
+      const { key, formatter = FORMATTER, getLabel, axisFormatter } = metric
+      const metricLabel = (getLabel || labelGetter)(ticker, metric)
 
       metricSettings[key] = {
         label: metricLabel,
         formatter,
+        axisFormatter,
       }
     })
     return metricSettings

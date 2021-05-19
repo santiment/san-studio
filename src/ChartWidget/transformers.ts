@@ -1,5 +1,6 @@
 import { parseIntervalString } from 'webkit/utils/dates'
 import { Metric } from '@/metrics'
+import { MirroredMetric, transformMirroredMetric } from './mirroredMetrics'
 
 const IntervalFormatDividend = {
   h: 24,
@@ -23,20 +24,26 @@ function transformDevActivity(
 }
 
 export function transformMetricSettings(
-  metricSettings: Studio.MetricSetting,
   metric: Studio.Metric,
+  metricSettings: Studio.MetricSetting,
+  metrics: Studio.Metric[],
   studioSettings,
 ): Studio.MetricSetting {
   const { key } = metric.base || metric
-  switch (key) {
-    case Metric.dev_activity.key:
-      return transformDevActivity(metricSettings, studioSettings)
-  }
+
+  if (key === Metric.dev_activity.key)
+    return transformDevActivity(metricSettings, studioSettings)
+
+  if (MirroredMetric[metric.key])
+    return transformMirroredMetric(metric, metricSettings, metrics)
 
   return metricSettings
 }
 
 export function newMetricSettingsTransformer(settings) {
-  return (metric: Studio.Metric, MetricSettings) =>
-    transformMetricSettings(metric, MetricSettings, settings)
+  return (
+    metric: Studio.Metric,
+    metricSettings: Studio.MetricSetting,
+    metrics: Studio.Metric[],
+  ) => transformMetricSettings(metric, metricSettings, metrics, settings)
 }

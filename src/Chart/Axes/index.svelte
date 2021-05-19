@@ -1,10 +1,10 @@
 <script lang="ts">
   import { drawXAxisTicks, drawAxisLine, drawYAxisTicks } from 'san-chart/axes'
-  import { drawValueBubbleY } from 'san-chart/tooltip'
   import {
     MULTI_AXIS_WIDTH,
-    getBubbleTheme,
     getMetricAxisFormatter,
+    getDomainObject,
+    plotMetricLastValueBubble,
   } from './utils'
   import { getChart } from '../context'
   import {
@@ -47,28 +47,54 @@
   })
 
   function plotAxes() {
-    const { ctx, colors, theme, scale } = chart
+    const { ctx, colors, scale, domainGroups } = chart
     const { right, top, bottom } = chart
-    const LastMetricPoint = getLastMetricPoint(chart, null)
-    ctx.textAlign = 'left'
+    const domain = getDomainObject(domainGroups)
+    const LastMetricPoint = getLastMetricPoint(chart, domain)
 
     let lastValueOffset = Y_MARGIN
     let offset = right + Y_MARGIN
 
+    ctx.textAlign = 'left'
     axesMetricKeys.forEach((key) => {
       const color = colors[key]
       const point = LastMetricPoint[key]
       if (!point) return
 
-      const { y } = point
       drawAxisLine(ctx, color, offset, top, offset, bottom)
-
       const formatter = getMetricAxisFormatter(metricSettings, key)
       drawYAxisTicks(chart, key, formatter, scale, offset + 6, yTicks)
 
-      const value = formatter(point.value)
-      const bubbleTheme = getBubbleTheme(theme.bubbles, color)
-      drawValueBubbleY(chart, ctx, value, y, bubbleTheme, lastValueOffset)
+      const domainDependencies = domain[key]
+      if (domainDependencies) {
+        let domainOffset = 2
+
+        domainDependencies.forEach((domainMetricKey) => {
+          const resultOffset = offset + domainOffset
+          const color = colors[domainMetricKey]
+
+          drawAxisLine(ctx, color, resultOffset, top, resultOffset, bottom)
+          plotMetricLastValueBubble(
+            chart,
+            domainMetricKey,
+            metricSettings,
+            LastMetricPoint,
+            lastValueOffset,
+            color,
+          )
+
+          domainOffset += 2
+        })
+      }
+
+      plotMetricLastValueBubble(
+        chart,
+        key,
+        metricSettings,
+        LastMetricPoint,
+        lastValueOffset,
+        color,
+      )
 
       offset += MULTI_AXIS_WIDTH
       lastValueOffset += MULTI_AXIS_WIDTH
@@ -80,12 +106,12 @@
     const LastMetricPoint = {}
     let unfoundMetricKeys = axesMetricKeys.slice()
 
-    // for (let i = axesMetricKeys.length - 1; i >= 0; i--) {
-    //     const domainDependencies = domain[axesMetricKeys[i]]
-    //     if (domainDependencies) {
-    //         unfoundMetricKeys = unfoundMetricKeys.concat(domainDependencies)
-    //     }
-    // }
+    for (let i = axesMetricKeys.length - 1; i >= 0; i--) {
+      const domainDependencies = domain[axesMetricKeys[i]]
+      if (domainDependencies) {
+        unfoundMetricKeys = unfoundMetricKeys.concat(domainDependencies)
+      }
+    }
 
     for (let i = points.length - 1; i >= 0 && unfoundMetricKeys.length; i--) {
       const point = points[i]

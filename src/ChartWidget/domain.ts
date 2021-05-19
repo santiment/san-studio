@@ -1,6 +1,5 @@
 import { prepareDomain } from 'san-chart/bars/greenRedBars'
 import { Metric } from '@/metrics'
-import { buildProjectMetricKey } from '@/metrics/utils'
 import { Node } from '@/Chart/nodes'
 
 const DEFAULT_DOMAIN_METRIC = new Set([

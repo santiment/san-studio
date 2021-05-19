@@ -1,3 +1,5 @@
+import { drawValueBubbleY } from 'san-chart/tooltip'
+import { MetricGroup } from '@/metrics/graph'
 import { millify } from 'webkit/utils/formatting'
 
 export const MULTI_AXIS_WIDTH = 50
@@ -51,4 +53,36 @@ export function yAxisFormatter(value: number) {
 
 export function getMetricAxisFormatter(metricSettings, key) {
   return metricSettings[key].axisFormatter || yAxisFormatter
+}
+
+export function getDomainObject(domainGroups: string[][]) {
+  const domain = {}
+  for (let i = domainGroups.length - 1; i >= 0; i--) {
+    const group = domainGroups[i]
+    if (group) {
+      domain[group[0]] = group.slice(1)
+    }
+  }
+  return domain
+}
+
+export function plotMetricLastValueBubble(
+  chart,
+  metricKey,
+  metricSettings,
+  LastMetricPoint,
+  offset,
+  color,
+) {
+  const point = LastMetricPoint[metricKey]
+  if (!point) return
+
+  let { y, value } = point
+  const { ctx, theme } = chart
+
+  const bubbleTheme = getBubbleTheme(theme.bubbles, color)
+  const formatter = getMetricAxisFormatter(metricSettings, metricKey)
+
+  value = formatter(value.close || value)
+  drawValueBubbleY(chart, ctx, value, y, bubbleTheme, offset)
 }

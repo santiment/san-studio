@@ -19,7 +19,10 @@ const setMetricSettings = (chart: MetricSettingsStore): void =>
   setContext(CONTEXT, chart)
 export const getMetricSettings = (): MetricSettingsStore => getContext(CONTEXT)
 
-const noopTransformer = (_, __) => _ // eslint-disable-line
+const noopTransformer = (
+  _: Studio.Metric,
+  __: Studio.MetricSetting,
+): MetricSetting => __ // eslint-disable-line
 export function newMetricSettingsStore(defaultValue?: MetricSettings) {
   let MetricSettings = (defaultValue || {}) as MetricSettings
   const { subscribe, set } = writable(MetricSettings)
@@ -48,7 +51,11 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
       const NewMetricSetings = {}
       metrics.forEach((metric) => {
         const metricSettings = MetricSettings[metric.key] || {}
-        NewMetricSetings[metric.key] = transformer(metricSettings, metric)
+        NewMetricSetings[metric.key] = transformer(
+          metric,
+          metricSettings,
+          metrics,
+        )
       })
 
       MetricSettings = NewMetricSetings

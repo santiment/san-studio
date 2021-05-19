@@ -14,9 +14,9 @@
   } from 'san-chart/events'
   import { logScale, valueByY, valueByLogY } from 'san-chart/scales'
   import { getTooltipSynchronizer } from './context'
-  import { clearCtx, getDateDayMonthYear, yBubbleFormatter } from '../utils'
+  import { clearCtx, getDateDayMonthYear } from '../utils'
   import { getChart } from '../context'
-  import { MULTI_AXIS_WIDTH } from '../Axes/utils'
+  import { getMetricAxisFormatter, MULTI_AXIS_WIDTH } from '../Axes/utils'
 
   export let axesMetricKeys = []
   export let metricSettings
@@ -77,7 +77,8 @@
       if (!minMax) return
       const { min, max } = minMax
       const valueScaler = isLogScale ? valueByLogY : valueByY
-      const value = yBubbleFormatter(valueScaler(chart, y, min, max))
+      const formatter = getMetricAxisFormatter(metricSettings, metricKey)
+      const value = formatter(valueScaler(chart, y, min, max))
 
       drawValueBubbleY(chart, ctx, value, y, theme.bubbles, offset)
 
