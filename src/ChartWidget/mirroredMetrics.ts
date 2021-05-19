@@ -1,5 +1,5 @@
 import { Metric } from '@/metrics'
-import { FORMATTER } from '@/Chart/utils'
+import { FORMATTER } from '@/metrics/formatters'
 import { yAxisFormatter } from '@/Chart/Axes/utils'
 
 const axisFormatter = (value: number) => yAxisFormatter(Math.abs(value))

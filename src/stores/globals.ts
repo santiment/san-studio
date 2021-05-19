@@ -5,6 +5,7 @@ const GLOBALS = {
   isProPlus: false,
   isNightMode: false,
   isLoggedIn: true,
+  isBeta: false,
 }
 
 const { subscribe, set } = writable(GLOBALS)

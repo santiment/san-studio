@@ -15,6 +15,7 @@ export const SupplyDistributionNode = each(
     labeled_addresses_number_distribution: {
       label: 'By number of addresses (labeled)',
       shorthand: 'hdl',
+      checkIsVisible: () => false,
       // isBeta: true,
     },
 
@@ -22,6 +23,7 @@ export const SupplyDistributionNode = each(
     addresses_balance_distribution: {
       label: 'By balance of addresses',
       shorthand: 'hdcb',
+      selectorType: SelectorType.Widget,
     },
   },
   (node: Studio.SelectorNode, key) => {

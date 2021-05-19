@@ -51,23 +51,6 @@ export function getDefaultTooltipSettings() {
   }
 }
 
-const LARGE_NUMBER_THRESHOLD = 99999
-export function FORMATTER(value: number) {
-  if (!value && value !== 0) {
-    return 'No data'
-  }
-
-  if (value > LARGE_NUMBER_THRESHOLD) {
-    return millify(value, 2)
-  }
-
-  if (value < 1) {
-    return value.toFixed(6)
-  }
-
-  return Number.isInteger(value) ? value : value.toFixed(2)
-}
-
 export function linearDatetimeScale(chart) {
   const { width, data, left } = chart
 

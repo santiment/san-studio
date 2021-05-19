@@ -1,5 +1,6 @@
 import type { Node } from '@/metrics/utils'
 import { MetricCategory } from '@/metrics/graph'
+import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
 
 const HOLDER_DISTRIBUTIONS = [
   ['_0_to_0.001', '[0 - 0.001) coins'],
@@ -28,6 +29,7 @@ function buildMetrics<T extends string>(
   type?: any,
   labelPostfix = '',
   formatter?: any,
+  axisFormatter?: any,
 ): HolderDistributions<T> {
   const Metric = {} as HolderDistributions<T>
   HOLDER_DISTRIBUTIONS.forEach(([postfix, label]) => {
@@ -36,6 +38,7 @@ function buildMetrics<T extends string>(
       key,
       type,
       formatter,
+      axisFormatter,
       label: label + labelPostfix,
       category: MetricCategory.OnChain,
     }
@@ -46,13 +49,14 @@ function buildMetrics<T extends string>(
 export const HolderDistributionAbsoluteMetric = buildMetrics(
   'holders_distribution',
 )
-export const HolderDistributionPercentMetric = buildMetrics(
+export const HolderDistributionBalancePercentMetric = buildMetrics(
   'percent_of_holders_distribution_combined_balance',
   'percent',
-  // LABEL_PERCENT_POSTFIX,
-  // percentFormatter,
+  ' %',
+  percentFormatter,
+  axisPercentFormatter,
 )
-export const HolderDistributionCombinedBalanceAbsoluteMetric = buildMetrics(
+export const HolderDistributionBalanceAbsoluteMetric = buildMetrics(
   'holders_distribution_combined_balance',
 )
 
@@ -62,11 +66,19 @@ export const HoldersLabeledDistributionMetric = buildMetrics(
 
 export const HolderDistributionMetric = {
   ...HolderDistributionAbsoluteMetric,
-  ...HolderDistributionPercentMetric,
+  ...HolderDistributionBalancePercentMetric,
+  ...HolderDistributionBalanceAbsoluteMetric,
   ...HoldersLabeledDistributionMetric,
-  ...HolderDistributionCombinedBalanceAbsoluteMetric,
 }
 
 export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
   HolderDistributionAbsoluteMetric,
+)
+
+export const HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS = Object.values(
+  HolderDistributionBalanceAbsoluteMetric,
+)
+
+export const HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS = Object.values(
+  HolderDistributionBalancePercentMetric,
 )

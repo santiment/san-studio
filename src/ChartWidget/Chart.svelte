@@ -1,6 +1,7 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
-  import { getDefaultTooltipSettings, FORMATTER } from '@/Chart/utils'
+  import { getDefaultTooltipSettings } from '@/Chart/utils'
+  import { FORMATTER } from '@/metrics/formatters'
   import { themes } from '@/Chart/theme'
   import Chart from '@/Chart/index.svelte'
   import Lines from '@/Chart/Lines.svelte'

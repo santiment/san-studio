@@ -1,11 +1,15 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
   import { selector, selectedMetrics } from '@/stores/selector'
+  import { getSidewidget } from '@/stores/widgets'
+  const Sidewidget = getSidewidget()
 
   export let item: any
   export let active = false
 
-  $: active = selector.checkActive(item, $selectedMetrics)
+  $: active =
+    selector.checkActive(item, $selectedMetrics) ||
+    item.checkIsActive?.($Sidewidget)
   $: removeClass = active ? '$style.remove' : ''
 </script>
 

@@ -7,16 +7,18 @@
   export let isShowingSubitems = true
   export let onItemEnter
 
+  let active
   const onMouseEnter = ({ currentTarget }) => onItemEnter(currentTarget, item)
 </script>
 
 <div
   class="sidebar-item item row v-center {className}"
   class:pro={item.isPro}
+  class:active
   class:subitem={isShowingSubitems && item.submetricOf}
   on:mouseenter={onItemEnter && onMouseEnter}
   on:click>
-  <ItemLabel {item} />
+  <ItemLabel {item} bind:active />
 </div>
 
 <style>
@@ -74,5 +76,9 @@
   .subitem::after {
     height: 1px;
     width: 16px;
+  }
+
+  .active {
+    color: var(--green);
   }
 </style>

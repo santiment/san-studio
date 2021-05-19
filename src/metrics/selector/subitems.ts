@@ -11,6 +11,7 @@ SelectorNode.spent_coin_cost = {
   key: 'spent_coin_cost',
   label: 'Spent Coin Cost',
   selectorType: SelectorType.Sidewidget,
+  checkIsActive: (sidewidget) => sidewidget === SelectorNode.spent_coin_cost,
 }
 SelectorNode.TopTransactionsTable = {
   key: 'TopTransactionsTable',

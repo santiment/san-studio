@@ -1,6 +1,7 @@
 import App from './index.svelte'
 import 'webkit/styles/main.css'
 import ChartWidget from '@/ChartWidget/index.svelte'
+import HDBalanceWidget from '@/HolderDistributionWidget/Balance.svelte'
 import { Metric } from '@/metrics'
 import { newWidget } from './stores/widgets'
 
@@ -17,6 +18,7 @@ const app = new App({
         metrics: defaultMetrics,
         // subwidget: ReactAdapter(Test),
       }),
+      newWidget(HDBalanceWidget),
     ],
   },
 })

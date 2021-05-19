@@ -11,11 +11,14 @@
   import { buildMergedMetric } from './utils'
 
   export let widget
+  export let metrics = HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
+  export let defaultMetrics
   export let isSingleWidget: boolean
   export let deleteWidget
+  export let isMerging = false
 
   if (!widget.metrics)
-    widget.metrics = [
+    widget.metrics = defaultMetrics || [
       HolderDistributionAbsoluteMetric.holders_distribution_1_to_10,
     ]
   initWidget(widget)
@@ -29,7 +32,7 @@
   let isOpened = true
   let clientWidth
   let node
-  let phase = Phase.None
+  export let phase = Phase.None
   let mergingMetrics = new Set()
   let mergedMetricsSet = new Set()
   let mergedMetrics = []
@@ -112,8 +115,11 @@
       <div class="row v-center mrg-l mrg--b">
         <div class="body-2 txt-m">
           {$studio.ticker} Supply Distribution
-          <div class="body-3">by number of addresses</div>
+          <div class="body-3">
+            <slot>by number of addresses</slot>
+          </div>
         </div>
+
         <div
           class="merge btn border mrg-a mrg--l"
           on:click={onMergeClick}
@@ -127,39 +133,39 @@
         </div>
       </div>
 
-      {#if Metrics}
-        <div class="metrics column">
-          {#each mergedMetrics as metric}
-            <div
-              class="btn btn--ghost metric mrg-s mrg--b row v-center"
-              class:active={$Metrics.includes(metric)}
-              on:click={() => onMetricClick(metric)}>
-              {metric.label}
-              <div
-                class="btn unmerge mrg-s mrg--l"
-                on:click={() => onUnmergeClick(metric)}>
-                Unmerge
-              </div>
-            </div>
-          {/each}
+      <slot name="tabs" />
 
-          {#each HOLDER_DISTRIBUTION_ABSOLUTE_METRICS as metric}
+      <div class="metrics column">
+        {#each mergedMetrics as metric}
+          <div
+            class="btn btn--ghost metric mrg-s mrg--b row v-center"
+            class:active={$Metrics.includes(metric)}
+            on:click={() => onMetricClick(metric)}>
+            {metric.label}
             <div
-              class="btn btn--ghost metric mrg-s mrg--b row v-center"
-              class:active={isMerging
-                ? mergingMetrics.has(metric)
-                : $Metrics.includes(metric)}
-              on:click={() => onMetricClick(metric)}>
-              {#if isMerging}
-                <Checkbox
-                  class="mrg-s mrg--r"
-                  isActive={mergingMetrics.has(metric)} />
-              {/if}
-              {metric.label}
+              class="btn unmerge mrg-s mrg--l"
+              on:click={() => onUnmergeClick(metric)}>
+              Unmerge
             </div>
-          {/each}
-        </div>
-      {/if}
+          </div>
+        {/each}
+
+        {#each metrics as metric}
+          <div
+            class="btn btn--ghost metric mrg-s mrg--b row v-center"
+            class:active={isMerging
+              ? mergingMetrics.has(metric)
+              : $Metrics.includes(metric)}
+            on:click={() => onMetricClick(metric)}>
+            {#if isMerging}
+              <Checkbox
+                class="mrg-s mrg--r"
+                isActive={mergingMetrics.has(metric)} />
+            {/if}
+            {metric.label}
+          </div>
+        {/each}
+      </div>
     {/if}
   </div>
 </div>

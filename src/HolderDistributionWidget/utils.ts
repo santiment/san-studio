@@ -1,9 +1,10 @@
 import { queryMetric, dataAccessor } from '@/api/timeseries'
+import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
 
 export const MERGED_DIVIDER = '__MM__'
 const MergedTypePropsTuple = [
   [' coins'], // 0 === false
-  // [' coins %', percentFormatter, axisPercentFormatter], // 1 === true
+  [' coins %', percentFormatter, axisPercentFormatter], // 1 === true
 ]
 
 const LABEL_PERCENT_POSTFIX = ' %'
