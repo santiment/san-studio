@@ -2,7 +2,9 @@
   import { drawXAxisTicks, drawAxisLine, drawYAxisTicks } from 'san-chart/axes'
   import { drawValueBubbleY } from 'san-chart/tooltip'
   import {
+    Y_MARGIN,
     MULTI_AXIS_WIDTH,
+    getPadding,
     getBubbleTheme,
     getMetricAxisFormatter,
   } from './utils'
@@ -14,7 +16,6 @@
   } from '../utils'
 
   const chart = getChart()
-  const Y_MARGIN = 20
 
   export let xTicks = 10
   export let yTicks = 8
@@ -26,11 +27,7 @@
     chart.yAxesTicks = yTicks
     chart.axesMetricKeys = axesMetricKeys
   }
-  $: chart.setPadding({
-    ...chart.padding,
-    bottom: 70,
-    right: axesMetricKeys.length * MULTI_AXIS_WIDTH + Y_MARGIN,
-  })
+  $: chart.setPadding(getPadding(chart, axesMetricKeys))
 
   chart.plotManager.set('axes', (chart, scale) => {
     const { ctx, theme } = chart
@@ -38,7 +35,7 @@
     ctx.fillStyle = theme.ticks.color
     ctx.font = theme.ticks.font
 
-    plotAxes()
+    plotAxes(chart)
 
     const formatter = isDayInterval(chart)
       ? getDateHoursMinutes
@@ -46,7 +43,7 @@
     drawXAxisTicks(chart, formatter, scale, xTicks)
   })
 
-  function plotAxes() {
+  function plotAxes(chart) {
     const { ctx, colors, theme, scale } = chart
     const { right, top, bottom } = chart
     const LastMetricPoint = getLastMetricPoint(chart, null)

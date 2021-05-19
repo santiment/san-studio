@@ -2,7 +2,16 @@ import { drawValueBubbleY } from 'san-chart/tooltip'
 import { MetricGroup } from '@/metrics/graph'
 import { millify } from 'webkit/utils/formatting'
 
+export const Y_MARGIN = 20
 export const MULTI_AXIS_WIDTH = 50
+
+export function getPadding(chart: Studio.Chart, axesMetricKeys: any[]) {
+  return {
+    ...chart.padding,
+    bottom: 70,
+    right: axesMetricKeys.length * MULTI_AXIS_WIDTH + Y_MARGIN,
+  }
+}
 
 // NOTE: http://stackoverflow.com/a/3943023/112731 [@vanguard | Mar  9, 2021]
 export function getBubbleFontColorHex(color: string, isNightMode = false) {

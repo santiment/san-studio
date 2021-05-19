@@ -3,8 +3,12 @@
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import { globals } from '@/stores/globals'
+  import { studio } from '@/stores/studio'
+  import { getWidget } from '@/ChartWidget/context'
+  import { downloadPng } from './download'
   import { getChartOptions } from './context'
   const chartOptions = getChartOptions()
+  const widget = getWidget()
 
   export let activeClass = ''
   export let isSingleWidget: boolean
@@ -34,7 +38,7 @@
           isActive={$chartOptions.isWatermarkLessVisible}
           class="mrg-xl mrg--l" />
       {:else}
-        <div class="label">PRO</div>
+        <a href="/pricing" class="label">PRO</a>
       {/if}
     </div>
 
@@ -46,7 +50,7 @@
       {#if isProPlus}
         <Toggle isActive={!$chartOptions.watermark} class="mrg-xl mrg--l" />
       {:else}
-        <div class="label plus">PRO+</div>
+        <a href="/pricing" class="label plus">PRO+</a>
       {/if}
     </div>
 
@@ -58,10 +62,10 @@
         Download as CSV
       </span>
       {#if !isPro}
-        <div class="label">PRO</div>
+        <a href="/pricing" class="label">PRO</a>
       {/if}
     </div>
-    <div class="btn">
+    <div class="btn" on:click={() => downloadPng(widget, $studio)}>
       <span>
         <Icon id="download" w="16" class="mrg-s mrg--r" />
         Download as PNG
@@ -116,8 +120,14 @@
     border-radius: 4px;
     margin-left: 12px;
   }
+  .label:hover {
+    background: var(--orange-hover);
+  }
   .plus {
     background: var(--yellow);
+  }
+  .plus:hover {
+    background: var(--yellow-hover);
   }
 
   span {
@@ -126,8 +136,12 @@
   }
 
   .disabled {
-    background: none;
-    fill: var(--mystic);
-    color: var(--mystic);
+    background: none !important;
+    fill: var(--mystic) !important;
+    color: var(--mystic) !important;
+  }
+
+  a {
+    pointer-events: all;
   }
 </style>

@@ -148,7 +148,7 @@ export function getTimeseries(
       .catch((e) => {
         loadings.delete(metric)
         console.warn(e)
-        errors.set(metric, transformMessage(e.message))
+        errors.set(metric, transformMessage(e))
         onError(errors, loadings)
       })
   }

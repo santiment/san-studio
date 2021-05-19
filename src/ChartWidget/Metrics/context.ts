@@ -13,6 +13,9 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
 
   return {
     subscribe,
+    getValue() {
+      return metrics
+    },
     add(metric: Studio.Metric) {
       metricSet.add(metric)
       update()
