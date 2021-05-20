@@ -37,9 +37,9 @@
   let node
   export let phase = Phase.None
   let mergingMetrics = new Set()
-  let mergedMetricsSet = new Set()
   let mergedMetrics = widget.mergedMetrics || []
-  let mergedKeysSet = new Set(mergedMetrics)
+  let mergedMetricsSet = new Set(mergedMetrics)
+  let mergedKeysSet = new Set(mergedMetrics.map(({ key }) => key))
 
   $: node && updateDimensions(clientWidth, isOpened)
   $: isMerging = phase === Phase.Merge
