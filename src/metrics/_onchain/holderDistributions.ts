@@ -3,10 +3,10 @@ import { MetricCategory } from '@/metrics/graph'
 import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
 
 const HOLDER_DISTRIBUTIONS = [
-  ['_0_to_0.001', '[0 - 0.001) coins'],
-  ['_0.001_to_0.01', '[0.001 - 0.01) coins'],
-  ['_0.01_to_0.1', '[0.01 - 0.1) coins'],
-  ['_0.1_to_1', '[0.1 - 1) coins'],
+  ['_0_to_0001', '[0 - 0.001) coins', '_0_to_0.001'],
+  ['_0001_to_001', '[0.001 - 0.01) coins', '_0.001_to_0.01'],
+  ['_001_to_01', '[0.01 - 0.1) coins', '_0.01_to_0.1'],
+  ['_01_to_1', '[0.1 - 1) coins', '_0.1_to_1'],
   ['_1_to_10', '[1 - 10) coins'],
   ['_10_to_100', '[10 - 100) coins'],
   ['_100_to_1k', '[100 - 1,000) coins'],
@@ -32,13 +32,15 @@ function buildMetrics<T extends string>(
   axisFormatter?: any,
 ): HolderDistributions<T> {
   const Metric = {} as HolderDistributions<T>
-  HOLDER_DISTRIBUTIONS.forEach(([postfix, label]) => {
+  HOLDER_DISTRIBUTIONS.forEach(([postfix, label, queryKeyPostfix]) => {
     const key = templateKey + postfix
+    const queryKey = queryKeyPostfix && templateKey + queryKeyPostfix
     Metric[key] = {
       key,
       type,
       formatter,
       axisFormatter,
+      queryKey,
       label: label + labelPostfix,
       category: MetricCategory.OnChain,
     }
