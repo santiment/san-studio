@@ -8,6 +8,7 @@
   import Lines from '@/Chart/Lines.svelte'
   import Areas from '@/Chart/Areas.svelte'
   import Bars from '@/Chart/Bars.svelte'
+  import GreenRedBars from '@/Chart/GreenRedBars.svelte'
   import CartesianGrid from '@/Chart/CartesianGrid.svelte'
   import Tooltip from '@/Chart/Tooltip/index.svelte'
   import Axes from '@/Chart/Axes/index.svelte'
@@ -111,6 +112,7 @@
     <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />
   {/if}
 
+  <GreenRedBars />
   <Bars />
   <Areas />
   <Candles />

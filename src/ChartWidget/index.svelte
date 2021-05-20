@@ -17,6 +17,7 @@
   export let isSingleWidget: boolean
   export let deleteWidget = undefined
   export let metricsFilter = undefined
+  export let fullscreenMetricsFilter = undefined
 
   initWidget(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
@@ -107,7 +108,10 @@
     {isSingleWidget}
     {deleteWidget}
     {hasDomainGroups}
+    {fullscreenMetricsFilter}
     bind:isSharedAxisEnabled />
+
+  <slot />
 
   <MetricsRow
     metrics={displayedMetrics}

@@ -1,6 +1,10 @@
 import type { Selector } from './index'
 import { Metric } from '@/metrics'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
+import {
+  PriceDAADivergenceNode,
+  AdjustedPriceDAADivergenceNode,
+} from '@/PriceDAAWidget/nodes'
 import { SupplyDistributionNode } from './supplyDistribution'
 
 export const ReplacementNode = {
@@ -10,6 +14,9 @@ export const ReplacementNode = {
     SupplyDistributionNode.addresses_balance_distribution,
   [Metric.holders_labeled_distribution_1_to_10.key]:
     SupplyDistributionNode.labeled_addresses_number_distribution,
+
+  [Metric.price_daa_divergence.key]: PriceDAADivergenceNode,
+  [Metric.adjusted_price_daa_divergence.key]: AdjustedPriceDAADivergenceNode,
 } as const
 
 function replace(SelectorNode: Selector, key: string): boolean {

@@ -4,6 +4,8 @@ import { SelectorNode } from '@/metrics/selector'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import HolderDistributionWidget from '@/HolderDistributionWidget/index.svelte'
 import HolderDistributionBalanceWidget from '@/HolderDistributionWidget/Balance.svelte'
+import PriceDAAWidget from '@/PriceDAAWidget/index.svelte'
+import AdjustedPriceDAAWidget from '@/PriceDAAWidget/Adjusted.svelte'
 
 let id = 0
 export function newWidget(Widget: any, props?: any) {
@@ -46,6 +48,10 @@ export function initWidgets(defaultWidgets) {
         widget = newWidget(HolderDistributionWidget)
       } else if (node === SelectorNode.addresses_balance_distribution) {
         widget = newWidget(HolderDistributionBalanceWidget)
+      } else if (node === SelectorNode.price_daa_divergence) {
+        widget = newWidget(PriceDAAWidget)
+      } else if (node === SelectorNode.adjusted_price_daa_divergence) {
+        widget = newWidget(AdjustedPriceDAAWidget)
       }
 
       if (!widget) return

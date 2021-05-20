@@ -11,6 +11,7 @@
   export let isSharedAxisEnabled
   export let isSingleWidget: boolean
   export let deleteWidget
+  export let fullscreenMetricsFilter
 
   function onLineDelete() {
     const { drawer } = chart
@@ -65,7 +66,7 @@
     </div>
   </OptionsMenu>
 
-  <Fullscreen />
+  <Fullscreen {fullscreenMetricsFilter} />
 </div>
 
 <style>

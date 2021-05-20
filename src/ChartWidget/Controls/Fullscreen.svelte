@@ -5,6 +5,8 @@
   import { getWidget } from '@/ChartWidget/context'
   const widget = getWidget()
 
+  export let fullscreenMetricsFilter = undefined
+
   let isOpened = false
 
   const closeFullscreen = getContext('fullscreen')
@@ -31,7 +33,11 @@
 {#if isOpened}
   <div class="bg row hv-center" on:click={onClickaway}>
     <div class="dialog border">
-      <ChartWidget {widget} isFullscreen isSingleWidget />
+      <ChartWidget
+        {widget}
+        isFullscreen
+        isSingleWidget
+        metricsFilter={fullscreenMetricsFilter} />
     </div>
   </div>
 {/if}
