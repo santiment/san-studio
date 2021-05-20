@@ -25,11 +25,14 @@ export const setWidgets = (widgets): void =>
   setContext(WIDGETS_CONTEXT, widgets)
 export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
 export function initWidgets(defaultWidgets) {
-  const widgets = defaultWidgets.slice()
+  let widgets = defaultWidgets.slice()
   const { update, subscribe, set } = writable(widgets)
 
   const store = {
     subscribe,
+    set(newWidgets) {
+      set((widgets = newWidgets))
+    },
     add(widget, metrics: Studio.Metric[]) {
       widgets.push(
         newWidget(ChartWidget, {
