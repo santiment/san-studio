@@ -27,12 +27,12 @@ export function getIntervals(minInterval: string): Interval[] {
 }
 
 export const isAvailableInterval = (
-  interval?: string,
+  interval: string | undefined,
   intervals: Interval[],
 ): boolean => intervals.some(({ id }) => id === interval)
 
 export const getValidInterval = (
-  interval?: string,
+  interval: string | undefined,
   intervals: Interval[],
-): string =>
+): string | undefined =>
   isAvailableInterval(interval, intervals) ? interval : intervals[0].id

@@ -12,7 +12,6 @@
   export let metric: Studio.Metric
   export let colors
   export let error
-  export let index: number
   export let onHover, onClick, onDelete, onLock, onSettings
 
   let timer: number
@@ -39,7 +38,7 @@
 
   function onLockClick() {
     if (Metrics.hasConvertedMetric(metric, $studio)) return
-    onLock(convertBaseProjectMetric(metric, $studio), index)
+    onLock(convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
   }
 
   onDestroy(onMouseLeave)

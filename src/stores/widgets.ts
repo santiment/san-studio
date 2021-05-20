@@ -20,7 +20,7 @@ export function newWidget(Widget: any, props?: any) {
 const WIDGETS_CONTEXT = 'widgets'
 export const setWidgets = (widgets): void =>
   setContext(WIDGETS_CONTEXT, widgets)
-export const getWidgets = () => getContext(WIDGETS_CONTEXT)
+export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
 export function initWidgets(defaultWidgets) {
   const widgets = defaultWidgets.slice()
   const { update, subscribe, set } = writable(widgets)

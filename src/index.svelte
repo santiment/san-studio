@@ -12,11 +12,12 @@
   export let sidewidget
   export let onWidget = undefined
   export let onSubwidget = undefined
+  export let InsightsContextStore = undefined
 
   const Widgets = initWidgets(widgets)
   const Sidewidget = initSidewidget(sidewidget)
 
-  setAdapterController({ onSubwidget, onWidget })
+  setAdapterController({ onSubwidget, onWidget, InsightsContextStore })
   newNodeController(Widgets, Sidewidget)
   newTooltipSynchronizer()
 </script>

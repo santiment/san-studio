@@ -9,6 +9,9 @@ export type MetricSetting = {
     type: string
     movingAverageBase: number
   }
+  fetcher?: any
+  preTransform?: (...args: any[]) => any
+  getPreTransformValue?: (...args: any[]) => any
 }
 export type MetricSettings = {
   [metricKey: string]: MetricSetting | undefined
@@ -22,6 +25,7 @@ export const getMetricSettings = (): MetricSettingsStore => getContext(CONTEXT)
 const noopTransformer = (
   _: Studio.Metric,
   __: Studio.MetricSetting,
+  ___: Studio.Metric[],
 ): MetricSetting => __ // eslint-disable-line
 export function newMetricSettingsStore(defaultValue?: MetricSettings) {
   let MetricSettings = (defaultValue || {}) as MetricSettings

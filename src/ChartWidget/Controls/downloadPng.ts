@@ -53,17 +53,16 @@ function drawLegend(pngChart, metrics, isNightMode) {
 }
 
 export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
-  console.log(widget)
   const { chart } = widget
   const { data, categories, scale, colors, theme } = chart
   const { domainModifier, domainGroups } = chart
   const padding = getPadding(chart, chart.axesMetricKeys)
 
   const dpr = window.devicePixelRatio || 1
-  window.devicePixelRatio = 2
+  ;(window as any).devicePixelRatio = 2
   const pngCanvas = document.createElement('canvas')
-  const pngChart = initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, padding)
-  window.devicePixelRatio = dpr
+  const pngChart = initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, padding) as any
+  ;(window as any).devicePixelRatio = dpr
 
   pngChart.scale = scale
   pngChart.axesMetricKeys = chart.axesMetricKeys
@@ -77,7 +76,7 @@ export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
     categories.joinedCategories,
     domainModifier,
     domainGroups,
-    new Set(categories.candles),
+    new Set(categories.candles) as any,
   )
 
   chart.plotManager.items.forEach((plot) => {

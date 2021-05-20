@@ -4,6 +4,8 @@ const { forFile, mkdir } = require('san-webkit/scripts/utils')
 const { replaceModuleAliases, SRC, LIB } = require('./utils')
 
 async function prepare() {
+  fs.rmdirSync(LIB, { recursive: true })
+
   forFile(['src/**/*.ts', '!src/main.ts'], async (entry) => {
     const absolutePath = path.resolve(entry)
     const file = fs.readFileSync(absolutePath)

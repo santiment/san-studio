@@ -6,6 +6,13 @@ export type Chart = SanChart & {
   plotManager: ReturnType<typeof newPlotManager>
   tooltip?: any
   drawTooltip?: (point: any, y: number) => any
+  isDrawing: boolean
+  drawSelection?: (x: number, y: number, point: any) => any
+  scale: any
+  axesMetricKeys?: string[]
+  domainGroups?: string[][]
+  colors: { [metricKey: string]: string }
+  theme: any
 }
 
 const noop = () => {} // eslint-disable-line

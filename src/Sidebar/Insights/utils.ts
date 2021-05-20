@@ -3,6 +3,16 @@ const NO_GROUP_ITEMS = [
   { key: 'pro', label: 'PRO Insights', isPro: true },
   { key: 'pulse', label: 'Pulse Insights' },
   { key: 'sanfam', label: 'Sanfam Insights' },
+  {
+    key: 'my',
+    label: 'My Insights',
+    checkIsVisible: ({ hasMyInsights }) => hasMyInsights,
+  },
+  {
+    key: 'followings',
+    label: 'My Followings',
+    checkIsVisible: ({ hasFollowings }) => hasFollowings,
+  },
 ]
 
 const TAG_GROUP_ITEMS = [
@@ -10,13 +20,13 @@ const TAG_GROUP_ITEMS = [
     key: 'eth',
     label: 'ETH Insights',
     group: 'Tags',
-    checkIsVisible: ({ slug }) => slug !== 'ethereum',
+    checkIsVisible: ({ ticker }) => ticker !== 'ETH',
   },
   {
     key: 'btc',
     label: 'BTC Insights',
     group: 'Tags',
-    checkIsVisible: ({ slug }) => slug !== 'bitcoin',
+    checkIsVisible: ({ ticker }) => ticker !== 'BTC',
   },
   {
     key: 'defi',
@@ -26,20 +36,21 @@ const TAG_GROUP_ITEMS = [
 ]
 
 export function getInsightsGraph(
-  project: any,
+  ticker: string,
   hasMyInsights = false,
   hasFollowings = false,
 ) {
-  const { ticker } = project
   const item = {
     key: ticker,
     label: ticker + ' Insights',
     group: 'Tags',
     type: 'project',
   }
-  const options = Object.assign({ hasMyInsights, hasFollowings }, project)
+  const options = { hasMyInsights, hasFollowings, ticker }
 
   const filter = ({ checkIsVisible }: any) =>
     checkIsVisible ? checkIsVisible(options) : true
-  return [...NO_GROUP_ITEMS, item, ...TAG_GROUP_ITEMS].filter(filter)
+
+  const insights = [...NO_GROUP_ITEMS, item, ...TAG_GROUP_ITEMS].filter(filter)
+  return { insights, projectInsight: item }
 }

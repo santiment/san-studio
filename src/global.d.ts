@@ -22,6 +22,7 @@ namespace Studio {
     queryKey?: string
     node: ChartNode[keyof ChartNode]
     formatter?: (...args: any[]) => any
+    axisFormatter?: (...args: any[]) => any
     checkIsVisible?: (...args: any[]) => any
     getLabel?: (ticker: string) => string
     reqMeta?: { [key: string]: any }

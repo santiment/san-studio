@@ -2,6 +2,8 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import { selector, selectedMetrics } from '@/stores/selector'
   import { getSidewidget } from '@/stores/widgets'
+  import { getAdapterController } from '@/adapter/context'
+  const { InsightsContextStore } = getAdapterController()
   const Sidewidget = getSidewidget()
 
   export let item: any
@@ -9,7 +11,8 @@
 
   $: active =
     selector.checkActive(item, $selectedMetrics) ||
-    item.checkIsActive?.($Sidewidget)
+    item.checkIsActive?.($Sidewidget) ||
+    item === $InsightsContextStore.insight
   $: removeClass = active ? '$style.remove' : ''
 </script>
 

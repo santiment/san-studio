@@ -25,7 +25,7 @@ export function onSelection(chart: Studio.Chart, canvas, onRangeSelect) {
       if (endPoint === point) return
 
       clearCtx(chart, chart.tooltip.ctx)
-      chart.drawTooltip(endPoint, endY)
+      chart.drawTooltip?.(endPoint, endY)
       onRangeSelect?.(point, endPoint)
     }
 

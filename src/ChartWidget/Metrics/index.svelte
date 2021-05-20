@@ -12,12 +12,11 @@
 </script>
 
 <div class="metrics row">
-  {#each metrics as metric, i}
+  {#each metrics as metric}
     <Metric
       {metric}
       {colors}
       error={MetricError.get(metric)}
-      index={i}
       onClick={onMetricClick}
       onHover={onMetricHover}
       onDelete={isSingleWidget && metrics.length === 1

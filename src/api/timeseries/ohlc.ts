@@ -18,6 +18,7 @@ const PRICE_OHLC_QUERY = `
 `
 
 type Variables = {
+  key: string
   slug: string
   from: string
   to: string
