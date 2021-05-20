@@ -11,6 +11,7 @@ export function newWidget(Widget: any, props?: any) {
     {
       Widget,
       id: id++,
+      isExternal: false,
       subwidgets: [],
     },
     props,
@@ -47,6 +48,8 @@ export function initWidgets(defaultWidgets) {
         widget = newWidget(HolderDistributionBalanceWidget)
       }
 
+      if (!widget) return
+      widget.scrollOnMount = true
       widgets.push(widget)
       set(widgets)
     },

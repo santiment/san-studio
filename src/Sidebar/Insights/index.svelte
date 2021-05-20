@@ -35,7 +35,7 @@
   onMount(() => {
     InsightsContextStore.set(projectInsight, from, to)
     const widget = $Widgets[0]
-    widget.chart?.canvas?.scrollIntoView({ block: 'center' })
+    widget?.scrollIntoView()
   })
 
   onDestroy(() => {

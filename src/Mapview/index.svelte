@@ -8,7 +8,6 @@
   import ChartWidget from '@/ChartWidget/index.svelte'
 
   const Widgets = getWidgets()
-  const centered = { block: 'center' }
 
   $: mapview.checkActiveMetrics(
     $selectedMetrics.items.length > 0 || $selectedMetrics.subwidgets.length > 0,
@@ -27,7 +26,7 @@
 
   function onWidgetClick(widget) {
     if ($mapview === MapviewPhase.Overview) {
-      widget.chart.canvas.scrollIntoView(centered)
+      widget.scrollIntoView()
       mapview.exit()
       return
     }
@@ -127,9 +126,11 @@
     border-radius: 4px;
     background: #505573;
     padding: 12px 24px;
-    position: absolute;
     left: 25px;
     right: 25px;
     bottom: 25px;
+    position: fixed;
+    left: 285px;
+    width: calc(100% - 310px);
   }
 </style>

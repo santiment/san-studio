@@ -45,6 +45,7 @@
     chart.redraw = () => (shouldRedraw += 1)
     chart.plotManager = newPlotManager()
     chart.setPadding = setPadding
+    chart.rightAxisMargin = 0
 
     if (onChart) onChart(chart)
   })

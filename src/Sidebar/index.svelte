@@ -17,6 +17,7 @@
   let metrics: string[] = []
   let isMetricTab = true
 
+  $: ({ slug } = $studio)
   $: categories = Object.keys(graph) as MetricCategory[]
   $: graph = getMetricsSelectorGraph(metrics, $studio)
   $: loweredInput = input.toLowerCase()
@@ -24,8 +25,7 @@
     ? filterSelectorGraph(graph, loweredInput)
     : graph
   $: isFiltering = !!input
-
-  queryProjectMetrics($studio.slug).then((items) => (metrics = items))
+  $: queryProjectMetrics(slug).then((items) => (metrics = items))
 
   let debounced: number
   function onInput({ target }) {

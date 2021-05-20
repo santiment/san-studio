@@ -2,7 +2,9 @@ export enum MetricCategory {
   Financial = 'Financial',
   Social = 'Social',
   Development = 'Development',
+  Derivatives = 'Derivatives',
   OnChain = 'On-chain',
+  Indicators = 'Indicators',
 }
 
 export enum MetricGroup {

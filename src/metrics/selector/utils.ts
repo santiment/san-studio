@@ -13,9 +13,11 @@ export function getMetricsSelectorGraph(
 ): SelectorGraph {
   const graph: SelectorGraph = {
     [MetricCategory.Financial]: [],
-    [MetricCategory.Development]: [],
     [MetricCategory.Social]: [],
+    [MetricCategory.Development]: [],
+    [MetricCategory.Derivatives]: [],
     [MetricCategory.OnChain]: [],
+    [MetricCategory.Indicators]: [],
   }
 
   const { length } = metricKeys.sort(indexSorter)

@@ -58,13 +58,13 @@
 
   function plotTooltip(chart, point, y: number) {
     clearCtx(chart, ctx)
-    const { theme, scale, minMaxes } = chart
+    const { theme, scale, minMaxes, rightAxisMargin } = chart
     const { x, value: datetime } = point
 
     chart.drawSelection?.(x, y, point)
 
     drawHoverLineX(chart, x, theme.hoverLine, 5)
-    drawHoverLineY(chart, y, theme.hoverLine, 0, 20)
+    drawHoverLineY(chart, y, theme.hoverLine, 0, rightAxisMargin)
 
     const xValueFormatted = getDateDayMonthYear(datetime)
     drawValueBubbleX(chart, ctx, xValueFormatted, x, theme.bubbles)

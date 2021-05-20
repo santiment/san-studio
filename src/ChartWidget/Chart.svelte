@@ -47,6 +47,7 @@
       areas: [],
       filledLines: [],
       gradientLines: [],
+      greenRedBars: [],
     }
     for (let i = 0; i < metrics.length; i++) {
       const { key, node } = metrics[i]

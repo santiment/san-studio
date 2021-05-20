@@ -14,16 +14,24 @@
 
   onMount(() => {
     if (onWidget) destroy = onWidget(target, widget)
+    const options = { block: 'center' }
+    widget.scrollIntoView = () => target.scrollIntoView(options)
+    if (widget.scrollOnMount) {
+      widget.scrollIntoView()
+      delete widget.scrollOnMount
+    }
   })
   onDestroy(() => destroy && destroy(target, widget))
 </script>
 
 <div class="widget border" bind:this={target}>
-  <svelte:component
-    this={widget.Widget}
-    {widget}
-    {isSingleWidget}
-    deleteWidget={() => Widgets.delete(widget, i)} />
+  {#if widget.isExternal === false}
+    <svelte:component
+      this={widget.Widget}
+      {widget}
+      {isSingleWidget}
+      deleteWidget={() => Widgets.delete(widget, i)} />
+  {/if}
 </div>
 {#if widget.subwidgets}
   {#each widget.subwidgets as subwidget}

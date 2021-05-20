@@ -106,11 +106,15 @@ const newSocialActiveUsers = (
 
 export const SocialMetric = each(
   {
+    social_dominance_total: {
+      label: 'Social Dominance',
+      // formatter: percentageFormatter
+    },
+
     social_volume_total: {
       node: Node.BAR,
       label: 'Social Volume',
       // advancedView: 'Social Context',
-      // formatter: value => tooltipValueFormatter({ value })
     },
 
     social_active_users_telegram: newSocialActiveUsers('telegram', 'Telegram'),
@@ -125,11 +129,6 @@ export const SocialMetric = each(
     },
     twitter_followers_24h: newTwitterFollowers('24h'),
     twitter_followers_7d: newTwitterFollowers('7d'),
-
-    social_dominance_total: {
-      label: 'Social Dominance',
-      // formatter: percentageFormatter
-    },
 
     ...TotalSentimentMetric,
     ...TwitterSentimentMetric,

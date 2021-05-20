@@ -13,6 +13,14 @@ SelectorNode.spent_coin_cost = {
   selectorType: SelectorType.Sidewidget,
   checkIsActive: (sidewidget) => sidewidget === SelectorNode.spent_coin_cost,
 }
+
+SelectorNode.SOCIAL_CONTEXT = {
+  key: 'SOCIAL_CONTEXT',
+  label: 'Social Context',
+  selectorType: SelectorType.Sidewidget,
+  checkIsActive: (sidewidget) => sidewidget === SelectorNode.SOCIAL_CONTEXT,
+}
+
 SelectorNode.TopTransactionsTable = {
   key: 'TopTransactionsTable',
   label: 'Top Transactions Table',
@@ -24,6 +32,7 @@ export const Subitems = {
   [Metric.price_usd.key]: [SelectorNode.spent_coin_cost],
 
   [Metric.social_volume_total.key]: [
+    SelectorNode.SOCIAL_CONTEXT,
     Metric.social_active_users_telegram,
     Metric.social_active_users_twitter,
   ],

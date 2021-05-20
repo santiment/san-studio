@@ -3,6 +3,8 @@ export const MetricColor = {
   volume_usd: '#D2D6E7', //GRAY,
   social_volume_total: '#68DBF4', //CYAN,
   dev_activity: '#8358FF', //VIOLET,
+  mvrv_usd: '#FFAD4D',
+  daily_active_addresses: '#FFAD4D',
 }
 
 export const COLORS = [

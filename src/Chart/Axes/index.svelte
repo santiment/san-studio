@@ -22,6 +22,7 @@
   export let metricSettings
   export let axesMetricKeys: string[]
 
+  chart.rightAxisMargin = Y_MARGIN
   $: {
     chart.xAxesTicks = xTicks
     chart.yAxesTicks = yTicks
@@ -45,12 +46,12 @@
 
   function plotAxes(chart) {
     const { ctx, colors, theme, scale } = chart
-    const { right, top, bottom } = chart
+    const { right, top, bottom, rightAxisMargin } = chart
     const LastMetricPoint = getLastMetricPoint(chart, null)
     ctx.textAlign = 'left'
 
-    let lastValueOffset = Y_MARGIN
-    let offset = right + Y_MARGIN
+    let lastValueOffset = rightAxisMargin
+    let offset = right + rightAxisMargin
 
     axesMetricKeys.forEach((key) => {
       const color = colors[key]
