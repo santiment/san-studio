@@ -46,13 +46,15 @@
   main {
     min-height: 100vh;
     display: flex;
+    position: relative;
   }
 
   .content {
-    flex: 1;
+    flex: 1 1;
     background: var(--athens);
     padding: 20px 25px;
     position: relative;
+    min-width: 0;
   }
 
   .panel {

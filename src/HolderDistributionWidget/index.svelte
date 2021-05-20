@@ -127,14 +127,14 @@
         </div>
 
         <div
-          class="merge btn border mrg-a mrg--l"
+          class="merge btn border mrg-a mrg--l row v-center"
           on:click={onMergeClick}
           class:merging={isMerging}
           class:confirm={isMerging && mergingMetrics.size > 1}>
           {#if isMerging}
             {mergingMetrics.size > 1 ? 'Confirm' : 'Cancel'}
           {:else}
-            Merge
+            <Icon id="merge" w="18" h="14" class="mrg-s mrg--r" /> Merge
           {/if}
         </div>
       </div>

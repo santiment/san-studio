@@ -7,16 +7,23 @@
     getMetricsSelectorGraph,
     filterSelectorGraph,
   } from '@/metrics/selector/utils'
+  import Sidebar from './Sidebar.svelte'
   import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
   import Favorites from './Favorites.svelte'
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
+  import Toggle from './Toggle.svelte'
   import { DEFAULT_METRICS } from './defaults'
 
   let input = ''
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
+
+  let isLocked = false
+  let isPeeked = false
+
+  $: isOpened = isPeeked // || isDraggingMetric
 
   $: ({ slug } = $studio)
   $: categories = Object.keys(graph) as MetricCategory[]
@@ -50,53 +57,38 @@
   }
 </script>
 
-<aside>
-  <div class="content column">
-    <div class="top">
-      <Tabs bind:isMetricTab />
-      <div class="mrg-l mrg--t sidebar-project" />
-      <div class="input border mrg-s mrg--t row v-center fluid">
-        <Icon id="search" w="12" class="$style.search" />
-        <input
-          name=""
-          type="text"
-          on:input={onInput}
-          placeholder="Search metrics" />
-      </div>
+<Sidebar bind:isOpened bind:isLocked bind:isPeeked>
+  <div class="top">
+    <Tabs bind:isMetricTab />
+    <div class="mrg-l mrg--t sidebar-project" />
+    <div class="input border mrg-s mrg--t row v-center fluid">
+      <Icon id="search" w="12" class="$style.search" />
+      <input
+        name=""
+        type="text"
+        on:input={onInput}
+        placeholder="Search metrics" />
     </div>
-    <div class="categories" on:scroll={onItemLeave} on:mouseleave={onItemLeave}>
-      {#if isMetricTab}
-        <ItemActions node={hoveredNode} item={hoveredItem} {onItemLeave} />
-        <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
-        {#each categories as category}
-          <Category
-            {category}
-            {isFiltering}
-            {onItemEnter}
-            items={filteredGraph[category]} />
-        {/each}
-      {:else}
-        <Insights />
-      {/if}
-    </div>
-    <div class="toggle" />
   </div>
-</aside>
+  <div class="categories" on:scroll={onItemLeave} on:mouseleave={onItemLeave}>
+    {#if isMetricTab}
+      <ItemActions node={hoveredNode} item={hoveredItem} {onItemLeave} />
+      <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
+      {#each categories as category}
+        <Category
+          {category}
+          {isFiltering}
+          {onItemEnter}
+          items={filteredGraph[category]} />
+      {/each}
+    {:else}
+      <Insights />
+    {/if}
+  </div>
+  <Toggle bind:isLocked />
+</Sidebar>
 
 <style>
-  aside {
-    width: 260px;
-    background: var(--white);
-    border-right: 1px solid var(--porcelain);
-    z-index: 22;
-  }
-
-  .content {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-  }
-
   .top {
     padding: 16px 24px;
     border-bottom: 1px solid var(--porcelain);
@@ -131,15 +123,5 @@
 
   .categories:hover {
     overflow-y: overlay;
-  }
-
-  .toggle {
-    width: 12px;
-    top: 0;
-    bottom: 0;
-    right: -1px;
-    user-select: none;
-    position: absolute;
-    display: flex;
   }
 </style>

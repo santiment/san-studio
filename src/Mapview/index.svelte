@@ -1,4 +1,5 @@
 <script>
+  import Icon from 'webkit/ui/Icon.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -61,9 +62,10 @@
             <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
           {/each}
 
-          {#if isMetricsPhase}
-            <Preview class="column hv-center" on:click={onNewWidgetClick}
-              >Add new chart</Preview>
+          {#if isMetricsPhase && $selectedMetrics.items.length}
+            <Preview class="column hv-center" on:click={onNewWidgetClick}>
+              <Icon illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
+              Add new chart</Preview>
           {/if}
         </div>
       </div>
