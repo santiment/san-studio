@@ -4,6 +4,7 @@ import ChartWidget from '@/ChartWidget/index.svelte'
 import HDBalanceWidget from '@/HolderDistributionWidget/Balance.svelte'
 import { Metric } from '@/metrics'
 import { newWidget } from './stores/widgets'
+import { newInsightsContextStore } from '@/Sidebar/Insights/context'
 
 const defaultMetrics: Studio.Metric[] = [
   Metric.price_usd,
@@ -20,6 +21,7 @@ const app = new App({
       }),
       newWidget(HDBalanceWidget),
     ],
+    InsightsContextStore: newInsightsContextStore(),
   },
 })
 
