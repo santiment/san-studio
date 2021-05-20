@@ -3,6 +3,8 @@ import {
   MvrvTimebounds,
   MvrvUsdIntradayTimebounds,
   RealizedCapTimebounds,
+  CirculationTimebounds,
+  DormantCirculationTimebounds,
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
@@ -19,6 +21,20 @@ SelectorNode.SOCIAL_CONTEXT = {
   label: 'Social Context',
   selectorType: SelectorType.Sidewidget,
   checkIsActive: (sidewidget) => sidewidget === SelectorNode.SOCIAL_CONTEXT,
+}
+
+SelectorNode.FeesDistribution = {
+  key: 'FeesDistribution',
+  label: 'Fees Distribution',
+  selectorType: SelectorType.Widget,
+  checkIsVisible: ({ slug }) => slug === 'ethereum',
+}
+
+SelectorNode.HoldersDistributionTable = {
+  key: 'HoldersDistributionTable',
+  label: 'Top Holders Table',
+  group: 'Whales',
+  selectorType: SelectorType.Widget,
 }
 
 SelectorNode.TopTransactionsTable = {
@@ -44,6 +60,13 @@ export const Subitems = {
   [Metric.mvrv_usd.key]: Object.values(MvrvTimebounds),
   [Metric.mvrv_usd_intraday.key]: Object.values(MvrvUsdIntradayTimebounds),
   [Metric.realized_value_usd.key]: Object.values(RealizedCapTimebounds),
+  [Metric.circulation.key]: Object.values(CirculationTimebounds),
+  [Metric.dormant_circulation_365d.key]: Object.values(
+    DormantCirculationTimebounds,
+  ),
+
+  [Metric.median_fees_usd.key]: [SelectorNode.FeesDistribution],
+  [Metric.amount_in_top_holders.key]: [SelectorNode.HoldersDistributionTable],
 
   [Metric.transaction_volume.key]: [SelectorNode.TopTransactionsTable],
 }

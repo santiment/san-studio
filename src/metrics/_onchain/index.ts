@@ -5,13 +5,6 @@ import { each } from '@/metrics/utils'
 
 const ExchangesMetric = each(
   {
-    exchange_balance: {
-      label: 'Exchange Flow Balance',
-      shorthand: 'efb',
-    },
-    percent_of_total_supply_on_exchanges: {
-      label: 'Supply on Exchanges (as % of total supply)',
-    },
     active_deposits: {
       label: 'Daily Active Deposits',
       node: 'bar',
@@ -19,8 +12,9 @@ const ExchangesMetric = each(
     deposit_transactions: {
       label: 'Deposit Transactions',
     },
-    withdrawal_transactions: {
-      label: 'Withdrawal Transactions',
+    exchange_balance: {
+      label: 'Exchange Flow Balance',
+      shorthand: 'efb',
     },
     exchange_inflow: {
       label: 'Exchange Inflow',
@@ -28,11 +22,17 @@ const ExchangesMetric = each(
     exchange_outflow: {
       label: 'Exchange Outflow',
     },
+    percent_of_total_supply_on_exchanges: {
+      label: 'Supply on Exchanges (as % of total supply)',
+    },
     supply_on_exchanges: {
       label: 'Supply on Exchanges',
     },
     supply_outside_exchanges: {
       label: 'Supply outside of Exchanges',
+    },
+    withdrawal_transactions: {
+      label: 'Withdrawal Transactions',
     },
   },
   // (metric: Studio.Metric) => (metric.group = MetricGroup.TotalSentiment),
@@ -41,9 +41,19 @@ const ExchangesMetric = each(
 
 const WhalesMetric = each(
   {
-    // topHoldersPercentOfTotalSupply: {
-    //     label: 'Supply held by top addresses (as % of total supply)',
-    // },
+    topHoldersPercentOfTotalSupply: {
+      label: 'Supply held by top addresses (as % of total supply)',
+      shorthand: 'ahta',
+    },
+    amount_in_exchange_top_holders: {
+      label: 'Supply held by top exchange addresses',
+    },
+    amount_in_non_exchange_top_holders: {
+      label: 'Supply held by top non-exchange addresses',
+    },
+    amount_in_top_holders: {
+      label: 'Supply held by top addresses',
+    },
     whale_transaction_count_100k_usd_to_inf: {
       label: 'Whale Transaction Count (>100k USD)',
       node: 'bar',
@@ -52,28 +62,30 @@ const WhalesMetric = each(
       label: 'Whale Transaction Count (>1m USD)',
       node: 'bar',
     },
-    amount_in_top_holders: {
-      label: 'Supply held by top addresses',
-    },
-    amount_in_exchange_top_holders: {
-      label: 'Supply held by top exchange addresses',
-    },
-    amount_in_non_exchange_top_holders: {
-      label: 'Supply held by top non-exchange addresses',
-    },
   },
   (metric: Studio.Metric) => (metric.group = 'Whales'),
 )
 
 const NetworkActivityMetric = each(
   {
+    active_addresses_1h: {
+      label: 'Active Addresses 1h',
+      node: 'bar',
+    },
+    active_addresses_24h: {
+      label: 'Active Addresses 24h',
+      node: 'bar',
+    },
+    circulation: {
+      label: 'Circulation',
+    },
     daily_active_addresses: {
       label: 'Daily Active Addresses',
       node: 'bar',
       shorthand: 'daa',
     },
-    circulation: {
-      label: 'Circulation',
+    network_growth: {
+      label: 'Network Growth',
     },
     transaction_volume: {
       label: 'Transaction Volume',
@@ -83,19 +95,8 @@ const NetworkActivityMetric = each(
       label: 'Transaction Volume USD',
       node: 'bar',
     },
-    network_growth: {
-      label: 'Network Growth',
-    },
     velocity: {
       label: 'Velocity',
-    },
-    active_addresses_24h: {
-      label: 'Active Addresses 24h',
-      node: 'bar',
-    },
-    active_addresses_1h: {
-      label: 'Active Addresses 1h',
-      node: 'bar',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Network Activity'),
@@ -107,8 +108,8 @@ const LongTermHoldersMetric = each(
       label: 'Age Consumed',
       node: 'bar',
     },
-    dormant_circulation: {
-      label: 'Dormant Circulation',
+    dormant_circulation_365d: {
+      label: 'Dormant Circulation (365d)',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Long-term holders'),
@@ -116,12 +117,14 @@ const LongTermHoldersMetric = each(
 
 const NetworkValueMetric = each(
   {
-    stock_to_flow: {
-      label: 'Stock to Flow ratio',
+    mean_age: {
+      label: 'Mean Coin Age',
     },
-    mvrv_usd_z_score: {
-      label: 'MVRV Ratio (Z score)',
-      node: 'filledLine',
+    mean_dollar_invested_age: {
+      label: 'Mean Dollar Invested Age',
+    },
+    mvrv_long_short_diff_usd: {
+      label: 'MVRV Long/Short Difference',
     },
     mvrv_usd: {
       label: 'MVRV ratio',
@@ -130,17 +133,12 @@ const NetworkValueMetric = each(
     mvrv_usd_intraday: {
       label: 'MVRV USD intraday',
     },
-    mvrv_long_short_diff_usd: {
-      label: 'MVRV Long/Short Difference',
+    mvrv_usd_z_score: {
+      label: 'MVRV Ratio (Z score)',
+      node: 'filledLine',
     },
-    realized_value_usd: {
-      label: 'Realized Cap',
-    },
-    mean_dollar_invested_age: {
-      label: 'Mean Dollar Invested Age',
-    },
-    mean_age: {
-      label: 'Mean Coin Age',
+    network_profit_loss: {
+      label: 'Network Realized Profit/Loss',
     },
     nvt: {
       label: 'NVT Ratio (with Circulation)',
@@ -148,21 +146,57 @@ const NetworkValueMetric = each(
     nvt_transaction_volume: {
       label: 'NVT Ratio (with Transaction Volume)',
     },
-    network_profit_loss: {
-      label: 'Network Realized Profit/Loss',
+    realized_value_usd: {
+      label: 'Realized Cap',
+    },
+    stock_to_flow: {
+      label: 'Stock to Flow ratio',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Network Value'),
 )
 
+export const DefiMetric = each(
+  {
+    defi_total_value_locked_usd: {
+      node: 'bar',
+      label: 'Defi Total Value Locked in USD',
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = 'Defi'),
+)
+
 export const OnChainMetric = each(
   Object.assign(
-    {},
+    {
+      ethSpentOverTime: {
+        label: 'Eth Spent Over Time',
+      },
+      gasUsed: {
+        label: 'Gas Used',
+      },
+      average_fees_usd: {
+        node: 'area',
+        label: 'Average Fees (USD)',
+        checkIsVisible: ({ slug }) => slug === 'ethereum',
+      },
+      median_fees_usd: {
+        node: 'area',
+        label: 'Median Fees (USD)',
+        checkIsVisible: ({ slug }) => slug === 'ethereum',
+      },
+      miners_balance: {
+        label: 'Miners Balance',
+        category: 'On-chain',
+      },
+    },
+
     ExchangesMetric,
+    DefiMetric,
     HolderDistributionMetric,
     WhalesMetric,
-    NetworkActivityMetric,
     LongTermHoldersMetric,
+    NetworkActivityMetric,
     NetworkValueMetric,
   ),
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChain),

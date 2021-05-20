@@ -30,9 +30,17 @@ export const Metric = each(
 export const MvrvTimebounds = newTimebounds(Metric.mvrv_usd)
 export const MvrvUsdIntradayTimebounds = newTimebounds(Metric.mvrv_usd_intraday)
 export const RealizedCapTimebounds = newTimebounds(Metric.realized_value_usd)
+export const CirculationTimebounds = newTimebounds(Metric.circulation)
+export const DormantCirculationTimebounds = newTimebounds(
+  Metric.dormant_circulation_365d,
+  ['90d', '180d', '2y', '3y', '5y'],
+  { key: 'dormant_circulation', label: 'Dormant Circulation' },
+)
 Object.assign(
   Metric,
   MvrvTimebounds,
   MvrvUsdIntradayTimebounds,
   RealizedCapTimebounds,
+  CirculationTimebounds,
+  DormantCirculationTimebounds,
 )

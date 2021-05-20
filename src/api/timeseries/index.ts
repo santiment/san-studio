@@ -143,6 +143,7 @@ export function getTimeseries(
         if (!metricData.length) throw new Error(NO_DATA_MSG)
 
         loadings.delete(metric)
+        errors.delete(metric)
         onData((data = mergeTimeseries(data, metricData)), loadings)
       })
       .catch((e) => {

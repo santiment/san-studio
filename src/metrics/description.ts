@@ -135,7 +135,7 @@ This an oscillating indicator, which reaches extreme negative values at the bott
 
   // SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
 
-  [Metric.dormant_circulation
+  [Metric.dormant_circulation_365d
     .key]: `Shows how many coins/tokens that have not been moved for more than 365 days were transacted during a day. This is useful for spotting when really old Bitcoins move.`,
   [Metric.stock_to_flow
     .key]: `Stock To Flow ratio model is a measure of scarcity/abundance of particular resource. It shows how much supply enters yearly relative to the total supply of the resource. We measure Stock To Flow ratio for a given asset as the ratio between <a href='https://academy.santiment.net/metrics/circulation/'>Total Circulation</a> of the asset and the daily minted coins multiplied by days in one year`,

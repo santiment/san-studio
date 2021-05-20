@@ -12,18 +12,22 @@ const TIMEBOUNDS = [
   '10y',
 ]
 
-export function newTimebound(metric: any, timebound: string) {
+export function newTimebound(metric: any, timebound: string, overwrite = {}) {
   const { key, label } = metric
   return Object.assign({}, metric, {
-    key: `${key}_${timebound}`,
-    label: `${label} (${timebound})`,
+    key: `${overwrite.key || key}_${timebound}`,
+    label: `${overwrite.label || label} (${timebound})`,
   })
 }
 
-export function newTimebounds(metric) {
+export function newTimebounds(
+  metric: Studio.Metric,
+  timebounds = TIMEBOUNDS,
+  overwrite = {},
+) {
   const Timebounds = {}
-  TIMEBOUNDS.forEach((timebound) => {
-    const timeboundMetric = newTimebound(metric, timebound)
+  timebounds.forEach((timebound) => {
+    const timeboundMetric = newTimebound(metric, timebound, overwrite)
     Timebounds[timeboundMetric.key] = timeboundMetric
   })
   return Timebounds
