@@ -15,5 +15,5 @@ const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH]
 export function transformMessage(errorMsg: string): string {
   const msg = (Array.isArray(errorMsg) ? errorMsg[0] : errorMsg).message
   const error = ERRORS.find(({ anchor }) => msg.includes(anchor))
-  return error ? error.msg : errorMsg
+  return error ? error.msg : msg
 }

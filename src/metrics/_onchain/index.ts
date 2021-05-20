@@ -1,7 +1,9 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { MetricCategory, MetricGroup } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
-// import { Node } from '@/Chart/nodes'
+import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
+import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
+import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
 
 const ExchangesMetric = each(
   {
@@ -44,6 +46,7 @@ const WhalesMetric = each(
     topHoldersPercentOfTotalSupply: {
       label: 'Supply held by top addresses (as % of total supply)',
       shorthand: 'ahta',
+      fetch: queryTopHoldersPercentOfTatalSupply,
     },
     amount_in_exchange_top_holders: {
       label: 'Supply held by top exchange addresses',
@@ -171,9 +174,11 @@ export const OnChainMetric = each(
     {
       ethSpentOverTime: {
         label: 'Eth Spent Over Time',
+        fetch: queryEthSpentOverTime,
       },
       gasUsed: {
         label: 'Gas Used',
+        fetch: queryGasUsed,
       },
       average_fees_usd: {
         node: 'area',

@@ -22,5 +22,6 @@
     background: #505573 !important;
     color: #fff;
     padding: 5px 12px;
+    max-width: 310px;
   }
 </style>

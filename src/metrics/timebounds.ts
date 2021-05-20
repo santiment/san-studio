@@ -12,7 +12,11 @@ const TIMEBOUNDS = [
   '10y',
 ]
 
-export function newTimebound(metric: any, timebound: string, overwrite = {}) {
+export function newTimebound(
+  metric: any,
+  timebound: string,
+  overwrite: any = {},
+) {
   const { key, label } = metric
   return Object.assign({}, metric, {
     key: `${overwrite.key || key}_${timebound}`,

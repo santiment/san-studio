@@ -12,9 +12,10 @@
   import Favorites from './Favorites.svelte'
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
+  import { DEFAULT_METRICS } from './defaults'
 
   let input = ''
-  let metrics: string[] = []
+  let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
 
   $: ({ slug } = $studio)

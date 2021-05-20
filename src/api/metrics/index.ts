@@ -5,13 +5,17 @@ const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
   {
     projectBySlug(slug: "${slug}") {
       availableMetrics
+      availableQueries
     }
   }
 `
-type ProjectMetrics = Query<'projectBySlug', { availableMetrics: string[] }>
+type ProjectMetrics = Query<
+  'projectBySlug',
+  { availableMetrics: string[]; availableQueries: string[] }
+>
 
 const dataAccessor = ({ projectBySlug }: QueryRecord<ProjectMetrics>) =>
-  projectBySlug.availableMetrics
+  projectBySlug.availableMetrics.concat(projectBySlug.availableQueries)
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
