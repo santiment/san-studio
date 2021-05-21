@@ -24,7 +24,7 @@ const WIDGETS_CONTEXT = 'widgets'
 export const setWidgets = (widgets): void =>
   setContext(WIDGETS_CONTEXT, widgets)
 export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
-export function initWidgets(defaultWidgets) {
+export function initWidgets(defaultWidgets, getExternalWidget) {
   let widgets = defaultWidgets.slice()
   const { update, subscribe, set } = writable(widgets)
 
@@ -55,6 +55,8 @@ export function initWidgets(defaultWidgets) {
         widget = newWidget(PriceDAAWidget)
       } else if (node === SelectorNode.adjusted_price_daa_divergence) {
         widget = newWidget(AdjustedPriceDAAWidget)
+      } else {
+        widget = getExternalWidget?.(node)
       }
 
       if (!widget) return

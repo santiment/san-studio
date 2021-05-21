@@ -12,9 +12,10 @@
   export let sidewidget
   export let onWidget = undefined
   export let onSubwidget = undefined
+  export let getExternalWidget = undefined
   export let InsightsContextStore = undefined
 
-  const Widgets = initWidgets(widgets)
+  const Widgets = initWidgets(widgets, getExternalWidget)
   const Sidewidget = initSidewidget(sidewidget)
 
   setAdapterController({ onSubwidget, onWidget, InsightsContextStore })
