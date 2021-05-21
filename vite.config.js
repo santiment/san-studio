@@ -4,7 +4,7 @@ import svelte from '@sveltejs/vite-plugin-svelte'
 
 process.env.GQL_SERVER_URL = 'https://api-stage.santiment.net/graphql'
 process.env.IS_DEV = process.env.NODE_ENV !== 'production'
-process.env.SPRITES_PATH = 'node_modules/san-webkit/lib/sprites'
+process.env.MEDIA_PATH = 'node_modules/san-webkit/lib'
 process.env.ICONS_PATH = 'node_modules/san-webkit/lib/icons'
 
 // https://vitejs.dev/config/
