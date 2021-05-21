@@ -10,10 +10,10 @@ type StudioSettings = {
 }
 
 export const STUDIO = {
-  slug: 'bitcoin',
-  ticker: 'BTC',
+  slug: 'ethereum',
+  ticker: 'ETH',
   from: '2021-01-16T21:00:00.000Z',
-  interval: '1d',
+  interval: '4h',
   to: '2021-05-11T21:00:00.000Z',
 }
 

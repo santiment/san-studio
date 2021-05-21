@@ -121,7 +121,7 @@
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />
-  <Drawer metricKey={drawingKey} />
+  <Drawer {axesMetricKeys} metricKey={drawingKey} />
   <Tooltip {axesMetricKeys} {metricSettings} {onRangeSelect} />
 
   <Brush

@@ -6,11 +6,7 @@ import { Metric } from '@/metrics'
 import { newWidget } from './stores/widgets'
 import { newInsightsContextStore } from '@/Sidebar/Insights/context'
 
-const defaultMetrics: Studio.Metric[] = [
-  Metric.price_usd,
-  Metric.exchange_inflow,
-  Metric.exchange_outflow,
-]
+const defaultMetrics: Studio.Metric[] = [Metric.price_usd, Metric.dev_activity]
 const app = new App({
   target: document.getElementById('app') as Element,
   props: {

@@ -1,4 +1,4 @@
-function parseJson(data: string | null) {
+function parseJson(data: string) {
   try {
     return JSON.parse(data)
   } catch (e) {

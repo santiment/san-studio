@@ -34,8 +34,8 @@
 
     <div class="row main">
       <div class="widgets">
-        {#each $Widgets as widget, i (widget.id)}
-          <Widget {widget} {i} {Widgets} />
+        {#each $Widgets as widget (widget.id)}
+          <Widget {widget} {Widgets} />
         {/each}
       </div>
 

@@ -18,6 +18,7 @@
   const ChartDrawer = getChartDrawer()
 
   export let metricKey: string
+  export let axesMetricKeys: string[]
 
   const { canvas, plotManager } = chart
   const drawer = newCanvas(chart)
@@ -38,6 +39,7 @@
 
   $: ({ drawings } = $ChartDrawer)
   $: drawer.drawings = drawings
+  $: axesMetricKeys && recalcAbsCoor()
   $: chart.drawingKey = metricKey
   $: ({ isNewDrawing } = $ChartDrawer)
   $: recalcRelCoor(metricKey)
