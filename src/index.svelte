@@ -4,17 +4,20 @@
   import Mapview from '@/Mapview/index.svelte'
   import SidewidgetComponent from '@/Sidewidget/index.svelte'
   import { newTooltipSynchronizer } from '@/Chart/Tooltip/context'
+  import { studio } from '@/stores/studio'
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newNodeController } from '@/stores/selector'
   import { setAdapterController } from '@/adapter/context'
 
   export let widgets
   export let sidewidget
+  export let defaultSettings = undefined
   export let onWidget = undefined
   export let onSubwidget = undefined
   export let getExternalWidget = undefined
   export let InsightsContextStore = undefined
 
+  studio.setProject(defaultSettings)
   const Widgets = initWidgets(widgets, getExternalWidget)
   const Sidewidget = initSidewidget(sidewidget)
 

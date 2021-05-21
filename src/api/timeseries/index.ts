@@ -145,6 +145,7 @@ export function getTimeseries(
         loadings.delete(metric)
         errors.delete(metric)
         onData((data = mergeTimeseries(data, metricData)), loadings)
+        onError(errors, loadings)
       })
       .catch((e) => {
         loadings.delete(metric)

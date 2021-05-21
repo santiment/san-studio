@@ -29,6 +29,7 @@
   const onError = (Error, newLoadings) =>
     (MetricError = Error) && (loadings = newLoadings)
   const onAllTimeData = (newData) => (allTimeData = newData)
+  const noop = () => {}
 
   let chart
   let data = []
@@ -48,7 +49,7 @@
   $: colors = rawColors
   $: getTimeseries(metrics, $studio, onData, onError, $MetricSettings)
   $: ChartAxes.updateMetrics(metrics, MetricError)
-  $: getAllTimeData(metrics, $studio.slug, onAllTimeData, console.log)
+  $: getAllTimeData(metrics, $studio.slug, onAllTimeData, noop)
   $: rawDomainGroups = groupDomains(metrics)
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
   $: hasDomainGroups = !!rawDomainGroups
