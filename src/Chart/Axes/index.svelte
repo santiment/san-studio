@@ -31,11 +31,12 @@
   $: chart.setPadding(getPadding(chart, axesMetricKeys))
 
   chart.plotManager.set('axes', (chart, scale) => {
-    const { ctx, theme } = chart
+    const { ctx, theme, left, bottom, right, rightAxisMargin } = chart
 
     ctx.fillStyle = theme.ticks.color
     ctx.font = theme.ticks.font
 
+    drawAxisLine(ctx, theme.axes, left, bottom, right + rightAxisMargin, bottom)
     plotAxes(chart)
 
     const formatter = isDayInterval(chart)

@@ -14,13 +14,15 @@
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
   import Toggle from './Toggle.svelte'
+  import { getSavedValue, saveValue } from '@/utils/localStorage'
   import { DEFAULT_METRICS } from './defaults'
+  const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
   let input = ''
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
 
-  let isLocked = false
+  let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED)
   let isPeeked = false
 
   $: isOpened = isPeeked // || isDraggingMetric
@@ -34,6 +36,7 @@
     : graph
   $: isFiltering = !!input
   $: queryProjectMetrics(slug).then((items) => (metrics = items))
+  $: saveValue(LS_IS_SIDEBAR_LOCKED, isLocked ? '+' : '')
 
   let debounced: number
   function onInput({ target }) {
@@ -109,6 +112,7 @@
     flex: 1;
     padding: 6px 6px 6px 36px;
     border-radius: 4px;
+    color: var(--black);
   }
 
   .search {

@@ -1,14 +1,23 @@
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { logScale, linearScale } from 'san-chart/scales'
+import { getSavedValue, saveValue } from '@/utils/localStorage'
+
+const SaveOption = {
+  cartesianGrid: (value) => saveValue('isCartesianGridActive', value || ''),
+  watermark: (value) => saveValue('isWatermarkVisible', value || ''),
+  isWatermarkLessVisible: (value) =>
+    saveValue('isWatermarkLighter', value || ''),
+}
 
 const OPTIONS = {
   scale: linearScale,
-  cartesianGrid: false,
-  watermark: true,
   isLogScale: false,
+  cartesianGrid: !!getSavedValue('isCartesianGridActive', true),
+  watermark: true,
   isWatermarkLessVisible: false,
 }
+
 type ChartOptions = typeof OPTIONS
 type ChartOptionsStore = ReturnType<typeof newChartOptionsStore>
 
@@ -31,8 +40,23 @@ export function newChartOptionsStore() {
       set(options)
     },
     toggle(option: string) {
-      options[option] = !options[option]
+      const value = !options[option]
+      options[option] = value
       set(options)
+      SaveOption[option]?.(value)
+    },
+    getProDefaults(isPro, isProPlus) {
+      if (isProPlus)
+        options.watermark = !!getSavedValue('isWatermarkVisible', true)
+
+      if (isPro || isProPlus) {
+        options.isWatermarkLessVisible = !!getSavedValue(
+          'isWatermarkLighter',
+          false,
+        )
+
+        set(options)
+      }
     },
   }
 

@@ -18,6 +18,7 @@
   const forceDelete = () => deleteWidget(true)
 
   $: ({ isPro, isProPlus } = $globals)
+  $: chartOptions.getProDefaults(isPro, isProPlus)
 </script>
 
 <Tooltip on="click" duration={0} align="end" {activeClass}>
