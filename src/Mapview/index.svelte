@@ -26,7 +26,7 @@
   }
 
   function onWidgetClick(widget) {
-    if ($mapview === MapviewPhase.Overview) {
+    if ($mapview === MapviewPhase.Overview || widget.isBlocked) {
       widget.scrollIntoView()
       mapview.exit()
       return
@@ -59,7 +59,18 @@
       <div class="visible">
         <div class="widgets">
           {#each $Widgets as widget (widget.id)}
-            <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
+            {#if widget.metrics}
+              <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
+            {:else}
+              <Preview
+                isBlocked={isMetricsPhase}
+                class="column hv-center"
+                on:click={() => onWidgetClick(widget)}>
+                <div class="title">
+                  {widget.previewTitle}
+                </div>
+              </Preview>
+            {/if}
           {/each}
 
           {#if isMetricsPhase && $selectedMetrics.items.length}
@@ -134,5 +145,10 @@
     position: fixed;
     left: 285px;
     width: calc(100% - 310px);
+  }
+
+  .title {
+    font-size: 21px;
+    color: var(--waterloo);
   }
 </style>

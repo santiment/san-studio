@@ -10,6 +10,7 @@
   export let prefix = ''
 
   widget.metrics = metrics
+  widget.isBlocked = true
 
   const metricsFilter = () => false
   const fullscreenMetricsFilter = metricsFilter

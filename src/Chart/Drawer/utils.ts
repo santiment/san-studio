@@ -74,8 +74,8 @@ export function absoluteToRelativeCoordinates(
   chart,
   drawing,
 ): [number, number, number, number] {
-  const { width, tooltipKey, minMaxes, scale } = chart
-  const { min, max } = minMaxes[tooltipKey]
+  const { width, drawingKey, minMaxes, scale } = chart
+  const { min, max } = minMaxes[drawingKey]
 
   const [x1, y1, x2, y2] = drawing.absCoor
 
@@ -94,8 +94,8 @@ export function relativeToAbsoluteCoordinates(
   chart,
   drawing,
 ): [number, number, number, number] {
-  const { tooltipKey, minMaxes } = chart
-  const { min, max } = minMaxes[tooltipKey]
+  const { drawingKey, minMaxes } = chart
+  const { min, max } = minMaxes[drawingKey]
 
   const [x1, y1, x2, y2] = drawing.relCoor
 

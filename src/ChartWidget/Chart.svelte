@@ -37,6 +37,7 @@
   $: metricSettings = getTooltipSettings(metrics, ticker, $ChartMetricDisplays)
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings)
+  $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
 
   function getCategories(metrics: Studio.Metric[], MetricSettings) {
     const joinedCategories = new Array(metrics.length)
@@ -120,7 +121,7 @@
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />
-  <Drawer metricKey={axesMetricKeys[0]} />
+  <Drawer metricKey={drawingKey} />
   <Tooltip {axesMetricKeys} {metricSettings} {onRangeSelect} />
 
   <Brush

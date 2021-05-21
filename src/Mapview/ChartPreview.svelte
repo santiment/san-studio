@@ -13,7 +13,6 @@
   let chart
   let canvas
 
-  $: className = isBlocked ? '$style.blocked' : ''
   $: $IsLoaded, requestAnimationFrame(drawChart)
 
   onMount(() => {
@@ -35,8 +34,7 @@
 </script>
 
 <Preview
-  class={className}
-  {isBlocked}
+  isBlocked={isBlocked && isMetricsPhase}
   {isMetricsPhase}
   on:click={() => onClick(widget)}>
   <canvas bind:this={canvas} />

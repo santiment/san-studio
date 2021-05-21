@@ -4,9 +4,11 @@
   import Subwidget from './Subwidget.svelte'
   const { onWidget } = getAdapterController()
 
-  export let i
   export let widget
   export let Widgets
+
+  const deleteWidget = () => Widgets.delete(widget)
+  widget.delete = deleteWidget
 
   let target
   let destroy
@@ -14,7 +16,7 @@
 
   onMount(() => {
     if (onWidget) destroy = onWidget(target, widget)
-    const options = { block: 'center' }
+    const options = { block: widget.scrollAlign || 'center' }
     widget.scrollIntoView = () => target.scrollIntoView(options)
     if (widget.scrollOnMount) {
       widget.scrollIntoView()
@@ -30,7 +32,7 @@
       this={widget.Widget}
       {widget}
       {isSingleWidget}
-      deleteWidget={() => Widgets.delete(widget, i)} />
+      {deleteWidget} />
   {/if}
 </div>
 {#if widget.subwidgets}

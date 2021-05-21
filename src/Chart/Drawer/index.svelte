@@ -38,7 +38,7 @@
 
   $: ({ drawings } = $ChartDrawer)
   $: drawer.drawings = drawings
-  $: chart.tooltipKey = metricKey
+  $: chart.drawingKey = metricKey
   $: ({ isNewDrawing } = $ChartDrawer)
   $: recalcRelCoor(metricKey)
   $: cleanup = hookDrawer(isNewDrawing)

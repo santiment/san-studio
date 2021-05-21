@@ -19,7 +19,6 @@
     right: -1px;
     user-select: none;
     border-right: 1px solid var(--porcelain);
-    background: var(--white);
     display: flex;
   }
 

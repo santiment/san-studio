@@ -41,7 +41,10 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
       )
       set(widgets)
     },
-    delete(widget, i: number) {
+    delete(widget) {
+      const i = widgets.indexOf(widget)
+      if (i === -1) return
+
       widgets.splice(i, 1)
       set(widgets)
     },
