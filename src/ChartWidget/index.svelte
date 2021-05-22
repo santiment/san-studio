@@ -22,8 +22,9 @@
   initWidget(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
 
-  const { ChartAxes, ChartColors, IsLoaded, ChartMetricDisplays } = widget
+  const { ChartAxes, ChartColors, ChartDrawer, ChartMetricDisplays } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
+  const { IsLoaded, OnUpdate } = widget
   const onData = (newData, newLoadings) =>
     (data = mapClosestValue(newData, metrics)) && (loadings = newLoadings)
   const onError = (Error, newLoadings) =>
@@ -55,6 +56,12 @@
   $: hasDomainGroups = !!rawDomainGroups
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
   $: IsLoaded.set(loadings.size === 0)
+  $: ($ChartAxes ||
+    $ChartColors ||
+    $MetricIndicators ||
+    $MetricSettings ||
+    $ChartDrawer) &&
+    OnUpdate.emit()
 
   const onMetricSettings = (metric) => (settingsOpenedMetric = metric)
 

@@ -27,12 +27,24 @@ export type Plotter = (
   colors: any,
   categories: any,
 ) => any
-export const newPlotManager = () => ({
-  items: new Map<string, Plotter>(),
-  delete(id: string) {
-    this.items.set(id, noop)
-  },
-  set(id: string, clb: Plotter) {
-    this.items.set(id, clb)
-  },
-})
+export function newPlotManager() {
+  const subscribers = new Set<any>()
+  const call = (subscriber) => subscriber()
+
+  return {
+    items: new Map<string, Plotter>(),
+    delete(id: string) {
+      this.items.set(id, noop)
+    },
+    set(id: string, clb: Plotter) {
+      this.items.set(id, clb)
+    },
+    subscribe(subscriber) {
+      subscribers.add(subscriber)
+      return () => subscribers.delete(subscriber)
+    },
+    emitDrawFinish() {
+      subscribers.forEach(call)
+    },
+  }
+}

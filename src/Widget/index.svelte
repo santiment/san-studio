@@ -11,11 +11,11 @@
   widget.delete = deleteWidget
 
   let target
-  let destroy
   $: isSingleWidget = $Widgets.length < 2
 
   onMount(() => {
-    if (onWidget) destroy = onWidget(target, widget)
+    widget.container = target
+    if (onWidget) onWidget(widget)
     const options = { block: widget.scrollAlign || 'center' }
     widget.scrollIntoView = () => target.scrollIntoView(options)
     if (widget.scrollOnMount) {
@@ -23,7 +23,6 @@
       delete widget.scrollOnMount
     }
   })
-  onDestroy(() => destroy && destroy(target, widget))
 </script>
 
 <div class="widget border" bind:this={target}>

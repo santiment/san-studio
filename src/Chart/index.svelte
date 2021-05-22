@@ -85,6 +85,7 @@
       chart.plotManager.items.forEach((plot) => {
         plot(chart, scale, data, colors, categories)
       })
+      chart.plotManager.emitDrawFinish()
     }
   }
 

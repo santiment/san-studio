@@ -20,3 +20,7 @@ export const BARS = new Set(Object.values(BarNode))
 
 export type ChartNode = typeof Node
 export type ChartNodes = ChartNode[keyof ChartNode]
+
+export const NodeAlias = {
+  autoWidthBar: BarNode.BAR,
+}

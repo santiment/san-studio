@@ -9,12 +9,17 @@ type StudioSettings = {
   ticker: string
 }
 
+const TO = new Date()
+TO.setHours(TO.getHours(), 59, 59, 999)
+const FROM = new Date(TO)
+FROM.setMonth(FROM.getMonth() - 6)
+
 export const STUDIO = {
-  slug: 'ethereum',
-  ticker: 'ETH',
-  from: '2021-01-16T21:00:00.000Z',
+  slug: 'bitcoin',
+  ticker: 'BTC',
   interval: '4h',
-  to: '2021-05-11T21:00:00.000Z',
+  from: FROM.toISOString(),
+  to: TO.toISOString(),
 }
 
 const { update, subscribe, set } = writable<StudioSettings>(STUDIO)

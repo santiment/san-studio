@@ -27,7 +27,7 @@
   const NODES = [
     buildNode(Node.AREA, 'Area'),
     buildNode(Node.LINE, 'Line'),
-    buildNode(Node.FILLED_LINE, 'Filled line'),
+    buildNode(Node.FILLED_LINE, 'Filled area'),
     buildNode(Node.GRADIENT_LINE, 'Gradient line'),
     buildNode(Node.BAR, 'Bar'),
   ]

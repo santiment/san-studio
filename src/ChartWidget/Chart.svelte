@@ -1,8 +1,9 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
-  import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { FORMATTER } from '@/metrics/formatters'
+  import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { themes } from '@/Chart/theme'
+  import { NodeAlias } from '@/Chart/nodes'
   import Chart from '@/Chart/index.svelte'
   import Candles from '@/Chart/Candles.svelte'
   import Lines from '@/Chart/Lines.svelte'
@@ -54,7 +55,8 @@
     for (let i = 0; i < metrics.length; i++) {
       const { key, node } = metrics[i]
       joinedCategories[i] = key
-      categories[(MetricSettings[key]?.node || node) + 's'].push(key)
+      const category = MetricSettings[key]?.node || node
+      categories[(NodeAlias[category] || category) + 's'].push(key)
     }
     return categories
   }

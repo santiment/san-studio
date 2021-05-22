@@ -32,17 +32,17 @@ export function newChartAxesStore(
       exceptionsMap: Map<Studio.Metric, string>,
     ): void {
       MetricPosition = {}
-      enabled = new Set<Studio.Metric>()
-      const { length } = metrics
+      const newEnabled = new Set<Studio.Metric>()
 
+      const { length } = metrics
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
         MetricPosition[metric.key] = i
         if (disabled.has(metric) || exceptionsMap.has(metric)) continue
-        if (enabled.add(metric).size >= 3) break
+        if (enabled.has(metric) || newEnabled.size < 3) newEnabled.add(metric)
       }
 
-      set(enabled)
+      set((enabled = newEnabled))
     },
   }
 }

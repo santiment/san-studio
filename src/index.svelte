@@ -71,6 +71,7 @@
     top: 0;
     z-index: 21;
     margin: 0 0 13px;
+    transition: transform 0.3s ease-out;
   }
 
   .widgets {

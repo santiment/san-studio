@@ -1,8 +1,8 @@
+import { setContext, getContext } from 'svelte'
+import { get, writable } from 'svelte/store'
 import type { Drawing } from '@/Chart/Drawer/context'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
-import { setContext, getContext } from 'svelte'
-import { writable } from 'svelte/store'
 import { newMetricDisplayersStore } from './metricDisplayers'
 import { newChartDrawerStore } from '@/Chart/Drawer/context'
 import { newChartAxesStore } from '@/Chart/Axes/context'
@@ -54,4 +54,24 @@ export function initWidget(widget: any) {
   if (!widget.MetricIndicators)
     widget.MetricIndicators = newMetricIndicatorsStore(widget.metricIndicators)
   if (!widget.IsLoaded) widget.IsLoaded = writable(false)
+  if (!widget.OnUpdate) widget.OnUpdate = newOnUpdateStore(widget)
+}
+
+export function newOnUpdateStore(widget: any) {
+  let i = 0
+  const { subscribe, set } = writable(i)
+
+  return {
+    subscribe,
+    emit() {
+      widget.metrics = get(widget.Metrics)
+      widget.metricIndicators = get(widget.MetricIndicators)
+      widget.metricSettings = get(widget.MetricSettings)
+      widget.drawings = (get(widget.ChartDrawer) as any).drawings
+      widget.colors = get(widget.ChartColors)
+      widget.axesMetrics = get(widget.ChartAxes)
+
+      set(i++)
+    },
+  }
 }
