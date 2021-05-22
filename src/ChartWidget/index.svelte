@@ -18,9 +18,11 @@
   export let deleteWidget = undefined
   export let metricsFilter = undefined
   export let fullscreenMetricsFilter = undefined
+  export let onWidgetInit = undefined
 
   initWidget(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
+  if (onWidgetInit) onWidgetInit(widget)
 
   const { ChartAxes, ChartColors, ChartDrawer, ChartMetricDisplays } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget

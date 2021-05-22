@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
   import { getAdapterController } from '@/adapter/context'
   import Subwidget from './Subwidget.svelte'
-  const { onWidget } = getAdapterController()
+  const { onWidget, onWidgetInit } = getAdapterController()
 
   export let widget
   export let Widgets
@@ -31,6 +31,7 @@
       this={widget.Widget}
       {widget}
       {isSingleWidget}
+      {onWidgetInit}
       {deleteWidget} />
   {/if}
 </div>
