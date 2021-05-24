@@ -4,7 +4,7 @@ import type { Drawing } from '@/Chart/Drawer/context'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { newMetricDisplayersStore } from './metricDisplayers'
-import { newChartDrawerStore } from '@/Chart/Drawer/context'
+import { newChartDrawerStore, setChartDrawer } from '@/Chart/Drawer/context'
 import { newChartAxesStore } from '@/Chart/Axes/context'
 import { newChartColorsStore } from '@/Chart/colors/context'
 import { newChartOptionsStore } from '@/ChartWidget/Controls/context'
@@ -34,8 +34,6 @@ export const setWidget = (widget: ChartWidget): void =>
 export const getWidget = (): ChartWidget => getContext(CONTEXT)
 
 export function initWidget(widget: any) {
-  setWidget(widget as ChartWidget)
-
   if (!widget.ChartAxes)
     widget.ChartAxes = newChartAxesStore(
       widget.axesMetrics,
@@ -74,4 +72,9 @@ export function newOnUpdateStore(widget: any) {
       set(i++)
     },
   }
+}
+
+export function initWidgetContext(widget: any) {
+  setWidget(widget as ChartWidget)
+  setChartDrawer(widget.ChartDrawer)
 }

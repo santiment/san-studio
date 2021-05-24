@@ -1,4 +1,3 @@
-import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 
 type MetricSettingsStore = ReturnType<typeof newMetricSettingsStore>
@@ -16,11 +15,6 @@ export type MetricSetting = {
 export type MetricSettings = {
   [metricKey: string]: MetricSetting | undefined
 }
-
-export const CONTEXT = 'MetricSettings'
-const setMetricSettings = (chart: MetricSettingsStore): void =>
-  setContext(CONTEXT, chart)
-export const getMetricSettings = (): MetricSettingsStore => getContext(CONTEXT)
 
 const noopTransformer = (
   _: Studio.Metric,
@@ -66,7 +60,6 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
     },
   }
 
-  setMetricSettings(store)
   return store
 }
 

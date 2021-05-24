@@ -9,7 +9,7 @@
   import { mapClosestValue } from '@/Chart/utils'
   import { getMetricNodes } from '@/Chart/nodes'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
-  import { initWidget } from './context'
+  import { initWidget, initWidgetContext } from './context'
   import { newMetricSettingsTransformer } from './transformers'
   import { groupDomains, getIndicatorDomainGroups } from './domain'
 
@@ -22,6 +22,7 @@
   export let onWidgetInit = undefined
 
   initWidget(widget)
+  initWidgetContext(widget)
   setIsTooltipSyncEnabled(!isFullscreen)
   if (onWidgetInit) onWidgetInit(widget)
 

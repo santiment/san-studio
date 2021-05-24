@@ -3,11 +3,11 @@
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
   import { INTERVALS, getIntervals } from '@/utils/intervals'
   import Dropdown from './Dropdown.svelte'
-  import { getMetricSettings } from './context'
   import { studio } from '@/stores/studio'
   import { Node } from '@/Chart/nodes'
+  import { getWidget } from '@/ChartWidget/context'
   import { getCandlesPeriodMinInterval } from '@/ChartWidget/transformers/candles'
-  const MetricSettings = getMetricSettings()
+  const { MetricSettings } = getWidget()
 
   export let metric: Studio.Metric
 

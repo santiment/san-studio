@@ -17,6 +17,7 @@
   export let onSubwidget = undefined
   export let getExternalWidget = undefined
   export let InsightsContextStore = undefined
+  export let isWidgetsScreen = true
 
   studio.setProject(defaultSettings)
   const Widgets = initWidgets(widgets, getExternalWidget)
@@ -36,17 +37,21 @@
   <Sidebar />
   <div class="content column">
     <div class="studio-top" />
-    <div class="border header panel row" />
+    {#if isWidgetsScreen}
+      <div class="border header panel row" />
 
-    <div class="row main">
-      <div class="widgets">
-        {#each $Widgets as widget (widget.id)}
-          <Widget {widget} {Widgets} />
-        {/each}
+      <div class="row main">
+        <div class="widgets">
+          {#each $Widgets as widget (widget.id)}
+            <Widget {widget} {Widgets} />
+          {/each}
+        </div>
+
+        {#if $Sidewidget} <SidewidgetComponent /> {/if}
       </div>
-
-      {#if $Sidewidget} <SidewidgetComponent /> {/if}
-    </div>
+    {:else}
+      <div class="main studio-screen" />
+    {/if}
 
     <Mapview />
   </div>

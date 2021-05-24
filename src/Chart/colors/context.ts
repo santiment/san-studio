@@ -1,10 +1,5 @@
 import { writable } from 'svelte/store'
-import { setContext, getContext } from 'svelte'
 import { newChartColors } from '@/Chart/colors'
-
-const CONTEXT = 'ChartColors'
-export const setChartColors = (store): void => setContext(CONTEXT, store)
-export const getChartColors = () => getContext(CONTEXT)
 
 export type ChartColorsStore = ReturnType<typeof newChartColorsStore>
 export type ChartColors = {

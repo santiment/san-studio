@@ -1,4 +1,3 @@
-import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { logScale, linearScale } from 'san-chart/scales'
 import { getSavedValue, saveValue } from '@/utils/localStorage'
@@ -20,11 +19,6 @@ const OPTIONS = {
 
 type ChartOptions = typeof OPTIONS
 type ChartOptionsStore = ReturnType<typeof newChartOptionsStore>
-
-const CONTEXT = 'chartOptions'
-export const setChartOptions = (chart: ChartOptionsStore): void =>
-  setContext(CONTEXT, chart)
-export const getChartOptions = (): ChartOptionsStore => getContext(CONTEXT)
 
 export function newChartOptionsStore() {
   const options = Object.assign({}, OPTIONS)
@@ -59,8 +53,6 @@ export function newChartOptionsStore() {
       }
     },
   }
-
-  setChartOptions(store)
   return store
 }
 

@@ -7,9 +7,8 @@
   import { getWidget } from '@/ChartWidget/context'
   import { downloadPng } from './downloadPng'
   import { downloadCsv } from './downloadCsv'
-  import { getChartOptions } from './context'
-  const chartOptions = getChartOptions()
   const widget = getWidget()
+  const { ChartOptions } = widget
 
   export let activeClass = ''
   export let isSingleWidget: boolean
@@ -18,26 +17,26 @@
   const forceDelete = () => deleteWidget(true)
 
   $: ({ isPro, isProPlus } = $globals)
-  $: chartOptions.getProDefaults(isPro, isProPlus)
+  $: ChartOptions.getProDefaults(isPro, isProPlus)
 </script>
 
 <Tooltip on="click" duration={0} align="end" {activeClass}>
   <slot slot="trigger" />
   <div slot="tooltip" class="menu">
-    <div class="btn" on:click={chartOptions.toggleScale}>
-      Log scale <Toggle isActive={$chartOptions.isLogScale} />
+    <div class="btn" on:click={ChartOptions.toggleScale}>
+      Log scale <Toggle isActive={$ChartOptions.isLogScale} />
     </div>
-    <div class="btn" on:click={() => chartOptions.toggle('cartesianGrid')}>
-      Cartesian grid <Toggle isActive={$chartOptions.cartesianGrid} />
+    <div class="btn" on:click={() => ChartOptions.toggle('cartesianGrid')}>
+      Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
     </div>
     <div
       class="btn"
       class:disabled={!isPro}
-      on:click={() => isPro && chartOptions.toggle('isWatermarkLessVisible')}>
+      on:click={() => isPro && ChartOptions.toggle('isWatermarkLessVisible')}>
       Make watermark less visible
       {#if isPro}
         <Toggle
-          isActive={$chartOptions.isWatermarkLessVisible}
+          isActive={$ChartOptions.isWatermarkLessVisible}
           class="mrg-xl mrg--l" />
       {:else}
         <a href="/pricing" class="label">PRO</a>
@@ -46,11 +45,11 @@
 
     <div
       class="btn"
-      on:click={() => isProPlus && chartOptions.toggle('watermark')}
+      on:click={() => isProPlus && ChartOptions.toggle('watermark')}
       class:disabled={!isProPlus}>
       Hide watermark
       {#if isProPlus}
-        <Toggle isActive={!$chartOptions.watermark} class="mrg-xl mrg--l" />
+        <Toggle isActive={!$ChartOptions.watermark} class="mrg-xl mrg--l" />
       {:else}
         <a href="/pricing" class="label plus">PRO+</a>
       {/if}

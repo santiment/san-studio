@@ -38,7 +38,5 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       set(controller)
     },
   }
-
-  setChartDrawer(store)
   return store
 }
