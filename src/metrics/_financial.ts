@@ -1,5 +1,6 @@
 import { MetricCategory } from './graph'
 import { each } from './utils'
+import { usdFormatter, btcFormatter, ethFormatter } from './formatters'
 import { Node } from '@/Chart/nodes'
 
 export const FinancialMetric = each(
@@ -7,23 +8,23 @@ export const FinancialMetric = each(
     price_usd: {
       label: 'Price',
       category: 'Financial',
-      // formatter: usdFormatter,
+      formatter: usdFormatter,
     },
     price_btc: {
       label: 'Price BTC',
       category: 'Financial',
-      // formatter: btcFormatter,
+      formatter: btcFormatter,
       checkIsVisible: ({ slug }) => slug !== 'bitcoin',
     },
     price_eth: {
       label: 'Price ETH',
       category: 'Financial',
-      // formatter: ethFormatter,
+      formatter: ethFormatter,
       checkIsVisible: ({ slug }) => slug !== 'ethereum',
     },
     marketcap_usd: {
       label: 'Marketcap',
-      // formatter: usdFormatter
+      formatter: usdFormatter,
     },
     volume_usd: {
       node: Node.BAR,

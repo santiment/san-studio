@@ -1,5 +1,6 @@
 import { MetricCategory, MetricGroup } from './graph'
 import { each } from './utils'
+import { percentFormatter, axisPercentFormatter } from './formatters'
 import { Node } from '@/Chart/nodes'
 
 const TotalSentimentMetric = each(
@@ -108,13 +109,13 @@ export const SocialMetric = each(
   {
     social_dominance_total: {
       label: 'Social Dominance',
-      // formatter: percentageFormatter
+      formatter: percentFormatter,
+      axisFormatter: axisPercentFormatter,
     },
 
     social_volume_total: {
       node: Node.BAR,
       label: 'Social Volume',
-      // advancedView: 'Social Context',
     },
 
     social_active_users_telegram: newSocialActiveUsers('telegram', 'Telegram'),

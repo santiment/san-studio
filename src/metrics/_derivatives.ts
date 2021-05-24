@@ -1,4 +1,5 @@
 import { MetricCategory } from './graph'
+import { ratioPercentForamtter, ratioPercentAxisFormatter } from './formatters'
 import { each } from './utils'
 
 export const DerivativesMetric = each(
@@ -12,8 +13,8 @@ export const DerivativesMetric = each(
     bitmex_perpetual_funding_rate: {
       node: 'filledLine',
       label: 'BitMEX Perpetual Contract Funding Rate',
-      // formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
-      // axisFormatter: axisPercentFormatter
+      formatter: ratioPercentForamtter,
+      axisFormatter: ratioPercentAxisFormatter,
     },
     bitmex_perpetual_open_interest: {
       label: 'BitMEX Perpetual Contracts Open Interest',

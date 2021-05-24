@@ -37,7 +37,7 @@ export function yAxisFormatter(value: number) {
     return 0
   }
 
-  if (absValue < 1) {
+  if (absValue < 10) {
     return +value.toFixed(3)
   }
 

@@ -1,6 +1,7 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { MetricCategory, MetricGroup } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
+import { mvrvFormatter } from '@/metrics/formatters'
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
 import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
 import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
@@ -128,13 +129,19 @@ const NetworkValueMetric = each(
     },
     mvrv_long_short_diff_usd: {
       label: 'MVRV Long/Short Difference',
+      formatter: mvrvFormatter,
+      axisFormatter: mvrvFormatter,
     },
     mvrv_usd: {
       label: 'MVRV ratio',
       node: 'filledLine',
+      formatter: mvrvFormatter,
+      axisFormatter: mvrvFormatter,
     },
     mvrv_usd_intraday: {
       label: 'MVRV USD intraday',
+      formatter: mvrvFormatter,
+      axisFormatter: mvrvFormatter,
     },
     mvrv_usd_z_score: {
       label: 'MVRV Ratio (Z score)',
