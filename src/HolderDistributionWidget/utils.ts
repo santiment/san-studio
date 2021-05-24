@@ -1,4 +1,5 @@
-import { queryMetric, dataAccessor } from '@/api/timeseries'
+import { dataAccessor } from '@/api/timeseries'
+import { queryMetric } from '@/api/timeseries/queries'
 import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
 
 export const MERGED_DIVIDER = '__MM__'

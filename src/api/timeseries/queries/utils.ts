@@ -6,7 +6,16 @@ export type Variables = {
   interval?: string
 }
 
-export function newPrecacher(dataAccessor: any) {
+const defaultModifier = (key: string, datetime: number, value: number) => ({
+  datetime,
+  [key]: value,
+})
+
+export function newPrecacher(
+  dataAccessor: any,
+  modifyData = defaultModifier,
+  prepareResult?: any,
+) {
   return ({ key }: Variables) =>
     (response: any) => {
       const data = dataAccessor(response)
@@ -14,11 +23,8 @@ export function newPrecacher(dataAccessor: any) {
 
       for (let i = result.length - 1; i > -1; i--) {
         const { d, v } = data[i]
-        result[i] = {
-          datetime: +new Date(d),
-          [key as any]: v,
-        }
+        result[i] = modifyData(key, +new Date(d), v)
       }
-      return result
+      return prepareResult ? prepareResult(result) : result
     }
 }

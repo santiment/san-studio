@@ -1,4 +1,4 @@
-import type { MetricTimeseries } from './index'
+import type { MetricTimeseries } from './queries'
 
 const OLD_DATE = { datetime: 0 }
 function findDatetimeBorder(baseTs, cursor, targetDatetime) {

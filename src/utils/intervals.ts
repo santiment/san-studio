@@ -1,3 +1,10 @@
+import {
+  parseIntervalString,
+  ONE_MINUTE_IN_MS,
+  ONE_HOUR_IN_MS,
+  ONE_DAY_IN_MS,
+} from 'webkit/utils/dates'
+
 type Interval = { id: string; label: string }
 
 const intervalIndices: string[] = []
@@ -36,3 +43,20 @@ export const getValidInterval = (
   intervals: Interval[],
 ): string | undefined =>
   isAvailableInterval(interval, intervals) ? interval : intervals[0].id
+
+const FormatToTimestamp = {
+  m: ONE_MINUTE_IN_MS,
+  h: ONE_HOUR_IN_MS,
+  d: ONE_DAY_IN_MS,
+}
+export function getIntervalMilliseconds(interval: string) {
+  const { amount, format } = parseIntervalString(interval)
+  return amount * FormatToTimestamp[format]
+}
+
+export function normalizeInterval(interval: string, minInterval: string) {
+  return getIntervalMilliseconds(interval) >
+    getIntervalMilliseconds(minInterval)
+    ? interval
+    : minInterval
+}

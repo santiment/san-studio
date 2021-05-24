@@ -1,106 +1,7 @@
-import type { Query, QueryRecord } from 'webkit/api'
-import { query } from 'webkit/api'
-import { mergeTimeseries } from './utils'
+import type { Variables } from './queries'
+import { queryMetric } from './queries'
 import { NO_DATA_MSG, transformMessage } from './errors'
-
-export const GET_METRIC = `
-  query getMetric(
-    $metric: String!
-    $from: DateTime!
-    $to: DateTime!
-    $slug: String
-    $text: String
-    $slugs: [String]
-    $interval: interval
-    $transform: TimeseriesMetricTransformInputObject
-    $holdersCount: Int
-    $market_segments: [String]
-    $ignored_slugs: [String]
-    $source: String
-    $owner: String
-    $label: String
-    $labels: [String]
-  ) {
-    getMetric(metric: $metric) {
-      timeseriesData(
-        selector: {
-          slug: $slug
-          text: $text
-          slugs: $slugs
-          labels: $labels
-          holdersCount: $holdersCount
-          market_segments: $market_segments
-          ignored_slugs: $ignored_slugs
-          source: $source
-          owner: $owner
-          label: $label
-        }
-        from: $from
-        to: $to
-        interval: $interval
-        transform: $transform
-      ) {
-        d: datetime
-        v: value
-      }
-    }
-  }
-`
-
-export type RawTimeseries = Query<
-  'getMetric',
-  {
-    timeseriesData: {
-      d: string
-      v: number
-    }[]
-  }
->
-
-export type MetricTimeseries = { datetime: number; [key: string]: number }[]
-export type Timeseries = Query<
-  'getMetric',
-  { timeseriesData: MetricTimeseries }
->
-
-type Variables = {
-  key: string
-  metric?: string
-  from: string
-  to: string
-  slug: string
-  interval?: string
-}
-
-const precacher =
-  ({ key }: Variables) =>
-  ({
-    getMetric: { timeseriesData },
-  }: QueryRecord<RawTimeseries>): QueryRecord<Timeseries> => {
-    const data: Timeseries['timeseriesData'] = new Array(timeseriesData.length)
-
-    for (let i = timeseriesData.length - 1; i > -1; i--) {
-      const { d, v } = timeseriesData[i]
-      data[i] = {
-        datetime: +new Date(d),
-        [key as any]: v,
-      }
-    }
-
-    return {
-      getMetric: {
-        timeseriesData: data,
-      },
-    } as QueryRecord<Timeseries>
-  }
-
-export function queryMetric(variables: Variables): Promise<any> {
-  return query<Timeseries>(GET_METRIC, {
-    precacher,
-    cacheTime: 600,
-    variables,
-  })
-}
+import { mergeTimeseries } from './utils'
 
 export const dataAccessor = ({ getMetric }) => getMetric.timeseriesData
 export function getTimeseries(
@@ -120,7 +21,7 @@ export function getTimeseries(
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
-    const { key, queryKey = key, reqMeta, fetch } = metric as any
+    const { key, queryKey = key, reqMeta, fetch, precacher } = metric as any
     const metricSettings = MetricSettings[key]
     const { preTransform, fetcher = fetch } = metricSettings || {}
     const { interval, slug, from, to, transform } = Object.assign(
@@ -135,7 +36,7 @@ export function getTimeseries(
     )
     let request = fetcher
       ? fetcher(vars, metric)
-      : queryMetric(vars).then(dataAccessor)
+      : queryMetric(vars, precacher).then(dataAccessor)
     request = preTransform ? request.then(preTransform) : request
 
     requests[i] = request

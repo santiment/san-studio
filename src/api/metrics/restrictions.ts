@@ -51,7 +51,10 @@ export const queryMinInterval = () =>
     options,
   ) as any as Promise<MetricMinInterval>
 
-export const getMetricMinInterval = ({ key, queryKey = key }: Studio.Metric) =>
+export const getMetricKeyMinInterval = (metricKey: string) =>
   queryMinInterval().then(
-    (MetricMinInterval) => MetricMinInterval[queryKey]?.minInterval,
+    (MetricMinInterval) => MetricMinInterval[metricKey]?.minInterval,
   )
+
+export const getMetricMinInterval = ({ key, queryKey = key }: Studio.Metric) =>
+  getMetricKeyMinInterval(queryKey)
