@@ -11,7 +11,11 @@
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
   import { initWidget, initWidgetContext } from './context'
   import { newMetricSettingsTransformer } from './transformers'
-  import { groupDomains, getIndicatorDomainGroups } from './domain'
+  import {
+    groupDomains,
+    getIndicatorDomainGroups,
+    checkHasDomainGroups,
+  } from './domain'
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -62,7 +66,7 @@
   $: getAllTimeData(metrics, $studio.slug, onAllTimeData, noop)
   $: rawDomainGroups = groupDomains(metrics)
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
-  $: hasDomainGroups = !!rawDomainGroups
+  $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
   $: IsLoaded.set(loadings.size === 0)
   $: ($ChartAxes ||

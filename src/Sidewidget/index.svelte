@@ -20,6 +20,7 @@
 <style>
   .sidewidget {
     flex: 1 0 355px;
+    max-width: 355px;
     position: sticky;
     top: 77px;
     max-height: calc(100vh - 99px);

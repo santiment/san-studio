@@ -9,11 +9,11 @@ import {
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
 
-SelectorNode.spent_coin_cost = {
-  key: 'spent_coin_cost',
+SelectorNode.SPENT_COIN_COST = {
+  key: 'SPENT_COIN_COST',
   label: 'Spent Coin Cost',
   selectorType: SelectorType.Sidewidget,
-  checkIsActive: (sidewidget) => sidewidget === SelectorNode.spent_coin_cost,
+  checkIsActive: (sidewidget) => sidewidget === SelectorNode.SPENT_COIN_COST,
 }
 
 SelectorNode.SOCIAL_CONTEXT = {
@@ -45,7 +45,7 @@ SelectorNode.TopTransactionsTable = {
   selectorType: SelectorType.Subwidget,
 }
 export const Subitems = {
-  [Metric.price_usd.key]: [SelectorNode.spent_coin_cost],
+  [Metric.price_usd.key]: [SelectorNode.SPENT_COIN_COST],
 
   [Metric.social_volume_total.key]: [
     SelectorNode.SOCIAL_CONTEXT,

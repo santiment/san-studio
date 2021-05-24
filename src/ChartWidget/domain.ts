@@ -70,3 +70,30 @@ function getIndicatorDomainGroup(metric: Studio.Metric) {
 export function getIndicatorDomainGroups(metrics: Studio.Metric[]) {
   return groupDomains(metrics, getIndicatorDomainGroup)
 }
+
+export function checkHasDomainGroups(
+  rawDomainGroups: undefined | string[][],
+  alwaysDomainGroups: string[][] = [],
+) {
+  if (!rawDomainGroups) return false
+
+  const RootDomainSet = {}
+  for (let i = 0, len = rawDomainGroups.length; i < len; i++) {
+    const group = rawDomainGroups[i]
+    RootDomainSet[group[0]] = new Set(group.slice(1))
+  }
+
+  for (let i = 0, len = alwaysDomainGroups.length; i < len; i++) {
+    const group = alwaysDomainGroups[i]
+    const domainSet = RootDomainSet[group[0]]
+    if (!domainSet) continue
+
+    for (let y = 1, len = group.length; y < len; y++) {
+      domainSet.delete(group[y])
+    }
+
+    if (domainSet.size > 0) return true
+  }
+
+  return false
+}

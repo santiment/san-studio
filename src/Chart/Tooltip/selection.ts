@@ -20,13 +20,13 @@ export function onSelection(chart: Studio.Chart, canvas, onRangeSelect) {
       endPoint = point
     }
 
-    function onMouseUp() {
+    function onMouseUp(e: MouseEvent) {
       cleanUp()
       if (endPoint === point) return
 
       clearCtx(chart, chart.tooltip.ctx)
       chart.drawTooltip?.(endPoint, endY)
-      onRangeSelect?.(point, endPoint)
+      onRangeSelect?.(point, endPoint, e)
     }
 
     function cleanUp() {

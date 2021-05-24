@@ -16,6 +16,7 @@
   export let onWidget = undefined
   export let onWidgetInit = undefined
   export let onSubwidget = undefined
+  export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
   export let InsightsContextStore = undefined
@@ -29,6 +30,7 @@
     onSubwidget,
     onWidget,
     onWidgetInit,
+    onModRangeSelect,
     InsightsContextStore,
   })
   newNodeController(Widgets, Sidewidget)

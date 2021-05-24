@@ -96,4 +96,7 @@
   .delete {
     --fill-hover: var(--red);
   }
+  button {
+    color: var(--black);
+  }
 </style>

@@ -16,9 +16,12 @@
   import Drawer from '@/Chart/Drawer/index.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
   import { globals } from '@/stores/globals'
+  import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
   const widget = getWidget()
+  const { onModRangeSelect = () => {} } = getAdapterController()
+
   const { ChartAxes, ChartOptions } = widget
   const { MetricSettings, ChartMetricDisplays } = widget
 
@@ -69,11 +72,20 @@
     if (start && end) changeStudioPeriod(start.datetime, end.datetime)
   }
 
-  function onRangeSelect(start, end) {
+  const RANGE_SELECT_SENSITIVITY = 7
+  function onRangeSelect(start, end, e: MouseEvent) {
     if (start && end) {
       const shouldSwap = start.value > end.value
       let _start = shouldSwap ? end : start
       let _end = shouldSwap ? start : end
+
+      const { ctrlKey, metaKey, shiftKey } = e
+      if (ctrlKey || metaKey || shiftKey) {
+        return onModRangeSelect(_start, _end, e)
+      }
+
+      if (Math.abs(_start.x - _end.x) < RANGE_SELECT_SENSITIVITY) return
+
       changeStudioPeriod(_start.value, _end.value)
     }
   }
