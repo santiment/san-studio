@@ -7,6 +7,7 @@
   import MetricsRow from './Metrics/index.svelte'
   import MetricSettingsRow from './MetricSettings/index.svelte'
   import { mapClosestValue } from '@/Chart/utils'
+  import { getMetricNodes } from '@/Chart/nodes'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
   import { initWidget } from './context'
   import { newMetricSettingsTransformer } from './transformers'
@@ -28,14 +29,14 @@
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const { IsLoaded, OnUpdate } = widget
   const onData = (newData, newLoadings) =>
-    (data = mapClosestValue(newData, metrics)) && (loadings = newLoadings)
+    (rawData = newData) && (loadings = newLoadings)
   const onError = (Error, newLoadings) =>
     (MetricError = Error) && (loadings = newLoadings)
   const onAllTimeData = (newData) => (allTimeData = newData)
   const noop = () => {}
 
   let chart
-  let data = []
+  let rawData = []
   let allTimeData = []
   let MetricError = new Map()
   let loadings = new Set(widget.metrics)
@@ -43,6 +44,8 @@
 
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
   $: metrics = $Metrics
+  $: categories = getMetricNodes(metrics, $MetricSettings)
+  $: data = mapClosestValue(rawData, categories)
   $: ChartColors.update(metrics)
   $: ChartMetricDisplays.update(metrics)
   $: MetricSettings.update(metrics, metricSettingsTransformer)
@@ -143,6 +146,7 @@
     {data}
     {allTimeData}
     {colors}
+    {categories}
     {domainGroups}
     from={$studio.from}
     to={$studio.to}

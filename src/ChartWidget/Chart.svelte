@@ -3,7 +3,6 @@
   import { FORMATTER } from '@/metrics/formatters'
   import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { themes } from '@/Chart/theme'
-  import { NodeAlias } from '@/Chart/nodes'
   import Chart from '@/Chart/index.svelte'
   import Candles from '@/Chart/Candles.svelte'
   import Lines from '@/Chart/Lines.svelte'
@@ -27,39 +26,18 @@
   export let data = []
   export let allTimeData = []
   export let colors
+  export let categories
   export let domainGroups
   export let from, to
   export let onChart, changeStudioPeriod
 
   const getKey = ({ key }) => key
   $: ({ ticker } = $studio)
-  $: categories = getCategories(metrics, $MetricSettings)
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
   $: metricSettings = getTooltipSettings(metrics, ticker, $ChartMetricDisplays)
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
-
-  function getCategories(metrics: Studio.Metric[], MetricSettings) {
-    const joinedCategories = new Array(metrics.length)
-    const categories = {
-      joinedCategories,
-      candles: [],
-      lines: [],
-      bars: [],
-      areas: [],
-      filledLines: [],
-      gradientLines: [],
-      greenRedBars: [],
-    }
-    for (let i = 0; i < metrics.length; i++) {
-      const { key, node } = metrics[i]
-      joinedCategories[i] = key
-      const category = MetricSettings[key]?.node || node
-      categories[(NodeAlias[category] || category) + 's'].push(key)
-    }
-    return categories
-  }
 
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
     base ? label : label + ` (${ticker})`

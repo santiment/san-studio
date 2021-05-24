@@ -1,3 +1,4 @@
+import type { MetricNodes } from './nodes'
 import { millify } from 'webkit/utils/formatting'
 import {
   ONE_DAY_IN_MS,
@@ -109,9 +110,10 @@ export function findPointByDate(points, target: number) {
   }
 }
 
-export function mapClosestValue(data: any[], metrics: Studio.Metric[]): any[] {
+export function mapClosestValue(data: any[], MetricNodes: MetricNodes): any[] {
+  const { joinedCategories: allNodes, candles } = MetricNodes
   const dataLength = data.length
-  if (!dataLength || metrics.length < 2) return data
+  if (!dataLength || allNodes.length < 2) return data
 
   const result = new Array(data)
 
@@ -119,9 +121,10 @@ export function mapClosestValue(data: any[], metrics: Studio.Metric[]): any[] {
     result[i] = Object.assign({}, data[i])
   }
 
-  const metricsLength = metrics.length
-  for (let i = 0; i < metricsLength; i++) {
-    const metricKey = metrics[i].key
+  const candlesSet = new Set(candles)
+  for (let i = 0, len = allNodes.length; i < len; i++) {
+    const metricKey = allNodes[i]
+    if (candlesSet.has(metricKey)) continue
 
     let leftValueIndex = 0
     for (; leftValueIndex < dataLength; leftValueIndex++) {

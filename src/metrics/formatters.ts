@@ -48,6 +48,8 @@ const smallDecimalFormatter = new Intl.NumberFormat('en', {
 })
 export function newCurrencyFormatter(currency: string) {
   return (value: number) => {
+    if (!Number.isFinite(+value)) return 'No data'
+
     const formatted = (
       Math.abs(value) >= 2 ? decimalFormatter : smallDecimalFormatter
     ).format(value)

@@ -60,4 +60,7 @@ namespace Studio {
 
   type MetricSetting =
     import('@/ChartWidget/MetricSettings/context').MetricSetting
+
+  type MetricSettings =
+    import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
