@@ -16,6 +16,15 @@ const app = new App({
         // subwidget: ReactAdapter(Test),
       }),
       newWidget(HDBalanceWidget),
+      newWidget(ChartWidget, {
+        metrics: [Metric.price_usd],
+      }),
+      newWidget(ChartWidget, {
+        metrics: [Metric.social_volume_total],
+      }),
+      newWidget(ChartWidget, {
+        metrics: [Metric.dev_activity],
+      }),
     ],
     InsightsContextStore: newInsightsContextStore(),
   },

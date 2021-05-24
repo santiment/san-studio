@@ -1,20 +1,26 @@
-<script>
+<script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
+  import { newSortableDndCtx } from './dnd'
   import Preview from './Preview.svelte'
   import ChartPreview from './ChartPreview.svelte'
   import Items from './Items.svelte'
   import ChartWidget from '@/ChartWidget/index.svelte'
 
   const Widgets = getWidgets()
+  const dndContext = newSortableDndCtx({
+    onDragEnd,
+  })
 
+  $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
     $selectedMetrics.items.length > 0 || $selectedMetrics.subwidgets.length > 0,
   )
   $: isMapview = $mapview !== MapviewPhase.None
   $: isMetricsPhase = $mapview === MapviewPhase.Metrics
+  $: dndContext.toggle(isMetricsPhase)
   $: document.body.style.overflow = isMapview ? 'hidden' : ''
 
   const onEscape = ({ key }) => key === 'Escape' && mapview.exit()
@@ -43,6 +49,16 @@
     Widgets.add(ChartWidget, $selectedMetrics.items)
     selectedMetrics.clear()
   }
+
+  function onDragEnd(oldIndex: number, newIndex: number) {
+    if (oldIndex === newIndex) return
+
+    const newWidgets = widgets.slice()
+    const widget = newWidgets.splice(oldIndex, 1)[0]
+    newWidgets.splice(newIndex, 0, widget)
+
+    Widgets.set(newWidgets)
+  }
 </script>
 
 {#if isMapview}
@@ -58,7 +74,7 @@
 
       <div class="visible">
         <div class="widgets">
-          {#each $Widgets as widget (widget.id)}
+          {#each widgets as widget (widget.id)}
             {#if widget.metrics}
               <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
             {:else}

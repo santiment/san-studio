@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { getSortableDndCtx } from './dnd'
+  const sortableDndCtx = getSortableDndCtx()
+
   let className = ''
   export { className as class }
   export let isBlocked = false
   export let isMetricsPhase = false
+
+  let node
+  $: node && sortableDndCtx.addItem(node)
 </script>
 
 <div
+  bind:this={node}
   on:click
   class="preview border {className}"
   class:apply={isMetricsPhase}
