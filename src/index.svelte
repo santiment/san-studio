@@ -12,16 +12,18 @@
   export let widgets
   export let sidewidget
   export let defaultSettings = undefined
+  export let screen = undefined
   export let onWidget = undefined
   export let onWidgetInit = undefined
   export let onSubwidget = undefined
+  export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
   export let InsightsContextStore = undefined
-  export let isWidgetsScreen = true
 
   studio.setProject(defaultSettings)
   const Widgets = initWidgets(widgets, getExternalWidget)
   const Sidewidget = initSidewidget(sidewidget)
+  const onScreen = () => onScreenMount && onScreenMount(screen)
 
   setAdapterController({
     onSubwidget,
@@ -31,16 +33,19 @@
   })
   newNodeController(Widgets, Sidewidget)
   newTooltipSynchronizer()
+
+  let screenRef
+  $: screenRef && onScreen()
 </script>
 
 <main>
   <Sidebar />
   <div class="content column">
     <div class="studio-top" />
-    {#if isWidgetsScreen}
+    {#if !screen}
       <div class="border header panel row" />
 
-      <div class="row main">
+      <div class="row main" bind:this={screenRef}>
         <div class="widgets">
           {#each $Widgets as widget (widget.id)}
             <Widget {widget} {Widgets} />
@@ -50,7 +55,9 @@
         {#if $Sidewidget} <SidewidgetComponent /> {/if}
       </div>
     {:else}
-      <div class="main studio-screen" />
+      {#key screen}
+        <div class="main studio-screen" bind:this={screenRef} />
+      {/key}
     {/if}
 
     <Mapview />
@@ -83,6 +90,7 @@
     z-index: 21;
     margin: 0 0 13px;
     transition: transform 0.3s ease-out;
+    min-height: 64px;
   }
 
   .widgets {
