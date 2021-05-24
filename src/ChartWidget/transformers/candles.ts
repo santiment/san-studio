@@ -5,7 +5,7 @@ import { yAxisFormatter } from '@/Chart/Axes/utils'
 import { getIntervals, getValidInterval } from '@/utils/intervals'
 import { queryOHLC } from '@/api/timeseries/ohlc'
 
-function getCandlesPeriodMinInterval(from: Date, to: Date): string {
+export function getCandlesPeriodMinInterval(from: Date, to: Date): string {
   const diff = (+to - +from) / ONE_DAY_IN_MS
 
   if (diff < 2) return '15m'

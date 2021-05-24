@@ -5,21 +5,39 @@
   import Dropdown from './Dropdown.svelte'
   import { getMetricSettings } from './context'
   import { studio } from '@/stores/studio'
+  import { Node } from '@/Chart/nodes'
+  import { getCandlesPeriodMinInterval } from '@/ChartWidget/transformers/candles'
   const MetricSettings = getMetricSettings()
 
   export let metric: Studio.Metric
 
   let intervals = INTERVALS
 
-  $: getMinInterval(metric)
-  $: metricInterval = $MetricSettings[metric.key]?.interval
+  $: ({ from, to } = $studio)
+  $: metricSettings = $MetricSettings[metric.key]
+  $: metricInterval = metricSettings?.interval
+  $: metricNode = metricSettings?.node || metric.node
+  $: isCandleNode = metricNode === Node.CANDLES
+  $: getMinInterval(metric, isCandleNode, from, to)
 
-  function getMinInterval(metric: Studio.Metric) {
-    getMetricMinInterval(metric)
-      .then(getIntervals)
-      .then((metricIntervals) => {
-        intervals = metricIntervals
-      })
+  function getMinInterval(
+    metric: Studio.Metric,
+    isCandleNode: boolean,
+    from: string,
+    to: string,
+  ) {
+    let promise
+    if (isCandleNode) {
+      promise = Promise.resolve(
+        getCandlesPeriodMinInterval(new Date(from), new Date(to)),
+      )
+    } else {
+      promise = getMetricMinInterval(metric)
+    }
+
+    promise.then(getIntervals).then((metricIntervals) => {
+      intervals = metricIntervals
+    })
   }
 
   function onClick(interval) {
@@ -39,12 +57,14 @@
   {#if metricInterval} {metricInterval} {:else} Auto ({$studio.interval}) {/if}
 
   <svelte:fragment slot="options">
-    <div
-      class="btn btn--ghost"
-      class:active={!metricInterval}
-      on:click={onAutoClick}>
-      Auto ({$studio.interval})
-    </div>
+    {#if isCandleNode === false}
+      <div
+        class="btn btn--ghost"
+        class:active={!metricInterval}
+        on:click={onAutoClick}>
+        Auto ({$studio.interval})
+      </div>
+    {/if}
 
     {#each intervals as interval}
       <div

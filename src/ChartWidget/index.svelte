@@ -42,7 +42,10 @@
   let loadings = new Set(widget.metrics)
   let isSharedAxisEnabled = false
 
-  $: metricSettingsTransformer = newMetricSettingsTransformer($studio)
+  $: metricSettingsTransformer = newMetricSettingsTransformer(
+    $studio,
+    ChartMetricDisplays,
+  )
   $: metrics = $Metrics
   $: categories = getMetricNodes(metrics, $MetricSettings)
   $: data = mapClosestValue(rawData, categories)
