@@ -11,6 +11,7 @@ export function getTimeseries(
   onError: (
     errors: Map<Studio.Metric, string>,
     loadings: Set<Studio.Metric>,
+    data?: any[],
   ) => any,
   MetricSettings: any = {},
 ) {
@@ -52,7 +53,7 @@ export function getTimeseries(
         loadings.delete(metric)
         console.warn(e)
         errors.set(metric, transformMessage(e))
-        onError(errors, loadings)
+        onError(errors, loadings, data)
       })
   }
 

@@ -1,10 +1,12 @@
-import {
-  handleMove as handlePointEvent,
-  getHoveredIndex,
-} from 'san-chart/events'
+import { handleMove as handlePointEvent } from 'san-chart/events'
 import { clearCtx } from '../utils'
 
-export function onSelection(chart: Studio.Chart, canvas, onRangeSelect) {
+export function onSelection(
+  chart: Studio.Chart,
+  canvas,
+  onPoinClick,
+  onRangeSelect,
+) {
   canvas.onmousedown = handlePointEvent(chart, (point) => {
     if (!point || chart.isDrawing) return
     const startX = point.x
@@ -22,7 +24,11 @@ export function onSelection(chart: Studio.Chart, canvas, onRangeSelect) {
 
     function onMouseUp(e: MouseEvent) {
       cleanUp()
-      if (endPoint === point) return
+      if (endPoint === point) {
+        // NOTE: When the drawing is finished, last mouseup still will be triggered [@vanguard | May 25, 2021]
+        if (!chart.isDrawing && onPoinClick) onPoinClick(point, e)
+        return
+      }
 
       clearCtx(chart, chart.tooltip.ctx)
       chart.drawTooltip?.(endPoint, endY)

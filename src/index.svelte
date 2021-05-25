@@ -16,6 +16,7 @@
   export let onWidget = undefined
   export let onWidgetInit = undefined
   export let onSubwidget = undefined
+  export let onChartPointClick = undefined
   export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
@@ -30,6 +31,7 @@
     onSubwidget,
     onWidget,
     onWidgetInit,
+    onChartPointClick,
     onModRangeSelect,
     InsightsContextStore,
   })

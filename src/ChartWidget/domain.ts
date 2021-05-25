@@ -77,7 +77,7 @@ export function checkHasDomainGroups(
 ) {
   if (!rawDomainGroups) return false
 
-  const RootDomainSet = {}
+  const RootDomainSet = {} as { [metricKey: string]: Set<string> }
   for (let i = 0, len = rawDomainGroups.length; i < len; i++) {
     const group = rawDomainGroups[i]
     RootDomainSet[group[0]] = new Set(group.slice(1))
@@ -93,6 +93,11 @@ export function checkHasDomainGroups(
     }
 
     if (domainSet.size > 0) return true
+  }
+
+  const domains = Object.values(RootDomainSet)
+  for (let i = 0, len = domains.length; i < len; i++) {
+    if (domains[i].size) return true
   }
 
   return false

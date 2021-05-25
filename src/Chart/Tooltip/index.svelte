@@ -21,6 +21,7 @@
 
   export let axesMetricKeys = []
   export let metricSettings
+  export let onPointClick
   export let onRangeSelect
 
   const tooltipSynchronizer = getTooltipSynchronizer()
@@ -34,7 +35,7 @@
 
   $: chart.tooltipKey = axesMetricKeys[0]
 
-  onSelection(chart, canvas, onRangeSelect)
+  onSelection(chart, canvas, onPointClick, onRangeSelect)
   canvas.onmouseleave = () => {
     if (!chart.drawSelection) clearCtx(chart, ctx)
     if (tooltipSynchronizer) tooltipSynchronizer.sync(chart)

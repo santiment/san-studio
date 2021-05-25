@@ -35,8 +35,6 @@
   const { IsLoaded, OnUpdate } = widget
   const onData = (newData, newLoadings) =>
     (rawData = newData) && (loadings = newLoadings)
-  const onError = (Error, newLoadings) =>
-    (MetricError = Error) && (loadings = newLoadings)
   const onAllTimeData = (newData) => (allTimeData = newData)
   const noop = () => {}
 
@@ -61,7 +59,7 @@
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)
   $: rawColors = $ChartColors
   $: colors = rawColors
-  $: getTimeseries(metrics, $studio, onData, onError, $MetricSettings)
+  $: getTimeseries(metrics, $studio, onData, onDataError, $MetricSettings)
   $: ChartAxes.updateMetrics(metrics, MetricError)
   $: getAllTimeData(metrics, $studio.slug, onAllTimeData, noop)
   $: rawDomainGroups = groupDomains(metrics)
@@ -115,6 +113,12 @@
       settingsOpenedMetric = metric
     }
     Metrics.replace(index, metric)
+  }
+
+  function onDataError(Error, newLoadings, newData?: any) {
+    MetricError = Error
+    loadings = newLoadings
+    if (newData) rawData = newData
   }
 
   function onChart(newChart) {

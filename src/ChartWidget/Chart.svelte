@@ -20,7 +20,10 @@
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
   const widget = getWidget()
-  const { onModRangeSelect = () => {} } = getAdapterController()
+  const {
+    onChartPointClick,
+    onModRangeSelect = () => {},
+  } = getAdapterController()
 
   const { ChartAxes, ChartOptions } = widget
   const { MetricSettings, ChartMetricDisplays } = widget
@@ -72,6 +75,10 @@
     if (start && end) changeStudioPeriod(start.datetime, end.datetime)
   }
 
+  function onPointClick(point, e: MouseEvent) {
+    if (onChartPointClick) onChartPointClick(point, e)
+  }
+
   const RANGE_SELECT_SENSITIVITY = 7
   function onRangeSelect(start, end, e: MouseEvent) {
     if (start && end) {
@@ -114,7 +121,7 @@
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />
   <Drawer {axesMetricKeys} metricKey={drawingKey} />
-  <Tooltip {axesMetricKeys} {metricSettings} {onRangeSelect} />
+  <Tooltip {axesMetricKeys} {metricSettings} {onPointClick} {onRangeSelect} />
 
   <Brush
     data={allTimeData}
