@@ -58,6 +58,14 @@
     newWidgets.splice(newIndex, 0, widget)
 
     Widgets.set(newWidgets)
+
+    const { scrollParent } = dndContext.ctx
+    if (!scrollParent) return
+
+    const scrollTop = scrollParent.scrollTop
+    window.requestAnimationFrame(() => {
+      scrollParent.scrollTop = scrollTop
+    })
   }
 </script>
 
