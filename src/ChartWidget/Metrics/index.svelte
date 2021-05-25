@@ -12,7 +12,7 @@
 </script>
 
 <div class="metrics row">
-  {#each metrics as metric}
+  {#each metrics as metric, i (i)}
     <Metric
       {metric}
       {colors}

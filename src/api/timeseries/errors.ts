@@ -12,8 +12,9 @@ const PROJECT_FETCH = {
 
 const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH]
 
-export function transformMessage(errorMsg: string): string {
-  const msg = (Array.isArray(errorMsg) ? errorMsg[0] : errorMsg).message
-  const error = ERRORS.find(({ anchor }) => msg.includes(anchor))
+export function transformMessage(errorMsg: string | any[]): string {
+  const unpacked = Array.isArray(errorMsg) ? errorMsg[0] : errorMsg
+  const msg = unpacked && (unpacked.message || unpacked.details)
+  const error = msg && ERRORS.find(({ anchor }) => msg.includes(anchor))
   return error ? error.msg : msg
 }
