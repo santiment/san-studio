@@ -4,7 +4,9 @@ import { updateSize } from 'san-chart'
 import { newSortableContext } from 'webkit/ui/dnd/sortable'
 
 export const getSortableDndCtx = () => getContext('sortable-dnd')
-export function newSortableDndCtx(options) {
+export function newSortableDndCtx(
+  options,
+): ReturnType<typeof newSortableContext> {
   const ctx = newSortableContext(Object.assign({ cloner }, options))
   setContext('sortable-dnd', ctx)
   return ctx
