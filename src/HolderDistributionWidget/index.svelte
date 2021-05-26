@@ -29,7 +29,7 @@
     Merge,
   }
 
-  const { Metrics } = widget
+  const { Metrics, ChartColors } = widget
   let isOpened = true
   let clientWidth
   let node
@@ -41,6 +41,7 @@
 
   $: node && updateDimensions(clientWidth, isOpened)
   $: isMerging = phase === Phase.Merge
+  $: colors = $ChartColors
 
   function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
     if (isMerging) {
@@ -146,9 +147,11 @@
         {#if !isMerging}
           {#each mergedMetrics as metric}
             <div
+              style="---fill:{colors[metric.key] || '#9faac4'}"
               class="btn btn--ghost metric mrg-s mrg--b"
               class:active={$Metrics.includes(metric)}
               on:click={(e) => onMetricClick(metric, e)}>
+              <Icon id="circle-line" class="$style.line" w="14" h="10" />
               {metric.label}
               <span
                 class="btn unmerge mrg-s mrg--l"
@@ -162,6 +165,7 @@
         {#each metrics as metric}
           <div
             class="btn btn--ghost metric mrg-s mrg--b row v-center"
+            style="---fill:{colors[metric.key] || '#9faac4'}"
             class:active={isMerging
               ? mergingMetrics.has(metric)
               : $Metrics.includes(metric)}
@@ -170,6 +174,8 @@
               <Checkbox
                 class="mrg-s mrg--r"
                 isActive={mergingMetrics.has(metric)} />
+            {:else}
+              <Icon id="circle-line" class="$style.line" w="14" h="10" />
             {/if}
             {metric.label}
           </div>
@@ -212,6 +218,8 @@
 
   .metric {
     padding: 6px 12px;
+    --fill: var(---fill);
+    --fill-hover: var(---fill);
     --color: var(--casper);
     --color-hover: var(--black);
   }
@@ -261,5 +269,9 @@
   .unmerge:hover {
     color: var(--red-hover);
     text-decoration: underline;
+  }
+
+  .line {
+    margin-right: 10px;
   }
 </style>

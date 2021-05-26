@@ -16,7 +16,7 @@ export function queryProjectExchanges(
   slug: string,
   isDex = false,
 ): Promise<string[]> {
-  return query(EXCHANGES_QUERY(slug, isDex)).then(accessor)
+  return query<any>(EXCHANGES_QUERY(slug, isDex)).then(accessor)
 }
 
 export function isExchangeModifiable(metric: Studio.Metric) {
