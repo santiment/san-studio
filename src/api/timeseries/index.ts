@@ -21,17 +21,18 @@ export function getTimeseries(
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
-    const { key, queryKey = key, reqMeta, fetch, precacher } = metric as any
-    const metricSettings = MetricSettings[key]
-    const { preTransform, fetcher = fetch } = metricSettings || {}
-    const { interval, slug, from, to, transform } = Object.assign(
+    const { key, reqMeta, fetch, precacher } = metric as any
+    const metricSettings = MetricSettings[key] || {}
+    const { preTransform, fetcher = fetch } = metricSettings
+    const queryKey = metricSettings.queryKey || metric.queryKey || key
+
+    const { interval, slug, from, to, transform, owner } = Object.assign(
       {},
       variables,
       metricSettings,
     )
-
     const vars = Object.assign(
-      { key, metric: queryKey, slug, from, to, interval, transform },
+      { key, metric: queryKey, slug, from, to, interval, transform, owner },
       reqMeta,
     )
 

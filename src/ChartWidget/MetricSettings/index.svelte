@@ -3,6 +3,8 @@
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
   import IntervalSetting from './IntervalSetting.svelte'
+  import ExchangeSetting from './ExchangeSetting/index.svelte'
+  import { isExchangeModifiable } from './ExchangeSetting/utils'
   import IndicatorSetting from './IndicatorSetting/index.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
 
@@ -22,6 +24,9 @@
       <NodeSetting {metric} />
     {/if}
     <ColorSetting {metric} />
+    {#if isExchangeModifiable(metric)}
+      <ExchangeSetting {metric} />
+    {/if}
     {#if isNotIndicator}
       <IntervalSetting {metric} />
       <IndicatorSetting {metric} />

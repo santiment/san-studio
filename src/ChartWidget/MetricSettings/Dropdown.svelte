@@ -6,8 +6,8 @@
   $: if (optionsNode) {
     const activeNode = optionsNode.querySelector('.active')
     if (activeNode) {
-      const { offsetTop } = activeNode
-      optionsNode.scrollTop = offsetTop - optionsNode.clientHeight / 2
+      const { offsetTop, parentNode } = activeNode
+      parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2
     }
   }
 </script>
@@ -18,7 +18,12 @@
     <Icon id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>
 
-  <div slot="tooltip" class="dropdown body-3" bind:this={optionsNode}>
+  <div
+    slot="tooltip"
+    class="dropdown body-3 column"
+    class:scroll={$$slots.options}
+    bind:this={optionsNode}>
+    <slot name="dropdown" />
     <slot name="options" />
   </div>
 </Tooltip>
@@ -37,9 +42,12 @@
 
   .dropdown {
     padding: 8px;
-    overflow: auto;
     max-height: 195px;
     font-weight: 400;
+  }
+
+  .scroll {
+    overflow: auto;
   }
 
   :global(.btn--ghost.active) {

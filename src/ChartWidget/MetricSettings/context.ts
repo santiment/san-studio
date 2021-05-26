@@ -9,6 +9,8 @@ export type MetricSetting = {
     movingAverageBase: number
   }
   fetcher?: any
+  queryKey?: string
+  owner?: string
   preTransform?: (...args: any[]) => any
   getPreTransformValue?: (...args: any[]) => any
 }

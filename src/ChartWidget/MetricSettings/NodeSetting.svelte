@@ -6,7 +6,7 @@
     setCandlesSettings,
   } from '@/ChartWidget/transformers/candles'
   import { studio } from '@/stores/studio'
-  import { Node, BARS } from '@/Chart/nodes'
+  import { Node, NodeAlias } from '@/Chart/nodes'
   import { Metric } from '@/metrics'
   import Dropdown from './Dropdown.svelte'
   import { getWidget } from '../context'
@@ -54,7 +54,8 @@
     metric: Studio.Metric,
     metricSettings?: MetricSetting,
   ) {
-    return (metricSettings?.node || metric.node) as ChartNodes
+    const node = (metricSettings?.node || metric.node) as ChartNodes
+    return NodeAlias[node] || node
   }
 </script>
 
@@ -80,6 +81,3 @@
     {/each}
   </svelte:fragment>
 </Dropdown>
-
-<style>
-</style>
