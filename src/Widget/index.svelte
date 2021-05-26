@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { getAdapterController } from '@/adapter/context'
+  import { getQueueStore } from './queue'
   import Subwidget from './Subwidget.svelte'
+  const Queue = getQueueStore()
   const { onWidget, onWidgetInit } = getAdapterController()
 
   export let widget
   export let Widgets
 
+  const isNative = !widget.isExternal
   const deleteWidget = () => Widgets.delete(widget)
   widget.delete = deleteWidget
 
@@ -23,12 +26,14 @@
       delete widget.scrollOnMount
     }
   })
+  onDestroy(() => isNative && Queue.delete(widget))
 </script>
 
 <div class="widget border" bind:this={target}>
-  {#if widget.isExternal === false}
+  {#if isNative && $Queue.has(widget) === false}
     <svelte:component
       this={widget.Widget}
+      onLoad={Queue.delete}
       {widget}
       {isSingleWidget}
       {onWidgetInit}

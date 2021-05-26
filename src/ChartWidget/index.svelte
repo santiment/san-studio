@@ -25,6 +25,7 @@
   export let metricsFilter = undefined
   export let fullscreenMetricsFilter = undefined
   export let onWidgetInit = undefined
+  export let onLoad = undefined
 
   initWidget(widget)
   initWidgetContext(widget)
@@ -69,6 +70,7 @@
   $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
   $: IsLoaded.set(loadings.size === 0)
+  $: onLoad && loadings.size === 0 && onLoad(widget)
   $: ($ChartAxes ||
     $ChartColors ||
     $MetricIndicators ||

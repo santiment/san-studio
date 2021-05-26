@@ -8,6 +8,7 @@
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newNodeController } from '@/stores/selector'
   import { setAdapterController } from '@/adapter/context'
+  import { newSizedQueue } from '@/Widget/queue'
 
   export let widgets
   export let sidewidget
@@ -39,9 +40,13 @@
   })
   newNodeController(Widgets, Sidewidget)
   newTooltipSynchronizer()
+  const Queue = newSizedQueue()
 
   let screenRef
   $: screenRef && onScreen()
+
+  // Queueing only on mount
+  $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
 </script>
 
 <main>
