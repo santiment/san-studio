@@ -149,6 +149,8 @@
     overflow: auto;
     flex: 1;
     margin-right: -25px;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .widgets {
