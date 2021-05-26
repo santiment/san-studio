@@ -66,6 +66,7 @@ export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
 
   pngChart.scale = scale
   pngChart.axesMetricKeys = chart.axesMetricKeys
+  pngChart.rightAxisMargin = chart.rightAxisMargin
   pngChart.domainGroups = domainGroups
   pngChart.colors = colors
   pngChart.theme = theme
