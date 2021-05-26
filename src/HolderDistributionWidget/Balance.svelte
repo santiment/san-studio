@@ -1,6 +1,5 @@
 <script lang="ts">
   import {
-    HolderDistributionBalancePercentMetric,
     HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS,
     HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS,
   } from '@/metrics/_onchain/holderDistributions'
@@ -10,9 +9,7 @@
   export let isSingleWidget: boolean
   export let deleteWidget
 
-  const defaultMetrics = [
-    HolderDistributionBalancePercentMetric.percent_of_holders_distribution_combined_balance_1_to_10,
-  ]
+  const defaultMetrics = HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS.slice()
 
   let isPercentsMetrics = true
   let isMerging = false

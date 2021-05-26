@@ -42,11 +42,9 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
       set(widgets)
     },
     delete(widget) {
-      const i = widgets.indexOf(widget)
-      if (i === -1) return
-
-      widgets.splice(i, 1)
-      set(widgets)
+      const widgetsSet = new Set(widgets)
+      widgetsSet.delete(widget)
+      set((widgets = Array.from(widgetsSet)))
     },
     new(node: Studio.SelectorNode) {
       let widget

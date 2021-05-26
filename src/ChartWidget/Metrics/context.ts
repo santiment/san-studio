@@ -16,6 +16,10 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
     getValue() {
       return metrics
     },
+    set(newMetrics: Studio.Metric[]) {
+      metricSet = new Set(newMetrics)
+      update()
+    },
     add(metric: Studio.Metric) {
       metricSet.add(metric)
       update()

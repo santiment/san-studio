@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from 'svelte'
   import Icon from 'webkit/ui/Icon.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
@@ -14,13 +15,19 @@
   export let isSingleWidget: boolean
   export let deleteWidget
 
-  const forceDelete = () => deleteWidget(true)
+  let isOpened = false
 
   $: ({ isPro, isProPlus } = $globals)
   $: ChartOptions.getProDefaults(isPro, isProPlus)
+
+  function onDelete() {
+    isOpened = false
+    // NOTE: Widget is not deleted if tooltip is not closed [@vanguard | May 26, 2021]
+    tick().then(() => deleteWidget(true))
+  }
 </script>
 
-<Tooltip on="click" duration={0} align="end" {activeClass}>
+<Tooltip on="click" duration={0} align="end" {activeClass} bind:isOpened>
   <slot slot="trigger" />
   <div slot="tooltip" class="menu">
     <div class="btn" on:click={ChartOptions.toggleScale}>
@@ -77,7 +84,7 @@
     </div>
 
     {#if !isSingleWidget}
-      <div class="btn delete" on:click={forceDelete}>
+      <div class="btn delete" on:click={onDelete}>
         <span>
           <Icon id="delete" w="12" class="mrg-s mrg--r" />
           Delete chart

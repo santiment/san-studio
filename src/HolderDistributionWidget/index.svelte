@@ -4,7 +4,6 @@
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { initWidget } from '@/ChartWidget/context'
   import {
-    HolderDistributionAbsoluteMetric,
     HolderDistributionMetric,
     HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
   } from '@/metrics/_onchain/holderDistributions'
@@ -21,9 +20,8 @@
   export let isMerging = false
 
   if (!widget.metrics)
-    widget.metrics = defaultMetrics || [
-      HolderDistributionAbsoluteMetric.holders_distribution_1_to_10,
-    ]
+    widget.metrics =
+      defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
   initWidget(widget)
 
   const enum Phase {
@@ -44,10 +42,13 @@
   $: node && updateDimensions(clientWidth, isOpened)
   $: isMerging = phase === Phase.Merge
 
-  function onMetricClick(metric: Studio.Metric) {
+  function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
     if (isMerging) {
       return checkMetric(metric)
     }
+
+    const { metaKey, ctrlKey } = e
+    if (metaKey || ctrlKey) return Metrics.set([metric])
 
     if ($Metrics.length === 1 && $Metrics.includes(metric)) return
     Metrics.toggle(metric)
@@ -147,7 +148,7 @@
             <div
               class="btn btn--ghost metric mrg-s mrg--b"
               class:active={$Metrics.includes(metric)}
-              on:click={() => onMetricClick(metric)}>
+              on:click={(e) => onMetricClick(metric, e)}>
               {metric.label}
               <span
                 class="btn unmerge mrg-s mrg--l"
@@ -164,7 +165,7 @@
             class:active={isMerging
               ? mergingMetrics.has(metric)
               : $Metrics.includes(metric)}
-            on:click={() => onMetricClick(metric)}>
+            on:click={(e) => onMetricClick(metric, e)}>
             {#if isMerging}
               <Checkbox
                 class="mrg-s mrg--r"
