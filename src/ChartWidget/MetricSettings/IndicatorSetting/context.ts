@@ -7,7 +7,7 @@ export type MetricIndicators = {
 }
 
 export function newMetricIndicatorsStore(defaultValue?: MetricIndicators) {
-  const MetricIndicators = (defaultValue || {}) as MetricIndicators
+  let MetricIndicators = (defaultValue || {}) as MetricIndicators
   const { subscribe, set } = writable(MetricIndicators)
 
   const store = {
@@ -33,6 +33,22 @@ export function newMetricIndicatorsStore(defaultValue?: MetricIndicators) {
       }
 
       set(MetricIndicators)
+    },
+    update(metrics: Studio.Metric[]) {
+      const NewMetricIndicators = {}
+
+      metrics.forEach((metric) => {
+        if (!metric.indicator) return
+
+        const { base, indicator } = metric
+        const { key } = base
+
+        if (!NewMetricIndicators[key]) NewMetricIndicators[key] = new Set()
+
+        NewMetricIndicators[key].add(indicator)
+      })
+
+      set((MetricIndicators = NewMetricIndicators))
     },
   }
 

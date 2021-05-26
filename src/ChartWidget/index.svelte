@@ -65,6 +65,7 @@
   $: fetchData(metrics, $studio, $MetricSettings)
   $: ChartAxes.updateMetrics(metrics, MetricError)
   $: fetchAllData(metrics, slug)
+  $: MetricIndicators.update(metrics)
   $: rawDomainGroups = groupDomains(metrics)
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
   $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
@@ -116,10 +117,6 @@
 
     Metrics.delete(metric)
     ChartAxes.delete(metric)
-    if (metric.indicator) {
-      // TODO: Handle prop access in delete method [@vanguard | May 14, 2021]
-      MetricIndicators.delete(metric.base.key, metric.indicator)
-    }
   }
 
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {
