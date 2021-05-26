@@ -5,9 +5,9 @@
   import { getWidget } from '@/ChartWidget/context'
   import { studio } from '@/stores/studio'
   import { convertBaseProjectMetric } from './utilts'
-  const { Metrics } = getWidget()
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
+  const { Metrics } = getWidget()
 
   export let metric: Studio.Metric
   export let colors

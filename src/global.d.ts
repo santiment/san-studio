@@ -13,6 +13,8 @@ type ChartNode = import('@/Chart/nodes').ChartNode
 namespace Studio {
   type Project = { slug: string; ticker: string }
 
+  type Settings = import('@/stores/studio').StudioSettings
+
   type Metric = {
     key: string
     label: string

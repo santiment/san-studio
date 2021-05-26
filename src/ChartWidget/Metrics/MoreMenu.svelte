@@ -5,7 +5,9 @@
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
+  import { getAdapterController } from '@/adapter/context'
   const { Metrics } = getWidget()
+  const { onAnonFavoriteClick = () => {} } = getAdapterController()
 
   export let metric: Studio.Metric
   export let isMenuOpened
@@ -42,11 +44,14 @@
       {/if}
     </div>
 
-    {#if $globals.isLoggedIn && !metric.base}
+    {#if !metric.base}
       <div
         class="btn btn--ghost option"
         class:favorited={isFavorited}
-        on:click={() => favoriteMetrics.toggle(metric.key)}>
+        on:click={() =>
+          $globals.isLoggedIn
+            ? favoriteMetrics.toggle(metric.key)
+            : onAnonFavoriteClick()}>
         <Icon
           id="star{isFavorited ? '-filled' : ''}"
           w="16"

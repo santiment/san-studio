@@ -22,7 +22,7 @@
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
 
-  let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED)
+  let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED, true)
   let isPeeked = false
 
   $: isOpened = isPeeked // || isDraggingMetric
@@ -126,6 +126,7 @@
   }
 
   .categories:hover {
+    overflow-y: auto;
     overflow-y: overlay;
   }
 </style>

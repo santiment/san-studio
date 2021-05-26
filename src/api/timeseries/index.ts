@@ -16,7 +16,6 @@ export function getTimeseries(
   MetricSettings: any = {},
 ) {
   let data = [] as any[]
-  const requests = new Array(metrics.length)
   const loadings = new Set(metrics)
   const errors = new Map()
 
@@ -35,29 +34,40 @@ export function getTimeseries(
       { key, metric: queryKey, slug, from, to, interval, transform },
       reqMeta,
     )
-    let request = fetcher
-      ? fetcher(vars, metric)
-      : queryMetric(vars, precacher).then(dataAccessor)
-    request = preTransform ? request.then(preTransform) : request
 
-    requests[i] = request
-      .then((metricData) => {
-        if (!metricData.length) throw new Error(NO_DATA_MSG)
+    let attempt = 1
+    fetchData()
+    function fetchData() {
+      let request = fetcher
+        ? fetcher(vars, metric)
+        : queryMetric(vars, precacher).then(dataAccessor)
+      request = preTransform ? request.then(preTransform) : request
 
-        loadings.delete(metric)
-        errors.delete(metric)
-        onData((data = mergeTimeseries(data, metricData)), loadings)
-        onError(errors, loadings)
-      })
-      .catch((e) => {
-        loadings.delete(metric)
-        console.warn(e)
-        errors.set(metric, transformMessage(e))
-        onError(errors, loadings, data)
-      })
+      request
+        .then((metricData) => {
+          if (!metricData.length) throw new Error(NO_DATA_MSG)
+
+          loadings.delete(metric)
+          errors.delete(metric)
+          onData((data = mergeTimeseries(data, metricData)), loadings)
+          onError(errors, loadings)
+        })
+        .catch((e) => {
+          const msg = e.message as string | undefined
+          if (msg && msg.includes('Failed to fetch') && attempt < 5) {
+            attempt += 1
+            return setTimeout(fetchData, 2000)
+          }
+
+          console.warn(e)
+          loadings.delete(metric)
+          errors.set(metric, transformMessage(e))
+          onError(errors, loadings, data)
+        })
+    }
   }
 
-  return Promise.all(requests)
+  // TODO: Return abort controller [@vanguard | May 26, 2021]
 }
 
 export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'

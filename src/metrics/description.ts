@@ -63,8 +63,8 @@ export const Description = {
   [Metric.realized_value_usd.key]:
     'Shows the total amount that all [Project Ticker] holders spent to purchase their tokens (i.e. the total acquisition cost). Realized cap is calculated by multiplying the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain',
 
-  // [Metric.gasUsed.key]:
-  //   'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
+  [Metric.gasUsed.key]:
+    'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
 
   [Metric.mean_age.key]:
     'Shows the average amount of days that all [Project Ticker] tokens stayed in their current addresses. Rising slope signals a network-wide accumulation trend. Drop-offs indicate increased movement of [Project Ticker] tokens between addresses.',
@@ -78,8 +78,8 @@ export const Description = {
   [Metric.nvt_transaction_volume.key]:
     'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] tokens transacted on-chain daily. High NVT levels indicate an overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] Market Cap by its on-chain Transaction Volume.',
 
-  // [Metric.topHoldersPercentOfTotalSupply.key]:
-  //   'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
+  [Metric.topHoldersPercentOfTotalSupply.key]:
+    'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
 
   [Metric.amount_in_top_holders.key]:
     'Shows the combined balance of the top N addresses overall',
@@ -97,11 +97,11 @@ export const Description = {
   holders_distribution_combined_balance_1_to_10:
     'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
 
-  // [Metric.ethSpentOverTime.key]:
-  //   'Shows the amount of ETH moved out of the project’s ICO wallets over time',
+  [Metric.ethSpentOverTime.key]:
+    'Shows the amount of ETH moved out of the project’s ICO wallets over time',
 
-  // [Metric.miners_balance.key]:
-  //   'Shows the combined ETH balance of addresses belonging to Ethereum mining pools',
+  [Metric.miners_balance.key]:
+    'Shows the combined ETH balance of addresses belonging to Ethereum mining pools',
 
   [Metric.active_deposits.key]:
     'Shows the amount of unique [Project Ticker] deposit addresses daily. Deposit addresses are used to deposit cryptocurrencies to centralized exchanges. Spikes in this metric may indicate a rise in short-term sell pressure.',
@@ -124,26 +124,24 @@ export const Description = {
 
 This an oscillating indicator, which reaches extreme negative values at the bottom of the large bear cycles and extreme positive values at the top of the bull markets. The intuition is that at the top of the bull runs the long term holders are at large profit and this puts large sell pressure. At the bottom of the bear markets, the long term holders are at large loss and are not willing to sell. Compared to the individual MVRVs, this indicator is going to give negative values when both long and short term holders are at the same profit and loss, thus indicating that the current price is not the long term top/bottom, but more of a short term move.`,
 
-  // [Metric.bitmex_perpetual_basis.key]:
-  //   'Shows the difference between BitMEX perpetual contract’s price of [Project Ticker] and BitMEX index (spot) price for [Project Ticker]',
-  // [Metric.bitmex_perpetual_funding_rate.key]:
-  //   'The funding rate is a fee paid by one side of the perpetual contract to the other. When the funding rate is positive, Longs pay Shorts. When the funding rate is negative, Shorts pay Longs',
-  // [Metric.bitmex_perpetual_open_interest.key]:
-  //   "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
-  // [Metric.bitmex_perpetual_open_value.key]:
-  //   'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
-
-  // SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
+  [Metric.bitmex_perpetual_basis.key]:
+    'Shows the difference between BitMEX perpetual contract’s price of [Project Ticker] and BitMEX index (spot) price for [Project Ticker]',
+  [Metric.bitmex_perpetual_funding_rate.key]:
+    'The funding rate is a fee paid by one side of the perpetual contract to the other. When the funding rate is positive, Longs pay Shorts. When the funding rate is negative, Shorts pay Longs',
+  [Metric.bitmex_perpetual_open_interest.key]:
+    "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
+  [Metric.bitmex_perpetual_open_value.key]:
+    'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
 
   [Metric.dormant_circulation_365d
     .key]: `Shows how many coins/tokens that have not been moved for more than 365 days were transacted during a day. This is useful for spotting when really old Bitcoins move.`,
   [Metric.stock_to_flow
     .key]: `Stock To Flow ratio model is a measure of scarcity/abundance of particular resource. It shows how much supply enters yearly relative to the total supply of the resource. We measure Stock To Flow ratio for a given asset as the ratio between <a href='https://academy.santiment.net/metrics/circulation/'>Total Circulation</a> of the asset and the daily minted coins multiplied by days in one year`,
 
-  // [Metric.defi_total_value_locked_usd.key]:
-  //   'Shows total value locked in DeFi projects, available in USD.',
-  // [Metric.price_daa_divergence.key]:
-  //   'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
+  [Metric.defi_total_value_locked_usd.key]:
+    'Shows total value locked in DeFi projects, available in USD.',
+  [Metric.price_daa_divergence.key]:
+    'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
 
   [Metric.active_addresses_1h.key]:
     'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token',

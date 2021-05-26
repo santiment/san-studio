@@ -5,7 +5,9 @@
   import { getNodeController } from '@/stores/selector'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
+  import { getAdapterController } from '@/adapter/context'
   const NodeController = getNodeController()
+  const { onAnonFavoriteClick } = getAdapterController()
 
   export let item: any
   export let node: any
@@ -30,7 +32,8 @@
 
   function onFavoriteClick(e: MouseEvent) {
     e.stopImmediatePropagation()
-    favoriteMetrics.toggle(item.key)
+    if ($globals.isLoggedIn) return favoriteMetrics.toggle(item.key)
+    if (onAnonFavoriteClick) onAnonFavoriteClick()
   }
 </script>
 
@@ -50,7 +53,7 @@
       <ItemDescription {item} class="$style.icon" />
     {/key}
 
-    {#if $globals.isLoggedIn && item.selectorType === undefined}
+    {#if item.selectorType === undefined}
       <Icon
         id="star{isFavorited ? '-filled' : ''}"
         class="$style.icon $style.star mrg-m mrg--l {isFavorited

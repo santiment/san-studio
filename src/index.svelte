@@ -17,6 +17,7 @@
   export let onWidgetInit = undefined
   export let onSubwidget = undefined
   export let onChartPointClick = undefined
+  export let onAnonFavoriteClick = undefined
   export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
@@ -32,6 +33,7 @@
     onWidget,
     onWidgetInit,
     onChartPointClick,
+    onAnonFavoriteClick,
     onModRangeSelect,
     InsightsContextStore,
   })

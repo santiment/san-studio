@@ -16,6 +16,7 @@
     getIndicatorDomainGroups,
     checkHasDomainGroups,
   } from './domain'
+  import { debounced } from './utils'
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -50,6 +51,7 @@
     ChartMetricDisplays,
   )
   $: metrics = $Metrics
+  $: ({ slug } = $studio)
   $: categories = getMetricNodes(metrics, $MetricSettings)
   $: data = mapClosestValue(rawData, categories)
   $: ChartColors.update(metrics)
@@ -59,9 +61,9 @@
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)
   $: rawColors = $ChartColors
   $: colors = rawColors
-  $: getTimeseries(metrics, $studio, onData, onDataError, $MetricSettings)
+  $: fetchData(metrics, $studio, $MetricSettings)
   $: ChartAxes.updateMetrics(metrics, MetricError)
-  $: getAllTimeData(metrics, $studio.slug, onAllTimeData, noop)
+  $: fetchAllData(metrics, slug)
   $: rawDomainGroups = groupDomains(metrics)
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
   $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
@@ -73,6 +75,27 @@
     $MetricSettings ||
     $ChartDrawer) &&
     OnUpdate.emit()
+
+  const fetchData = debounced(
+    (
+      metrics: Studio.Metric[],
+      settings: Studio.Settings,
+      MetricSettings: Studio.MetricSettings,
+    ) => getTimeseries(metrics, settings, onData, onDataError, MetricSettings),
+  )
+  const fetchAllData = debounced((metrics: Studio.Metric[], slug: string) =>
+    getAllTimeData(metrics, slug, onAllTimeData, noop),
+  )
+
+  function changeStudioPeriod(startDatetime: number, endDatetime: number) {
+    studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+  }
+
+  function onDataError(Error, newLoadings, newData?: any) {
+    MetricError = Error
+    loadings = newLoadings
+    if (newData) rawData = newData
+  }
 
   const onMetricSettings = (metric) => (settingsOpenedMetric = metric)
 
@@ -97,10 +120,6 @@
     }
   }
 
-  function changeStudioPeriod(startDatetime: number, endDatetime: number) {
-    studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
-  }
-
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {
     if (!settingsOpenedMetric || metrics.indexOf(settingsOpenedMetric) === -1) {
       return metrics[0]
@@ -113,12 +132,6 @@
       settingsOpenedMetric = metric
     }
     Metrics.replace(index, metric)
-  }
-
-  function onDataError(Error, newLoadings, newData?: any) {
-    MetricError = Error
-    loadings = newLoadings
-    if (newData) rawData = newData
   }
 
   function onChart(newChart) {

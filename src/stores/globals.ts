@@ -4,7 +4,7 @@ const GLOBALS = {
   isPro: false,
   isProPlus: false,
   isNightMode: false,
-  isLoggedIn: true,
+  isLoggedIn: false,
   isBeta: false,
 }
 

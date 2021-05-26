@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 
-type StudioSettings = {
+export type StudioSettings = {
   slug: string
   from: string
   to: string
