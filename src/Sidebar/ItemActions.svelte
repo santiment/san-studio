@@ -14,25 +14,27 @@
   export let onItemLeave
 
   let active = false
-  let style = ''
-  $: if (node) {
+
+  $: style = node ? getActionsStyles() : ''
+  $: isFavorited = item && $favoriteMetrics.has(item.key)
+
+  function getActionsStyles() {
     const { left, width, height } = node.getBoundingClientRect()
     let top = node.offsetTop
     const parent = node.closest('.categories')
     if (parent) top -= parent.scrollTop
 
-    style = `left:${left}px;top:${top}px;--width:${
+    return `left:${left}px;top:${top}px;--width:${
       width - 18
     }px;height:${height}px`
-  } else {
-    style = ''
   }
-
-  $: isFavorited = item && $favoriteMetrics.has(item.key)
 
   function onFavoriteClick(e: MouseEvent) {
     e.stopImmediatePropagation()
-    if ($globals.isLoggedIn) return favoriteMetrics.toggle(item.key)
+    if ($globals.isLoggedIn) {
+      return favoriteMetrics.toggle(item.key)
+      // return tick().then(() => (style = getActionsStyles()))
+    }
     if (onAnonFavoriteClick) onAnonFavoriteClick()
   }
 </script>
