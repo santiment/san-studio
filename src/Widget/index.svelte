@@ -4,7 +4,7 @@
   import { getQueueStore } from './queue'
   import Subwidget from './Subwidget.svelte'
   const Queue = getQueueStore()
-  const { onWidget, onWidgetInit } = getAdapterController()
+  const { onWidget } = getAdapterController()
 
   export let widget
   export let Widgets
@@ -36,7 +36,6 @@
       onLoad={Queue.delete}
       {widget}
       {isSingleWidget}
-      {onWidgetInit}
       {deleteWidget} />
   {/if}
 </div>

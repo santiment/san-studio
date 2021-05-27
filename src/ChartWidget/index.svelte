@@ -2,6 +2,7 @@
   import { studio } from '@/stores/studio'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
   import { newHighlightedColors } from '@/Chart/colors'
+  import { getAdapterController } from '@/adapter/context'
   import Chart from './Chart.svelte'
   import Controls from './Controls/index.svelte'
   import MetricsRow from './Metrics/index.svelte'
@@ -17,6 +18,7 @@
     checkHasDomainGroups,
   } from './domain'
   import { debounced } from './utils'
+  const { onWidgetInit } = getAdapterController()
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -24,7 +26,6 @@
   export let deleteWidget = undefined
   export let metricsFilter = undefined
   export let fullscreenMetricsFilter = undefined
-  export let onWidgetInit = undefined
   export let onLoad = undefined
 
   initWidget(widget)
@@ -72,12 +73,9 @@
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
   $: IsLoaded.set(loadings.size === 0)
   $: onLoad && loadings.size === 0 && onLoad(widget)
-  $: ($ChartAxes ||
-    $ChartColors ||
-    $MetricIndicators ||
-    $MetricSettings ||
-    $ChartDrawer) &&
-    OnUpdate.emit()
+  // prettier-ignore
+  $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
+      OnUpdate.emit())
 
   const fetchData = debounced(
     (

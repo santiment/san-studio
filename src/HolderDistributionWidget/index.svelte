@@ -19,9 +19,10 @@
   export let deleteWidget
   export let isMerging = false
 
-  if (!widget.metrics)
+  if (!widget.metrics) {
     widget.metrics =
       defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
+  }
   initWidget(widget)
 
   const enum Phase {
