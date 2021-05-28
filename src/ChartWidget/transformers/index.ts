@@ -2,6 +2,7 @@ import { parseIntervalString } from 'webkit/utils/dates'
 import { Metric } from '@/metrics'
 import { MirroredMetric, transformMirroredMetric } from './mirroredMetrics'
 import { transformCandles } from './candles'
+import { transformWeightedSocialMetrics } from './weightedSocial'
 
 const IntervalFormatDividend = {
   h: 24,
@@ -34,6 +35,7 @@ export function transformMetricSettings(
   const { key } = metric.base || metric
 
   transformCandles(metric, metricSettings, studioSettings, ChartMetricDisplays)
+  transformWeightedSocialMetrics(metric, metricSettings, studioSettings)
 
   if (key === Metric.dev_activity.key)
     return transformDevActivity(metricSettings, studioSettings)
