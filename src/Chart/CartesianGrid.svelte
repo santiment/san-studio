@@ -5,7 +5,8 @@
   const chart = getChart()
   const ID = 'cartesianGrid'
 
-  export let xTicks: number, yTicks: number
+  export let xTicks: number = undefined
+  export let yTicks: number = undefined
 
   chart.plotManager.set(ID, () => {
     const { xAxesTicks = xTicks, yAxesTicks = yTicks, theme } = chart

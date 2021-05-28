@@ -1,4 +1,5 @@
 import { HolderDistributionMetric } from './holderDistributions'
+import { MakerDaoMetric } from './makerDao'
 import { MetricCategory, MetricGroup } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
 import { mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
@@ -39,7 +40,6 @@ const ExchangesMetric = each(
       label: 'Withdrawal Transactions',
     },
   },
-  // (metric: Studio.Metric) => (metric.group = MetricGroup.TotalSentiment),
   (metric: Studio.Metric) => (metric.group = 'Exchanges'),
 )
 
@@ -66,6 +66,10 @@ const WhalesMetric = each(
     whale_transaction_count_1m_usd_to_inf: {
       label: 'Whale Transaction Count (>1m USD)',
       node: 'bar',
+    },
+    percent_of_whale_stablecoin_total_supply: {
+      label:
+        'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Whales'),
@@ -144,6 +148,7 @@ const NetworkValueMetric = each(
       label: 'MVRV USD intraday',
       formatter: mvrvFormatter,
       axisFormatter: ratioPercentAxisFormatter,
+      precacher: mvrvPrecacher,
     },
     mvrv_usd_z_score: {
       label: 'MVRV Ratio (Z score)',
@@ -157,6 +162,9 @@ const NetworkValueMetric = each(
     },
     nvt_transaction_volume: {
       label: 'NVT Ratio (with Transaction Volume)',
+    },
+    nvt_5min: {
+      label: 'Circulation NVT',
     },
     realized_value_usd: {
       label: 'Realized Cap',
@@ -212,6 +220,7 @@ export const OnChainMetric = each(
     LongTermHoldersMetric,
     NetworkActivityMetric,
     NetworkValueMetric,
+    MakerDaoMetric,
   ),
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChain),
 )
