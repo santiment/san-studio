@@ -134,6 +134,7 @@ const NetworkValueMetric = each(
     },
     mvrv_long_short_diff_usd: {
       label: 'MVRV Long/Short Difference',
+      node: 'filledLine',
       formatter: mvrvFormatter,
       axisFormatter: ratioPercentAxisFormatter,
     },
@@ -146,6 +147,7 @@ const NetworkValueMetric = each(
     },
     mvrv_usd_intraday: {
       label: 'MVRV USD intraday',
+      node: 'filledLine',
       formatter: mvrvFormatter,
       axisFormatter: ratioPercentAxisFormatter,
       precacher: mvrvPrecacher,
