@@ -23,7 +23,6 @@ export function newChartColorsStore(defaultValue?: ChartColors) {
     },
     replace(oldMetricKey: string, newMetricKey: string) {
       colors[newMetricKey] = colors[oldMetricKey]
-      delete colors[oldMetricKey]
       set(colors)
     },
   }

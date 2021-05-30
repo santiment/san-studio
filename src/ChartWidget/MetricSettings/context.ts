@@ -36,8 +36,7 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
       return MetricSettings[metricKey] || (MetricSettings[metricKey] = {})
     },
     replace(oldMetricKey: string, newMetricKey: string) {
-      MetricSettings[newMetricKey] = store.getMetricSettings(oldMetricKey)
-      delete MetricSettings[oldMetricKey]
+      MetricSettings[newMetricKey] = MetricSettings[oldMetricKey]
       set(MetricSettings)
     },
     set(metricKey: string, setting: MetricSetting) {
