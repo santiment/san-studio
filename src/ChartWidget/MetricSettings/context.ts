@@ -35,6 +35,11 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
     getMetricSettings(metricKey: string) {
       return MetricSettings[metricKey] || (MetricSettings[metricKey] = {})
     },
+    replace(oldMetricKey: string, newMetricKey: string) {
+      MetricSettings[newMetricKey] = store.getMetricSettings(oldMetricKey)
+      delete MetricSettings[oldMetricKey]
+      set(MetricSettings)
+    },
     set(metricKey: string, setting: MetricSetting) {
       const metricSettings = store.getMetricSettings(metricKey)
       Object.assign(metricSettings, setting)

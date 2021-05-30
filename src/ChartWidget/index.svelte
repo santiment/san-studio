@@ -125,9 +125,12 @@
   }
 
   function onMetricLock(metric: Studio.Metric, index: number) {
-    if (settingsOpenedMetric === metrics[index]) {
+    const oldMetric = metrics[index]
+    if (settingsOpenedMetric === oldMetric) {
       settingsOpenedMetric = metric
     }
+    MetricSettings.replace(oldMetric.key, metric.key)
+    ChartColors.replace(oldMetric.key, metric.key)
     Metrics.replace(index, metric)
   }
 

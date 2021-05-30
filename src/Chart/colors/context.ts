@@ -21,5 +21,10 @@ export function newChartColorsStore(defaultValue?: ChartColors) {
     update(metrics: Studio.Metric[]) {
       set((colors = newChartColors(metrics, colors)))
     },
+    replace(oldMetricKey: string, newMetricKey: string) {
+      colors[newMetricKey] = colors[oldMetricKey]
+      delete colors[oldMetricKey]
+      set(colors)
+    },
   }
 }
