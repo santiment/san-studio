@@ -44,7 +44,7 @@
     {style}
     class:active
     class="sidebar-item menu row v-center"
-    on:click={() => NodeController(item)}
+    on:click={(e) => NodeController(item, e)}
     on:mouseleave={onItemLeave}
     on:mousewheel={onItemLeave}>
     <span class="row v-center">

@@ -110,7 +110,7 @@ export function queryMetric(
 
       return query<Timeseries>(GET_METRIC, {
         precacher,
-        cacheTime: 600,
+        cacheTime: 1200,
         variables,
       })
     },
