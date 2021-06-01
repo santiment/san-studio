@@ -33,7 +33,7 @@
 </script>
 
 {#if items.length || $$slots.default}
-  <div class="category">
+  <div class="category" on:mouseleave>
     <h3
       on:click={() => (visible = !visible)}
       class="row v-center"

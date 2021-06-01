@@ -19,16 +19,16 @@
   $: getTimeseries(metrics, settings, onData, () => {})
   $: querySignalTimeseries(key, settings).then(onSignalsData)
 
-  let categories = {
+  $: categories = {
     joinedCategories: [metric.key],
     areas: [metric.key],
   }
 
-  let colors = {
+  $: colors = {
     [metric.key]: '#D2D6E7',
   }
 
-  let references = [
+  $: references = [
     {
       metric: metric.key,
       data: signals,

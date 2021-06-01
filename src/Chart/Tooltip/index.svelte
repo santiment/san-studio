@@ -8,11 +8,9 @@
     drawValueBubbleX,
     drawValueBubbleY,
   } from 'san-chart/tooltip'
-  import {
-    handleMove as handlePointEvent,
-    getHoveredIndex,
-  } from 'san-chart/events'
+  import { handleMove as handlePointEvent } from 'san-chart/events'
   import { logScale, valueByY, valueByLogY } from 'san-chart/scales'
+  import { NotableSignal } from '@/metrics/_notables'
   import { getTooltipSynchronizer } from './context'
   import { onSelection } from './selection'
   import { clearCtx, getDateDayMonthYear } from '../utils'
@@ -53,7 +51,19 @@
   })
 
   function marker(ctx, key, _, x, y) {
-    ctx.fillStyle = chart.colors[key]
+    const { colors } = chart
+    const RADIUS = 4
+
+    if (NotableSignal[key]) {
+      ctx.beginPath()
+      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
+      ctx.lineWidth = 1.5
+      ctx.strokeStyle = '#FF5B5B'
+      ctx.stroke()
+      return
+    }
+
+    ctx.fillStyle = colors[key]
     ctx.fillRect(x, y, 8, 2)
   }
 

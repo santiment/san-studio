@@ -20,11 +20,11 @@
 
   export let padding: typeof DEFAULT_PADDING
   export let data, categories, colors, domainGroups
-  export let domainModifier
+  export let domainModifier = undefined
   export let scale = linearScale
   export let theme = themes[0]
-  export let metricSettings
-  export let onChart
+  export let metricSettings = undefined
+  export let onChart = undefined
 
   let width: number, height: number
   let chart
