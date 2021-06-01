@@ -14,10 +14,11 @@
   const padding = { top: 10, left: 10, bottom: 10, right: 10 }
 
   let data = []
+  let loading = false
 
   $: metrics = [metric]
   $: getTimeseries(metrics, settings, onData, () => {})
-  $: querySignalTimeseries(key, settings).then(onSignalsData)
+  $: getSignals(key, settings)
 
   $: categories = {
     joinedCategories: [metric.key],
@@ -35,7 +36,13 @@
     },
   ]
 
+  function getSignals(key, settings) {
+    loading = true
+    querySignalTimeseries(key, settings).then(onSignalsData)
+  }
+
   function onSignalsData(signals) {
+    loading = false
     references[0].data = signals
   }
 </script>
@@ -43,7 +50,32 @@
 <Chart {data} {categories} {colors} {padding}>
   <Areas />
   <ReferenceDots {references} />
+  {#if loading} <div class="loader" /> {/if}
 </Chart>
 
 <style>
+  .loader {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 6px;
+    border-top: 4px solid var(--mystic);
+    border-right: 4px solid var(--mystic);
+    border-bottom: 4px solid var(--mystic);
+    border-left: 4px solid var(--casper);
+    animation: loading 1.1s infinite linear;
+    position: absolute;
+    top: 30%;
+    left: 48%;
+  }
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 </style>
