@@ -1,5 +1,6 @@
 <script lang="ts">
   import Metric from './Metric.svelte'
+  import AutoUpdate from './AutoUpdate.svelte'
 
   export let metrics, colors
   export let MetricError
@@ -25,6 +26,8 @@
       onLock={onMetricLock}
       onSettings={onMetricSettings} />
   {/each}
+
+  <AutoUpdate />
 </div>
 
 <style>
