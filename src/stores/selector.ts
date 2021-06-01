@@ -80,7 +80,7 @@ export function newNodeController(Widgets, Sidewidget) {
 
     if (e) {
       if (e.ctrlKey || e.metaKey) {
-        const widget = get(Widgets)[0]
+        const widget = get<any>(Widgets)[0]
         if (!widget) return
 
         if (isSubwidget) {

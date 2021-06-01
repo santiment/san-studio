@@ -8,7 +8,7 @@ export const CONTEXT = 'AUTO_UPDATER'
 export const setAutoUpdater = (store): void => setContext(CONTEXT, store)
 export const getAutoUpdater = () => getContext(CONTEXT)
 
-export function newAutoUpdaterStore(Widgets) {
+export function newAutoUpdaterStore(Widgets: any) {
   const state = { isUpdating: false, lastUpdate: Date.now() }
   const { subscribe, set } = writable(state)
 
@@ -32,7 +32,7 @@ export function newAutoUpdaterStore(Widgets) {
       window.clearTimeout(autoTimer)
 
       if (refetch) {
-        get(Widgets).forEach((widget) => {
+        get<any>(Widgets).forEach((widget) => {
           widget.fetchData?.(CachePolicy.NewCache)
         })
       }
