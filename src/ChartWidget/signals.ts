@@ -53,13 +53,13 @@ export function newSignalsTimeseriesStore() {
         const signal = MetricSignal[key]
         if (!signal) return
 
-        querySignalTimeseries(signal, settings).then((signals) => {
+        querySignalTimeseries(signal.key, settings).then((signals) => {
           data.push({
-            key: signal,
+            key: signal.key,
             metric: key,
             data: signals,
+            formatter: signal.formatter,
             label: `${metric.label} (${ticker})`,
-            formatter: () => 'Signal',
           })
           set(data)
         })

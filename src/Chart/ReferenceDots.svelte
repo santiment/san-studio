@@ -5,6 +5,8 @@
 
   export let references = []
 
+  $: references && chart.redraw()
+
   chart.plotManager.set('referenceDots', (chart, _, __, colors) => {
     references.forEach(({ key, metric, data, color = '#FF5B5B' }) => {
       const metricColor = colors[metric]

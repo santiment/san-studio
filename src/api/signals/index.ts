@@ -106,3 +106,29 @@ export const querySignalTimeseries = (
     variables: { signal, slug, from, to, interval },
     precacher: signalTimeseriesPrecacher,
   })
+
+const RAW_SIGNAL_QUERY = (slug: string, from: string, to: string) => `{
+    getRawSignals(from:"${from}", to:"${to}", selector:{slug:"${slug}"}) {
+        s: signal
+        d: datetime
+        v: value
+        m: metadata
+    }
+}`
+
+function rawPrecacher() {
+  return ({ getRawSignals }) => {
+    // const data = new Array(getRawSignals.length)
+    const data = new Set()
+    for (let i = getRawSignals.length - 1; i > -1; i--) {
+      const { d, v, s, m } = getRawSignals[i]
+      // data[i] = { datetime: +new Date(d), value: v, signal: s, metadata: m }
+      data.add(s)
+    }
+    // console.log(test)
+
+    return Array.from(data)
+  }
+}
+export const queryRawSignal = (slug, from, to) =>
+  query(RAW_SIGNAL_QUERY(slug, from, to), { precacher: rawPrecacher })
