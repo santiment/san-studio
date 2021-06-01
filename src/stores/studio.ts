@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
+import { ONE_DAY_IN_MS, getTodaysEnd } from 'webkit/utils/dates'
 
 export type StudioSettings = {
   slug: string
@@ -9,8 +9,7 @@ export type StudioSettings = {
   ticker: string
 }
 
-const TO = new Date()
-TO.setHours(TO.getHours(), 59, 59, 999)
+const TO = getTodaysEnd()
 const FROM = new Date(TO)
 FROM.setMonth(FROM.getMonth() - 6)
 

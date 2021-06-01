@@ -1,35 +1,101 @@
 <script lang="ts">
+  import {
+    ONE_SECOND_IN_MS,
+    ONE_MINUTE_IN_MS,
+    ONE_HOUR_IN_MS,
+  } from 'webkit/utils/dates'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { getAutoUpdater } from '@/stores/autoUpdater'
+  const AutoUpdater = getAutoUpdater()
+
+  function getDiffTime() {
+    const diff = Date.now() - $AutoUpdater.lastUpdate
+
+    if (diff < ONE_MINUTE_IN_MS) {
+      return Math.floor(diff / ONE_SECOND_IN_MS) + 's'
+    }
+
+    if (diff < ONE_HOUR_IN_MS) {
+      return Math.floor(diff / ONE_MINUTE_IN_MS) + 'm'
+    }
+
+    return Math.floor(diff / ONE_HOUR_IN_MS) + 'h'
+  }
+
+  function onClick() {
+    if ($AutoUpdater.isUpdating) {
+      AutoUpdater.update(true)
+    } else {
+      AutoUpdater.enable()
+    }
+  }
 </script>
 
 <Tooltip
-  class="caption tooltip-dark $style.tooltip"
+  dark
+  class="caption $style.tooltip"
   position="top"
   align="center"
   duration={0}
   closeTimeout={0}>
-  <div slot="trigger" class="btn live row hv-center mrg-a mrg--l" />
+  <div
+    slot="trigger"
+    class:active={$AutoUpdater.isUpdating}
+    class="btn live row hv-center mrg-a mrg--l"
+    on:click={onClick} />
 
-  <svelte:fragment slot="tooltip">Updated 6m ago</svelte:fragment>
+  <svelte:fragment slot="tooltip">Updated {getDiffTime()} ago</svelte:fragment>
 </Tooltip>
 
 <style>
   .live {
     width: 32px;
     height: 32px;
-    --bg-hover: var(--green-light-1);
+    --bg-hover: var(--athens);
+    --dot: var(--casper);
+    --border: #e5e8f0;
   }
-  .live::before {
+
+  .live::before,
+  .live::after {
     content: '';
     display: block;
     border-radius: 50%;
     width: 8px;
     height: 8px;
-    background: #26c953;
-    border: 4px solid #c3e9d2;
+    background: var(--dot);
+    position: relative;
+    z-index: 2;
+  }
+  .live::before {
+    position: absolute;
+    transform: scale(2);
+    z-index: 1;
+    background: var(--border);
+  }
+
+  .active {
+    --bg-hover: var(--green-light-1);
+    --dot: #26c953;
+    --border: #c3e9d2;
+  }
+  .active::before {
+    animation: live infinite 1.4s both;
   }
 
   .tooltip {
     white-space: nowrap;
+  }
+
+  @keyframes live {
+    0% {
+      transform: scale(2);
+    }
+    70% {
+      transform: scale(1.7);
+    }
+    100% {
+      transform: scale(2);
+    }
   }
 </style>
