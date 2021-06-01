@@ -1,13 +1,11 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Icon.svelte'
+  import { getSettings, getNotableMetrics } from './utils'
   import Item from './Item.svelte'
   import ChartPreview from './ChartPreview.svelte'
   import Category from '../Category.svelte'
-  import { queryRawSignal, queryProjectNotables } from '@/api/signals'
+  import { queryRawSignal } from '@/api/signals'
   import { studio } from '@/stores/studio'
-  import { NotableSignal } from '@/metrics/_notables'
-  import { SelectorType } from '@/metrics/selector/types'
-  import { checkIsFilterMatch } from '@/metrics/selector/utils'
   import { debounced } from '@/ChartWidget/utils'
 
   export let searchTerm = ''
@@ -18,44 +16,18 @@
   let hoveredNotable
   let style
 
-  $: settings = getVariables($studio)
+  $: settings = getSettings($studio)
   $: getRawSignals(settings)
   $: notables = getNotableMetrics(signals, searchTerm)
   $: style = hoveredNode && getPreviewStyles(hoveredNode)
 
-  const getVariables = ({ slug, from, to }) => ({
-    slug,
-    from,
-    to,
-    interval: '2d',
-  })
-
-  const getRawSignals = debounced(({ slug, from, to }) => {
+  const getRawSignals = debounced(({ slug }) => {
     queryRawSignal(slug, 'utc_now-4d', 'utc_now').then((res) => (signals = res))
   })
-
-  function getNotableMetrics(signals, searchTerm) {
-    return signals
-      .map((key) => {
-        const signal = NotableSignal[key]
-
-        if (!signal) return
-        if (searchTerm && !checkIsFilterMatch(searchTerm, signal.metric)) return
-
-        return {
-          key: signal.key,
-          metric: signal.metric,
-          label: signal.formatter(),
-          selectorType: SelectorType.Notable,
-        }
-      })
-      .filter(Boolean)
-  }
 
   let timer
   function onItemEnter(node, notable) {
     window.clearTimeout(timer)
-
     if (style) return setHovered(node, notable)
 
     timer = window.setTimeout(() => setHovered(node, notable), 150)
