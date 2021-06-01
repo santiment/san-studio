@@ -5,7 +5,7 @@
 
 <Tooltip
   dark
-  class="caption tooltip"
+  class="caption $style.tooltip"
   isEnabled={!!error}
   position="top"
   align="center"
