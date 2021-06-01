@@ -3,6 +3,7 @@ import { get, writable } from 'svelte/store'
 import type { Drawing } from '@/Chart/Drawer/context'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
+import { newMetricSignalsStore, newSignalsTimeseriesStore } from './signals'
 import { newMetricDisplayersStore } from './metricDisplayers'
 import { newChartDrawerStore, setChartDrawer } from '@/Chart/Drawer/context'
 import { newChartAxesStore } from '@/Chart/Axes/context'
@@ -47,10 +48,14 @@ export function initWidget(widget: any) {
   if (!widget.ChartMetricDisplays)
     widget.ChartMetricDisplays = newMetricDisplayersStore()
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)
+  if (!widget.MetricsSignals) widget.MetricsSignals = newMetricSignalsStore()
+  if (!widget.SignalsTimeseries)
+    widget.SignalsTimeseries = newSignalsTimeseriesStore()
   if (!widget.MetricSettings)
     widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)
   if (!widget.MetricIndicators)
     widget.MetricIndicators = newMetricIndicatorsStore(widget.metricIndicators)
+
   if (!widget.IsLoaded) widget.IsLoaded = writable(false)
   if (!widget.OnUpdate) widget.OnUpdate = newOnUpdateStore(widget)
 }

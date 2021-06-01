@@ -7,6 +7,7 @@ export function getBrushPlotItems({ items }) {
   brushItems.delete('lastDayPrice')
   brushItems.delete('Drawer')
   brushItems.delete('candles')
+  brushItems.delete('referenceDots')
 
   return brushItems
 }

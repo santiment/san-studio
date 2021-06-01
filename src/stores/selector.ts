@@ -6,41 +6,72 @@ import { SelectorType } from '@/metrics/selector/types'
 export type SelectedMetrics = {
   items: Studio.Metric[]
   subwidgets: any[]
-  has: (metric: Studio.Metric) => boolean
+  notables: any[]
+  has: (item: Studio.Metric) => boolean
 }
 export const selectedMetrics = (() => {
   const metricsSet = new Set<Studio.Metric>()
   const subwidgetsSet = new Set<any>()
+  const notablesSet = new Set<any>()
   const store: SelectedMetrics = {
     items: [],
     subwidgets: [],
-    has: (metric) => metricsSet.has(metric) || subwidgetsSet.has(metric),
+    notables: [],
+    has: (item) => metricsSet.has(item) || subwidgetsSet.has(item),
   }
   const { subscribe, set } = writable<SelectedMetrics>(store)
+
+  function getTargets(selectorType: SelectorType) {
+    switch (selectorType) {
+      case SelectorType.Subwidget:
+        return ['subwidgets', subwidgetsSet]
+      case SelectorType.Notable:
+        return ['notables', notablesSet]
+      default:
+        return ['items', metricsSet]
+    }
+  }
 
   return {
     subscribe,
     clear() {
       metricsSet.clear()
       subwidgetsSet.clear()
+      notablesSet.clear()
+
       store.items = []
       store.subwidgets = []
+      store.notables = []
+
       set(store)
     },
-    toggle(metric: Studio.SelectorNode) {
-      const isSubwidget = metric?.selectorType === SelectorType.Subwidget
-      const target = isSubwidget ? subwidgetsSet : metricsSet
+    toggle(item: Studio.SelectorNode) {
+      if (item?.selectorType === SelectorType.Notable) {
+        const { metric } = item
+        if (notablesSet.has(metric)) {
+          notablesSet.delete(metric)
+          metricsSet.delete(metric)
+        } else {
+          notablesSet.add(metric)
+          metricsSet.add(metric)
+        }
 
-      if (target.has(metric)) {
-        target.delete(metric)
+        store.items = Array.from(metricsSet)
+        store.notables = Array.from(notablesSet)
       } else {
-        target.add(metric)
-      }
+        const [targetKey, target] = getTargets(item?.selectorType)
 
-      if (isSubwidget) {
-        store.subwidgets = Array.from(target)
-      } else {
-        store.items = Array.from(target)
+        if (target.has(item)) {
+          target.delete(item)
+          if (notablesSet.size) {
+            notablesSet.delete(item)
+            store.notables = Array.from(notablesSet)
+          }
+        } else {
+          target.add(item)
+        }
+
+        store[targetKey] = Array.from(target)
       }
       set(store)
     },
@@ -76,26 +107,17 @@ export function newNodeController(Widgets, Sidewidget) {
       return
     }
 
-    const isSubwidget = node.selectorType === SelectorType.Subwidget
+    const isCtrl = e && (e.ctrlKey || e.metaKey)
+    const widget = isCtrl && get(Widgets)[0]
 
-    if (e) {
-      if (e.ctrlKey || e.metaKey) {
-        const widget = get(Widgets)[0]
-        if (!widget) return
+    if (node.selectorType === SelectorType.Subwidget) {
+      if (widget) return Widgets.addSubwidgets(widget, [node])
 
-        if (isSubwidget) {
-          Widgets.addSubwidgets(widget, [node])
-        } else {
-          widget.Metrics.add(node)
-        }
-        return
-      }
-    }
-
-    if (isSubwidget) {
       selectedMetrics.toggle(node)
       return
     }
+
+    if (widget) return widget.Metrics.add(node)
 
     selector.toggle(node)
   }

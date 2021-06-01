@@ -11,6 +11,7 @@
   import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
   import Favorites from './Favorites.svelte'
+  import Notables from './Notables/index.svelte'
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
   import Toggle from './Toggle.svelte'
@@ -77,6 +78,7 @@
     {#if isMetricTab}
       <ItemActions node={hoveredNode} item={hoveredItem} {onItemLeave} />
       <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
+      <Notables {isFiltering} {onItemEnter} searchTerm={loweredInput} />
       {#each categories as category}
         <Category
           {category}

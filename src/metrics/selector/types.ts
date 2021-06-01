@@ -3,4 +3,5 @@ export enum SelectorType {
   Subwidget,
   Sidewidget,
   Metric,
+  Notable,
 }
