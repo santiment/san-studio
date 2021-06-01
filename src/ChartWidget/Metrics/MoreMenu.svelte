@@ -55,7 +55,6 @@
         <Icon
           id="star{isFavorited ? '-filled' : ''}"
           w="16"
-          h="16"
           class="mrg-s mrg--r" />
         {isFavorited ? 'Unfavorite' : 'Make favorite'}
       </div>

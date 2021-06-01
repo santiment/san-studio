@@ -75,6 +75,7 @@ export function absoluteToRelativeCoordinates(
   drawing,
 ): [number, number, number, number] {
   const { width, drawingKey, minMaxes, scale } = chart
+  if (!minMaxes || !minMaxes[drawingKey]) return drawing.relCoor || []
   const { min, max } = minMaxes[drawingKey]
 
   const [x1, y1, x2, y2] = drawing.absCoor

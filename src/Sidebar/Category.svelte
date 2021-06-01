@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Icon.svelte'
   import { MetricCategory } from '@/metrics/graph'
   import Item from './Item.svelte'
 
@@ -36,10 +36,11 @@
   <div class="category">
     <h3
       on:click={() => (visible = !visible)}
-      class="row v-center justify"
+      class="row v-center"
       class:hidden={!visible}>
+      <slot name="pre-title" />
       {category}
-      <Icon id="arrow" w="8" h="5" class="$style.arrow" />
+      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg-a mrg--l" />
     </h3>
 
     {#if visible || isFiltering}
@@ -54,7 +55,7 @@
                 class="row justify v-center"
                 class:hidden={!VisibleGroup[metric.group]}>
                 {metric.group}
-                <Icon id="arrow" w="8" h="5" class="$style.arrow" />
+                <Svg id="arrow" w="8" h="5" class="$style.arrow" />
               </h4>
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}

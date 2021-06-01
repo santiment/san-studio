@@ -53,4 +53,8 @@
   :global(.btn--ghost.active) {
     --color: var(--green);
   }
+
+  .dropdown :global(.btn) {
+    white-space: nowrap;
+  }
 </style>

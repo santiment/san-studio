@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Svg from 'webkit/ui/Icon.svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { SelectorNode } from '@/metrics/selector'
   import { checkIsFilterMatch } from '@/metrics/selector/utils'
@@ -26,6 +27,12 @@
 
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened>
+    <Svg
+      slot="pre-title"
+      id="star-filled"
+      w="16"
+      class="mrg-s mrg--r $style.star" />
+
     {#each favorites as item}
       <Item {item} {onItemEnter} isShowingSubitems={false} />
     {:else}
@@ -38,5 +45,9 @@
   div {
     color: var(--waterloo);
     padding-left: 8px;
+  }
+
+  .star {
+    fill: var(--orange);
   }
 </style>

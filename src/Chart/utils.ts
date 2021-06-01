@@ -55,8 +55,8 @@ export function getDefaultTooltipSettings() {
 export function linearDatetimeScale(chart) {
   const { width, data, left } = chart
 
-  const min = data[0].datetime
-  const max = data[data.length - 1].datetime
+  const min = data[0]?.datetime || 0
+  const max = data[data.length - 1]?.datetime || 0
   const xFactor = width / (max - min)
 
   return (value: number) => left + (value - min) * xFactor
