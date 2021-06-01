@@ -1,3 +1,4 @@
+import type { CachePolicy } from 'webkit/api/cache'
 import { dataAccessor } from '@/api/timeseries'
 import { queryMetric } from '@/api/timeseries/queries'
 import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
@@ -42,17 +43,25 @@ export function buildMergedMetric(baseMetrics) {
   return metric
 }
 
-function fetch(variables, metric: Studio.HolderDistributionMetric) {
+function fetch(
+  variables,
+  metric: Studio.HolderDistributionMetric,
+  cachePolicy?: CachePolicy,
+) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 
   const baseKeys = baseMetrics.map(keyGetter)
   const queries = baseMetrics.map(({ key, queryKey = key }) =>
-    queryMetric({
-      ...variables,
-      key,
-      metric: queryKey,
-    }).then(dataAccessor),
+    queryMetric(
+      {
+        ...variables,
+        key,
+        metric: queryKey,
+      },
+      undefined,
+      cachePolicy,
+    ).then(dataAccessor),
   )
 
   return Promise.all(queries).then((allData) => {

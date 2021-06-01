@@ -1,3 +1,4 @@
+import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { Variables, newPrecacher } from './utils'
 
@@ -24,10 +25,12 @@ const precacher = newPrecacher(
 )
 export function queryTopHoldersPercentOfTatalSupply(
   variables: Variables,
+  _,
+  cachePolicy?: CachePolicy,
 ): Promise<any> {
   return query(TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY, {
     precacher,
-    cacheTime: 600,
+    cachePolicy,
     variables,
   })
 }

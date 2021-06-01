@@ -1,4 +1,5 @@
 import type { Query, QueryRecord } from 'webkit/api'
+import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { getMetricKeyMinInterval } from '@/api/metrics/restrictions'
 import { normalizeInterval } from '@/utils/intervals'
@@ -98,6 +99,7 @@ const defaultPrecacher =
 export function queryMetric(
   variables: Variables,
   precacher: (variables: Variables) => any = defaultPrecacher,
+  cachePolicy?: CachePolicy,
 ): Promise<any> {
   return getMetricKeyMinInterval(variables.metric as string).then(
     (minInterval) => {
@@ -110,7 +112,7 @@ export function queryMetric(
 
       return query<Timeseries>(GET_METRIC, {
         precacher,
-        cacheTime: 1200,
+        cachePolicy,
         variables,
       })
     },

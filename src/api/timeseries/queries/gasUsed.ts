@@ -1,3 +1,4 @@
+import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { Variables, newPrecacher } from './utils'
 
@@ -16,10 +17,14 @@ const GAS_USED_QUERY = `
 `
 
 const precacher = newPrecacher(({ gasUsed }) => gasUsed)
-export function queryGasUsed(variables: Variables): Promise<any> {
+export function queryGasUsed(
+  variables: Variables,
+  _,
+  cachePolicy?: CachePolicy,
+): Promise<any> {
   return query(GAS_USED_QUERY, {
     precacher,
-    cacheTime: 600,
+    cachePolicy,
     variables,
   })
 }

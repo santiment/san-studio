@@ -4,7 +4,7 @@
 </script>
 
 <Tooltip
-  class="caption $style.tooltip"
+  class="caption tooltip-dark"
   isEnabled={!!error}
   position="top"
   align="center"
@@ -18,7 +18,7 @@
 </Tooltip>
 
 <style>
-  .tooltip {
+  :global(.tooltip-dark) {
     background: #505573 !important;
     color: #fff;
     padding: 5px 12px;
