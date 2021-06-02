@@ -47,7 +47,7 @@ export const selectedMetrics = (() => {
     },
     toggle(item: Studio.SelectorNode) {
       if (item?.selectorType === SelectorType.Notable) {
-        const { metric } = item
+        const { metric } = item as any
         if (notablesSet.has(metric)) {
           notablesSet.delete(metric)
           metricsSet.delete(metric)
@@ -59,7 +59,7 @@ export const selectedMetrics = (() => {
         store.items = Array.from(metricsSet)
         store.notables = Array.from(notablesSet)
       } else {
-        const [targetKey, target] = getTargets(item?.selectorType)
+        const [targetKey, target] = getTargets(item?.selectorType as any) as any
 
         if (target.has(item)) {
           target.delete(item)
@@ -108,7 +108,7 @@ export function newNodeController(Widgets, Sidewidget) {
     }
 
     const isCtrl = e && (e.ctrlKey || e.metaKey)
-    const widget = isCtrl && get(Widgets)[0]
+    const widget = isCtrl && get<any>(Widgets)[0]
 
     if (node.selectorType === SelectorType.Subwidget) {
       if (widget) return Widgets.addSubwidgets(widget, [node])

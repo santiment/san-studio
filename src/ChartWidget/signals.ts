@@ -4,7 +4,7 @@ import { MetricSignal } from '@/metrics/_notables'
 
 type MetricSettingsStore = ReturnType<typeof newMetricSignalsStore>
 export type Indicators = Set<{ key: string }>
-export type Signals = string[]
+export type Signals = Studio.Metric[]
 
 export function newMetricSignalsStore(defaultValue?: Signals) {
   let signals = (defaultValue || []) as Signals
@@ -15,8 +15,8 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
 
   const store = {
     subscribe,
-    add(metricKey: string) {
-      signalsSet.add(metricKey)
+    delete(metric: Studio.Metric) {
+      signalsSet.delete(metric)
       update()
     },
     concat(newMetrics: Studio.Metric[]) {
@@ -24,7 +24,7 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
       update()
     },
     update(metrics: Studio.Metric[]) {
-      const newSignalsSet = new Set()
+      const newSignalsSet = new Set<any>()
 
       metrics.forEach(
         (metric) => signalsSet.has(metric) && newSignalsSet.add(metric),
@@ -39,13 +39,13 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
 }
 
 export function newSignalsTimeseriesStore() {
-  const { subscribe, set } = writable([])
+  const { subscribe, set } = writable<any[]>([])
 
   const store = {
     subscribe,
     update(metrics: Studio.Metric[], { slug, ticker, from, to, interval }) {
       const settings = { slug, from, to, interval }
-      const data = []
+      const data = [] as any[]
       set(data)
 
       metrics.forEach((metric) => {
@@ -60,7 +60,7 @@ export function newSignalsTimeseriesStore() {
             data: signals,
             formatter: signal.formatter,
             label: `${metric.label} (${ticker})`,
-          })
+          } as any)
           set(data)
         })
       })

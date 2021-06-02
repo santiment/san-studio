@@ -101,7 +101,7 @@ export const NotableSignal = each(
       metric: Metric.social_volume_total,
     },
   },
-  (notable, key) => {
+  (notable: any, key) => {
     notable.key = key
     MetricSignal[notable.metric.key] = notable
   },

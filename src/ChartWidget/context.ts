@@ -48,7 +48,8 @@ export function initWidget(widget: any) {
   if (!widget.ChartMetricDisplays)
     widget.ChartMetricDisplays = newMetricDisplayersStore()
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)
-  if (!widget.MetricsSignals) widget.MetricsSignals = newMetricSignalsStore()
+  if (!widget.MetricsSignals)
+    widget.MetricsSignals = newMetricSignalsStore(widget.signalMetrics)
   if (!widget.SignalsTimeseries)
     widget.SignalsTimeseries = newSignalsTimeseriesStore()
   if (!widget.MetricSettings)
@@ -73,6 +74,7 @@ export function newOnUpdateStore(widget: any) {
       widget.drawings = (get(widget.ChartDrawer) as any).drawings
       widget.colors = get(widget.ChartColors)
       widget.axesMetrics = get(widget.ChartAxes)
+      widget.signalMetrics = get(widget.MetricsSignals)
 
       set(i++)
     },

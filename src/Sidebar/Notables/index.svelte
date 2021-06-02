@@ -22,7 +22,7 @@
   $: style = hoveredNode && getPreviewStyles(hoveredNode)
 
   const getRawSignals = debounced(({ slug }) => {
-    queryRawSignal(slug, 'utc_now-4d', 'utc_now').then((res) => (signals = res))
+    queryRawSignal(slug, 'utc_now-2d', 'utc_now').then((res) => (signals = res))
   })
 
   let timer
@@ -64,9 +64,11 @@
   }
 </script>
 
-{#if !isFiltering || (isFiltering && notables.length)}
+{#if notables.length}
   <Category category="Notables" {isFiltering} isOpened>
-    <Svg slot="pre-title" id="flash" w="16" class="mrg-s mrg--r $style.flash" />
+    <svelte:fragment slot="pre-title">
+      <Svg id="flash" w="12" h="16" class="mrg-s mrg--r $style.flash" />
+    </svelte:fragment>
 
     {#each notables as notable}
       <Item
