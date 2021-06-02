@@ -79,7 +79,7 @@
   $: onLoad && loadings.size === 0 && onLoad(widget)
   // prettier-ignore
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
-      OnUpdate.emit())
+      $MetricsSignals, OnUpdate.emit())
 
   widget.fetchData = (cachePolicy) =>
     fetchData(metrics, $studio, $MetricSettings, cachePolicy)

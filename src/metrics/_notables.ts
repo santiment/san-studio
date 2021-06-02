@@ -80,11 +80,11 @@ export const NotableSignal = each(
     },
 
     ath_price_usd: {
-      formatter: () => 'ATH',
+      formatter: () => 'All Time High',
       metric: Metric.price_usd,
     },
     dai_mint: {
-      formatter: () => 'Dai Mint',
+      formatter: () => 'DAI mint',
       metric: Metric.circulation_10y,
     },
     large_transactions: {
