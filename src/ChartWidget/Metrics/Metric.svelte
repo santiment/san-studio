@@ -64,14 +64,14 @@
     on:click={(e) => onClick(metric, e)}
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}>
-    {#if $MetricsSignals.includes(metric)}
-      <div class="locked signaled row hv-center"><Icon id="flash" w="8" /></div>
-    {/if}
-
     {#if isLocked}
       <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
     {:else if !metric.indicator}
       ({$studio.ticker})
+    {/if}
+
+    {#if $MetricsSignals.includes(metric)}
+      <div class="locked signaled row hv-center"><Icon id="flash" w="8" /></div>
     {/if}
 
     <MoreMenu
