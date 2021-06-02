@@ -14,10 +14,22 @@ type ProjectMetrics = Query<
   { availableMetrics: string[]; availableQueries: string[] }
 >
 
-const dataAccessor = ({ projectBySlug }: QueryRecord<ProjectMetrics>) =>
-  projectBySlug.availableMetrics.concat(projectBySlug.availableQueries)
+function precacher() {
+  return ({ projectBySlug }) => {
+    const { availableMetrics, availableQueries } = projectBySlug
+    const metricsSet = new Set(
+      ['percent_of_whale_stablecoin_total_supply']
+        .concat(availableMetrics)
+        .concat(availableQueries),
+    )
+    console.log(metricsSet)
+    return Array.from(metricsSet)
+  }
+}
+const options = { precacher }
+
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
 ): Promise<string[]> =>
-  query<ProjectMetrics>(PROJECT_AVAILABLE_METRIC_QUERY(slug)).then(dataAccessor)
+  query<any>(PROJECT_AVAILABLE_METRIC_QUERY(slug), options) as any

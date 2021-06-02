@@ -70,6 +70,12 @@ const WhalesMetric = each(
     percent_of_whale_stablecoin_total_supply: {
       label:
         'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
+      getLabel: () =>
+        'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
+      noTicker: true,
+      reqMeta: {
+        slug: 'ethereum',
+      },
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Whales'),

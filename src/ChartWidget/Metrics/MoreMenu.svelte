@@ -28,21 +28,23 @@
   </div>
 
   <div slot="tooltip" class="menu">
-    <div
-      class="btn btn--ghost option"
-      class:disabled={Metrics.hasConvertedMetric(metric, $studio)}
-      on:click={onLockClick}>
-      <Svg
-        id={isLocked ? 'locked' : 'unlocked'}
-        w="14"
-        h="15"
-        class="mrg-s mrg--r" />
-      {#if isLocked}
-        Unlock metric
-      {:else}
-        Lock metric to {$studio.ticker}
-      {/if}
-    </div>
+    {#if !metric.noTicker}
+      <div
+        class="btn btn--ghost option"
+        class:disabled={Metrics.hasConvertedMetric(metric, $studio)}
+        on:click={onLockClick}>
+        <Svg
+          id={isLocked ? 'locked' : 'unlocked'}
+          w="14"
+          h="15"
+          class="mrg-s mrg--r" />
+        {#if isLocked}
+          Unlock metric
+        {:else}
+          Lock metric to {$studio.ticker}
+        {/if}
+      </div>
+    {/if}
 
     {#if !metric.base}
       <div

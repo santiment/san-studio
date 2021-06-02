@@ -73,7 +73,7 @@ export const Description = {
     'A dollar-based equivalent of the Mean Coin Age. The difference between "coin age" and "dollar age" comes from the different way that we compute the averages.',
 
   [Metric.nvt.key]:
-    'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] tokens transacted on-chain daily. High NVT levels indicate an overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] Market Cap by its on-chain Token Circulation.',
+    'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] transacted on-chain daily. High NVT levels indicate and overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] market cap by its daily circulation, or the amount of <em>unique</em> [Project Ticker] exchanged on the network daily',
 
   [Metric.nvt_transaction_volume.key]:
     'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] tokens transacted on-chain daily. High NVT levels indicate an overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] Market Cap by its on-chain Transaction Volume.',

@@ -19,6 +19,10 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
       signalsSet.delete(metric)
       update()
     },
+    clear() {
+      signalsSet.clear()
+      update()
+    },
     concat(newMetrics: Studio.Metric[]) {
       signalsSet = new Set(signals.concat(newMetrics))
       update()

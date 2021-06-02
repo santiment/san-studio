@@ -36,7 +36,7 @@
     min-width: 260px;
     background: var(--white);
     border-right: 1px solid var(--porcelain);
-    z-index: 22;
+    z-index: 25;
     position: absolute;
     transform: translate(-248px);
     top: 0;

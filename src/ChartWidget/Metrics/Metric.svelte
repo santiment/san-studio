@@ -67,7 +67,9 @@
     {#if isLocked}
       <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
     {:else if !metric.indicator}
-      ({$studio.ticker})
+      {#if !metric.noTicker}
+        ({$studio.ticker})
+      {/if}
     {/if}
 
     {#if $MetricsSignals.includes(metric)}
