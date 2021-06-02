@@ -5,7 +5,7 @@
   export { className as class }
   export let item: any
   export let isShowingSubitems = true
-  export let onItemEnter
+  export let onItemEnter = undefined
 
   let active
   const onMouseEnter = ({ currentTarget }) => onItemEnter(currentTarget, item)
@@ -17,6 +17,8 @@
   class:active
   class:subitem={isShowingSubitems && item.submetricOf}
   on:mouseenter={onItemEnter && onMouseEnter}
+  on:mousewheel
+  on:mouseleave
   on:click>
   <ItemLabel {item} bind:active />
 </div>

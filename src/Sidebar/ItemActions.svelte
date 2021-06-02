@@ -43,7 +43,7 @@
   <div
     {style}
     class:active
-    class="sidebar-item menu row v-center"
+    class="sidebar-item sidebar-menu menu row v-center"
     on:click={(e) => NodeController(item, e)}
     on:mouseleave={onItemLeave}
     on:mousewheel={onItemLeave}>
@@ -69,17 +69,21 @@
 <style>
   .menu {
     position: absolute;
-    border-radius: 4px;
-    background: var(--athens);
-    box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
     z-index: 3;
   }
-  .menu:hover {
+
+  :global(.sidebar-menu) {
+    border-radius: 4px;
+    background: var(--athens);
+  }
+  :global(.sidebar-item.sidebar-menu:hover) {
+    box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
     --bg: var(--green-light-2);
     --fill: var(--green);
     color: var(--green);
+    z-index: 3;
   }
-  .active:hover {
+  :global(.sidebar-menu.active:hover) {
     --bg: var(--red-light-1);
     --fill: var(--red);
     color: var(--red);

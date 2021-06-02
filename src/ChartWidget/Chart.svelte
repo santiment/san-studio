@@ -16,6 +16,7 @@
   import Brush from '@/Chart/Brush/index.svelte'
   import Drawer from '@/Chart/Drawer/index.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
+  import ReferenceDots from '@/Chart/ReferenceDots.svelte'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
@@ -27,7 +28,7 @@
   } = getAdapterController()
 
   const { ChartAxes, ChartOptions } = widget
-  const { MetricSettings, ChartMetricDisplays } = widget
+  const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget
 
   export let metrics: Studio.Metric[]
   export let data = []
@@ -40,8 +41,14 @@
 
   const getKey = ({ key }) => key
   $: ({ ticker } = $studio)
+  $: references = $SignalsTimeseries
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
-  $: metricSettings = getTooltipSettings(metrics, ticker, $ChartMetricDisplays)
+  $: metricSettings = getTooltipSettings(
+    metrics,
+    references,
+    ticker,
+    $ChartMetricDisplays,
+  )
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
@@ -50,6 +57,7 @@
     base ? label : label + ` (${ticker})`
   function getTooltipSettings(
     metrics: Studio.Metric[],
+    references: any[],
     ticker: string,
     MetricDisplays,
   ) {
@@ -67,6 +75,14 @@
         MetricDisplays[key],
       )
     })
+
+    references.forEach(({ key, label, formatter }) => {
+      metricSettings[key] = {
+        label,
+        formatter,
+      }
+    })
+
     return metricSettings
   }
 
@@ -123,6 +139,8 @@
   <Areas />
   <Candles />
   <Lines />
+
+  <ReferenceDots {references} />
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />

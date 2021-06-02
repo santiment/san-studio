@@ -19,11 +19,12 @@
   }
 
   export let padding: typeof DEFAULT_PADDING
-  export let data, categories, colors, scale, domainGroups
-  export let domainModifier
+  export let data, categories, colors, domainGroups
+  export let domainModifier = undefined
+  export let scale = linearScale
   export let theme = themes[0]
-  export let metricSettings
-  export let onChart
+  export let metricSettings = undefined
+  export let onChart = undefined
 
   let width: number, height: number
   let chart
@@ -66,7 +67,7 @@
     chart.data = data
     chart.categories = categories
     chart.colors = colors
-    chart.scale = scale || linearScale
+    chart.scale = scale
     chart.domainGroups = domainGroups
     chart.domainModifier = domainModifier
 
@@ -124,5 +125,6 @@
     position: relative;
     line-height: 0;
     min-height: 0;
+    max-height: 100%;
   }
 </style>

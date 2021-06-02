@@ -1,6 +1,7 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
+  import { querySignalTimeseries } from '@/api/signals'
   import { newHighlightedColors } from '@/Chart/colors'
   import { getAdapterController } from '@/adapter/context'
   import Chart from './Chart.svelte'
@@ -35,6 +36,7 @@
 
   const { ChartAxes, ChartColors, ChartDrawer, ChartMetricDisplays } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
+  const { MetricsSignals, SignalsTimeseries } = widget
   const { IsLoaded, OnUpdate } = widget
   const onData = (newData, newLoadings) =>
     (rawData = newData) && (loadings = newLoadings)
@@ -56,6 +58,8 @@
   $: ({ slug } = $studio)
   $: categories = getMetricNodes(metrics, $MetricSettings)
   $: data = mapClosestValue(rawData, categories)
+  $: MetricsSignals.update(metrics)
+  $: SignalsTimeseries.update($MetricsSignals, $studio)
   $: ChartColors.update(metrics)
   $: ChartMetricDisplays.update(metrics)
   $: MetricSettings.update(metrics, metricSettingsTransformer)
@@ -75,7 +79,7 @@
   $: onLoad && loadings.size === 0 && onLoad(widget)
   // prettier-ignore
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
-      OnUpdate.emit())
+      $MetricsSignals, OnUpdate.emit())
 
   widget.fetchData = (cachePolicy) =>
     fetchData(metrics, $studio, $MetricSettings, cachePolicy)

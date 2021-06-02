@@ -42,6 +42,7 @@
       Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
     }
     widget.Metrics.concat($selectedMetrics.items)
+    widget.MetricsSignals.concat($selectedMetrics.notables)
     selectedMetrics.clear()
   }
 
