@@ -1,4 +1,13 @@
 export const Event = {
+  ChartsUsage: 'charts_usage',
+
+  ChangeAsset: 'charts_change_asset',
+  ChangeLockAsset: 'charts_change_lock_asset',
+
+  NewLayout: 'charts_new_layout',
+  LoadLayout: 'charts_load_layout',
+  SaveLayout: 'charts_save_layout',
+
   Fullscreen: 'charts_fullscreen',
   Scale: 'charts_scale',
   Download: 'charts_download',
@@ -26,7 +35,10 @@ export const Event = {
   NewWidget: 'charts_new_widget',
   Sidewidget: 'charts_sidewidget',
 
-  AutoUpdateClick: 'charts_auto_update_click',
+  AutoUpdate: 'charts_auto_update',
 
   Insights: 'charts_insights',
+
+  Share: 'charts_share',
+  CopyLink: 'charts_copy_link',
 } as const

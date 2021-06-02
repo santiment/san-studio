@@ -31,7 +31,7 @@
       AutoUpdater.enable()
     }
 
-    track.event(Event.AutoUpdateClick)
+    track.event(Event.AutoUpdate)
   }
 </script>
 
