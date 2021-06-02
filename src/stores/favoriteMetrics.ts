@@ -1,8 +1,10 @@
 import { writable } from 'svelte/store'
+import { track } from 'webkit/analytics'
 import {
   queryFavoriteMetrics,
   mutateFavoriteMetrics,
 } from '@/api/metrics/favorites'
+import { Event } from '@/analytics'
 
 let favoritesSet = new Set<string>()
 const { update, subscribe, set } = writable(favoritesSet)
@@ -16,8 +18,10 @@ export const favoriteMetrics = {
     const saved = new Set(favoritesSet)
     if (favoritesSet.has(metricKey)) {
       favoritesSet.delete(metricKey)
+      track.event(Event.UnfavoriteMetric, { metric: metricKey })
     } else {
       favoritesSet.add(metricKey)
+      track.event(Event.FavoriteMetric, { metric: metricKey })
     }
     set(favoritesSet)
 

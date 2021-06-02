@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { Event } from '@/analytics'
   import MetricButton from '@/MetricButton.svelte'
   import { getWidget } from '@/ChartWidget/context'
   import { studio } from '@/stores/studio'
@@ -38,6 +40,13 @@
 
   function onLockClick() {
     if (Metrics.hasConvertedMetric(metric, $studio)) return
+
+    if (metric.project) {
+      track.event(Event.UnlockMetric, { metric: metric.key })
+    } else {
+      track.event(Event.LockMetric, { metric: metric.key, asset: $studio.slug })
+    }
+
     onLock(convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
   }
 

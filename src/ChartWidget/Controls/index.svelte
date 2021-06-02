@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { Event } from '@/analytics'
+  import { getWidget } from '@/ChartWidget/context'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
-  import { getWidget } from '@/ChartWidget/context'
   const { ChartDrawer } = getWidget()
 
   export let chart
@@ -12,6 +14,12 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
+
+  function onNewLine() {
+    if ($ChartDrawer.isNewDrawing === false) track.event(Event.NewDrawing)
+
+    ChartDrawer.toggleNewDrawing()
+  }
 
   function onLineDelete() {
     const { drawer } = chart
@@ -36,7 +44,7 @@
   <div
     class="btn"
     class:active={$ChartDrawer.isNewDrawing}
-    on:click={ChartDrawer.toggleNewDrawing}>
+    on:click={onNewLine}>
     <Icon id="line" w="15" />
   </div>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ChartNodes } from '@/Chart/nodes'
   import type { MetricSetting } from './context'
+  import { track } from 'webkit/analytics'
   import {
     cleanupCandlesSettings,
     setCandlesSettings,
@@ -8,6 +9,7 @@
   import { studio } from '@/stores/studio'
   import { Node, NodeAlias } from '@/Chart/nodes'
   import { Metric } from '@/metrics'
+  import { Event } from '@/analytics'
   import Dropdown from './Dropdown.svelte'
   import { getWidget } from '../context'
   const { MetricSettings, ChartMetricDisplays } = getWidget()
@@ -45,6 +47,7 @@
       setCandlesSettings(metric, metricSettings, $studio, ChartMetricDisplays)
     }
 
+    track.event(Event.MetricNode, { metric: metric.key, type: node.label })
     MetricSettings.set(metric.key, {
       node: node.id,
     })

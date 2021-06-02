@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
   import Setting from './Setting.svelte'
   import { getWidget } from '@/ChartWidget/context'
+  import { Event } from '@/analytics'
   const { ChartColors } = getWidget()
 
   export let metric: Studio.Metric
@@ -16,6 +18,7 @@
     timer = window.setTimeout(() => {
       color = value
       ChartColors.set(metric.key, value)
+      track.event(Event.MetricColor, { metric: metric.key, color: value })
     }, 150)
   }
 </script>

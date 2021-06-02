@@ -1,8 +1,10 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { Event } from '@/analytics'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
@@ -24,6 +26,12 @@
     isOpened = false
     // NOTE: Widget is not deleted if tooltip is not closed [@vanguard | May 26, 2021]
     tick().then(() => deleteWidget(true))
+  }
+
+  function onDownload(downloader) {
+    // prettier-ignore
+    track.event(Event.Download, { type: downloader === downloadPng ? 'png' : 'csv'})
+    downloader(widget, $studio)
   }
 </script>
 
@@ -67,7 +75,7 @@
     <div
       class="btn"
       class:disabled={!isPro}
-      on:click={() => isPro && downloadCsv(widget, $studio)}>
+      on:click={() => isPro && onDownload(downloadCsv)}>
       <span>
         <Icon id="download" w="16" class="mrg-s mrg--r" />
         Download as CSV
@@ -76,7 +84,7 @@
         <a href="/pricing" class="label">PRO</a>
       {/if}
     </div>
-    <div class="btn" on:click={() => downloadPng(widget, $studio)}>
+    <div class="btn" on:click={() => onDownload(downloadPng)}>
       <span>
         <Icon id="download" w="16" class="mrg-s mrg--r" />
         Download as PNG

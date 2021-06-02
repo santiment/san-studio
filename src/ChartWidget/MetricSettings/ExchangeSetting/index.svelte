@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
+  import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { debounced } from '@/ChartWidget/utils'
@@ -30,6 +32,8 @@
 
   function onChange(newOwner) {
     const { key, queryKey = key } = metric
+    // prettier-ignore
+    track.event(Event.MetricExchange, { metric: metric.key, exchange: newOwner })
 
     if (newOwner === DEFAULT_EXCHANGE) {
       MetricSettings.delete(key, 'queryKey')
