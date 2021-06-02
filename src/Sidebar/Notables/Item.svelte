@@ -3,7 +3,6 @@
   import { selectedMetrics } from '@/stores/selector'
 
   export let notable
-  export let settings
   export let onItemEnter
 
   function onClick() {

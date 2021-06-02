@@ -73,7 +73,6 @@
     {#each notables as notable}
       <Item
         {notable}
-        {settings}
         {onItemEnter}
         on:mousewheel={closePreview}
         on:mouseleave={onItemLeave} />

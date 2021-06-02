@@ -8,7 +8,7 @@ export type Signals = Studio.Metric[]
 
 export function newMetricSignalsStore(defaultValue?: Signals) {
   let signals = (defaultValue || []) as Signals
-  let signalsSet = new Set<Studio.Metric>()
+  let signalsSet = new Set<Studio.Metric>(signals)
   const { subscribe, set } = writable(signals)
 
   const update = () => set((signals = Array.from(signalsSet)))
