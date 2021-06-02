@@ -35,7 +35,7 @@ export const querySignalTimeseries = (
   signal: string,
   { slug, from, to, interval },
 ) =>
-  query(SIGNAL_QUERY, {
+  query<any>(SIGNAL_QUERY, {
     variables: { signal, slug, from, to, interval },
     precacher: signalTimeseriesPrecacher,
   })
@@ -57,4 +57,4 @@ function rawPrecacher() {
   }
 }
 export const queryRawSignal = (slug, from, to) =>
-  query(RAW_SIGNAL_QUERY(slug, from, to), { precacher: rawPrecacher })
+  query<any>(RAW_SIGNAL_QUERY(slug, from, to), { precacher: rawPrecacher })
