@@ -1,4 +1,5 @@
 import type { Variables } from './queries'
+import type { CachePolicy } from 'webkit/api/cache'
 import { queryMetric } from './queries'
 import { NO_DATA_MSG, transformMessage } from './errors'
 import { mergeTimeseries } from './utils'
@@ -14,6 +15,7 @@ export function getTimeseries(
     data?: any[],
   ) => any,
   MetricSettings: any = {},
+  cachePolicy?: CachePolicy,
 ) {
   let data = [] as any[]
   const loadings = new Set(metrics)
@@ -40,8 +42,8 @@ export function getTimeseries(
     fetchData()
     function fetchData() {
       let request = fetcher
-        ? fetcher(vars, metric)
-        : queryMetric(vars, precacher).then(dataAccessor)
+        ? fetcher(vars, metric, cachePolicy)
+        : queryMetric(vars, precacher, cachePolicy).then(dataAccessor)
       request = preTransform ? request.then(preTransform) : request
 
       request

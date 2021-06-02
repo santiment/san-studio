@@ -52,7 +52,10 @@ function drawLegend(pngChart, metrics, isNightMode) {
   })
 }
 
-export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
+export function downloadPng(
+  widget: Studio.ChartWidget,
+  { slug, name = slug, ticker },
+) {
   const { chart } = widget
   const { data, categories, scale, colors, theme } = chart
   const { domainModifier, domainGroups } = chart
@@ -87,15 +90,14 @@ export function downloadPng(widget: Studio.ChartWidget, { slug, ticker }) {
   drawLegend(pngChart, widget.Metrics.getValue(), false)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
-  // pngChart.ctx.fillStyle = isNightMode ? mirage : 'white'
-  pngChart.ctx.fillStyle = 'white'
+  pngChart.ctx.fillStyle = chart.theme.bg
   pngChart.ctx.fillRect(0, 0, PNG_WIDTH, PNG_HEIGHT)
 
   const a = document.createElement('a')
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
-  const title = `${slug} (${ticker})`
+  const title = `${name} (${ticker})`
   a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].png`
   a.href = pngCanvas.toDataURL('image/png', 1)
   a.click()

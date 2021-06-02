@@ -1,12 +1,14 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { Event } from '@/analytics'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
   import { INTERVALS, getIntervals } from '@/utils/intervals'
-  import Dropdown from './Dropdown.svelte'
   import { studio } from '@/stores/studio'
   import { Node } from '@/Chart/nodes'
   import { getWidget } from '@/ChartWidget/context'
   import { getCandlesPeriodMinInterval } from '@/ChartWidget/transformers/candles'
+  import Dropdown from './Dropdown.svelte'
   const { MetricSettings } = getWidget()
 
   export let metric: Studio.Metric
@@ -41,12 +43,13 @@
   }
 
   function onClick(interval) {
-    MetricSettings.set(metric.key, {
-      interval: interval.id,
-    })
+    // prettier-ignore
+    track.event(Event.MetricInterval, { metric: metric.key, interval: interval.id})
+    MetricSettings.set(metric.key, { interval: interval.id })
   }
 
   function onAutoClick() {
+    track.event(Event.MetricInterval, { metric: metric.key, interval: 'auto' })
     MetricSettings.delete(metric.key, 'interval')
   }
 </script>

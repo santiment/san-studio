@@ -6,6 +6,7 @@
   import { newTooltipSynchronizer } from '@/Chart/Tooltip/context'
   import { studio } from '@/stores/studio'
   import { initWidgets, initSidewidget } from '@/stores/widgets'
+  import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { newNodeController } from '@/stores/selector'
   import { setAdapterController } from '@/adapter/context'
   import { newSizedQueue } from '@/Widget/queue'
@@ -40,10 +41,12 @@
   })
   newNodeController(Widgets, Sidewidget)
   newTooltipSynchronizer()
+  const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()
 
   let screenRef
   $: screenRef && onScreen()
+  $: AutoUpdater.check($studio)
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
@@ -98,7 +101,7 @@
     background: var(--white);
     position: sticky;
     top: 0;
-    z-index: 21;
+    z-index: 24;
     margin: 0 0 13px;
     transition: transform 0.3s ease-out;
     min-height: 64px;

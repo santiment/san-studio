@@ -1,3 +1,4 @@
+import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { Variables, newPrecacher } from './utils'
 
@@ -20,10 +21,14 @@ const ETH_SPENT_OVER_TIME_QUERY = `
 const precacher = newPrecacher(
   ({ projectBySlug }) => projectBySlug.ethSpentOverTime,
 )
-export function queryEthSpentOverTime(variables: Variables): Promise<any> {
+export function queryEthSpentOverTime(
+  variables: Variables,
+  _,
+  cachePolicy?: CachePolicy,
+): Promise<any> {
   return query(ETH_SPENT_OVER_TIME_QUERY, {
     precacher,
-    cacheTime: 600,
+    cachePolicy,
     variables,
   })
 }

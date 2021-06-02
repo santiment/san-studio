@@ -113,8 +113,7 @@ export function newNodeController(Widgets, Sidewidget) {
     if (node.selectorType === SelectorType.Subwidget) {
       if (widget) return Widgets.addSubwidgets(widget, [node])
 
-      selectedMetrics.toggle(node)
-      return
+      return selectedMetrics.toggle(node)
     }
 
     if (widget) return widget.Metrics.add(node)

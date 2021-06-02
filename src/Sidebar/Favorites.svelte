@@ -27,11 +27,9 @@
 
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened>
-    <Svg
-      slot="pre-title"
-      id="star-filled"
-      w="16"
-      class="mrg-s mrg--r $style.star" />
+    <svelte:fragment slot="pre-title">
+      <Svg id="star-filled" w="16" class="mrg-s mrg--r $style.star" />
+    </svelte:fragment>
 
     {#each favorites as item}
       <Item {item} {onItemEnter} isShowingSubitems={false} />

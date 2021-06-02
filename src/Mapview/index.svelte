@@ -128,7 +128,7 @@
     right: 0;
     background: var(--athens);
     user-select: none;
-    z-index: 20;
+    z-index: 23;
   }
 
   .sticky {

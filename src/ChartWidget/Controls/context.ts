@@ -1,5 +1,7 @@
 import { writable } from 'svelte/store'
 import { logScale, linearScale } from 'san-chart/scales'
+import { track } from 'webkit/analytics'
+import { Event } from '@/analytics'
 import { getSavedValue, saveValue } from '@/utils/localStorage'
 
 const SaveOption = {
@@ -31,7 +33,9 @@ export function newChartOptionsStore() {
       const isLogScale = options.scale === logScale
       options.scale = isLogScale ? linearScale : logScale
       options.isLogScale = !isLogScale
+
       set(options)
+      track.event(Event.Scale, { type: isLogScale ? 'linear' : 'log' })
     },
     toggle(option: string) {
       const value = !options[option]

@@ -125,6 +125,7 @@
   .categories {
     flex: 1;
     overflow: hidden;
+    scrollbar-width: thin;
   }
 
   .categories:hover {

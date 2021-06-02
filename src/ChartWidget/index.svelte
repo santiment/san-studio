@@ -81,12 +81,14 @@
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
       OnUpdate.emit())
 
+  widget.fetchData = (cachePolicy) =>
+    fetchData(metrics, $studio, $MetricSettings, cachePolicy)
+
+  // prettier-ignore
   const fetchData = debounced(
     (
-      metrics: Studio.Metric[],
-      settings: Studio.Settings,
-      MetricSettings: Studio.MetricSettings,
-    ) => getTimeseries(metrics, settings, onData, onDataError, MetricSettings),
+      metrics: Studio.Metric[], settings: Studio.Settings, MetricSettings: Studio.MetricSettings, cachePolicy?: any
+    ) => getTimeseries(metrics, settings, onData, onDataError, MetricSettings, cachePolicy),
   )
   const fetchAllData = debounced((metrics: Studio.Metric[], slug: string) =>
     getAllTimeData(metrics, slug, onAllTimeData, noop),

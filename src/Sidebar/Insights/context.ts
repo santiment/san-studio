@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store'
+import { track } from 'webkit/analytics'
+import { Event } from '@/analytics'
 
 // export type MetricsStore = ReturnType<typeof newInsightsContextStore>
 type InsightContext = {
@@ -29,6 +31,14 @@ export function newInsightsContextStore() {
       }
 
       set(InsightContext)
+
+      if (InsightContext.insight) {
+        const isProject = newInsight.group === 'Tags'
+        track.event(Event.Insights, {
+          type: isProject ? 'asset' : newInsight.key,
+          asset: isProject ? newInsight.key : undefined,
+        })
+      }
     },
     apply(value: any) {
       Object.assign(InsightContext, value)

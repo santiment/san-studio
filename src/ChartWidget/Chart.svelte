@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getTodaysEnd } from 'webkit/utils/dates'
   import { studio } from '@/stores/studio'
   import { FORMATTER } from '@/metrics/formatters'
   import { getDefaultTooltipSettings } from '@/Chart/utils'
@@ -88,7 +89,12 @@
   function onBrushChange(startIndex: number, endIndex: number) {
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
-    if (start && end) changeStudioPeriod(start.datetime, end.datetime)
+    if (start && end) {
+      changeStudioPeriod(
+        start.datetime,
+        endIndex === allTimeData.length - 1 ? getTodaysEnd() : end.datetime,
+      )
+    }
   }
 
   function onPointClick(point, e: MouseEvent) {

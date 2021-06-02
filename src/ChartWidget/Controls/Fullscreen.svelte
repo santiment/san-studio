@@ -1,6 +1,8 @@
 <script lang="ts">
   import { setContext, getContext } from 'svelte'
+  import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { Event } from '@/analytics'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { getWidget } from '@/ChartWidget/context'
   const widget = getWidget()
@@ -22,11 +24,16 @@
     if (currentTarget !== target) return
     close()
   }
+
+  function onFullscreen() {
+    track.event(Event.Fullscreen)
+    isOpened = true
+  }
 </script>
 
 <div
   class="btn controls-btn mrg-s mrg--l"
-  on:click={closeFullscreen || (() => (isOpened = true))}>
+  on:click={closeFullscreen || onFullscreen}>
   <Icon id={closeFullscreen ? 'close' : 'fullscreen'} w="14" />
 </div>
 

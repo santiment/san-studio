@@ -1,5 +1,7 @@
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
+import { track } from 'webkit/analytics'
+import { Event } from '@/analytics'
 import { SelectorNode } from '@/metrics/selector'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import HolderDistributionWidget from '@/HolderDistributionWidget/index.svelte'
@@ -40,6 +42,7 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
         }),
       )
       set(widgets)
+      track.event(Event.NewWidget, { widget: 'chart' })
     },
     delete(widget) {
       const widgetsSet = new Set(widgets)
@@ -63,7 +66,9 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
       if (!widget) return
       widget.scrollOnMount = true
       widgets.push(widget)
+
       set(widgets)
+      track.event(Event.NewWidget, { widget: node.key })
     },
     addSubwidgets(widget: any, subwidgets: any[]) {
       const subwidgetsSet = new Set(widget.subwidgets.concat(subwidgets))
@@ -84,7 +89,11 @@ export function initSidewidget(defaultValue) {
 
   const store = {
     subscribe,
-    set,
+    set(value) {
+      set(value)
+      // prettier-ignore
+      if (value) track.event(Event.Sidewidget, { sidewidget: value.key || value })
+    },
   }
   setSidewidget(store)
   return store
