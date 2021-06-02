@@ -44,6 +44,15 @@ SelectorNode.TopTransactionsTable = {
   shorthand: 'ttt',
   selectorType: SelectorType.Subwidget,
 }
+
+SelectorNode.TopExchangesTable = {
+  key: 'TopExchangesTable',
+  label: 'Holdings on the top exchanges',
+  group: 'Whales',
+  shorthand: 'hte',
+  selectorType: SelectorType.Widget,
+}
+
 export const Subitems = {
   [Metric.price_usd.key]: [SelectorNode.SPENT_COIN_COST],
 
@@ -69,6 +78,8 @@ export const Subitems = {
   [Metric.amount_in_top_holders.key]: [SelectorNode.HoldersDistributionTable],
 
   [Metric.transaction_volume.key]: [SelectorNode.TopTransactionsTable],
+
+  [Metric.amount_in_exchange_top_holders.key]: [SelectorNode.TopExchangesTable],
 }
 
 export const IsSubitem = {}

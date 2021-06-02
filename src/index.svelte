@@ -101,7 +101,7 @@
     background: var(--white);
     position: sticky;
     top: 0;
-    z-index: 21;
+    z-index: 24;
     margin: 0 0 13px;
     transition: transform 0.3s ease-out;
     min-height: 64px;
