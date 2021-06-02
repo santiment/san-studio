@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store'
+import { track } from 'webkit/analytics'
+import { Event } from '@/analytics'
 import { convertBaseProjectMetric } from './utilts'
 
 export type MetricsStore = ReturnType<typeof newMetricsStore>
+const getKey = ({ key }) => key
 
 const DEFAULT = [] as Studio.Metric[]
 export function newMetricsStore(defaultMetrics = DEFAULT) {
@@ -23,10 +26,12 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
     add(metric: Studio.Metric) {
       metricSet.add(metric)
       update()
+      track.event(Event.AddMetric, { metric: metric.key })
     },
     delete(metric: Studio.Metric) {
       metricSet.delete(metric)
       update()
+      track.event(Event.RemoveMetric, { metric: metric.key })
     },
     toggle(metric: Studio.Metric) {
       if (metricSet.has(metric)) {
@@ -43,6 +48,7 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
     concat(newMetrics: Studio.Metric[]) {
       metricSet = new Set(metrics.concat(newMetrics))
       update()
+      track.event(Event.AddMetrics, { metrics: newMetrics.map(getKey) })
     },
     hasConvertedMetric(
       metric: Studio.Metric,

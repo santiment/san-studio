@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import {
     ONE_SECOND_IN_MS,
     ONE_MINUTE_IN_MS,
     ONE_HOUR_IN_MS,
   } from 'webkit/utils/dates'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { Event } from '@/analytics'
   import { getAutoUpdater } from '@/stores/autoUpdater'
   const AutoUpdater = getAutoUpdater()
 
@@ -28,6 +30,8 @@
     } else {
       AutoUpdater.enable()
     }
+
+    track.event(Event.AutoUpdateClick)
   }
 </script>
 

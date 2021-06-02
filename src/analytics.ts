@@ -5,6 +5,10 @@ export const Event = {
 
   NewDrawing: 'charts_new_drawing',
 
+  AddMetric: 'charts_add_metric',
+  AddMetrics: 'charts_add_metrics',
+  RemoveMetric: 'charts_remove_metric',
+
   LockMetric: 'charts_lock_metric',
   UnlockMetric: 'charts_unlock_metric',
 
@@ -18,4 +22,11 @@ export const Event = {
 
   ShowMetricAxis: 'charts_show_metric_axis',
   HideMetricAxis: 'charts_hide_metric_axis',
+
+  NewWidget: 'charts_new_widget',
+  Sidewidget: 'charts_sidewidget',
+
+  AutoUpdateClick: 'charts_auto_update_click',
+
+  Insights: 'charts_insights',
 } as const

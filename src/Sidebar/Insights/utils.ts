@@ -17,19 +17,19 @@ const NO_GROUP_ITEMS = [
 
 const TAG_GROUP_ITEMS = [
   {
-    key: 'eth',
+    key: 'ETH',
     label: 'ETH Insights',
     group: 'Tags',
     checkIsVisible: ({ ticker }) => ticker !== 'ETH',
   },
   {
-    key: 'btc',
+    key: 'BTC',
     label: 'BTC Insights',
     group: 'Tags',
     checkIsVisible: ({ ticker }) => ticker !== 'BTC',
   },
   {
-    key: 'defi',
+    key: 'DEFI',
     label: 'DEFI Insights',
     group: 'Tags',
   },

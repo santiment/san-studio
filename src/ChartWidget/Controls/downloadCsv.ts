@@ -1,6 +1,6 @@
 import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 
-export function downloadCsv(widget, { slug, ticker }) {
+export function downloadCsv(widget, { slug, name = slug, ticker }) {
   const { chart, Metrics, MetricSettings } = widget
   const { data } = chart
 
@@ -31,7 +31,7 @@ export function downloadCsv(widget, { slug, ticker }) {
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
-  const title = `${slug} (${ticker})`
+  const title = `${name} (${ticker})`
 
   const a = document.createElement('a')
   a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
