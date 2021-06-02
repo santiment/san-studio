@@ -22,7 +22,6 @@ function precacher() {
         .concat(availableMetrics)
         .concat(availableQueries),
     )
-    console.log(metricsSet)
     return Array.from(metricsSet)
   }
 }
