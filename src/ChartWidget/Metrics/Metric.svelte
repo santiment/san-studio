@@ -9,7 +9,7 @@
   import { convertBaseProjectMetric } from './utilts'
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
-  const { Metrics } = getWidget()
+  const { Metrics, MetricsSignals } = getWidget()
 
   export let metric: Studio.Metric
   export let colors
@@ -64,6 +64,10 @@
     on:click={(e) => onClick(metric, e)}
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}>
+    {#if $MetricsSignals.includes(metric)}
+      <div class="locked signaled row hv-center"><Icon id="flash" w="8" /></div>
+    {/if}
+
     {#if isLocked}
       <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
     {:else if !metric.indicator}
@@ -89,5 +93,9 @@
     fill: #fff;
     width: 16px;
     height: 16px;
+  }
+
+  .signaled {
+    background: var(--red);
   }
 </style>
