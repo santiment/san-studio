@@ -65,7 +65,7 @@
         class="btn btn--ghost option"
         on:click={() => MetricsSignals.delete(metric)}>
         <Svg id="flash" w="12" h="16" class="mrg-s mrg--r $style.flash" />
-        Remove signal
+        Hide signals
       </div>
     {/if}
 
