@@ -36,7 +36,7 @@
 <style>
   .metric {
     position: relative;
-    height: 32px;
+    min-height: 32px;
     padding: 0 4px 0 10px;
     border-radius: 4px;
     box-shadow: inset 0px 0px 0px 1px var(---border, var(--porcelain));

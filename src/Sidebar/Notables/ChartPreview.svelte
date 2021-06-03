@@ -19,29 +19,23 @@
   $: metrics = [metric]
   $: getTimeseries(metrics, settings, onData, () => {})
   $: getSignals(key, settings)
-
+  $: colors = { [metric.key]: '#D2D6E7' }
+  $: references = [{ metric: metric.key, data: signals }]
   $: categories = {
     joinedCategories: [metric.key],
     areas: [metric.key],
   }
 
-  $: colors = {
-    [metric.key]: '#D2D6E7',
-  }
-
-  $: references = [
-    {
-      metric: metric.key,
-      data: signals,
-    },
-  ]
-
   function getSignals(key, settings) {
     loading = true
-    querySignalTimeseries(key, settings).then(onSignalsData)
+    querySignalTimeseries(key, settings).then((data) =>
+      onSignalsData(key, data),
+    )
   }
 
-  function onSignalsData(signals) {
+  function onSignalsData(fetchedKey: string, signals: any[]) {
+    if (fetchedKey !== key) return
+
     loading = false
     references[0].data = signals
   }
