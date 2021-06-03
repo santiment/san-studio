@@ -88,7 +88,7 @@
   .content {
     flex: 1 1;
     background: var(--athens);
-    padding: 20px 25px;
+    padding: 20px 40px;
     position: relative;
     min-width: 0;
   }

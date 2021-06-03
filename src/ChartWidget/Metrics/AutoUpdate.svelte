@@ -10,6 +10,10 @@
   import { getAutoUpdater } from '@/stores/autoUpdater'
   const AutoUpdater = getAutoUpdater()
 
+  let interval
+  let isOpened = false
+  $: updated = isOpened ? startInterval() : stopInterval()
+
   function getDiffTime() {
     const diff = Date.now() - $AutoUpdater.lastUpdate
 
@@ -24,6 +28,21 @@
     return Math.floor(diff / ONE_HOUR_IN_MS) + 'h'
   }
 
+  function startInterval() {
+    const newDiff = getDiffTime()
+    const timeout = newDiff.endsWith('s') ? 1000 : 60000
+    interval = window.setInterval(() => {
+      updated = getDiffTime()
+    }, timeout)
+
+    return newDiff
+  }
+
+  function stopInterval() {
+    window.clearInterval(interval)
+    return updated
+  }
+
   function onClick() {
     if ($AutoUpdater.isUpdating) {
       AutoUpdater.update(true)
@@ -36,10 +55,11 @@
 </script>
 
 <Tooltip
+  bind:isOpened
   dark
   class="caption $style.tooltip"
   position="top"
-  align="center"
+  align="end"
   duration={0}
   closeTimeout={0}>
   <div
@@ -48,7 +68,7 @@
     class="btn live row hv-center mrg-a mrg--l"
     on:click={onClick} />
 
-  <svelte:fragment slot="tooltip">Updated {getDiffTime()} ago</svelte:fragment>
+  <svelte:fragment slot="tooltip">Updated {updated} ago</svelte:fragment>
 </Tooltip>
 
 <style>
