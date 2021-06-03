@@ -25,7 +25,9 @@
   function onDelete() {
     isOpened = false
     // NOTE: Widget is not deleted if tooltip is not closed [@vanguard | May 26, 2021]
-    tick().then(() => deleteWidget(true))
+    tick()
+      .then(tick)
+      .then(() => deleteWidget(true))
   }
 
   function onDownload(downloader) {

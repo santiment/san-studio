@@ -28,7 +28,7 @@
   </div>
 
   <div slot="tooltip" class="menu">
-    {#if !metric.noTicker}
+    {#if !metric.noProject}
       <div
         class="btn btn--ghost option"
         class:disabled={Metrics.hasConvertedMetric(metric, $studio)}

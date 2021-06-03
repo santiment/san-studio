@@ -72,7 +72,7 @@ const WhalesMetric = each(
         'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
       getLabel: () =>
         'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
-      noTicker: true,
+      noProject: true,
       reqMeta: {
         slug: 'ethereum',
       },

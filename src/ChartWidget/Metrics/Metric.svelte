@@ -64,10 +64,10 @@
     on:click={(e) => onClick(metric, e)}
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}>
-    {#if isLocked}
-      <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
-    {:else if !metric.indicator}
-      {#if !metric.noTicker}
+    {#if !metric.noProject}
+      {#if isLocked}
+        <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
+      {:else if !metric.indicator}
         ({$studio.ticker})
       {/if}
     {/if}

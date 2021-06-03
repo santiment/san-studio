@@ -34,6 +34,7 @@ namespace Studio {
     selectorType?: import('@/metrics/selector/types').SelectorType
     domainGroup?: string
     type?: string
+    noProject?: boolean
   }
 
   type Widget = {

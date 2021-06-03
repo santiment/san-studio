@@ -11,9 +11,10 @@
   export let metric: Studio.Metric
   $: ticker = $studio.ticker
   $: isNotIndicator = !metric.indicator
-  $: label = metric.project
-    ? metric.label
-    : metric.getLabel?.(ticker) || `${metric.label} (${ticker})`
+  $: label =
+    metric.project || metric.noProject
+      ? metric.label
+      : metric.getLabel?.(ticker) || `${metric.label} (${ticker})`
 </script>
 
 {#key metric.key}

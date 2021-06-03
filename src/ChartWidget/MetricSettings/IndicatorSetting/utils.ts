@@ -54,16 +54,17 @@ export function buildIndicatorMetric(metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
-  const { key, label, base } = metric
+  const { key, label, base, noProject } = metric
   const indicatorMetric = deriveMetric(metric, {
     indicator,
     base: metric,
     node: Node.LINE,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicator.label}`,
-    getLabel: base
-      ? undefined
-      : (ticker) => `${label} (${ticker}) ${indicator.label}`,
+    getLabel:
+      base || noProject
+        ? undefined
+        : (ticker) => `${label} (${ticker}) ${indicator.label}`,
     // TODO: Think how to better handle current project labeling  [@vanguard | May 14, 2021]
     reqMeta: {
       transform: {

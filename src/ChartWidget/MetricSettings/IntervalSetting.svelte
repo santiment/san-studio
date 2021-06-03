@@ -3,7 +3,7 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import { Event } from '@/analytics'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
-  import { INTERVALS, getIntervals } from '@/utils/intervals'
+  import { INTERVALS, getIntervals, getValidInterval } from '@/utils/intervals'
   import { studio } from '@/stores/studio'
   import { Node } from '@/Chart/nodes'
   import { getWidget } from '@/ChartWidget/context'
@@ -15,12 +15,13 @@
 
   let intervals = INTERVALS
 
-  $: ({ from, to } = $studio)
+  $: ({ from, to, interval } = $studio)
   $: metricSettings = $MetricSettings[metric.key]
   $: metricInterval = metricSettings?.interval
   $: metricNode = metricSettings?.node || metric.node
   $: isCandleNode = metricNode === Node.CANDLES
   $: getMinInterval(metric, isCandleNode, from, to)
+  $: autoInterval = getValidInterval(interval, intervals)
 
   function getMinInterval(
     metric: Studio.Metric,
@@ -57,7 +58,7 @@
 <Dropdown>
   <Icon id="interval" w="16" h="12" class="mrg-s mrg--r $style.icon" />
   Interval:
-  {#if metricInterval} {metricInterval} {:else} Auto ({$studio.interval}) {/if}
+  {#if metricInterval} {metricInterval} {:else} Auto ({autoInterval}) {/if}
 
   <svelte:fragment slot="options">
     {#if isCandleNode === false}
@@ -65,7 +66,7 @@
         class="btn btn--ghost"
         class:active={!metricInterval}
         on:click={onAutoClick}>
-        Auto ({$studio.interval})
+        Auto ({autoInterval})
       </div>
     {/if}
 
