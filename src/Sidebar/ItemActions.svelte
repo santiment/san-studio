@@ -7,7 +7,7 @@
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   const NodeController = getNodeController()
-  const { onAnonFavoriteClick } = getAdapterController()
+  const { checkIsMapviewDisabled, onAnonFavoriteClick } = getAdapterController()
 
   export let item: any
   export let node: any
@@ -37,6 +37,8 @@
     }
     if (onAnonFavoriteClick) onAnonFavoriteClick()
   }
+
+  const onClick = (e) => checkIsMapviewDisabled?.() || NodeController(item, e)
 </script>
 
 {#if style}
@@ -44,7 +46,7 @@
     {style}
     class:active
     class="sidebar-item sidebar-menu menu row v-center"
-    on:click={(e) => NodeController(item, e)}
+    on:click={onClick}
     on:mouseleave={onItemLeave}
     on:mousewheel={onItemLeave}>
     <span class="row v-center">

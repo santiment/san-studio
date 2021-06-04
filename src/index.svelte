@@ -23,6 +23,7 @@
   export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
+  export let checkIsMapviewDisabled = undefined
   export let InsightsContextStore = undefined
 
   studio.setProject(defaultSettings)
@@ -37,6 +38,7 @@
     onChartPointClick,
     onAnonFavoriteClick,
     onModRangeSelect,
+    checkIsMapviewDisabled,
     InsightsContextStore,
   })
   newNodeController(Widgets, Sidewidget)

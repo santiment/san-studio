@@ -1,13 +1,14 @@
 <script lang="ts">
   import Item from '../Item.svelte'
   import { selectedMetrics } from '@/stores/selector'
+  import { getAdapterController } from '@/adapter/context'
+  const { checkIsMapviewDisabled } = getAdapterController()
 
   export let notable
   export let onItemEnter
 
-  function onClick() {
-    selectedMetrics.toggle(notable)
-  }
+  const onClick = () =>
+    checkIsMapviewDisabled?.() || selectedMetrics.toggle(notable)
 </script>
 
 <Item

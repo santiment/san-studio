@@ -23,7 +23,7 @@
   on:click
   on:mouseenter
   on:mouseleave>
-  <div class="color" class:loading={isLoading} />
+  <div class="color" class:loader={isLoading} />
 
   {label}
 
@@ -61,7 +61,7 @@
     overflow: hidden;
   }
 
-  .loading::before {
+  .loader::before {
     content: '';
     position: absolute;
     background: var(--porcelain);
