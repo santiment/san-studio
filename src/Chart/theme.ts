@@ -79,6 +79,7 @@ export const themes = [
   // 0 = day
   {
     bg: '#fff',
+    text: Color.mirage,
     axes: dayAxesColor,
     hoverLine: dayHoverLineColor,
     ticks: dayTicksTheme,
@@ -90,6 +91,7 @@ export const themes = [
   // 1 = night
   {
     bg: Color.mirage,
+    text: '#fff',
     axes: nightAxesColor,
     hoverLine: nightHoverLineColor,
     ticks: nightTicksTheme,

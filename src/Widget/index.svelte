@@ -20,7 +20,7 @@
     widget.container = target
     if (onWidget) onWidget(widget)
     const options = { block: widget.scrollAlign || 'center' }
-    widget.scrollIntoView = () => target.scrollIntoView(options)
+    widget.scrollIntoView = () => target?.scrollIntoView(options)
     if (widget.scrollOnMount) {
       widget.scrollIntoView()
       delete widget.scrollOnMount

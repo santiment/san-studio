@@ -13,7 +13,7 @@
 
   export let metric: Studio.Metric
   export let colors
-  export let error
+  export let error, isLoading
   export let onHover, onClick, onDelete, onLock, onSettings
 
   let timer: number
@@ -58,6 +58,7 @@
     {metric}
     {colors}
     {error}
+    {isLoading}
     {onDelete}
     ticker={$studio.ticker}
     active={isMenuOpened}

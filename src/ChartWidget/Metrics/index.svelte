@@ -2,7 +2,7 @@
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
 
-  export let metrics, colors
+  export let metrics, colors, loadings
   export let MetricError
   export let isSingleWidget
   export let onMetricClick,
@@ -18,6 +18,7 @@
       {metric}
       {colors}
       error={MetricError.get(metric)}
+      isLoading={loadings.has(metric)}
       onClick={onMetricClick}
       onHover={onMetricHover}
       onDelete={isSingleWidget && metrics.length === 1

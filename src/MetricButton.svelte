@@ -8,6 +8,7 @@
   export let active = false
   export let error: string | undefined = undefined
   export let colors = undefined
+  export let isLoading = false
   export let onDelete = undefined
 
   $: color = colors && `--color: ${colors[metric.key]}`
@@ -22,6 +23,8 @@
   on:click
   on:mouseenter
   on:mouseleave>
+  <div class="color" class:loading={isLoading} />
+
   {label}
 
   <slot />
@@ -46,8 +49,7 @@
     background: var(--white);
   }
 
-  .metric::before {
-    content: '';
+  .color {
     position: absolute;
     left: 0;
     top: 0;
@@ -56,6 +58,16 @@
     background: var(--color);
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
+    overflow: hidden;
+  }
+
+  .loading::before {
+    content: '';
+    position: absolute;
+    background: var(--porcelain);
+    width: 4px;
+    height: 100%;
+    animation: loader 800ms infinite;
   }
 
   .active,
@@ -76,5 +88,14 @@
 
   .error {
     ---border: var(--red) !important;
+  }
+
+  @keyframes loader {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
   }
 </style>

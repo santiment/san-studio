@@ -159,6 +159,7 @@
 
   <MetricsRow
     metrics={displayedMetrics}
+    {loadings}
     {colors}
     {MetricError}
     {isSingleWidget}

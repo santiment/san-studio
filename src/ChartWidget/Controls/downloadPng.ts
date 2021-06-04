@@ -15,7 +15,7 @@ function drawAndMeasureText(pngCtx, text, x, y) {
   return pngCtx.measureText(text).width
 }
 
-function drawLegend(pngChart, metrics, isNightMode) {
+function drawLegend(pngChart, metrics, textColor) {
   const { canvasWidth: width, canvasHeight: height, colors } = pngChart
   const pngCtx = pngChart.ctx
   pngCtx.font = LEGEND_FONT
@@ -33,7 +33,6 @@ function drawLegend(pngChart, metrics, isNightMode) {
 
   const textY = height - 20
   let textX = (width - textWidth) / 2
-  const textColor = isNightMode ? 'white' : 'black'
 
   metrics.forEach(({ key, label }) => {
     pngCtx.fillStyle = colors[key]
@@ -87,7 +86,7 @@ export function downloadPng(
     plot(pngChart, scale, data, colors, categories)
   })
 
-  drawLegend(pngChart, widget.Metrics.getValue(), false)
+  drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
   pngChart.ctx.fillStyle = chart.theme.bg
