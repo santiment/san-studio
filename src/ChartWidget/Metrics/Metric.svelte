@@ -6,6 +6,7 @@
   import MetricButton from '@/MetricButton.svelte'
   import { getWidget } from '@/ChartWidget/context'
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { convertBaseProjectMetric } from './utilts'
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
@@ -21,6 +22,7 @@
   let isMenuOpened = false
 
   $: isLocked = !!metric.project
+  $: ({ isPresenterMode } = $globals)
 
   const clear = () => clearTimeout(timer)
   function onMouseEnter() {
@@ -59,7 +61,7 @@
     {colors}
     {error}
     {isLoading}
-    {onDelete}
+    onDelete={isPresenterMode ? undefined : onDelete}
     ticker={$studio.ticker}
     active={isMenuOpened}
     on:click={(e) => onClick(metric, e)}
@@ -77,12 +79,14 @@
       <div class="locked signaled row hv-center"><Icon id="flash" w="8" /></div>
     {/if}
 
-    <MoreMenu
-      {metric}
-      {isLocked}
-      bind:isMenuOpened
-      {onLockClick}
-      {onSettings} />
+    {#if isPresenterMode === false}
+      <MoreMenu
+        {metric}
+        {isLocked}
+        bind:isMenuOpened
+        {onLockClick}
+        {onSettings} />
+    {/if}
   </MetricButton>
 </ErrorTooltip>
 

@@ -46,6 +46,9 @@
     <div class="btn" on:click={() => ChartOptions.toggle('cartesianGrid')}>
       Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
     </div>
+    <div class="btn" on:click={() => globals.toggle('isPresenterMode')}>
+      Presenter mode <Toggle isActive={$globals.isPresenterMode} />
+    </div>
     <div
       class="btn"
       class:disabled={!isPro}

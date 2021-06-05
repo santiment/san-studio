@@ -29,6 +29,7 @@
     drawer.drawings = drawer.drawings.filter(
       (drawing) => drawing !== selectedLine,
     )
+    $ChartDrawer.drawings = drawer.drawings
     $ChartDrawer.selectedLine = undefined
     drawer.redraw()
   }

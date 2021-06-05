@@ -30,7 +30,7 @@
   <slot />
 
   {#if onDelete}
-    <div class="btn MetricButton__btn" on:click={() => onDelete(metric)}>
+    <div class="btn MetricButton__btn delete" on:click={() => onDelete(metric)}>
       <Icon id="cross" w="8" />
     </div>
   {/if}
@@ -40,7 +40,7 @@
   .metric {
     position: relative;
     min-height: 32px;
-    padding: 0 4px 0 10px;
+    padding: 0 10px 0 10px;
     border-radius: 4px;
     box-shadow: inset 0px 0px 0px 1px var(---border, var(--porcelain));
     user-select: none;
@@ -88,6 +88,10 @@
 
   .error {
     ---border: var(--red) !important;
+  }
+
+  .delete {
+    margin-right: -6px;
   }
 
   @keyframes loader {

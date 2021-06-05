@@ -55,7 +55,6 @@
   }
 
   function onMergeClick() {
-    console.log(isMerging)
     if (!isMerging) return (isMerging = true)
 
     if (mergingMetrics.size > 1) {

@@ -47,7 +47,8 @@
   }
 
   .scroll {
-    overflow: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
   }
 
   :global(.btn--ghost.active) {

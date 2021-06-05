@@ -1,7 +1,7 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
-  import { querySignalTimeseries } from '@/api/signals'
   import { newHighlightedColors } from '@/Chart/colors'
   import { getAdapterController } from '@/adapter/context'
   import Chart from './Chart.svelte'
@@ -169,7 +169,7 @@
     {onMetricLock}
     {onMetricSettings} />
 
-  {#if settingsOpenedMetric}
+  {#if settingsOpenedMetric && $globals.isPresenterMode === false}
     <MetricSettingsRow metric={settingsOpenedMetric} />
   {/if}
 

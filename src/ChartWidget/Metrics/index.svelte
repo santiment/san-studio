@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { globals } from '@/stores/globals'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
 
@@ -28,7 +29,9 @@
       onSettings={onMetricSettings} />
   {/each}
 
-  <AutoUpdate />
+  {#if $globals.isPresenterMode === false}
+    <AutoUpdate />
+  {/if}
 </div>
 
 <style>
