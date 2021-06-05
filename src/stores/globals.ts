@@ -6,14 +6,15 @@ const GLOBALS = {
   isNightMode: false,
   isLoggedIn: false,
   isBeta: false,
+  isPresenterMode: false,
 }
 
 const { subscribe, set } = writable(GLOBALS)
 export const globals = {
   subscribe,
   set,
-  toggle(name: keyof typeof GLOBALS, value: boolean) {
-    GLOBALS[name] = value
+  toggle(name: keyof typeof GLOBALS, value?: boolean) {
+    GLOBALS[name] = value === undefined ? !GLOBALS[name] : value
     set(GLOBALS)
   },
 }

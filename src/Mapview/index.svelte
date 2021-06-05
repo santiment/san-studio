@@ -10,9 +10,7 @@
   import ChartWidget from '@/ChartWidget/index.svelte'
 
   const Widgets = getWidgets()
-  const dndContext = newSortableDndCtx({
-    onDragEnd,
-  })
+  const dndContext = newSortableDndCtx({ onDragEnd })
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(

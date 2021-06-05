@@ -10,12 +10,14 @@
   export let colors = undefined
   export let isLoading = false
   export let onDelete = undefined
+  export let node = undefined
 
   $: color = colors && `--color: ${colors[metric.key]}`
   $: label = (ticker && metric.getLabel?.(ticker)) || metric.label
 </script>
 
 <div
+  bind:this={node}
   class="metric row v-center {className}"
   class:active
   class:error

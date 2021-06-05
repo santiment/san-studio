@@ -16,6 +16,7 @@
   export let colors
   export let error, isLoading
   export let onHover, onClick, onDelete, onLock, onSettings
+  export let dndContext
 
   let timer: number
   let isHovered = false
@@ -53,10 +54,14 @@
   }
 
   onDestroy(onMouseLeave)
+
+  let node
+  $: node && dndContext?.addItem(node)
 </script>
 
 <ErrorTooltip {error}>
   <MetricButton
+    bind:node
     {metric}
     {colors}
     {error}

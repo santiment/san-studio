@@ -7,7 +7,9 @@ export const getSortableDndCtx = () => getContext('sortable-dnd')
 export function newSortableDndCtx(
   options,
 ): ReturnType<typeof newSortableContext> {
-  const ctx = newSortableContext(Object.assign({ cloner }, options))
+  const ctx = newSortableContext(
+    Object.assign({ cloner, scroll: true }, options),
+  )
   setContext('sortable-dnd', ctx)
   return ctx
 }

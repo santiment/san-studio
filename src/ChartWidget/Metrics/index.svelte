@@ -1,7 +1,14 @@
 <script lang="ts">
+  import { tick } from 'svelte'
+  import { newSortableContext } from 'webkit/ui/dnd/sortable'
   import { globals } from '@/stores/globals'
+  import { getWidget } from '@/ChartWidget/context'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
+  const { Metrics } = getWidget()
+  const dndContext = $globals.isBeta
+    ? newSortableContext({ onDragEnd })
+    : undefined
 
   export let metrics, colors, loadings
   export let MetricError
@@ -11,11 +18,23 @@
     onMetricDelete,
     onMetricLock,
     onMetricSettings
+
+  function onDragEnd(oldIndex: number, newIndex: number) {
+    if (oldIndex === newIndex) return
+
+    const newMetrics = metrics.slice()
+    const metric = newMetrics.splice(oldIndex, 1)[0]
+    newMetrics.splice(newIndex, 0, metric)
+
+    Metrics.set(newMetrics)
+    tick().then(dndContext.ctx.recalcGrid)
+  }
 </script>
 
 <div class="metrics row">
   {#each metrics as metric, i (i)}
     <Metric
+      {dndContext}
       {metric}
       {colors}
       error={MetricError.get(metric)}
@@ -29,7 +48,7 @@
       onSettings={onMetricSettings} />
   {/each}
 
-  {#if $globals.isPresenterMode === false}
+  {#if false && $globals.isPresenterMode === false}
     <AutoUpdate />
   {/if}
 </div>
