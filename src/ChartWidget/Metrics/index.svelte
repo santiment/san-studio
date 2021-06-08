@@ -29,6 +29,24 @@
     Metrics.set(newMetrics)
     tick().then(dndContext.ctx.recalcGrid)
   }
+
+  let hoveredMetric
+  let hoverTimer
+  const clearHover = () => clearTimeout(hoverTimer)
+
+  function hoverMetric(metric?: Studio.Metric) {
+    hoveredMetric = metric
+    onMetricHover(metric)
+  }
+  function onMetricEnter(metric: Studio.Metric) {
+    clearHover()
+    if (hoveredMetric) return hoverMetric(metric)
+    hoverTimer = window.setTimeout(() => hoverMetric(metric), 120)
+  }
+  function onMetricLeave() {
+    clearHover()
+    if (hoveredMetric) hoverTimer = window.setTimeout(() => hoverMetric(), 100)
+  }
 </script>
 
 <div class="row">
@@ -42,7 +60,8 @@
         isLoading={loadings.has(metric)}
         isSettingsOpened={settingsOpenedMetric === metric}
         onClick={onMetricClick}
-        onHover={onMetricHover}
+        onEnter={onMetricEnter}
+        onLeave={onMetricLeave}
         onDelete={isSingleWidget && metrics.length === 1
           ? undefined
           : onMetricDelete}

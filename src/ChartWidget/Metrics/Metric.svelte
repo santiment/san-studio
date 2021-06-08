@@ -15,31 +15,16 @@
   export let metric: Studio.Metric
   export let colors
   export let error, isLoading, isSettingsOpened
-  export let onHover, onClick, onDelete, onLock, onSettings
+  export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
   export let dndContext
 
-  let timer: number
-  let isHovered = false
   let isMenuOpened = false
 
   $: isLocked = !!metric.project
   $: ({ isPresenterMode } = $globals)
 
-  const clear = () => clearTimeout(timer)
-  function onMouseEnter() {
-    clear()
-    timer = window.setTimeout(() => {
-      isHovered = true
-      onHover(metric)
-    }, 120)
-  }
-  function onMouseLeave() {
-    clear()
-    if (isHovered) {
-      isHovered = false
-      onHover()
-    }
-  }
+  const onMouseEnter = () => onEnter(metric)
+  const onMouseLeave = onLeave
 
   function onLockClick() {
     if (Metrics.hasConvertedMetric(metric, $studio)) return
