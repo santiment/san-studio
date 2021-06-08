@@ -33,10 +33,10 @@
   $: setChart(chart)
   $: chart && width && height && padding && updateDimensions()
   $: chart && (chart.metricSettings = metricSettings)
+  // prettier-ignore
   $: chart &&
-    (theme || domainModifier) &&
-    (shouldRedraw || data || categories || colors || scale || domainGroups) &&
-    drawChart(chart)
+    // @ts-ignore
+    (theme, shouldRedraw, categories, colors, scale, domainGroups, data, drawChart(chart))
 
   onMount(() => {
     const _width = width || canvas.parentNode.offsetWidth
@@ -64,6 +64,7 @@
     clearCtx(chart)
 
     chart.theme = theme
+    chart.bgColor = theme.bg
     chart.data = data
     chart.categories = categories
     chart.colors = colors

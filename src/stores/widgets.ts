@@ -35,10 +35,11 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
     set(newWidgets) {
       set((widgets = newWidgets))
     },
-    add(widget, metrics: Studio.Metric[]) {
+    add(metrics: Studio.Metric[]) {
       widgets.push(
         newWidget(ChartWidget, {
           metrics,
+          scrollOnMount: true,
         }),
       )
       set(widgets)

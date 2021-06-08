@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import Icon from 'webkit/ui/Icon.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
@@ -45,7 +47,7 @@
   }
 
   function onNewWidgetClick() {
-    Widgets.add(ChartWidget, $selectedMetrics.items)
+    Widgets.add($selectedMetrics.items)
     selectedMetrics.clear()
   }
 
@@ -66,6 +68,8 @@
       scrollParent.scrollTop = scrollTop
     })
   }
+
+  onDestroy(newGlobalShortcut('CMD+M', mapview.toggle))
 </script>
 
 {#if isMapview}
@@ -133,7 +137,7 @@
     height: 100vh;
     top: 0;
     position: sticky;
-    padding: 64px 25px;
+    padding: 64px 40px;
   }
 
   .header {
@@ -147,7 +151,7 @@
   .visible {
     overflow: auto;
     flex: 1;
-    margin-right: -25px;
+    margin-right: -40px;
     user-select: none;
     -webkit-user-select: none;
   }
@@ -164,12 +168,10 @@
     border-radius: 4px;
     background: #505573;
     padding: 12px 24px;
-    left: 25px;
-    right: 25px;
+    right: 40px;
     bottom: 25px;
     position: fixed;
-    left: 285px;
-    width: calc(100% - 310px);
+    left: 300px;
   }
 
   .title {

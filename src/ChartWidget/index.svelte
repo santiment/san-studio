@@ -159,6 +159,7 @@
 
   <MetricsRow
     metrics={displayedMetrics}
+    {settingsOpenedMetric}
     {loadings}
     {colors}
     {MetricError}

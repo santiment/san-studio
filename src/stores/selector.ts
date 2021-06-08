@@ -116,6 +116,8 @@ export function newNodeController(Widgets, Sidewidget) {
       return selectedMetrics.toggle(node)
     }
 
+    if (e && isCtrl && e.shiftKey) return Widgets.add([node])
+
     if (widget) return widget.Metrics.add(node)
 
     selector.toggle(node)

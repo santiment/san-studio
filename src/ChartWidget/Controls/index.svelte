@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import Toggle from 'webkit/ui/Toggle.svelte'
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Icon.svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { getSidewidget } from '@/stores/widgets'
@@ -40,24 +40,19 @@
 </script>
 
 <div class="row controls v-center mrg-s mrg--b">
-  {#if false}
-    <div class:active={true} class="btn mrg-s mrg--r">
-      <Icon id="cursor" w="15" />
-    </div>
-  {/if}
-
   <div
-    class="btn"
+    class="btn expl-tooltip"
+    title="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing}
     on:click={onNewLine}>
-    <Icon id="line" w="15" />
+    <Svg id="line" w="15" />
   </div>
 
   {#if $ChartDrawer.selectedLine}
     <div class="divider" />
 
     <div class="btn delete" on:click={onLineDelete}>
-      <Icon id="delete" w="16" />
+      <Svg id="delete" w="16" />
     </div>
   {/if}
 
@@ -74,15 +69,15 @@
   {/if}
 
   <div
-    class="btn"
+    class="btn mrg-s mrg--r"
     class:active={$Sidewidget === SHORTCUTS_SIDEWIDGET}
     on:click={() => Sidewidget.set(SHORTCUTS_SIDEWIDGET)}>
-    ⌘
+    <Svg id="cmd-key" w="16" />
   </div>
 
   <OptionsMenu activeClass="$style._active" {isSingleWidget} {deleteWidget}>
     <div class="btn">
-      <Icon id="cog" w="16" />
+      <Svg id="cog" w="16" />
     </div>
   </OptionsMenu>
 
@@ -118,5 +113,12 @@
   }
   button {
     color: var(--black);
+  }
+
+  .expl-tooltip {
+    position: relative;
+  }
+  .expl-tooltip::before {
+    z-index: 24;
   }
 </style>

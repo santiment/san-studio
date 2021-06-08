@@ -1,12 +1,18 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import { onDestroy } from 'svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
+  import Svg from 'webkit/ui/Icon.svelte'
 
   export let isLocked
+
+  const toggle = () => (isLocked = !isLocked)
+
+  onDestroy(newGlobalShortcut('CMD+\\', toggle))
 </script>
 
-<div class="toggle" on:click={() => (isLocked = !isLocked)}>
+<div class="toggle" on:click={toggle}>
   <div class:locked={isLocked} class="close caption txt-m">
-    <Icon id="sidebar" w="12" h="10" class="$style.icon" />
+    <Svg id="sidebar" w="12" h="10" class="$style.icon" />
   </div>
 </div>
 

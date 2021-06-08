@@ -10,8 +10,7 @@
   const { onAnonFavoriteClick = () => {} } = getAdapterController()
 
   export let metric: Studio.Metric
-  export let isMenuOpened
-  export let isLocked
+  export let isMenuOpened, isSettingsOpened, isLocked
   export let onLockClick, onSettings
 
   $: isFavorited = $favoriteMetrics.has(metric.key)
@@ -71,7 +70,10 @@
       </div>
     {/if}
 
-    <div class="btn btn--ghost option" on:click={() => onSettings(metric)}>
+    <div
+      class="btn btn--ghost option"
+      class:active={isSettingsOpened}
+      on:click={() => onSettings(metric)}>
       <Svg id="cog" w="16" h="16" class="mrg-s mrg--r" />
       Settings
     </div>

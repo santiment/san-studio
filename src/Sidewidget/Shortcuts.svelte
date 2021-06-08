@@ -1,11 +1,9 @@
 <script context="module">
   export const SHORTCUTS_SIDEWIDGET = 'SHORTCUTS_SIDEWIDGET'
-
-  const isMac = navigator.platform.toLowerCase().indexOf('mac') > -1
 </script>
 
 <script lang="ts">
-  export let a
+  import { isMac } from 'webkit/utils/os'
 
   const CMD = 'CMD'
 

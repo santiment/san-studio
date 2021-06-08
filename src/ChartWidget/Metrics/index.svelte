@@ -10,7 +10,7 @@
     ? newSortableContext({ onDragEnd })
     : undefined
 
-  export let metrics, colors, loadings
+  export let metrics, colors, loadings, settingsOpenedMetric
   export let MetricError
   export let isSingleWidget
   export let onMetricClick,
@@ -39,6 +39,7 @@
       {colors}
       error={MetricError.get(metric)}
       isLoading={loadings.has(metric)}
+      isSettingsOpened={settingsOpenedMetric === metric}
       onClick={onMetricClick}
       onHover={onMetricHover}
       onDelete={isSingleWidget && metrics.length === 1
@@ -48,7 +49,7 @@
       onSettings={onMetricSettings} />
   {/each}
 
-  {#if false && $globals.isPresenterMode === false}
+  {#if $globals.isPresenterMode === false}
     <AutoUpdate />
   {/if}
 </div>

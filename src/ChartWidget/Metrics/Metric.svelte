@@ -14,7 +14,7 @@
 
   export let metric: Studio.Metric
   export let colors
-  export let error, isLoading
+  export let error, isLoading, isSettingsOpened
   export let onHover, onClick, onDelete, onLock, onSettings
   export let dndContext
 
@@ -88,6 +88,7 @@
       <MoreMenu
         {metric}
         {isLocked}
+        {isSettingsOpened}
         bind:isMenuOpened
         {onLockClick}
         {onSettings} />

@@ -7,6 +7,7 @@
     getMetricsSelectorGraph,
     filterSelectorGraph,
   } from '@/metrics/selector/utils'
+  import { getSavedValue, saveValue } from '@/utils/localStorage'
   import Sidebar from './Sidebar.svelte'
   import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
@@ -15,8 +16,8 @@
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
   import Toggle from './Toggle.svelte'
-  import { getSavedValue, saveValue } from '@/utils/localStorage'
   import { DEFAULT_METRICS } from './defaults'
+
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
   let input = ''
