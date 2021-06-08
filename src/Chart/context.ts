@@ -7,6 +7,7 @@ export type Chart = SanChart & {
   tooltip?: any
   drawTooltip?: (point: any, y: number) => any
   isDrawing: boolean
+  isSelecting: boolean
   drawSelection?: (x: number, y: number, point: any) => any
   scale: any
   axesMetricKeys?: string[]

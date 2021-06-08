@@ -31,23 +31,25 @@
   }
 </script>
 
-<div class="metrics row">
-  {#each metrics as metric, i (i)}
-    <Metric
-      {dndContext}
-      {metric}
-      {colors}
-      error={MetricError.get(metric)}
-      isLoading={loadings.has(metric)}
-      isSettingsOpened={settingsOpenedMetric === metric}
-      onClick={onMetricClick}
-      onHover={onMetricHover}
-      onDelete={isSingleWidget && metrics.length === 1
-        ? undefined
-        : onMetricDelete}
-      onLock={onMetricLock}
-      onSettings={onMetricSettings} />
-  {/each}
+<div class="row">
+  <div class="metrics row">
+    {#each metrics as metric, i (i)}
+      <Metric
+        {dndContext}
+        {metric}
+        {colors}
+        error={MetricError.get(metric)}
+        isLoading={loadings.has(metric)}
+        isSettingsOpened={settingsOpenedMetric === metric}
+        onClick={onMetricClick}
+        onHover={onMetricHover}
+        onDelete={isSingleWidget && metrics.length === 1
+          ? undefined
+          : onMetricDelete}
+        onLock={onMetricLock}
+        onSettings={onMetricSettings} />
+    {/each}
+  </div>
 
   {#if $globals.isPresenterMode === false}
     <AutoUpdate />
@@ -58,5 +60,6 @@
   .metrics {
     margin-left: -8px;
     flex-wrap: wrap;
+    flex: 1;
   }
 </style>

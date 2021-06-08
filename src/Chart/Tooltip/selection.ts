@@ -13,6 +13,7 @@ export function onSelection(
     let endPoint = point
     let endY = 0
 
+    chart.isSelecting = true
     window.addEventListener('mouseup', onMouseUp)
     chart.drawSelection = (x: number, y: number, point) => {
       if (chart.isDrawing) return cleanUp()
@@ -37,6 +38,7 @@ export function onSelection(
 
     function cleanUp() {
       chart.drawSelection = undefined
+      chart.isSelecting = false
       window.removeEventListener('mouseup', onMouseUp)
     }
   })
