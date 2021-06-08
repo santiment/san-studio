@@ -1,6 +1,8 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
   import { getSidewidget } from '@/stores/widgets'
+  import Shortcuts, { SHORTCUTS_SIDEWIDGET } from './Shortcuts.svelte'
+
   const Sidewidget = getSidewidget()
 </script>
 
@@ -14,7 +16,11 @@
       on:click={() => ($Sidewidget = null)} />
   </div>
 
-  <div class="studio-sidewidget" />
+  <div class="studio-sidewidget row">
+    {#if $Sidewidget === SHORTCUTS_SIDEWIDGET}
+      <Shortcuts />
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -47,5 +53,6 @@
 
   .studio-sidewidget {
     flex: 1;
+    max-height: 100%;
   }
 </style>

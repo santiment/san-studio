@@ -4,9 +4,13 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
+  import { getSidewidget } from '@/stores/widgets'
+  import { SHORTCUTS_SIDEWIDGET } from '@/Sidewidget/Shortcuts.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
+
   const { ChartDrawer } = getWidget()
+  const Sidewidget = getSidewidget()
 
   export let chart
   export let hasDomainGroups
@@ -68,6 +72,13 @@
         isActive={isSharedAxisEnabled} />
     </button>
   {/if}
+
+  <div
+    class="btn"
+    class:active={$Sidewidget === SHORTCUTS_SIDEWIDGET}
+    on:click={() => Sidewidget.set(SHORTCUTS_SIDEWIDGET)}>
+    ⌘
+  </div>
 
   <OptionsMenu activeClass="$style._active" {isSingleWidget} {deleteWidget}>
     <div class="btn">

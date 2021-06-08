@@ -85,14 +85,16 @@ export const setSidewidget = (sidewidget): void =>
   setContext(SIDEWIDGET_CONTEXT, sidewidget)
 export const getSidewidget = () => getContext(SIDEWIDGET_CONTEXT)
 export function initSidewidget(defaultValue) {
+  let sidewidget = defaultValue
   const { subscribe, set } = writable(defaultValue)
 
   const store = {
     subscribe,
     set(value) {
-      set(value)
+      sidewidget = sidewidget === value ? undefined : value
+      set(sidewidget)
       // prettier-ignore
-      if (value) track.event(Event.Sidewidget, { sidewidget: value.key || value })
+      if (sidewidget) track.event(Event.Sidewidget, { sidewidget: value.key || value })
     },
   }
   setSidewidget(store)
