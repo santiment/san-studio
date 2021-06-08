@@ -15,18 +15,24 @@ function drawAndMeasureText(pngCtx, text, x, y) {
   return pngCtx.measureText(text).width
 }
 
-function drawLegend(pngChart, metrics, textColor) {
+function getLabel(metric, ticker) {
+  const { project, label } = metric
+  if (project) return label
+  return metric.getLabel?.(ticker) || `${label} (${ticker})`
+}
+
+function drawLegend(pngChart, metrics, textColor, ticker: string) {
   const { canvasWidth: width, canvasHeight: height, colors } = pngChart
   const pngCtx = pngChart.ctx
   pngCtx.font = LEGEND_FONT
 
   const textWidth =
     metrics.reduce(
-      (acc, { label }) =>
+      (acc, metric) =>
         acc +
         LEGEND_RECT_SIZE +
         LEGEND_RECT_RIGHT_MARGIN +
-        pngCtx.measureText(label).width,
+        pngCtx.measureText(getLabel(metric, ticker)).width,
       0,
     ) +
     TEXT_RIGHT_MARGIN * (metrics.length - 1)
@@ -34,8 +40,8 @@ function drawLegend(pngChart, metrics, textColor) {
   const textY = height - 20
   let textX = (width - textWidth) / 2
 
-  metrics.forEach(({ key, label }) => {
-    pngCtx.fillStyle = colors[key]
+  metrics.forEach((metric) => {
+    pngCtx.fillStyle = colors[metric.key]
     pngCtx.fillRect(
       textX,
       textY - LEGEND_RECT_SIZE,
@@ -47,7 +53,9 @@ function drawLegend(pngChart, metrics, textColor) {
     pngCtx.textBaseline = 'alphabetic'
     pngCtx.fillStyle = textColor
     textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
-    textX += drawAndMeasureText(pngCtx, label, textX, textY) + TEXT_RIGHT_MARGIN
+    textX +=
+      drawAndMeasureText(pngCtx, getLabel(metric, ticker), textX, textY) +
+      TEXT_RIGHT_MARGIN
   })
 }
 
@@ -86,7 +94,7 @@ export function downloadPng(
     plot(pngChart, scale, data, colors, categories)
   })
 
-  drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text)
+  drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text, ticker)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
   pngChart.ctx.fillStyle = chart.theme.bg

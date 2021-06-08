@@ -68,13 +68,13 @@
   $: rawColors = $ChartColors
   $: colors = rawColors
   $: fetchData(metrics, $studio, $MetricSettings)
-  $: ChartAxes.updateMetrics(metrics, MetricError)
   $: fetchAllData(metrics, slug)
   $: MetricIndicators.update(metrics)
   $: rawDomainGroups = groupDomains(metrics)
   $: alwaysDomainGroups = getIndicatorDomainGroups(metrics)
   $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
+  $: ChartAxes.updateMetrics(metrics, MetricError, domainGroups)
   $: IsLoaded.set(loadings.size === 0)
   $: onLoad && loadings.size === 0 && onLoad(widget)
   // prettier-ignore

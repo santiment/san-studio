@@ -61,7 +61,7 @@ export function yAxisFormatter(value: number) {
 }
 
 export function getMetricAxisFormatter(metricSettings, key) {
-  return metricSettings[key].axisFormatter || yAxisFormatter
+  return metricSettings[key]?.axisFormatter || yAxisFormatter
 }
 
 export function getDomainObject(domainGroups: string[][]) {

@@ -6,6 +6,7 @@
     MULTI_AXIS_WIDTH,
     getPadding,
     getBubbleTheme,
+    getDomainObject,
     getMetricAxisFormatter,
   } from './utils'
   import { getChart } from '../context'
@@ -46,38 +47,67 @@
   })
 
   function plotAxes(chart) {
-    const { ctx, colors, theme, scale } = chart
-    const { right, top, bottom, rightAxisMargin } = chart
-    const LastMetricPoint = getLastMetricPoint(chart, null)
+    const { ctx, colors, scale, domainGroups } = chart
+    const { right, rightAxisMargin } = chart
+    const domain = domainGroups ? getDomainObject(domainGroups) : {}
+    const LastMetricPoint = getLastMetricPoint(chart, domain)
     ctx.textAlign = 'left'
 
     let lastValueOffset = rightAxisMargin
     let offset = right + rightAxisMargin
 
+    const getFormatter = (key) => getMetricAxisFormatter(metricSettings, key)
     axesMetricKeys.forEach((key) => {
       const color = colors[key]
       const point = LastMetricPoint[key]
       if (!point) return
 
-      const { y } = point
-      drawAxisLine(ctx, color, offset, top, offset, bottom)
-
-      const formatter = getMetricAxisFormatter(metricSettings, key)
+      const formatter = getFormatter(key)
       drawYAxisTicks(chart, key, formatter, scale, offset + 6, yTicks)
 
-      const value = formatter(point.value)
-      const bubbleTheme = getBubbleTheme(theme.bubbles, color)
-      drawValueBubbleY(chart, ctx, value, y, bubbleTheme, lastValueOffset)
+      const sharedAxes = domain[key]
+      if (sharedAxes) {
+        let domainOffset = 2
+
+        sharedAxes.forEach((metricKey) => {
+          const point = LastMetricPoint[metricKey]
+          if (!point) return
+
+          const _offset = offset + domainOffset
+          const color = colors[metricKey]
+          const formatter = getFormatter(metricKey)
+          plotAxis(chart, point, color, formatter, _offset, lastValueOffset)
+
+          domainOffset += 2
+        })
+      }
+
+      plotAxis(chart, point, color, formatter, offset, lastValueOffset)
 
       offset += MULTI_AXIS_WIDTH
       lastValueOffset += MULTI_AXIS_WIDTH
     })
   }
 
+  function plotAxis(chart, point, color, formatter, offset, valueOffset) {
+    const { ctx, theme, top, bottom } = chart
+    drawAxisLine(ctx, color, offset, top, offset, bottom)
+
+    const { y } = point
+    const value = formatter(point.value)
+    const bubbleTheme = getBubbleTheme(theme.bubbles, color)
+    drawValueBubbleY(chart, ctx, value, y, bubbleTheme, valueOffset)
+  }
+
   function getLastMetricPoint(chart, domain) {
     const { points } = chart
     const LastMetricPoint = {}
     let unfoundMetricKeys = axesMetricKeys.slice()
+
+    for (let i = axesMetricKeys.length - 1; i >= 0; i--) {
+      const sharedAxes = domain[axesMetricKeys[i]]
+      if (sharedAxes) unfoundMetricKeys = unfoundMetricKeys.concat(sharedAxes)
+    }
 
     for (let i = points.length - 1; i >= 0 && unfoundMetricKeys.length; i--) {
       const point = points[i]
