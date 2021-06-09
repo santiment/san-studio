@@ -21,5 +21,6 @@
 <style>
   .tooltip {
     max-width: 310px;
+    z-index: 24;
   }
 </style>

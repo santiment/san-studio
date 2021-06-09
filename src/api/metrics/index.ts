@@ -27,8 +27,13 @@ function precacher() {
 }
 const options = { precacher }
 
+const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
 ): Promise<string[]> =>
-  query<any>(PROJECT_AVAILABLE_METRIC_QUERY(slug), options) as any
+  query<any>(
+    // TODO: Remove stablecoins check when backend is ready [@vanguard | Jun  9, 2021]
+    PROJECT_AVAILABLE_METRIC_QUERY(slug === 'stablecoins' ? 'tether' : slug),
+    options,
+  ).catch(catchMetrics) as any

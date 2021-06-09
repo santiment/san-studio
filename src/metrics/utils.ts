@@ -48,15 +48,29 @@ export function buildProjectMetricKey(project: Project, metric: Studio.Metric) {
   return `${slug}${METRIC_CONNECTOR}${ticker}${METRIC_CONNECTOR}${metric.key}`
 }
 
+const ProjectMetricCache = {}
 export function newProjectMetric(project: Project, baseMetric: Studio.Metric) {
   const { ticker, slug } = project
-  return deriveMetric(baseMetric, {
-    key: buildProjectMetricKey(project, baseMetric),
+  const key = buildProjectMetricKey(project, baseMetric)
+
+  const cached = ProjectMetricCache[key]
+  if (cached) return cached
+
+  // TODO: Refactor [@vanguard | Jun  9, 2021]
+  const isWatchlist = slug === 'stablecoins'
+  const selector = isWatchlist ? 'watchlistSlug' : 'slug'
+  const metric = deriveMetric(baseMetric, {
+    key,
     project,
     base: baseMetric,
     label: `${baseMetric.label} (${ticker})`,
     reqMeta: {
-      slug,
+      [selector]: slug,
     },
   } as any)
+
+  if (isWatchlist) metric.selector = selector
+
+  ProjectMetricCache[key] = metric
+  return metric
 }

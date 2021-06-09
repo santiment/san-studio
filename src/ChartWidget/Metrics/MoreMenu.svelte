@@ -72,7 +72,7 @@
 
     <div
       class="btn btn--ghost option"
-      class:active={isSettingsOpened}
+      class:disabled={isSettingsOpened}
       on:click={() => onSettings(metric)}>
       <Svg id="cog" w="16" h="16" class="mrg-s mrg--r" />
       Settings

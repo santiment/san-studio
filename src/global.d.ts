@@ -31,6 +31,7 @@ namespace Studio {
     indicator?: any
     base?: any
     project?: Project
+    selector?: string
     selectorType?: import('@/metrics/selector/types').SelectorType
     domainGroup?: string
     type?: string

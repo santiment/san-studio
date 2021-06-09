@@ -1,3 +1,4 @@
+import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { ONE_DAY_IN_MS, getTodaysEnd } from 'webkit/utils/dates'
 
@@ -21,7 +22,7 @@ export const STUDIO = {
   to: TO.toISOString(),
 }
 
-const { update, subscribe, set } = writable<StudioSettings>(STUDIO)
+const { subscribe, set } = writable<StudioSettings>(STUDIO)
 
 function getPeriodInterval(from: Date, to: Date): string {
   const diff = (+to - +from) / ONE_DAY_IN_MS
@@ -54,6 +55,15 @@ export const studio = {
     STUDIO.interval = getPeriodInterval(from, to)
     set(STUDIO)
   },
+}
+
+export const LOCKED_ASSET_CONTEXT = 'LOCKED_ASSET_CONTEXT'
+export const setLockedAssetStore = (store): void =>
+  setContext(LOCKED_ASSET_CONTEXT, store)
+export const getLockedAssetStore = () => getContext(LOCKED_ASSET_CONTEXT)
+export function newLockedAssetStore() {
+  const store = writable(STUDIO)
+  setLockedAssetStore(store)
 }
 
 declare global {
