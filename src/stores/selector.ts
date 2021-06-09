@@ -108,7 +108,7 @@ export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
     }
 
     const isCtrl = e && (e.ctrlKey || e.metaKey)
-    const widget = isCtrl && get<any>(Widgets)[0]
+    const widget = isCtrl && findChartWidget(get<any>(Widgets))
 
     if (node.selectorType === SelectorType.Subwidget) {
       if (widget) return Widgets.addSubwidgets(widget, [node])
@@ -116,15 +116,30 @@ export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
       return selectedMetrics.toggle(node)
     }
 
-    const metric = adjustSelectedMetric?.(node) || node
-    if (e && isCtrl && e.shiftKey) return Widgets.add([metric])
-    if (widget) return widget.Metrics.add(metric)
+    // TODO: Refactor notables selection [@vanguard | Jun  9, 2021]
+    const isNotable = node.selectorType === SelectorType.Notable
+    const _metric = (node as any).metric || node
+    const metric = adjustSelectedMetric?.(_metric) || _metric
+    if (widget) {
+      const metrics = [metric]
+      if (e && e.shiftKey) {
+        return Widgets.add(metrics, isNotable ? metrics : undefined)
+      }
+
+      widget.Metrics.add(metric)
+      return isNotable && widget.MetricsSignals.concat(metrics)
+    }
 
     selector.toggle(node)
   }
 
   setNodeController(NodeController)
   return NodeController
+}
+
+const chartWidgetFinder = ({ Metrics }) => !!Metrics
+function findChartWidget(widgets: any) {
+  return widgets.find(chartWidgetFinder)
 }
 
 declare global {
