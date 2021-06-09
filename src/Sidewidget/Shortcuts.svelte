@@ -34,6 +34,8 @@
     newShortcut([CMD, 'L'], 'Open Chart layout explorer'),
 
     newShortcut([CMD, 'S'], 'Save Chart layout'),
+
+    newShortcut(['L'], 'Start drawing'),
   ]
 </script>
 
