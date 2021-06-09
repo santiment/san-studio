@@ -4,7 +4,7 @@
   import Mapview from '@/Mapview/index.svelte'
   import SidewidgetComponent from '@/Sidewidget/index.svelte'
   import { newTooltipSynchronizer } from '@/Chart/Tooltip/context'
-  import { studio } from '@/stores/studio'
+  import { studio, newLockedAssetStore } from '@/stores/studio'
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { newNodeController } from '@/stores/selector'
@@ -23,6 +23,7 @@
   export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
+  export let adjustSelectedMetric = undefined
   export let checkIsMapviewDisabled = undefined
   export let InsightsContextStore = undefined
 
@@ -40,9 +41,12 @@
     onModRangeSelect,
     checkIsMapviewDisabled,
     InsightsContextStore,
+    adjustSelectedMetric,
   })
-  newNodeController(Widgets, Sidewidget)
+  newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()
+  newLockedAssetStore()
+
   const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()
 

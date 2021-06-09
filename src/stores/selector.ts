@@ -96,7 +96,7 @@ const NODE_CONTROLLER_CONTEXT = 'NodeController'
 export const setNodeController = (NodeController): void =>
   setContext(NODE_CONTROLLER_CONTEXT, NodeController)
 export const getNodeController = () => getContext(NODE_CONTROLLER_CONTEXT)
-export function newNodeController(Widgets, Sidewidget) {
+export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
   function NodeController(node: Studio.SelectorNode, e?: MouseEvent) {
     if (node.selectorType === SelectorType.Sidewidget) {
       return Sidewidget.set(node === get(Sidewidget) ? null : node)
@@ -116,9 +116,9 @@ export function newNodeController(Widgets, Sidewidget) {
       return selectedMetrics.toggle(node)
     }
 
-    if (e && isCtrl && e.shiftKey) return Widgets.add([node])
-
-    if (widget) return widget.Metrics.add(node)
+    const metric = adjustSelectedMetric?.(node) || node
+    if (e && isCtrl && e.shiftKey) return Widgets.add([metric])
+    if (widget) return widget.Metrics.add(metric)
 
     selector.toggle(node)
   }

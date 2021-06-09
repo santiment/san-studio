@@ -10,7 +10,12 @@ const PROJECT_FETCH = {
   msg: "Can't fetch data for this project",
 }
 
-const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH]
+const FAILED_FETCH = {
+  anchor: "Can't fetch",
+  msg: "Can't fetch data for this asset",
+}
+
+const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH, FAILED_FETCH]
 
 export function transformMessage(errorMsg: string | any[]): string {
   const unpacked = Array.isArray(errorMsg) ? errorMsg[0] : errorMsg

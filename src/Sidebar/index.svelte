@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
   import Icon from 'webkit/ui/Icon.svelte'
-  import { studio } from '@/stores/studio'
+  import { studio, getLockedAssetStore } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'
   import {
     getMetricsSelectorGraph,
@@ -18,6 +18,7 @@
   import Toggle from './Toggle.svelte'
   import { DEFAULT_METRICS } from './defaults'
 
+  const LockedAsset = getLockedAssetStore()
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
   let input = ''
@@ -29,9 +30,10 @@
 
   $: isOpened = isPeeked // || isDraggingMetric
 
-  $: ({ slug } = $studio)
+  $: LockedAsset.set($studio)
+  $: ({ slug } = $LockedAsset)
   $: categories = Object.keys(graph) as MetricCategory[]
-  $: graph = getMetricsSelectorGraph(metrics, $studio)
+  $: graph = getMetricsSelectorGraph(metrics, $LockedAsset)
   $: loweredInput = input.toLowerCase()
   $: filteredGraph = loweredInput
     ? filterSelectorGraph(graph, loweredInput)

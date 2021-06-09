@@ -1,14 +1,17 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
   import Category from '@/Sidebar/Category.svelte'
-  import { studio } from '@/stores/studio'
-  import { getInsightsGraph } from './utils'
+  import { studio, getLockedAssetStore } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'
+  import { getInsightsGraph } from './utils'
+
   const { InsightsContextStore } = getAdapterController()
   const Widgets = getWidgets()
+  const LockedAsset = getLockedAssetStore()
 
-  $: ({ ticker, from, to } = $studio)
+  $: ({ from, to } = $studio)
+  $: ({ ticker } = $LockedAsset)
   $: ({ insight, hasMyInsights, hasFollowings } = $InsightsContextStore)
   $: ({ insights, projectInsight } = getInsightsGraph(
     ticker,

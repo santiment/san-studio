@@ -10,6 +10,7 @@ export const GET_METRIC = `
     $from: DateTime!
     $to: DateTime!
     $slug: String
+    $watchlistSlug: String
     $text: String
     $slugs: [String]
     $interval: interval
@@ -26,6 +27,7 @@ export const GET_METRIC = `
       timeseriesData(
         selector: {
           slug: $slug
+          watchlistSlug: $watchlistSlug
           text: $text
           slugs: $slugs
           labels: $labels

@@ -77,7 +77,7 @@ export function handleLineCreation(
 export function handleLineHover(chart) {
   return (e) => {
     const { isDrawing, drawer, tooltip } = chart
-    if (isDrawing) return
+    if (isDrawing || !drawer) return
 
     const { drawings, ctx } = drawer
     const [moveX, moveY] = getDprCoordinates(chart, getEventCoordinates(e))

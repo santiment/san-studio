@@ -5,14 +5,15 @@
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
+  import { getAdapterController } from '@/adapter/context'
   import { newSortableDndCtx } from './dnd'
   import Preview from './Preview.svelte'
   import ChartPreview from './ChartPreview.svelte'
   import Items from './Items.svelte'
-  import ChartWidget from '@/ChartWidget/index.svelte'
 
   const Widgets = getWidgets()
   const dndContext = newSortableDndCtx({ onDragEnd })
+  const { adjustSelectedMetric } = getAdapterController()
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
@@ -41,14 +42,18 @@
     if ($selectedMetrics.subwidgets.length) {
       Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
     }
-    widget.Metrics.concat($selectedMetrics.items)
+    widget.Metrics.concat(adjustMetrics($selectedMetrics.items))
     widget.MetricsSignals.concat($selectedMetrics.notables)
     selectedMetrics.clear()
   }
 
   function onNewWidgetClick() {
-    Widgets.add($selectedMetrics.items)
+    Widgets.add(adjustMetrics($selectedMetrics.items))
     selectedMetrics.clear()
+  }
+
+  function adjustMetrics(metrics: Studio.Metric[]) {
+    return adjustSelectedMetric ? metrics.map(adjustSelectedMetric) : metrics
   }
 
   function onDragEnd(oldIndex: number, newIndex: number) {

@@ -41,7 +41,7 @@
 
   {#if isMetricsPhase}
     <div class="preview-info info row hv-center">
-      {#if !isBlocked}
+      {#if !isBlocked && $Metrics}
         <div class="metrics row">
           {#each $Metrics as metric (metric.key)}
             <MetricButton {metric} colors={$ChartColors} />
