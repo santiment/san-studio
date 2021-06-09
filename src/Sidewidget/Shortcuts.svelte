@@ -48,7 +48,7 @@
         {#if i !== 0}
           <div class="plus mrg-s mrg--l mrg--r">+</div>
         {/if}
-        <div class="border" class:cmd={key === CMD}>
+        <div class="border" class:cmd={isMac && key === CMD}>
           {#if i === 0 && key === CMD}
             {isMac ? '⌘' : 'Ctrl'}
           {:else}
