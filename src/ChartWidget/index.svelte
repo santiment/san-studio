@@ -2,7 +2,7 @@
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
-  import { newHighlightedColors } from '@/Chart/colors'
+  import { ALL_COLORS, newHighlightedColors } from '@/Chart/colors'
   import { getAdapterController } from '@/adapter/context'
   import Chart from './Chart.svelte'
   import Controls from './Controls/index.svelte'
@@ -135,8 +135,14 @@
     if (settingsOpenedMetric === oldMetric) {
       settingsOpenedMetric = metric
     }
-    MetricSettings.replace(oldMetric.key, metric.key)
-    ChartColors.replace(oldMetric.key, metric.key)
+    const oldKey = oldMetric.key
+    const oldColor = ChartColors.get()[oldKey]
+
+    if (!ALL_COLORS.has(oldColor)) {
+      ChartColors.replace(oldKey, metric.key)
+    }
+
+    MetricSettings.replace(oldKey, metric.key)
     Metrics.replace(index, metric)
   }
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Metric } from '@/metrics'
   import { studio } from '@/stores/studio'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
@@ -30,7 +31,9 @@
     {/if}
     {#if isNotIndicator}
       <IntervalSetting {metric} />
-      <IndicatorSetting {metric} />
+      {#if metric !== Metric.dev_activity && metric.base !== Metric.dev_activity}
+        <IndicatorSetting {metric} />
+      {/if}
     {/if}
     <ShowAxisSetting {metric} />
   </div>

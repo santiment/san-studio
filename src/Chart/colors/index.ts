@@ -31,6 +31,7 @@ export const COLORS = [
   '#c9c2ff', // heliotrope-light-2
 ]
 const COLORS_SET = new Set(COLORS)
+export const ALL_COLORS = new Set(COLORS.concat(Object.values(MetricColor)))
 
 const ALPHA_CHANNEL = '29'
 
