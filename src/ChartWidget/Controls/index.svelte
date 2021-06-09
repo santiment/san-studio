@@ -5,6 +5,7 @@
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { getSidewidget } from '@/stores/widgets'
+  import { globals } from '@/stores/globals'
   import { SHORTCUTS_SIDEWIDGET } from '@/Sidewidget/Shortcuts.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
@@ -18,6 +19,11 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
+
+  $: $ChartDrawer.isNewDrawing = $globals.isNewDrawing
+  $: if ($globals.isNewDrawing && $ChartDrawer.isNewDrawing === false) {
+    onDrawingEnd()
+  }
 
   function onNewLine() {
     if ($ChartDrawer.isNewDrawing === false) track.event(Event.NewDrawing)
@@ -36,6 +42,10 @@
     $ChartDrawer.drawings = drawer.drawings
     $ChartDrawer.selectedLine = undefined
     drawer.redraw()
+  }
+
+  function onDrawingEnd() {
+    $globals.isNewDrawing = false
   }
 </script>
 

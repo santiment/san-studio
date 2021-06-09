@@ -80,6 +80,7 @@ export function downloadPng(
   pngChart.domainGroups = domainGroups
   pngChart.colors = colors
   pngChart.theme = theme
+  pngChart.bgColor = theme.bg
 
   updateChartState(
     pngChart,

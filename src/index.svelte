@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
@@ -8,6 +10,7 @@
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { newNodeController } from '@/stores/selector'
+  import { globals } from '@/stores/globals'
   import { setAdapterController } from '@/adapter/context'
   import { newSizedQueue } from '@/Widget/queue'
 
@@ -56,6 +59,12 @@
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
+
+  onDestroy(
+    newGlobalShortcut('L', () => {
+      $globals.isNewDrawing = !$globals.isNewDrawing
+    }),
+  )
 </script>
 
 <main>

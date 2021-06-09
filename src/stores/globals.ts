@@ -7,6 +7,7 @@ const GLOBALS = {
   isLoggedIn: false,
   isBeta: false,
   isPresenterMode: false,
+  isNewDrawing: false,
 }
 
 const { subscribe, set } = writable(GLOBALS)
