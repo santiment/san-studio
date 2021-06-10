@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
-  import { newGlobalShortcut } from 'webkit/utils/events'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
@@ -59,12 +57,6 @@
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
-
-  onDestroy(
-    newGlobalShortcut('L', () => {
-      $globals.isNewDrawing = !$globals.isNewDrawing
-    }),
-  )
 </script>
 
 <main>

@@ -41,5 +41,6 @@
 
   .line {
     margin-right: 10px;
+    min-width: 14px;
   }
 </style>

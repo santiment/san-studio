@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
-  import { newGlobalShortcut } from 'webkit/utils/events'
   import Icon from 'webkit/ui/Icon.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
@@ -42,9 +40,12 @@
     if ($selectedMetrics.subwidgets.length) {
       Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
     }
-    widget.Metrics.concat(adjustMetrics($selectedMetrics.items))
-    widget.MetricsSignals.concat($selectedMetrics.notables)
-    selectedMetrics.clear()
+
+    if (widget.Metrics) {
+      widget.Metrics.concat(adjustMetrics($selectedMetrics.items))
+      widget.MetricsSignals.concat($selectedMetrics.notables)
+      selectedMetrics.clear()
+    }
   }
 
   function onNewWidgetClick() {
@@ -73,8 +74,6 @@
       scrollParent.scrollTop = scrollTop
     })
   }
-
-  onDestroy(newGlobalShortcut('CMD+M', mapview.toggle))
 </script>
 
 {#if isMapview}

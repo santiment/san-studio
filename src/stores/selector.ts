@@ -80,7 +80,7 @@ export const selectedMetrics = (() => {
 
 export const selector = {
   toggle(node: Studio.SelectorNode): void {
-    if (Metric[node.key]) {
+    if (Metric[node.key] || (node as any).metric) {
       selectedMetrics.toggle(node as Studio.Metric)
     }
   },
