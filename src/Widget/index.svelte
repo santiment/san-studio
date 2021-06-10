@@ -1,8 +1,10 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
   import { getAdapterController } from '@/adapter/context'
+  import { setOnLoadContext } from '@/ChartWidget/context'
   import { getQueueStore } from './queue'
   import Subwidget from './Subwidget.svelte'
+
   const Queue = getQueueStore()
   const { onWidget } = getAdapterController()
 
@@ -16,6 +18,7 @@
   let target
   $: isSingleWidget = $Widgets.length < 2
 
+  setOnLoadContext(Queue.delete)
   onMount(() => {
     widget.container = target
     if (onWidget) onWidget(widget)
@@ -33,7 +36,6 @@
   {#if isNative && $Queue.has(widget) === false}
     <svelte:component
       this={widget.Widget}
-      onLoad={Queue.delete}
       {widget}
       {isSingleWidget}
       {deleteWidget} />

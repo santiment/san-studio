@@ -11,7 +11,7 @@
   import { mapClosestValue } from '@/Chart/utils'
   import { getMetricNodes } from '@/Chart/nodes'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
-  import { initWidget, initWidgetContext } from './context'
+  import { initWidget, initWidgetContext, getOnLoadContext } from './context'
   import { newMetricSettingsTransformer } from './transformers'
   import {
     groupDomains,
@@ -27,7 +27,7 @@
   export let deleteWidget = undefined
   export let metricsFilter = undefined
   export let fullscreenMetricsFilter = undefined
-  export let onLoad = undefined
+  export let onLoad = getOnLoadContext()
 
   initWidget(widget)
   initWidgetContext(widget)

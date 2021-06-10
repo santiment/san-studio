@@ -85,3 +85,8 @@ export function initWidgetContext(widget: any) {
   setWidget(widget as ChartWidget)
   setChartDrawer(widget.ChartDrawer)
 }
+
+const ON_LOAD_CONTEXT = 'ON_LOAD'
+export const setOnLoadContext = (onLoad): void =>
+  setContext(ON_LOAD_CONTEXT, onLoad)
+export const getOnLoadContext = (): any => getContext(ON_LOAD_CONTEXT)

@@ -21,7 +21,7 @@
   })
 
   function drawChart() {
-    if (!chart) return
+    if (!chart || !widget.chart) return
     clearCtx(chart)
     chart.ctx.drawImage(
       widget.chart.canvas,
