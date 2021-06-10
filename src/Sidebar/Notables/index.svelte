@@ -5,8 +5,10 @@
   import ChartPreview from './ChartPreview.svelte'
   import Category from '../Category.svelte'
   import { queryRawSignal } from '@/api/signals'
-  import { studio } from '@/stores/studio'
+  import { studio, getLockedAssetStore } from '@/stores/studio'
   import { debounced } from '@/ChartWidget/utils'
+
+  const LockedAsset = getLockedAssetStore()
 
   export let searchTerm = ''
   export let isFiltering = false
@@ -16,7 +18,7 @@
   let hoveredNotable
   let style
 
-  $: settings = getSettings($studio)
+  $: settings = getSettings($LockedAsset, $studio)
   $: getRawSignals(settings)
   $: notables = getNotableMetrics(signals, searchTerm)
   $: style = hoveredNode && getPreviewStyles(hoveredNode)

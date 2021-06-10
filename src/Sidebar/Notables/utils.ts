@@ -21,7 +21,7 @@ export function getNotableMetrics(signals, searchTerm) {
     .filter(Boolean)
 }
 
-export function getSettings({ slug, from, to }) {
+export function getSettings({ slug }, { from, to }) {
   const diff = (+new Date(to) - +new Date(from)) / ONE_DAY_IN_MS
   let interval = '7d'
 
