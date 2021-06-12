@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from 'svelte'
   import Icon from 'webkit/ui/Icon.svelte'
   import ItemLabel from './ItemLabel.svelte'
   import ItemDescription from './ItemDescription.svelte'
@@ -11,8 +12,10 @@
 
   export let item: any
   export let node: any
+  export let onItemEnter
   export let onItemLeave
 
+  let actionsNode
   let active = false
 
   $: style = node ? getActionsStyles() : ''
@@ -32,8 +35,29 @@
   function onFavoriteClick(e: MouseEvent) {
     e.stopImmediatePropagation()
     if ($globals.isLoggedIn) {
-      return favoriteMetrics.toggle(item.key)
-      // return tick().then(() => (style = getActionsStyles()))
+      favoriteMetrics.toggle(item.key)
+
+      const { offsetTop } = node
+      const _node = node
+      const _item = item
+      const parent = node.closest('.category')
+
+      return tick().then(() => {
+        const categoriesNode = actionsNode.parentNode
+        const { nextElementSibling } = actionsNode
+
+        const favoritesNode =
+          nextElementSibling?.classList.contains('favorites') &&
+          nextElementSibling
+
+        if (favoritesNode === parent) return onItemLeave()
+
+        if (categoriesNode.scrollTop < favoritesNode?.offsetHeight) {
+          categoriesNode.scrollTop += node.offsetTop - offsetTop
+        }
+
+        requestAnimationFrame(() => onItemEnter(_node, _item))
+      })
     }
     if (onAnonFavoriteClick) onAnonFavoriteClick()
   }
@@ -44,6 +68,7 @@
 {#if style}
   <div
     {style}
+    bind:this={actionsNode}
     class:active
     class="sidebar-item sidebar-menu menu row v-center"
     on:click={onClick}

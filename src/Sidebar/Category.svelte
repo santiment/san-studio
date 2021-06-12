@@ -3,6 +3,8 @@
   import { MetricCategory } from '@/metrics/graph'
   import Item from './Item.svelte'
 
+  let className = ''
+  export { className as class }
   export let category: MetricCategory
   export let items: Studio.SelectorNode[] = []
   export let isFiltering: boolean
@@ -33,7 +35,7 @@
 </script>
 
 {#if items.length || $$slots.default}
-  <div class="category" on:mouseleave>
+  <div class="category {className}" on:mouseleave>
     <h3
       on:click={() => (visible = !visible)}
       class="row v-center"

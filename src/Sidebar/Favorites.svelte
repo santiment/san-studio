@@ -26,7 +26,7 @@
 </script>
 
 {#if !isFiltering || (isFiltering && favorites.length)}
-  <Category category="Favorites" {isFiltering} isOpened>
+  <Category category="Favorites" {isFiltering} isOpened class="favorites">
     <svelte:fragment slot="pre-title">
       <Svg id="star-filled" w="16" class="mrg-s mrg--r $style.star" />
     </svelte:fragment>

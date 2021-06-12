@@ -58,7 +58,6 @@
   }
 
   function onItemLeave() {
-    if (!hoveredItem) return
     hoveredItem = null
     hoveredNode = null
   }
@@ -79,7 +78,11 @@
   </div>
   <div class="categories" on:scroll={onItemLeave} on:mouseleave={onItemLeave}>
     {#if isMetricTab}
-      <ItemActions node={hoveredNode} item={hoveredItem} {onItemLeave} />
+      <ItemActions
+        node={hoveredNode}
+        item={hoveredItem}
+        {onItemEnter}
+        {onItemLeave} />
       <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
       <Notables {isFiltering} {onItemEnter} searchTerm={loweredInput} />
       {#each categories as category}
@@ -129,6 +132,7 @@
     flex: 1;
     overflow: hidden;
     scrollbar-width: thin;
+    padding-bottom: 30vh;
   }
 
   .categories:hover {
