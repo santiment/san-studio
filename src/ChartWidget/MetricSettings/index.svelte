@@ -7,7 +7,9 @@
   import ExchangeSetting from './ExchangeSetting/index.svelte'
   import { isExchangeModifiable } from './ExchangeSetting/utils'
   import IndicatorSetting from './IndicatorSetting/index.svelte'
+  import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
+  import { WEIGHTED_METRICS } from '../transformers/weightedSocial'
 
   export let metric: Studio.Metric
   $: ticker = $studio.ticker
@@ -16,6 +18,8 @@
     metric.project || metric.noProject
       ? metric.label
       : metric.getLabel?.(ticker) || `${metric.label} (${ticker})`
+
+  const getBase = (metric: Studio.Metric) => metric.base || metric
 </script>
 
 {#key metric.key}
@@ -31,9 +35,12 @@
     {/if}
     {#if isNotIndicator}
       <IntervalSetting {metric} />
-      {#if metric !== Metric.dev_activity && metric.base !== Metric.dev_activity}
+      {#if getBase(metric) !== Metric.dev_activity}
         <IndicatorSetting {metric} />
       {/if}
+    {/if}
+    {#if isNotIndicator && WEIGHTED_METRICS.has(getBase(metric).key)}
+      <SmoothingSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
   </div>

@@ -137,7 +137,7 @@ export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
   return NodeController
 }
 
-const chartWidgetFinder = ({ Metrics }) => !!Metrics
+const chartWidgetFinder = ({ Metrics, isBlocked }) => !isBlocked && !!Metrics
 function findChartWidget(widgets: any) {
   return widgets.find(chartWidgetFinder)
 }

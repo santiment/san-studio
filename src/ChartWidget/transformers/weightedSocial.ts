@@ -1,7 +1,8 @@
 import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 import { Metric } from '@/metrics'
+import { smoothAsCMA } from '../smoothing'
 
-const WEIGHTED_METRICS = new Set([
+export const WEIGHTED_METRICS = new Set([
   Metric.sentiment_volume_consumed_total.key,
   Metric.sentiment_volume_consumed_telegram.key,
   Metric.sentiment_volume_consumed_reddit.key,
@@ -16,7 +17,7 @@ function getWeightedSocialMinInterval(from: Date, to: Date): string {
   return '1d'
 }
 
-function setWeightedSocialSettings(
+function setWeightedSocialInterval(
   metricSettings: Studio.MetricSetting,
   { from, to },
 ) {
@@ -27,6 +28,17 @@ function setWeightedSocialSettings(
   metricSettings.interval = minInterval
 }
 
+export function setWeightedSocialSmoothing(key: string, metricSettings) {
+  const { smoothing } = metricSettings
+  if (!smoothing) {
+    delete metricSettings.smoothing
+    delete metricSettings.preTransform
+    return
+  }
+
+  metricSettings.preTransform = (data) => smoothAsCMA(data, smoothing, key)
+}
+
 export function transformWeightedSocialMetrics(
   metric: Studio.Metric,
   metricSettings: Studio.MetricSetting,
@@ -34,7 +46,8 @@ export function transformWeightedSocialMetrics(
 ) {
   if (WEIGHTED_METRICS.has(metric.key) === false) return
 
-  setWeightedSocialSettings(metricSettings, studioSettings)
+  setWeightedSocialInterval(metricSettings, studioSettings)
+  setWeightedSocialSmoothing(metric.key, metricSettings)
 
   return metricSettings
 }

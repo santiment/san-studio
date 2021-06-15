@@ -51,6 +51,7 @@
   .widget {
     margin-top: 16px;
     height: 530px;
+    min-height: 530px;
     padding: 14px 16px;
   }
   .widget:first-child {
