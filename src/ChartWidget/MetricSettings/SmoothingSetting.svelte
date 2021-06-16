@@ -23,6 +23,7 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <Dropdown>
   Smoothing: {hasSmoothing ? smoothing : 'Off'}
 

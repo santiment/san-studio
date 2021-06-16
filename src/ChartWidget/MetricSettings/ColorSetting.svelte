@@ -1,7 +1,5 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import Icon from 'webkit/ui/Icon.svelte'
-  import Setting from './Setting.svelte'
   import Dropdown from './Dropdown.svelte'
   import ColorPicker from './ColorPicker.svelte'
   import { getWidget } from '@/ChartWidget/context'
@@ -11,7 +9,6 @@
 
   export let metric: Studio.Metric
 
-  let node
   let timer
 
   $: color = $ChartColors[metric.key]
@@ -35,14 +32,6 @@
 </Dropdown>
 
 <style>
-  input {
-    visibility: hidden;
-    width: 0;
-    height: 0;
-    padding: 0;
-    border: 0;
-  }
-
   div {
     background: var(--color);
     border-radius: 2px;
