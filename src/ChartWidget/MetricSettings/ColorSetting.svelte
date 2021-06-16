@@ -2,8 +2,11 @@
   import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
   import Setting from './Setting.svelte'
+  import Dropdown from './Dropdown.svelte'
+  import ColorPicker from './ColorPicker.svelte'
   import { getWidget } from '@/ChartWidget/context'
   import { Event } from '@/analytics'
+
   const { ChartColors } = getWidget()
 
   export let metric: Studio.Metric
@@ -13,7 +16,7 @@
 
   $: color = $ChartColors[metric.key]
 
-  function onChange({ target: { value } }) {
+  function onChange(value) {
     window.clearTimeout(timer)
     timer = window.setTimeout(() => {
       color = value
@@ -23,11 +26,13 @@
   }
 </script>
 
-<Setting on:click={() => node.click()}>
+<Dropdown isList={false}>
   <div class="color" style="--color:{color}" />
-  <input type="color" on:input={onChange} value={color} bind:this={node} />
-  <Icon id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
-</Setting>
+
+  <svelte:fragment slot="options">
+    <ColorPicker {color} {onChange} />
+  </svelte:fragment>
+</Dropdown>
 
 <style>
   input {
@@ -43,9 +48,5 @@
     border-radius: 2px;
     width: 10px;
     height: 10px;
-  }
-
-  .arrow {
-    transform: rotate(180deg);
   }
 </style>

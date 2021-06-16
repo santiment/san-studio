@@ -2,6 +2,8 @@
   import Icon from 'webkit/ui/Icon.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
 
+  export let isList = true
+
   let optionsNode
   $: if (optionsNode) {
     const activeNode = optionsNode.querySelector('.active')
@@ -20,7 +22,8 @@
 
   <div
     slot="tooltip"
-    class="dropdown body-3 column"
+    class="body-3 column"
+    class:dropdown={isList}
     class:scroll={$$slots.options}
     bind:this={optionsNode}>
     <slot name="dropdown" />
@@ -34,6 +37,7 @@
     border-bottom: 1px dashed var(--mystic);
     --color: var(--waterloo);
     --fill-hover: var(--green);
+    border-radius: 0;
   }
 
   .arrow {

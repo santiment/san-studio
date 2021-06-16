@@ -45,3 +45,9 @@
     <ShowAxisSetting {metric} />
   </div>
 {/key}
+
+<style>
+  div {
+    flex-wrap: wrap;
+  }
+</style>
