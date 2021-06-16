@@ -9,6 +9,7 @@
   import { SHORTCUTS_SIDEWIDGET } from '@/Sidewidget/Shortcuts.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
+  import { downloadPng } from './downloadPng'
 
   const { ChartDrawer } = getWidget()
   const Sidewidget = getSidewidget()
@@ -19,6 +20,8 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
+
+  let onDownload
 
   $: $ChartDrawer.isNewDrawing = $globals.isNewDrawing
   $: if ($globals.isNewDrawing && $ChartDrawer.isNewDrawing === false) {
@@ -85,7 +88,18 @@
     <Svg id="cmd-key" w="16" />
   </div>
 
-  <OptionsMenu activeClass="$style._active" {isSingleWidget} {deleteWidget}>
+  <div
+    class="btn mrg-s mrg--r expl-tooltip"
+    title="Download as PNG"
+    on:click={() => onDownload(downloadPng)}>
+    <Svg id="download" w="17" />
+  </div>
+
+  <OptionsMenu
+    bind:onDownload
+    activeClass="$style._active"
+    {isSingleWidget}
+    {deleteWidget}>
     <div class="btn">
       <Svg id="cog" w="16" />
     </div>

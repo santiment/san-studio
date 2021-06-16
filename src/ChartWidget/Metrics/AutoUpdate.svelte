@@ -76,6 +76,7 @@
     align-self: flex-end;
     width: 32px;
     height: 32px;
+    --bg: var(--athens);
     --bg-hover: var(--athens);
     --dot: var(--casper);
     --border: #e5e8f0;
@@ -99,13 +100,21 @@
     background: var(--border);
   }
 
+  .live:active {
+    --bg-hover: var(--porcelain);
+  }
+
   .active {
+    --bg: none;
     --bg-hover: var(--green-light-1);
     --dot: #26c953;
     --border: #c3e9d2;
   }
   .active::before {
     animation: live infinite 1.4s both;
+  }
+  .active:active {
+    --bg-hover: var(--green-light-2);
   }
 
   .tooltip {

@@ -30,7 +30,7 @@
       .then(() => deleteWidget(true))
   }
 
-  function onDownload(downloader) {
+  export function onDownload(downloader) {
     // prettier-ignore
     track.event(Event.Download, { type: downloader === downloadPng ? 'png' : 'csv'})
     downloader(widget, $studio)
