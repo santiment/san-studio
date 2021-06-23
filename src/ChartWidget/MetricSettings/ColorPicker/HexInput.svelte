@@ -71,6 +71,7 @@
 <style>
   input {
     padding: 5px 8px;
+    color: var(--black);
   }
   input:focus {
     border-color: var(--green);
