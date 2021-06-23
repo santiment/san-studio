@@ -145,14 +145,14 @@ const NetworkValueMetric = each(
       axisFormatter: ratioPercentAxisFormatter,
     },
     mvrv_usd: {
-      label: 'MVRV ratio',
+      label: 'MVRV Ratio',
       node: 'filledLine',
       formatter: mvrvFormatter,
       axisFormatter: ratioPercentAxisFormatter,
       precacher: mvrvPrecacher,
     },
     mvrv_usd_intraday: {
-      label: 'MVRV USD intraday',
+      label: 'MVRV Ratio Intraday',
       node: 'filledLine',
       formatter: mvrvFormatter,
       axisFormatter: ratioPercentAxisFormatter,

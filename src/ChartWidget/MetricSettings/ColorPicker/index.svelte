@@ -18,7 +18,7 @@
     '#AC948C',
     '#37D7BA',
     '#FF8450',
-    '#FFDAC5'
+    '#FFDAC5',
   ]
   export let onChange
 
@@ -58,7 +58,7 @@
       if (clientY < top) brightness = 100
       else if (clientY > bottom) brightness = 0
       else brightness = 100 - ((clientY - top) / height) * 100
-    }
+    },
   )
 
   const onHueMouseDown = newMouseHandler(({ clientX }, clientRect) => {

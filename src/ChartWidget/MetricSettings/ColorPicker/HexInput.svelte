@@ -8,6 +8,8 @@
 
   $: if (!wasChanged) value = color
 
+  const checkIsInvalidHex = (char) => Number.isNaN(parseInt(char, 16))
+
   const getValues = (input: string) =>
     input.startsWith('#') ? input.slice(1) : input
 
@@ -23,6 +25,13 @@
     return normalized
   }
 
+  function checkIsInvalidHexValues(values: string) {
+    for (let i = values.length - 1; i > -1; i--) {
+      if (checkIsInvalidHex(values[i])) return true
+    }
+    return false
+  }
+
   function onBlur() {
     value = color
     error = false
@@ -33,7 +42,7 @@
     const values = getValues(value)
     const { length } = values
 
-    if (length !== 3 && length !== 6) {
+    if ((length !== 3 && length !== 6) || checkIsInvalidHexValues(values)) {
       return (error = true)
     }
 
@@ -46,7 +55,7 @@
     const { key, ctrlKey, metaKey } = e
 
     if (key === 'v' && (ctrlKey || metaKey)) return
-    if (Number.isNaN(parseInt(key, 16))) return e.preventDefault()
+    if (checkIsInvalidHex(key)) return e.preventDefault()
   }
 </script>
 
