@@ -2,7 +2,7 @@ import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
 import { Metric } from '@/metrics'
 import { smoothAsCMA } from '../smoothing'
 
-export const WEIGHTED_METRICS = new Set([
+const WEIGHTED_METRICS = new Set([
   Metric.sentiment_volume_consumed_total.key,
   Metric.sentiment_volume_consumed_telegram.key,
   Metric.sentiment_volume_consumed_reddit.key,

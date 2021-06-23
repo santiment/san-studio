@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Metric } from '@/metrics'
+  import { SocialMetric } from '@/metrics/_social'
   import { studio } from '@/stores/studio'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
@@ -9,7 +10,6 @@
   import IndicatorSetting from './IndicatorSetting/index.svelte'
   import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
-  import { WEIGHTED_METRICS } from '../transformers/weightedSocial'
 
   export let metric: Studio.Metric
   $: ticker = $studio.ticker
@@ -39,7 +39,7 @@
         <IndicatorSetting {metric} />
       {/if}
     {/if}
-    {#if isNotIndicator && WEIGHTED_METRICS.has(getBase(metric).key)}
+    {#if isNotIndicator && SocialMetric[getBase(metric).key]}
       <SmoothingSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
