@@ -84,11 +84,21 @@
   widget.fetchData = (cachePolicy) =>
     fetchData(metrics, $studio, $MetricSettings, cachePolicy)
 
-  // prettier-ignore
+  let abortFetch
   const fetchData = debounced(
     (
-      metrics: Studio.Metric[], settings: Studio.Settings, MetricSettings: Studio.MetricSettings, cachePolicy?: any
-    ) => getTimeseries(metrics, settings, onData, onDataError, MetricSettings, cachePolicy),
+      metrics: Studio.Metric[],
+      settings: Studio.Settings,
+      MetricSettings: Studio.MetricSettings,
+      cachePolicy?: any,
+    ) => {
+      if (abortFetch) abortFetch()
+
+      // prettier-ignore
+      abortFetch = getTimeseries(
+        metrics, settings, onData, onDataError, MetricSettings, cachePolicy
+      )
+    },
   )
   const fetchAllData = debounced((metrics: Studio.Metric[], slug: string) =>
     getAllTimeData(metrics, slug, onAllTimeData, noop),

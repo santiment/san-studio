@@ -17,6 +17,7 @@ export function getTimeseries(
   MetricSettings: any = {},
   cachePolicy?: CachePolicy,
 ) {
+  let isAborted = false
   let data = [] as any[]
   const loadings = new Set(metrics)
   const errors = new Map()
@@ -42,6 +43,8 @@ export function getTimeseries(
     let attempt = 1
     fetchData()
     function fetchData() {
+      if (isAborted) return
+
       let request = fetcher
         ? fetcher(vars, metric, cachePolicy)
         : queryMetric(vars, precacher, cachePolicy).then(dataAccessor)
@@ -49,6 +52,7 @@ export function getTimeseries(
 
       request
         .then((metricData) => {
+          if (isAborted) return
           if (!metricData.length) throw new Error(NO_DATA_MSG)
 
           loadings.delete(metric)
@@ -57,6 +61,7 @@ export function getTimeseries(
           onError(errors, loadings)
         })
         .catch((e) => {
+          if (isAborted) return
           const msg = e.message as string | undefined
           if (msg && msg.includes('Failed to fetch') && attempt < 5) {
             attempt += 1
@@ -71,7 +76,7 @@ export function getTimeseries(
     }
   }
 
-  // TODO: Return abort controller [@vanguard | May 26, 2021]
+  return () => (isAborted = true)
 }
 
 export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
