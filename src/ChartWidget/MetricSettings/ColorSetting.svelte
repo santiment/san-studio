@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import Dropdown from './Dropdown.svelte'
-  import ColorPicker from './ColorPicker.svelte'
+  import ColorPicker from './ColorPicker/index.svelte'
   import { getWidget } from '@/ChartWidget/context'
   import { Event } from '@/analytics'
 

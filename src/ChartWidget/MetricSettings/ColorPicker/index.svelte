@@ -1,8 +1,9 @@
 <script lang="ts">
+  import HexInput from './HexInput.svelte'
   // TODO: Refactor and move to san-webkit [@vanguard | Jun 16, 2021]
-  import { hsvToHex, hexToHsv } from './colorUtils'
+  import { hsvToHex, hexToHsv } from './utils'
 
-  export let color
+  export let color: string
   export let suggestions = [
     '#26C953',
     '#FFAD4D',
@@ -17,16 +18,17 @@
     '#AC948C',
     '#37D7BA',
     '#FF8450',
-    '#FFDAC5',
+    '#FFDAC5'
   ]
   export let onChange
 
+  $: uppercaseColor = color.toUpperCase()
   $: [hue, saturation, brightness] = hexToHsv(color)
   $: parseHSV(hue, saturation, brightness)
 
   function parseHSV(hue, saturation, brightness) {
     const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100)
-    if (color !== newColor) onChange(newColor)
+    if (uppercaseColor !== newColor.toUpperCase()) onChange(newColor)
   }
 
   function newMouseHandler(moveHandler) {
@@ -56,7 +58,7 @@
       if (clientY < top) brightness = 100
       else if (clientY > bottom) brightness = 0
       else brightness = 100 - ((clientY - top) / height) * 100
-    },
+    }
   )
 
   const onHueMouseDown = newMouseHandler(({ clientX }, clientRect) => {
@@ -83,11 +85,13 @@
     <div class="hue-cursor" />
   </div>
 
+  <HexInput color={uppercaseColor} {onChange} />
+
   <div class="suggestions row">
     {#each suggestions as suggestion}
       <div
         class="suggestion"
-        class:active={suggestion === color}
+        class:active={suggestion === uppercaseColor}
         on:click={() => onChange(suggestion)}
         style="--color:{suggestion}" />
     {/each}
@@ -192,6 +196,6 @@
     cursor: pointer;
   }
   .active {
-    box-shadow: var(--color) 0 0 4px;
+    box-shadow: var(--color) 0 0 5px;
   }
 </style>
