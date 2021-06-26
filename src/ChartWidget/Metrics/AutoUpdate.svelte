@@ -10,6 +10,8 @@
   import { getAutoUpdater } from '@/stores/autoUpdater'
   const AutoUpdater = getAutoUpdater()
 
+  export let changeStudioPeriod
+
   let interval
   let isOpened = false
   $: updated = isOpened ? startInterval() : stopInterval()
@@ -47,7 +49,7 @@
     if ($AutoUpdater.isUpdating) {
       AutoUpdater.update(true)
     } else {
-      AutoUpdater.enable()
+      AutoUpdater.enable(changeStudioPeriod)
     }
 
     track.event(Event.AutoUpdate)

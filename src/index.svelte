@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { newHistoryContext, newHistoryEmitter } from '@/history'
+  import HistoryAction from '@/history/Action.svelte'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
@@ -8,7 +10,6 @@
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { newNodeController } from '@/stores/selector'
-  import { globals } from '@/stores/globals'
   import { setAdapterController } from '@/adapter/context'
   import { newSizedQueue } from '@/Widget/queue'
 
@@ -48,6 +49,9 @@
   newTooltipSynchronizer()
   newLockedAssetStore()
 
+  const HistoryEmitter = newHistoryEmitter()
+  newHistoryContext(HistoryEmitter.set)
+
   const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()
 
@@ -82,6 +86,8 @@
     {/if}
 
     <Mapview />
+
+    <HistoryAction {HistoryEmitter} />
   </div>
 </main>
 

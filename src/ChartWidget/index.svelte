@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getHistoryContext } from '@/history'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
@@ -19,7 +20,9 @@
     checkHasDomainGroups,
   } from './domain'
   import { debounced } from './utils'
+
   const { onWidgetInit } = getAdapterController()
+  const History = getHistoryContext()
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -104,8 +107,17 @@
     getAllTimeData(metrics, slug, onAllTimeData, noop),
   )
 
-  function changeStudioPeriod(startDatetime: number, endDatetime: number) {
-    studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+  function changeStudioPeriod(
+    startDatetime: number | string,
+    endDatetime: number | string,
+  ) {
+    const { from, to } = $studio
+    const undo = () => studio.setPeriod(new Date(from), new Date(to))
+    const redo = () =>
+      studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+
+    History.add('Period change', undo, redo)
+    redo()
   }
 
   function onDataError(Error, newLoadings, newData?: any) {
@@ -180,6 +192,7 @@
     {colors}
     {MetricError}
     {isSingleWidget}
+    {changeStudioPeriod}
     {onMetricClick}
     {onMetricHover}
     {onMetricDelete}

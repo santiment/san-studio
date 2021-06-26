@@ -13,6 +13,7 @@
   export let metrics, colors, loadings, settingsOpenedMetric
   export let MetricError
   export let isSingleWidget
+  export let changeStudioPeriod
   export let onMetricClick,
     onMetricHover,
     onMetricDelete,
@@ -71,7 +72,7 @@
   </div>
 
   {#if $globals.isPresenterMode === false}
-    <AutoUpdate />
+    <AutoUpdate {changeStudioPeriod} />
   {/if}
 </div>
 
