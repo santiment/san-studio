@@ -141,8 +141,11 @@
   function onMetricDelete(metric: Studio.Metric) {
     if (metrics.length === 1) return deleteWidget()
 
-    Metrics.delete(metric)
-    ChartAxes.delete(metric)
+    const redo = () => Metrics.delete(metric)
+    const undo = () => Metrics.add(metric)
+    History.add('Delete metric', undo, redo)
+
+    redo()
   }
 
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {

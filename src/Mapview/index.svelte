@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
-  import { getHistoryContext } from '@/history'
+  import { getHistoryContext, withScroll } from '@/history'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -44,15 +44,28 @@
     }
 
     if (widget.Metrics) {
-      widget.Metrics.concat(adjustMetrics($selectedMetrics.items))
-      widget.MetricsSignals.concat($selectedMetrics.notables)
+      const metrics = adjustMetrics($selectedMetrics.items)
+      const notables = $selectedMetrics.notables.slice()
+      const redo = () => {
+        widget.Metrics.concat(metrics)
+        widget.MetricsSignals.concat(notables)
+      }
+
+      redo()
+      History.add(
+        'Add metrics',
+        withScroll(widget, () => {
+          widget.Metrics.deleteEach(metrics)
+          widget.MetricsSignals.deleteEach(metrics)
+        }),
+        withScroll(widget, redo),
+      )
       selectedMetrics.clear()
     }
   }
 
   function onNewWidgetClick() {
     const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
-    console.log(widget)
 
     History.add(
       'New widget',

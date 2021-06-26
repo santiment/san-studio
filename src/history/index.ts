@@ -59,3 +59,7 @@ export function newHistoryContext(emitter) {
 export function newHistoryEmitter() {
   return writable<any>()
 }
+
+export const scroll = (target) => target?.scrollIntoView()
+// prettier-ignore
+export const withScroll = (target, clb) => () => (clb(), scroll(target))

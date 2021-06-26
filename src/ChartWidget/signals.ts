@@ -27,6 +27,10 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
       signalsSet = new Set(signals.concat(newMetrics))
       update()
     },
+    deleteEach(metrics: Studio.Metric[]) {
+      metrics.forEach((metric) => signalsSet.delete(metric))
+      update()
+    },
     update(metrics: Studio.Metric[]) {
       const newSignalsSet = new Set<any>()
 
