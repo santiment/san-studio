@@ -12,6 +12,7 @@
 
   export let searchTerm = ''
   export let isFiltering = false
+  export let onItemClick
 
   let signals = []
   let hoveredNode
@@ -75,6 +76,7 @@
     {#each notables as notable}
       <Item
         {notable}
+        {onItemClick}
         {onItemEnter}
         on:mousewheel={closePreview}
         on:mouseleave={onItemLeave} />

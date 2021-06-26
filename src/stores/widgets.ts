@@ -36,15 +36,20 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
       set((widgets = newWidgets))
     },
     add(metrics: Studio.Metric[], signalMetrics: Studio.Metric[]) {
-      widgets.push(
-        newWidget(ChartWidget, {
-          metrics,
-          signalMetrics,
-          scrollOnMount: true,
-        }),
-      )
+      const widget = newWidget(ChartWidget, {
+        metrics,
+        signalMetrics,
+        scrollOnMount: true,
+      })
+      widgets.push(widget)
       set(widgets)
       track.event(Event.NewWidget, { widget: 'chart' })
+      return widget
+    },
+    push(widget) {
+      const widgetsSet = new Set(widgets)
+      widgetsSet.add(widget)
+      set((widgets = Array.from(widgetsSet)))
     },
     delete(widget) {
       const widgetsSet = new Set(widgets)

@@ -1,15 +1,8 @@
 <script lang="ts">
   import Item from '../Item.svelte'
-  import { getNodeController } from '@/stores/selector'
-  import { getAdapterController } from '@/adapter/context'
-  const { checkIsMapviewDisabled } = getAdapterController()
-  const NodeController = getNodeController()
 
   export let notable
-  export let onItemEnter
-
-  const onClick = (e) =>
-    checkIsMapviewDisabled?.() || NodeController(notable, e)
+  export let onItemClick, onItemEnter
 </script>
 
 <Item
@@ -18,5 +11,5 @@
   class="sidebar-menu"
   on:mousewheel
   on:mouseleave
-  on:click={onClick}
+  on:click={(e) => onItemClick(e, notable)}
   onItemEnter={(node) => onItemEnter(node, notable)} />

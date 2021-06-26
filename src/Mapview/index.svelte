@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext } from '@/history'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -12,6 +13,7 @@
   const Widgets = getWidgets()
   const dndContext = newSortableDndCtx({ onDragEnd })
   const { adjustSelectedMetric } = getAdapterController()
+  const History = getHistoryContext()
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
@@ -49,7 +51,14 @@
   }
 
   function onNewWidgetClick() {
-    Widgets.add(adjustMetrics($selectedMetrics.items))
+    const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
+    console.log(widget)
+
+    History.add(
+      'New widget',
+      () => widget?.delete(),
+      () => Widgets.push(widget),
+    )
     selectedMetrics.clear()
   }
 
