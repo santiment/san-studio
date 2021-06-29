@@ -51,7 +51,6 @@ export const getHistoryContext = (): ReturnType<typeof newHistory> =>
 
 export function newHistoryContext(emitter) {
   const history = newHistory(emitter)
-  console.log(history)
   setContext(CONTEXT, history)
   return history
 }

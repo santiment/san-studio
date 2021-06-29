@@ -121,7 +121,7 @@ function handleLineDelete(drawer, setSelectedLine, setIsDrawing, setDrawings) {
 
     const { selected, onLineDelete } = drawer
 
-    drawer.deleteDrawing(selected)
+    drawer.deleteDrawingWithDispatch(selected)
     window.removeEventListener('keydown', onLineDelete)
   }
 }

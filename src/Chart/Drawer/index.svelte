@@ -36,6 +36,7 @@
   drawer.recalcAbsCoor = recalcAbsCoor
   drawer.dispatch = ChartDrawer.dispatch
   drawer.deleteDrawing = deleteDrawing
+  drawer.deleteDrawingWithDispatch = deleteDrawingWithDispatch
   drawer.addDrawing = addDrawing
   chart.drawer = drawer
   plotManager.set('Drawer', drawer.recalcAbsCoor)
@@ -128,6 +129,13 @@
     selectLine()
     setIsDrawing(false)
     drawer.redraw()
+  }
+  function deleteDrawingWithDispatch(drawing) {
+    deleteDrawing(drawing)
+    drawer.dispatch({
+      type: 'delete',
+      data: drawing,
+    })
   }
 
   onDestroy(() => {

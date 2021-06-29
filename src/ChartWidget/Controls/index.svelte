@@ -42,14 +42,7 @@
   function onLineDelete() {
     const { drawer } = chart
     const { selectedLine } = $ChartDrawer
-
-    drawer.selected = null
-    drawer.drawings = drawer.drawings.filter(
-      (drawing) => drawing !== selectedLine,
-    )
-    $ChartDrawer.drawings = drawer.drawings
-    $ChartDrawer.selectedLine = undefined
-    drawer.redraw()
+    drawer.deleteDrawingWithDispatch(selectedLine)
   }
 
   function onDrawingEnd() {
@@ -72,6 +65,15 @@
             recalc(data, absCoor)
           }),
         )
+      } else if (type === 'delete') {
+        History.add(
+          'Delete drawing',
+          withScroll(widget, () => {
+            chart.drawer.addDrawing(data)
+            recalc(data)
+          }),
+          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
+        )
       } else if (type === 'modified') {
         const { drawing, oldAbsCoor } = data
         const newAbsCoor = drawing.absCoor.slice()
@@ -83,7 +85,7 @@
         )
       }
 
-      function recalc(drawing, coor) {
+      function recalc(drawing, coor = drawing.absCoor) {
         drawing.absCoor = coor
         drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
         chart.drawer.redraw()
