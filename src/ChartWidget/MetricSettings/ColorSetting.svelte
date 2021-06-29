@@ -1,11 +1,14 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
+  import { Event } from '@/analytics'
+  import { getWidget } from '@/ChartWidget/context'
   import Dropdown from './Dropdown.svelte'
   import ColorPicker from './ColorPicker/index.svelte'
-  import { getWidget } from '@/ChartWidget/context'
-  import { Event } from '@/analytics'
 
-  const { ChartColors } = getWidget()
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { ChartColors } = widget
 
   export let metric: Studio.Metric
 
@@ -16,10 +19,22 @@
   function onChange(value) {
     window.clearTimeout(timer)
     timer = window.setTimeout(() => {
-      color = value
-      ChartColors.set(metric.key, value)
+      const oldColor = color
+      const redo = () => setColor(value)
       track.event(Event.MetricColor, { metric: metric.key, color: value })
+
+      redo()
+      History.add(
+        'Color change',
+        withScroll(widget, () => setColor(oldColor)),
+        withScroll(widget, redo),
+      )
     }, 150)
+  }
+
+  function setColor(value: string) {
+    color = value
+    ChartColors.set(metric.key, value)
   }
 </script>
 
@@ -27,7 +42,9 @@
   <div class="color" style="--color:{color}" />
 
   <svelte:fragment slot="options">
-    <ColorPicker {color} {onChange} />
+    {#if color}
+      <ColorPicker {color} {onChange} />
+    {/if}
   </svelte:fragment>
 </Dropdown>
 

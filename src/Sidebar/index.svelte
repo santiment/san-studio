@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext } from '@/history'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'
   import {
@@ -20,6 +21,7 @@
   import Toggle from './Toggle.svelte'
   import { DEFAULT_METRICS } from './defaults'
 
+  const History = getHistoryContext()
   const NodeController = getNodeController()
   const { checkIsMapviewDisabled } = getAdapterController()
   const LockedAsset = getLockedAssetStore()
@@ -69,7 +71,7 @@
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return
 
-    NodeController(item, e)
+    NodeController(item, e, History)
   }
 </script>
 

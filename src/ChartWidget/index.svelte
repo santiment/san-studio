@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from '@/history'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
@@ -155,7 +155,20 @@
     return settingsOpenedMetric
   }
 
-  function onMetricLock(metric: Studio.Metric, index: number) {
+  function onMetricLock(
+    oldMetric: Studio.Metric,
+    newMetric: Studio.Metric,
+    index: number,
+  ) {
+    lockMetric(newMetric, index)
+    History.add(
+      'Lock metric',
+      withScroll(widget, () => lockMetric(oldMetric, index)),
+      withScroll(widget, () => lockMetric(newMetric, index)),
+    )
+  }
+
+  function lockMetric(metric: Studio.Metric, index: number) {
     const oldMetric = metrics[index]
     if (settingsOpenedMetric === oldMetric) {
       settingsOpenedMetric = metric

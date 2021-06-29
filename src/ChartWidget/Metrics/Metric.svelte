@@ -35,7 +35,11 @@
       track.event(Event.LockMetric, { metric: metric.key, asset: $studio.slug })
     }
 
-    onLock(convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
+    onLock(
+      metric,
+      convertBaseProjectMetric(metric, $studio),
+      $Metrics.indexOf(metric),
+    )
   }
 
   onDestroy(onMouseLeave)

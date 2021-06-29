@@ -1,5 +1,6 @@
 import { setContext, getContext } from 'svelte'
 import { writable, get } from 'svelte/store'
+import { withScroll } from '@/history'
 import { Metric } from '@/metrics'
 import { SelectorType } from '@/metrics/selector/types'
 
@@ -97,7 +98,7 @@ export const setNodeController = (NodeController): void =>
   setContext(NODE_CONTROLLER_CONTEXT, NodeController)
 export const getNodeController = () => getContext(NODE_CONTROLLER_CONTEXT)
 export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
-  function NodeController(node: Studio.SelectorNode, e?: MouseEvent) {
+  function NodeController(node: Studio.SelectorNode, e?: MouseEvent, History) {
     if (node.selectorType === SelectorType.Sidewidget) {
       return Sidewidget.set(node === get(Sidewidget) ? null : node)
     }
@@ -123,11 +124,30 @@ export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
     if (widget) {
       const metrics = [metric]
       if (e && e.shiftKey) {
-        return Widgets.add(metrics, isNotable ? metrics : undefined)
+        const widget = Widgets.add(metrics, isNotable ? metrics : undefined)
+        return History?.add(
+          'New widget',
+          () => widget?.delete(),
+          () => {
+            widget.scrollOnMount = true
+            Widgets.push(widget)
+          },
+        )
       }
 
-      widget.Metrics.add(metric)
-      return isNotable && widget.MetricsSignals.concat(metrics)
+      const redo = () => {
+        widget.Metrics.add(metric)
+        return isNotable && widget.MetricsSignals.concat(metrics)
+      }
+      redo()
+      return History.add(
+        'Add metrics',
+        withScroll(widget, () => {
+          widget.Metrics.deleteEach(metrics)
+          widget.MetricsSignals.deleteEach(metrics)
+        }),
+        withScroll(widget, redo),
+      )
     }
 
     selector.toggle(node)

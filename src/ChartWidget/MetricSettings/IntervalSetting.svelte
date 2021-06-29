@@ -2,6 +2,7 @@
   import { track } from 'webkit/analytics'
   import Icon from 'webkit/ui/Icon.svelte'
   import { Event } from '@/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
   import { INTERVALS, getIntervals, getValidInterval } from '@/utils/intervals'
   import { studio } from '@/stores/studio'
@@ -9,7 +10,10 @@
   import { getWidget } from '@/ChartWidget/context'
   import { getCandlesPeriodMinInterval } from '@/ChartWidget/transformers/candles'
   import Dropdown from './Dropdown.svelte'
-  const { MetricSettings } = getWidget()
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { MetricSettings } = widget
 
   export let metric: Studio.Metric
 
@@ -43,15 +47,32 @@
     })
   }
 
+  function setInterval(metricKey: string, newInterval) {
+    if (!newInterval) return MetricSettings.delete(metricKey, 'interval')
+    MetricSettings.set(metricKey, { interval: newInterval })
+  }
+
+  function updateInterval(metricKey: string, newInterval?: string) {
+    const oldInterval = metricInterval
+    const redo = () => setInterval(metricKey, newInterval)
+
+    redo()
+    History.add(
+      'Interval change',
+      withScroll(widget, () => setInterval(metricKey, oldInterval)),
+      withScroll(widget, redo),
+    )
+  }
+
   function onClick(interval) {
     // prettier-ignore
     track.event(Event.MetricInterval, { metric: metric.key, interval: interval.id})
-    MetricSettings.set(metric.key, { interval: interval.id })
+    updateInterval(metric.key, interval.id)
   }
 
   function onAutoClick() {
     track.event(Event.MetricInterval, { metric: metric.key, interval: 'auto' })
-    MetricSettings.delete(metric.key, 'interval')
+    updateInterval(metric.key)
   }
 </script>
 

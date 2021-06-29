@@ -12,8 +12,8 @@ export function newHistory(emitter) {
 
   const emit = (action: Action, cmd) => emitter?.({ action, name: cmd.name })
   return {
-    add(name: string, undo, redo) {
-      history = history.slice(0, cursor + 1)
+    add(name: string, undo, redo = undo) {
+      history = history.slice(-20).slice(0, cursor + 1)
       history.push({
         name,
         undo,

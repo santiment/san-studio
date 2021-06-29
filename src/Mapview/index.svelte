@@ -70,7 +70,10 @@
     History.add(
       'New widget',
       () => widget?.delete(),
-      () => Widgets.push(widget),
+      () => {
+        widget.scrollOnMount = true
+        Widgets.push(widget)
+      },
     )
     selectedMetrics.clear()
   }
