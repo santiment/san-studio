@@ -29,6 +29,7 @@ export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 export function newChartDrawerStore(defaultValue?: Drawing[]) {
   const controller = Object.assign({ drawings: defaultValue || [] }, DRAWER)
   const { subscribe, set } = writable<Drawer>(controller)
+  const subscribers = new Set<any>()
 
   const store = {
     subscribe,
@@ -36,6 +37,13 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
     toggleNewDrawing() {
       controller.isNewDrawing = !controller.isNewDrawing
       set(controller)
+    },
+    dispatch(event: any) {
+      subscribers.forEach((subscriber) => subscriber(event))
+    },
+    onDispatch(subscriber) {
+      subscribers.add(subscriber)
+      return () => subscribers.delete(subscriber)
     },
   }
   return store

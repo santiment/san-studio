@@ -38,8 +38,7 @@ export function handleLineCreation(
     const [startX, startY] = getEventCoordinates(e)
     const drawing = newLine(startX, startY) as Drawing
 
-    drawer.drawings.push(drawing)
-    setDrawings(drawer.drawings)
+    drawer.addDrawing(drawing)
     drawer.selected = drawing
     setSelectedLine(drawing)
     setIsDrawing(true)
@@ -66,6 +65,11 @@ export function handleLineCreation(
       drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
       setIsDrawing(false)
       setIsNewDrawing(false)
+
+      drawer.dispatch({
+        type: 'new line',
+        data: drawing,
+      })
     }
   }
 
@@ -115,20 +119,14 @@ function handleLineDelete(drawer, setSelectedLine, setIsDrawing, setDrawings) {
   return ({ key }) => {
     if (key !== 'Backspace') return
 
-    const { selected, drawings, onLineDelete } = drawer
+    const { selected, onLineDelete } = drawer
 
-    drawer.selected = null
-    drawer.drawings = drawings.filter((drawing) => drawing !== selected)
-    setDrawings(drawer.drawings)
-    drawer.redraw()
-
-    setSelectedLine()
-    setIsDrawing(false)
+    drawer.deleteDrawing(selected)
     window.removeEventListener('keydown', onLineDelete)
   }
 }
 
-function handleLineDrag(chart, drawing, coordinates) {
+function handleLineDrag(chart, drawing, coordinates, setWasDragged) {
   const { drawer } = chart
   const { ctx } = drawer
   const { handles, absCoor } = drawing
@@ -170,6 +168,7 @@ function handleLineDrag(chart, drawing, coordinates) {
     }
 
     drawer.redraw()
+    setWasDragged()
   }
 }
 
@@ -195,6 +194,8 @@ export function handleLineMouseDown(
 
     const parent = chart.canvas.parentNode
     const startCoordinates = getEventCoordinates(e)
+    const drawingInitialAbsCoor = drawing.absCoor.slice()
+    let wasDragged = false
 
     drawer.onLineDelete = handleLineDelete(
       drawer,
@@ -202,16 +203,31 @@ export function handleLineMouseDown(
       setIsDrawing,
       setDrawings,
     )
-    const onDrag = handleLineDrag(chart, drawing, startCoordinates)
+    const setWasDragged = () => (wasDragged = true)
+    const onLineDrag = handleLineDrag(
+      chart,
+      drawing,
+      startCoordinates,
+      setWasDragged,
+    )
 
     window.addEventListener('keydown', drawer.onLineDelete)
-    parent.addEventListener('mousemove', onDrag)
+    parent.addEventListener('mousemove', onLineDrag)
     parent.addEventListener('mouseup', onMouseUp)
 
     function onMouseUp() {
       drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-      parent.removeEventListener('mousemove', onDrag)
+      parent.removeEventListener('mousemove', onLineDrag)
+      parent.removeEventListener('mouseup', onMouseUp)
       setIsDrawing(false)
+      if (wasDragged)
+        drawer.dispatch({
+          type: 'modified',
+          data: {
+            drawing,
+            oldAbsCoor: drawingInitialAbsCoor,
+          },
+        })
     }
   }
 }

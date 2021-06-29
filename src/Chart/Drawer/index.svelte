@@ -34,6 +34,9 @@
   )
   drawer.redraw = redraw
   drawer.recalcAbsCoor = recalcAbsCoor
+  drawer.dispatch = ChartDrawer.dispatch
+  drawer.deleteDrawing = deleteDrawing
+  drawer.addDrawing = addDrawing
   chart.drawer = drawer
   plotManager.set('Drawer', drawer.recalcAbsCoor)
 
@@ -51,7 +54,6 @@
   }
 
   function selectLine(line) {
-    // TODO: Research why 2 calls [@vanguard | May 13, 2021]
     $ChartDrawer.selectedLine = line
   }
 
@@ -112,6 +114,20 @@
       parent.removeEventListener('mousemove', onLineHover)
       parent.removeEventListener('mousedown', onLineMouseDown)
     }
+  }
+
+  function addDrawing(drawing) {
+    drawer.drawings.push(drawing)
+    setDrawings(drawer.drawings)
+  }
+
+  function deleteDrawing(drawing) {
+    drawer.selected = null
+    drawer.drawings = drawer.drawings.filter((d) => d !== drawing)
+    setDrawings(drawer.drawings)
+    selectLine()
+    setIsDrawing(false)
+    drawer.redraw()
   }
 
   onDestroy(() => {
