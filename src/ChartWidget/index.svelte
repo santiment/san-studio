@@ -141,10 +141,10 @@
   function onMetricDelete(metric: Studio.Metric) {
     if (metrics.length === 1) return deleteWidget()
 
+    const oldMetrics = $Metrics.slice()
     const redo = () => Metrics.delete(metric)
-    const undo = () => Metrics.add(metric)
+    const undo = () => Metrics.set(oldMetrics)
     History.add('Delete metric', undo, redo)
-
     redo()
   }
 
