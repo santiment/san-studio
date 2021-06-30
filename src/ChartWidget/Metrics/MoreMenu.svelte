@@ -1,12 +1,18 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Icon.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { withScroll, getHistoryContext } from '@/history'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { getAdapterController } from '@/adapter/context'
-  const { Metrics, MetricsSignals } = getWidget()
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const newHistory = (name, undo, redo) =>
+    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
+  const { Metrics, MetricsSignals } = widget
   const { onAnonFavoriteClick = () => {} } = getAdapterController()
 
   export let metric: Studio.Metric
@@ -14,6 +20,20 @@
   export let onLockClick, onSettings
 
   $: isFavorited = $favoriteMetrics.has(metric.key)
+
+  function onFavoriteClick() {
+    if (!$globals.isLoggedIn) return onAnonFavoriteClick()
+
+    const { key } = metric
+    favoriteMetrics.toggle(key)
+    History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
+  }
+
+  function onHideSignal() {
+    const redo = () => MetricsSignals.delete(metric)
+    redo()
+    newHistory('Hide signals', () => MetricsSignals.add(metric), redo)
+  }
 </script>
 
 <Tooltip
@@ -49,10 +69,7 @@
       <div
         class="btn btn--ghost option"
         class:favorited={isFavorited}
-        on:click={() =>
-          $globals.isLoggedIn
-            ? favoriteMetrics.toggle(metric.key)
-            : onAnonFavoriteClick()}>
+        on:click={onFavoriteClick}>
         <Svg
           id="star{isFavorited ? '-filled' : ''}"
           w="16"
@@ -62,9 +79,7 @@
     {/if}
 
     {#if $MetricsSignals.includes(metric)}
-      <div
-        class="btn btn--ghost option"
-        on:click={() => MetricsSignals.delete(metric)}>
+      <div class="btn btn--ghost option" on:click={onHideSignal}>
         <Svg id="flash" w="12" h="16" class="mrg-s mrg--r $style.flash" />
         Hide signals
       </div>

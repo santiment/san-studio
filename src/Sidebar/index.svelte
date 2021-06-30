@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext } from '@/history'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'
   import {
@@ -8,6 +9,8 @@
     filterSelectorGraph,
   } from '@/metrics/selector/utils'
   import { getSavedValue, saveValue } from '@/utils/localStorage'
+  import { getNodeController } from '@/stores/selector'
+  import { getAdapterController } from '@/adapter/context'
   import Sidebar from './Sidebar.svelte'
   import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
@@ -18,6 +21,9 @@
   import Toggle from './Toggle.svelte'
   import { DEFAULT_METRICS } from './defaults'
 
+  const History = getHistoryContext()
+  const NodeController = getNodeController()
+  const { checkIsMapviewDisabled } = getAdapterController()
   const LockedAsset = getLockedAssetStore()
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
@@ -61,6 +67,12 @@
     hoveredItem = null
     hoveredNode = null
   }
+
+  function onItemClick(e: MouseEvent, item: any) {
+    if (checkIsMapviewDisabled?.()) return
+
+    NodeController(item, e, History)
+  }
 </script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
@@ -81,10 +93,11 @@
       <ItemActions
         node={hoveredNode}
         item={hoveredItem}
+        {onItemClick}
         {onItemEnter}
         {onItemLeave} />
       <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
-      <Notables {isFiltering} {onItemEnter} searchTerm={loweredInput} />
+      <Notables searchTerm={loweredInput} {isFiltering} {onItemClick} />
       {#each categories as category}
         <Category
           {category}

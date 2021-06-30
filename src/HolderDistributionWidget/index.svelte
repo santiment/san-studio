@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { withScroll, getHistoryContext } from '@/history'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { initWidget } from '@/ChartWidget/context'
   import {
@@ -7,6 +8,8 @@
   } from '@/metrics/_onchain/holderDistributions'
   import { buildMergedMetric } from './utils'
   import Sidebar from './Sidebar.svelte'
+
+  const History = getHistoryContext()
 
   export let widget
   export let metrics = HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
@@ -21,6 +24,8 @@
   }
   initWidget(widget)
   const { Metrics, ChartColors } = widget
+  const newHistory = (name, undo, redo) =>
+    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
 
   let mergingMetrics = new Set()
   let mergedMetrics = widget.mergedMetrics || []
@@ -47,10 +52,25 @@
   function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
     if (isMerging) return checkMetric(metric)
 
+    const oldMetrics = $Metrics.slice()
     const { metaKey, ctrlKey } = e
-    if (metaKey || ctrlKey) return Metrics.set([metric])
+    if (metaKey || ctrlKey) {
+      const newMetrics = [metric]
+      newHistory(
+        'Toggle metric',
+        () => Metrics.set(oldMetrics),
+        () => Metrics.set(newMetrics),
+      )
+      return Metrics.set(newMetrics)
+    }
 
     if ($Metrics.length === 1 && $Metrics.includes(metric)) return
+
+    newHistory(
+      'Toggle metric',
+      () => Metrics.set(oldMetrics),
+      () => Metrics.toggle(metric),
+    )
     Metrics.toggle(metric)
   }
 
@@ -59,11 +79,12 @@
 
     if (mergingMetrics.size > 1) {
       const metric = buildMergedMetric(Array.from(mergingMetrics))
-      if (mergedKeysSet.has(metric.key) === false) {
-        Metrics.add(metric)
-        mergedKeysSet.add(metric.key)
-        mergedMetrics = Array.from(mergedMetricsSet.add(metric))
-      }
+      addMergedMetrics(metric)
+      newHistory(
+        'Merge metrics',
+        () => unmergeMetrics(metric),
+        () => addMergedMetrics(metric),
+      )
     }
 
     mergingMetrics = new Set()
@@ -71,6 +92,23 @@
   }
 
   function onUnmergeClick(metric: Studio.Metric) {
+    unmergeMetrics(metric)
+
+    newHistory(
+      'Unmerge metrics',
+      () => addMergedMetrics(metric),
+      () => unmergeMetrics(metric),
+    )
+  }
+
+  function addMergedMetrics(metric: any) {
+    if (mergedKeysSet.has(metric.key)) return
+    Metrics.add(metric)
+    mergedKeysSet.add(metric.key)
+    mergedMetrics = Array.from(mergedMetricsSet.add(metric))
+  }
+
+  function unmergeMetrics(metric: Studio.Metric) {
     mergedMetricsSet.delete(metric)
     mergedKeysSet.delete(metric.key)
     mergedMetrics = Array.from(mergedMetricsSet)

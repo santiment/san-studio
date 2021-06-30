@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { withScroll, getHistoryContext } from '@/history'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
@@ -19,7 +20,9 @@
     checkHasDomainGroups,
   } from './domain'
   import { debounced } from './utils'
+
   const { onWidgetInit } = getAdapterController()
+  const History = getHistoryContext()
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -104,8 +107,17 @@
     getAllTimeData(metrics, slug, onAllTimeData, noop),
   )
 
-  function changeStudioPeriod(startDatetime: number, endDatetime: number) {
-    studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+  function changeStudioPeriod(
+    startDatetime: number | string,
+    endDatetime: number | string,
+  ) {
+    const { from, to } = $studio
+    const undo = () => studio.setPeriod(new Date(from), new Date(to))
+    const redo = () =>
+      studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+
+    History.add('Period change', undo, redo)
+    redo()
   }
 
   function onDataError(Error, newLoadings, newData?: any) {
@@ -129,8 +141,11 @@
   function onMetricDelete(metric: Studio.Metric) {
     if (metrics.length === 1) return deleteWidget()
 
-    Metrics.delete(metric)
-    ChartAxes.delete(metric)
+    const oldMetrics = $Metrics.slice()
+    const redo = () => Metrics.delete(metric)
+    const undo = () => Metrics.set(oldMetrics)
+    History.add('Delete metric', undo, redo)
+    redo()
   }
 
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {
@@ -140,7 +155,20 @@
     return settingsOpenedMetric
   }
 
-  function onMetricLock(metric: Studio.Metric, index: number) {
+  function onMetricLock(
+    oldMetric: Studio.Metric,
+    newMetric: Studio.Metric,
+    index: number,
+  ) {
+    lockMetric(newMetric, index)
+    History.add(
+      'Lock metric',
+      withScroll(widget, () => lockMetric(oldMetric, index)),
+      withScroll(widget, () => lockMetric(newMetric, index)),
+    )
+  }
+
+  function lockMetric(metric: Studio.Metric, index: number) {
     const oldMetric = metrics[index]
     if (settingsOpenedMetric === oldMetric) {
       settingsOpenedMetric = metric
@@ -180,6 +208,7 @@
     {colors}
     {MetricError}
     {isSingleWidget}
+    {changeStudioPeriod}
     {onMetricClick}
     {onMetricHover}
     {onMetricDelete}

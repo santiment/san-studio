@@ -5,11 +5,14 @@
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import { Event } from '@/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { downloadPng } from './downloadPng'
   import { downloadCsv } from './downloadCsv'
+
+  const History = getHistoryContext()
   const widget = getWidget()
   const { ChartOptions } = widget
 
@@ -35,18 +38,39 @@
     track.event(Event.Download, { type: downloader === downloadPng ? 'png' : 'csv'})
     downloader(widget, $studio)
   }
+
+  function newHistoryToggle(name, toggle) {
+    const command = withScroll(widget, toggle)
+    return () => {
+      command()
+      History.add(name, command)
+    }
+  }
 </script>
 
 <Tooltip on="click" duration={0} align="end" {activeClass} bind:isOpened>
   <slot slot="trigger" />
   <div slot="tooltip" class="menu">
-    <div class="btn" on:click={ChartOptions.toggleScale}>
+    <div
+      class="btn"
+      on:click={newHistoryToggle(
+        'Toggle "Log scale"',
+        ChartOptions.toggleScale,
+      )}>
       Log scale <Toggle isActive={$ChartOptions.isLogScale} />
     </div>
-    <div class="btn" on:click={() => ChartOptions.toggle('cartesianGrid')}>
+    <div
+      class="btn"
+      on:click={newHistoryToggle('Toggle "Cartesian grid"', () =>
+        ChartOptions.toggle('cartesianGrid'),
+      )}>
       Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
     </div>
-    <div class="btn" on:click={() => globals.toggle('isPresenterMode')}>
+    <div
+      class="btn"
+      on:click={newHistoryToggle('Toggle "Presenter mode"', () =>
+        globals.toggle('isPresenterMode'),
+      )}>
       Presenter mode <Toggle isActive={$globals.isPresenterMode} />
     </div>
     <div

@@ -2,6 +2,7 @@
   import type { ChartNodes } from '@/Chart/nodes'
   import type { MetricSetting } from './context'
   import { track } from 'webkit/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import {
     cleanupCandlesSettings,
     setCandlesSettings,
@@ -12,7 +13,10 @@
   import { Event } from '@/analytics'
   import Dropdown from './Dropdown.svelte'
   import { getWidget } from '../context'
-  const { MetricSettings, ChartMetricDisplays } = getWidget()
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { MetricSettings, ChartMetricDisplays } = widget
 
   export let metric: Studio.Metric
 
@@ -20,9 +24,12 @@
   $: metricNode = getMetricNode(metric, metricSettings)
 
   const NodeToLabel = {}
+  const IdToNode = {}
   function buildNode(id: ChartNodes, label: string) {
+    const node = { id, label }
     NodeToLabel[id] = label
-    return { id, label }
+    IdToNode[id] = node
+    return node
   }
 
   const CANDLES_NODE = buildNode(Node.CANDLES, 'Candles')
@@ -34,22 +41,36 @@
     buildNode(Node.BAR, 'Bar'),
   ]
 
-  function onClick(node) {
-    if (metricNode === Node.CANDLES && node.id !== Node.CANDLES) {
+  function onClick(metric, metricSettings, oldNode, newNode) {
+    setMetricNode(metric, metricSettings, oldNode, newNode)
+    track.event(Event.MetricNode, { metric: metric.key, type: newNode.label })
+
+    History.add(
+      'Style change',
+      withScroll(widget, () =>
+        setMetricNode(metric, metricSettings, newNode.id, IdToNode[oldNode]),
+      ),
+      withScroll(widget, () =>
+        setMetricNode(metric, metricSettings, oldNode, newNode),
+      ),
+    )
+  }
+
+  function setMetricNode(metric, metricSettings, oldNode, newNode) {
+    if (oldNode === Node.CANDLES && newNode.id !== Node.CANDLES) {
       cleanupCandlesSettings(metric, metricSettings, ChartMetricDisplays)
     }
 
-    if (node.id === metric.node) {
+    if (newNode.id === metric.node) {
       return MetricSettings.delete(metric.key, 'node')
     }
 
-    if (node.id === Node.CANDLES) {
+    if (newNode.id === Node.CANDLES) {
       setCandlesSettings(metric, metricSettings, $studio, ChartMetricDisplays)
     }
 
-    track.event(Event.MetricNode, { metric: metric.key, type: node.label })
     MetricSettings.set(metric.key, {
-      node: node.id,
+      node: newNode.id,
     })
   }
 
@@ -70,7 +91,8 @@
       <div
         class="btn btn--ghost"
         class:active={metricNode === CANDLES_NODE.id}
-        on:click={() => onClick(CANDLES_NODE)}>
+        on:click={() =>
+          onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
         {CANDLES_NODE.label}
       </div>
     {/if}
@@ -78,7 +100,7 @@
       <div
         class="btn btn--ghost"
         class:active={metricNode === node.id}
-        on:click={() => onClick(node)}>
+        on:click={() => onClick(metric, metricSettings, metricNode, node)}>
         {node.label}
       </div>
     {/each}

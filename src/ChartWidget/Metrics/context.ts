@@ -57,6 +57,10 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
         asset: get(studio).slug,
       })
     },
+    deleteEach(metrics: Studio.Metric[]) {
+      metrics.forEach((metric) => metricSet.delete(metric))
+      update()
+    },
     hasConvertedMetric(
       metric: Studio.Metric,
       project: Studio.Project,

@@ -24,8 +24,8 @@ export function newAutoUpdaterStore(Widgets: any) {
       state.lastUpdate = Date.now()
       set(state)
     },
-    enable() {
-      studio.setPeriod(new Date(get(studio).from), getTodaysEnd())
+    enable(changePeriod) {
+      changePeriod(get(studio).from, getTodaysEnd())
       store.update()
     },
     update(refetch = true) {

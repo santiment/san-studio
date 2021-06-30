@@ -2,9 +2,13 @@
   import { track } from 'webkit/analytics'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
   import { Event } from '@/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import { getWidget } from '@/ChartWidget/context'
   import Setting from './Setting.svelte'
-  const { ChartAxes } = getWidget()
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { ChartAxes } = widget
 
   export let metric: Studio.Metric
 
@@ -18,7 +22,9 @@
       { metric: metric.key },
     )
 
-    ChartAxes.toggle(metric)
+    const toggle = () => ChartAxes.toggle(metric)
+    toggle()
+    History.add('Toggle axis', withScroll(widget, toggle))
   }
 </script>
 

@@ -1,8 +1,11 @@
 <script lang="ts">
   import Toggle from 'webkit/ui/Toggle.svelte'
+  import { withScroll, getHistoryContext } from '@/history'
+  import { getWidget } from '@/ChartWidget/context'
   import Dropdown from '../Dropdown.svelte'
   import { INDICATORS, cacheIndicator } from './utils'
-  import { getWidget } from '@/ChartWidget/context'
+
+  const History = getHistoryContext()
   const widget = getWidget()
   const { Metrics, MetricIndicators } = widget
 
@@ -22,8 +25,14 @@
 
   function onClick(indicator) {
     const indicatorMetric = cacheIndicator(metric, indicator)
-    Metrics.toggle(indicatorMetric)
-    MetricIndicators.toggle(metric.key, indicator)
+
+    function toggle() {
+      Metrics.toggle(indicatorMetric)
+      MetricIndicators.toggle(metric.key, indicator)
+    }
+
+    toggle()
+    History.add('Toggle indicator', withScroll(widget, toggle))
   }
 </script>
 

@@ -1,17 +1,22 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Icon.svelte'
   import { Event } from '@/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import { getWidget } from '@/ChartWidget/context'
   import { getSidewidget } from '@/stores/widgets'
   import { globals } from '@/stores/globals'
   import { SHORTCUTS_SIDEWIDGET } from '@/Sidewidget/Shortcuts.svelte'
+  import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import { downloadPng } from './downloadPng'
 
-  const { ChartDrawer } = getWidget()
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { ChartDrawer } = widget
   const Sidewidget = getSidewidget()
 
   export let chart
@@ -37,19 +42,56 @@
   function onLineDelete() {
     const { drawer } = chart
     const { selectedLine } = $ChartDrawer
-
-    drawer.selected = null
-    drawer.drawings = drawer.drawings.filter(
-      (drawing) => drawing !== selectedLine,
-    )
-    $ChartDrawer.drawings = drawer.drawings
-    $ChartDrawer.selectedLine = undefined
-    drawer.redraw()
+    drawer.deleteDrawingWithDispatch(selectedLine)
   }
 
   function onDrawingEnd() {
     $globals.isNewDrawing = false
   }
+
+  onDestroy(
+    ChartDrawer.onDispatch((event) => {
+      if (!event) return
+      const { chart } = widget
+      const { type, data } = event
+
+      if (type === 'new line') {
+        const absCoor = data.absCoor.slice()
+        History.add(
+          'New drawing',
+          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
+          withScroll(widget, () => {
+            chart.drawer.addDrawing(data)
+            recalc(data, absCoor)
+          }),
+        )
+      } else if (type === 'delete') {
+        History.add(
+          'Delete drawing',
+          withScroll(widget, () => {
+            chart.drawer.addDrawing(data)
+            recalc(data)
+          }),
+          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
+        )
+      } else if (type === 'modified') {
+        const { drawing, oldAbsCoor } = data
+        const newAbsCoor = drawing.absCoor.slice()
+
+        History.add(
+          'Drawing modified',
+          withScroll(widget, () => recalc(drawing, oldAbsCoor)),
+          withScroll(widget, () => recalc(drawing, newAbsCoor)),
+        )
+      }
+
+      function recalc(drawing, coor = drawing.absCoor) {
+        drawing.absCoor = coor
+        drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
+        chart.drawer.redraw()
+      }
+    }),
+  )
 </script>
 
 <div class="row controls v-center mrg-s mrg--b">

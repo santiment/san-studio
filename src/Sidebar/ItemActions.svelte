@@ -1,19 +1,19 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext } from '@/history'
   import ItemLabel from './ItemLabel.svelte'
   import ItemDescription from './ItemDescription.svelte'
-  import { getNodeController } from '@/stores/selector'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
-  const NodeController = getNodeController()
-  const { checkIsMapviewDisabled, onAnonFavoriteClick } = getAdapterController()
+
+  const History = getHistoryContext()
+  const { onAnonFavoriteClick } = getAdapterController()
 
   export let item: any
   export let node: any
-  export let onItemEnter
-  export let onItemLeave
+  export let onItemClick, onItemEnter, onItemLeave
 
   let actionsNode
   let active = false
@@ -35,7 +35,9 @@
   function onFavoriteClick(e: MouseEvent) {
     e.stopImmediatePropagation()
     if ($globals.isLoggedIn) {
-      favoriteMetrics.toggle(item.key)
+      const { key } = item
+      favoriteMetrics.toggle(key)
+      History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
 
       const { offsetTop } = node
       const _node = node
@@ -61,8 +63,6 @@
     }
     if (onAnonFavoriteClick) onAnonFavoriteClick()
   }
-
-  const onClick = (e) => checkIsMapviewDisabled?.() || NodeController(item, e)
 </script>
 
 {#if style}
@@ -71,7 +71,7 @@
     bind:this={actionsNode}
     class:active
     class="sidebar-item sidebar-menu menu row v-center"
-    on:click={onClick}
+    on:click={(e) => onItemClick(e, item)}
     on:mouseleave={onItemLeave}
     on:mousewheel={onItemLeave}>
     <span class="row v-center">

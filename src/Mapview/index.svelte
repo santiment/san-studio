@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext, withScroll } from '@/history'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -12,6 +13,7 @@
   const Widgets = getWidgets()
   const dndContext = newSortableDndCtx({ onDragEnd })
   const { adjustSelectedMetric } = getAdapterController()
+  const History = getHistoryContext()
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
@@ -42,14 +44,37 @@
     }
 
     if (widget.Metrics) {
-      widget.Metrics.concat(adjustMetrics($selectedMetrics.items))
-      widget.MetricsSignals.concat($selectedMetrics.notables)
+      const metrics = adjustMetrics($selectedMetrics.items)
+      const notables = $selectedMetrics.notables.slice()
+      const redo = () => {
+        widget.Metrics.concat(metrics)
+        widget.MetricsSignals.concat(notables)
+      }
+
+      redo()
+      History.add(
+        'Add metrics',
+        withScroll(widget, () => {
+          widget.Metrics.deleteEach(metrics)
+          widget.MetricsSignals.deleteEach(metrics)
+        }),
+        withScroll(widget, redo),
+      )
       selectedMetrics.clear()
     }
   }
 
   function onNewWidgetClick() {
-    Widgets.add(adjustMetrics($selectedMetrics.items))
+    const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
+
+    History.add(
+      'New widget',
+      () => widget?.delete(),
+      () => {
+        widget.scrollOnMount = true
+        Widgets.push(widget)
+      },
+    )
     selectedMetrics.clear()
   }
 

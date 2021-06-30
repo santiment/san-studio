@@ -1,6 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import { Event } from '@/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { debounced } from '@/ChartWidget/utils'
@@ -10,7 +11,10 @@
     queryProjectExchanges,
   } from './utils'
   import Dropdown from '../Dropdown.svelte'
-  const { MetricSettings } = getWidget()
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { MetricSettings } = widget
 
   export let metric: Studio.Metric
 
@@ -31,9 +35,21 @@
   })
 
   function onChange(newOwner) {
-    const { key, queryKey = key } = metric
     // prettier-ignore
     track.event(Event.MetricExchange, { metric: metric.key, exchange: newOwner })
+    const oldOwner = metricOwner
+    const redo = () => setExchange(metric, newOwner)
+
+    redo()
+    History.add(
+      'Exchange change',
+      withScroll(widget, () => setExchange(metric, oldOwner)),
+      withScroll(widget, redo),
+    )
+  }
+
+  function setExchange(metric, newOwner: string) {
+    const { key, queryKey = key } = metric
 
     if (newOwner === DEFAULT_EXCHANGE) {
       MetricSettings.delete(key, 'queryKey')
@@ -42,7 +58,7 @@
     }
 
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
-    MetricSettings.set(metric.key, {
+    MetricSettings.set(key, {
       queryKey: queryKey + '_per_exchange',
       owner: newOwner,
     })

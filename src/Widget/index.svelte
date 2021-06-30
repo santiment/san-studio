@@ -12,11 +12,15 @@
   export let Widgets
 
   const isNative = !widget.isExternal
-  const deleteWidget = () => Widgets.delete(widget)
   widget.delete = deleteWidget
 
   let target
   $: isSingleWidget = $Widgets.length < 2
+
+  function deleteWidget() {
+    Widgets.delete(widget)
+    delete widget.chart
+  }
 
   setOnLoadContext(Queue.delete)
   onMount(() => {

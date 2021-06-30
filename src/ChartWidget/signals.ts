@@ -15,6 +15,14 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
 
   const store = {
     subscribe,
+    set(newMetrics: Studio.Metric[]) {
+      signalsSet = new Set(newMetrics)
+      update()
+    },
+    add(metric: Studio.Metric) {
+      signalsSet.add(metric)
+      update()
+    },
     delete(metric: Studio.Metric) {
       signalsSet.delete(metric)
       update()
@@ -25,6 +33,10 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
     },
     concat(newMetrics: Studio.Metric[]) {
       signalsSet = new Set(signals.concat(newMetrics))
+      update()
+    },
+    deleteEach(metrics: Studio.Metric[]) {
+      metrics.forEach((metric) => signalsSet.delete(metric))
       update()
     },
     update(metrics: Studio.Metric[]) {
