@@ -17,13 +17,13 @@
   export let deleteWidget
 
   if (!widget.metrics)
-    widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice(0, 1)
+    widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
   initWidget(widget)
   const { Metrics, MetricSettings } = widget
   const newHistory = (name, undo, redo = undo) =>
     History.add(name, withScroll(widget, undo), withScroll(widget, redo))
 
-  const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice(0, 1)
+  const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
   const LABELS = ['exchange', 'infrastructure', 'miner', 'whale']
 
   let labels = new Set<number>(widget.holderLabels)

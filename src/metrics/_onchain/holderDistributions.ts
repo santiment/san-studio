@@ -30,6 +30,7 @@ function buildMetrics<T extends string>(
   labelPostfix = '',
   formatter?: any,
   axisFormatter?: any,
+  reqMeta?: any,
 ): HolderDistributions<T> {
   const Metric = {} as HolderDistributions<T>
   HOLDER_DISTRIBUTIONS.forEach(([postfix, label, queryKeyPostfix]) => {
@@ -43,6 +44,7 @@ function buildMetrics<T extends string>(
       queryKey,
       label: label + labelPostfix,
       category: MetricCategory.OnChain,
+      reqMeta,
     }
   })
   return Metric
@@ -64,6 +66,12 @@ export const HolderDistributionBalanceAbsoluteMetric = buildMetrics(
 
 export const HoldersLabeledDistributionMetric = buildMetrics(
   'holders_labeled_distribution',
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  // HACK: Until backend architecture [@vanguard | Jun 30, 2021]
+  { interval: '1d', aggregation: 'SUM' },
 )
 
 export const HolderDistributionMetric = {

@@ -8,6 +8,7 @@ import {
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
+import { NotableSignal, getNotableItem } from '../_notables'
 
 SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
@@ -53,6 +54,13 @@ SelectorNode.TopExchangesTable = {
   selectorType: SelectorType.Widget,
 }
 
+SelectorNode.ProjectInTrends = Object.assign(
+  getNotableItem(NotableSignal.project_in_trends),
+  {
+    checkIsVisible: ({ slug }) => slug !== 'ethereum' && slug !== 'bitcoin',
+  },
+)
+
 export const Subitems = {
   [Metric.price_usd.key]: [SelectorNode.SPENT_COIN_COST],
 
@@ -60,6 +68,8 @@ export const Subitems = {
     SelectorNode.SOCIAL_CONTEXT,
     Metric.social_active_users_telegram,
     Metric.social_active_users_twitter,
+    // TODO: Uncomment when backend add support for this signal [@vanguard | Jun 30, 2021]
+    //SelectorNode.ProjectInTrends,
   ],
 
   [Metric.twitter_followers.key]: [

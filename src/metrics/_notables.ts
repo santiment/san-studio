@@ -1,5 +1,6 @@
 import { Metric } from './index'
 import { each } from './utils'
+import { SelectorType } from './selector/types'
 
 const anomalyFormatter = () => 'Anomaly'
 
@@ -106,3 +107,12 @@ export const NotableSignal = each(
     MetricSignal[notable.metric.key] = notable
   },
 )
+
+export function getNotableItem(signal) {
+  return {
+    key: signal.key,
+    metric: signal.metric,
+    label: signal.formatter(),
+    selectorType: SelectorType.Notable,
+  }
+}

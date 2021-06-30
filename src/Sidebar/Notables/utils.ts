@@ -1,6 +1,5 @@
 import { ONE_DAY_IN_MS } from 'webkit/utils/dates'
-import { NotableSignal } from '@/metrics/_notables'
-import { SelectorType } from '@/metrics/selector/types'
+import { NotableSignal, getNotableItem } from '@/metrics/_notables'
 import { checkIsFilterMatch } from '@/metrics/selector/utils'
 
 export function getNotableMetrics(signals, searchTerm) {
@@ -11,12 +10,7 @@ export function getNotableMetrics(signals, searchTerm) {
       if (!signal) return
       if (searchTerm && !checkIsFilterMatch(searchTerm, signal.metric)) return
 
-      return {
-        key: signal.key,
-        metric: signal.metric,
-        label: signal.formatter(),
-        selectorType: SelectorType.Notable,
-      }
+      return getNotableItem(signal)
     })
     .filter(Boolean)
 }
