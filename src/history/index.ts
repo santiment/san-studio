@@ -7,7 +7,7 @@ export enum Action {
 }
 
 export function newHistory(emitter) {
-  let history = []
+  let history = [] as any[]
   let cursor = -1
 
   const emit = (action: Action, cmd) => emitter?.({ action, name: cmd.name })
