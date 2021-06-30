@@ -1,11 +1,14 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import Icon from 'webkit/ui/Icon.svelte'
+  import { getHistoryContext } from '@/history'
   import ItemLabel from './ItemLabel.svelte'
   import ItemDescription from './ItemDescription.svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
+
+  const History = getHistoryContext()
   const { onAnonFavoriteClick } = getAdapterController()
 
   export let item: any
@@ -32,7 +35,9 @@
   function onFavoriteClick(e: MouseEvent) {
     e.stopImmediatePropagation()
     if ($globals.isLoggedIn) {
-      favoriteMetrics.toggle(item.key)
+      const { key } = item
+      favoriteMetrics.toggle(key)
+      History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
 
       const { offsetTop } = node
       const _node = node
