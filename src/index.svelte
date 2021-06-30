@@ -30,7 +30,9 @@
   export let InsightsContextStore = undefined
 
   studio.setProject(defaultSettings)
-  const Widgets = initWidgets(widgets, getExternalWidget)
+  const HistoryEmitter = newHistoryEmitter()
+  const History = newHistoryContext(HistoryEmitter.set)
+  const Widgets = initWidgets(widgets, getExternalWidget, History)
   const Sidewidget = initSidewidget(sidewidget)
   const onScreen = () => onScreenMount && onScreenMount(screen)
 
@@ -48,9 +50,6 @@
   newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()
   newLockedAssetStore()
-
-  const HistoryEmitter = newHistoryEmitter()
-  newHistoryContext(HistoryEmitter.set)
 
   const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()

@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
+  import { getHistoryContext } from '@/history'
   import { getAdapterController } from '@/adapter/context'
   import { setOnLoadContext } from '@/ChartWidget/context'
   import { getQueueStore } from './queue'
   import Subwidget from './Subwidget.svelte'
 
+  const History = getHistoryContext()
   const Queue = getQueueStore()
   const { onWidget } = getAdapterController()
 
@@ -13,6 +15,7 @@
 
   const isNative = !widget.isExternal
   widget.delete = deleteWidget
+  widget.deleteWithHistory = deleteWidgetWithHistory
 
   let target
   $: isSingleWidget = $Widgets.length < 2
@@ -20,6 +23,17 @@
   function deleteWidget() {
     Widgets.delete(widget)
     delete widget.chart
+  }
+  function deleteWidgetWithHistory() {
+    deleteWidget()
+    History.add(
+      'Delete widget',
+      () => {
+        widget.scrollOnMount = true
+        Widgets.push(widget)
+      },
+      deleteWidget,
+    )
   }
 
   setOnLoadContext(Queue.delete)
@@ -42,7 +56,7 @@
       this={widget.Widget}
       {widget}
       {isSingleWidget}
-      {deleteWidget} />
+      deleteWidget={deleteWidgetWithHistory} />
   {/if}
 </div>
 {#if widget.subwidgets}

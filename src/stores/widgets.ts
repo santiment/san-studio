@@ -27,7 +27,7 @@ const WIDGETS_CONTEXT = 'widgets'
 export const setWidgets = (widgets): void =>
   setContext(WIDGETS_CONTEXT, widgets)
 export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
-export function initWidgets(defaultWidgets, getExternalWidget) {
+export function initWidgets(defaultWidgets, getExternalWidget, History) {
   let widgets = defaultWidgets.slice()
   const { update, subscribe, set } = writable(widgets)
 
@@ -74,10 +74,16 @@ export function initWidgets(defaultWidgets, getExternalWidget) {
       }
 
       if (!widget) return
-      widget.scrollOnMount = true
-      widgets.push(widget)
 
-      set(widgets)
+      function redo() {
+        widget.scrollOnMount = true
+        widgets.push(widget)
+        set(widgets)
+      }
+      redo()
+
+      History.add('New widget', () => widget?.delete(), redo)
+
       track.event(Event.NewWidget, { widget: node.key })
     },
     addSubwidgets(widget: any, subwidgets: any[]) {

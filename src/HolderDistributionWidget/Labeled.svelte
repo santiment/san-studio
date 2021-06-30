@@ -27,6 +27,7 @@
   const LABELS = ['exchange', 'infrastructure', 'miner', 'whale']
 
   let labels = new Set<number>(widget.holderLabels)
+  $: widget.holderLabels = Array.from(labels)
   $: text = getSelectionText(labels)
   $: updateSettings($Metrics, labels)
 

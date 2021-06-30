@@ -2,21 +2,12 @@
   import { onDestroy } from 'svelte'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import Svg from 'webkit/ui/Icon.svelte'
-  import { getHistoryContext } from '@/history'
-  const History = getHistoryContext()
 
   export let isLocked
 
   const toggle = () => (isLocked = !isLocked)
 
-  const unsubCmdBackslash = newGlobalShortcut('CMD+\\', toggle)
-  const unsubCmdZ = newGlobalShortcut('CMD+Z', History.undo)
-  const unsubCmdShiftZ = newGlobalShortcut('CMD+SHIFT+Z', History.redo)
-  onDestroy(() => {
-    unsubCmdBackslash()
-    unsubCmdZ()
-    unsubCmdShiftZ()
-  })
+  onDestroy(newGlobalShortcut('CMD+\\', toggle))
 </script>
 
 <div class="toggle" on:click={toggle}>
