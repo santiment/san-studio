@@ -111,6 +111,9 @@ export const SocialMetric = each(
       label: 'Social Dominance',
       formatter: percentFormatter,
       axisFormatter: axisPercentFormatter,
+      reqMeta: {
+        aggregation: 'AVG',
+      },
     },
 
     social_volume_total: {
