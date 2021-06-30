@@ -36,7 +36,7 @@
   }
 
   .active {
-    --color: var(--black);
+    --color: var(--black) !important;
   }
 
   .line {
