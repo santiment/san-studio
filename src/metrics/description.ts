@@ -88,13 +88,11 @@ export const Description = {
   [Metric.amount_in_non_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses that don’t belong to exchanges',
 
-  holders_distribution_1_to_10:
+  addresses_number_distribution:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold.',
-  holders_labeled_distribution_1_to_10:
+  labeled_addresses_number_distribution:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold and labeled by owners. Labels are available only for Ethereum/ERC-20 assets',
-  percent_of_holders_distribution_combined_balance_1_to_10:
-    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
-  holders_distribution_combined_balance_1_to_10:
+  addresses_balance_distribution:
     'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval.',
 
   [Metric.ethSpentOverTime.key]:

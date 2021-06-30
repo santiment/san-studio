@@ -76,6 +76,9 @@ export const HolderDistributionMetric = {
 export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
   HolderDistributionAbsoluteMetric,
 )
+export const LABELED_HOLDER_DISTRIBUTION_METRICS = Object.values(
+  HoldersLabeledDistributionMetric,
+)
 
 export const HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS = Object.values(
   HolderDistributionBalanceAbsoluteMetric,

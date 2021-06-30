@@ -11,18 +11,17 @@ export const SupplyDistributionNode = each(
       selectorType: SelectorType.Widget,
     },
 
-    // holder_labeled_distribution
-    labeled_addresses_number_distribution: {
-      label: 'By number of addresses (labeled)',
-      shorthand: 'hdl',
-      checkIsVisible: () => false,
-      // isBeta: true,
-    },
-
     // holder_distribution_combined_balance
     addresses_balance_distribution: {
       label: 'By balance of addresses',
       shorthand: 'hdcb',
+      selectorType: SelectorType.Widget,
+    },
+
+    // holder_labeled_distribution
+    labeled_addresses_number_distribution: {
+      label: 'By number of addresses (labeled)',
+      shorthand: 'hdl',
       selectorType: SelectorType.Widget,
     },
   },

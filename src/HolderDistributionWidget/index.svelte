@@ -22,9 +22,9 @@
     widget.metrics =
       defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
   }
-  initWidget(widget)
+  if (!widget.Metrics) initWidget(widget)
   const { Metrics, ChartColors } = widget
-  const newHistory = (name, undo, redo) =>
+  const newHistory = (name, undo, redo = undo) =>
     History.add(name, withScroll(widget, undo), withScroll(widget, redo))
 
   let mergingMetrics = new Set()
