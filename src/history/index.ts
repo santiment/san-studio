@@ -56,7 +56,7 @@ export function newHistoryContext(emitter) {
 }
 
 export function newHistoryEmitter() {
-  return writable<any>()
+  return writable<any>(undefined)
 }
 
 export const scroll = (target) => target?.scrollIntoView()
