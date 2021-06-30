@@ -57,7 +57,6 @@
   }
 
   function setMetricNode(metric, metricSettings, oldNode, newNode) {
-    console.log(metric.key, oldNode, newNode)
     if (oldNode === Node.CANDLES && newNode.id !== Node.CANDLES) {
       cleanupCandlesSettings(metric, metricSettings, ChartMetricDisplays)
     }
