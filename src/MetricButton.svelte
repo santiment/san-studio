@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
 
   let className = ''
   export { className as class }
@@ -33,7 +33,7 @@
 
   {#if onDelete}
     <div class="btn MetricButton__btn delete" on:click={() => onDelete(metric)}>
-      <Icon id="cross" w="8" />
+      <Svg id="cross" w="8" />
     </div>
   {/if}
 </div>

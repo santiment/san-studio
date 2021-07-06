@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { getSettings, getNotableMetrics } from './utils'
   import Item from './Item.svelte'
   import ChartPreview from './ChartPreview.svelte'

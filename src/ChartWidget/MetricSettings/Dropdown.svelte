@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
 
   export let isList = true
@@ -17,7 +17,7 @@
 <Tooltip on="click" duration={0} align="center">
   <div slot="trigger" class="setting row v-center mrg-l mrg--l btn">
     <slot />
-    <Icon id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>
 
   <div

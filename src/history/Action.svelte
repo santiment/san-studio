@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
+
   export let HistoryEmitter
 
   let action

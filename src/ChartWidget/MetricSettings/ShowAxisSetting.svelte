@@ -1,8 +1,8 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
+  import { withScroll, getHistoryContext } from '@/history'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
   import { Event } from '@/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
   import { getWidget } from '@/ChartWidget/context'
   import Setting from './Setting.svelte'
 

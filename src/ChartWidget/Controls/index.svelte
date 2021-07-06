@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Toggle from 'webkit/ui/Toggle.svelte'
-  import Svg from 'webkit/ui/Icon.svelte'
-  import { Event } from '@/analytics'
   import { withScroll, getHistoryContext } from '@/history'
+  import Toggle from 'webkit/ui/Toggle.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
+  import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { getSidewidget } from '@/stores/widgets'
   import { globals } from '@/stores/globals'

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Icon from 'webkit/ui/Icon.svelte'
+  import { withScroll, getHistoryContext } from '@/history'
+  import Svg from 'webkit/ui/Svg.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import { Event } from '@/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
@@ -106,7 +106,7 @@
       class:disabled={!isPro}
       on:click={() => isPro && onDownload(downloadCsv)}>
       <span>
-        <Icon id="download" w="16" class="mrg-s mrg--r" />
+        <Svg id="download" w="16" class="mrg-s mrg--r" />
         Download as CSV
       </span>
       {#if !isPro}
@@ -115,7 +115,7 @@
     </div>
     <div class="btn" on:click={() => onDownload(downloadPng)}>
       <span>
-        <Icon id="download" w="16" class="mrg-s mrg--r" />
+        <Svg id="download" w="16" class="mrg-s mrg--r" />
         Download as PNG
       </span>
     </div>
@@ -123,7 +123,7 @@
     {#if !isSingleWidget}
       <div class="btn delete" on:click={onDelete}>
         <span>
-          <Icon id="delete" w="12" class="mrg-s mrg--r" />
+          <Svg id="delete" w="12" class="mrg-s mrg--r" />
           Delete chart
         </span>
       </div>

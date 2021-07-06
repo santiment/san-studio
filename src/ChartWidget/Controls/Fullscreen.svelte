@@ -1,7 +1,7 @@
 <script lang="ts">
   import { setContext, getContext } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { getWidget } from '@/ChartWidget/context'
@@ -34,7 +34,7 @@
 <div
   class="btn controls-btn mrg-s mrg--l"
   on:click={closeFullscreen || onFullscreen}>
-  <Icon id={closeFullscreen ? 'close' : 'fullscreen'} w="14" />
+  <Svg id={closeFullscreen ? 'close' : 'fullscreen'} w="14" />
 </div>
 
 {#if isOpened}

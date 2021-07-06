@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
   import { getHistoryContext, withScroll } from '@/history'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -131,7 +131,7 @@
 
           {#if isMetricsPhase && $selectedMetrics.items.length}
             <Preview class="column hv-center" on:click={onNewWidgetClick}>
-              <Icon illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
+              <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
               Add new chart</Preview>
           {/if}
         </div>

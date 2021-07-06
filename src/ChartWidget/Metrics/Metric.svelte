@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
   import MetricButton from '@/MetricButton.svelte'
   import { getWidget } from '@/ChartWidget/context'
@@ -63,14 +63,14 @@
     on:mouseleave={onMouseLeave}>
     {#if !metric.noProject}
       {#if isLocked}
-        <div class="locked row hv-center"><Icon id="locked-small" w="8" /></div>
+        <div class="locked row hv-center"><Svg id="locked-small" w="8" /></div>
       {:else if !metric.indicator}
         ({$studio.ticker})
       {/if}
     {/if}
 
     {#if $MetricsSignals.includes(metric)}
-      <div class="locked signaled row hv-center"><Icon id="flash" w="8" /></div>
+      <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
     {/if}
 
     {#if isPresenterMode === false}

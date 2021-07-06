@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { getSidewidget } from '@/stores/widgets'
   import Shortcuts, { SHORTCUTS_SIDEWIDGET } from './Shortcuts.svelte'
 
@@ -8,7 +8,7 @@
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">
-    <Icon
+    <Svg
       id="sidebar"
       w="12"
       h="10"

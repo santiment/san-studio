@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { MetricCategory } from '@/metrics/graph'
   import Item from './Item.svelte'
 

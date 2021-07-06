@@ -80,7 +80,7 @@ export const NotableSignal = each(
       metric: Metric.transaction_volume,
     },
 
-    ath_price_usd: {
+    price_usd_all_time_high: {
       formatter: () => 'All Time High',
       metric: Metric.price_usd,
     },
@@ -97,7 +97,7 @@ export const NotableSignal = each(
       formatter: () => 'Old Coins Moved',
       metric: Metric.age_consumed,
     },
-    project_in_trends: {
+    project_in_trends_words: {
       formatter: () => 'Project in Trends',
       metric: Metric.social_volume_total,
     },

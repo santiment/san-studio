@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
-  import Icon from 'webkit/ui/Icon.svelte'
   import { getHistoryContext } from '@/history'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'
   import {
@@ -80,7 +80,7 @@
     <Tabs bind:isMetricTab />
     <div class="mrg-l mrg--t sidebar-project" />
     <div class="input border mrg-s mrg--t row v-center fluid">
-      <Icon id="search" w="12" class="$style.search" />
+      <Svg id="search" w="12" class="$style.search" />
       <input
         name=""
         type="text"

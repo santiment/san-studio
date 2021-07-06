@@ -1,8 +1,7 @@
 import { drawValueBubbleY } from 'san-chart/tooltip'
-import { MetricGroup } from '@/metrics/graph'
 import { millify } from 'webkit/utils/formatting'
 
-export const Y_MARGIN = 20
+export const Y_MARGIN = 25
 export const MULTI_AXIS_WIDTH = 50
 
 export function getPadding(chart: Studio.Chart, axesMetricKeys: any[]) {

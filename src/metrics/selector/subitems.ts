@@ -55,7 +55,7 @@ SelectorNode.TopExchangesTable = {
 }
 
 SelectorNode.ProjectInTrends = Object.assign(
-  getNotableItem(NotableSignal.project_in_trends),
+  getNotableItem(NotableSignal.project_in_trends_words),
   {
     checkIsVisible: ({ slug }) => slug !== 'ethereum' && slug !== 'bitcoin',
   },
@@ -69,7 +69,7 @@ export const Subitems = {
     Metric.social_active_users_telegram,
     Metric.social_active_users_twitter,
     // TODO: Uncomment when backend add support for this signal [@vanguard | Jun 30, 2021]
-    //SelectorNode.ProjectInTrends,
+    SelectorNode.ProjectInTrends,
   ],
 
   [Metric.twitter_followers.key]: [

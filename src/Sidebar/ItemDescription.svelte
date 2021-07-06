@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import { Description, prepareDescription } from '@/metrics/description'
   import { studio } from '@/stores/studio'
@@ -16,7 +16,7 @@
 {#if description}
   <Tooltip duration={0} position="right" align="center" openDelay={110}>
     <div slot="trigger" bind:this={trigger}>
-      <Icon id="info" class="{className} $style.info" />
+      <Svg id="info" class="{className} $style.info" />
     </div>
     <div slot="tooltip" class="description" bind:this={tooltip}>
       <div class="title txt-m mrg-s mrg--b">

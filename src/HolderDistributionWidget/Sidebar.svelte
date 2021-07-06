@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
   import Metric from './Metric.svelte'
 
@@ -16,7 +16,7 @@
 
 <div class="aside column" class:opened={isOpened}>
   <div class="toggle">
-    <Icon
+    <Svg
       id="sidebar"
       w="12"
       h="10"
@@ -41,7 +41,7 @@
         {#if isMerging}
           {mergingMetrics.size > 1 ? 'Confirm' : 'Cancel'}
         {:else}
-          <Icon id="merge" w="18" h="14" class="mrg-s mrg--r" /> Merge
+          <Svg id="merge" w="18" h="14" class="mrg-s mrg--r" /> Merge
         {/if}
       </div>
     </div>

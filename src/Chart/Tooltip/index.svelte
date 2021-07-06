@@ -81,7 +81,7 @@
     drawValueBubbleX(chart, ctx, xValueFormatted, x, theme.bubbles)
 
     const isLogScale = scale === logScale
-    let offset = 20
+    let offset = rightAxisMargin
     axesMetricKeys.forEach((metricKey) => {
       const minMax = minMaxes[metricKey]
       if (!minMax) return

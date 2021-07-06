@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { selector, selectedMetrics } from '@/stores/selector'
   import { getSidewidget } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'
@@ -16,7 +16,7 @@
   $: removeClass = active ? '$style.remove' : ''
 </script>
 
-<Icon id="plus" w="9" class="$style.plus mrg-s mrg--r {removeClass}" />
+<Svg id="plus" w="9" class="$style.plus mrg-s mrg--r {removeClass}" />
 {item.label}
 
 <style>

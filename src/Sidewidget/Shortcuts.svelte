@@ -36,6 +36,10 @@
     newShortcut([CMD, 'S'], 'Save Chart layout'),
 
     newShortcut(['L'], 'Start drawing'),
+
+    newShortcut([CMD, 'Z'], 'Undo action'),
+
+    newShortcut([CMD, 'Shift', 'Z'], 'Redo action'),
   ]
 </script>
 

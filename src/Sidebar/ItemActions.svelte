@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import Icon from 'webkit/ui/Icon.svelte'
   import { getHistoryContext } from '@/history'
+  import Svg from 'webkit/ui/Svg.svelte'
   import ItemLabel from './ItemLabel.svelte'
   import ItemDescription from './ItemDescription.svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
@@ -83,7 +83,7 @@
     {/key}
 
     {#if item.selectorType === undefined}
-      <Icon
+      <Svg
         id="star{isFavorited ? '-filled' : ''}"
         class="$style.icon $style.star mrg-m mrg--l {isFavorited
           ? '$style.favorited'

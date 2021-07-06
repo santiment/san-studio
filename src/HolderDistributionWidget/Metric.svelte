@@ -1,6 +1,6 @@
 <script lang="ts">
   import Checkbox from 'webkit/ui/Checkbox.svelte'
-  import Icon from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
 
   export let metric: Studio.Metric
   export let colors
@@ -20,7 +20,7 @@
   {#if isMerging}
     <Checkbox class="mrg-s mrg--r" {isActive} />
   {:else}
-    <Icon id="circle-line" class="$style.line" w="14" h="10" />
+    <Svg id="circle-line" class="$style.line" w="14" h="10" />
   {/if}
   {metric.label}
   <slot />

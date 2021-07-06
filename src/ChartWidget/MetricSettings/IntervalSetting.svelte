@@ -1,8 +1,8 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import Icon from 'webkit/ui/Icon.svelte'
-  import { Event } from '@/analytics'
   import { withScroll, getHistoryContext } from '@/history'
+  import Svg from 'webkit/ui/Svg.svelte'
+  import { Event } from '@/analytics'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
   import { INTERVALS, getIntervals, getValidInterval } from '@/utils/intervals'
   import { studio } from '@/stores/studio'
@@ -77,7 +77,7 @@
 </script>
 
 <Dropdown>
-  <Icon id="interval" w="16" h="12" class="mrg-s mrg--r $style.icon" />
+  <Svg id="interval" w="16" h="12" class="mrg-s mrg--r $style.icon" />
   Interval:
   {#if metricInterval} {metricInterval} {:else} Auto ({autoInterval}) {/if}
 
