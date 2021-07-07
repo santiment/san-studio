@@ -97,7 +97,7 @@ export const NotableSignal = each(
       formatter: () => 'Old Coins Moved',
       metric: Metric.age_consumed,
     },
-    project_in_trends_words: {
+    project_in_trending_words: {
       formatter: () => 'Project in Trends',
       metric: Metric.social_volume_total,
     },

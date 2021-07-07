@@ -55,7 +55,7 @@ SelectorNode.TopExchangesTable = {
 }
 
 SelectorNode.ProjectInTrends = Object.assign(
-  getNotableItem(NotableSignal.project_in_trends_words),
+  getNotableItem(NotableSignal.project_in_trending_words),
   {
     checkIsVisible: ({ slug }) => slug !== 'ethereum' && slug !== 'bitcoin',
   },

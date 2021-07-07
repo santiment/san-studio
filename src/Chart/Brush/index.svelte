@@ -34,6 +34,7 @@
 
   function drawBrush() {
     brush.paintConfig = theme.brush
+    brush.bgColor = theme.bg
     clearCtx(brush)
     redraw()
   }
