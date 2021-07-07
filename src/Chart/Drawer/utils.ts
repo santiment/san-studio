@@ -10,7 +10,7 @@ import {
 } from '../utils'
 import { Color } from '../theme'
 
-const LINE_WIDTH = 2
+export const LINE_WIDTH = 2
 export const HandleType = {
   LEFT: 1,
   RIGHT: 2,

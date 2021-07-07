@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { newGlobalShortcut } from 'webkit/utils/events'
-  import Svg from 'webkit/ui/Icon.svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
 
   export let isLocked
 

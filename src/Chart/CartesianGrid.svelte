@@ -8,7 +8,7 @@
   export let xTicks: number = undefined
   export let yTicks: number = undefined
 
-  chart.plotManager.set(ID, () => {
+  chart.plotManager.set(ID, (chart) => {
     const { xAxesTicks = xTicks, yAxesTicks = yTicks, theme } = chart
     drawCartesianGrid(chart, theme.axes, xAxesTicks, yAxesTicks)
   })

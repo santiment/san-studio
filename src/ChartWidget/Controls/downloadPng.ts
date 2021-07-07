@@ -1,6 +1,7 @@
 import { initChart, updateChartState } from 'san-chart'
 import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 import { getPadding } from '@/Chart/Axes/utils'
+import { relativeToAbsoluteCoordinates, LINE_WIDTH } from '@/Chart/Drawer/utils'
 
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
@@ -59,6 +60,28 @@ function drawLegend(pngChart, metrics, textColor, ticker: string) {
   })
 }
 
+function paintDrawings(chart) {
+  const { ctx, drawer } = chart
+  const { drawings } = drawer
+
+  for (let i = 0, len = drawings.length; i < len; i++) {
+    const drawing = drawings[i]
+    const absCoor = relativeToAbsoluteCoordinates(chart, drawing)
+    if (!absCoor.length) continue
+
+    const [x1, y1, x2, y2] = absCoor
+    const { color, width = LINE_WIDTH } = drawing
+    const shape = new Path2D()
+
+    ctx.lineWidth = width
+    ctx.strokeStyle = color
+
+    shape.moveTo(x1, y1)
+    shape.lineTo(x2, y2)
+    ctx.stroke(shape)
+  }
+}
+
 export function downloadPng(
   widget: Studio.ChartWidget,
   { slug, name = slug, ticker },
@@ -70,17 +93,14 @@ export function downloadPng(
 
   const dpr = window.devicePixelRatio || 1
   ;(window as any).devicePixelRatio = 2
-  const pngCanvas = document.createElement('canvas')
-  const pngChart = initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, padding) as any
-  ;(window as any).devicePixelRatio = dpr
 
-  pngChart.scale = scale
-  pngChart.axesMetricKeys = chart.axesMetricKeys
-  pngChart.rightAxisMargin = chart.rightAxisMargin
-  pngChart.domainGroups = domainGroups
-  pngChart.colors = colors
-  pngChart.theme = theme
-  pngChart.bgColor = theme.bg
+  const pngCanvas = document.createElement('canvas')
+  // prettier-ignore
+  const pngChart = Object.assign(
+    {}, chart, initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, padding),
+  ) as any
+
+  ;(window as any).devicePixelRatio = dpr
 
   updateChartState(
     pngChart,
@@ -96,6 +116,7 @@ export function downloadPng(
   })
 
   drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text, ticker)
+  paintDrawings(pngChart)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
   pngChart.ctx.fillStyle = chart.theme.bg
