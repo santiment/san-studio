@@ -11,7 +11,9 @@ export const CONTEXT = 'USER_ACTIONS_HISTORY'
 export const getHistoryContext = (): ReturnType<typeof newHistory> =>
   getContext(CONTEXT)
 
-export function newHistoryContext(emitter?: Emitter) {
+export function newHistoryContext(
+  emitter?: Emitter,
+): ReturnType<typeof newHistory> {
   const history = newHistory(emitter)
   setContext(CONTEXT, history)
   return history
