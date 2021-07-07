@@ -34,7 +34,11 @@ export function getMetricsSelectorGraph(
     categoryItems.push(node)
 
     const subitems = Subitems[metricKey]
-    if (subitems) categoryItems.push(...subitems)
+    if (subitems) {
+      const filter = (node: any) =>
+        !node.checkIsVisible || node.checkIsVisible(options)
+      categoryItems.push(...subitems.filter(filter))
+    }
   }
 
   return graph
