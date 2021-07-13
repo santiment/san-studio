@@ -11,11 +11,13 @@ import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/to
 const ExchangesMetric = each(
   {
     active_deposits: {
-      label: 'Daily Active Deposits',
+      label: 'Active Deposits',
       node: 'bar',
+      queryKey: 'active_deposits_5m',
     },
     deposit_transactions: {
       label: 'Deposit Transactions',
+      queryKey: 'deposit_transactions_5m',
     },
     exchange_balance: {
       label: 'Exchange Flow Balance',
@@ -38,6 +40,10 @@ const ExchangesMetric = each(
     },
     withdrawal_transactions: {
       label: 'Withdrawal Transactions',
+      queryKey: 'withdrawal_transactions_5m',
+    },
+    active_withdrawals_5m: {
+      label: 'Active Withdrawals',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Exchanges'),
