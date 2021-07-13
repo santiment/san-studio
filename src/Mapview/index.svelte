@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from 'svelte'
   import { getHistoryContext, withScroll } from '@/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import { mapview, MapviewPhase } from '@/stores/mapview'
@@ -8,7 +9,7 @@
   import { newSortableDndCtx } from './dnd'
   import Preview from './Preview.svelte'
   import ChartPreview from './ChartPreview.svelte'
-  import Items from './Items.svelte'
+  import SelectedStack from './SelectedStack.svelte'
 
   const Widgets = getWidgets()
   const dndContext = newSortableDndCtx({ onDragEnd })
@@ -23,6 +24,9 @@
   $: isMetricsPhase = $mapview === MapviewPhase.Metrics
   $: dndContext.toggle(isMetricsPhase)
   $: document.body.style.overflow = isMapview ? 'hidden' : ''
+  $: if ($mapview) {
+    tick().then(tick).then(dndContext.ctx.recalcGrid)
+  }
 
   const onEscape = ({ key }) => key === 'Escape' && mapview.exit()
   $: if (isMapview) {
@@ -65,14 +69,18 @@
   }
 
   function onNewWidgetClick() {
-    const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
+    const widget = Widgets.add(
+      adjustMetrics($selectedMetrics.items),
+      undefined,
+      true,
+    )
 
     History.add(
       'New widget',
       () => widget?.delete(),
       () => {
         widget.scrollOnMount = true
-        Widgets.push(widget)
+        Widgets.unshift(widget)
       },
     )
     selectedMetrics.clear()
@@ -104,16 +112,17 @@
 {#if isMapview}
   <div class="mapview">
     <div class="sticky column">
-      <div class="header">
-        <h2 class="body-1 txt-m mrg-s mrg--b">Apply metrics to the chart(s)</h2>
-        <h3 class="body-2">
-          Select metrics from the left sidebar and pick where you woud like to
-          place them
-        </h3>
-      </div>
-
-      <div class="visible">
+      <div class="visible mrg-l mrg--t">
         <div class="widgets">
+          {#if isMetricsPhase && $selectedMetrics.items.length}
+            <Preview
+              class="column hv-center body-2 txt-m $style.new"
+              on:click={onNewWidgetClick}>
+              <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
+              Apply for new chart
+            </Preview>
+          {/if}
+
           {#each widgets as widget (widget.id)}
             {#if widget.metrics}
               <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
@@ -128,26 +137,14 @@
               </Preview>
             {/if}
           {/each}
-
-          {#if isMetricsPhase && $selectedMetrics.items.length}
-            <Preview class="column hv-center" on:click={onNewWidgetClick}>
-              <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
-              Add new chart</Preview>
-          {/if}
         </div>
       </div>
-
-      {#if isMetricsPhase}
-        <div class="selections column">
-          <Items items={$selectedMetrics.items} name="metric" />
-          <Items
-            items={$selectedMetrics.subwidgets}
-            name="widget"
-            class="mrg-s mrg--t" />
-        </div>
-      {/if}
     </div>
   </div>
+{/if}
+
+{#if isMetricsPhase}
+  <SelectedStack />
 {/if}
 
 <style>
@@ -166,15 +163,7 @@
     height: 100vh;
     top: 0;
     position: sticky;
-    padding: 64px 40px;
-  }
-
-  .header {
-    margin: 40px 0 32px;
-  }
-
-  h3 {
-    color: var(--waterloo);
+    padding: 64px 40px 0;
   }
 
   .visible {
@@ -183,6 +172,7 @@
     margin-right: -40px;
     user-select: none;
     -webkit-user-select: none;
+    padding-bottom: 40px;
   }
 
   .widgets {
@@ -193,18 +183,21 @@
     flex: 1 1;
   }
 
-  .selections {
-    border-radius: 4px;
-    background: #505573;
-    padding: 12px 24px;
-    right: 40px;
-    bottom: 25px;
-    position: fixed;
-    left: 300px;
-  }
-
   .title {
     font-size: 21px;
     color: var(--waterloo);
+  }
+
+  .column.new {
+    color: var(--waterloo);
+    border: 1.5px dashed var(--mystic);
+  }
+  .column.new::after {
+    display: none;
+  }
+  .column.new:hover {
+    border: 1.5px dashed var(--green);
+    box-shadow: 0px 2px 24px rgba(24, 27, 43, 0.04),
+      1px 3px 7px rgba(47, 53, 77, 0.05);
   }
 </style>
