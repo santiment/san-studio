@@ -93,11 +93,18 @@
   function onDragEnd(oldIndex: number, newIndex: number) {
     if (oldIndex === newIndex) return
 
+    const oldWidgets = widgets.slice()
     const newWidgets = widgets.slice()
     const widget = newWidgets.splice(oldIndex, 1)[0]
     newWidgets.splice(newIndex, 0, widget)
 
     Widgets.set(newWidgets)
+
+    History.add(
+      'Widgets rearranged',
+      () => Widgets.set(oldWidgets),
+      () => Widgets.set(newWidgets),
+    )
 
     const { scrollParent } = dndContext.ctx
     if (!scrollParent) return
@@ -193,7 +200,7 @@
     border: 1.5px dashed var(--mystic);
   }
   .column.new::after {
-    display: none;
+    display: none !important;
   }
   .column.new:hover {
     border: 1.5px dashed var(--green);
