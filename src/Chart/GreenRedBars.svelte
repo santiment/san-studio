@@ -3,7 +3,10 @@
   import { getChart } from './context'
   const chart = getChart()
 
-  chart.plotManager.set('greenRedBars', (chart, scale, data, _, categories) => {
-    plotGreenRedBars(chart, data, categories.greenRedBars, scale)
-  })
+  chart.plotManager.set(
+    'greenRedBars',
+    (chart, scale, data, colors, categories) => {
+      plotGreenRedBars(chart, data, categories.greenRedBars, scale, colors)
+    },
+  )
 </script>

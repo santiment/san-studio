@@ -33,12 +33,13 @@
   }
 
   const CANDLES_NODE = buildNode(Node.CANDLES, 'Candles')
+  const PN_BARS_NODE = buildNode(Node.GREEN_RED_BAR, 'P/N Bars')
   const NODES = [
     buildNode(Node.AREA, 'Area'),
     buildNode(Node.LINE, 'Line'),
     buildNode(Node.FILLED_LINE, 'Filled area'),
     buildNode(Node.GRADIENT_LINE, 'Gradient line'),
-    buildNode(Node.BAR, 'Bar'),
+    buildNode(Node.BAR, 'Bars'),
   ]
 
   function onClick(metric, metricSettings, oldNode, newNode) {
@@ -96,6 +97,7 @@
         {CANDLES_NODE.label}
       </div>
     {/if}
+
     {#each NODES as node}
       <div
         class="btn btn--ghost"
@@ -104,5 +106,15 @@
         {node.label}
       </div>
     {/each}
+
+    {#if metric === Metric.bitmex_perpetual_funding_rate}
+      <div
+        class="btn btn--ghost"
+        class:active={metricNode === PN_BARS_NODE.id}
+        on:click={() =>
+          onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
+        {PN_BARS_NODE.label}
+      </div>
+    {/if}
   </svelte:fragment>
 </Dropdown>
