@@ -7,6 +7,7 @@
     drawHoverLineY,
     drawValueBubbleX,
     drawValueBubbleY,
+    getTootlipTotalWidth,
   } from 'san-chart/tooltip'
   import { handleMove as handlePointEvent } from 'san-chart/events'
   import { logScale, valueByY, valueByLogY } from 'san-chart/scales'
@@ -30,6 +31,8 @@
 
   chart.drawTooltip = (point, y: number) => plotTooltip(chart, point, y)
   if (tooltipSynchronizer) tooltipSynchronizer.add(chart)
+
+  let xOffset = 0
 
   $: chart.tooltipKey = axesMetricKeys[0]
 
@@ -94,7 +97,18 @@
 
       offset += MULTI_AXIS_WIDTH
     })
-    drawTooltip(ctx, point, metricSettings, marker, theme.tooltip)
+
+    if (xOffset) {
+      if (x > xOffset) xOffset = 0
+    } else {
+      const tooltipWidth =
+        getTootlipTotalWidth(ctx, point, metricSettings, theme.tooltip.font) +
+        10
+
+      xOffset = x < tooltipWidth ? tooltipWidth : 0
+    }
+
+    drawTooltip(ctx, point, metricSettings, marker, theme.tooltip, xOffset)
   }
 
   onDestroy(() => {

@@ -1,5 +1,6 @@
 import { handleMove as handlePointEvent } from 'san-chart/events'
-import { clearCtx } from '../utils'
+import { drawValueBubbleX } from 'san-chart/tooltip'
+import { clearCtx, getDateDayMonthYear } from '../utils'
 
 export function onSelection(
   chart: Studio.Chart,
@@ -15,12 +16,12 @@ export function onSelection(
 
     chart.isSelecting = true
     window.addEventListener('mouseup', onMouseUp)
-    chart.drawSelection = (x: number, y: number, point) => {
+    chart.drawSelection = (x: number, y: number, newPoint) => {
       if (chart.isDrawing) return cleanUp()
 
-      plotRangeSelection(chart, x, startX - x)
+      plotRangeSelection(chart, x, startX - x, point)
       endY = y
-      endPoint = point
+      endPoint = newPoint
     }
 
     function onMouseUp(e: MouseEvent) {
@@ -44,12 +45,17 @@ export function onSelection(
   })
 }
 
-function plotRangeSelection(chart, left, width) {
-  const { tooltip, top, height } = chart
+function plotRangeSelection(chart, left, width, startPoint) {
+  const { tooltip, top, height, theme } = chart
   const { ctx } = tooltip
 
   ctx.save()
+  const { x, value: datetime } = startPoint
+  const xValueFormatted = getDateDayMonthYear(datetime)
+  drawValueBubbleX(chart, ctx, xValueFormatted, x, theme.bubbles)
+
   ctx.fillStyle = '#9faac435'
   ctx.fillRect(left, top, width, height)
+
   ctx.restore()
 }
