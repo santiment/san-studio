@@ -22,6 +22,8 @@ export function onSelection(
       plotRangeSelection(chart, x, startX - x, point)
       endY = y
       endPoint = newPoint
+
+      return point
     }
 
     function onMouseUp(e: MouseEvent) {

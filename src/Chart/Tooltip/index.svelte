@@ -49,7 +49,7 @@
     const { offsetY } = e
     const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
 
-    plotTooltip(chart, point, y)
+    plotTooltip(chart, point, y, e.shiftKey)
     if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y)
   })
 
@@ -70,12 +70,13 @@
     ctx.fillRect(x, y, 8, 2)
   }
 
-  function plotTooltip(chart, point, y: number) {
+  function plotTooltip(chart, point, y: number, shiftKey?: boolean) {
     clearCtx(chart, ctx)
     const { theme, scale, minMaxes, rightAxisMargin } = chart
     const { x, value: datetime } = point
 
-    chart.drawSelection?.(x, y, point)
+    const selectionPoint = chart.drawSelection?.(x, y, point)
+    const oldPoint = shiftKey && selectionPoint
 
     drawHoverLineX(chart, x, theme.hoverLine, 5)
     drawHoverLineY(chart, y, theme.hoverLine, 0, rightAxisMargin)
@@ -102,13 +103,23 @@
       if (x > xOffset) xOffset = 0
     } else {
       const tooltipWidth =
-        getTootlipTotalWidth(ctx, point, metricSettings, theme.tooltip.font) +
+        // prettier-ignore
+        getTootlipTotalWidth(ctx, point, metricSettings, theme.tooltip.font, oldPoint) +
         10
 
       xOffset = x < tooltipWidth ? tooltipWidth : 0
     }
 
-    drawTooltip(ctx, point, metricSettings, marker, theme.tooltip, xOffset)
+    drawTooltip(
+      ctx,
+      point,
+      metricSettings,
+      marker,
+      theme.tooltip,
+      xOffset,
+      0,
+      oldPoint,
+    )
   }
 
   onDestroy(() => {

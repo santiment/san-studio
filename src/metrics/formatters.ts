@@ -19,7 +19,8 @@ export function FORMATTER(value: number) {
 
 export function percentFormatter(value: number) {
   const result = FORMATTER(value)
-  return Number.isFinite(+result) ? result + '%' : result
+  const num = +result
+  return Number.isFinite(num) ? num + '%' : result
 }
 
 function normalizeAxisPercent(value: number) {
@@ -50,10 +51,13 @@ export function newCurrencyFormatter(currency: string) {
   return (value: number) => {
     if (!Number.isFinite(+value)) return 'No data'
 
+    const absValue = Math.abs(value)
     const formatted = (
-      Math.abs(value) >= 2 ? decimalFormatter : smallDecimalFormatter
-    ).format(value)
-    return currency + formatted
+      absValue >= 2 ? decimalFormatter : smallDecimalFormatter
+    ).format(absValue)
+    const sign = absValue !== value ? '-' : ''
+
+    return sign + currency + formatted
   }
 }
 
