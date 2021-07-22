@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import { getHistoryContext } from '@/history'
+  import { getHistoryContext } from 'webkit/ui/history'
   import { getAdapterController } from '@/adapter/context'
   import { setOnLoadContext } from '@/ChartWidget/context'
   import { getQueueStore } from './queue'

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'

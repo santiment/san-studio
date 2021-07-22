@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'

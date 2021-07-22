@@ -1,6 +1,6 @@
 import { setContext, getContext } from 'svelte'
 import { writable, get } from 'svelte/store'
-import { withScroll } from '@/history'
+import { withScroll } from 'webkit/ui/history'
 import { Metric } from '@/metrics'
 import { SelectorType } from '@/metrics/selector/types'
 

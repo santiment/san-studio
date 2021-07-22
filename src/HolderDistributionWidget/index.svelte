@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { initWidget } from '@/ChartWidget/context'
   import {

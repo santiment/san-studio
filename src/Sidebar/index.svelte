@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
-  import { getHistoryContext } from '@/history'
+  import { getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { queryProjectMetrics } from '@/api/metrics'

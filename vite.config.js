@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import TsChecker from 'vite-plugin-ts-checker'
-import svelte from '@sveltejs/vite-plugin-svelte'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 process.env.GQL_SERVER_URL = 'https://api-stage.santiment.net/graphql'
 process.env.IS_DEV_MODE = process.env.NODE_ENV !== 'production'
@@ -28,5 +28,8 @@ export default defineConfig({
     'process.browser': true,
     'process.env': process.env,
     'process.env.IS_DEV_MODE': process.env.IS_DEV_MODE,
+  },
+  optimizeDeps: {
+    exclude: ['webkit', 'san-webkit'],
   },
 })

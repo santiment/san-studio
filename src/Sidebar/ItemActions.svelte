@@ -1,6 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import { getHistoryContext } from '@/history'
+  import { getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import ItemLabel from './ItemLabel.svelte'
   import ItemDescription from './ItemDescription.svelte'

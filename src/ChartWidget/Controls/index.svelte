@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'

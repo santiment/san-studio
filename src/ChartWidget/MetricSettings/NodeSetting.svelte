@@ -2,7 +2,7 @@
   import type { ChartNodes } from '@/Chart/nodes'
   import type { MetricSetting } from './context'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import {
     cleanupCandlesSettings,
     setCandlesSettings,

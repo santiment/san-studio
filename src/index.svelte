@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newHistoryContext, newHistoryEmitter } from '@/history'
+  import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import HistoryAction from '@/history/Action.svelte'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'

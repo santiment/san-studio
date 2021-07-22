@@ -1,6 +1,6 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from '@/history'
+  import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
