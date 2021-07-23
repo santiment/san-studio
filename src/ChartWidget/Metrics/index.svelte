@@ -2,10 +2,13 @@
   import { tick } from 'svelte'
   import { newSortableContext } from 'webkit/ui/dnd/sortable'
   import { globals } from '@/stores/globals'
+  import { getAutoUpdater } from '@/stores/autoUpdater'
   import { getWidget } from '@/ChartWidget/context'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
+
   const { Metrics } = getWidget()
+  const AutoUpdater = getAutoUpdater()
   const dndContext = $globals.isBeta
     ? newSortableContext({ onDragEnd })
     : undefined
@@ -71,8 +74,8 @@
     {/each}
   </div>
 
-  {#if $globals.isPresenterMode === false}
-    <AutoUpdate {changeStudioPeriod} />
+  {#if $globals.isPresenterMode === false && AutoUpdater}
+    <AutoUpdate {AutoUpdater} {changeStudioPeriod} />
   {/if}
 </div>
 

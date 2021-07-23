@@ -10,11 +10,6 @@
   import MetricsRow from './Metrics/index.svelte'
   import MetricSettingsRow from './MetricSettings/index.svelte'
   import { initWidget, initWidgetContext, getOnLoadContext } from './context'
-  import {
-    groupDomains,
-    getIndicatorDomainGroups,
-    checkHasDomainGroups,
-  } from './domain'
 
   const { onWidgetInit } = getAdapterController()
   const History = getHistoryContext()

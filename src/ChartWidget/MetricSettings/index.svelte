@@ -2,6 +2,7 @@
   import { Metric } from '@/metrics'
   import { SocialMetric } from '@/metrics/_social'
   import { studio } from '@/stores/studio'
+  import { getAdapterController } from '@/adapter/context'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
   import IntervalSetting from './IntervalSetting.svelte'
@@ -11,7 +12,10 @@
   import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
 
+  const { isEmbedded } = getAdapterController()
+
   export let metric: Studio.Metric
+
   $: ticker = $studio.ticker
   $: isNotIndicator = !metric.indicator
   $: label =
@@ -33,7 +37,7 @@
     {#if isExchangeModifiable(metric)}
       <ExchangeSetting {metric} />
     {/if}
-    {#if isNotIndicator}
+    {#if isNotIndicator && !isEmbedded}
       <IntervalSetting {metric} />
       {#if getBase(metric) !== Metric.dev_activity}
         <IndicatorSetting {metric} />

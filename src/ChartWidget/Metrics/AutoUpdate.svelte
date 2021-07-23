@@ -7,9 +7,8 @@
   } from 'webkit/utils/dates'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import { Event } from '@/analytics'
-  import { getAutoUpdater } from '@/stores/autoUpdater'
-  const AutoUpdater = getAutoUpdater()
 
+  export let AutoUpdater
   export let changeStudioPeriod
 
   let interval

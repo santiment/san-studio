@@ -85,36 +85,40 @@
 </script>
 
 <Dropdown>
-  Style: {NodeToLabel[metricNode]}
+  {#key metric}
+    Style: {NodeToLabel[metricNode]}
+  {/key}
 
   <svelte:fragment slot="options">
-    {#if !metric.indicator && (metric.base || metric) === Metric.price_usd}
-      <div
-        class="btn btn--ghost"
-        class:active={metricNode === CANDLES_NODE.id}
-        on:click={() =>
-          onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
-        {CANDLES_NODE.label}
-      </div>
-    {/if}
+    {#key metric}
+      {#if !metric.indicator && (metric.base || metric) === Metric.price_usd}
+        <div
+          class="btn btn--ghost"
+          class:active={metricNode === CANDLES_NODE.id}
+          on:click={() =>
+            onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
+          {CANDLES_NODE.label}
+        </div>
+      {/if}
 
-    {#each NODES as node}
-      <div
-        class="btn btn--ghost"
-        class:active={metricNode === node.id}
-        on:click={() => onClick(metric, metricSettings, metricNode, node)}>
-        {node.label}
-      </div>
-    {/each}
+      {#each NODES as node}
+        <div
+          class="btn btn--ghost"
+          class:active={metricNode === node.id}
+          on:click={() => onClick(metric, metricSettings, metricNode, node)}>
+          {node.label}
+        </div>
+      {/each}
 
-    {#if metric === Metric.bitmex_perpetual_funding_rate}
-      <div
-        class="btn btn--ghost"
-        class:active={metricNode === PN_BARS_NODE.id}
-        on:click={() =>
-          onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
-        {PN_BARS_NODE.label}
-      </div>
-    {/if}
+      {#if metric === Metric.bitmex_perpetual_funding_rate}
+        <div
+          class="btn btn--ghost"
+          class:active={metricNode === PN_BARS_NODE.id}
+          on:click={() =>
+            onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
+          {PN_BARS_NODE.label}
+        </div>
+      {/if}
+    {/key}
   </svelte:fragment>
 </Dropdown>

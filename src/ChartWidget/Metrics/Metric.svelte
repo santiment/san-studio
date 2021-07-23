@@ -7,9 +7,12 @@
   import { getWidget } from '@/ChartWidget/context'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
+  import { getAdapterController } from '@/adapter/context'
   import { convertBaseProjectMetric } from './utilts'
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
+
+  const { isEmbedded } = getAdapterController()
   const { Metrics, MetricsSignals } = getWidget()
 
   export let metric: Studio.Metric
@@ -55,7 +58,7 @@
     {colors}
     {error}
     {isLoading}
-    onDelete={isPresenterMode ? undefined : onDelete}
+    onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
     ticker={$studio.ticker}
     active={isMenuOpened}
     on:click={(e) => onClick(metric, e)}
@@ -73,7 +76,7 @@
       <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
     {/if}
 
-    {#if isPresenterMode === false}
+    {#if (isPresenterMode || isEmbedded) === false}
       <MoreMenu
         {metric}
         {isLocked}
