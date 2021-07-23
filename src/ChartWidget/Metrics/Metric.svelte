@@ -76,7 +76,7 @@
       <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
     {/if}
 
-    {#if (isPresenterMode || isEmbedded) === false}
+    {#if !(isPresenterMode || isEmbedded)}
       <MoreMenu
         {metric}
         {isLocked}
