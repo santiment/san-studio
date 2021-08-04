@@ -1,5 +1,6 @@
 <script lang="ts">
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
+  import { dialogs } from 'webkit/ui/Dialog'
   import HistoryAction from '@/history/Action.svelte'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
@@ -89,6 +90,12 @@
     <HistoryAction {HistoryEmitter} />
   </div>
 </main>
+
+<div id="dialogs">
+  {#each $dialogs as { Component, props }, i}
+    <svelte:component this={Component} {...props} {i} />
+  {/each}
+</div>
 
 <style>
   main {
