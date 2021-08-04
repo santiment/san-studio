@@ -11,7 +11,7 @@
   import MetricSettingsRow from './MetricSettings/index.svelte'
   import { initWidget, initWidgetContext, getOnLoadContext } from './context'
 
-  const { onWidgetInit } = getAdapterController()
+  const { onWidgetInit, isOnlyChartEmbedded } = getAdapterController()
   const History = getHistoryContext()
 
   export let widget: Studio.ChartWidget
@@ -50,6 +50,8 @@
     startDatetime: number | string,
     endDatetime: number | string,
   ) {
+    if (isOnlyChartEmbedded) return
+
     const { from, to } = $studio
     const undo = () => studio.setPeriod(new Date(from), new Date(to))
     const redo = () =>
@@ -131,13 +133,15 @@
   let:hasDomainGroups
   let:onMetricHover>
   <div class="widget column">
-    <Controls
-      {chart}
-      {isSingleWidget}
-      {deleteWidget}
-      {hasDomainGroups}
-      {fullscreenMetricsFilter}
-      bind:isSharedAxisEnabled />
+    {#if isOnlyChartEmbedded !== true}
+      <Controls
+        {chart}
+        {isSingleWidget}
+        {deleteWidget}
+        {hasDomainGroups}
+        {fullscreenMetricsFilter}
+        bind:isSharedAxisEnabled />
+    {/if}
 
     <slot />
 
@@ -155,7 +159,7 @@
       {onMetricLock}
       {onMetricSettings} />
 
-    {#if settingsOpenedMetric && $globals.isPresenterMode === false}
+    {#if isOnlyChartEmbedded !== true && settingsOpenedMetric && $globals.isPresenterMode === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />
     {/if}
 

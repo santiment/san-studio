@@ -2,6 +2,7 @@
   import { studio } from '@/stores/studio'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
+  import { getAdapterController } from '@/adapter/context'
   import Widget from './Widget.svelte'
   import { initWidget, getOnLoadContext } from './context'
   import {
@@ -10,6 +11,8 @@
     checkHasDomainGroups,
   } from './domain'
   import { debounced } from './utils'
+
+  const { isOnlyChartEmbedded } = getAdapterController()
 
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
@@ -29,14 +32,14 @@
   const noop = () => {}
 
   let rawData = []
-  let allTimeData = []
+  let allTimeData = isOnlyChartEmbedded ? undefined : []
   let MetricError = new Map()
   let loadings = new Set(widget.metrics)
 
   $: metrics = $Metrics
   $: ({ slug } = $studio)
   $: fetchData(metrics, $studio, $MetricSettings)
-  $: fetchAllData(metrics, slug)
+  $: isOnlyChartEmbedded !== true && fetchAllData(metrics, slug)
 
   widget.fetchData = (cachePolicy) =>
     fetchData(metrics, $studio, $MetricSettings, cachePolicy)
