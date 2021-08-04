@@ -69,18 +69,14 @@
   }
 
   function onNewWidgetClick() {
-    const widget = Widgets.add(
-      adjustMetrics($selectedMetrics.items),
-      undefined,
-      true,
-    )
+    const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
 
     History.add(
       'New widget',
       () => widget?.delete(),
       () => {
         widget.scrollOnMount = true
-        Widgets.unshift(widget)
+        Widgets.push(widget)
       },
     )
     selectedMetrics.clear()
@@ -121,15 +117,6 @@
     <div class="sticky column">
       <div class="visible mrg-l mrg--t">
         <div class="widgets">
-          {#if isMetricsPhase && $selectedMetrics.items.length}
-            <Preview
-              class="column hv-center body-2 txt-m $style.new"
-              on:click={onNewWidgetClick}>
-              <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
-              Apply for new chart
-            </Preview>
-          {/if}
-
           {#each widgets as widget (widget.id)}
             {#if widget.metrics}
               <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
@@ -144,6 +131,15 @@
               </Preview>
             {/if}
           {/each}
+
+          {#if isMetricsPhase && $selectedMetrics.items.length}
+            <Preview
+              class="column hv-center body-2 txt-m $style.new"
+              on:click={onNewWidgetClick}>
+              <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
+              Apply for new chart
+            </Preview>
+          {/if}
         </div>
       </div>
     </div>

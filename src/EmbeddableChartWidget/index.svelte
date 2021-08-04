@@ -13,7 +13,6 @@
 
   let widget = {} as Studio.ChartWidget
   let rawData: any[] = []
-  let allTimeData = []
   let MetricError = new Map()
   let loadings = new Set()
 
@@ -63,4 +62,4 @@
   }
 </script>
 
-<Widget {widget} {rawData} {allTimeData} {MetricError} {loadings} />
+<Widget {widget} {rawData} {MetricError} {loadings} />

@@ -30,6 +30,7 @@
   let chart
   let canvas
   let shouldRedraw = 1
+
   $: setChart(chart)
   $: chart && width && height && padding && updateDimensions()
   $: chart && (chart.metricSettings = metricSettings)

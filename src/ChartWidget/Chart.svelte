@@ -21,6 +21,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
+
   const widget = getWidget()
   const {
     onChartPointClick,
@@ -32,7 +33,7 @@
 
   export let metrics: Studio.Metric[]
   export let data = []
-  export let allTimeData = []
+  export let allTimeData
   export let colors
   export let categories
   export let domainGroups
@@ -147,12 +148,14 @@
   <Drawer {axesMetricKeys} metricKey={drawingKey} />
   <Tooltip {axesMetricKeys} {metricSettings} {onPointClick} {onRangeSelect} />
 
-  <Brush
-    data={allTimeData}
-    {categories}
-    {colors}
-    {from}
-    {to}
-    {theme}
-    onChange={onBrushChange} />
+  {#if allTimeData}
+    <Brush
+      data={allTimeData}
+      {categories}
+      {colors}
+      {from}
+      {to}
+      {theme}
+      onChange={onBrushChange} />
+  {/if}
 </Chart>

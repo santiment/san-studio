@@ -32,6 +32,12 @@
   $: shouldRedraw && (theme || data || categories || colors) && drawBrush()
   $: if (setViewedIndicis(brush, data, from, to)) shouldRedraw += 1
 
+  $: chart.setPadding(
+    Object.assign(chart.padding, {
+      bottom: 70,
+    }),
+  )
+
   function drawBrush() {
     brush.paintConfig = theme.brush
     brush.bgColor = theme.bg

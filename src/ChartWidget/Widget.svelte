@@ -16,7 +16,7 @@
 
   export let widget: Studio.ChartWidget
   export let rawData = []
-  export let allTimeData = []
+  export let allTimeData
   export let isSingleWidget: boolean
   export let deleteWidget = undefined
   export let metricsFilter = undefined

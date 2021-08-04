@@ -2,12 +2,14 @@ import { drawValueBubbleY } from 'san-chart/tooltip'
 import { millify } from 'webkit/utils/formatting'
 
 export const Y_MARGIN = 25
+export const X_MARGIN = 20
 export const MULTI_AXIS_WIDTH = 50
 
 export function getPadding(chart: Studio.Chart, axesMetricKeys: any[]) {
+  const { padding } = chart
   return {
-    ...chart.padding,
-    bottom: 70,
+    ...padding,
+    bottom: padding.bottom > X_MARGIN ? padding.bottom : X_MARGIN,
     right: axesMetricKeys.length * MULTI_AXIS_WIDTH + Y_MARGIN,
   }
 }
