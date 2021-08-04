@@ -9,23 +9,63 @@ const MergedTypePropsTuple = [
   [' coins %', percentFormatter, axisPercentFormatter], // 1 === true
 ]
 
-const LABEL_PERCENT_POSTFIX = ' %'
-const removeLabelPostfix = (str: string) =>
-  str.replace(LABEL_PERCENT_POSTFIX, '')
-
 const immutate =
   (key) =>
   ({ datetime }) => ({ datetime, [key]: 0 })
 const keyGetter = ({ key }) => key
-const labelGetter = ({ label }) =>
-  removeLabelPostfix(label.replace(' coins', ''))
 
 export const checkIfWasNotMerged = (
   newKey: string,
   mergedMetrics: any[],
 ): boolean => !mergedMetrics.some(({ key }) => key === newKey)
 
-export function buildMergedMetric(baseMetrics) {
+function mergeMetricLabels(startLabel: string, endLabel: string): string {
+  const endRightBoundaryIndex = endLabel.lastIndexOf('-')
+  return (
+    startLabel.slice(0, startLabel.indexOf('-') + 2) +
+    endLabel.slice(
+      endRightBoundaryIndex + 2,
+      endLabel.indexOf(')', endRightBoundaryIndex) + 1,
+    )
+  )
+}
+
+function reduceMetricsLabels(baseMetrics: any[]): string {
+  let label = ''
+  let start = baseMetrics[0]
+  let end = start
+
+  function addLabel(newLabel: string) {
+    if (label) label += ', '
+    label += newLabel
+  }
+
+  for (let i = 1, len = baseMetrics.length; i < len; i++) {
+    const metric = baseMetrics[i]
+
+    if (metric.__i - end.__i === 1) {
+      end = metric
+      continue
+    }
+
+    addLabel(mergeMetricLabels(start.label, end.label))
+    start = metric
+    end = metric
+  }
+
+  if (start !== end) {
+    addLabel(mergeMetricLabels(start.label, end.label))
+  } else {
+    addLabel(end.label.slice(0, end.label.indexOf(')') + 1))
+  }
+
+  return label
+}
+
+const mergedMetricsSorter = (a, b) => a.__i - b.__i
+export function buildMergedMetric(baseMetrics: any[]) {
+  baseMetrics.sort(mergedMetricsSorter)
+
   const isPercentMerge = baseMetrics[0].type === 'percent'
   const [labelPostfix, formatter, axisFormatter] =
     MergedTypePropsTuple[+isPercentMerge]
@@ -36,8 +76,8 @@ export function buildMergedMetric(baseMetrics) {
     formatter,
     axisFormatter,
     node: 'line',
-    key: baseMetrics.map(keyGetter).sort().join(MERGED_DIVIDER),
-    label: baseMetrics.map(labelGetter).join(', ') + labelPostfix,
+    key: baseMetrics.map(keyGetter).join(MERGED_DIVIDER),
+    label: reduceMetricsLabels(baseMetrics) + labelPostfix,
   }
 
   return metric

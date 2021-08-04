@@ -33,7 +33,7 @@ function buildMetrics<T extends string>(
   reqMeta?: any,
 ): HolderDistributions<T> {
   const Metric = {} as HolderDistributions<T>
-  HOLDER_DISTRIBUTIONS.forEach(([postfix, label, queryKeyPostfix]) => {
+  HOLDER_DISTRIBUTIONS.forEach(([postfix, label, queryKeyPostfix], __i) => {
     const key = templateKey + postfix
     const queryKey = queryKeyPostfix && templateKey + queryKeyPostfix
     Metric[key] = {
@@ -45,6 +45,7 @@ function buildMetrics<T extends string>(
       label: label + labelPostfix,
       category: MetricCategory.OnChain,
       reqMeta,
+      __i,
     }
   })
   return Metric
