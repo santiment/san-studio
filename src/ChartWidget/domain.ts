@@ -7,6 +7,12 @@ const DEFAULT_DOMAIN_METRIC = new Set([
   // Metric.miners_balance.key,
 ])
 
+const NON_BAR_DOMAIN_METRIC = new Set([
+  Metric.active_addresses_1h.key,
+  Metric.active_addresses_24h.key,
+  Metric.daily_active_addresses.key,
+])
+
 export function newDomainModifier(
   metrics: Studio.Metric[],
   MetricSettings: Studio.MetricSetting,
@@ -23,7 +29,7 @@ export function newDomainModifier(
 
     if (node === Node.GREEN_RED_BAR) {
       return prepareDomain(minMax)
-    } else if (node === Node.BAR) {
+    } else if (node === Node.BAR && !NON_BAR_DOMAIN_METRIC.has(metricKey)) {
       max *= 1.01
       min = min < 0 ? min : 0
     } else {
