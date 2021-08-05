@@ -1,12 +1,18 @@
 import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 
+function normalizeHeader(label: string) {
+  return label.includes(',') ? `"${label}"` : label
+}
+
 export function downloadCsv(widget, { slug, name = slug, ticker }) {
   const { chart, Metrics, MetricSettings } = widget
   const { data } = chart
 
   const metrics = Metrics.getValue()
   const headers = [{ label: 'Date', key: 'datetime' }]
-  metrics.forEach(({ label, key }) => headers.push({ key, label }))
+  metrics.forEach(({ label, key }) =>
+    headers.push({ key, label: normalizeHeader(label) }),
+  )
   const headersLength = headers.length
 
   const { length } = data
@@ -17,7 +23,9 @@ export function downloadCsv(widget, { slug, name = slug, ticker }) {
     const metricData = data[i]
     const row = new Array(headersLength)
     rows[i + 1] = row
-    for (let y = 0; y < headersLength; y++) {
+
+    row[0] = new Date(metricData.datetime).toISOString()
+    for (let y = 1; y < headersLength; y++) {
       const { key } = headers[y]
       const { getPreTransformValue } = MetricSettings.getMetricSettings(key)
       const value = metricData[key]
