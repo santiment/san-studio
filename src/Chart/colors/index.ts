@@ -51,8 +51,8 @@ export function newChartColors(
   let freeColorIndex = 0
 
   for (let i = 0; i < metrics.length; i++) {
-    const { key } = metrics[i]
-    const prevColor = prevColors[key]
+    const { key, color } = metrics[i]
+    const prevColor = prevColors[key] || color
     if (prevColor) {
       colors[key] = prevColor
     } else {

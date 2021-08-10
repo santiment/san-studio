@@ -3,6 +3,7 @@
   import Svg from 'webkit/ui/Svg.svelte'
   import { selectedMetrics } from '@/stores/selector'
   import MetricButton from '@/MetricButton.svelte'
+  import { showCombineDialog } from '@/CombineDialog/index.svelte'
 
   $: ({ items: metrics, subwidgets } = $selectedMetrics)
   $: items = metrics.concat(subwidgets)
@@ -12,6 +13,12 @@
   {#if items.length}
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
+
+      <div
+        class="btn border mrg-l mrg--r combine"
+        on:click={() => showCombineDialog({ metrics })}>
+        Combine
+      </div>
 
       <Svg
         id="cross"
@@ -100,5 +107,16 @@
   }
   .delete:hover {
     fill: var(--red);
+  }
+
+  .combine {
+    position: relative;
+    z-index: 10;
+    padding: 2px 7px;
+  }
+
+  .combine:hover {
+    border-color: var(--green);
+    color: var(--green);
   }
 </style>
