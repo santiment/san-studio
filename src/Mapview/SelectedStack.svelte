@@ -7,6 +7,12 @@
 
   $: ({ items: metrics, subwidgets } = $selectedMetrics)
   $: items = metrics.concat(subwidgets)
+
+  function onCombineClick() {
+    showCombineDialog({ metrics }).then((metric) =>
+      selectedMetrics.set([metric]),
+    )
+  }
 </script>
 
 <div class="stack" transition:fly={{ duration: 250, x: -100 }}>
@@ -14,9 +20,7 @@
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
 
-      <div
-        class="btn border mrg-l mrg--r combine"
-        on:click={() => showCombineDialog({ metrics })}>
+      <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>
         Combine
       </div>
 

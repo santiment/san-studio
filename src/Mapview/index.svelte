@@ -2,6 +2,7 @@
   import { tick } from 'svelte'
   import { getHistoryContext, withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { dialogs } from 'webkit/ui/Dialog'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedMetrics } from '@/stores/selector'
@@ -28,7 +29,8 @@
     tick().then(tick).then(dndContext.ctx.recalcGrid)
   }
 
-  const onEscape = ({ key }) => key === 'Escape' && mapview.exit()
+  const onEscape = ({ key }) =>
+    key === 'Escape' && $dialogs.length === 0 && mapview.exit()
   $: if (isMapview) {
     window.addEventListener('keydown', onEscape)
   } else {

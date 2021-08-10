@@ -3,7 +3,6 @@
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getTimeseries } from '@/api/timeseries'
-  import { newChartColors } from '@/Chart/colors'
   import { themes } from '@/Chart/theme'
   import { getMetricNodes } from '@/Chart/nodes'
   import Chart from '@/Chart/index.svelte'
@@ -20,13 +19,13 @@
   const metricSettings = {}
 
   export let metrics
+  export let colors
 
   let data = []
 
   $: ({ slug } = $studio)
   $: settings = Object.assign({ slug }, SETTINGS)
   $: fetchData(metrics, settings)
-  $: colors = newChartColors(metrics)
   $: theme = themes[+$globals.isNightMode]
   $: nodes = getMetricNodes(metrics, {})
 

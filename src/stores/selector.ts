@@ -35,6 +35,11 @@ export const selectedMetrics = (() => {
 
   return {
     subscribe,
+    set(metrics: Studio.Metric[]) {
+      metricsSet.clear()
+      store.items = metrics
+      set(store)
+    },
     clear() {
       metricsSet.clear()
       subwidgetsSet.clear()

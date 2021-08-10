@@ -5,22 +5,37 @@ import { queryMetric } from '@/api/timeseries/queries'
 
 const math = create(all)
 
-export function newExpessionMetric(baseMetrics: any[], expression: string) {
+export function checkIsExpressionValid(metrics: any[], expression: string) {
+  try {
+    const scope = {}
+    for (let i = 1, len = metrics.length; i <= len; i++) scope['x' + i] = 1
+    math.evaluate(expression, scope)
+    return true
+  } catch (e) {
+    console.warn(e)
+    return false
+  }
+}
+
+export function newExpessionMetric(
+  baseMetrics: Studio.Metric[],
+  expression: string,
+  label: string,
+) {
+  const normalizedExpression = expression.trim()
   const metric = {
     fetch,
-    expression,
+    label: label.trim(),
+    expression: normalizedExpression,
     baseMetrics,
     node: 'area',
-    color: '#14c393',
-    key: 'expression_test',
-    label: 'Expression Metric',
+    key: normalizedExpression,
   }
 
   return metric
 }
 
 function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
-  console.log(variables, metric)
   const { key, baseMetrics, expression } = metric
 
   const queries = baseMetrics.map(({ key, queryKey = key }) =>

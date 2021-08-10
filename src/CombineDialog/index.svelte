@@ -7,16 +7,42 @@
 </script>
 
 <script lang="ts">
+  import type { DialogController } from 'webkit/ui/Dialog/dialogs'
   import Dialog from 'webkit/ui/Dialog'
+  import { DialogLock } from 'webkit/ui/Dialog/dialogs'
   import Chart from './Chart.svelte'
-  import { newExpessionMetric } from './utils'
+  import { newExpessionMetric, checkIsExpressionValid } from './utils'
 
+  export let DialogPromise: DialogController
   export let metrics
+
+  let label = ''
   let expression = 'x1 + x2'
-
-  $: metric = newExpessionMetric(metrics, expression)
-
+  let isValidExpression = true
+  let isLabelInputDirty = false
+  let isExpressionDirty = false
   let closeDialog
+
+  $: checkExpression(metrics, expression)
+  $: metric = newExpessionMetric(metrics, expression, label)
+  $: isValid = isValidExpression && label
+  $: colors = { [metric.key]: '#14c393' }
+  $: if (isLabelInputDirty || isExpressionDirty) {
+    DialogPromise.locking = DialogLock.WARN
+  }
+
+  let checkExpressionTimer
+  function checkExpression(metrics, expression) {
+    clearTimeout(checkExpressionTimer)
+    checkExpressionTimer = setTimeout(() => {
+      isValidExpression = checkIsExpressionValid(metrics, expression)
+    }, 150)
+  }
+
+  function onCombineClick() {
+    DialogPromise.resolve(metric)
+    closeDialog()
+  }
 </script>
 
 <Dialog
@@ -36,19 +62,35 @@
     </div>
 
     <div class="caption mrg-l mrg--t">Name</div>
-    <input class="border fluid" type="text" value="Custom metric" />
+    <input
+      class="border fluid"
+      type="text"
+      bind:value={label}
+      placeholder="Combined metric"
+      on:focus={() => (isLabelInputDirty = true)}
+      class:invalid={isLabelInputDirty && !label.trim()} />
 
     <div class="caption mrg-l mrg--t">Expression</div>
-    <input class="border fluid" type="text" bind:value={expression} />
+    <input
+      class="border fluid"
+      type="text"
+      bind:value={expression}
+      on:focus={() => (isExpressionDirty = true)}
+      class:invalid={!isValidExpression} />
 
     <div class="caption mrg-l mrg--t">Preview</div>
     <div class="border">
-      <Chart metrics={[metric]} />
+      <Chart metrics={[metric]} {colors} />
     </div>
 
     <div class="row mrg-l mrg--t v-center">
-      <div class="btn btn-1 btn--green mrg-a mrg--l">Combine</div>
-      <div class="btn btn-1 border mrg-l mrg--l" on:click={closeDialog}>
+      <div
+        class="btn btn-1 btn--green mrg-a mrg--l"
+        class:disabled={!isValid}
+        on:click={onCombineClick}>
+        Combine
+      </div>
+      <div class="btn btn-1 border mrg-l mrg--l cancel" on:click={closeDialog}>
         Cancel
       </div>
     </div>
@@ -67,6 +109,7 @@
 
   .caption {
     color: var(--waterloo);
+    margin-bottom: 4px;
   }
 
   .metric {
@@ -79,5 +122,18 @@
     padding: 2px 5px;
     border-radius: 4px;
     color: var(--green);
+  }
+
+  .invalid {
+    border-color: var(--red) !important;
+  }
+
+  .disabled {
+    --color: var(--mystic);
+    --bg: var(--athens);
+  }
+
+  .cancel {
+    --color-hover: var(--green);
   }
 </style>
