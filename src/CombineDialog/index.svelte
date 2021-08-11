@@ -8,14 +8,16 @@
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
+  import Svg from 'webkit/ui/Svg.svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { DialogLock } from 'webkit/ui/Dialog/dialogs'
   import Chart from './Chart.svelte'
+  import AddMetric from './AddMetric.svelte'
   import { newExpessionMetric, checkIsExpressionValid } from './utils'
 
   export let DialogPromise: DialogController
   export let metric
-  export let metrics = metric && metric.baseMetrics
+  export let metrics = metric && metric.baseMetrics.slice()
 
   let label = metric ? metric.label : ''
   let expression = metric ? metric.expression : 'x1 + x2'
@@ -44,6 +46,14 @@
     DialogPromise.resolve(expressionMetric)
     closeDialog()
   }
+
+  function onMetricDelete(metric: Studio.Metric) {
+    metrics = metrics.filter((m) => m !== metric)
+  }
+
+  function onMetricSelect(metric: Studio.Metric) {
+    metrics = metrics.concat(metric)
+  }
 </script>
 
 <Dialog
@@ -54,10 +64,18 @@
   <div class="dialog-body">
     <div class="caption">Metrics</div>
     <div class="row metrics">
+      <AddMetric {metrics} {onMetricSelect} />
+
       {#each metrics as metric, i}
         <div class="border metric">
           <span class="var">x{i + 1}</span>
           {metric.label}
+
+          {#if metrics.length > 2}
+            <div class="btn delete" on:click={() => onMetricDelete(metric)}>
+              <Svg id="cross" w="8" />
+            </div>
+          {/if}
         </div>
       {/each}
     </div>
@@ -142,5 +160,12 @@
 
   .cancel {
     --color-hover: var(--green);
+  }
+
+  .delete {
+    display: inline-block;
+    margin: 0 2px 0 4px;
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
   }
 </style>

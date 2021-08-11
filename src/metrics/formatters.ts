@@ -6,12 +6,13 @@ export function FORMATTER(value: number) {
     return 'No data'
   }
 
-  if (value > LARGE_NUMBER_THRESHOLD) {
+  const absValue = Math.abs(value)
+  if (absValue > LARGE_NUMBER_THRESHOLD) {
     return millify(value, 2)
   }
 
-  if (Math.abs(value) < 1) {
-    return value.toFixed(6)
+  if (Math.abs(absValue) < 1) {
+    return absValue.toFixed(6)
   }
 
   return Number.isInteger(value) ? value : value.toFixed(2)

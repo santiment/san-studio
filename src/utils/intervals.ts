@@ -16,6 +16,7 @@ export const INTERVALS = [
   makeInterval('2h', '2 hours'),
   makeInterval('3h', '3 hours'),
   makeInterval('4h', '4 hours'),
+  makeInterval('6h', '6 hours'),
   makeInterval('8h', '8 hours'),
   makeInterval('12h', '12 hours'),
   makeInterval('1d', '1 day'),

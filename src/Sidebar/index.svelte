@@ -27,6 +27,8 @@
   const LockedAsset = getLockedAssetStore()
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
+  export let graph
+
   let input = ''
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true

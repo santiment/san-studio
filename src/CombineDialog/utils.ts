@@ -32,7 +32,7 @@ export function newExpessionMetric(
     expression: normalizedExpression,
     baseMetrics,
     node: 'area',
-    key: normalizedExpression + '|' + normalizedLabel + '|' + Date.now(),
+    key: normalizedExpression + '|' + Date.now(),
   }
 
   return metric
@@ -78,19 +78,54 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   )
 
   return Promise.all(queries).then((allData) => {
-    const result = allData[0].map((data) => ({
-      datetime: data.datetime,
-      [key]: data[COMBINED_KEY],
-    }))
+    const { offsets, commonLength } = findBoundaries(allData)
+    const result = new Array(commonLength)
 
-    for (let i = 0, len = allData[0].length; i < len; i++) {
+    for (let i = 0; i < commonLength; i++) {
       const scope = {}
-      for (let j = 0, xLen = allData.length; j < xLen; j++) {
-        scope['x' + (j + 1)] = allData[j][i][COMBINED_KEY]
+      for (let j = 0, jLen = allData.length; j < jLen; j++) {
+        scope['x' + (j + 1)] = allData[j][offsets[j] + i][COMBINED_KEY]
       }
-      result[i][key] = math.evaluate(expression, scope)
+
+      result[i] = {
+        datetime: allData[0][offsets[0] + i].datetime,
+        [key]: math.evaluate(expression, scope),
+      }
     }
 
     return result
   })
+}
+
+function findBoundaries(allData: any[][]) {
+  const { length } = allData
+
+  let commonLength = Infinity
+  let minDatetime = 0
+  let maxDatetime = Infinity
+  for (let i = 0; i < length; i++) {
+    const data = allData[i]
+    const first = data[0]
+    const last = data[data.length - 1]
+    if (minDatetime < first.datetime) minDatetime = first.datetime
+    if (maxDatetime > last.datetime) maxDatetime = last.datetime
+  }
+
+  const offsets: number[] = []
+  for (let i = 0; i < length; i++) {
+    const data = allData[i]
+    const { length } = data
+
+    let leftOffset = 0
+    let rightOffset = length - 1
+
+    for (; data[leftOffset].datetime < minDatetime; leftOffset++) {}
+    for (; data[rightOffset].datetime > maxDatetime; rightOffset--) {}
+
+    const diff = rightOffset - leftOffset
+    if (commonLength > diff) commonLength = diff
+    offsets[i] = leftOffset
+  }
+
+  return { offsets, commonLength: commonLength + 1 }
 }

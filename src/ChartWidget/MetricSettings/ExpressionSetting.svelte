@@ -12,8 +12,11 @@
     e.stopImmediatePropagation()
     showCombineDialog({ metric }).then((updatedMetric) => {
       if (!updatedMetric) return
+
       metric.expression = updatedMetric.expression
       metric.label = updatedMetric.label
+      metric.minInterval = updatedMetric.minInterval
+      metric.baseMetrics = updatedMetric.baseMetrics
 
       Metrics.set($Metrics)
     })

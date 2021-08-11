@@ -9,6 +9,7 @@
   import Areas from '@/Chart/Areas.svelte'
 
   const TO = getTodaysEnd()
+  TO.setDate(TO.getDate() - 30)
   const FROM = new Date(TO)
   FROM.setDate(TO.getDate() - 30)
   const SETTINGS = {

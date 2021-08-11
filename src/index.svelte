@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { setContext } from 'svelte'
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import { dialogs } from 'webkit/ui/Dialog'
   import HistoryAction from '@/history/Action.svelte'
@@ -55,16 +56,20 @@
   const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()
 
+  let availableMetricsRef = { ref: undefined }
+  let graph
   let screenRef
   $: screenRef && onScreen()
   $: AutoUpdater.check($studio)
+  $: availableMetricsRef.ref = graph
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
+  setContext('availableMetricsRef', availableMetricsRef)
 </script>
 
 <main>
-  <Sidebar />
+  <Sidebar bind:graph />
   <div class="content column">
     <div class="studio-top" />
     {#if !screen}
