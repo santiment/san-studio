@@ -83,6 +83,10 @@
     --border: #e5e8f0;
   }
 
+  :global(.night-mode) .live {
+    --border: #193830;
+  }
+
   .live::before,
   .live::after {
     content: '';

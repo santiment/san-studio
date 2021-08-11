@@ -39,7 +39,9 @@
         getCandlesPeriodMinInterval(new Date(from), new Date(to)),
       )
     } else {
-      promise = getMetricMinInterval(metric)
+      promise = metric.minInterval
+        ? Promise.resolve(metric.minInterval)
+        : getMetricMinInterval(metric)
     }
 
     promise.then(getIntervals).then((metricIntervals) => {

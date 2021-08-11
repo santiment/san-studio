@@ -14,19 +14,20 @@
   import { newExpessionMetric, checkIsExpressionValid } from './utils'
 
   export let DialogPromise: DialogController
-  export let metrics
+  export let metric
+  export let metrics = metric && metric.baseMetrics
 
-  let label = ''
-  let expression = 'x1 + x2'
+  let label = metric ? metric.label : ''
+  let expression = metric ? metric.expression : 'x1 + x2'
   let isValidExpression = true
   let isLabelInputDirty = false
   let isExpressionDirty = false
   let closeDialog
 
   $: checkExpression(metrics, expression)
-  $: metric = newExpessionMetric(metrics, expression, label)
+  $: expressionMetric = newExpessionMetric(metrics, expression, label)
   $: isValid = isValidExpression && label
-  $: colors = { [metric.key]: '#14c393' }
+  $: colors = { [expressionMetric.key]: '#14c393' }
   $: if (isLabelInputDirty || isExpressionDirty) {
     DialogPromise.locking = DialogLock.WARN
   }
@@ -40,7 +41,7 @@
   }
 
   function onCombineClick() {
-    DialogPromise.resolve(metric)
+    DialogPromise.resolve(expressionMetric)
     closeDialog()
   }
 </script>
@@ -48,11 +49,11 @@
 <Dialog
   {...$$props}
   bind:closeDialog
-  title="Combine metrics"
+  title={metric ? 'Edit combined metric' : 'Combine metrics'}
   class="$style.dialog">
   <div class="dialog-body">
     <div class="caption">Metrics</div>
-    <div class="row">
+    <div class="row metrics">
       {#each metrics as metric, i}
         <div class="border metric">
           <span class="var">x{i + 1}</span>
@@ -67,7 +68,7 @@
       type="text"
       bind:value={label}
       placeholder="Combined metric"
-      on:focus={() => (isLabelInputDirty = true)}
+      on:blur={() => (isLabelInputDirty = true)}
       class:invalid={isLabelInputDirty && !label.trim()} />
 
     <div class="caption mrg-l mrg--t">Expression</div>
@@ -75,12 +76,12 @@
       class="border fluid"
       type="text"
       bind:value={expression}
-      on:focus={() => (isExpressionDirty = true)}
+      on:blur={() => (isExpressionDirty = true)}
       class:invalid={!isValidExpression} />
 
     <div class="caption mrg-l mrg--t">Preview</div>
     <div class="border">
-      <Chart metrics={[metric]} {colors} />
+      <Chart metrics={[expressionMetric]} {colors} />
     </div>
 
     <div class="row mrg-l mrg--t v-center">
@@ -88,7 +89,7 @@
         class="btn btn-1 btn--green mrg-a mrg--l"
         class:disabled={!isValid}
         on:click={onCombineClick}>
-        Combine
+        {metric ? 'Edit' : 'Combine'}
       </div>
       <div class="btn btn-1 border mrg-l mrg--l cancel" on:click={closeDialog}>
         Cancel
@@ -112,9 +113,15 @@
     margin-bottom: 4px;
   }
 
+  .metrics {
+    flex-wrap: wrap;
+    margin-left: -8px;
+    margin-bottom: -8px;
+  }
+
   .metric {
     padding: 5px;
-    margin-right: 8px;
+    margin: 0 0 8px 8px;
   }
 
   .var {

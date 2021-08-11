@@ -3,6 +3,7 @@
   import Tooltip from 'webkit/ui/Tooltip.svelte'
 
   export let isList = true
+  export let onClick
 
   let optionsNode
   $: if (optionsNode) {
@@ -15,7 +16,10 @@
 </script>
 
 <Tooltip on="click" duration={0} align="center">
-  <div slot="trigger" class="setting row v-center mrg-l mrg--l btn">
+  <div
+    slot="trigger"
+    class="setting row v-center mrg-l mrg--l btn"
+    on:click={onClick}>
     <slot />
     <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>

@@ -11,6 +11,7 @@
   import IndicatorSetting from './IndicatorSetting/index.svelte'
   import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
+  import ExpressionSetting from './ExpressionSetting.svelte'
 
   const { isEmbedded } = getAdapterController()
 
@@ -39,7 +40,7 @@
     {/if}
     {#if isNotIndicator && !isEmbedded}
       <IntervalSetting {metric} />
-      {#if getBase(metric) !== Metric.dev_activity}
+      {#if getBase(metric) !== Metric.dev_activity && !metric.baseMetrics}
         <IndicatorSetting {metric} />
       {/if}
     {/if}
@@ -47,6 +48,9 @@
       <SmoothingSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
+    {#if metric.expression}
+      <ExpressionSetting {metric} />
+    {/if}
   </div>
 {/key}
 

@@ -11,7 +11,7 @@ export type SelectedMetrics = {
   has: (item: Studio.Metric) => boolean
 }
 export const selectedMetrics = (() => {
-  const metricsSet = new Set<Studio.Metric>()
+  let metricsSet = new Set<Studio.Metric>()
   const subwidgetsSet = new Set<any>()
   const notablesSet = new Set<any>()
   const store: SelectedMetrics = {
@@ -36,7 +36,7 @@ export const selectedMetrics = (() => {
   return {
     subscribe,
     set(metrics: Studio.Metric[]) {
-      metricsSet.clear()
+      metricsSet = new Set(metrics)
       store.items = metrics
       set(store)
     },

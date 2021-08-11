@@ -5,24 +5,36 @@
   import MetricButton from '@/MetricButton.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
 
+  const noExpressionMetricsFilter = ({ expression }) => !expression
+  const expressionMetricsFilter = ({ expression }) => expression
+
   $: ({ items: metrics, subwidgets } = $selectedMetrics)
   $: items = metrics.concat(subwidgets)
+  $: baseMetrics = metrics.filter(noExpressionMetricsFilter)
 
   function onCombineClick() {
-    showCombineDialog({ metrics }).then((metric) =>
-      selectedMetrics.set([metric]),
-    )
+    const expressionMetrics = metrics.filter(expressionMetricsFilter)
+
+    showCombineDialog({
+      metrics: baseMetrics,
+    }).then((metric) => {
+      if (!metric) return
+
+      selectedMetrics.set(expressionMetrics.concat(metric))
+    })
   }
 </script>
 
-<div class="stack" transition:fly={{ duration: 250, x: -100 }}>
+<div class="stack row v-center" transition:fly={{ duration: 250, x: -100 }}>
   {#if items.length}
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
 
-      <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>
-        Combine
-      </div>
+      {#if baseMetrics.length > 1}
+        <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>
+          Combine
+        </div>
+      {/if}
 
       <Svg
         id="cross"
@@ -51,6 +63,7 @@
     left: 16px;
     z-index: 99;
     user-select: none;
+    min-height: 40px;
   }
   .stack,
   .metrics {
@@ -116,7 +129,7 @@
   .combine {
     position: relative;
     z-index: 10;
-    padding: 2px 7px;
+    padding: 1px 6px;
   }
 
   .combine:hover {
