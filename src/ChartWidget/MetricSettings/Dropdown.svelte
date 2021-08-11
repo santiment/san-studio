@@ -3,7 +3,7 @@
   import Tooltip from 'webkit/ui/Tooltip.svelte'
 
   export let isList = true
-  export let onClick
+  export let onClick = undefined
 
   let optionsNode
   $: if (optionsNode) {

@@ -68,3 +68,8 @@ namespace Studio {
   type MetricSettings =
     import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
+
+declare module 'mathjs/number' {
+  export const create = import('mathjs').create
+  export const all = import('mathjs').all
+}

@@ -56,7 +56,9 @@ const COMBINED_KEY = 'COMBINED_KEY'
 function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   const { key, baseMetrics, expression } = metric
 
-  const minIntervalPromise = Promise.all(baseMetrics.map(getMetricMinInterval))
+  const minIntervalPromise = Promise.all<string>(
+    baseMetrics.map(getMetricMinInterval),
+  )
     .then(getCommonMinInterval)
     .then((minInterval) => (metric.minInterval = minInterval))
 
@@ -77,7 +79,7 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
       .then(dataAccessor),
   )
 
-  return Promise.all(queries).then((allData) => {
+  return Promise.all<any[]>(queries).then((allData) => {
     const { offsets, commonLength } = findBoundaries(allData)
     const result = new Array(commonLength)
 

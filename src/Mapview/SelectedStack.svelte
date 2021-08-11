@@ -2,6 +2,7 @@
   import { fly } from 'svelte/transition'
   import Svg from 'webkit/ui/Svg.svelte'
   import { selectedMetrics } from '@/stores/selector'
+  import { globals } from '@/stores/globals'
   import MetricButton from '@/MetricButton.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
 
@@ -30,7 +31,7 @@
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
 
-      {#if baseMetrics.length > 1}
+      {#if $globals.isBeta && baseMetrics.length > 1}
         <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>
           Combine
         </div>
