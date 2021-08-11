@@ -124,6 +124,7 @@
 
   input {
     padding: 5px 8px;
+    height: 32px;
   }
 
   .caption {

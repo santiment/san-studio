@@ -60,7 +60,7 @@
   .add {
     padding: 5px 7px;
     margin: 0 0 8px 8px;
-    fill: var(--waterloo);
+    --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
   .add.active {
