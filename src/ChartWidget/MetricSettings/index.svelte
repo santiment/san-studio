@@ -2,6 +2,7 @@
   import { Metric } from '@/metrics'
   import { SocialMetric } from '@/metrics/_social'
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
@@ -48,7 +49,7 @@
       <SmoothingSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
-    {#if metric.expression}
+    {#if $globals.isBeta && metric.expression}
       <ExpressionSetting {metric} />
     {/if}
   </div>

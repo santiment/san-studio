@@ -1,5 +1,5 @@
 import type { CachePolicy } from 'webkit/api/cache'
-import { create, all } from 'mathjs/number'
+import { create, all } from 'mathjs/lib/esm/number'
 import { getIntervalMilliseconds, normalizeInterval } from '@/utils/intervals'
 import { dataAccessor } from '@/api/timeseries'
 import { queryMetric } from '@/api/timeseries/queries'

@@ -69,7 +69,7 @@ namespace Studio {
     import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
 
-declare module 'mathjs/number' {
+declare module 'mathjs/lib/esm/number' {
   export const create = import('mathjs').create
   export const all = import('mathjs').all
 }
