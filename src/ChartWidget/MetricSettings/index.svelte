@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Metric } from '@/metrics'
   import { SocialMetric } from '@/metrics/_social'
-  import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import NodeSetting from './NodeSetting.svelte'
@@ -13,6 +12,8 @@
   import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
   import ExpressionSetting from './ExpressionSetting.svelte'
+  import TopHoldersSetting from './TopHoldersSetting.svelte'
+  import { TOP_HOLDERS } from './settings'
 
   const { isEmbedded } = getAdapterController()
 
@@ -40,6 +41,9 @@
     {/if}
     {#if isNotIndicator && SocialMetric[getBase(metric).key]}
       <SmoothingSetting {metric} />
+    {/if}
+    {#if TOP_HOLDERS.has(metric)}
+      <TopHoldersSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
     {#if $globals.isBeta && metric.expression}
