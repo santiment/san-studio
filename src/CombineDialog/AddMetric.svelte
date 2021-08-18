@@ -12,6 +12,7 @@
 
   let isOpened
   let input = ''
+  let inputRef
 
   $: loweredInput = input.toLowerCase()
   $: metricsSet = new Set(metrics)
@@ -19,6 +20,11 @@
     ? filterSelectorGraph(availableMetricsGraph, loweredInput)
     : availableMetricsGraph
   $: if (!isOpened) input = ''
+
+  function onSelect(metric) {
+    onMetricSelect(metric)
+    inputRef?.focus()
+  }
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -35,6 +41,7 @@
 
   <svelte:fragment slot="tooltip">
     <input
+      bind:this={inputRef}
       autofocus
       class="border fluid mrg-s mrg--b"
       name=""
@@ -44,9 +51,7 @@
       {#each categories as category}
         {#each filteredGraph[category] as item}
           {#if item.selectorType === undefined && !metricsSet.has(item)}
-            <div
-              class="item btn btn--ghost"
-              on:click={() => onMetricSelect(item)}>
+            <div class="item btn btn--ghost" on:click={() => onSelect(item)}>
               {item.label}
             </div>
           {/if}

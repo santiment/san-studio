@@ -29,6 +29,7 @@
 
   export let graph
 
+  let searchRef
   let input = ''
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
@@ -74,6 +75,7 @@
     if (checkIsMapviewDisabled?.()) return
 
     NodeController(item, e, History)
+    searchRef?.focus()
   }
 </script>
 
@@ -84,6 +86,7 @@
     <div class="input border mrg-s mrg--t row v-center fluid">
       <Svg id="search" w="12" class="$style.search" />
       <input
+        bind:this={searchRef}
         name=""
         type="text"
         on:input={onInput}
