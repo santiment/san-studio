@@ -13,7 +13,14 @@
   import { DialogLock } from 'webkit/ui/Dialog/dialogs'
   import Chart from './Chart.svelte'
   import AddMetric from './AddMetric.svelte'
-  import { newExpessionMetric, checkIsExpressionValid } from './utils'
+  import {
+    importMath,
+    newExpessionMetric,
+    checkIsExpressionValid,
+  } from './utils'
+
+  // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
+  importMath()
 
   export let DialogPromise: DialogController
   export let metric

@@ -1,11 +1,15 @@
 import type { CachePolicy } from 'webkit/api/cache'
-import { create, all } from 'mathjs/lib/esm/number'
 import { getIntervalMilliseconds, normalizeInterval } from '@/utils/intervals'
 import { dataAccessor } from '@/api/timeseries'
 import { queryMetric } from '@/api/timeseries/queries'
 import { getMetricMinInterval } from '@/api/metrics/restrictions'
 
-const math = create(all)
+let math = { evaluate: (expression: string, scope: any) => {} }
+export function importMath() {
+  return import('mathjs/lib/esm/number').then(
+    ({ create, all }) => (math = create(all)),
+  )
+}
 
 export function checkIsExpressionValid(metrics: any[], expression: string) {
   try {
