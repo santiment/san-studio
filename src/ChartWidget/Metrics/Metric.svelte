@@ -61,7 +61,7 @@
     onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
     ticker={$studio.ticker}
     active={isMenuOpened}
-    highlight={isSettingsOpened}
+    highlight={isSettingsOpened && !isPresenterMode}
     on:click={(e) => onClick(metric, e)}
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}>

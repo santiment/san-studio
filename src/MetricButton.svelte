@@ -13,9 +13,19 @@
   export let onDelete = undefined
   export let node = undefined
 
-  $: color =
-    colors && `--color:${colors[metric.key]};--h-color:${colors[metric.key]}11`
+  $: color = colors && getColor(metric, colors, highlight)
   $: label = (ticker && metric.getLabel?.(ticker)) || metric.label
+
+  function getColor({ key }: Studio.Metric, colors, highlight = false) {
+    const color = colors[key]
+    let style = '--color:' + color
+
+    if (highlight && color.length < 8) {
+      style += `;--h-color:${color}11;---border:${color}55`
+    }
+
+    return style
+  }
 </script>
 
 <div
@@ -77,7 +87,7 @@
 
   .active,
   .metric:hover {
-    ---border: var(--green);
+    ---border: var(--color) !important;
   }
 
   :global(.MetricButton__btn) {
