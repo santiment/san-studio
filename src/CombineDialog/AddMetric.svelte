@@ -81,6 +81,7 @@
 
   input {
     padding: 5px 8px;
+    color: var(--black);
   }
 
   .items {
