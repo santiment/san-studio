@@ -18,20 +18,13 @@
 
   export let metric: Studio.Metric
 
-  $: ticker = $studio.ticker
   $: isNotIndicator = !metric.indicator
-  $: label =
-    metric.project || metric.noProject
-      ? metric.label
-      : metric.getLabel?.(ticker) || `${metric.label} (${ticker})`
 
   const getBase = (metric: Studio.Metric) => metric.base || metric
 </script>
 
 {#key metric.key}
   <div class="row mrg-xs mrg--b caption txt-m v-center">
-    {label}:
-
     {#if isNotIndicator}
       <NodeSetting {metric} />
     {/if}
@@ -58,5 +51,6 @@
 <style>
   div {
     flex-wrap: wrap;
+    margin-left: -16px;
   }
 </style>

@@ -6,13 +6,15 @@
   export let metric: Studio.Metric
   export let ticker: string | undefined = undefined
   export let active = false
+  export let highlight = false
   export let error: string | undefined = undefined
   export let colors = undefined
   export let isLoading = false
   export let onDelete = undefined
   export let node = undefined
 
-  $: color = colors && `--color: ${colors[metric.key]}`
+  $: color =
+    colors && `--color:${colors[metric.key]};--h-color:${colors[metric.key]}11`
   $: label = (ticker && metric.getLabel?.(ticker)) || metric.label
 </script>
 
@@ -21,6 +23,7 @@
   class="metric row v-center {className}"
   class:active
   class:error
+  class:highlight
   style={color}
   on:click
   on:mouseenter
@@ -90,6 +93,10 @@
 
   .error {
     ---border: var(--red) !important;
+  }
+
+  .highlight {
+    background: var(--h-color);
   }
 
   .delete {
