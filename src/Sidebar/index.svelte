@@ -3,6 +3,7 @@
   import { getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { queryProjectMetrics } from '@/api/metrics'
   import {
     getMetricsSelectorGraph,
@@ -42,7 +43,10 @@
   $: LockedAsset.set($studio)
   $: ({ slug } = $LockedAsset)
   $: categories = Object.keys(graph) as MetricCategory[]
-  $: graph = getMetricsSelectorGraph(metrics, $LockedAsset)
+  $: graph = getMetricsSelectorGraph(
+    metrics,
+    Object.assign({}, $globals, $LockedAsset),
+  )
   $: loweredInput = input.toLowerCase()
   $: filteredGraph = loweredInput
     ? filterSelectorGraph(graph, loweredInput)

@@ -13,6 +13,7 @@
   import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
+  import Embed from './Embed.svelte'
   import { downloadPng } from './downloadPng'
 
   const History = getHistoryContext()
@@ -139,6 +140,8 @@
       on:click={() => onDownload(downloadPng)}>
       <Svg id="download" w="17" />
     </div>
+
+    <Embed />
 
     <OptionsMenu
       bind:onDownload

@@ -45,6 +45,14 @@ const ExchangesMetric = each(
     active_withdrawals_5m: {
       label: 'Active Withdrawals',
     },
+    usdt_bnb_funding_rates: {
+      label: 'Binance Exchange Funding Rates (USDT)',
+      checkIsVisible: ({ isBeta }) => isBeta,
+    },
+    busd_bnb_funding_rates: {
+      label: 'Binance Exchange Funding Rates (BUSD)',
+      checkIsVisible: ({ isBeta }) => isBeta,
+    },
   },
   (metric: Studio.Metric) => (metric.group = 'Exchanges'),
 )
