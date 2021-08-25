@@ -82,15 +82,15 @@ function parseMergedMetric(metricKey: string) {
 }
 
 export function parseIndicators(
-  indicators: undefined | string[][],
+  indicators: undefined | [string, string[]][],
   metrics: string[],
   KnownMetric: KeyToMetric,
 ) {
   const MetricIndicators = {}
   const values = indicators || []
-  values.forEach((metricIndicators, i) => {
+  values.forEach(([key, metricIndicators]) => {
     if (!metricIndicators) return
-    const metricKey = metrics[i]
+    const metricKey = metrics[key] || key
     const metric = getMetric(metricKey)
     if (!metric) return
 

@@ -78,15 +78,25 @@ export function shareMetricSettings(
   })
 }
 
+export function getKey(metricKey: string, metricAlias: MetricAlias) {
+  const alias = metricAlias[metricKey]
+  return alias !== undefined ? alias : metricKey
+}
+
 export function shareIndicators(
   indicators: { [metricKey: string]: Set<Metric> },
   metricAlias: MetricAlias,
-) {
-  return eachAlias(Object.keys(indicators), metricAlias, (key) => {
-    const value = indicators[key]
-    if (value.size === 0) return
-    return Array.from(value).map(keyAccessor)
-  })
+): [string, string[]][] {
+  return Object.keys(indicators)
+    .map((metricKey) => {
+      const value = indicators[metricKey]
+      if (value.size === 0) return
+      return [
+        getKey(metricKey, metricAlias),
+        Array.from(value).map(keyAccessor),
+      ]
+    })
+    .filter(Boolean) as [string, string[]][]
 }
 
 export function shareCombinedMetrics(metrics: Metric[]) {
