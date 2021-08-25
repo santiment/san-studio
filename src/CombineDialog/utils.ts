@@ -58,6 +58,7 @@ function getCommonMinInterval(intervals: string[]): string {
 
 const COMBINED_KEY = 'COMBINED_KEY'
 function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
+  const mathPromise = importMath()
   const { key, baseMetrics, expression } = metric
 
   const minIntervalPromise = Promise.all<string>(
@@ -83,24 +84,26 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
       .then(dataAccessor),
   )
 
-  return Promise.all<any[]>(queries).then((allData) => {
-    const { offsets, commonLength } = findBoundaries(allData)
-    const result = new Array(commonLength)
+  return mathPromise
+    .then(() => Promise.all<any[]>(queries))
+    .then((allData) => {
+      const { offsets, commonLength } = findBoundaries(allData)
+      const result = new Array(commonLength)
 
-    for (let i = 0; i < commonLength; i++) {
-      const scope = {}
-      for (let j = 0, jLen = allData.length; j < jLen; j++) {
-        scope['x' + (j + 1)] = allData[j][offsets[j] + i][COMBINED_KEY]
+      for (let i = 0; i < commonLength; i++) {
+        const scope = {}
+        for (let j = 0, jLen = allData.length; j < jLen; j++) {
+          scope['x' + (j + 1)] = allData[j][offsets[j] + i][COMBINED_KEY]
+        }
+
+        result[i] = {
+          datetime: allData[0][offsets[0] + i].datetime,
+          [key]: math.evaluate(expression, scope),
+        }
       }
 
-      result[i] = {
-        datetime: allData[0][offsets[0] + i].datetime,
-        [key]: math.evaluate(expression, scope),
-      }
-    }
-
-    return result
-  })
+      return result
+    })
 }
 
 function findBoundaries(allData: any[][]) {
