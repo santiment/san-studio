@@ -11,7 +11,11 @@
   import MetricSettingsRow from './MetricSettings/index.svelte'
   import { initWidget, initWidgetContext, getOnLoadContext } from './context'
 
-  const { onWidgetInit, isOnlyChartEmbedded } = getAdapterController()
+  const {
+    onWidgetInit,
+    isWithMetricSettings = true,
+    isOnlyChartEmbedded,
+  } = getAdapterController()
   const History = getHistoryContext()
 
   export let widget: Studio.ChartWidget
@@ -159,7 +163,7 @@
       {onMetricLock}
       {onMetricSettings} />
 
-    {#if isOnlyChartEmbedded !== true && settingsOpenedMetric && $globals.isPresenterMode === false}
+    {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />
     {/if}
 

@@ -12,7 +12,7 @@
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
 
-  const { isEmbedded } = getAdapterController()
+  const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
   const { Metrics, MetricsSignals } = getWidget()
 
   export let metric: Studio.Metric
@@ -61,13 +61,17 @@
     onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
     ticker={$studio.ticker}
     active={isMenuOpened}
-    highlight={isSettingsOpened && !isPresenterMode}
+    highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
     on:click={(e) => onClick(metric, e)}
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}>
     {#if !metric.noProject}
       {#if isLocked}
-        <div class="locked row hv-center"><Svg id="locked-small" w="8" /></div>
+        {#if !isEmbedded}
+          <div class="locked row hv-center">
+            <Svg id="locked-small" w="8" />
+          </div>
+        {/if}
       {:else if !metric.indicator}
         ({$studio.ticker})
       {/if}

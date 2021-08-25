@@ -11,6 +11,7 @@
   let copyLabel = 'Copy code'
 
   // prettier-ignore
+  // @ts-ignore
   $: code = (widgets, width, height, isNightMode, isWithMetricSettings, isCartesianGrid, getCode())
 
   function getCode() {
@@ -21,7 +22,7 @@
         const qs = shareEmbeded(widget, settings, options)
         const label = getChartWidgetLabel(widget, settings)
 
-        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="https://app.santiment.net/__embed?${qs}"></iframe>`
+        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="${window.location.origin}/__chart?${qs}"></iframe>`
       })
       .join('\n\n')
   }

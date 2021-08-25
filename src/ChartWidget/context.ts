@@ -44,7 +44,7 @@ export function initWidget(widget: any) {
     widget.ChartDrawer = newChartDrawerStore(widget.drawings)
   if (!widget.ChartColors)
     widget.ChartColors = newChartColorsStore(widget.colors)
-  if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore()
+  if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore(widget)
   if (!widget.ChartMetricDisplays)
     widget.ChartMetricDisplays = newMetricDisplayersStore()
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)

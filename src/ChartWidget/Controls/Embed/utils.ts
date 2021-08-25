@@ -9,6 +9,16 @@ import {
   shareIndicators,
   shareCombinedMetrics,
 } from '@/sharing'
+import {
+  parse,
+  parseArray,
+  parseMetrics,
+  parseCombinedMetrics,
+  parseIndicators,
+  parseMergedMetrics,
+  parseMetricGraphValue,
+  parseAxesMetrics,
+} from '@/sharing/parse'
 
 const stringify = (v: any) => JSON.stringify(v)
 
@@ -56,6 +66,54 @@ export function shareEmbeded(widget, studio, options) {
   })
 
   return qs
+}
+
+const parseJSON = (value: any) => value && JSON.parse(value)
+
+export function parseQueryString(qs: string) {
+  const shared = parse(qs) as any
+  const { ps, pt, df, dt, emnm, emcg, emms } = shared
+  const { wm, wax, wc, ws, win, wcm } = shared
+
+  const KnownMetric = {}
+  const sharedMetrics = parseArray(wm)
+
+  parseCombinedMetrics(parseArray(wcm).map(parseJSON), KnownMetric)
+  const metricIndicators = parseIndicators(
+    parseArray(win).map(parseJSON),
+    sharedMetrics,
+    KnownMetric,
+  )
+  const mergedMetrics = parseMergedMetrics(sharedMetrics, KnownMetric)
+
+  const parsed = {
+    slug: ps,
+    ticker: pt,
+
+    from: df,
+    to: dt,
+
+    isNightMode: emnm ? true : false,
+    isCartesianGrid: emcg ? true : false,
+    isWithMetricSettings: emms ? true : false,
+
+    metrics: parseMetrics(sharedMetrics, KnownMetric),
+    metricIndicators,
+    mergedMetrics,
+
+    metricSettings: parseMetricGraphValue(
+      parseArray(ws).map(parseJSON),
+      sharedMetrics,
+      KnownMetric,
+    ),
+    colors: parseMetricGraphValue(parseArray(wc), sharedMetrics, KnownMetric),
+  }
+  Object.assign(
+    parsed,
+    parseAxesMetrics(parseArray(wax), sharedMetrics, KnownMetric),
+  )
+
+  return parsed
 }
 
 export function getChartWidgetLabel(widget, studio): string {

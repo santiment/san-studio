@@ -31,11 +31,11 @@
     <div class="row mrg-l mrg--b">
       <div class="column">
         <div class="caption txt-m">Width</div>
-        <input class="border" type="text" value={width} />
+        <input class="border body-3" type="text" bind:value={width} />
       </div>
       <div class="column mrg-l mrg--l">
         <div class="caption txt-m">Height</div>
-        <input class="border" type="text" value={height} />
+        <input class="border body-3" type="text" bind:value={height} />
       </div>
     </div>
 
