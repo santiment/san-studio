@@ -7,7 +7,7 @@
   import { getChartWidgetLabel } from './utils'
 
   const Widgets = getWidgets()
-  const widgets = $Widgets
+  const widgets = $Widgets.filter((widget) => !!widget.chart)
 
   export let charts
 

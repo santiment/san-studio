@@ -30,7 +30,7 @@ export function parse(
   return result
 }
 
-export const parseArray = (value?: string) => (value || '').split(';')
+export const parseArray = (value?: string) => value?.split(';') || []
 
 const METRIC_CONNECTOR = '_MC_'
 const checkIsProjectMetricKey = (key) => key.includes(METRIC_CONNECTOR)
