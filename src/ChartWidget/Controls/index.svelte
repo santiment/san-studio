@@ -141,7 +141,9 @@
       <Svg id="download" w="17" />
     </div>
 
-    <Embed />
+    {#if $globals.isBeta}
+      <Embed />
+    {/if}
 
     <OptionsMenu
       bind:onDownload

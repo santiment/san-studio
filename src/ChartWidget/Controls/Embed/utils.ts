@@ -10,6 +10,8 @@ import {
   shareCombinedMetrics,
 } from '@/sharing'
 
+const stringify = (v: any) => JSON.stringify(v)
+
 export function shareEmbeded(widget, studio, options) {
   const { slug, ticker, from, to } = studio
   const { isNightMode, isWithMetricSettings, isCartesianGrid } = options
@@ -46,14 +48,12 @@ export function shareEmbeded(widget, studio, options) {
     // widget colors
     wc: shareColors(colors, metricAlias),
     // widget settings
-    ws: shareMetricSettings(metricSettings, metricAlias).map(JSON.stringify),
+    ws: shareMetricSettings(metricSettings, metricAlias).map(stringify),
     // widget indicators
-    win: shareIndicators(metricIndicators, metricAlias).map(JSON.stringify),
+    win: shareIndicators(metricIndicators, metricAlias).map(stringify),
     // widget combined metrics
-    wcm: shareCombinedMetrics(metrics).map(JSON.stringify),
+    wcm: shareCombinedMetrics(metrics).map(stringify),
   })
-
-  console.log(keys, metricAlias, qs, decodeURIComponent(qs))
 
   return qs
 }

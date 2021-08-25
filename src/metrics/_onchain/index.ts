@@ -219,6 +219,9 @@ export const OnChainMetric = each(
         label: 'Gas Used',
         fetch: queryGasUsed,
       },
+      avg_gas_used: {
+        label: 'Average Gas Used in Gwei',
+      },
       average_fees_usd: {
         node: 'area',
         label: 'Average Fees (USD)',

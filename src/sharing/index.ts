@@ -7,7 +7,6 @@ export type CombinedMetric = Metric & {
   baseMetrics: Metric[]
 }
 
-type AliasMetric = string[]
 type MetricAlias = {
   [metricKey: string]: string
 }
@@ -21,10 +20,12 @@ export function newURLQuery(obj: {
 
   for (let key in obj) {
     const value = obj[key]
-    if (value === undefined || value === '' || value.length === 0) continue
-    searchString += `&${encodeURIComponent(key)}=${encodeURIComponent(
+    if (value === undefined || (value as string).length === 0) continue
+    const encodedValue = encodeURIComponent(
       Array.isArray(value) ? value.join(';') : value,
-    )}`
+    )
+    if (encodedValue === '') continue
+    searchString += `&${encodeURIComponent(key)}=${encodedValue}`
   }
 
   return searchString.slice(1)
