@@ -22,6 +22,7 @@
   export let metricSettings
   export let onPointClick
   export let onRangeSelect
+  export let isShiftForced = false
 
   const tooltipSynchronizer = getTooltipSynchronizer()
   const chart = getChart()
@@ -76,7 +77,7 @@
     const { x, value: datetime } = point
 
     const selectionPoint = chart.drawSelection?.(x, y, point)
-    const oldPoint = shiftKey && selectionPoint
+    const oldPoint = (shiftKey || isShiftForced) && selectionPoint
 
     drawHoverLineX(chart, x, theme.hoverLine, 5)
     drawHoverLineY(chart, y, theme.hoverLine, 0, rightAxisMargin)

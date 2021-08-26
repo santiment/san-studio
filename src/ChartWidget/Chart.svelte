@@ -24,6 +24,7 @@
 
   const widget = getWidget()
   const {
+    isEmbedded,
     onChartPointClick,
     onModRangeSelect = () => {},
   } = getAdapterController()
@@ -146,7 +147,12 @@
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes {axesMetricKeys} {metricSettings} />
   <Drawer {axesMetricKeys} metricKey={drawingKey} />
-  <Tooltip {axesMetricKeys} {metricSettings} {onPointClick} {onRangeSelect} />
+  <Tooltip
+    {axesMetricKeys}
+    {metricSettings}
+    {onPointClick}
+    {onRangeSelect}
+    isShiftForced={isEmbedded} />
 
   {#if allTimeData}
     <Brush
