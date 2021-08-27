@@ -110,6 +110,7 @@
     </div>
 
     <div class="row mrg-l mrg--t v-center">
+      <div class="btn mrg-a mrg--r">Reapply to charts</div>
       <div
         class="btn btn-1 btn--green mrg-a mrg--l"
         class:disabled={!isValid}

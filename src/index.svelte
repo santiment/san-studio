@@ -112,7 +112,7 @@
   .content {
     flex: 1 1;
     background: var(--athens);
-    padding: 20px 40px;
+    padding: 20px 27px;
     position: relative;
     min-width: 0;
   }

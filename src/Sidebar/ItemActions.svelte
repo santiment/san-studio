@@ -27,7 +27,7 @@
     const parent = node.closest('.categories')
     if (parent) top -= parent.scrollTop
 
-    return `left:${left}px;top:${top}px;--width:${
+    return `left:${left - 33}px;top:${top}px;--width:${
       width - 18
     }px;height:${height}px`
   }

@@ -20,6 +20,7 @@
   import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
   import Toggle from './Toggle.svelte'
+  import Modes from './Modes.svelte'
   import { DEFAULT_METRICS } from './defaults'
 
   const History = getHistoryContext()
@@ -30,7 +31,6 @@
 
   export let graph
 
-  let searchRef
   let input = ''
   let metrics: string[] = DEFAULT_METRICS
   let isMetricTab = true
@@ -79,18 +79,20 @@
     if (checkIsMapviewDisabled?.()) return
 
     NodeController(item, e, History)
-    searchRef?.focus()
   }
 </script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
+  <svelte:fragment slot="left">
+    <Modes />
+  </svelte:fragment>
+
   <div class="top">
     <Tabs bind:isMetricTab />
     <div class="mrg-l mrg--t sidebar-project" />
     <div class="input border mrg-s mrg--t row v-center fluid">
       <Svg id="search" w="12" class="$style.search" />
       <input
-        bind:this={searchRef}
         name=""
         type="text"
         on:input={onInput}

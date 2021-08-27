@@ -1,7 +1,6 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
   import { getSidewidget } from '@/stores/widgets'
-  import Shortcuts, { SHORTCUTS_SIDEWIDGET } from './Shortcuts.svelte'
 
   const Sidewidget = getSidewidget()
 </script>
@@ -16,11 +15,7 @@
       on:click={() => ($Sidewidget = null)} />
   </div>
 
-  <div class="studio-sidewidget row">
-    {#if $Sidewidget === SHORTCUTS_SIDEWIDGET}
-      <Shortcuts />
-    {/if}
-  </div>
+  <div class="studio-sidewidget row" />
 </div>
 
 <style>

@@ -61,7 +61,7 @@
   .stack {
     position: fixed;
     bottom: 16px;
-    left: 16px;
+    left: 32px;
     z-index: 99;
     user-select: none;
     min-height: 40px;

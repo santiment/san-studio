@@ -9,7 +9,6 @@
   import { getSidewidget } from '@/stores/widgets'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
-  import { SHORTCUTS_SIDEWIDGET } from '@/Sidewidget/Shortcuts.svelte'
   import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
@@ -127,13 +126,6 @@
   {/if}
 
   {#if !noWidgetControls}
-    <div
-      class="btn mrg-s mrg--r"
-      class:active={$Sidewidget === SHORTCUTS_SIDEWIDGET}
-      on:click={() => Sidewidget.set(SHORTCUTS_SIDEWIDGET)}>
-      <Svg id="cmd-key" w="16" />
-    </div>
-
     <div
       class="btn mrg-s mrg--r expl-tooltip"
       title="Download as PNG"
