@@ -3,6 +3,7 @@
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import { dialogs } from 'webkit/ui/Dialog'
   import HistoryAction from '@/history/Action.svelte'
+  import ProjectInfo from '@/ProjectInfo/index.svelte'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
@@ -70,29 +71,34 @@
 
 <main>
   <Sidebar bind:graph />
-  <div class="content column">
-    <div class="studio-top" />
-    {#if !screen}
-      <div class="border header panel row" />
+  <div class="column">
+    <div class="studio-top">
+      <ProjectInfo />
+    </div>
 
-      <div class="row main" bind:this={screenRef}>
-        <div class="widgets">
-          {#each $Widgets as widget (widget.id)}
-            <Widget {widget} {Widgets} />
-          {/each}
+    <div class="column content">
+      {#if !screen}
+        <div class="border header panel row" />
+
+        <div class="row main" bind:this={screenRef}>
+          <div class="widgets">
+            {#each $Widgets as widget (widget.id)}
+              <Widget {widget} {Widgets} />
+            {/each}
+          </div>
+
+          {#if $Sidewidget} <SidewidgetComponent /> {/if}
         </div>
+      {:else}
+        {#key screen}
+          <div class="main studio-screen" bind:this={screenRef} />
+        {/key}
+      {/if}
 
-        {#if $Sidewidget} <SidewidgetComponent /> {/if}
-      </div>
-    {:else}
-      {#key screen}
-        <div class="main studio-screen" bind:this={screenRef} />
-      {/key}
-    {/if}
+      <Mapview />
 
-    <Mapview />
-
-    <HistoryAction {HistoryEmitter} />
+      <HistoryAction {HistoryEmitter} />
+    </div>
   </div>
 </main>
 
@@ -109,12 +115,20 @@
     position: relative;
   }
 
-  .content {
+  .column {
     flex: 1 1;
+    min-width: 0;
+  }
+
+  .content {
     background: var(--athens);
     padding: 20px 27px;
     position: relative;
-    min-width: 0;
+    min-height: 100vh;
+  }
+
+  .studio-top {
+    padding: 20px 27px;
   }
 
   .panel {
