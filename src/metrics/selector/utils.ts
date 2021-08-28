@@ -63,9 +63,10 @@ export function filterSelectorGraph(graph: SelectorGraph, searchTerm: string) {
     const { length } = items
     for (let i = 0; i < length; i++) {
       const item = items[i]
-      const { key, label, submetricOf } = item
+      const { key, submetricOf } = item
 
-      if (checkIsFilterMatch(searchTerm, item)) {
+      const predicate = (word: string) => checkIsFilterMatch(word, item)
+      if (searchTerm.split(' ').every(predicate)) {
         if (submetricOf && IsRootPlaced[submetricOf.key] === undefined) {
           filteredItems[j++] = submetricOf
           IsRootPlaced[submetricOf.key] = true
