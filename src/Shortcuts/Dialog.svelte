@@ -18,6 +18,8 @@
   }
 
   const GENERAL = [
+    newShortcut(['/'], "Focus on navbar's search"),
+
     newShortcut(['Esc'], 'Close a dialog'),
 
     newShortcut(['Shift', '?'], 'Open shortcuts info'),

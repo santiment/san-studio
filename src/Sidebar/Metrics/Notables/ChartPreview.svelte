@@ -1,9 +1,9 @@
 <script lang="ts">
+  import { getTimeseries } from '@/api/timeseries'
+  import { querySignalTimeseries } from '@/api/signals'
   import Chart from '@/Chart/index.svelte'
   import Areas from '@/Chart/Areas.svelte'
   import ReferenceDots from '@/Chart/ReferenceDots.svelte'
-  import { getTimeseries } from '@/api/timeseries'
-  import { querySignalTimeseries } from '@/api/signals'
 
   export let key
   export let metric

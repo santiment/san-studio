@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import Category from '@/Sidebar/Category.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'
+  import Category from '@/Sidebar/Category.svelte'
   import { getInsightsGraph } from './utils'
 
   const { InsightsContextStore } = getAdapterController()

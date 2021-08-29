@@ -13,9 +13,7 @@
 
   export let item: any
   export let node: any
-  export let onItemClick, onItemEnter, onItemLeave
 
-  let actionsNode
   let active = false
 
   $: style = node ? getActionsStyles() : ''
@@ -40,25 +38,13 @@
       History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
 
       const { offsetTop } = node
-      const _node = node
-      const _item = item
-      const parent = node.closest('.category')
-
+      const category = node.closest('.category')
       return tick().then(() => {
-        const categoriesNode = actionsNode.parentNode
-        const { nextElementSibling } = actionsNode
-
-        const favoritesNode =
-          nextElementSibling?.classList.contains('favorites') &&
-          nextElementSibling
-
-        if (favoritesNode === parent) return onItemLeave()
-
-        if (categoriesNode.scrollTop < favoritesNode?.offsetHeight) {
-          categoriesNode.scrollTop += node.offsetTop - offsetTop
+        const container = category.parentNode
+        if (container.scrollTop < container.firstElementChild?.offsetHeight) {
+          container.scrollTop += node.offsetTop - offsetTop
+          style = getActionsStyles()
         }
-
-        requestAnimationFrame(() => onItemEnter(_node, _item))
       })
     }
     if (onAnonFavoriteClick) onAnonFavoriteClick()
@@ -68,12 +54,12 @@
 {#if style}
   <div
     {style}
-    bind:this={actionsNode}
     class:active
     class="sidebar-item sidebar-menu menu row v-center"
-    on:click={(e) => onItemClick(e, item)}
-    on:mouseleave={onItemLeave}
-    on:mousewheel={onItemLeave}>
+    on:click
+    on:mouseenter
+    on:mouseleave
+    on:mousewheel>
     <span class="row v-center">
       <ItemLabel {item} bind:active />
     </span>

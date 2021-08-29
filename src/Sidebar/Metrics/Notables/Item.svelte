@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Item from '../Item.svelte'
+  import Item from '@/Sidebar/Item.svelte'
 
   export let notable
-  export let onItemClick, onItemEnter
+  export let onItemClick, onItemEnter, onLeave
 </script>
 
 <Item
@@ -10,6 +10,6 @@
   isShowingSubitems={false}
   class="sidebar-menu"
   on:mousewheel
-  on:mouseleave
+  {onLeave}
   on:click={(e) => onItemClick(e, notable)}
-  onItemEnter={(node) => onItemEnter(node, notable)} />
+  onItemEnter={(e) => onItemEnter(e.currentTarget, notable)} />

@@ -12,16 +12,15 @@
   import { getSavedValue, saveValue } from '@/utils/localStorage'
   import { getNodeController } from '@/stores/selector'
   import { getAdapterController } from '@/adapter/context'
+  import { DEFAULT_METRICS } from './defaults'
   import Sidebar from './Sidebar.svelte'
-  import Insights from './Insights/index.svelte'
   import Category from './Category.svelte'
-  import Favorites from './Favorites.svelte'
-  import Notables from './Notables/index.svelte'
-  import ItemActions from './ItemActions.svelte'
   import Tabs from './Tabs.svelte'
   import Toggle from './Toggle.svelte'
   import Modes from './Modes.svelte'
-  import { DEFAULT_METRICS } from './defaults'
+  import Insights from './Metrics/Insights/index.svelte'
+  import Favorites from './Metrics/Favorites.svelte'
+  import Notables from './Metrics/Notables/index.svelte'
 
   const History = getHistoryContext()
   const NodeController = getNodeController()
@@ -63,21 +62,8 @@
     }, 200)
   }
 
-  let hoveredItem = null
-  let hoveredNode = null
-  function onItemEnter(node, metric) {
-    hoveredItem = metric
-    hoveredNode = node
-  }
-
-  function onItemLeave() {
-    hoveredItem = null
-    hoveredNode = null
-  }
-
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return
-
     NodeController(item, e, History)
   }
 </script>
@@ -99,22 +85,16 @@
         placeholder="Search metrics" />
     </div>
   </div>
-  <div class="categories" on:scroll={onItemLeave} on:mouseleave={onItemLeave}>
+  <div class="categories">
     {#if isMetricTab}
-      <ItemActions
-        node={hoveredNode}
-        item={hoveredItem}
-        {onItemClick}
-        {onItemEnter}
-        {onItemLeave} />
-      <Favorites {isFiltering} {onItemEnter} searchTerm={loweredInput} />
+      <Favorites {isFiltering} searchTerm={loweredInput} />
       <Notables searchTerm={loweredInput} {isFiltering} {onItemClick} />
       {#each categories as category}
         <Category
           {category}
           {isFiltering}
-          {onItemEnter}
-          items={filteredGraph[category]} />
+          items={filteredGraph[category]}
+          {onItemClick} />
       {/each}
     {:else}
       <Insights />

@@ -9,7 +9,6 @@
   export let items: Studio.SelectorNode[] = []
   export let isFiltering: boolean
   export let VisibleGroup: { [index: string]: boolean } = {}
-  export let onItemEnter = undefined
   export let onItemClick = undefined
   export let isOpened = undefined
 
@@ -63,8 +62,7 @@
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
               <Item
                 item={metric}
-                {onItemEnter}
-                on:click={onItemClick && onItemClick(metric)} />
+                on:click={(e) => onItemClick && onItemClick(e, metric)} />
             {/if}
           {/each}
         {/if}

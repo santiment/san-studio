@@ -3,8 +3,8 @@
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { SelectorNode } from '@/metrics/selector'
   import { checkIsFilterMatch } from '@/metrics/selector/utils'
-  import Category from './Category.svelte'
-  import Item from './Item.svelte'
+  import Category from '@/Sidebar/Category.svelte'
+  import Item from '@/Sidebar/Item.svelte'
 
   export let searchTerm = ''
   export let isFiltering = false

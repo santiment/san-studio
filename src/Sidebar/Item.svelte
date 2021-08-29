@@ -1,14 +1,26 @@
 <script lang="ts">
   import ItemLabel from './ItemLabel.svelte'
+  import ItemActions from './ItemActions.svelte'
 
   let className = ''
   export { className as class }
   export let item: any
   export let isShowingSubitems = true
+  export let HoverItem = ItemActions
   export let onItemEnter = undefined
+  export let onLeave = undefined
 
   let active
-  const onMouseEnter = ({ currentTarget }) => onItemEnter(currentTarget, item)
+  let hovered = null
+
+  const clear = () => (console.log('LEAVING'), (hovered = null), onLeave?.())
+  function onMouseEnter({ currentTarget }) {
+    hovered = currentTarget
+    setTimeout(
+      () => currentTarget.nextElementSibling?.matches(':hover') || clear(),
+      10,
+    )
+  }
 </script>
 
 <div
@@ -16,12 +28,21 @@
   class:pro={item.isPro}
   class:active
   class:subitem={isShowingSubitems && item.submetricOf}
-  on:mouseenter={onItemEnter && onMouseEnter}
-  on:mousewheel
-  on:mouseleave
+  on:mouseenter={onMouseEnter}
   on:click>
   <ItemLabel {item} bind:active />
 </div>
+
+{#if hovered}
+  <svelte:component
+    this={HoverItem}
+    node={hovered}
+    {item}
+    on:mouseenter={onItemEnter}
+    on:mouseleave={clear}
+    on:mousewheel={clear}
+    on:click />
+{/if}
 
 <style>
   :global(.sidebar-item) {

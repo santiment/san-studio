@@ -42,7 +42,7 @@
     color: var(--waterloo);
     fill: var(--waterloo);
     top: 64px;
-    left: -34px;
+    left: -37px;
     padding: 0 6px 7px;
     cursor: pointer;
   }
@@ -58,7 +58,7 @@
     position: absolute;
     content: '';
     z-index: -1;
-    top: 6px;
+    top: 9px;
     left: -7px;
     bottom: -1px;
     right: -7px;
