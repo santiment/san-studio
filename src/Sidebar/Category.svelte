@@ -7,10 +7,11 @@
   export { className as class }
   export let category: MetricCategory
   export let items: Studio.SelectorNode[] = []
-  export let isFiltering: boolean
+  export let HoverItem
   export let VisibleGroup: { [index: string]: boolean } = {}
-  export let onItemClick = undefined
+  export let isFiltering: boolean
   export let isOpened = undefined
+  export let onItemClick = undefined
 
   let visible = isOpened || category === MetricCategory.Financial
   $: GroupIndex = prepareGroups(items)
@@ -61,6 +62,7 @@
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
               <Item
+                {HoverItem}
                 item={metric}
                 on:click={(e) => onItemClick && onItemClick(e, metric)} />
             {/if}

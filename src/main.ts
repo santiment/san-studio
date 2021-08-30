@@ -5,7 +5,7 @@ import { newWidget } from '@/stores/widgets'
 import { studio } from '@/stores/studio'
 import { globals } from '@/stores/globals'
 import ChartWidget from '@/ChartWidget/index.svelte'
-import { newInsightsContextStore } from '@/Sidebar/Insights/context'
+import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
 
 // @ts-ignore
 window.studio = studio

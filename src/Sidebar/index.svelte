@@ -21,6 +21,7 @@
   import Insights from './Metrics/Insights/index.svelte'
   import Favorites from './Metrics/Favorites.svelte'
   import Notables from './Metrics/Notables/index.svelte'
+  import ItemActions from './ItemActions.svelte'
 
   const History = getHistoryContext()
   const NodeController = getNodeController()
@@ -94,6 +95,7 @@
           {category}
           {isFiltering}
           items={filteredGraph[category]}
+          HoverItem={ItemActions}
           {onItemClick} />
       {/each}
     {:else}

@@ -12,11 +12,13 @@
   const { onAnonFavoriteClick } = getAdapterController()
 
   export let item: any
-  export let node: any
+  export let node: HTMLElement | undefined
+  export let hoverNode: HTMLElement | undefined
 
   let active = false
 
   $: style = node ? getActionsStyles() : ''
+  $: if (hoverNode) hoverNode.setAttribute('style', style)
   $: isFavorited = item && $favoriteMetrics.has(item.key)
 
   function getActionsStyles() {
@@ -52,56 +54,23 @@
 </script>
 
 {#if style}
-  <div
-    {style}
-    class:active
-    class="sidebar-item sidebar-menu menu row v-center"
-    on:click
-    on:mouseenter
-    on:mouseleave
-    on:mousewheel>
-    <span class="row v-center">
-      <ItemLabel {item} bind:active />
-    </span>
+  <span class="row v-center">
+    <ItemLabel {item} bind:active />
+  </span>
 
-    {#key item.key}
-      <ItemDescription {item} class="$style.icon" />
-    {/key}
+  <ItemDescription {item} class="$style.icon" />
 
-    {#if item.selectorType === undefined}
-      <Svg
-        id="star{isFavorited ? '-filled' : ''}"
-        class="$style.icon $style.star mrg-m mrg--l {isFavorited
-          ? '$style.favorited'
-          : ''}"
-        on:click={onFavoriteClick} />
-    {/if}
-  </div>
+  {#if item.selectorType === undefined}
+    <Svg
+      id="star{isFavorited ? '-filled' : ''}"
+      class="$style.icon $style.star mrg-m mrg--l {isFavorited
+        ? '$style.favorited'
+        : ''}"
+      on:click={onFavoriteClick} />
+  {/if}
 {/if}
 
 <style>
-  .menu {
-    position: absolute;
-    z-index: 3;
-  }
-
-  :global(.sidebar-menu) {
-    border-radius: 4px;
-    background: var(--athens);
-  }
-  :global(.sidebar-item.sidebar-menu:hover) {
-    box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
-    --bg: var(--green-light-2);
-    --fill: var(--green);
-    color: var(--green);
-    z-index: 3;
-  }
-  :global(.sidebar-menu.active:hover) {
-    --bg: var(--red-light-1);
-    --fill: var(--red);
-    color: var(--red);
-  }
-
   span {
     width: var(--width);
   }
