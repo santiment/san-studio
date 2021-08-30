@@ -39,7 +39,7 @@
   },
   "peerDependencies": {
     "svelte": "^3.42.3",
-    "@santiment-network/chart": "^0.10.9",
+    "@santiment-network/chart": "^0.10.10",
     "san-webkit": "https://github.com/santiment/san-webkit.git#f0f1c10"
   }
 }

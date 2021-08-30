@@ -6,6 +6,7 @@
     "importsNotUsedAsValues": "remove",
     "isolatedModules": true,
     "sourceMap": true,
+    "sourceRoot": "../src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
