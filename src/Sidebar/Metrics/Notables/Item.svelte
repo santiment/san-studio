@@ -1,5 +1,6 @@
 <script lang="ts">
   import Item from '@/Sidebar/Item.svelte'
+  import HoverItem from '@/Sidebar/ItemActions.svelte'
 
   export let notable
   export let onItemClick, onItemEnter, onLeave
@@ -9,7 +10,8 @@
   item={notable.metric}
   isShowingSubitems={false}
   class="sidebar-menu"
-  on:mousewheel
+  {HoverItem}
   {onLeave}
+  on:mousewheel
   on:click={(e) => onItemClick(e, notable)}
   onItemEnter={(e) => onItemEnter(e.currentTarget, notable)} />

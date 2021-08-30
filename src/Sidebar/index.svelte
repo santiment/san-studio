@@ -88,7 +88,7 @@
   </div>
   <div class="categories">
     {#if isMetricTab}
-      <Favorites {isFiltering} searchTerm={loweredInput} />
+      <Favorites {isFiltering} searchTerm={loweredInput} {onItemClick} />
       <Notables searchTerm={loweredInput} {isFiltering} {onItemClick} />
       {#each categories as category}
         <Category
