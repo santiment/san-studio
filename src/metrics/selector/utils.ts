@@ -5,6 +5,21 @@ import { SelectorNode } from './index'
 import { Subitems, IsSubitem } from './subitems'
 import { ReplacementNode } from './replacements'
 
+function addItemToSelectorGraph(
+  graph: SelectorGraph,
+  node,
+  metricKey: string,
+  filter: (item: any) => boolean,
+) {
+  if (!filter(node)) return
+
+  const categoryItems = graph[node.category]
+  categoryItems.push(node)
+
+  const subitems = Subitems[metricKey]
+  if (subitems) categoryItems.push(...subitems.filter(filter))
+}
+
 const indexSorter = (a: string, b: string) =>
   (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
 export function getMetricsSelectorGraph(
@@ -20,6 +35,8 @@ export function getMetricsSelectorGraph(
     [MetricCategory.Indicators]: [],
   }
 
+  const filter = ({ checkIsVisible }: any) =>
+    checkIsVisible ? checkIsVisible(options) : true
   const { length } = metricKeys.sort(indexSorter)
   for (let i = 0; i < length; i++) {
     const metricKey = metricKeys[i]
@@ -28,17 +45,7 @@ export function getMetricsSelectorGraph(
       | Studio.SelectorNode
 
     if (node === undefined || IsSubitem[metricKey]) continue
-    if (node.checkIsVisible && !node.checkIsVisible(options)) continue
-
-    const categoryItems = graph[node.category]
-    categoryItems.push(node)
-
-    const subitems = Subitems[metricKey]
-    if (subitems) {
-      const filter = (node: any) =>
-        !node.checkIsVisible || node.checkIsVisible(options)
-      categoryItems.push(...subitems.filter(filter))
-    }
+    addItemToSelectorGraph(graph, node, metricKey, filter)
   }
 
   return graph
