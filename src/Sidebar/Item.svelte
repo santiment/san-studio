@@ -30,7 +30,9 @@
   class:subitem={isShowingSubitems && item.submetricOf}
   on:mouseenter={HoverItem && onMouseEnter}
   on:click>
-  <ItemLabel {item} bind:active />
+  <slot>
+    <ItemLabel {item} bind:active />
+  </slot>
 </div>
 
 {#if HoverItem && hovered}

@@ -1,3 +1,11 @@
+<script lang="ts" context="module">
+  enum Tab {
+    Metrics = 'Metrics',
+    Insights = 'Insights',
+  }
+  const TABS = [Tab.Metrics, Tab.Insights]
+</script>
+
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
   import { studio, getLockedAssetStore } from '@/stores/studio'
@@ -8,13 +16,13 @@
     getMetricsSelectorGraph,
   } from '@/metrics/selector/utils'
   import { DEFAULT_METRICS } from './defaults'
+  import HoverItem from './HoverItem.svelte'
   import Favorites from './Favorites.svelte'
   import Notables from './Notables/index.svelte'
   import Insights from './Insights/index.svelte'
   import Tabs from '../Tabs.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
-  import HoverItem from '../HoverItem.svelte'
 
   const LockedAsset = getLockedAssetStore() as any
 
@@ -22,7 +30,7 @@
 
   let metrics: string[] = DEFAULT_METRICS
   let searchTerm = ''
-  let isMetricTab = true
+  let tab = Tab.Metrics
 
   $: LockedAsset.set($studio)
   $: ({ slug } = $LockedAsset)
@@ -37,12 +45,12 @@
 </script>
 
 <div class="sidebar-header">
-  <Tabs bind:isMetricTab />
+  <Tabs tabs={TABS} bind:tab />
   <div class="mrg-l mrg--t sidebar-project" />
   <Search bind:searchTerm />
 </div>
 <div class="sidebar-content">
-  {#if isMetricTab}
+  {#if tab === Tab.Metrics}
     <Favorites {searchTerm} {isFiltering} {onItemClick} />
     <Notables {searchTerm} {isFiltering} {onItemClick} />
     {#each categories as category}

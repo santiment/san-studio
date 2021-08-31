@@ -5,7 +5,7 @@
   import { checkIsFilterMatch } from '@/metrics/selector/utils'
   import Category from '@/Sidebar/Category.svelte'
   import Item from '@/Sidebar/Item.svelte'
-  import HoverItem from '@/Sidebar/HoverItem.svelte'
+  import HoverItem from './HoverItem.svelte'
 
   export let searchTerm = ''
   export let isFiltering = false

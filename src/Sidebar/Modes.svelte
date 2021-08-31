@@ -1,3 +1,10 @@
+<script lang="ts" context="module">
+  export enum Mode {
+    Metrics = 'Metrics',
+    Layouts = 'Layouts',
+  }
+</script>
+
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { newGlobalShortcut } from 'webkit/utils/events'
@@ -7,6 +14,8 @@
     showShortcutsDialog,
   } from '@/Shortcuts/Dialog.svelte'
 
+  export let mode = Mode.Metrics
+
   function openShortcutsDialog() {
     if (dialogs.has(ShortcutsDialog)) return
     showShortcutsDialog()
@@ -14,13 +23,17 @@
 
   const onHelpClick = () => window.Intercom?.('show')
 
+  const MODES = [Mode.Metrics, Mode.Layouts]
+
   onDestroy(newGlobalShortcut('SHIFT+?', openShortcutsDialog))
 </script>
 
 <div class="nav row">
-  <div class="btn active">Metrics</div>
-  <div class="btn">Layouts</div>
-  <!-- <div class="btn">Dashboards</div> -->
+  {#each MODES as id}
+    <div class="btn" class:active={mode === id} on:click={() => (mode = id)}>
+      {id}
+    </div>
+  {/each}
 
   <div
     title="Shortcuts | Shift + ?"

@@ -5,8 +5,9 @@
   import { getAdapterController } from '@/adapter/context'
   import Sidebar from './Sidebar.svelte'
   import Toggle from './Toggle.svelte'
-  import Modes from './Modes.svelte'
+  import Modes, { Mode } from './Modes.svelte'
   import MetricsSidebar from './Metrics/Sidebar.svelte'
+  import LayoutsSidebar from './Layouts/Sidebar.svelte'
 
   const History = getHistoryContext()
   const NodeController = getNodeController()
@@ -15,6 +16,7 @@
 
   export let graph
 
+  let mode = Mode.Metrics
   let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED, true)
   let isPeeked = false
 
@@ -29,10 +31,14 @@
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
   <svelte:fragment slot="left">
-    <Modes />
+    <Modes bind:mode />
   </svelte:fragment>
 
-  <MetricsSidebar {onItemClick} />
+  {#if mode === Mode.Metrics}
+    <MetricsSidebar {onItemClick} />
+  {:else}
+    <LayoutsSidebar {onItemClick} />
+  {/if}
 
   <Toggle bind:isLocked />
 </Sidebar>

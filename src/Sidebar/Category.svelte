@@ -10,7 +10,7 @@
   export let HoverItem = undefined
   export let VisibleGroup: { [index: string]: boolean } = {}
   export let isFiltering: boolean
-  export let isOpened = undefined
+  export let isOpened = false
   export let onItemClick = undefined
 
   let visible = isOpened || category === MetricCategory.Financial
@@ -50,7 +50,7 @@
         {#if $$slots.default}
           <slot />
         {:else}
-          {#each items as metric, i (metric.key)}
+          {#each items as metric, i (metric.key || metric.id)}
             {#if GroupIndex[i]}
               <h4
                 on:click={() => toggleGroup(metric)}
