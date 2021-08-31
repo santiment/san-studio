@@ -43,11 +43,7 @@
   }
 
   function getPreviewStyles(node) {
-    const { right } = node.getBoundingClientRect()
-    let top = node.offsetTop
-    const parent = node.closest('.categories')
-    if (parent) top -= parent.scrollTop
-
+    const { top, right } = node.getBoundingClientRect()
     return `left:${right - 33}px;top:${top}px`
   }
 

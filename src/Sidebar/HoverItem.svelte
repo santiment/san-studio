@@ -24,7 +24,7 @@
   function getActionsStyles() {
     const { left, width, height } = node.getBoundingClientRect()
     let top = node.offsetTop
-    const parent = node.closest('.categories')
+    const parent = node.closest('.sidebar-content')
     if (parent) top -= parent.scrollTop
 
     return `left:${left - 33}px;top:${top}px;--width:${

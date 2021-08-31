@@ -7,7 +7,7 @@
   export { className as class }
   export let category: MetricCategory
   export let items: Studio.SelectorNode[] = []
-  export let HoverItem
+  export let HoverItem = undefined
   export let VisibleGroup: { [index: string]: boolean } = {}
   export let isFiltering: boolean
   export let isOpened = undefined

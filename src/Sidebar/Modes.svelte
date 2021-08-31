@@ -12,6 +12,8 @@
     showShortcutsDialog()
   }
 
+  const onHelpClick = () => window.Intercom?.('show')
+
   onDestroy(newGlobalShortcut('SHIFT+?', openShortcutsDialog))
 </script>
 
@@ -26,13 +28,16 @@
     on:click={showShortcutsDialog}>
     <Svg id="cmd-key" w="16" />
   </div>
-  <div class="btn">Help & Feedback</div>
+  <div class="help btn row v-center" on:click={onHelpClick}>
+    Help & Feedback
+    <Svg id="chat" w="14" h="16" class="$style.chat mrg-s mrg--t" />
+  </div>
 </div>
 
 <style>
   .nav {
     --color: var(--waterloo);
-    --color-hover: var(--green);
+    --color-hover: var(--green) !important;
     writing-mode: vertical-lr;
     border-right: 1px solid var(--porcelain);
     position: sticky;
@@ -64,5 +69,13 @@
   .expl-tooltip::before {
     writing-mode: initial;
     left: 36px;
+  }
+
+  .help {
+    --fill: var(--casper);
+    padding: 12px 5px;
+  }
+  .chat {
+    transform: rotate(90deg);
   }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Item from '@/Sidebar/Item.svelte'
-  import HoverItem from '@/Sidebar/ItemActions.svelte'
+  import HoverItem from '@/Sidebar/HoverItem.svelte'
 
   export let notable
   export let onItemClick, onItemEnter, onLeave
