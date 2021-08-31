@@ -54,6 +54,7 @@
     overflow: hidden;
     scrollbar-width: thin;
     padding-bottom: 30vh;
+    max-width: 258px;
   }
 
   :global(.sidebar-content:hover) {

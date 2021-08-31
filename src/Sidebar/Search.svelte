@@ -2,6 +2,8 @@
   import Svg from 'webkit/ui/Svg.svelte'
 
   export let searchTerm = ''
+  export let placeholder = 'Search metrics'
+
   let input = ''
   $: searchTerm = input.toLowerCase()
 
@@ -16,7 +18,7 @@
 
 <div class="border mrg-s mrg--t row v-center fluid">
   <Svg id="search" w="12" class="$style.search" />
-  <input type="text" on:input={onInput} placeholder="Search metrics" />
+  <input type="text" on:input={onInput} {placeholder} />
 </div>
 
 <style>

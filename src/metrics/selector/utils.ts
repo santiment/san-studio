@@ -53,9 +53,9 @@ export function getMetricsSelectorGraph(
 
 export const checkIsFilterMatch = (
   searchTerm: string,
-  { label, group, shorthand }: Studio.Metric,
+  { label, title, group, shorthand }: Studio.Metric,
 ) =>
-  label.toLowerCase().includes(searchTerm) ||
+  (label || title).toLowerCase().includes(searchTerm) ||
   (group && group.toLowerCase().includes(searchTerm)) ||
   (shorthand && shorthand.includes(searchTerm))
 
