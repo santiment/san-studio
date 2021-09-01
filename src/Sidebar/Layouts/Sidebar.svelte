@@ -15,6 +15,7 @@
     normalizeCategory,
     newMyLibaryGraph,
     newExploreGraph,
+    queryRecentLayouts,
   } from './utils'
   import Tabs from '../Tabs.svelte'
   import Search from '../Search.svelte'
@@ -46,6 +47,9 @@
     graph = newMyLibaryGraph()
     queryUserLayouts().then(
       (items) => checkRacing() || (graph['My layouts'] = items),
+    )
+    queryRecentLayouts().then(
+      (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
   })
 

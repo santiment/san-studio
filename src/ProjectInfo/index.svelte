@@ -49,6 +49,7 @@
       {change}%
     </div>
   </div>
+  <div class="project-actions mrg-a mrg--l" />
 </div>
 
 <style>

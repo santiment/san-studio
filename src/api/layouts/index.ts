@@ -23,6 +23,15 @@ const LAYOUT_QUERY = (id: number) => `
   }
 `
 
+const SHORT_LAYOUT_QUERY = (id: number) => `
+  {
+    chartConfiguration(id:${id}){
+			id
+			title
+    }
+  }
+`
+
 const FEATURED_LAYOUTS_QUERY = `
   {
     layouts: featuredChartConfigurations{
@@ -52,7 +61,7 @@ const LAYOUTS_QUERY = (slug: string) => `
   }
 `
 
-type Layout = { id: number; title: number }
+export type Layout = { id: number; title: number }
 type LayoutsTemplate = Query<'layouts', Layout[]>
 
 type ProjectLayout = Layout & { updatedAt: string }
@@ -111,3 +120,6 @@ export type DetailedLayout = Layout & {
 const layoutAccessor = ({ chartConfiguration }) => chartConfiguration
 export const queryLayout = (id: number): Promise<DetailedLayout> =>
   query<any>(LAYOUT_QUERY(id)).then(layoutAccessor)
+
+export const queryShortLayout = (id: number): Promise<Layout> =>
+  query<any>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)

@@ -44,13 +44,13 @@
         <div class="value mrg-m mrg--b">{project.name}</div>
 
         <div class="label txt-m row v-center">
-          <Svg id="asset-small" w="12" class="mrg-s mrg--r" />
+          <Svg id="bars" w="12" class="mrg-s mrg--r" />
           Widgets
         </div>
         <div class="value mrg-m mrg--b">Bitcoin</div>
 
         <div class="label txt-m row v-center">
-          <Svg id="asset-small" w="12" class="mrg-s mrg--r" />
+          <Svg id="user" w="16" class="mrg-s mrg--r" />
           Author
         </div>
         <a class="value row v-center" href="/profile/{user.id}">
@@ -58,7 +58,7 @@
             {#if user.avatarUrl}
               <img alt="Avatar" src={user.avatarUrl} />
             {:else}
-              <Svg id="star" w="16" />
+              <Svg id="user" w="16" />
             {/if}
           </div>
           <span>
