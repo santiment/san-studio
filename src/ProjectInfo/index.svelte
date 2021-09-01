@@ -7,16 +7,15 @@
 
   let price = ''
   let change = 0
-  let name = $studio.name || ''
 
-  $: ({ slug, ticker } = $studio)
+  $: ({ slug, ticker, name = slug } = $studio)
   // @ts-ignore
   $: error = (slug, false)
   $: queryProjectPriceChange(slug).then(setPriceChange)
   $: queryProjectName(slug).then(setName)
 
-  function setName(value: string) {
-    name = value
+  function setName(name: string) {
+    studio.setProject({ name })
   }
   function setPriceChange({ priceUsd, percentChange24h }: ProjectPriceChange) {
     price = usdFormatter(priceUsd)
