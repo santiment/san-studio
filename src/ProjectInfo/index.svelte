@@ -2,7 +2,7 @@
   import type { ProjectPriceChange } from '@/api/project'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
-  import { queryProjectName, queryProjectPriceChange } from '@/api/project'
+  import { queryProject, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
 
   let price = ''
@@ -11,11 +11,11 @@
   $: ({ slug, ticker, name = slug } = $studio)
   // @ts-ignore
   $: error = (slug, false)
+  $: queryProject(slug).then(setProject)
   $: queryProjectPriceChange(slug).then(setPriceChange)
-  $: queryProjectName(slug).then(setName)
 
-  function setName(name: string) {
-    studio.setProject({ name })
+  function setProject(project: any) {
+    studio.setProject(project)
   }
   function setPriceChange({ priceUsd, percentChange24h }: ProjectPriceChange) {
     price = usdFormatter(priceUsd)

@@ -40,7 +40,7 @@ const FEATURED_LAYOUTS_QUERY = `
     }
   }
 `
-const USER_LAYOUTS_QUERY = `
+export const USER_LAYOUTS_QUERY = `
   {
     currentUser {
 			layouts: chartConfigurations{
@@ -66,7 +66,10 @@ type LayoutsTemplate = Query<'layouts', Layout[]>
 
 type ProjectLayout = Layout & { updatedAt: string }
 type ProjectLayoutsTemplate = Query<'layouts', ProjectLayout[]>
-type UserLayoutsTemplate = Query<'currentUser', { layouts: ProjectLayout[] }>
+type UserLayoutsTemplate = Query<
+  'currentUser',
+  null | { layouts: ProjectLayout[] }
+>
 
 const accessor = <T extends Layout>({ layouts }: { layouts: T[] }) => layouts
 export const queryFeaturedLayouts = (): Promise<Layout[]> =>
@@ -86,14 +89,14 @@ export const queryLayouts = (slug: string): Promise<ProjectLayout[]> =>
 
 function userLayoutsPrecacher() {
   return (data: QueryRecord<UserLayoutsTemplate>) => {
-    data.currentUser.layouts.sort(dateSorter)
+    if (data.currentUser) data.currentUser.layouts.sort(dateSorter)
     return data
   }
 }
 const userLayoutsOptions = { precacher: userLayoutsPrecacher }
 const userLayoutsAccessor = ({
   currentUser,
-}: QueryRecord<UserLayoutsTemplate>) => currentUser.layouts
+}: QueryRecord<UserLayoutsTemplate>) => currentUser?.layouts || []
 export const queryUserLayouts = (): Promise<ProjectLayout[]> =>
   query<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, userLayoutsOptions).then(
     userLayoutsAccessor,

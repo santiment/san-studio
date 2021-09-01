@@ -2,6 +2,7 @@
   import type { DetailedLayout } from '@/api/layouts'
   import { onMount, onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { Metric } from '@/metrics'
   import { queryLayout } from '@/api/layouts'
   import HoverItem from '../HoverItem.svelte'
 
@@ -13,7 +14,9 @@
   let layout = {} as DetailedLayout
   let destroyed = false
 
-  $: ({ title, project, user } = layout)
+  $: ({ title, project, user, metrics } = layout)
+
+  const listMetrics = (metricKey: string) => Metric[metricKey]?.label
 
   const showPreview = () =>
     queryLayout(item.id).then((data) => destroyed || (layout = data))
@@ -45,9 +48,11 @@
 
         <div class="label txt-m row v-center">
           <Svg id="bars" w="12" class="mrg-s mrg--r" />
-          Widgets
+          Metrics
         </div>
-        <div class="value mrg-m mrg--b">Bitcoin</div>
+        <div class="value mrg-m mrg--b">
+          {metrics.map(listMetrics).filter(Boolean).join(', ')}
+        </div>
 
         <div class="label txt-m row v-center">
           <Svg id="user" w="16" class="mrg-s mrg--r" />
@@ -74,12 +79,20 @@
   .preview {
     position: absolute;
     left: 100%;
-    min-width: 300px;
+    min-width: 350px;
     max-width: 400px;
     cursor: initial;
     color: var(--black);
     margin-left: 2px;
     padding: 20px;
+  }
+  .preview::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    width: 5px;
+    top: 0;
+    bottom: 0;
   }
 
   .label {

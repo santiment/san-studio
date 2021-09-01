@@ -3,7 +3,10 @@ import { query } from 'webkit/api'
 
 const PROJECT_NAME_QUERY = (slug: string) => `
   {
-    projectBySlug(slug:"${slug}") { name }
+    projectBySlug(slug:"${slug}") {
+      name
+      projectId: id
+    }
   }
 `
 
@@ -28,6 +31,6 @@ export const queryProjectPriceChange = (
     accessor,
   )
 
-const nameAccessor = ({ projectBySlug }) => projectBySlug.name
-export const queryProjectName = (slug: string): Promise<string> =>
-  query<any>(PROJECT_NAME_QUERY(slug)).then(nameAccessor)
+const projectAccessor = ({ projectBySlug }) => projectBySlug
+export const queryProject = (slug: string): Promise<string> =>
+  query<any>(PROJECT_NAME_QUERY(slug)).then(projectAccessor)

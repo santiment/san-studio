@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
   import {
@@ -22,7 +23,7 @@
   import Category from '../Category.svelte'
 
   let searchTerm = ''
-  let tab = Tab.MyLibrary
+  let tab = Tab.Explore
   let graph = {}
   let aborter = () => {}
 
@@ -45,12 +46,14 @@
 
   const showMyLibraryLayouts = newCategoriesShower((checkRacing) => {
     graph = newMyLibaryGraph()
-    queryUserLayouts().then(
-      (items) => checkRacing() || (graph['My layouts'] = items),
-    )
+    window.refetchMyLayout = () =>
+      queryUserLayouts().then(
+        (items) => checkRacing() || (graph['My layouts'] = items),
+      )
     queryRecentLayouts().then(
       (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
+    window.refetchMyLayout()
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
@@ -62,11 +65,14 @@
       (items) => checkRacing() || (graph['Featured by Santiment'] = items),
     )
   })
+  onDestroy(() => (window.refetchMyLayout = null))
 </script>
 
 <div class="sidebar-header">
   <Tabs tabs={TABS} bind:tab />
-  <div class="btn btn-1 btn--green mrg-l mrg--t row v-center">
+  <div
+    class="btn btn-1 btn--green mrg-l mrg--t row v-center"
+    on:click={window.showNewLayoutDialog}>
     <Svg id="plus-circle" w="16" class="$style.plus mrg-s mrg--r" />
     Create chart layout
   </div>

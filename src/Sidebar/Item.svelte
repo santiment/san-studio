@@ -18,7 +18,7 @@
     hovered = currentTarget
     setTimeout(
       () => currentTarget.nextElementSibling?.matches(':hover') || clear(),
-      10,
+      15,
     )
   }
 </script>
