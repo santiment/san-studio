@@ -35,15 +35,17 @@
     </div>
   {/each}
 
-  <div
-    title="Shortcuts | Shift + ?"
-    class="shortcuts btn mrg-a mrg--t row hv-center expl-tooltip"
-    on:click={showShortcutsDialog}>
-    <Svg id="cmd-key" w="16" />
-  </div>
-  <div class="help btn row v-center" on:click={onHelpClick}>
-    Help & Feedback
-    <Svg id="chat" w="14" h="16" class="$style.chat mrg-s mrg--t" />
+  <div class="bottom mrg-a mrg--t row">
+    <div
+      title="Shortcuts | Shift + ?"
+      class="shortcuts btn row hv-center expl-tooltip"
+      on:click={showShortcutsDialog}>
+      <Svg id="cmd-key" w="16" />
+    </div>
+    <div class="help btn row v-center" on:click={onHelpClick}>
+      Help & Feedback
+      <Svg id="chat" w="14" h="16" class="$style.chat mrg-s mrg--t" />
+    </div>
   </div>
 </div>
 
@@ -90,5 +92,10 @@
   }
   .chat {
     transform: rotate(90deg);
+  }
+
+  .bottom {
+    position: sticky;
+    bottom: 0;
   }
 </style>
