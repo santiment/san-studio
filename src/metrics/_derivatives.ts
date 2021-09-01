@@ -5,29 +5,29 @@ import { each } from './utils'
 export const DerivativesMetric = each(
   {
     bitmex_perpetual_basis: {
-      label: 'BitMEX Perpetual Contract Basis',
+      label: 'BitMEX Basis',
     },
     bitmex_perpetual_basis_ratio: {
-      label: 'BitMEX Perpetual Basis Ratio',
+      label: 'BitMEX Basis Ratio',
     },
     bitmex_perpetual_funding_rate: {
       node: 'filledLine',
-      label: 'BitMEX Perpetual Contract Funding Rate',
+      label: 'BitMEX Funding Rate',
       formatter: ratioPercentForamtter,
       axisFormatter: ratioPercentAxisFormatter,
     },
     bitmex_perpetual_open_interest: {
-      label: 'BitMEX Perpetual Contracts Open Interest',
+      label: 'BitMEX Open Interest',
     },
     bitmex_perpetual_open_value: {
-      label: 'BitMEX Perpetual Contracts Open Value',
+      label: 'BitMEX Open Value',
     },
     usdt_bnb_funding_rates: {
-      label: 'Binance Exchange Funding Rates (USDT)',
+      label: 'Binance Funding Rate (USDT)',
       checkIsVisible: ({ isBeta }) => isBeta,
     },
     busd_bnb_funding_rates: {
-      label: 'Binance Exchange Funding Rates (BUSD)',
+      label: 'Binance Funding Rate (BUSD)',
       checkIsVisible: ({ isBeta }) => isBeta,
     },
   },

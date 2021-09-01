@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import ItemLabel from './ItemLabel.svelte'
 
   let className = ''
@@ -13,6 +14,8 @@
   let hovered = null
   let hoverNode
 
+  $: if (hoverNode) window.__clearHoverItem = clear
+
   const clear = () => ((hovered = null), onLeave?.())
   function onMouseEnter({ currentTarget }) {
     hovered = currentTarget
@@ -21,6 +24,8 @@
       15,
     )
   }
+
+  onDestroy(() => (window.__clearHoverItem = null))
 </script>
 
 <div
