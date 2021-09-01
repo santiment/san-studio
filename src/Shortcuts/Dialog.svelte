@@ -24,10 +24,6 @@
 
     newShortcut(['Shift', '?'], 'Open shortcuts info'),
 
-    newShortcut([CMD, 'L'], 'Open Chart layout explorer'),
-
-    newShortcut([CMD, 'S'], 'Save Chart layout'),
-
     newShortcut([CMD, 'Z'], 'Undo action'),
 
     newShortcut([CMD, 'Shift', 'Z'], 'Redo action'),
@@ -55,6 +51,10 @@
     newShortcut(['Shift'], 'Show difference between two range points'),
 
     newShortcut([CMD, 'Click'], 'Supply Distribution - deselect other holders'),
+
+    newShortcut([CMD, 'L'], 'Open Chart layout explorer'),
+
+    newShortcut([CMD, 'S'], 'Save Chart layout'),
   ]
 </script>
 
@@ -66,12 +66,14 @@
       </div>
       <div class="column right">
         <Section title="Charts" shortcuts={CHARTS} class="mrg-xs mrg--b" />
-        <Section title="Mapview" shortcuts={MAPVIEW} />
       </div>
     </div>
     <div class="row">
       <div class="column">
         <Section title="Sidebar" shortcuts={SIDEBAR} />
+      </div>
+      <div class="column fluid right">
+        <Section title="Mapview" shortcuts={MAPVIEW} />
       </div>
     </div>
   </div>

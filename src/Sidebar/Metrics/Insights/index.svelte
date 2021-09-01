@@ -51,4 +51,4 @@
   isOpened
   items={insights}
   {VisibleGroup}
-  onItemClick={InsightsContextStore.set} />
+  onItemClick={(_, item) => InsightsContextStore.set(item)} />
