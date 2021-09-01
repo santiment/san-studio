@@ -78,7 +78,9 @@
   </div>
   <Search bind:searchTerm placeholder="Search layouts" />
 </div>
-<div class="sidebar-content" on:scroll={() => window.__clearHoverItem?.()}>
+<div
+  class="sidebar-content"
+  on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
   {#each categories as category}
     {#if filteredGraph[category].length}
       <Category

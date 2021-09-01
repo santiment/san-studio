@@ -53,7 +53,9 @@
   <div class="mrg-l mrg--t sidebar-project" bind:this={projectNode} />
   <Search bind:searchTerm />
 </div>
-<div class="sidebar-content" on:scroll={() => window.__clearHoverItem?.()}>
+<div
+  class="sidebar-content"
+  on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
   {#if tab === Tab.Metrics}
     <Favorites {searchTerm} {isFiltering} {onItemClick} />
     <Notables {searchTerm} {isFiltering} {onItemClick} />
