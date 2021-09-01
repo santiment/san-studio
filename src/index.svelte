@@ -32,6 +32,7 @@
   export let checkIsMapviewDisabled = undefined
   export let parseLayoutWidgets = undefined
   export let InsightsContextStore = undefined
+  export let onSidebarProjectMount = undefined
 
   studio.setProject(defaultSettings)
   const HistoryEmitter = newHistoryEmitter()
@@ -47,6 +48,7 @@
     onChartPointClick,
     onAnonFavoriteClick,
     onModRangeSelect,
+    onSidebarProjectMount,
     checkIsMapviewDisabled,
     InsightsContextStore,
     adjustSelectedMetric,

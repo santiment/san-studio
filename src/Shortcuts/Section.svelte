@@ -5,7 +5,7 @@
   export let shortcuts
 </script>
 
-<div class="body-2 txt-m mrg-xs mrg--b">{title}</div>
+<div class="body-2 txt-m">{title}</div>
 <div class={className}>
   {#each shortcuts as { keys, description }}
     <div class="row justify v-center">
@@ -30,6 +30,7 @@
 
   .desc {
     color: var(--waterloo);
+    min-width: 210px;
   }
 
   .row {

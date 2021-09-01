@@ -8,6 +8,7 @@
 
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
+  import { getAdapterController } from '@/adapter/context'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { queryProjectMetrics } from '@/api/metrics'
@@ -24,10 +25,12 @@
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
 
+  const { onSidebarProjectMount = () => {} } = getAdapterController()
   const LockedAsset = getLockedAssetStore() as any
 
   export let onItemClick
 
+  let projectNode
   let metrics: string[] = DEFAULT_METRICS
   let searchTerm = ''
   let tab = Tab.Metrics
@@ -42,11 +45,12 @@
   )
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
   $: queryProjectMetrics(slug).then((items) => (metrics = items))
+  $: onSidebarProjectMount(projectNode)
 </script>
 
 <div class="sidebar-header">
   <Tabs tabs={TABS} bind:tab />
-  <div class="mrg-l mrg--t sidebar-project" />
+  <div class="mrg-l mrg--t sidebar-project" bind:this={projectNode} />
   <Search bind:searchTerm />
 </div>
 <div class="sidebar-content">

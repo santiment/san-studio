@@ -60,11 +60,25 @@
 
 <Dialog {...$$props} title="Keyboard shortcuts" class="shortcuts-dialog">
   <div class="dialog-body">
-    <Section title="General" shortcuts={GENERAL} class="mrg-l mrg--b" />
-    <Section title="Sidebar" shortcuts={SIDEBAR} class="mrg-l mrg--b" />
-    <Section title="Mapview" shortcuts={MAPVIEW} class="mrg-l mrg--b" />
-    <Section title="Charts" shortcuts={CHARTS} />
+    <div class="row">
+      <div class="column">
+        <Section title="General" shortcuts={GENERAL} class="mrg-l mrg--b" />
+      </div>
+      <div class="column right">
+        <Section title="Charts" shortcuts={CHARTS} class="mrg-xs mrg--b" />
+        <Section title="Mapview" shortcuts={MAPVIEW} />
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <Section title="Sidebar" shortcuts={SIDEBAR} />
+      </div>
+    </div>
   </div>
 </Dialog>
 
-<style></style>
+<style>
+  .right {
+    margin-left: 80px;
+  }
+</style>
