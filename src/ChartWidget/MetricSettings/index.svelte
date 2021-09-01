@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Metric } from '@/metrics'
   import { SocialMetric } from '@/metrics/_social'
-  import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import NodeSetting from './NodeSetting.svelte'
   import ColorSetting from './ColorSetting.svelte'
@@ -46,7 +45,7 @@
       <TopHoldersSetting {metric} />
     {/if}
     <ShowAxisSetting {metric} />
-    {#if $globals.isBeta && metric.expression}
+    {#if metric.expression}
       <ExpressionSetting {metric} />
     {/if}
   </div>
