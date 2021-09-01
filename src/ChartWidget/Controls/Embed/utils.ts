@@ -24,7 +24,12 @@ const stringify = (v: any) => JSON.stringify(v)
 
 export function shareEmbeded(widget, studio, options) {
   const { slug, ticker, from, to } = studio
-  const { isNightMode, isWithMetricSettings, isCartesianGrid } = options
+  const {
+    isNightMode,
+    isWithMetricSettings,
+    isCartesianGrid,
+    isWatermarkHidden,
+  } = options
   const { metrics, axesMetrics, colors, metricSettings, metricIndicators } =
     widget
 
@@ -50,6 +55,7 @@ export function shareEmbeded(widget, studio, options) {
     emcg: isCartesianGrid ? 1 : undefined,
     // embedded metric settings row
     emms: isWithMetricSettings ? 1 : undefined,
+    emhwm: isWatermarkHidden ? 1 : undefined,
 
     // widget metrics
     wm: keys,
@@ -72,7 +78,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
-  const { ps, pt, df, dt, emnm, emcg, emms } = shared
+  const { ps, pt, df, dt, emnm, emcg, emms, emhwm } = shared
   const { wm, wax, wc, ws, win, wcm } = shared
 
   const KnownMetric = {}
@@ -96,6 +102,7 @@ export function parseQueryString(qs: string) {
     isNightMode: emnm ? true : false,
     isCartesianGrid: emcg ? true : false,
     isWithMetricSettings: emms ? true : false,
+    isWatermarkHidden: emhwm ? true : false,
 
     metrics: parseMetrics(sharedMetrics, KnownMetric),
     metricIndicators,

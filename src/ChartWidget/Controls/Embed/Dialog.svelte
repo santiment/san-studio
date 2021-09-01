@@ -14,14 +14,16 @@
   import { globals } from '@/stores/globals'
 
   export let widgets
+  const { ChartOptions } = widgets[0] || ({} as any)
 
   let width = '100%'
   let height = '300'
   let isNightMode = $globals.isNightMode
   let isWithMetricSettings = false
   let isCartesianGrid = true
+  let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false
 
-  $: ({ isPro } = $globals)
+  $: ({ isPro, isProPlus } = $globals)
 </script>
 
 <Dialog {...$$props} title="Embed charts">
@@ -74,6 +76,17 @@
       {/if}
     </div>
 
+    <div
+      class="row btn mrg-l mrg--b justify"
+      class:disabled={!isProPlus}
+      on:click={() => (isWatermarkHidden = !isWatermarkHidden)}>
+      Hide watermark {#if isProPlus}
+        <Toggle isActive={isWatermarkHidden} />
+      {:else}
+        <a href="/pricing" class="label plus">PRO+</a>
+      {/if}
+    </div>
+
     <div class="caption txt-m">Code</div>
     <Code
       {widgets}
@@ -81,7 +94,8 @@
       {height}
       {isNightMode}
       {isWithMetricSettings}
-      {isCartesianGrid} />
+      {isCartesianGrid}
+      {isWatermarkHidden} />
   </div>
 </Dialog>
 
@@ -115,5 +129,12 @@
 
   a {
     pointer-events: all;
+  }
+
+  .plus {
+    background: var(--yellow);
+  }
+  .plus:hover {
+    background: var(--yellow-hover);
   }
 </style>

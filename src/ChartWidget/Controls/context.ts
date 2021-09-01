@@ -22,9 +22,13 @@ const OPTIONS = {
 type ChartOptions = typeof OPTIONS
 type ChartOptionsStore = ReturnType<typeof newChartOptionsStore>
 
-export function newChartOptionsStore({ isCartesianGrid }: any = OPTIONS) {
+export function newChartOptionsStore({
+  isCartesianGrid,
+  isWatermarkHidden,
+}: any = OPTIONS) {
   const options = Object.assign({}, OPTIONS)
   if (isCartesianGrid !== undefined) options.cartesianGrid = isCartesianGrid
+  if (isWatermarkHidden !== undefined) options.watermark = !isWatermarkHidden
 
   const { subscribe, set } = writable(options)
 

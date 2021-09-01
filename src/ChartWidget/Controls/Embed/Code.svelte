@@ -4,7 +4,10 @@
 
   export let widgets
   export let width, height
-  export let isNightMode, isWithMetricSettings, isCartesianGrid
+  export let isNightMode,
+    isWithMetricSettings,
+    isCartesianGrid,
+    isWatermarkHidden
 
   let codeRef
   let copyTimer
@@ -16,7 +19,12 @@
 
   function getCode() {
     const settings = $studio
-    const options = { isNightMode, isWithMetricSettings, isCartesianGrid }
+    const options = {
+      isNightMode,
+      isWithMetricSettings,
+      isCartesianGrid,
+      isWatermarkHidden,
+    }
     return widgets
       .map((widget) => {
         const qs = shareEmbeded(widget, settings, options)
