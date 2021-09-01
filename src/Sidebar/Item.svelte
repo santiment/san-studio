@@ -13,7 +13,7 @@
   let hovered = null
   let hoverNode
 
-  const clear = () => (console.log('LEAVING'), (hovered = null), onLeave?.())
+  const clear = () => ((hovered = null), onLeave?.())
   function onMouseEnter({ currentTarget }) {
     hovered = currentTarget
     setTimeout(

@@ -2,17 +2,22 @@
   import type { ProjectPriceChange } from '@/api/project'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
-  import { queryProjectPriceChange } from '@/api/project'
+  import { queryProjectName, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
 
   let price = ''
   let change = 0
+  let name = $studio.name || ''
 
-  $: ({ slug, ticker, name = slug } = $studio)
+  $: ({ slug, ticker } = $studio)
   // @ts-ignore
   $: error = (slug, false)
   $: queryProjectPriceChange(slug).then(setPriceChange)
+  $: queryProjectName(slug).then(setName)
 
+  function setName(value: string) {
+    name = value
+  }
   function setPriceChange({ priceUsd, percentChange24h }: ProjectPriceChange) {
     price = usdFormatter(priceUsd)
     change = +(+percentChange24h).toFixed(2)
@@ -21,7 +26,7 @@
 
 <div class="row v-center">
   <div class="project body-1 btn row v-center">
-    <div class="img row hv-center mrg-l mrg--r">
+    <div class="img row hv-center mrg-l mrg--r" class:error>
       {#if error}
         <Svg id="asset-small" w="12" class="$style.placeholder" />
       {:else}
@@ -49,7 +54,7 @@
       {change}%
     </div>
   </div>
-  <div class="project-actions mrg-a mrg--l" />
+  <div class="project-actions mrg-a mrg--l row v-center" />
 </div>
 
 <style>
@@ -77,9 +82,11 @@
 
   .img {
     border-radius: 50%;
+  }
+  .error {
     background: var(--porcelain);
   }
-  :global(.night-mode) .img {
+  :global(.night-mode) .error {
     background: var(--mystic);
   }
 
@@ -87,6 +94,7 @@
   img {
     width: 40px;
     height: 40px;
+    min-width: 40px;
   }
 
   .placeholder {

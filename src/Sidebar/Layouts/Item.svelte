@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { DetailedLayout } from '@/api/layouts'
+  import { track } from 'webkit/analytics'
   import { getHistoryContext } from 'webkit/ui/history'
+  import { Event } from '@/analytics'
   import { queryLayout } from '@/api/layouts'
   import { getAdapterController } from '@/adapter/context'
   import { getWidgets } from '@/stores/widgets'
@@ -26,6 +28,8 @@
     const redo = () => (Widgets.set(newWidgets), selectLayout(layout))
     History.add('Apply layout', () => Widgets.set(oldWidgets), redo)
     redo()
+
+    track.event(Event.LoadLayout, { id: layout.id })
   }
 </script>
 

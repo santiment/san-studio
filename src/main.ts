@@ -9,7 +9,7 @@ import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
 
 // @ts-ignore
 window.studio = studio
-studio.setProject({ slug: 'ethereum', ticker: 'ETH', title: 'Ethereum' })
+studio.setProject({ slug: 'ethereum', ticker: 'ETH', name: 'Ethereum' })
 
 const defaultMetrics: Studio.Metric[] = [Metric.price_usd, Metric.dev_activity]
 const app = new App({
