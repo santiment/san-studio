@@ -19,6 +19,9 @@ export const Event = {
   AddMetrics: 'charts_add_metrics',
   RemoveMetric: 'charts_remove_metric',
 
+  CombineOpened: 'charts_combine_opened',
+  CombineMetrics: 'charts_combine_metrics',
+
   LockMetric: 'charts_lock_metric',
   UnlockMetric: 'charts_unlock_metric',
 

@@ -8,9 +8,11 @@
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
+  import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg.svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { DialogLock } from 'webkit/ui/Dialog/dialogs'
+  import { Event } from '@/analytics'
   import Chart from './Chart.svelte'
   import AddMetric from './AddMetric.svelte'
   import {
@@ -52,6 +54,10 @@
   function onCombineClick() {
     DialogPromise.resolve(expressionMetric)
     closeDialog()
+
+    track.event(Event.CombineMetrics, {
+      metrics: metrics.map(({ key }) => key) as any,
+    })
   }
 
   function onMetricDelete(metric: Studio.Metric) {
@@ -61,6 +67,8 @@
   function onMetricSelect(metric: Studio.Metric) {
     metrics = metrics.concat(metric)
   }
+
+  track.event(Event.CombineOpened)
 </script>
 
 <Dialog
@@ -110,7 +118,6 @@
     </div>
 
     <div class="row mrg-l mrg--t v-center">
-      <div class="btn mrg-a mrg--r">Reapply to charts</div>
       <div
         class="btn btn-1 btn--green mrg-a mrg--l"
         class:disabled={!isValid}

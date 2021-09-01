@@ -1,24 +1,34 @@
 <script lang="ts">
-  import { getContext } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
-  import { filterSelectorGraph } from '@/metrics/selector/utils'
-
-  const availableMetricsGraph = getContext('availableMetricsRef').ref
-  const categories = Object.keys(availableMetricsGraph)
+  import { queryProjectMetrics } from '@/api/metrics'
+  import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
+  import {
+    getMetricsSelectorGraph,
+    filterSelectorGraph,
+  } from '@/metrics/selector/utils'
 
   export let metrics: Studio.Metric[]
   export let onMetricSelect
 
+  let availableMetrics = [] as any[]
   let isOpened
   let input = ''
   let inputRef
 
+  $: ({ slug } = $studio)
+  $: queryProjectMetrics(slug).then((items) => (availableMetrics = items))
+  $: graph = getMetricsSelectorGraph(
+    availableMetrics,
+    Object.assign({}, $globals, $studio),
+  )
+  $: categories = Object.keys(graph) as any[]
   $: loweredInput = input.toLowerCase()
   $: metricsSet = new Set(metrics)
   $: filteredGraph = loweredInput
-    ? filterSelectorGraph(availableMetricsGraph, loweredInput)
-    : availableMetricsGraph
+    ? filterSelectorGraph(graph, loweredInput)
+    : graph
   $: if (!isOpened) input = ''
 
   function onSelect(metric) {

@@ -61,16 +61,12 @@
   const AutoUpdater = newAutoUpdaterStore(Widgets)
   const Queue = newSizedQueue()
 
-  let availableMetricsRef = { ref: undefined }
-  let graph
   let screenRef
   $: screenRef && onScreen()
   $: AutoUpdater.check($studio)
-  $: availableMetricsRef.ref = graph
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
-  setContext('availableMetricsRef', availableMetricsRef)
 </script>
 
 <main>
