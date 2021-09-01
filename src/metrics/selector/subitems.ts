@@ -27,8 +27,10 @@ SelectorNode.SOCIAL_CONTEXT = {
 SelectorNode.FeesDistribution = {
   key: 'FeesDistribution',
   label: 'Fees Distribution',
+  group: 'Fees',
   selectorType: SelectorType.Widget,
   checkIsVisible: ({ slug }) => slug === 'ethereum',
+  isTopLevel: true,
 }
 
 SelectorNode.HoldersDistributionTable = {
@@ -97,7 +99,7 @@ for (let key in Subitems) {
   const subitems = Subitems[key]
   for (let i = 0; i < subitems.length; i++) {
     const item = subitems[i] as any
-    item.submetricOf = Metric[key]
+    if (!item.isTopLevel) item.submetricOf = Metric[key]
     IsSubitem[item.key] = true
   }
 }

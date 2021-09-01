@@ -45,14 +45,6 @@ const ExchangesMetric = each(
     active_withdrawals_5m: {
       label: 'Active Withdrawals',
     },
-    usdt_bnb_funding_rates: {
-      label: 'Binance Exchange Funding Rates (USDT)',
-      checkIsVisible: ({ isBeta }) => isBeta,
-    },
-    busd_bnb_funding_rates: {
-      label: 'Binance Exchange Funding Rates (BUSD)',
-      checkIsVisible: ({ isBeta }) => isBeta,
-    },
   },
   (metric: Studio.Metric) => (metric.group = 'Exchanges'),
 )
@@ -208,6 +200,22 @@ export const DefiMetric = each(
   (metric: Studio.Metric) => (metric.group = 'Defi'),
 )
 
+export const FeesMetric = each(
+  {
+    average_fees_usd: {
+      node: 'area',
+      label: 'Average Fees (USD)',
+      checkIsVisible: ({ slug }) => slug === 'ethereum',
+    },
+    median_fees_usd: {
+      node: 'area',
+      label: 'Median Fees (USD)',
+      checkIsVisible: ({ slug }) => slug === 'ethereum',
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = 'Fees'),
+)
+
 export const OnChainMetric = each(
   Object.assign(
     {
@@ -222,22 +230,13 @@ export const OnChainMetric = each(
       avg_gas_used: {
         label: 'Average Gas Used in Gwei',
       },
-      average_fees_usd: {
-        node: 'area',
-        label: 'Average Fees (USD)',
-        checkIsVisible: ({ slug }) => slug === 'ethereum',
-      },
-      median_fees_usd: {
-        node: 'area',
-        label: 'Median Fees (USD)',
-        checkIsVisible: ({ slug }) => slug === 'ethereum',
-      },
       miners_balance: {
         label: 'Miners Balance',
         category: 'On-chain',
       },
     },
 
+    FeesMetric,
     ExchangesMetric,
     DefiMetric,
     HolderDistributionMetric,

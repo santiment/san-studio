@@ -1,4 +1,4 @@
-import { Variables, newPrecacher } from './utils'
+import { newPrecacher } from './utils'
 
 const dataAccessor = ({ getMetric }) => getMetric.timeseriesData
 const dataModifier = (key, datetime, value) => ({

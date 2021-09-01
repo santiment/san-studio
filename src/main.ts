@@ -1,10 +1,15 @@
 import App from './index.svelte'
 import 'webkit/styles/main.css'
-import ChartWidget from '@/ChartWidget/index.svelte'
-import HDBalanceWidget from '@/HolderDistributionWidget/Balance.svelte'
 import { Metric } from '@/metrics'
-import { newWidget } from './stores/widgets'
-import { newInsightsContextStore } from '@/Sidebar/Insights/context'
+import { newWidget } from '@/stores/widgets'
+import { studio } from '@/stores/studio'
+import { globals } from '@/stores/globals'
+import ChartWidget from '@/ChartWidget/index.svelte'
+import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
+
+// @ts-ignore
+window.studio = studio
+studio.setProject({ slug: 'ethereum', ticker: 'ETH', title: 'Ethereum' })
 
 const defaultMetrics: Studio.Metric[] = [Metric.price_usd, Metric.dev_activity]
 const app = new App({
@@ -13,21 +18,14 @@ const app = new App({
     widgets: [
       newWidget(ChartWidget, {
         metrics: defaultMetrics,
-        // subwidget: ReactAdapter(Test),
-      }),
-      newWidget(HDBalanceWidget),
-      newWidget(ChartWidget, {
-        metrics: [Metric.price_usd],
-      }),
-      newWidget(ChartWidget, {
-        metrics: [Metric.social_volume_total],
-      }),
-      newWidget(ChartWidget, {
-        metrics: [Metric.dev_activity],
       }),
     ],
     InsightsContextStore: newInsightsContextStore(),
   },
 })
+
+// @ts-ignore
+window.toggleNight = () =>
+  globals.toggle('isNightMode', document.body.classList.toggle('night-mode'))
 
 export default app

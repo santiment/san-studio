@@ -36,7 +36,7 @@
 <Preview
   isBlocked={isBlocked && isMetricsPhase}
   {isMetricsPhase}
-  on:click={() => onClick(widget)}>
+  on:click={(e) => onClick(widget, e)}>
   <canvas bind:this={canvas} />
 
   {#if isMetricsPhase}

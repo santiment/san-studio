@@ -3,12 +3,13 @@
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { SelectorNode } from '@/metrics/selector'
   import { checkIsFilterMatch } from '@/metrics/selector/utils'
-  import Category from './Category.svelte'
-  import Item from './Item.svelte'
+  import Category from '@/Sidebar/Category.svelte'
+  import Item from '@/Sidebar/Item.svelte'
+  import HoverItem from './HoverItem.svelte'
 
   export let searchTerm = ''
   export let isFiltering = false
-  export let onItemEnter
+  export let onItemClick
 
   $: favorites = getFavorites($favoriteMetrics, searchTerm)
 
@@ -32,7 +33,11 @@
     </svelte:fragment>
 
     {#each favorites as item}
-      <Item {item} {onItemEnter} isShowingSubitems={false} />
+      <Item
+        {item}
+        {HoverItem}
+        isShowingSubitems={false}
+        on:click={(e) => onItemClick(e, item)} />
     {:else}
       <div>Save any metric to 'Favorites' for quick access</div>
     {/each}

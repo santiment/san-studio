@@ -1,6 +1,7 @@
 import type { CachePolicy } from 'webkit/api/cache'
+import type { Variables } from './utils'
 import { query } from 'webkit/api'
-import { Variables, newPrecacher } from './utils'
+import { newPrecacher } from './utils'
 
 const GAS_USED_QUERY = `
   query gasUsed(

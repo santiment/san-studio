@@ -38,7 +38,7 @@
     selectedMetrics.clear()
   }
 
-  function onWidgetClick(widget) {
+  function onWidgetClick(widget, e?: MouseEvent) {
     if ($mapview === MapviewPhase.Overview || widget.isBlocked) {
       widget.scrollIntoView()
       mapview.exit()
@@ -66,11 +66,13 @@
         }),
         withScroll(widget, redo),
       )
+
+      if (e?.ctrlKey || e?.metaKey) return
       selectedMetrics.clear()
     }
   }
 
-  function onNewWidgetClick() {
+  function onNewWidgetClick({ ctrlKey, metaKey }: MouseEvent) {
     const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
 
     History.add(
@@ -81,6 +83,8 @@
         Widgets.push(widget)
       },
     )
+
+    if (ctrlKey || metaKey) return
     selectedMetrics.clear()
   }
 
@@ -168,7 +172,7 @@
     height: 100vh;
     top: 0;
     position: sticky;
-    padding: 64px 40px 0;
+    padding: 64px 27px 0;
   }
 
   .visible {

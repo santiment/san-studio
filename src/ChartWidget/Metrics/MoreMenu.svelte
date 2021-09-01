@@ -5,6 +5,7 @@
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
+  import { selectedMetrics } from '@/stores/selector'
   import { getWidget } from '@/ChartWidget/context'
   import { getAdapterController } from '@/adapter/context'
 
@@ -84,6 +85,13 @@
         Hide signals
       </div>
     {/if}
+
+    <div
+      class="btn btn--ghost option"
+      on:click={() => selectedMetrics.toggle(metric)}>
+      <Svg id="plus-circle" w="16" class="mrg-s mrg--r" />
+      Reapply metric
+    </div>
 
     <div
       class="btn btn--ghost option"

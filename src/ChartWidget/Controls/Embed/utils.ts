@@ -1,4 +1,5 @@
 import type { Metric } from '@/sharing'
+import { getTodaysEnd } from 'webkit/utils/dates'
 import {
   newURLQuery,
   newMetricAlias,
@@ -24,7 +25,13 @@ const stringify = (v: any) => JSON.stringify(v)
 
 export function shareEmbeded(widget, studio, options) {
   const { slug, ticker, from, to } = studio
-  const { isNightMode, isWithMetricSettings, isCartesianGrid } = options
+  const {
+    isNightMode,
+    isWithMetricSettings,
+    isCartesianGrid,
+    isWatermarkHidden,
+    isAutoUpdated,
+  } = options
   const { metrics, axesMetrics, colors, metricSettings, metricIndicators } =
     widget
 
@@ -42,7 +49,7 @@ export function shareEmbeded(widget, studio, options) {
     // date from
     df: from,
     // date to
-    dt: to,
+    dt: isAutoUpdated ? undefined : to,
 
     // embedded night mode
     emnm: isNightMode ? 1 : undefined,
@@ -50,6 +57,7 @@ export function shareEmbeded(widget, studio, options) {
     emcg: isCartesianGrid ? 1 : undefined,
     // embedded metric settings row
     emms: isWithMetricSettings ? 1 : undefined,
+    emhwm: isWatermarkHidden ? 1 : undefined,
 
     // widget metrics
     wm: keys,
@@ -72,7 +80,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
-  const { ps, pt, df, dt, emnm, emcg, emms } = shared
+  const { ps, pt, df, dt, emnm, emcg, emms, emhwm } = shared
   const { wm, wax, wc, ws, win, wcm } = shared
 
   const KnownMetric = {}
@@ -91,11 +99,12 @@ export function parseQueryString(qs: string) {
     ticker: pt,
 
     from: df,
-    to: dt,
+    to: dt || getTodaysEnd().toISOString(),
 
     isNightMode: emnm ? true : false,
     isCartesianGrid: emcg ? true : false,
     isWithMetricSettings: emms ? true : false,
+    isWatermarkHidden: emhwm ? true : false,
 
     metrics: parseMetrics(sharedMetrics, KnownMetric),
     metricIndicators,

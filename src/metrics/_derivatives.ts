@@ -22,6 +22,14 @@ export const DerivativesMetric = each(
     bitmex_perpetual_open_value: {
       label: 'BitMEX Perpetual Contracts Open Value',
     },
+    usdt_bnb_funding_rates: {
+      label: 'Binance Exchange Funding Rates (USDT)',
+      checkIsVisible: ({ isBeta }) => isBeta,
+    },
+    busd_bnb_funding_rates: {
+      label: 'Binance Exchange Funding Rates (BUSD)',
+      checkIsVisible: ({ isBeta }) => isBeta,
+    },
   },
   (metric: Studio.Metric) => {
     metric.category = MetricCategory.Derivatives

@@ -4,7 +4,7 @@ const cssModules = require('svelte-preprocess-cssmodules')
 const fs = require('fs')
 const path = require('path')
 const { forFile, mkdir } = require('san-webkit/scripts/utils')
-const { replaceModuleAliases, SRC, LIB } = require('./utils')
+const { replaceModuleAliases, LIB } = require('./utils')
 
 const preprocess = sveltePreprocess({
   typescript: {

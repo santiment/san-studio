@@ -1,12 +1,12 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
-  import { getSettings, getNotableMetrics } from './utils'
-  import Item from './Item.svelte'
-  import ChartPreview from './ChartPreview.svelte'
-  import Category from '../Category.svelte'
   import { queryRawSignal } from '@/api/signals'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { debounced } from '@/ChartWidget/utils'
+  import Category from '@/Sidebar/Category.svelte'
+  import { getSettings, getNotableMetrics } from './utils'
+  import Item from './Item.svelte'
+  import ChartPreview from './ChartPreview.svelte'
 
   const LockedAsset = getLockedAssetStore()
 
@@ -25,7 +25,7 @@
   $: style = hoveredNode && getPreviewStyles(hoveredNode)
 
   const getRawSignals = debounced(({ slug }) => {
-    queryRawSignal(slug, 'utc_now-2d', 'utc_now').then((res) => (signals = res))
+    queryRawSignal(slug, 'utc_now-7d', 'utc_now').then((res) => (signals = res))
   })
 
   let timer
@@ -43,12 +43,8 @@
   }
 
   function getPreviewStyles(node) {
-    const { right } = node.getBoundingClientRect()
-    let top = node.offsetTop
-    const parent = node.closest('.categories')
-    if (parent) top -= parent.scrollTop
-
-    return `left:${right}px;top:${top}px`
+    const { top, right } = node.getBoundingClientRect()
+    return `left:${right - 33}px;top:${top}px`
   }
 
   let closeTimer
@@ -79,7 +75,7 @@
         {onItemClick}
         {onItemEnter}
         on:mousewheel={closePreview}
-        on:mouseleave={onItemLeave} />
+        onLeave={onItemLeave} />
     {/each}
 
     {#if style}
@@ -105,7 +101,7 @@
     height: 152px;
     padding: 8px 14px;
     position: absolute;
-    z-index: 10;
+    z-index: 1;
     transform: translateY(-50%);
   }
   div {

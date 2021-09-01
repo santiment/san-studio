@@ -1,10 +1,16 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
+  import { getAutoUpdater } from '@/stores/autoUpdater'
   import { shareEmbeded, getChartWidgetLabel } from './utils'
+
+  const AutoUpdater = getAutoUpdater()
 
   export let widgets
   export let width, height
-  export let isNightMode, isWithMetricSettings, isCartesianGrid
+  export let isNightMode,
+    isWithMetricSettings,
+    isCartesianGrid,
+    isWatermarkHidden
 
   let codeRef
   let copyTimer
@@ -16,13 +22,19 @@
 
   function getCode() {
     const settings = $studio
-    const options = { isNightMode, isWithMetricSettings, isCartesianGrid }
+    const options = {
+      isNightMode,
+      isWithMetricSettings,
+      isCartesianGrid,
+      isWatermarkHidden,
+      isAutoUpdated: $AutoUpdater.isUpdating,
+    }
     return widgets
       .map((widget) => {
         const qs = shareEmbeded(widget, settings, options)
         const label = getChartWidgetLabel(widget, settings)
 
-        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="${window.location.origin}/__chart?${qs}"></iframe>`
+        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="${window.location.origin}/__chart?${qs}" scrolling="no"></iframe>`
       })
       .join('\n\n')
   }

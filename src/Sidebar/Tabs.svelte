@@ -1,20 +1,14 @@
 <script lang="ts">
-  export let isMetricTab = true
+  export let tab
+  export let tabs
 </script>
 
 <div class="tabs row txt-m">
-  <div
-    class:active={isMetricTab}
-    class="tab btn"
-    on:click={() => (isMetricTab = true)}>
-    Metrics
-  </div>
-  <div
-    class:active={!isMetricTab}
-    class="tab btn"
-    on:click={() => (isMetricTab = false)}>
-    Insights
-  </div>
+  {#each tabs as id}
+    <div class="tab btn" class:active={tab === id} on:click={() => (tab = id)}>
+      {id}
+    </div>
+  {/each}
 </div>
 
 <style>

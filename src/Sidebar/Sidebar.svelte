@@ -20,11 +20,13 @@
 </script>
 
 <aside
+  class="row"
   class:leaving
   class:locked={isLocked || $mapview}
   class:opened={isOpened}
   on:mouseenter={onEnter}
   on:mouseleave={onLeave}>
+  <slot name="left" />
   <div class="content column">
     <slot />
   </div>
@@ -32,13 +34,13 @@
 
 <style>
   aside {
-    width: 260px;
-    min-width: 260px;
+    width: 292px;
+    min-width: 292px;
     background: var(--white);
     border-right: 1px solid var(--porcelain);
     z-index: 25;
     position: absolute;
-    transform: translate(-248px);
+    transform: translate(-284px);
     top: 0;
     bottom: 0;
   }
@@ -47,6 +49,7 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    flex: 1;
   }
 
   .opened,

@@ -7,11 +7,11 @@
   export { className as class }
   export let category: MetricCategory
   export let items: Studio.SelectorNode[] = []
-  export let isFiltering: boolean
+  export let HoverItem = undefined
   export let VisibleGroup: { [index: string]: boolean } = {}
-  export let onItemEnter = undefined
+  export let isFiltering: boolean
+  export let isOpened = false
   export let onItemClick = undefined
-  export let isOpened = undefined
 
   let visible = isOpened || category === MetricCategory.Financial
   $: GroupIndex = prepareGroups(items)
@@ -50,7 +50,7 @@
         {#if $$slots.default}
           <slot />
         {:else}
-          {#each items as metric, i (metric.key)}
+          {#each items as metric, i (metric.key || metric.id)}
             {#if GroupIndex[i]}
               <h4
                 on:click={() => toggleGroup(metric)}
@@ -62,9 +62,9 @@
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
               <Item
+                {HoverItem}
                 item={metric}
-                {onItemEnter}
-                on:click={onItemClick && onItemClick(metric)} />
+                on:click={(e) => onItemClick && onItemClick(e, metric)} />
             {/if}
           {/each}
         {/if}

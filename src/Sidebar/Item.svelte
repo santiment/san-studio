@@ -4,38 +4,58 @@
   let className = ''
   export { className as class }
   export let item: any
+  export let HoverItem
   export let isShowingSubitems = true
   export let onItemEnter = undefined
+  export let onLeave = undefined
 
   let active
-  const onMouseEnter = ({ currentTarget }) => onItemEnter(currentTarget, item)
+  let hovered = null
+  let hoverNode
+
+  const clear = () => (console.log('LEAVING'), (hovered = null), onLeave?.())
+  function onMouseEnter({ currentTarget }) {
+    hovered = currentTarget
+    setTimeout(
+      () => currentTarget.nextElementSibling?.matches(':hover') || clear(),
+      10,
+    )
+  }
 </script>
 
 <div
-  class="sidebar-item item row v-center {className}"
+  class="item btn row v-center {className}"
   class:pro={item.isPro}
   class:active
   class:subitem={isShowingSubitems && item.submetricOf}
-  on:mouseenter={onItemEnter && onMouseEnter}
-  on:mousewheel
-  on:mouseleave
+  on:mouseenter={HoverItem && onMouseEnter}
   on:click>
-  <ItemLabel {item} bind:active />
+  <slot>
+    <ItemLabel {item} bind:active />
+  </slot>
 </div>
 
+{#if HoverItem && hovered}
+  <div
+    bind:this={hoverNode}
+    class:active
+    class="item hovered btn row v-center"
+    on:mouseenter={onItemEnter}
+    on:mouseleave={clear}
+    on:mousewheel={clear}
+    on:click>
+    <svelte:component this={HoverItem} node={hovered} {item} {hoverNode} />
+  </div>
+{/if}
+
 <style>
-  :global(.sidebar-item) {
+  .item {
     padding: 6px 9px;
     min-height: 32px;
-    cursor: pointer;
     position: relative;
-    user-select: none;
-  }
-
-  .item {
-    z-index: 2;
     background: var(--white);
-    border-radius: 4px;
+    z-index: 2;
+    word-break: break-word;
   }
   .item:hover {
     background: var(--athens);
@@ -82,5 +102,21 @@
 
   .active {
     color: var(--green);
+  }
+
+  .hovered {
+    position: absolute;
+    z-index: 3;
+    box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
+  }
+  .hovered:hover {
+    --bg: var(--green-light-2);
+    --fill: var(--green);
+    color: var(--green);
+  }
+  .hovered.active {
+    --bg: var(--red-light-1);
+    --fill: var(--red);
+    color: var(--red);
   }
 </style>

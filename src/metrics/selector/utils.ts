@@ -5,6 +5,21 @@ import { SelectorNode } from './index'
 import { Subitems, IsSubitem } from './subitems'
 import { ReplacementNode } from './replacements'
 
+function addItemToSelectorGraph(
+  graph: SelectorGraph,
+  node,
+  metricKey: string,
+  filter: (item: any) => boolean,
+) {
+  if (!filter(node)) return
+
+  const categoryItems = graph[node.category]
+  categoryItems.push(node)
+
+  const subitems = Subitems[metricKey]
+  if (subitems) categoryItems.push(...subitems.filter(filter))
+}
+
 const indexSorter = (a: string, b: string) =>
   (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
 export function getMetricsSelectorGraph(
@@ -20,6 +35,8 @@ export function getMetricsSelectorGraph(
     [MetricCategory.Indicators]: [],
   }
 
+  const filter = ({ checkIsVisible }: any) =>
+    checkIsVisible ? checkIsVisible(options) : true
   const { length } = metricKeys.sort(indexSorter)
   for (let i = 0; i < length; i++) {
     const metricKey = metricKeys[i]
@@ -28,17 +45,7 @@ export function getMetricsSelectorGraph(
       | Studio.SelectorNode
 
     if (node === undefined || IsSubitem[metricKey]) continue
-    if (node.checkIsVisible && !node.checkIsVisible(options)) continue
-
-    const categoryItems = graph[node.category]
-    categoryItems.push(node)
-
-    const subitems = Subitems[metricKey]
-    if (subitems) {
-      const filter = (node: any) =>
-        !node.checkIsVisible || node.checkIsVisible(options)
-      categoryItems.push(...subitems.filter(filter))
-    }
+    addItemToSelectorGraph(graph, node, metricKey, filter)
   }
 
   return graph
@@ -46,9 +53,9 @@ export function getMetricsSelectorGraph(
 
 export const checkIsFilterMatch = (
   searchTerm: string,
-  { label, group, shorthand }: Studio.Metric,
+  { label, title, group, shorthand }: Studio.Metric & { title: string },
 ) =>
-  label.toLowerCase().includes(searchTerm) ||
+  (label || title).toLowerCase().includes(searchTerm) ||
   (group && group.toLowerCase().includes(searchTerm)) ||
   (shorthand && shorthand.includes(searchTerm))
 
@@ -63,9 +70,10 @@ export function filterSelectorGraph(graph: SelectorGraph, searchTerm: string) {
     const { length } = items
     for (let i = 0; i < length; i++) {
       const item = items[i]
-      const { key, label, submetricOf } = item
+      const { key, submetricOf } = item
 
-      if (checkIsFilterMatch(searchTerm, item)) {
+      const predicate = (word: string) => checkIsFilterMatch(word, item)
+      if (searchTerm.split(' ').every(predicate)) {
         if (submetricOf && IsRootPlaced[submetricOf.key] === undefined) {
           filteredItems[j++] = submetricOf
           IsRootPlaced[submetricOf.key] = true
