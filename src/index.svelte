@@ -71,34 +71,32 @@
 
 <main>
   <Sidebar />
-  <div class="column">
+  <div class="content column">
     <div class="studio-top">
       <ProjectInfo />
     </div>
 
-    <div class="column content">
-      {#if !screen}
-        <div class="border header panel row" />
+    {#if !screen}
+      <div class="border header panel row" />
 
-        <div class="row main" bind:this={screenRef}>
-          <div class="widgets">
-            {#each $Widgets as widget (widget.id)}
-              <Widget {widget} {Widgets} />
-            {/each}
-          </div>
-
-          {#if $Sidewidget} <SidewidgetComponent /> {/if}
+      <div class="row main" bind:this={screenRef}>
+        <div class="widgets">
+          {#each $Widgets as widget (widget.id)}
+            <Widget {widget} {Widgets} />
+          {/each}
         </div>
-      {:else}
-        {#key screen}
-          <div class="main studio-screen" bind:this={screenRef} />
-        {/key}
-      {/if}
 
-      <Mapview />
+        {#if $Sidewidget} <SidewidgetComponent /> {/if}
+      </div>
+    {:else}
+      {#key screen}
+        <div class="main studio-screen" bind:this={screenRef} />
+      {/key}
+    {/if}
 
-      <HistoryAction {HistoryEmitter} />
-    </div>
+    <Mapview />
+
+    <HistoryAction {HistoryEmitter} />
   </div>
 </main>
 
@@ -124,11 +122,13 @@
     background: var(--athens);
     padding: 20px 27px;
     position: relative;
-    min-height: 100vh;
+    min-height: calc(100vh + 80px);
   }
 
   .studio-top {
     padding: 20px 27px;
+    margin: -20px -27px 20px;
+    background: var(--white);
   }
 
   .panel {
