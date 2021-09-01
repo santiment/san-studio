@@ -7,6 +7,8 @@
   import HoverItem from './HoverItem.svelte'
   import Item from '../Item.svelte'
 
+  // @ts-ignore
+  const selectLayout = window.selectLayout || (() => {})
   const { parseLayoutWidgets = () => [] } = getAdapterController()
   const Widgets = getWidgets()
   const History = getHistoryContext()
@@ -21,12 +23,9 @@
     const newWidgets = parseLayoutWidgets(layout)
     const oldWidgets = $Widgets
 
-    Widgets.set(newWidgets)
-    History.add(
-      'Apply layout',
-      () => Widgets.set(oldWidgets),
-      () => Widgets.set(newWidgets),
-    )
+    const redo = () => (Widgets.set(newWidgets), selectLayout(layout))
+    History.add('Apply layout', () => Widgets.set(oldWidgets), redo)
+    redo()
   }
 </script>
 
