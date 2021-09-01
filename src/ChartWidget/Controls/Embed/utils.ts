@@ -1,4 +1,5 @@
 import type { Metric } from '@/sharing'
+import { getTodaysEnd } from 'webkit/utils/dates'
 import {
   newURLQuery,
   newMetricAlias,
@@ -29,6 +30,7 @@ export function shareEmbeded(widget, studio, options) {
     isWithMetricSettings,
     isCartesianGrid,
     isWatermarkHidden,
+    isAutoUpdated,
   } = options
   const { metrics, axesMetrics, colors, metricSettings, metricIndicators } =
     widget
@@ -47,7 +49,7 @@ export function shareEmbeded(widget, studio, options) {
     // date from
     df: from,
     // date to
-    dt: to,
+    dt: isAutoUpdated ? undefined : to,
 
     // embedded night mode
     emnm: isNightMode ? 1 : undefined,
@@ -97,7 +99,7 @@ export function parseQueryString(qs: string) {
     ticker: pt,
 
     from: df,
-    to: dt,
+    to: dt || getTodaysEnd().toISOString(),
 
     isNightMode: emnm ? true : false,
     isCartesianGrid: emcg ? true : false,

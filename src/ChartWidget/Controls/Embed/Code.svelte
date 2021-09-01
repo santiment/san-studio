@@ -1,6 +1,9 @@
 <script lang="ts">
   import { studio } from '@/stores/studio'
+  import { getAutoUpdater } from '@/stores/autoUpdater'
   import { shareEmbeded, getChartWidgetLabel } from './utils'
+
+  const AutoUpdater = getAutoUpdater()
 
   export let widgets
   export let width, height
@@ -24,6 +27,7 @@
       isWithMetricSettings,
       isCartesianGrid,
       isWatermarkHidden,
+      isAutoUpdated: $AutoUpdater.isUpdating,
     }
     return widgets
       .map((widget) => {
