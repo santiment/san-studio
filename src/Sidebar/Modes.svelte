@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
-  export enum Mode {
-    Metrics = 'Metrics',
-    Layouts = 'Layouts',
-  }
+  export const Mode = {
+    Metrics: 'Metrics',
+    Layouts: 'Layouts',
+  } as const
 </script>
 
 <script lang="ts">
