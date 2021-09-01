@@ -8,7 +8,7 @@
   let price = ''
   let change = 0
 
-  $: ({ slug, ticker, title = slug } = $studio)
+  $: ({ slug, ticker, name = slug } = $studio)
   // @ts-ignore
   $: error = (slug, false)
   $: queryProjectPriceChange(slug).then(setPriceChange)
@@ -31,7 +31,7 @@
           src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png" />
       {/if}
     </div>
-    {title} ({ticker})
+    {name} ({ticker})
     <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>
 

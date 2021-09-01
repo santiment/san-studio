@@ -1,11 +1,3 @@
-<script lang="ts" context="module">
-  enum Tab {
-    MyCharts = 'My Library',
-    Explore = 'Explore',
-  }
-  const TABS = [Tab.MyCharts, Tab.Explore]
-</script>
-
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
@@ -15,29 +7,34 @@
     queryUserLayouts,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
+  import Item from './Item.svelte'
+  import {
+    Tab,
+    TABS,
+    TICKER_LAYOUTS,
+    normalizeCategory,
+    newMyLibaryGraph,
+    newExploreGraph,
+  } from './utils'
   import Tabs from '../Tabs.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
-  import Item from '../Item.svelte'
-  import HoverItem from './HoverItem.svelte'
-
-  const TICKER = 'TICKER'
-  const TICKER_LAYOUTS = TICKER + ' layouts'
 
   let searchTerm = ''
-  let tab = Tab.MyCharts
+  let tab = Tab.MyLibrary
   let graph = {}
   let aborter = () => {}
 
-  $: aborter = (tab === Tab.MyCharts
-    ? showMyLibraryLayouts
-    : showExploreLayouts)()
-  $: ({ ticker } = $studio)
+  $: aborter =
+    tab === Tab.MyLibrary
+      ? showMyLibraryLayouts()
+      : // @ts-ignore
+        (slug, showExploreLayouts())
+  $: ({ slug, ticker } = $studio)
   $: isFiltering = !!searchTerm
   $: categories = Object.keys(graph) as any[]
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
 
-  const normalizeCategory = (title: string) => title.replace(TICKER, ticker)
   const newCategoriesShower = (clb: any) => () => {
     aborter()
     let racing = false
@@ -46,24 +43,15 @@
   }
 
   const showMyLibraryLayouts = newCategoriesShower((checkRacing) => {
-    graph = {
-      'Recently viewed': [
-        { id: 0, title: 'ETH layout' },
-        { id: 1, title: 'Cool layout' },
-      ],
-      'My layouts': [],
-    }
+    graph = newMyLibaryGraph()
     queryUserLayouts().then(
       (items) => checkRacing() || (graph['My layouts'] = items),
     )
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
-    graph = {
-      'Featured by Santiment': [],
-      [TICKER_LAYOUTS]: [],
-    }
-    queryLayouts().then(
+    graph = newExploreGraph()
+    queryLayouts(slug).then(
       (items) => checkRacing() || (graph[TICKER_LAYOUTS] = items),
     )
     queryFeaturedLayouts().then(
@@ -83,11 +71,12 @@
 <div class="sidebar-content">
   {#each categories as category}
     {#if filteredGraph[category].length}
-      <Category isOpened category={normalizeCategory(category)} {isFiltering}>
+      <Category
+        {isFiltering}
+        isOpened
+        category={normalizeCategory(category, ticker)}>
         {#each filteredGraph[category] as item (item.id)}
-          <Item {item} {HoverItem} on:click={() => onItemClick(item)}>
-            {item.title}
-          </Item>
+          <Item {item} />
         {/each}
       </Category>
     {/if}

@@ -55,6 +55,7 @@
     position: relative;
     background: var(--white);
     z-index: 2;
+    word-break: break-word;
   }
   .item:hover {
     background: var(--athens);

@@ -30,6 +30,7 @@
   export let getExternalWidget = undefined
   export let adjustSelectedMetric = undefined
   export let checkIsMapviewDisabled = undefined
+  export let parseLayoutWidgets = undefined
   export let InsightsContextStore = undefined
 
   studio.setProject(defaultSettings)
@@ -49,6 +50,7 @@
     checkIsMapviewDisabled,
     InsightsContextStore,
     adjustSelectedMetric,
+    parseLayoutWidgets,
   })
   newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()
@@ -70,7 +72,7 @@
 </script>
 
 <main>
-  <Sidebar bind:graph />
+  <Sidebar />
   <div class="column">
     <div class="studio-top">
       <ProjectInfo />

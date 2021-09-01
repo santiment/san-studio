@@ -14,8 +14,6 @@
   const { checkIsMapviewDisabled } = getAdapterController() as any
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
 
-  export let graph
-
   let mode = Mode.Metrics
   let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED, true)
   let isPeeked = false

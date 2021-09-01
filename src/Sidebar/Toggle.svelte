@@ -41,9 +41,9 @@
     transform: rotate(270deg);
     color: var(--waterloo);
     fill: var(--waterloo);
-    top: 64px;
-    left: -37px;
-    padding: 0 6px 7px;
+    top: 62px;
+    left: -33px;
+    padding: 5px 2px 3px;
     cursor: pointer;
   }
 
