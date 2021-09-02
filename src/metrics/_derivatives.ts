@@ -24,10 +24,12 @@ export const DerivativesMetric = each(
     },
     usdt_bnb_funding_rates: {
       label: 'Binance Funding Rate (USDT)',
+      node: 'filledLine',
       checkIsVisible: ({ isBeta }) => isBeta,
     },
     busd_bnb_funding_rates: {
       label: 'Binance Funding Rate (BUSD)',
+      node: 'filledLine',
       checkIsVisible: ({ isBeta }) => isBeta,
     },
   },

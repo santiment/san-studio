@@ -170,6 +170,7 @@ const NetworkValueMetric = each(
     },
     network_profit_loss: {
       label: 'Network Realized Profit/Loss',
+      node: 'filledLine',
     },
     nvt: {
       label: 'NVT Ratio (with Circulation)',
