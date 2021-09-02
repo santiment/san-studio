@@ -46,6 +46,7 @@ export const USER_LAYOUTS_QUERY = `
 			layouts: chartConfigurations{
 				id
 				title
+			  updatedAt
 			}
     }
   }
