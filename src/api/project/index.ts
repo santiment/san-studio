@@ -5,6 +5,7 @@ const PROJECT_NAME_QUERY = (slug: string) => `
   {
     projectBySlug(slug:"${slug}") {
       name
+      ticker
       projectId: id
     }
   }
