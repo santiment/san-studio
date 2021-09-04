@@ -7,10 +7,11 @@ export const MULTI_AXIS_WIDTH = 50
 
 export function getPadding(chart: Studio.Chart, axesMetricKeys: any[]) {
   const { padding } = chart
+  const axesLength = axesMetricKeys.length
   return {
     ...padding,
     bottom: padding.bottom > X_MARGIN ? padding.bottom : X_MARGIN,
-    right: axesMetricKeys.length * MULTI_AXIS_WIDTH + Y_MARGIN,
+    right: axesLength * MULTI_AXIS_WIDTH + (axesLength ? Y_MARGIN : 3),
   }
 }
 
@@ -96,9 +97,15 @@ export function plotMetricLastValueBubble(
 }
 
 export function getXTicksByWidth(width = 0) {
+  if (width < 400) return 3
   if (width < 600) return 5
   if (width < 800) return 6
   if (width < 900) return 8
   if (width < 1200) return 10
   return 12
+}
+
+const DEFAULT_METRIC_KEYS = []
+export function getResponsiveAxesKeys(width = 0, axesMetricKeys: string[]) {
+  return width > 500 ? axesMetricKeys : DEFAULT_METRIC_KEYS
 }
