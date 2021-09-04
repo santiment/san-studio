@@ -14,6 +14,8 @@
 
   const { isOnlyChartEmbedded } = getAdapterController()
 
+  let className = ''
+  export { className as class }
   export let widget: Studio.ChartWidget
   export let isFullscreen = false
   export let isSingleWidget: boolean
@@ -82,4 +84,5 @@
   {deleteWidget}
   {metricsFilter}
   {fullscreenMetricsFilter}
-  {onLoad} />
+  {onLoad}
+  class={className} />

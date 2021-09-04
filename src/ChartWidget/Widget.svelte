@@ -18,6 +18,8 @@
   } = getAdapterController()
   const History = getHistoryContext()
 
+  let className = ''
+  export { className as class }
   export let widget: Studio.ChartWidget
   export let rawData = []
   export let allTimeData
@@ -136,7 +138,7 @@
   let:domainGroups
   let:hasDomainGroups
   let:onMetricHover>
-  <div class="widget column">
+  <div class="widget column {className}">
     {#if isOnlyChartEmbedded !== true}
       <Controls
         {chart}

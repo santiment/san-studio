@@ -1,12 +1,14 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { newSortableContext } from 'webkit/ui/dnd/sortable'
+  import { getAdapterController } from '@/adapter/context'
   import { globals } from '@/stores/globals'
   import { getAutoUpdater } from '@/stores/autoUpdater'
   import { getWidget } from '@/ChartWidget/context'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
 
+  const { isOnlyChartEmbedded } = getAdapterController()
   const { Metrics } = getWidget()
   const AutoUpdater = getAutoUpdater()
   const dndContext = $globals.isBeta
@@ -74,7 +76,7 @@
     {/each}
   </div>
 
-  {#if $globals.isPresenterMode === false && AutoUpdater}
+  {#if !isOnlyChartEmbedded && $globals.isPresenterMode === false && AutoUpdater}
     <AutoUpdate {AutoUpdater} {changeStudioPeriod} />
   {/if}
 </div>

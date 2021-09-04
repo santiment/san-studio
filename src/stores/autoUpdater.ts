@@ -32,7 +32,8 @@ export function newAutoUpdaterStore(Widgets: any) {
       window.clearTimeout(autoTimer)
 
       if (refetch) {
-        get<any>(Widgets).forEach((widget) => {
+        const widgets = Array.isArray(Widgets) ? Widgets : get<any>(Widgets)
+        widgets.forEach((widget) => {
           widget.fetchData?.(CachePolicy.NewCache)
         })
       }

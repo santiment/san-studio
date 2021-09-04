@@ -25,21 +25,21 @@
     "eslint-svelte3-preprocess": "0.0.5",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
-    "svelte": "^3.42.3",
+    "svelte": "^3.42.4",
     "vite": "^2.5.1",
     "vite-plugin-ts-checker": "^0.1.5"
   },
   "dependencies": {
     "mathjs": "^9.4.4",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#340c680",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#6297d14",
     "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "^1.3.2",
     "typescript": "^4.2.4"
   },
   "peerDependencies": {
-    "svelte": "^3.42.3",
+    "svelte": "^3.42.4",
     "@santiment-network/chart": "^0.10.10",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#340c680"
+    "san-webkit": "https://github.com/santiment/san-webkit.git#6297d14"
   }
 }

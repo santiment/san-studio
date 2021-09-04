@@ -1,11 +1,12 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import TsChecker from 'vite-plugin-ts-checker'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 process.env.GQL_SERVER_URL = 'https://api-stage.santiment.net/graphql'
 process.env.IS_DEV_MODE = process.env.NODE_ENV !== 'production'
-process.env.MEDIA_PATH = 'node_modules/san-webkit/lib'
-process.env.ICONS_PATH = 'node_modules/san-webkit/lib/icons'
+process.env.MEDIA_PATH = '/node_modules/san-webkit/lib'
+process.env.ICONS_PATH = '/node_modules/san-webkit/lib/icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,5 +32,14 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['webkit', 'san-webkit'],
+  },
+
+  build: {
+    rollupOptions: {
+      input: {
+        index: resolve(__dirname, 'index.html'),
+        chart: resolve(__dirname, 'chart/index.html'),
+      },
+    },
   },
 })
