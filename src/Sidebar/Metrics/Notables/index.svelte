@@ -25,7 +25,7 @@
   $: style = hoveredNode && getPreviewStyles(hoveredNode)
 
   const getRawSignals = debounced(({ slug }) => {
-    queryRawSignal(slug, 'utc_now-7d', 'utc_now').then((res) => (signals = res))
+    queryRawSignal(slug, 'utc_now-2d', 'utc_now').then((res) => (signals = res))
   })
 
   let timer
