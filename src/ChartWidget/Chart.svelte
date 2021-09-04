@@ -13,6 +13,7 @@
   import CartesianGrid from '@/Chart/CartesianGrid.svelte'
   import Tooltip from '@/Chart/Tooltip/index.svelte'
   import Axes from '@/Chart/Axes/index.svelte'
+  import { getXTicksByWidth } from '@/Chart/Axes/utils'
   import Brush from '@/Chart/Brush/index.svelte'
   import Drawer from '@/Chart/Drawer/index.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
@@ -40,6 +41,8 @@
   export let domainGroups
   export let from, to
   export let onChart, changeStudioPeriod
+
+  let chartWidth
 
   const getKey = ({ key }) => key
   $: ({ ticker } = $studio)
@@ -131,7 +134,8 @@
   {metricSettings}
   {domainGroups}
   {domainModifier}
-  {onChart}>
+  {onChart}
+  bind:width={chartWidth}>
   {#if $ChartOptions.watermark}
     <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />
   {/if}
@@ -145,7 +149,10 @@
   <ReferenceDots {references} />
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
-  <Axes {axesMetricKeys} {metricSettings} />
+  <Axes
+    {axesMetricKeys}
+    {metricSettings}
+    xTicks={getXTicksByWidth(chartWidth)} />
   <Drawer {axesMetricKeys} metricKey={drawingKey} />
   <Tooltip
     {axesMetricKeys}

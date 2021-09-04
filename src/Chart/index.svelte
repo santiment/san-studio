@@ -19,6 +19,7 @@
   }
 
   export let padding: typeof DEFAULT_PADDING
+  export let width: number, height: number
   export let data, categories, colors, domainGroups
   export let domainModifier = undefined
   export let scale = linearScale
@@ -26,7 +27,6 @@
   export let metricSettings = undefined
   export let onChart = undefined
 
-  let width: number, height: number
   let chart
   let canvas
   let shouldRedraw = 1

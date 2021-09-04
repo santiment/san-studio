@@ -94,3 +94,11 @@ export function plotMetricLastValueBubble(
   value = formatter(value)
   drawValueBubbleY(chart, ctx, value, y, bubbleTheme, offset)
 }
+
+export function getXTicksByWidth(width = 0) {
+  if (width < 600) return 5
+  if (width < 800) return 6
+  if (width < 900) return 8
+  if (width < 1200) return 10
+  return 12
+}
