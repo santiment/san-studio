@@ -1,5 +1,6 @@
 import type { Query, QueryRecord } from 'webkit/api'
 import { query } from 'webkit/api'
+import { dateSorter } from './utils'
 
 const LAYOUT_QUERY = (id: number) => `
   {
@@ -76,8 +77,6 @@ const accessor = <T extends Layout>({ layouts }: { layouts: T[] }) => layouts
 export const queryFeaturedLayouts = (): Promise<Layout[]> =>
   query<LayoutsTemplate>(FEATURED_LAYOUTS_QUERY).then(accessor)
 
-const dateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
-  +new Date(b) - +new Date(a)
 function precacher() {
   return (data: QueryRecord<ProjectLayoutsTemplate>) => {
     data.layouts.sort(dateSorter)

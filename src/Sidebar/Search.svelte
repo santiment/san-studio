@@ -1,6 +1,8 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
 
+  let className = 'mrg-s mrg--t'
+  export { className as class }
   export let searchTerm = ''
   export let placeholder = 'Search metrics'
 
@@ -16,7 +18,7 @@
   }
 </script>
 
-<div class="border mrg-s mrg--t row v-center fluid">
+<div class="border row v-center fluid {className}">
   <Svg id="search" w="12" class="$style.search" />
   <input type="text" on:input={onInput} {placeholder} />
 </div>
