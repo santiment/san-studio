@@ -11,22 +11,18 @@
   import Dialog from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
-  import { updateUserLayout } from '@/api/layouts/user'
+  import { updateUserLayout } from '@/api/layouts/user/mutate'
   import LayoutInfo from './LayoutInfo.svelte'
 
   export let layout: Layout
   export let closeLoadDialog
-  export let rerenderLayouts
 
   let closeDialog
 
   function toggleLayoutPublicity() {
     const isPublic = !layout.isPublic
     layout.isPublic = isPublic
-    updateUserLayout(layout.id, { isPublic }).then(() => {
-      layout.updatedAt = new Date().toISOString()
-      rerenderLayouts()
-    })
+    updateUserLayout(layout.id, { isPublic })
   }
 </script>
 

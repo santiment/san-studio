@@ -1,11 +1,13 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { Cache } from 'webkit/api/cache'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
   import {
     queryLayouts,
     queryFeaturedLayouts,
     queryUserLayouts,
+    USER_LAYOUTS_QUERY,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
   import Item from './Item.svelte'
@@ -26,6 +28,7 @@
   let tab = Tab.Explore
   let graph = {}
   let aborter = () => {}
+  let unsubscribeCache = aborter
 
   $: aborter =
     tab === Tab.MyLibrary
@@ -39,6 +42,7 @@
 
   const newCategoriesShower = (clb: any) => () => {
     aborter()
+    unsubscribeCache()
     let racing = false
     clb(() => racing)
     return () => (racing = true)
@@ -46,14 +50,17 @@
 
   const showMyLibraryLayouts = newCategoriesShower((checkRacing) => {
     graph = newMyLibaryGraph()
-    window.refetchMyLayout = () =>
-      queryUserLayouts().then(
-        (items) => checkRacing() || (graph['My layouts'] = items),
-      )
+    queryUserLayouts().then(
+      (items) => checkRacing() || (graph['My layouts'] = items),
+    )
     queryRecentLayouts().then(
       (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
-    window.refetchMyLayout()
+
+    unsubscribeCache = Cache.get$<any>(
+      USER_LAYOUTS_QUERY,
+      () => (graph = graph),
+    )
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
@@ -65,7 +72,11 @@
       (items) => checkRacing() || (graph['Featured by Santiment'] = items),
     )
   })
-  onDestroy(() => (window.refetchMyLayout = null))
+
+  onDestroy(() => {
+    aborter()
+    unsubscribeCache()
+  })
 </script>
 
 <div class="sidebar-header">

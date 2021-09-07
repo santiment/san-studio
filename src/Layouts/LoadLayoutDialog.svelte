@@ -8,8 +8,10 @@
 
 <script lang="ts">
   import type { Layout } from '@/api/layouts/user'
+  import { onDestroy } from 'svelte'
+  import { Cache } from 'webkit/api/cache'
   import Dialog from 'webkit/ui/Dialog'
-  import { queryUserLayouts } from '@/api/layouts/user'
+  import { queryUserLayouts, USER_LAYOUTS_QUERY } from '@/api/layouts/user'
   import Search from '@/Sidebar/Search.svelte'
   import SelectableLayout from './SelectableLayout.svelte'
 
@@ -21,14 +23,18 @@
   let closeDialog
   let tab = Tab.MyLibrary
   let layouts = [] as Layout[]
+  let oldSortedLayouts = [] as Layout[]
 
-  queryUserLayouts().then((items) => (layouts = items))
+  queryUserLayouts().then((items) => {
+    layouts = items
+    oldSortedLayouts = items.slice()
+  })
 
   function onLayoutSelect(layout: Layout) {
     console.log(layout)
   }
 
-  const rerenderLayouts = () => (layouts = layouts.slice())
+  onDestroy(Cache.get$(USER_LAYOUTS_QUERY, () => (layouts = oldSortedLayouts)))
 </script>
 
 <Dialog
@@ -57,11 +63,7 @@
 
   <div class="dialog-body layouts">
     {#each layouts as layout (layout.id)}
-      <SelectableLayout
-        {layout}
-        {closeDialog}
-        {rerenderLayouts}
-        onClick={onLayoutSelect} />
+      <SelectableLayout {layout} {closeDialog} onClick={onLayoutSelect} />
     {/each}
   </div>
 </Dialog>

@@ -5,7 +5,6 @@
 
   export let layout: Layout
   export let closeDialog
-  export let rerenderLayouts
   export let onClick
 
   $: ({ title, isPublic, project, metrics } = layout)
@@ -34,7 +33,6 @@
     on:click={() =>
       showLayoutInfoDialog({
         layout,
-        rerenderLayouts,
         closeLoadDialog: closeDialog,
       })}>
     See details

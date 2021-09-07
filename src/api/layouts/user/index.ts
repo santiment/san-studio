@@ -1,6 +1,6 @@
 import type { Query, QueryRecord } from 'webkit/api'
-import { query, mutate } from 'webkit/api'
-import { dateSorter } from './utils'
+import { query } from 'webkit/api'
+import { dateSorter } from '../utils'
 
 export const USER_LAYOUTS_QUERY = `
   {
@@ -64,22 +64,3 @@ export const queryUserLayouts = (): Promise<Layout[]> =>
   query<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, userLayoutsOptions).then(
     userLayoutsAccessor,
   )
-
-const UPDATE_TEMPLATE_MUTATION = `
-  mutation updateChartConfiguration(
-    $id: ID!
-    $settings: ProjectChartInputObject!
-  ) {
-    updateChartConfiguration(id: $id, settings: $settings) {
-      id
-    }
-  }
-`
-
-export const updateUserLayout = (
-  id: number,
-  settings: Partial<Pick<Layout, 'title' | 'metrics' | 'options' | 'isPublic'>>,
-) =>
-  mutate(UPDATE_TEMPLATE_MUTATION, {
-    variables: { id, settings },
-  })

@@ -68,7 +68,7 @@ type LayoutsTemplate = Query<'layouts', Layout[]>
 
 type ProjectLayout = Layout & { updatedAt: string }
 type ProjectLayoutsTemplate = Query<'layouts', ProjectLayout[]>
-type UserLayoutsTemplate = Query<
+export type UserLayoutsTemplate = Query<
   'currentUser',
   null | { layouts: ProjectLayout[] }
 >
