@@ -7,16 +7,35 @@
 </script>
 
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
+  import { Event } from '@/analytics'
+  import { studio } from '@/stores/studio'
+  import { getWidgets } from '@/stores/widgets'
+  import { createUserLayout } from '@/api/layouts/user/mutate'
+
+  const Widgets = getWidgets()
+
+  let closeDialog
 
   function onSubmit({ currentTarget }) {
-    const title = currentTarget.title.value
-    const description = currentTarget.description.value
-    console.log(title, description)
+    const title: string = currentTarget.title.value
+    const description: string = currentTarget.description.value
+    const metrics = [...new Set($Widgets.map(({ metrics }) => metrics).flat())]
+
+    createUserLayout({
+      title,
+      description,
+      metrics: metrics.map(({ key }) => key),
+      projectId: $studio.projectId,
+      options: '',
+    })
+      .then((layout) => track.event(Event.NewLayout, { id: layout.id }))
+      .then(closeDialog)
   }
 </script>
 
-<Dialog {...$$props} title="New Chart Layout">
+<Dialog {...$$props} title="New Chart Layout" bind:closeDialog>
   <form class="dialog-body column" on:submit|preventDefault={onSubmit}>
     <input
       required

@@ -30,7 +30,7 @@ export const USER_LAYOUTS_QUERY = `
 `
 export type Layout = {
   id: number
-  title: number
+  title: string
   updatedAt: string
   isPublic: boolean
   project: {

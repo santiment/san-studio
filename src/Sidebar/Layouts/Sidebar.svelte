@@ -10,6 +10,7 @@
     USER_LAYOUTS_QUERY,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
+  import { showNewLayoutDialog } from '@/Layouts/NewLayoutDialog.svelte'
   import Item from './Item.svelte'
   import {
     Tab,
@@ -40,6 +41,7 @@
   $: categories = Object.keys(graph) as any[]
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
 
+  const rerenderGraph = () => (graph = graph)
   const newCategoriesShower = (clb: any) => () => {
     aborter()
     unsubscribeCache()
@@ -57,10 +59,7 @@
       (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
 
-    unsubscribeCache = Cache.get$<any>(
-      USER_LAYOUTS_QUERY,
-      () => (graph = graph),
-    )
+    unsubscribeCache = Cache.get$(USER_LAYOUTS_QUERY, rerenderGraph)
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
@@ -83,7 +82,7 @@
   <Tabs tabs={TABS} bind:tab />
   <div
     class="btn btn-1 btn--green mrg-l mrg--t row v-center"
-    on:click={window.showNewLayoutDialog}>
+    on:click={showNewLayoutDialog}>
     <Svg id="plus-circle" w="16" class="$style.plus mrg-s mrg--r" />
     Create chart layout
   </div>
