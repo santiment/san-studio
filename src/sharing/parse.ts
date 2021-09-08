@@ -16,9 +16,7 @@ export type KeyToMetric = {
   [metricKey: string]: MetricType
 }
 
-export function parse(
-  queryString = `?ps=ethereum&pt=ETH&df=2021-02-25T20%3A59%3A59.999Z&dt=2021-08-25T20%3A59%3A59.999Z&emcg=1&wm=ethereum_MC_ETH_MC_price_usd%3Bvolume_usd%3Bmarketcap_usd%3BMA7_marketcap_usd%3BMA50_marketcap_usd%3Bprice_usd&wax=0%3B1%3B2&wc=%235275FF%3B%23D2D6E7%3B%23F47BF7%3B%23FF5B5B%3B%23FFCB47%3B%2326C953&ws=%3B%7B%22interval%22%3A%221d%22%7D%3B%3B%3B%3B&win=%3B%3B%5B%22MA7%22%2C%22MA50%22%5D`,
-) {
+export function parse(queryString: string) {
   const qs = queryString.startsWith('?') ? queryString.slice(1) : queryString
   const entries = qs.split('&')
 

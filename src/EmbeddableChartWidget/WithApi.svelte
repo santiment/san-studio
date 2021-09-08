@@ -2,14 +2,17 @@
   import { newHistoryContext } from 'webkit/ui/history'
   import { ONE_MINUTE_IN_MS } from 'webkit/utils/dates'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { studio } from '@/stores/studio'
   import { setAdapterController } from '@/adapter/context'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import ChartWidget from '@/ChartWidget/index.svelte'
+  import { getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
 
   export let widget = {}
   export let isWithMetricSettings = false
 
+  const queryString = getViewOnSantimentLink($studio, widget)
   const AutoUpdater = newAutoUpdaterStore([widget])
   newHistoryContext({ add: () => {} })
   setAdapterController({
@@ -47,7 +50,7 @@
     </div>
 
     <a
-      href="https://app.santiment.net/charts"
+      href="https://app.santiment.net/charts?{queryString}"
       target="__blank"
       class="btn caption">
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
