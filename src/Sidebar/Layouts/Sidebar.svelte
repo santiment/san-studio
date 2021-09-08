@@ -3,7 +3,7 @@
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
   import {
-    queryLayouts,
+    queryShortLayouts,
     queryFeaturedLayouts,
     queryUserLayouts,
     subscribeUserShortLayoutsCache,
@@ -63,7 +63,7 @@
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
     graph = newExploreGraph()
-    queryLayouts(slug).then(
+    queryShortLayouts(slug).then(
       (items) => checkRacing() || (graph[TICKER_LAYOUTS] = items),
     )
     queryFeaturedLayouts().then(

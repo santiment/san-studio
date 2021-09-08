@@ -8,7 +8,7 @@
   export let closeDialog
   export let onClick
 
-  $: ({ title, isPublic, project, metrics } = layout)
+  $: ({ title, isPublic = true, project, metrics } = layout)
 </script>
 
 <div

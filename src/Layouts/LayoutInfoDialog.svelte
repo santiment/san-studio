@@ -32,7 +32,7 @@
 
   function onUseClick() {
     selectedLayout.set(layout)
-    closeDialog()
+    closeDialog(false)
   }
 
   function onEditClick() {
@@ -56,7 +56,7 @@
   class="$style.dialog"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
   bind:closeDialog>
-  <div class="btn" slot="title" on:click={() => closeDialog(true)}>
+  <div class="title btn" slot="title" on:click={() => closeDialog(true)}>
     <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r $style.arrow" />
     {layout.title}
   </div>
@@ -105,7 +105,7 @@
     transform: rotate(-90deg);
   }
 
-  .btn {
+  .title {
     --fill: var(--casper);
     --color-hover: var(--green);
   }

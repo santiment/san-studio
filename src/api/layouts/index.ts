@@ -56,12 +56,36 @@ export const USER_LAYOUTS_QUERY = `
   }
 `
 
+const SHORT_LAYOUTS_QUERY = (slug: string) => `
+  {
+    layouts: chartConfigurations(projectSlug:"${slug}") {
+			id
+			title
+			updatedAt
+    }
+  }
+`
 const LAYOUTS_QUERY = (slug: string) => `
   {
     layouts: chartConfigurations(projectSlug:"${slug}") {
 			id
 			title
 			updatedAt
+      isPublic
+			project {
+				projectId: id
+				slug
+				ticker
+				name
+			}
+			metrics
+			options
+      user {
+	      id
+	      username
+	      email
+	      avatarUrl
+      }
     }
   }
 `
@@ -87,6 +111,10 @@ function precacher() {
   }
 }
 const options = { precacher }
+export const queryShortLayouts = (slug: string): Promise<ProjectLayout[]> =>
+  query<ProjectLayoutsTemplate>(SHORT_LAYOUTS_QUERY(slug), options).then(
+    accessor,
+  )
 export const queryLayouts = (slug: string): Promise<ProjectLayout[]> =>
   query<ProjectLayoutsTemplate>(LAYOUTS_QUERY(slug), options).then(accessor)
 

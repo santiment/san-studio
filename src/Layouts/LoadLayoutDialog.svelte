@@ -10,6 +10,8 @@
   import type { Layout } from '@/api/layouts/user'
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
+  import { studio } from '@/stores/studio'
+  import { queryLayouts } from '@/api/layouts'
   import {
     queryUserLayouts,
     subscribeUserLayoutsCache,
@@ -26,18 +28,31 @@
   let tab = Tab.MyLibrary
   let layouts = [] as Layout[]
   let oldSortedLayouts = [] as Layout[]
+  let unsubscribe
 
-  queryUserLayouts().then((items) => {
+  $: ({ slug } = $studio)
+  $: getLayouts(tab).then((items: any) => {
     layouts = items
     oldSortedLayouts = items.slice()
   })
+
+  function getLayouts(tab: Tab) {
+    unsubscribe = unsubscribe?.()
+
+    if (tab === Tab.Explore) return queryLayouts(slug)
+
+    unsubscribe = subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts))
+    return queryUserLayouts()
+  }
 
   function onLayoutSelect(layout: Layout) {
     window.onLayoutSelect(layout)
     closeDialog()
   }
 
-  onDestroy(subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts)))
+  onDestroy(() => {
+    unsubscribe?.()
+  })
 </script>
 
 <Dialog
