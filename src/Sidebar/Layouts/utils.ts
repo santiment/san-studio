@@ -1,4 +1,5 @@
 import type { Layout } from '@/api/layouts'
+import { saveValue, getSavedValue } from 'webkit/utils/localStorage'
 import { queryShortLayout } from '@/api/layouts'
 import { getSavedRecentLayoutIds } from '@/Layouts/utils'
 
@@ -31,3 +32,9 @@ export function queryRecentLayouts(): Promise<Layout[]> {
     ? Promise.all(ids.map(query)).then(emptyLayoutsFilter)
     : Promise.resolve([])
 }
+
+const HAS_OPENED_MY_LIBRARY = 'HAS_OPENED_MY_LIBRARY'
+export const checkHasOpenedMyLibrary = () =>
+  !!getSavedValue(HAS_OPENED_MY_LIBRARY)
+export const saveHasOpenedMyLibrary = () =>
+  saveValue(HAS_OPENED_MY_LIBRARY, '+')

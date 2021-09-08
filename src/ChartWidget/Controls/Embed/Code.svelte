@@ -34,7 +34,7 @@
         const qs = shareEmbeded(widget, settings, options)
         const label = getChartWidgetLabel(widget, settings)
 
-        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="${window.location.origin}/__chart?${qs}" scrolling="no"></iframe>`
+        return `<iframe title="Santiment Chart: ${label}" width="${width}" height="${height}" src="https://embed.santiment.net/chart?${qs}" scrolling="no"></iframe>`
       })
       .join('\n\n')
   }

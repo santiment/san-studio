@@ -7,9 +7,11 @@
 
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { track } from 'webkit/analytics'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { dialogs } from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { Event } from '@/analytics'
   import ShortcutsDialog, {
     showShortcutsDialog,
   } from '@/Shortcuts/Dialog.svelte'
@@ -21,7 +23,14 @@
     showShortcutsDialog()
   }
 
-  const onHelpClick = () => window.Intercom?.('show')
+  function onModeCange(id) {
+    mode = id
+    track.event(Event.Sidebar, { mode: id.toLowerCase() })
+  }
+
+  const onHelpClick = () => (
+    track.event(Event.HelpFeedback), window.Intercom?.('show')
+  )
 
   const MODES = [Mode.Metrics, Mode.Layouts]
 
@@ -30,7 +39,10 @@
 
 <div class="nav row">
   {#each MODES as id}
-    <div class="btn" class:active={mode === id} on:click={() => (mode = id)}>
+    <div
+      class="btn"
+      class:active={mode === id}
+      on:click={() => onModeCange(id)}>
       {id}
     </div>
   {/each}

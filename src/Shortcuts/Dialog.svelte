@@ -7,11 +7,13 @@
 </script>
 
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
-  import { isMac } from 'webkit/utils/os'
+  import { CMD } from 'webkit/utils/os'
+  import { Event } from '@/analytics'
   import Section from './Section.svelte'
 
-  const CMD = isMac ? '⌘' : 'Ctrl'
+  track.event(Event.Shortcuts)
 
   function newShortcut(keys: string[], description: string) {
     return { keys, description }

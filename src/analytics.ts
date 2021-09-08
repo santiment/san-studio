@@ -43,6 +43,12 @@ export const Event = {
 
   Insights: 'charts_insights',
 
+  Sidebar: 'charts_sidebar',
+
   Share: 'charts_share',
   CopyLink: 'charts_copy_link',
+
+  Shortcuts: 'charts_shortcuts',
+
+  HelpFeedback: 'charts_help_feedback',
 } as const

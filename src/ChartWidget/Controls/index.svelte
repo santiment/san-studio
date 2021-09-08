@@ -6,7 +6,6 @@
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
-  import { getSidewidget } from '@/stores/widgets'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
@@ -18,7 +17,6 @@
   const History = getHistoryContext()
   const widget = getWidget()
   const { ChartDrawer } = widget
-  const Sidewidget = getSidewidget()
   const { noWidgetControls } = getAdapterController()
 
   export let chart
@@ -133,9 +131,7 @@
       <Svg id="download" w="17" />
     </div>
 
-    {#if $globals.isBeta}
-      <Embed />
-    {/if}
+    <Embed />
 
     <OptionsMenu
       bind:onDownload

@@ -76,6 +76,8 @@
   onDestroy(() => {
     window.showLoginPrompt = undefined
     window.shareLayoutWidgets = undefined
+    // @ts-ignore
+    window.parseLayoutWidgets = undefined
   })
 </script>
 

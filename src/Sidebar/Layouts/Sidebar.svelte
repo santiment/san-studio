@@ -19,13 +19,15 @@
     newMyLibaryGraph,
     newExploreGraph,
     queryRecentLayouts,
+    checkHasOpenedMyLibrary,
+    saveHasOpenedMyLibrary,
   } from './utils'
   import Tabs from '../Tabs.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
 
   let searchTerm = ''
-  let tab = Tab.Explore
+  let tab = checkHasOpenedMyLibrary() ? Tab.MyLibrary : Tab.Explore
   let graph = {}
   let aborter = () => {}
   let unsubscribeCache = aborter
@@ -58,6 +60,7 @@
       (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
 
+    saveHasOpenedMyLibrary()
     unsubscribeCache = subscribeUserShortLayoutsCache(rerenderGraph)
   })
 
@@ -81,7 +84,7 @@
   <Tabs tabs={TABS} bind:tab />
   <div
     class="btn btn-1 btn--green mrg-l mrg--t row v-center"
-    on:click={showNewLayoutDialog}>
+    on:click={() => showNewLayoutDialog()}>
     <Svg id="plus-circle" w="16" class="$style.plus mrg-s mrg--r" />
     Create chart layout
   </div>
