@@ -28,6 +28,7 @@
   let tab = Tab.MyLibrary
   let layouts = [] as Layout[]
   let oldSortedLayouts = [] as Layout[]
+  let searchTerm = ''
   let unsubscribe
 
   $: ({ slug } = $studio)
@@ -35,6 +36,7 @@
     layouts = items
     oldSortedLayouts = items.slice()
   })
+  $: filteredLayouts = searchTerm ? filterLayouts(layouts, searchTerm) : layouts
 
   function getLayouts(tab: Tab) {
     unsubscribe = unsubscribe?.()
@@ -43,6 +45,16 @@
 
     unsubscribe = subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts))
     return queryUserLayouts()
+  }
+
+  function filterLayouts(layouts: any[], searchTerm: string) {
+    const searchTerms = searchTerm.split(' ')
+    const filter = ({ title }) => {
+      const lowered = title.toLowerCase()
+      return searchTerms.every((word) => lowered.includes(word))
+    }
+
+    return layouts.filter(filter)
   }
 
   function onLayoutSelect(layout: Layout) {
@@ -76,11 +88,11 @@
   </div>
 
   <div class="search">
-    <Search class="" placeholder="Search chart layout..." />
+    <Search bind:searchTerm class="" placeholder="Search chart layout..." />
   </div>
 
   <div class="dialog-body layouts">
-    {#each layouts as layout (layout.id)}
+    {#each filteredLayouts as layout (layout.id)}
       <SelectableLayout
         {layout}
         {closeDialog}
