@@ -60,6 +60,12 @@
       })
       DialogPromise.resolve(layout)
       closeDialog()
+
+      if (isEditMode) {
+        window.notifyLayoutEdit?.()
+      } else {
+        window.notifyLayoutCreation?.()
+      }
     })
   }
 </script>
