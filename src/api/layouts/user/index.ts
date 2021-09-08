@@ -1,5 +1,5 @@
 import type { Query, QueryRecord } from 'webkit/api'
-import type { Updater, Subscriber } from 'webkit/api/cache'
+import type { Updater, Subscriber, Unsubscriber } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { Cache } from 'webkit/api/cache'
 import { dateSorter } from '../utils'
@@ -75,4 +75,4 @@ export const updateUserLayoutsCache = (
 ) => Cache.set$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, updateCache)
 export const subscribeUserLayoutsCache = (
   clb: Subscriber<UserLayoutsTemplate>,
-) => Cache.get$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, clb)
+): Unsubscriber => Cache.get$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, clb)
