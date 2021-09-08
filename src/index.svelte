@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { setContext } from 'svelte'
+  import { onDestroy } from 'svelte'
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import { dialogs } from 'webkit/ui/Dialog'
   import HistoryAction from '@/history/Action.svelte'
   import ProjectInfo from '@/ProjectInfo/index.svelte'
+  import Header from '@/Header/index.svelte'
   import Widget from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
@@ -31,6 +32,7 @@
   export let adjustSelectedMetric = undefined
   export let checkIsMapviewDisabled = undefined
   export let parseLayoutWidgets = undefined
+  export let shareLayoutWidgets = undefined
   export let InsightsContextStore = undefined
   export let onSidebarProjectMount = undefined
 
@@ -40,6 +42,10 @@
   const Widgets = initWidgets(widgets, getExternalWidget, History)
   const Sidewidget = initSidewidget(sidewidget)
   const onScreen = () => onScreenMount && onScreenMount(screen)
+
+  window.showLoginPrompt = onAnonFavoriteClick || (() => {})
+  window.shareLayoutWidgets = shareLayoutWidgets || (() => [])
+  window.parseLayoutWidgets = parseLayoutWidgets || (() => [])
 
   setAdapterController({
     onSubwidget,
@@ -52,7 +58,6 @@
     checkIsMapviewDisabled,
     InsightsContextStore,
     adjustSelectedMetric,
-    parseLayoutWidgets,
   })
   newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()
@@ -67,6 +72,11 @@
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
+
+  onDestroy(() => {
+    window.showLoginPrompt = undefined
+    window.shareLayoutWidgets = undefined
+  })
 </script>
 
 <main>
@@ -77,7 +87,7 @@
     </div>
 
     {#if !screen}
-      <div class="border header panel row" />
+      <Header />
 
       <div class="row main" bind:this={screenRef}>
         <div class="widgets">
@@ -129,20 +139,6 @@
     padding: 20px 27px;
     margin: -20px -27px 20px;
     background: var(--white);
-  }
-
-  .panel {
-    padding: 14px 16px;
-  }
-
-  .header {
-    background: var(--white);
-    position: sticky;
-    top: 0;
-    z-index: 24;
-    margin: 0 0 13px;
-    transition: transform 0.3s ease-out;
-    min-height: 64px;
   }
 
   .widgets {

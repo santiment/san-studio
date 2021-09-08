@@ -1,14 +1,18 @@
 import type { Query, QueryRecord } from 'webkit/api'
+import type { Updater, Subscriber } from 'webkit/api/cache'
 import { query } from 'webkit/api'
+import { Cache } from 'webkit/api/cache'
+import { dateSorter } from './utils'
 
 const LAYOUT_QUERY = (id: number) => `
   {
-    chartConfiguration(id:${id}){
+    layout:chartConfiguration(id:${id}){
 			id
 			title
 			options
 			metrics
 			project {
+        projectId: id
 				name
 				slug
 				ticker
@@ -25,7 +29,7 @@ const LAYOUT_QUERY = (id: number) => `
 
 const SHORT_LAYOUT_QUERY = (id: number) => `
   {
-    chartConfiguration(id:${id}){
+    layout:chartConfiguration(id:${id}){
 			id
 			title
     }
@@ -34,7 +38,7 @@ const SHORT_LAYOUT_QUERY = (id: number) => `
 
 const FEATURED_LAYOUTS_QUERY = `
   {
-    layouts: featuredChartConfigurations{
+    layouts:featuredChartConfigurations{
 			id
 			title
     }
@@ -43,7 +47,7 @@ const FEATURED_LAYOUTS_QUERY = `
 export const USER_LAYOUTS_QUERY = `
   {
     currentUser {
-			layouts: chartConfigurations{
+			layouts:chartConfigurations{
 				id
 				title
 			  updatedAt
@@ -52,7 +56,7 @@ export const USER_LAYOUTS_QUERY = `
   }
 `
 
-const LAYOUTS_QUERY = (slug: string) => `
+const SHORT_LAYOUTS_QUERY = (slug: string) => `
   {
     layouts: chartConfigurations(projectSlug:"${slug}") {
 			id
@@ -61,13 +65,37 @@ const LAYOUTS_QUERY = (slug: string) => `
     }
   }
 `
+const LAYOUTS_QUERY = (slug: string) => `
+  {
+    layouts: chartConfigurations(projectSlug:"${slug}") {
+			id
+			title
+			updatedAt
+      isPublic
+			project {
+				projectId: id
+				slug
+				ticker
+				name
+			}
+			metrics
+			options
+      user {
+	      id
+	      username
+	      email
+	      avatarUrl
+      }
+    }
+  }
+`
 
-export type Layout = { id: number; title: number }
+export type Layout = { id: number; title: string }
 type LayoutsTemplate = Query<'layouts', Layout[]>
 
 type ProjectLayout = Layout & { updatedAt: string }
 type ProjectLayoutsTemplate = Query<'layouts', ProjectLayout[]>
-type UserLayoutsTemplate = Query<
+export type UserLayoutsTemplate = Query<
   'currentUser',
   null | { layouts: ProjectLayout[] }
 >
@@ -76,8 +104,6 @@ const accessor = <T extends Layout>({ layouts }: { layouts: T[] }) => layouts
 export const queryFeaturedLayouts = (): Promise<Layout[]> =>
   query<LayoutsTemplate>(FEATURED_LAYOUTS_QUERY).then(accessor)
 
-const dateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
-  +new Date(b) - +new Date(a)
 function precacher() {
   return (data: QueryRecord<ProjectLayoutsTemplate>) => {
     data.layouts.sort(dateSorter)
@@ -85,6 +111,10 @@ function precacher() {
   }
 }
 const options = { precacher }
+export const queryShortLayouts = (slug: string): Promise<ProjectLayout[]> =>
+  query<ProjectLayoutsTemplate>(SHORT_LAYOUTS_QUERY(slug), options).then(
+    accessor,
+  )
 export const queryLayouts = (slug: string): Promise<ProjectLayout[]> =>
   query<ProjectLayoutsTemplate>(LAYOUTS_QUERY(slug), options).then(accessor)
 
@@ -103,8 +133,16 @@ export const queryUserLayouts = (): Promise<ProjectLayout[]> =>
     userLayoutsAccessor,
   )
 
+export const updateUserShortLayoutsCache = (
+  updateCache: Updater<UserLayoutsTemplate>,
+) => Cache.set$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, updateCache)
+export const subscribeUserShortLayoutsCache = (
+  clb: Subscriber<UserLayoutsTemplate>,
+) => Cache.get$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, clb)
+
 export type DetailedLayout = Layout & {
   metrics: string[]
+  description?: string
   options?: {
     multi_chart: boolean
     widgets: any
@@ -113,17 +151,20 @@ export type DetailedLayout = Layout & {
     name: string
     slug: string
     ticker: string
+    projectId: string
   }
   user: {
-    id: string
+    id: number
     username: null | string
     email: null | string
     avatarUrl: null | string
   }
 }
-const layoutAccessor = ({ chartConfiguration }) => chartConfiguration
+const layoutAccessor = ({ layout }) => layout
 export const queryLayout = (id: number): Promise<DetailedLayout> =>
   query<any>(LAYOUT_QUERY(id)).then(layoutAccessor)
+export const updateLayoutCache = (layout: DetailedLayout) =>
+  Cache.set<any>(LAYOUT_QUERY(layout.id), { layout })
 
 export const queryShortLayout = (id: number): Promise<Layout> =>
   query<any>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)

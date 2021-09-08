@@ -170,7 +170,7 @@ function drawMetricValueBubble(chart, theme, metricKey, y1, y2, offset) {
 }
 
 export function paintDrawingAxes(chart) {
-  const { drawer, axesMetricKeys, right, bottom } = chart
+  const { drawer, axesMetricKeys, right, bottom, rightAxisMargin = 20 } = chart
   const { ctx, selected: drawing } = drawer
   if (!drawing || !drawing.absCoor) return
 
@@ -190,7 +190,7 @@ export function paintDrawingAxes(chart) {
   drawValueBubbleX(chart, ctx, xBubbleFormatter(x1Date), x1, theme)
   drawValueBubbleX(chart, ctx, xBubbleFormatter(x2Date), x2, theme)
 
-  let offset = 20
+  let offset = rightAxisMargin
   axesMetricKeys.forEach((metricKey) => {
     drawMetricValueBubble(chart, theme, metricKey, y1, y2, offset)
     offset += 50

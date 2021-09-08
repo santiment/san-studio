@@ -6,11 +6,11 @@
   export { className as class }
   export let item: any
   export let HoverItem
+  export let active = false
   export let isShowingSubitems = true
   export let onItemEnter = undefined
   export let onLeave = undefined
 
-  let active
   let hovered = null
   let hoverNode
 
@@ -44,7 +44,7 @@
   <div
     bind:this={hoverNode}
     class:active
-    class="item hovered btn row v-center"
+    class="item hovered btn row v-center {className}"
     on:mouseenter={onItemEnter}
     on:mouseleave={clear}
     on:mousewheel={clear}
@@ -122,6 +122,6 @@
   .hovered.active {
     --bg: var(--red-light-1);
     --fill: var(--red);
-    color: var(--red);
+    color: var(--color-active-hover, var(--red));
   }
 </style>

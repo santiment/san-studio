@@ -13,7 +13,7 @@
   import CartesianGrid from '@/Chart/CartesianGrid.svelte'
   import Tooltip from '@/Chart/Tooltip/index.svelte'
   import Axes from '@/Chart/Axes/index.svelte'
-  import { getXTicksByWidth } from '@/Chart/Axes/utils'
+  import { getResponsiveAxesKeys, getXTicksByWidth } from '@/Chart/Axes/utils'
   import Brush from '@/Chart/Brush/index.svelte'
   import Drawer from '@/Chart/Drawer/index.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
@@ -150,7 +150,7 @@
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes
-    {axesMetricKeys}
+    axesMetricKeys={getResponsiveAxesKeys(chartWidth, axesMetricKeys)}
     {metricSettings}
     xTicks={getXTicksByWidth(chartWidth)} />
   <Drawer {axesMetricKeys} metricKey={drawingKey} />
