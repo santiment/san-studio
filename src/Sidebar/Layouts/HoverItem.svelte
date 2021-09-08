@@ -1,17 +1,27 @@
 <script lang="ts">
   import type { DetailedLayout } from '@/api/layouts'
   import { onMount, onDestroy } from 'svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { queryLayout } from '@/api/layouts'
+  import { queryCurrentUser } from '@/api/user'
+  import { createUserLayout } from '@/api/layouts/user/mutate'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
+  import { showNewLayoutDialog, Mode } from '@/Layouts/NewLayoutDialog.svelte'
   import HoverItem from '../HoverItem.svelte'
 
   export let item: any
   export let node: HTMLElement
   export let hoverNode: HTMLElement
 
+  let currentUser
   let timer
   let layout = {} as DetailedLayout
   let destroyed = false
+
+  $: isAuthor =
+    currentUser && layout.user && +layout.user.id === +currentUser.id
+
+  queryCurrentUser().then((user) => (currentUser = user))
 
   const showPreview = () =>
     queryLayout(item.id).then((data) => destroyed || (layout = data))
@@ -25,6 +35,27 @@
     window.clearTimeout(timer)
   }
 
+  function onEditClick() {
+    showNewLayoutDialog({
+      layout,
+      title: 'Edit Chart Layout',
+      mode: Mode.Edit,
+    })
+  }
+
+  function onAddClick() {
+    if (!currentUser) return window.showLoginPrompt?.()
+
+    const { title, description, project, metrics, options } = layout
+    createUserLayout({
+      title,
+      description,
+      metrics,
+      options,
+      projectId: project.projectId,
+    })
+  }
+
   onMount(startPreviewTimer)
   onDestroy(closePreview)
 </script>
@@ -33,6 +64,16 @@
   {item.title}
 
   <svelte:fragment slot="right">
+    {#if isAuthor}
+      <div class="btn" on:click|stopPropagation={onEditClick}>
+        <Svg id="pencil" w="16" />
+      </div>
+    {:else if layout.id}
+      <div class="btn" on:click|stopPropagation={onAddClick}>
+        <Svg id="plus-circle" w="16" />
+      </div>
+    {/if}
+
     {#if layout.title}
       <div class="preview border">
         <LayoutInfo {layout} />
@@ -59,5 +100,12 @@
     width: 5px;
     top: 0;
     bottom: 0;
+  }
+
+  .btn {
+    --bg: none;
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
+    margin-left: 12px;
   }
 </style>
