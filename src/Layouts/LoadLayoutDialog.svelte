@@ -11,6 +11,7 @@
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { queryLayouts } from '@/api/layouts'
   import {
     queryUserLayouts,
@@ -25,7 +26,7 @@
   }
 
   let closeDialog
-  let tab = Tab.MyLibrary
+  let tab = $globals.isLoggedIn ? Tab.MyLibrary : Tab.Explore
   let layouts = [] as Layout[]
   let oldSortedLayouts = [] as Layout[]
   let searchTerm = ''
@@ -76,7 +77,8 @@
     <div
       class="tab btn mrg-xl mrg--r active"
       class:active={tab === Tab.MyLibrary}
-      on:click={() => (tab = Tab.MyLibrary)}>
+      on:click={() =>
+        (tab = $globals.isLoggedIn ? Tab.MyLibrary : Tab.Explore)}>
       My Library
     </div>
     <div

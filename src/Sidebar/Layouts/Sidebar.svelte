@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import {
     queryShortLayouts,
     queryFeaturedLayouts,
@@ -74,6 +75,9 @@
     )
   })
 
+  const onNewLayoutClick = () =>
+    ($globals.isLoggedIn ? showNewLayoutDialog : window.showLoginPrompt)?.()
+
   onDestroy(() => {
     aborter()
     unsubscribeCache()
@@ -84,7 +88,7 @@
   <Tabs tabs={TABS} bind:tab />
   <div
     class="btn btn-1 btn--green mrg-l mrg--t row v-center"
-    on:click={() => showNewLayoutDialog()}>
+    on:click={onNewLayoutClick}>
     <Svg id="plus-circle" w="16" class="$style.plus mrg-s mrg--r" />
     Create chart layout
   </div>
