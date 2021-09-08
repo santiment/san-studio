@@ -4,6 +4,7 @@
   import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte'
 
   export let layout: Layout
+  export let isAuthor = false
   export let closeDialog
   export let onClick
 
@@ -30,9 +31,10 @@
   </div>
   <div
     class="details btn border"
-    on:click={() =>
+    on:click|stopPropagation={() =>
       showLayoutInfoDialog({
         layout,
+        isAuthor,
         closeLoadDialog: closeDialog,
       })}>
     See details

@@ -11,10 +11,15 @@
   import Dialog from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
+  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { selectedLayout } from '@/stores/layout'
   import { updateUserLayout } from '@/api/layouts/user/mutate'
   import LayoutInfo from './LayoutInfo.svelte'
+  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
+  import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
 
   export let layout: Layout
+  export let isAuthor = false
   export let closeLoadDialog
 
   let closeDialog
@@ -23,6 +28,25 @@
     const isPublic = !layout.isPublic
     layout.isPublic = isPublic
     updateUserLayout(layout.id, { isPublic })
+  }
+
+  function onUseClick() {
+    selectedLayout.set(layout)
+    closeDialog()
+  }
+
+  function onEditClick() {
+    showNewLayoutDialog({
+      layout,
+      title: 'Edit Chart Layout',
+      mode: Mode.Edit,
+    })
+  }
+
+  function onDeleteClick() {
+    showDeleteLayoutDialog({ layout }).then(
+      (wasDeleted) => wasDeleted && closeDialog(),
+    )
   }
 </script>
 
@@ -38,12 +62,33 @@
   </div>
 
   <div class="dialog-body">
-    <div class="actions row txt-m mrg-xl mrg--b">
-      Public
-      <Toggle
-        class="mrg-m mrg--l"
-        isActive={layout.isPublic}
-        on:click={toggleLayoutPublicity} />
+    <div class="actions row txt-m mrg-xl mrg--b v-center">
+      {#if isAuthor}
+        <Tooltip duration={0} on="click">
+          <div
+            class="menu btn border row hv-center mrg-a mrg--r"
+            slot="trigger">
+            <Svg id="vert-dots" w="4" h="14" />
+          </div>
+
+          <div slot="tooltip" class="tooltip">
+            <div class="btn btn--ghost" on:click={onEditClick}>Edit</div>
+            <div class="delete btn btn--ghost" on:click={onDeleteClick}>
+              Delete
+            </div>
+          </div>
+        </Tooltip>
+
+        Public
+        <Toggle
+          class="mrg-m mrg--l"
+          isActive={layout.isPublic}
+          on:click={toggleLayoutPublicity} />
+      {:else}
+        <div class="btn btn-1 btn--green" on:click={onUseClick}>
+          Use Chart Layout
+        </div>
+      {/if}
     </div>
 
     <LayoutInfo {layout} />
@@ -67,5 +112,16 @@
 
   .actions {
     color: var(--waterloo);
+  }
+
+  .menu {
+    width: 32px;
+    height: 32px;
+    --fill: var(--black);
+    --fill-hover: var(--green);
+  }
+
+  .tooltip {
+    padding: 8px;
   }
 </style>

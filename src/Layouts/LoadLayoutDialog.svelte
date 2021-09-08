@@ -66,7 +66,11 @@
 
   <div class="dialog-body layouts">
     {#each layouts as layout (layout.id)}
-      <SelectableLayout {layout} {closeDialog} onClick={onLayoutSelect} />
+      <SelectableLayout
+        {layout}
+        {closeDialog}
+        onClick={onLayoutSelect}
+        isAuthor={tab === Tab.MyLibrary} />
     {/each}
   </div>
 </Dialog>

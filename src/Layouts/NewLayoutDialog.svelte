@@ -5,11 +5,11 @@
   export const showNewLayoutDialog = (props?: any) =>
     dialogs.show<DetailedLayout>(NewLayoutDialog, props)
 
-  export enum Mode {
-    New,
-    Save,
-    Edit,
-  }
+  export const Mode = {
+    New: 0,
+    Save: 1,
+    Edit: 2,
+  } as const
 </script>
 
 <script lang="ts">
@@ -27,7 +27,7 @@
 
   export let DialogPromise: DialogController
   export let title = 'New Chart Layout'
-  export let mode = Mode.New
+  export let mode: typeof Mode[keyof typeof Mode] = Mode.New
   export let layout: undefined | DetailedLayout
 
   let closeDialog

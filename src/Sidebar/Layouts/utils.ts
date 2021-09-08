@@ -1,6 +1,6 @@
 import type { Layout } from '@/api/layouts'
-import { getSavedValue } from 'webkit/utils/localStorage'
 import { queryShortLayout } from '@/api/layouts'
+import { getSavedRecentLayoutIds } from '@/Layouts/utils'
 
 export enum Tab {
   MyLibrary = 'My Library',
@@ -22,14 +22,6 @@ export const newExploreGraph = () => ({
   'Featured by Santiment': [],
   [TICKER_LAYOUTS]: [],
 })
-
-const RECENT_LAYOUTS = 'RECENT_TEMPLATES'
-
-const mapSavedRecentLayoutIds = (value: string) => +value
-function getSavedRecentLayoutIds(): number[] {
-  const value = getSavedValue(RECENT_LAYOUTS, '')
-  return value ? value.split(',').map(mapSavedRecentLayoutIds) : []
-}
 
 const emptyLayoutsFilter = (layouts) => layouts.filter(Boolean)
 export function queryRecentLayouts(): Promise<Layout[]> {

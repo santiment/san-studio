@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
   import { dialogs } from 'webkit/ui/Dialog'
   import DeleteLayoutDialog from './DeleteLayoutDialog.svelte'
+  import { removeRecentLayoutId } from './utils'
 
   export const showDeleteLayoutDialog = (props?: any) =>
     dialogs.show<boolean>(DeleteLayoutDialog, props)
@@ -18,6 +19,7 @@
 
   function onDeleteClick() {
     deleteUserLayout(layout.id).then(() => {
+      removeRecentLayoutId(layout.id)
       DialogPromise.resolve(true)
       closeDialog()
     })

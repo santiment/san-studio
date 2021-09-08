@@ -10,12 +10,11 @@ import { dateSorter } from '../utils'
 type MutatedLayoutQuery = Query<'layout', Layout>
 type CurrentUserLayouts = UserLayoutsTemplate & UserShortLayoutsTemplate
 
-const newLayoutMutation = (mutation: string) => `
+const newLayoutMutation = (mutation: string, argTypes = '', args = '') => `
   mutation(
-    $id: ID!
-    $settings: ProjectChartInputObject!
+    $settings: ProjectChartInputObject! ${argTypes}
   ) {
-    layout:${mutation}(id: $id, settings: $settings) {
+    layout:${mutation}(settings: $settings${args}) {
       id
       isPublic
 			title
@@ -58,7 +57,11 @@ function normalizeSettings(settings: LayoutUpdates) {
 // ------- UPDATE LAYOUT --------
 // ------------------------------
 
-const UPDATE_LAYOUT_MUTATION = newLayoutMutation('updateChartConfiguration')
+const UPDATE_LAYOUT_MUTATION = newLayoutMutation(
+  'updateChartConfiguration',
+  '$id: ID!',
+  ',id: $id',
+)
 
 type LayoutUpdates = Partial<
   Pick<Layout, 'title' | 'metrics' | 'options' | 'isPublic'>
