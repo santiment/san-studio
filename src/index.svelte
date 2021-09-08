@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import { dialogs } from 'webkit/ui/Dialog'
   import HistoryAction from '@/history/Action.svelte'
@@ -31,6 +32,7 @@
   export let adjustSelectedMetric = undefined
   export let checkIsMapviewDisabled = undefined
   export let parseLayoutWidgets = undefined
+  export let shareLayoutWidgets = undefined
   export let InsightsContextStore = undefined
   export let onSidebarProjectMount = undefined
 
@@ -40,6 +42,9 @@
   const Widgets = initWidgets(widgets, getExternalWidget, History)
   const Sidewidget = initSidewidget(sidewidget)
   const onScreen = () => onScreenMount && onScreenMount(screen)
+
+  window.showLoginPrompt = onAnonFavoriteClick || (() => {})
+  window.shareLayoutWidgets = shareLayoutWidgets || (() => [])
 
   setAdapterController({
     onSubwidget,
@@ -67,6 +72,11 @@
 
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
+
+  onDestroy(() => {
+    window.showLoginPrompt = undefined
+    window.shareLayoutWidgets = undefined
+  })
 </script>
 
 <main>

@@ -1,5 +1,7 @@
 import type { Query, QueryRecord } from 'webkit/api'
+import type { Updater, Subscriber } from 'webkit/api/cache'
 import { query } from 'webkit/api'
+import { Cache } from 'webkit/api/cache'
 import { dateSorter } from '../utils'
 
 export const USER_LAYOUTS_QUERY = `
@@ -48,7 +50,10 @@ export type Layout = {
     avatarUrl: null | string
   }
 }
-type UserLayoutsTemplate = Query<'currentUser', null | { layouts: Layout[] }>
+export type UserLayoutsTemplate = Query<
+  'currentUser',
+  null | { layouts: Layout[] }
+>
 
 function userLayoutsPrecacher() {
   return (data: QueryRecord<UserLayoutsTemplate>) => {
@@ -64,3 +69,10 @@ export const queryUserLayouts = (): Promise<Layout[]> =>
   query<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, userLayoutsOptions).then(
     userLayoutsAccessor,
   )
+
+export const updateUserLayoutsCache = (
+  updateCache: Updater<UserLayoutsTemplate>,
+) => Cache.set$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, updateCache)
+export const subscribeUserLayoutsCache = (
+  clb: Subscriber<UserLayoutsTemplate>,
+) => Cache.get$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, clb)

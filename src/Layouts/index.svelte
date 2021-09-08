@@ -1,20 +1,104 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
-  import { showNewLayoutDialog } from './NewLayoutDialog.svelte'
+  import { studio } from '@/stores/studio'
+  import { getWidgets } from '@/stores/widgets'
+  import { selectedLayout } from '@/stores/layout'
+  import { queryCurrentUser } from '@/api/user'
+  import { updateUserLayout, createUserLayout } from '@/api/layouts/user/mutate'
+  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
+  import { getAllWidgetsMetricsKeys } from './utils'
+
+  const Widgets = getWidgets()
+
+  let currentUser
+
+  $: layout = $selectedLayout
+  $: isAuthor = currentUser && layout && +layout.user.id === +currentUser.id
+
+  queryCurrentUser().then((user) => (currentUser = user))
+
+  const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
+  const callIfRegistered = (clb: () => any) => () =>
+    (currentUser ? clb : window.showLoginPrompt)?.()
+
+  function onSave() {
+    let promise: Promise<any>
+
+    if (layout) {
+      const projectId = +$studio.projectId
+      const { id, title, description } = layout
+      const settings = {
+        title,
+        description,
+        projectId,
+        metrics: getAllWidgetsMetricsKeys($Widgets),
+        options: {
+          widgets: window.shareLayoutWidgets?.($Widgets),
+        },
+      }
+
+      promise = isAuthor
+        ? updateUserLayout(id, settings)
+        : createUserLayout(settings)
+    } else {
+      promise = showNewLayoutDialog()
+    }
+
+    promise.then(selectLayout)
+  }
+
+  const onSaveAsNew = () =>
+    layout &&
+    showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(
+      selectLayout,
+    )
+
+  const onEdit = () =>
+    layout &&
+    showNewLayoutDialog({
+      layout,
+      title: 'Edit Chart Layout',
+      mode: Mode.Edit,
+    }).then(selectLayout)
+
+  const onNew = () => showNewLayoutDialog().then(selectLayout)
 </script>
 
 <div class="layout border btn row">
-  <div class="action btn">Save as</div>
+  <div class="action btn" on:click={callIfRegistered(onSave)}>
+    {layout ? 'Save' : 'Save as'}
+  </div>
   <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
     <div class="menu btn" slot="trigger">
       <Svg id="arrow" w="8" h="5" class="$style.arrow" />
     </div>
 
     <div slot="tooltip">
+      {#if layout}
+        <div class="btn btn--ghost" on:click={callIfRegistered(onSave)}>
+          Save
+        </div>
+        <div class="btn btn--ghost" on:click={callIfRegistered(onSaveAsNew)}>
+          Save as new
+        </div>
+      {/if}
+
+      {#if isAuthor}
+        <div class="btn btn--ghost" on:click={onEdit}>Edit</div>
+      {/if}
+
+      {#if layout}
+        <div class="divider" />
+      {/if}
+
       <div class="btn btn--ghost" on:click={showLoadLayoutDialog}>Load</div>
-      <div class="btn btn--ghost" on:click={showNewLayoutDialog}>New</div>
+      <div class="btn btn--ghost" on:click={callIfRegistered(onNew)}>New</div>
+
+      {#if isAuthor}
+        <div class="delete btn btn--ghost" on:click={console.log}>Delete</div>
+      {/if}
     </div>
   </Tooltip>
 </div>
@@ -45,5 +129,15 @@
     left: 0px !important;
     width: 200px;
     padding: 8px;
+  }
+
+  .divider {
+    margin: 8px -8px;
+    border-bottom: 1px solid var(--porcelain);
+  }
+
+  .delete {
+    --color: var(--red);
+    --color-hover: var(--red-hover);
   }
 </style>

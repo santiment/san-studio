@@ -8,6 +8,11 @@ declare namespace NodeJS {
   }
 }
 
+interface Window {
+  showLoginPrompt?: () => void
+  shareLayoutWidgets?: (widgets: any[]) => any[]
+}
+
 type ChartNode = import('@/Chart/nodes').ChartNode
 
 namespace Studio {

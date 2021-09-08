@@ -1,5 +1,7 @@
 import type { Query, QueryRecord } from 'webkit/api'
+import type { Updater, Subscriber } from 'webkit/api/cache'
 import { query } from 'webkit/api'
+import { Cache } from 'webkit/api/cache'
 import { dateSorter } from './utils'
 
 const LAYOUT_QUERY = (id: number) => `
@@ -10,6 +12,7 @@ const LAYOUT_QUERY = (id: number) => `
 			options
 			metrics
 			project {
+        projectId: id
 				name
 				slug
 				ticker
@@ -63,7 +66,7 @@ const LAYOUTS_QUERY = (slug: string) => `
   }
 `
 
-export type Layout = { id: number; title: number }
+export type Layout = { id: number; title: string }
 type LayoutsTemplate = Query<'layouts', Layout[]>
 
 type ProjectLayout = Layout & { updatedAt: string }
@@ -102,8 +105,16 @@ export const queryUserLayouts = (): Promise<ProjectLayout[]> =>
     userLayoutsAccessor,
   )
 
+export const updateUserShortLayoutsCache = (
+  updateCache: Updater<UserLayoutsTemplate>,
+) => Cache.set$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, updateCache)
+export const subscribeUserShortLayoutsCache = (
+  clb: Subscriber<UserLayoutsTemplate>,
+) => Cache.get$<UserLayoutsTemplate>(USER_LAYOUTS_QUERY, clb)
+
 export type DetailedLayout = Layout & {
   metrics: string[]
+  description?: string
   options?: {
     multi_chart: boolean
     widgets: any
@@ -112,9 +123,10 @@ export type DetailedLayout = Layout & {
     name: string
     slug: string
     ticker: string
+    projectId: string
   }
   user: {
-    id: string
+    id: number
     username: null | string
     email: null | string
     avatarUrl: null | string
@@ -123,6 +135,8 @@ export type DetailedLayout = Layout & {
 const layoutAccessor = ({ chartConfiguration }) => chartConfiguration
 export const queryLayout = (id: number): Promise<DetailedLayout> =>
   query<any>(LAYOUT_QUERY(id)).then(layoutAccessor)
+export const updateLayoutCache = (layout: DetailedLayout) =>
+  Cache.set<any>(LAYOUT_QUERY(layout.id), layout)
 
 export const queryShortLayout = (id: number): Promise<Layout> =>
   query<any>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)

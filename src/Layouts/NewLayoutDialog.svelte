@@ -2,45 +2,75 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import NewLayoutDialog from './NewLayoutDialog.svelte'
 
-  export const showNewLayoutDialog = (): Promise<unknown> =>
-    dialogs.show(NewLayoutDialog)
+  export const showNewLayoutDialog = (props?: any) =>
+    dialogs.show<DetailedLayout>(NewLayoutDialog, props)
+
+  export enum Mode {
+    New,
+    Save,
+    Edit,
+  }
 </script>
 
 <script lang="ts">
+  import type { DialogController } from 'webkit/ui/Dialog/dialogs'
+  import type { DetailedLayout } from '@/api/layouts'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
   import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
-  import { createUserLayout } from '@/api/layouts/user/mutate'
+  import { createUserLayout, updateUserLayout } from '@/api/layouts/user/mutate'
+  import { getAllWidgetsMetricsKeys } from './utils'
 
   const Widgets = getWidgets()
 
+  export let DialogPromise: DialogController
+  export let title = 'New Chart Layout'
+  export let mode = Mode.New
+  export let layout: undefined | DetailedLayout
+
   let closeDialog
+
+  const { title: layoutTitle = '', description = '' } = layout || {}
 
   function onSubmit({ currentTarget }) {
     const title: string = currentTarget.title.value
     const description: string = currentTarget.description.value
-    const metrics = [...new Set($Widgets.map(({ metrics }) => metrics).flat())]
+    const { id, metrics, project, options } = layout || {}
 
-    createUserLayout({
+    const isEditMode = mode === Mode.Edit
+    const settings = {
       title,
       description,
-      metrics: metrics.map(({ key }) => key),
-      projectId: $studio.projectId,
-      options: '',
+      metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
+      projectId: project?.projectId || $studio.projectId,
+      options: options || {
+        widgets: window.shareLayoutWidgets?.($Widgets),
+      },
+    }
+
+    const mutation = isEditMode
+      ? updateUserLayout(id as number, settings)
+      : createUserLayout(settings)
+
+    mutation.then((layout) => {
+      track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
+        id: layout.id,
+      })
+      DialogPromise.resolve(layout)
+      closeDialog()
     })
-      .then((layout) => track.event(Event.NewLayout, { id: layout.id }))
-      .then(closeDialog)
   }
 </script>
 
-<Dialog {...$$props} title="New Chart Layout" bind:closeDialog>
+<Dialog {...$$props} {title} bind:closeDialog>
   <form class="dialog-body column" on:submit|preventDefault={onSubmit}>
     <input
       required
       type="text"
       name="title"
+      value={layoutTitle}
       placeholder="Name of the layout"
       class="input border row" />
 
@@ -48,9 +78,11 @@
       class="input border mrg-l mrg--t mrg--b"
       name="description"
       rows="4"
+      value={description}
       placeholder="Description" />
 
-    <button class="btn btn-1 btn--green" type="submit">Create</button>
+    <button class="btn btn-1 btn--green" type="submit">
+      {mode === Mode.New ? 'Create' : 'Save'}</button>
   </form>
 </Dialog>
 

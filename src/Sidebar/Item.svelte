@@ -6,11 +6,11 @@
   export { className as class }
   export let item: any
   export let HoverItem
+  export let active = false
   export let isShowingSubitems = true
   export let onItemEnter = undefined
   export let onLeave = undefined
 
-  let active
   let hovered = null
   let hoverNode
 

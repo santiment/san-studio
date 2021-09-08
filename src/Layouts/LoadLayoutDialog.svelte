@@ -9,9 +9,11 @@
 <script lang="ts">
   import type { Layout } from '@/api/layouts/user'
   import { onDestroy } from 'svelte'
-  import { Cache } from 'webkit/api/cache'
   import Dialog from 'webkit/ui/Dialog'
-  import { queryUserLayouts, USER_LAYOUTS_QUERY } from '@/api/layouts/user'
+  import {
+    queryUserLayouts,
+    subscribeUserLayoutsCache,
+  } from '@/api/layouts/user'
   import Search from '@/Sidebar/Search.svelte'
   import SelectableLayout from './SelectableLayout.svelte'
 
@@ -34,7 +36,7 @@
     console.log(layout)
   }
 
-  onDestroy(Cache.get$(USER_LAYOUTS_QUERY, () => (layouts = oldSortedLayouts)))
+  onDestroy(subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts)))
 </script>
 
 <Dialog

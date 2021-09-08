@@ -1,13 +1,12 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { Cache } from 'webkit/api/cache'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio } from '@/stores/studio'
   import {
     queryLayouts,
     queryFeaturedLayouts,
     queryUserLayouts,
-    USER_LAYOUTS_QUERY,
+    subscribeUserShortLayoutsCache,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
   import { showNewLayoutDialog } from '@/Layouts/NewLayoutDialog.svelte'
@@ -59,7 +58,7 @@
       (items) => checkRacing() || (graph['Recently viewed'] = items),
     )
 
-    unsubscribeCache = Cache.get$(USER_LAYOUTS_QUERY, rerenderGraph)
+    unsubscribeCache = subscribeUserShortLayoutsCache(rerenderGraph)
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
