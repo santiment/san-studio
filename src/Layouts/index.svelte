@@ -48,9 +48,13 @@
         },
       }
 
-      promise = isAuthor
+      promise = (isAuthor
         ? updateUserLayout(id, settings)
         : createUserLayout(settings)
+      ).then((layout) => {
+        window.notifyLayoutSave?.()
+        return layout
+      })
     } else {
       promise = showNewLayoutDialog()
     }

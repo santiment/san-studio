@@ -13,6 +13,9 @@ interface Window {
   shareLayoutWidgets?: (widgets: any[]) => any[]
   parseLayoutWidgets: (layout: import('@/api/layouts').DetailedLayout) => any[]
   onLayoutSelect: (layout: import('@/api/layouts').DetailedLayout) => void
+  notifyLayoutSave?: () => void
+  notifyLayoutEdit?: () => void
+  notifyLayoutCreation?: () => void
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode
