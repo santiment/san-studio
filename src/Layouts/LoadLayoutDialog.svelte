@@ -33,7 +33,8 @@
   })
 
   function onLayoutSelect(layout: Layout) {
-    console.log(layout)
+    window.onLayoutSelect(layout)
+    closeDialog()
   }
 
   onDestroy(subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts)))

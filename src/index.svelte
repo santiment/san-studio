@@ -45,6 +45,7 @@
 
   window.showLoginPrompt = onAnonFavoriteClick || (() => {})
   window.shareLayoutWidgets = shareLayoutWidgets || (() => [])
+  window.parseLayoutWidgets = parseLayoutWidgets || (() => [])
 
   setAdapterController({
     onSubwidget,
@@ -57,7 +58,6 @@
     checkIsMapviewDisabled,
     InsightsContextStore,
     adjustSelectedMetric,
-    parseLayoutWidgets,
   })
   newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()

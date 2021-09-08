@@ -6,7 +6,7 @@ import { dateSorter } from './utils'
 
 const LAYOUT_QUERY = (id: number) => `
   {
-    chartConfiguration(id:${id}){
+    layout:chartConfiguration(id:${id}){
 			id
 			title
 			options
@@ -29,7 +29,7 @@ const LAYOUT_QUERY = (id: number) => `
 
 const SHORT_LAYOUT_QUERY = (id: number) => `
   {
-    chartConfiguration(id:${id}){
+    layout:chartConfiguration(id:${id}){
 			id
 			title
     }
@@ -38,7 +38,7 @@ const SHORT_LAYOUT_QUERY = (id: number) => `
 
 const FEATURED_LAYOUTS_QUERY = `
   {
-    layouts: featuredChartConfigurations{
+    layouts:featuredChartConfigurations{
 			id
 			title
     }
@@ -47,7 +47,7 @@ const FEATURED_LAYOUTS_QUERY = `
 export const USER_LAYOUTS_QUERY = `
   {
     currentUser {
-			layouts: chartConfigurations{
+			layouts:chartConfigurations{
 				id
 				title
 			  updatedAt
@@ -132,11 +132,11 @@ export type DetailedLayout = Layout & {
     avatarUrl: null | string
   }
 }
-const layoutAccessor = ({ chartConfiguration }) => chartConfiguration
+const layoutAccessor = ({ layout }) => layout
 export const queryLayout = (id: number): Promise<DetailedLayout> =>
   query<any>(LAYOUT_QUERY(id)).then(layoutAccessor)
 export const updateLayoutCache = (layout: DetailedLayout) =>
-  Cache.set<any>(LAYOUT_QUERY(layout.id), layout)
+  Cache.set<any>(LAYOUT_QUERY(layout.id), { layout })
 
 export const queryShortLayout = (id: number): Promise<Layout> =>
   query<any>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)

@@ -1,6 +1,12 @@
 <script lang="ts">
+  import type { DetailedLayout } from '@/api/layouts'
+  import { onDestroy } from 'svelte'
+  import { track } from 'webkit/analytics'
+  import { CMD } from 'webkit/utils/os'
+  import { getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
@@ -8,9 +14,11 @@
   import { updateUserLayout, createUserLayout } from '@/api/layouts/user/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
+  import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
   import { getAllWidgetsMetricsKeys } from './utils'
 
   const Widgets = getWidgets()
+  const History = getHistoryContext()
 
   let currentUser
 
@@ -64,6 +72,29 @@
     }).then(selectLayout)
 
   const onNew = () => showNewLayoutDialog().then(selectLayout)
+
+  window.onLayoutSelect = (layout: DetailedLayout) => {
+    if ($selectedLayout && +layout.id === +$selectedLayout.id) return
+
+    const newWidgets = window.parseLayoutWidgets(layout)
+    const oldWidgets = $Widgets
+    const oldLayout = $selectedLayout
+
+    const redo = () => (Widgets.set(newWidgets), selectedLayout.set(layout))
+    History.add(
+      'Apply layout',
+      () => (Widgets.set(oldWidgets), selectedLayout.set(oldLayout)),
+      redo,
+    )
+    redo()
+
+    track.event(Event.LoadLayout, { id: layout.id })
+  }
+
+  onDestroy(() => {
+    // @ts-ignore
+    window.onLayoutSelect = undefined
+  })
 </script>
 
 <div class="layout border btn row">
@@ -77,8 +108,11 @@
 
     <div slot="tooltip">
       {#if layout}
-        <div class="btn btn--ghost" on:click={callIfRegistered(onSave)}>
+        <div
+          class="btn btn--ghost row v-center"
+          on:click={callIfRegistered(onSave)}>
           Save
+          <span class="caption mrg-a mrg--l">{CMD} + S</span>
         </div>
         <div class="btn btn--ghost" on:click={callIfRegistered(onSaveAsNew)}>
           Save as new
@@ -97,7 +131,14 @@
       <div class="btn btn--ghost" on:click={callIfRegistered(onNew)}>New</div>
 
       {#if isAuthor}
-        <div class="delete btn btn--ghost" on:click={console.log}>Delete</div>
+        <div
+          class="delete btn btn--ghost"
+          on:click={() =>
+            showDeleteLayoutDialog({ layout }).then(
+              (wasDeleted) => wasDeleted && selectedLayout.set(undefined),
+            )}>
+          Delete
+        </div>
       {/if}
     </div>
   </Tooltip>
@@ -139,5 +180,9 @@
   .delete {
     --color: var(--red);
     --color-hover: var(--red-hover);
+  }
+
+  .caption {
+    color: var(--waterloo);
   }
 </style>

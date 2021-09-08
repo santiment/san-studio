@@ -7,8 +7,7 @@ import { updateUserLayoutsCache } from './index'
 import { updateLayoutCache, updateUserShortLayoutsCache } from '../index'
 import { dateSorter } from '../utils'
 
-type MutatedLayout = Pick<Layout, 'id' | 'isPublic' | 'project' | 'user'>
-type MutatedLayoutQuery = Query<'layout', MutatedLayout>
+type MutatedLayoutQuery = Query<'layout', Layout>
 type CurrentUserLayouts = UserLayoutsTemplate & UserShortLayoutsTemplate
 
 const newLayoutMutation = (mutation: string) => `
@@ -22,6 +21,7 @@ const newLayoutMutation = (mutation: string) => `
 			title
 			options
 			metrics
+      updatedAt
       project {
 				projectId: id
 				slug
@@ -67,17 +67,10 @@ type LayoutUpdates = Partial<
   description?: string
 }
 
-function mutateLayoutsCacheOnUpdate(
-  newLayout: MutatedLayout,
-  settings: LayoutUpdates,
-) {
-  const layout = Object.assign(newLayout, settings, {
-    updatedAt: new Date().toISOString(),
-  }) as Layout
-
-  const { id } = newLayout
+function mutateLayoutsCacheOnUpdate(newLayout: Layout) {
+  const id = +newLayout.id
   const updateLayout = (cachedLayout: Pick<Layout, 'id'>) =>
-    +layout.id === +id && Object.assign(cachedLayout, layout)
+    +cachedLayout.id === id && Object.assign(cachedLayout, newLayout)
 
   function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
     if (!cached.currentUser) return cached
@@ -92,17 +85,18 @@ function mutateLayoutsCacheOnUpdate(
 
   updateUserLayoutsCache(updateCache)
   updateUserShortLayoutsCache(updateCache)
+  updateLayoutCache(newLayout)
+
+  return newLayout
 }
 
 export const updateUserLayout = (
   id: number,
   settings: LayoutUpdates,
-): Promise<MutatedLayout> =>
+): Promise<Layout> =>
   mutate<MutatedLayoutQuery>(UPDATE_LAYOUT_MUTATION, {
     variables: { id, settings: normalizeSettings(settings) },
-  }).then(
-    ({ layout }) => (mutateLayoutsCacheOnUpdate(layout, settings), layout),
-  )
+  }).then(({ layout }) => mutateLayoutsCacheOnUpdate(layout))
 
 // ------------------------------
 // ------- CREATE LAYOUT --------
@@ -115,31 +109,56 @@ type LayoutCreation = Pick<Layout, 'title' | 'metrics' | 'options'> & {
   description?: string
 }
 
-function mutateLayoutsCacheOnCreation(
-  newLayout: MutatedLayout,
-  settings: LayoutUpdates,
-) {
-  const layout = Object.assign(newLayout, settings, {
-    updatedAt: new Date().toISOString(),
-  }) as Layout
-
+function mutateLayoutsCacheOnCreation(newLayout: Layout) {
   function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
     if (!cached.currentUser) return cached
 
-    cached.currentUser.layouts.unshift(layout)
+    cached.currentUser.layouts.unshift(newLayout)
     return cached
   }
 
   updateUserLayoutsCache(updateCache)
   updateUserShortLayoutsCache(updateCache)
-  updateLayoutCache(layout)
+  updateLayoutCache(newLayout)
+
+  return newLayout
 }
 
-export const createUserLayout = (
-  settings: LayoutCreation,
-): Promise<MutatedLayout> =>
+export const createUserLayout = (settings: LayoutCreation): Promise<Layout> =>
   mutate<MutatedLayoutQuery>(CREATE_LAYOUT_MUTATION, {
     variables: { settings: normalizeSettings(settings) },
-  }).then(
-    ({ layout }) => (mutateLayoutsCacheOnCreation(layout, settings), layout),
-  )
+  }).then(({ layout }) => mutateLayoutsCacheOnCreation(layout))
+
+// ------------------------------
+// ------- DELETE LAYOUT --------
+// ------------------------------
+
+export const DELETE_LAYOUT_MUTATION = `
+  mutation ($id: ID!) {
+    deleteChartConfiguration(id: $id) {
+      id
+    }
+  }
+`
+
+function mutateLayoutsCacheOnDeletion(id: number) {
+  const indexFinder = (layout: { id: number }) => +layout.id === +id
+  function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
+    if (!cached.currentUser) return cached
+
+    const { layouts } = cached.currentUser
+    const index = layouts.findIndex(indexFinder)
+
+    if (index > -1) layouts.splice(index, 1)
+
+    return cached
+  }
+
+  updateUserLayoutsCache(updateCache)
+  updateUserShortLayoutsCache(updateCache)
+}
+
+export const deleteUserLayout = (id: number) =>
+  mutate(DELETE_LAYOUT_MUTATION, {
+    variables: { id },
+  }).then(() => mutateLayoutsCacheOnDeletion(id))

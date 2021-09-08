@@ -88,6 +88,7 @@
 
 <style>
   .input {
+    color: var(--black);
     width: 100%;
     padding: 9px 16px;
     min-width: 460px;

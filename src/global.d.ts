@@ -11,6 +11,8 @@ declare namespace NodeJS {
 interface Window {
   showLoginPrompt?: () => void
   shareLayoutWidgets?: (widgets: any[]) => any[]
+  onLayoutSelect: (layout: import('@/api/layouts').DetailedLayout) => void
+  parseLayoutWidgets: (layout: import('@/api/layouts').DetailedLayout) => any[]
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode
