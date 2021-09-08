@@ -3,6 +3,7 @@
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import { getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg.svelte'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
@@ -91,9 +92,13 @@
     track.event(Event.LoadLayout, { id: layout.id })
   }
 
+  const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave))
+  const unsubLoad = newGlobalShortcut('CMD+L', showLoadLayoutDialog)
   onDestroy(() => {
     // @ts-ignore
     window.onLayoutSelect = undefined
+    unsubSave()
+    unsubLoad()
   })
 </script>
 
