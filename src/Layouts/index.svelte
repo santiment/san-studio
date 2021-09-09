@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DetailedLayout } from '@/api/layouts'
+  import type { Layout } from '@/api/layouts'
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
@@ -12,7 +12,7 @@
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
   import { queryCurrentUser } from '@/api/user'
-  import { updateUserLayout, createUserLayout } from '@/api/layouts/user/mutate'
+  import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
@@ -78,7 +78,7 @@
 
   const onNew = () => showNewLayoutDialog().then(selectLayout)
 
-  window.onLayoutSelect = (layout: DetailedLayout) => {
+  window.onLayoutSelect = (layout: Layout) => {
     if ($selectedLayout && +layout.id === +$selectedLayout.id) return
 
     const newWidgets = window.parseLayoutWidgets(layout)

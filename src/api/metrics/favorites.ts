@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import { query, mutate } from 'webkit/api'
 
 export const FAVORITE_METRICS_QUERY = `
@@ -29,7 +29,7 @@ type FavoriteMetricsQuery = Query<
   }
 >
 
-const accessor = ({ currentUser }: QueryRecord<FavoriteMetricsQuery>) =>
+const accessor = ({ currentUser }: FavoriteMetricsQuery) =>
   currentUser ? currentUser.settings.favoriteMetrics : []
 export const queryFavoriteMetrics = () =>
   query<FavoriteMetricsQuery>(FAVORITE_METRICS_QUERY).then(accessor)

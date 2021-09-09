@@ -7,15 +7,15 @@
 </script>
 
 <script lang="ts">
-  import type { Layout } from '@/api/layouts/user'
+  import type { Layout } from '@/api/layouts'
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { queryLayouts } from '@/api/layouts'
   import {
-    queryUserLayouts,
-    subscribeUserLayoutsCache,
+    queryCurrentUserLayouts,
+    subscribeCurrentUserLayoutsCache,
   } from '@/api/layouts/user'
   import Search from '@/Sidebar/Search.svelte'
   import SelectableLayout from './SelectableLayout.svelte'
@@ -44,8 +44,10 @@
 
     if (tab === Tab.Explore) return queryLayouts(slug)
 
-    unsubscribe = subscribeUserLayoutsCache(() => (layouts = oldSortedLayouts))
-    return queryUserLayouts()
+    unsubscribe = subscribeCurrentUserLayoutsCache(
+      () => (layouts = oldSortedLayouts),
+    )
+    return queryCurrentUserLayouts()
   }
 
   function filterLayouts(layouts: any[], searchTerm: string) {

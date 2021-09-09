@@ -1,38 +1,35 @@
-import type { Query, QueryRecord } from 'webkit/api'
-import type { Layout } from './index'
-import type { UserLayoutsTemplate } from './index'
-import type { UserLayoutsTemplate as UserShortLayoutsTemplate } from '../index'
+import type { Query } from 'webkit/api'
+import type { Layout } from './layout'
+import type {
+  CurrentUserLayout,
+  CurrentUserLayoutsQuery,
+  CurrentUserShortLayoutsQuery,
+} from './user'
 import { mutate } from 'webkit/api'
-import { updateUserLayoutsCache } from './index'
-import { updateLayoutCache, updateUserShortLayoutsCache } from '../index'
-import { dateSorter } from '../utils'
+import {
+  updateCurrentUserLayoutsCache,
+  updateCurrentUserShortLayoutsCache,
+} from './user'
+import { LAYOUT_QUERY_FIELDS, updateLayoutCache } from './layout'
+import { dateSorter } from './utils'
 
-type MutatedLayoutQuery = Query<'layout', Layout>
-type CurrentUserLayouts = UserLayoutsTemplate & UserShortLayoutsTemplate
+type MutatedLayoutQuery = Query<'layout', CurrentUserLayout>
+type CurrentUserLayouts = CurrentUserLayoutsQuery & CurrentUserShortLayoutsQuery
+
+type LayoutUpdates = Partial<Pick<Layout, 'title' | 'metrics' | 'options'>> & {
+  isPublic?: boolean
+  projectId?: number | string
+  description?: string
+}
 
 const newLayoutMutation = (mutation: string, argTypes = '', args = '') => `
   mutation(
     $settings: ProjectChartInputObject! ${argTypes}
   ) {
     layout:${mutation}(settings: $settings${args}) {
-      id
+      ${LAYOUT_QUERY_FIELDS}
       isPublic
-			title
-			options
-			metrics
       updatedAt
-      project {
-				projectId: id
-				slug
-				ticker
-				name
-			}
-      user {
-	      id
-	      username
-	      email
-	      avatarUrl
-      }
     }
   }
 `
@@ -46,7 +43,7 @@ function normalizeSettings(settings: LayoutUpdates) {
     if (typeof options === 'string') {
       settings.options = JSON.parse(options)
     } else {
-      variables.options = JSON.stringify(options)
+      variables.options = JSON.stringify(options) as any
     }
   }
 
@@ -63,19 +60,12 @@ const UPDATE_LAYOUT_MUTATION = newLayoutMutation(
   ',id: $id',
 )
 
-type LayoutUpdates = Partial<
-  Pick<Layout, 'title' | 'metrics' | 'options' | 'isPublic'>
-> & {
-  projectId?: number | string
-  description?: string
-}
-
-function mutateLayoutsCacheOnUpdate(newLayout: Layout) {
+function mutateLayoutsCacheOnUpdate(newLayout: CurrentUserLayout) {
   const id = +newLayout.id
   const updateLayout = (cachedLayout: Pick<Layout, 'id'>) =>
     +cachedLayout.id === id && Object.assign(cachedLayout, newLayout)
 
-  function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
+  function updateCache(cached: CurrentUserLayouts) {
     if (!cached.currentUser) return cached
 
     const { layouts } = cached.currentUser
@@ -86,8 +76,8 @@ function mutateLayoutsCacheOnUpdate(newLayout: Layout) {
     return cached
   }
 
-  updateUserLayoutsCache(updateCache)
-  updateUserShortLayoutsCache(updateCache)
+  updateCurrentUserLayoutsCache(updateCache)
+  updateCurrentUserShortLayoutsCache(updateCache)
   updateLayoutCache(newLayout)
 
   return newLayout
@@ -96,7 +86,7 @@ function mutateLayoutsCacheOnUpdate(newLayout: Layout) {
 export const updateUserLayout = (
   id: number,
   settings: LayoutUpdates,
-): Promise<Layout> =>
+): Promise<CurrentUserLayout> =>
   mutate<MutatedLayoutQuery>(UPDATE_LAYOUT_MUTATION, {
     variables: { id, settings: normalizeSettings(settings) },
   }).then(({ layout }) => mutateLayoutsCacheOnUpdate(layout))
@@ -109,25 +99,28 @@ const CREATE_LAYOUT_MUTATION = newLayoutMutation('createChartConfiguration')
 
 type LayoutCreation = Pick<Layout, 'title' | 'metrics' | 'options'> & {
   projectId: number | string
+  isPublic?: boolean
   description?: string
 }
 
-function mutateLayoutsCacheOnCreation(newLayout: Layout) {
-  function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
+function mutateLayoutsCacheOnCreation(newLayout: CurrentUserLayout) {
+  function updateCache(cached: CurrentUserLayouts) {
     if (!cached.currentUser) return cached
 
     cached.currentUser.layouts.unshift(newLayout)
     return cached
   }
 
-  updateUserLayoutsCache(updateCache)
-  updateUserShortLayoutsCache(updateCache)
+  updateCurrentUserLayoutsCache(updateCache)
+  updateCurrentUserShortLayoutsCache(updateCache)
   updateLayoutCache(newLayout)
 
   return newLayout
 }
 
-export const createUserLayout = (settings: LayoutCreation): Promise<Layout> =>
+export const createUserLayout = (
+  settings: LayoutCreation,
+): Promise<CurrentUserLayout> =>
   mutate<MutatedLayoutQuery>(CREATE_LAYOUT_MUTATION, {
     variables: { settings: normalizeSettings(settings) },
   }).then(({ layout }) => mutateLayoutsCacheOnCreation(layout))
@@ -146,7 +139,7 @@ export const DELETE_LAYOUT_MUTATION = `
 
 function mutateLayoutsCacheOnDeletion(id: number) {
   const indexFinder = (layout: { id: number }) => +layout.id === +id
-  function updateCache(cached: QueryRecord<CurrentUserLayouts>) {
+  function updateCache(cached: CurrentUserLayouts) {
     if (!cached.currentUser) return cached
 
     const { layouts } = cached.currentUser
@@ -157,8 +150,8 @@ function mutateLayoutsCacheOnDeletion(id: number) {
     return cached
   }
 
-  updateUserLayoutsCache(updateCache)
-  updateUserShortLayoutsCache(updateCache)
+  updateCurrentUserLayoutsCache(updateCache)
+  updateCurrentUserShortLayoutsCache(updateCache)
 }
 
 export const deleteUserLayout = (id: number) =>

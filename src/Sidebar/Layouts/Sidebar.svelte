@@ -5,9 +5,9 @@
   import { globals } from '@/stores/globals'
   import {
     queryShortLayouts,
-    queryFeaturedLayouts,
-    queryUserLayouts,
-    subscribeUserShortLayoutsCache,
+    queryFeaturedShortLayouts,
+    queryCurrentUserLayouts,
+    subscribeCurrentUserShortLayoutsCache,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
   import { showNewLayoutDialog } from '@/Layouts/NewLayoutDialog.svelte'
@@ -54,7 +54,7 @@
 
   const showMyLibraryLayouts = newCategoriesShower((checkRacing) => {
     graph = newMyLibaryGraph()
-    queryUserLayouts().then(
+    queryCurrentUserLayouts().then(
       (items) => checkRacing() || (graph['My layouts'] = items),
     )
     queryRecentLayouts().then(
@@ -62,7 +62,7 @@
     )
 
     saveHasOpenedMyLibrary()
-    unsubscribeCache = subscribeUserShortLayoutsCache(rerenderGraph)
+    unsubscribeCache = subscribeCurrentUserShortLayoutsCache(rerenderGraph)
   })
 
   const showExploreLayouts = newCategoriesShower((checkRacing) => {
@@ -70,7 +70,7 @@
     queryShortLayouts(slug).then(
       (items) => checkRacing() || (graph[TICKER_LAYOUTS] = items),
     )
-    queryFeaturedLayouts().then(
+    queryFeaturedShortLayouts().then(
       (items) => checkRacing() || (graph['Featured by Santiment'] = items),
     )
   })

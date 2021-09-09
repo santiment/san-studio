@@ -11,8 +11,8 @@ declare namespace NodeJS {
 interface Window {
   showLoginPrompt?: () => void
   shareLayoutWidgets?: (widgets: any[]) => any[]
-  parseLayoutWidgets: (layout: import('@/api/layouts').DetailedLayout) => any[]
-  onLayoutSelect: (layout: import('@/api/layouts').DetailedLayout) => void
+  parseLayoutWidgets: (layout: import('@/api/layouts').Layout) => any[]
+  onLayoutSelect: (layout: import('@/api/layouts').Layout) => void
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void

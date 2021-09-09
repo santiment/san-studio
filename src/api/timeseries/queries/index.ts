@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { getMetricKeyMinInterval } from '@/api/metrics/restrictions'
@@ -80,10 +80,10 @@ export type Variables = {
 // TODO: defaultPrecacher using newPrecacher constructor [@vanguard | May 24, 2021]
 const defaultPrecacher =
   ({ key }: Variables) =>
-  ({
-    getMetric: { timeseriesData },
-  }: QueryRecord<RawTimeseries>): QueryRecord<Timeseries> => {
-    const data: Timeseries['timeseriesData'] = new Array(timeseriesData.length)
+  ({ getMetric: { timeseriesData } }: RawTimeseries): Timeseries => {
+    const data: Timeseries['getMetric']['timeseriesData'] = new Array(
+      timeseriesData.length,
+    )
 
     for (let i = timeseriesData.length - 1; i > -1; i--) {
       const { d, v } = timeseriesData[i]
@@ -97,7 +97,7 @@ const defaultPrecacher =
       getMetric: {
         timeseriesData: data,
       },
-    } as QueryRecord<Timeseries>
+    } as Timeseries
   }
 
 export function queryMetric(

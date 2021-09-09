@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { DetailedLayout } from '@/api/layouts'
+  import type { Layout } from '@/api/layouts'
   import { onMount, onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { queryLayout } from '@/api/layouts'
   import { queryCurrentUser } from '@/api/user'
-  import { createUserLayout } from '@/api/layouts/user/mutate'
+  import { createUserLayout } from '@/api/layouts/mutate'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
   import { showNewLayoutDialog, Mode } from '@/Layouts/NewLayoutDialog.svelte'
   import HoverItem from '../HoverItem.svelte'
@@ -15,7 +15,7 @@
 
   let currentUser
   let timer
-  let layout = {} as DetailedLayout
+  let layout = {} as Layout
   let destroyed = false
 
   $: isAuthor =

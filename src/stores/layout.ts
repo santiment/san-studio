@@ -1,8 +1,8 @@
-import type { DetailedLayout } from '@/api/layouts'
+import type { Layout } from '@/api/layouts'
 import { writable } from 'svelte/store'
 import { addRecentLayoutId } from '@/Layouts/utils'
 
-type SelectedLayout = undefined | DetailedLayout
+type SelectedLayout = undefined | Layout
 
 const store = writable<SelectedLayout>()
 export const selectedLayout = {

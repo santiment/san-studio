@@ -10,7 +10,7 @@
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
   import Dialog from 'webkit/ui/Dialog'
-  import { deleteUserLayout } from '@/api/layouts/user/mutate'
+  import { deleteUserLayout } from '@/api/layouts/mutate'
 
   export let DialogPromise: DialogController
   export let layout: { id: number }

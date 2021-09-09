@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 import { Metric } from '@/metrics'
 

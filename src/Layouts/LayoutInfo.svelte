@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts/user'
+  import type { Layout } from '@/api/layouts'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Metric } from '@/metrics'
 

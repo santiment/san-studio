@@ -3,7 +3,7 @@
   import NewLayoutDialog from './NewLayoutDialog.svelte'
 
   export const showNewLayoutDialog = (props?: any) =>
-    dialogs.show<DetailedLayout>(NewLayoutDialog, props)
+    dialogs.show<Layout>(NewLayoutDialog, props)
 
   export const Mode = {
     New: 0,
@@ -14,13 +14,13 @@
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
-  import type { DetailedLayout } from '@/api/layouts'
+  import type { Layout } from '@/api/layouts'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
   import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
-  import { createUserLayout, updateUserLayout } from '@/api/layouts/user/mutate'
+  import { createUserLayout, updateUserLayout } from '@/api/layouts/mutate'
   import { getAllWidgetsMetricsKeys } from './utils'
 
   const Widgets = getWidgets()
@@ -28,7 +28,7 @@
   export let DialogPromise: DialogController
   export let title = 'New Chart Layout'
   export let mode: typeof Mode[keyof typeof Mode] = Mode.New
-  export let layout: undefined | DetailedLayout
+  export let layout: undefined | Layout
 
   let closeDialog
 

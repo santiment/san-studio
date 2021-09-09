@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const newQuery = (data: string) => `
@@ -48,7 +48,7 @@ const options = { precacher }
 export const queryMinInterval = () =>
   query<MinInterval>(
     MIN_INTERVAL_QUERY,
-    options,
+    options as any,
   ) as any as Promise<MetricMinInterval>
 
 export const getMetricKeyMinInterval = (metricKey: string) =>

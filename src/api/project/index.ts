@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const PROJECT_NAME_QUERY = (slug: string) => `
@@ -23,8 +23,7 @@ const PROJECT_PRICE_AND_CHANGE_QUERY = (slug: string) => `
 export type ProjectPriceChange = { priceUsd: number; percentChange24h: number }
 type ProjectPriceChangeQuery = Query<'projectBySlug', ProjectPriceChange>
 
-const accessor = ({ projectBySlug }: QueryRecord<ProjectPriceChangeQuery>) =>
-  projectBySlug
+const accessor = ({ projectBySlug }: ProjectPriceChangeQuery) => projectBySlug
 export const queryProjectPriceChange = (
   slug: string,
 ): Promise<ProjectPriceChange> =>

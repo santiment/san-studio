@@ -1,4 +1,4 @@
-import type { Query, QueryRecord } from 'webkit/api'
+import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
