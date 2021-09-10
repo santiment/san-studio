@@ -1,39 +1,24 @@
 import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
-const newQuery = (data: string) => `
-  {
-    getAccessRestrictions {
+const newQuery = (data: string) => `{ getAccessRestrictions {
       name
       ${data}
-    }
-  }
-`
+    }}`
 const MIN_INTERVAL_QUERY = newQuery('minInterval')
-const BOUNDARIES_QUERY = newQuery('restrictedFrom restrictedTo')
 
-type RestrictionQuery = Query<
-  'getAccessRestrictions',
-  {
-    name: string
-  }
->
+type RestrictionMetric = { name: string }
+type RestrictionQuery<T> = Query<'getAccessRestrictions', T[]>
 
-type MinInterval = RestrictionQuery & {
-  minInterval: string
-}
-
-type BoundariesQuery = RestrictionQuery & {
-  restrictedFrom: string
-  restrictedTo: string
-}
+type RestrictionMetricMinInterval = RestrictionMetric & { minInterval: string }
+type MinIntervalQuery = RestrictionQuery<RestrictionMetricMinInterval>
 
 type MetricMinInterval = {
-  [metricKey: string]: MinInterval | undefined
+  [metricKey: string]: RestrictionMetricMinInterval | undefined
 }
 
 function precacher() {
-  return ({ getAccessRestrictions: data }) => {
+  return ({ getAccessRestrictions: data }: MinIntervalQuery) => {
     const MetricMinInterval = {} as MetricMinInterval
     const { length } = data
     for (let i = 0; i < length; i++) {
@@ -45,8 +30,8 @@ function precacher() {
 }
 
 const options = { precacher }
-export const queryMinInterval = () =>
-  query<MinInterval>(
+export const queryMinInterval = (): Promise<MetricMinInterval> =>
+  query<MinIntervalQuery>(
     MIN_INTERVAL_QUERY,
     options as any,
   ) as any as Promise<MetricMinInterval>

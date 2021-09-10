@@ -2,8 +2,8 @@
   import type { Layout } from '@/api/layouts'
   import { onMount, onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { currentUser } from '@/stores/user'
   import { queryLayout } from '@/api/layouts'
-  import { queryCurrentUser } from '@/api/user'
   import { createUserLayout } from '@/api/layouts/mutate'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
   import { showNewLayoutDialog, Mode } from '@/Layouts/NewLayoutDialog.svelte'
@@ -13,15 +13,12 @@
   export let node: HTMLElement
   export let hoverNode: HTMLElement
 
-  let currentUser
   let timer
   let layout = {} as Layout
   let destroyed = false
 
   $: isAuthor =
-    currentUser && layout.user && +layout.user.id === +currentUser.id
-
-  queryCurrentUser().then((user) => (currentUser = user))
+    $currentUser && layout.user && +layout.user.id === +$currentUser.id
 
   const showPreview = () =>
     queryLayout(item.id).then((data) => destroyed || (layout = data))
@@ -44,7 +41,7 @@
   }
 
   function onAddClick() {
-    if (!currentUser) return window.showLoginPrompt?.()
+    if (!$currentUser) return window.showLoginPrompt?.()
 
     const { title, description, project, metrics, options } = layout
     createUserLayout({

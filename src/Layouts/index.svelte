@@ -11,7 +11,7 @@
   import { studio } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
-  import { queryCurrentUser } from '@/api/user'
+  import { currentUser } from '@/stores/user'
   import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
@@ -21,16 +21,12 @@
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
-  let currentUser
-
   $: layout = $selectedLayout
-  $: isAuthor = currentUser && layout && +layout.user.id === +currentUser.id
-
-  queryCurrentUser().then((user) => (currentUser = user))
+  $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
 
   const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
   const callIfRegistered = (clb: () => any) => () =>
-    (currentUser ? clb : window.showLoginPrompt)?.()
+    ($currentUser ? clb : window.showLoginPrompt)?.()
 
   function onSave() {
     let promise: Promise<any>
