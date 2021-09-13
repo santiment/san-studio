@@ -4,6 +4,7 @@
 
   export let isList = true
   export let onClick = undefined
+  export let isOpened
 
   let optionsNode
   $: if (optionsNode) {
@@ -15,7 +16,7 @@
   }
 </script>
 
-<Tooltip on="click" duration={0} align="center">
+<Tooltip on="click" duration={0} align="center" bind:isOpened>
   <div
     slot="trigger"
     class="setting row v-center mrg-l mrg--l btn"

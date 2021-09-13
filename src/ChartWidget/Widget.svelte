@@ -35,7 +35,7 @@
   initWidgetContext(widget)
   if (onWidgetInit) onWidgetInit(widget)
 
-  const { ChartAxes, ChartColors, ChartDrawer } = widget
+  const { ChartAxes, ChartColors, ChartDrawer, ChartOptions } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals } = widget
   const { IsLoaded, OnUpdate } = widget
@@ -50,7 +50,7 @@
   $: onLoad && loadings.size === 0 && onLoad(widget)
   // prettier-ignore
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
-      $MetricsSignals, OnUpdate.emit())
+      $MetricsSignals, $ChartOptions, OnUpdate.emit())
 
   function changeStudioPeriod(
     startDatetime: number | string,

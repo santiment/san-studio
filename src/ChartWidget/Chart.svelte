@@ -55,7 +55,7 @@
     $ChartMetricDisplays,
   )
   $: theme = themes[+$globals.isNightMode]
-  $: domainModifier = newDomainModifier(metrics, $MetricSettings)
+  $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
 
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>

@@ -13,19 +13,39 @@ const NON_BAR_DOMAIN_METRIC = new Set([
   Metric.daily_active_addresses.key,
 ])
 
+function applyCustomDomain(
+  defaultValue: number,
+  value: undefined | string,
+  isInverse = false,
+): number {
+  if (value === undefined) return defaultValue
+  const percentageIndex = value.lastIndexOf('%')
+
+  if (percentageIndex === -1) return +value
+
+  const percentValue = +value.slice(0, percentageIndex) / 100
+  return defaultValue * (isInverse ? 1 - percentValue : 1 + percentValue)
+}
+
 export function newDomainModifier(
   metrics: Studio.Metric[],
   MetricSettings: Studio.MetricSetting,
+  widget: any,
 ) {
+  const defaultMinMaxes = {}
   const MetricNode = {}
   metrics.forEach(({ key, node }) => {
     MetricNode[key] = MetricSettings[key]?.node || node
   })
+  widget.defaultMinMaxes = defaultMinMaxes
 
   return (metricKey: string, minMax) => {
     if (DEFAULT_DOMAIN_METRIC.has(metricKey)) return
     const node = MetricNode[metricKey]
+    const metricSettings = MetricSettings[metricKey]
     let { min, max } = minMax
+
+    defaultMinMaxes[metricKey] = { min, max }
 
     if (node === Node.GREEN_RED_BAR) {
       return prepareDomain(minMax)
@@ -35,6 +55,12 @@ export function newDomainModifier(
     } else {
       max *= 1.01
       min *= min > 0 ? 0.99 : 1.01
+    }
+
+    if (metricSettings) {
+      const { axisMax, axisMin } = metricSettings
+      max = applyCustomDomain(max, axisMax)
+      min = applyCustomDomain(min, axisMin, true)
     }
 
     minMax.max = max
