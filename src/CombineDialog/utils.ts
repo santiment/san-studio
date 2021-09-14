@@ -67,12 +67,13 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
     .then(getCommonMinInterval)
     .then((minInterval) => (metric.minInterval = minInterval))
 
-  const queries = baseMetrics.map(({ key, queryKey = key }) =>
+  const queries = baseMetrics.map(({ key, queryKey = key, project }) =>
     minIntervalPromise
       .then((minInterval) =>
         queryMetric(
           {
             ...variables,
+            slug: project?.slug || variables.slug,
             metric: queryKey,
             key: COMBINED_KEY,
             interval: normalizeInterval(variables.interval || '', minInterval),

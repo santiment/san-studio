@@ -18,7 +18,7 @@
 
   function getColor({ key }: Studio.Metric, colors, highlight = false) {
     const color = colors[key]
-    let style = '--color:' + color
+    let style = `--color:${color};--m-color:${color}22`
 
     if (highlight && color.length < 8) {
       style += `;--h-color:${color}11;---border:${color}55`

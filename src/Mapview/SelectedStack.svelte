@@ -30,11 +30,12 @@
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
 
-      {#if baseMetrics.length > 1}
-        <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>
-          Combine
-        </div>
-      {/if}
+      <div
+        class="btn border mrg-l mrg--r combine"
+        class:disabled={baseMetrics.length < 2}
+        on:click={onCombineClick}>
+        Combine
+      </div>
 
       <Svg
         id="cross"

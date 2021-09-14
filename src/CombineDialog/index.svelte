@@ -9,11 +9,12 @@
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
   import { track } from 'webkit/analytics'
-  import Svg from 'webkit/ui/Svg.svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { DialogLock } from 'webkit/ui/Dialog/dialogs'
   import { Event } from '@/analytics'
+  import { convertBaseProjectMetric } from '@/ChartWidget/Metrics/utils'
   import Chart from './Chart.svelte'
+  import Metric from './Metric.svelte'
   import AddMetric from './AddMetric.svelte'
   import {
     importMath,
@@ -60,12 +61,17 @@
     })
   }
 
-  function onMetricDelete(metric: Studio.Metric) {
-    metrics = metrics.filter((m) => m !== metric)
+  function onMetricDelete(i: number) {
+    metrics.splice(i, 1)
+    metrics = metrics.slice()
   }
 
   function onMetricSelect(metric: Studio.Metric) {
     metrics = metrics.concat(metric)
+  }
+
+  function onMetricLock(metric: Studio.Metric, i: number, project) {
+    metrics[i] = convertBaseProjectMetric(metric, project)
   }
 
   track.event(Event.CombineOpened)
@@ -82,16 +88,11 @@
       <AddMetric {metrics} {onMetricSelect} />
 
       {#each metrics as metric, i}
-        <div class="border metric">
-          <span class="var">x{i + 1}</span>
-          {metric.label}
-
-          {#if metrics.length > 2}
-            <div class="btn delete" on:click={() => onMetricDelete(metric)}>
-              <Svg id="cross" w="8" />
-            </div>
-          {/if}
-        </div>
+        <Metric
+          {i}
+          {metric}
+          onLock={onMetricLock}
+          onDelete={metrics.length > 2 ? onMetricDelete : undefined} />
       {/each}
     </div>
 
@@ -154,18 +155,6 @@
     margin-bottom: -8px;
   }
 
-  .metric {
-    padding: 5px;
-    margin: 0 0 8px 8px;
-  }
-
-  .var {
-    background: var(--green-light-1);
-    padding: 2px 5px;
-    border-radius: 4px;
-    color: var(--green);
-  }
-
   .invalid {
     border-color: var(--red) !important;
   }
@@ -177,12 +166,5 @@
 
   .cancel {
     --color-hover: var(--green);
-  }
-
-  .delete {
-    display: inline-block;
-    margin: 0 2px 0 4px;
-    --fill: var(--waterloo);
-    --fill-hover: var(--green);
   }
 </style>

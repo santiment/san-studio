@@ -8,7 +8,7 @@
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
-  import { convertBaseProjectMetric } from './utilts'
+  import { convertBaseProjectMetric } from './utils'
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
 

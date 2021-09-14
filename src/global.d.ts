@@ -16,6 +16,7 @@ interface Window {
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void
+  renderCombineProjectSelector?: () => void
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode

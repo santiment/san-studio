@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store'
 import { track } from 'webkit/analytics'
 import { Event } from '@/analytics'
 import { studio } from '@/stores/studio'
-import { convertBaseProjectMetric } from './utilts'
+import { convertBaseProjectMetric } from './utils'
 
 export type MetricsStore = ReturnType<typeof newMetricsStore>
 const getKey = ({ key }) => key

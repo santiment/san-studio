@@ -123,8 +123,8 @@
   }
 
   .active {
-    --bg: var(--green-light-1);
-    --fill: var(--green);
+    --bg: var(--m-color);
+    --fill: var(--color) !important;
   }
 
   .disabled {

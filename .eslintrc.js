@@ -19,6 +19,7 @@ module.exports = {
         'plugin:prettier/recommended',
       ],
       rules: {
+        '@typescript-eslint/no-sequences': 'off',
         '@typescript-eslint/no-unused-vars': [
           'error',
           { argsIgnorePattern: '^_' },
@@ -33,6 +34,8 @@ module.exports = {
   rules: {
     'no-undef': ['error'],
     'no-unused-vars': 'off',
+    'no-sequences': 'off',
+    '@typescript-eslint/no-sequences': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
   },
 }
