@@ -5,7 +5,7 @@
   export { className as class }
   export let items: any[]
   export let key = 'key'
-  export let renderAmount = 14
+  export let renderAmount = 15
 
   const delayItems = 3
   const updateListHeight = () => (listHeight = listNode?.scrollHeight) // TODO: Think of better way [@vanguard | Sep 15, 2021]
@@ -67,6 +67,7 @@
 <style>
   .viewport {
     position: relative;
+    overflow-y: auto;
   }
 
   .scroll {

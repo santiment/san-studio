@@ -15,7 +15,6 @@
   import { convertBaseProjectMetric } from '@/ChartWidget/Metrics/utils'
   import Chart from './Chart.svelte'
   import Metric from './Metric.svelte'
-  import AddMetric from './AddMetric.svelte'
   import {
     importMath,
     newExpessionMetric,
@@ -84,13 +83,11 @@
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
   class="$style.dialog">
   <div class="row">
-    <Sidebar {metrics} />
+    <Sidebar {metrics} {onMetricSelect} />
 
     <div class="dialog-body">
       <div class="caption">Metrics</div>
       <div class="row metrics">
-        <AddMetric {metrics} {onMetricSelect} />
-
         {#each metrics as metric, i}
           <Metric
             {i}
@@ -141,7 +138,7 @@
 
 <style>
   .dialog {
-    width: 800px;
+    width: 900px;
     position: relative;
   }
 

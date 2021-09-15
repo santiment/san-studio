@@ -34,3 +34,17 @@ export const queryProjectPriceChange = (
 const projectAccessor = ({ projectBySlug }) => projectBySlug
 export const queryProject = (slug: string): Promise<string> =>
   query<any>(PROJECT_NAME_QUERY(slug)).then(projectAccessor)
+
+const ALL_PROJECTS = `
+  {
+    allProjects(minVolume:0){
+      slug
+      ticker
+      name
+    }
+  }
+`
+
+const projectsAccessor = ({ allProjects }) => allProjects
+export const queryAllProjects = (): Promise<string[]> =>
+  query<any>(ALL_PROJECTS).then(projectsAccessor)

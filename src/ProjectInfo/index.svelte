@@ -30,7 +30,7 @@
         <Svg id="asset-small" w="12" class="$style.placeholder" />
       {:else}
         <img
-          alt="Ethereum"
+          alt="Project"
           on:error={() => (error = true)}
           src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png" />
       {/if}
