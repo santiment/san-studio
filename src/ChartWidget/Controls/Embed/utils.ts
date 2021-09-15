@@ -32,8 +32,14 @@ export function shareEmbeded(widget, studio, options) {
     isWatermarkHidden,
     isAutoUpdated,
   } = options
-  const { metrics, axesMetrics, colors, metricSettings, metricIndicators } =
-    widget
+  const {
+    metrics,
+    axesMetrics,
+    colors,
+    metricSettings,
+    metricIndicators,
+    isSharedAxisEnabled,
+  } = widget
 
   const keys = shareMetrics(metrics)
   const metricAlias = newMetricAlias(keys)
@@ -58,6 +64,8 @@ export function shareEmbeded(widget, studio, options) {
     // embedded metric settings row
     emms: isWithMetricSettings ? 1 : undefined,
     emhwm: isWatermarkHidden ? 1 : undefined,
+    // embedded shared axis
+    emsax: isSharedAxisEnabled ? 1 : undefined,
 
     // widget metrics
     wm: keys,
@@ -80,7 +88,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
-  const { ps, pt, df, dt, emnm, emcg, emms, emhwm } = shared
+  const { ps, pt, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
   const { wm, wax, wc, ws, win, wcm } = shared
 
   const KnownMetric = {}
@@ -105,6 +113,7 @@ export function parseQueryString(qs: string) {
     isCartesianGrid: emcg ? true : false,
     isWithMetricSettings: emms ? true : false,
     isWatermarkHidden: emhwm ? true : false,
+    isSharedAxisEnabled: emsax ? true : false,
 
     metrics: parseMetrics(sharedMetrics, KnownMetric),
     metricIndicators,
