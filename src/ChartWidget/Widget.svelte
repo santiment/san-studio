@@ -41,7 +41,7 @@
   const { IsLoaded, OnUpdate } = widget
 
   let chart
-  let isSharedAxisEnabled = false
+  let isSharedAxisEnabled = widget.isSharedAxisEnabled || false
 
   $: metrics = $Metrics
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics

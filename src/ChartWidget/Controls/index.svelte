@@ -28,6 +28,7 @@
 
   let onDownload
 
+  $: widget.isSharedAxisEnabled = isSharedAxisEnabled
   $: $ChartDrawer.isNewDrawing = $globals.isNewDrawing
   $: if ($globals.isNewDrawing && $ChartDrawer.isNewDrawing === false) {
     onDrawingEnd()
