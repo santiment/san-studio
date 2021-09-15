@@ -28,6 +28,8 @@ export const Event = {
   FavoriteMetric: 'charts_favorite_metric',
   UnfavoriteMetric: 'charts_unfavorite_metric',
 
+  MetricSettings: 'charts_metric_settings',
+
   MetricNode: 'charts_metric_visualisation',
   MetricColor: 'charts_metric_color',
   MetricExchange: 'charts_metric_exchange',

@@ -6,7 +6,7 @@
   import {
     queryShortLayouts,
     queryFeaturedShortLayouts,
-    queryCurrentUserLayouts,
+    queryCurrentUserShortLayouts,
     subscribeCurrentUserShortLayoutsCache,
   } from '@/api/layouts'
   import { filterSelectorGraph } from '@/metrics/selector/utils'
@@ -54,7 +54,7 @@
 
   const showMyLibraryLayouts = newCategoriesShower((checkRacing) => {
     graph = newMyLibaryGraph()
-    queryCurrentUserLayouts().then(
+    queryCurrentUserShortLayouts().then(
       (items) => checkRacing() || (graph['My layouts'] = items),
     )
     queryRecentLayouts().then(

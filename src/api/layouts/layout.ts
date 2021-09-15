@@ -28,6 +28,7 @@ const LAYOUT_QUERY = (id: number) => `
   {
     layout:chartConfiguration(id:${id}){
       ${LAYOUT_QUERY_FIELDS}
+      isPublic
 	  }
   }
 `

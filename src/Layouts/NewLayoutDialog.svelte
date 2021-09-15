@@ -17,6 +17,7 @@
   import type { Layout } from '@/api/layouts'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
+  import Toggle from 'webkit/ui/Toggle.svelte'
   import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
@@ -32,7 +33,8 @@
 
   let closeDialog
 
-  const { title: layoutTitle = '', description = '' } = layout || {}
+  let { title: layoutTitle = '', description = '', isPublic = true } =
+    layout || {}
 
   function onSubmit({ currentTarget }) {
     const title: string = currentTarget.title.value
@@ -43,6 +45,7 @@
     const settings = {
       title,
       description,
+      isPublic,
       metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
       projectId: project?.projectId || $studio.projectId,
       options: options || {
@@ -68,6 +71,10 @@
       }
     })
   }
+
+  function toggleLayoutPublicity() {
+    isPublic = !isPublic
+  }
 </script>
 
 <Dialog {...$$props} {title} bind:closeDialog>
@@ -87,8 +94,16 @@
       value={description}
       placeholder="Description" />
 
-    <button class="btn btn-1 btn--green" type="submit">
-      {mode === Mode.New ? 'Create' : 'Save'}</button>
+    <div class="row v-center">
+      <button class="btn btn-1 btn--green mrg-a mrg--r" type="submit">
+        {mode === Mode.New ? 'Create' : 'Save'}</button>
+
+      Public
+      <Toggle
+        class="mrg-m mrg--l"
+        isActive={isPublic}
+        on:click={toggleLayoutPublicity} />
+    </div>
   </form>
 </Dialog>
 
