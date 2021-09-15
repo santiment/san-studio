@@ -32,6 +32,7 @@ export const Event = {
   MetricColor: 'charts_metric_color',
   MetricExchange: 'charts_metric_exchange',
   MetricInterval: 'charts_metric_interval',
+  MetricAxisMaxMin: 'charts_metric_axis_max_min',
 
   ShowMetricAxis: 'charts_show_metric_axis',
   HideMetricAxis: 'charts_hide_metric_axis',

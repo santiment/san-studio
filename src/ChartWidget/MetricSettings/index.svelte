@@ -12,7 +12,7 @@
   import ShowAxisSetting from './ShowAxisSetting.svelte'
   import ExpressionSetting from './ExpressionSetting.svelte'
   import TopHoldersSetting from './TopHoldersSetting.svelte'
-  import AxisDomainSetting from './AxisDomainSetting.svelte'
+  import AxisMaxMinSetting from './AxisMaxMinSetting.svelte'
   import { TOP_HOLDERS } from './settings'
 
   const { isEmbedded } = getAdapterController()
@@ -49,7 +49,7 @@
     {#if metric.expression}
       <ExpressionSetting {metric} />
     {/if}
-    <AxisDomainSetting {metric} />
+    <AxisMaxMinSetting {metric} />
   </div>
 {/key}
 

@@ -4,7 +4,7 @@
 
   export let isList = true
   export let onClick = undefined
-  export let isOpened
+  export let isOpened = undefined
 
   let optionsNode
   $: if (optionsNode) {
