@@ -74,15 +74,17 @@
         onLock={onMetricLock}
         onSettings={onMetricSettings} />
     {/each}
-    {#each $ChartAddons as metric}
-      <Metric
-        {metric}
-        onClick={() => {}}
-        onEnter={onMetricEnter}
-        onLeave={onMetricLeave}
-        onDelete={() => ChartAddons.delete(metric)}
-        onSettings={onMetricSettings} />
-    {/each}
+    {#if $globals.isBeta}
+      {#each $ChartAddons as metric}
+        <Metric
+          {metric}
+          onClick={() => {}}
+          onEnter={onMetricEnter}
+          onLeave={onMetricLeave}
+          onDelete={() => ChartAddons.delete(metric)}
+          onSettings={onMetricSettings} />
+      {/each}
+    {/if}
   </div>
 
   {#if !isOnlyChartEmbedded && $globals.isPresenterMode === false && AutoUpdater}
