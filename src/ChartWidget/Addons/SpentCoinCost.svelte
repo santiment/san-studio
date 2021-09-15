@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { linearScale } from 'san-chart/scales'
   import { millify } from 'webkit/utils/formatting'
   import { getDateFormats, getTodaysEnd } from 'webkit/utils/dates'
@@ -98,6 +98,10 @@
       }
       return point
     }
+  })
+
+  onMount(() => {
+    setTimeout(chart.redraw, 200) // TODO: rework [@vanguard | Sep 15, 2021]
   })
 
   onDestroy(() => {

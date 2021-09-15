@@ -8,8 +8,8 @@
   const noExpressionMetricsFilter = ({ expression }) => !expression
   const expressionMetricsFilter = ({ expression }) => expression
 
-  $: ({ items: metrics, subwidgets } = $selectedMetrics)
-  $: items = metrics.concat(subwidgets)
+  $: ({ items: metrics, subwidgets, addons } = $selectedMetrics)
+  $: items = metrics.concat(subwidgets).concat(addons)
   $: baseMetrics = metrics.filter(noExpressionMetricsFilter)
 
   function onCombineClick() {

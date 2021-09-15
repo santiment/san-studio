@@ -12,6 +12,7 @@ import { newChartOptionsStore } from '@/ChartWidget/Controls/context'
 import { newMetricsStore } from '@/ChartWidget/Metrics/context'
 import { newMetricSettingsStore } from '@/ChartWidget/MetricSettings/context'
 import { newMetricIndicatorsStore } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
+import { newChartAddonsStore } from '@/ChartWidget/Addons/contex'
 
 export type ChartWidget = {
   ChartAxes: ReturnType<typeof newChartAxesStore>
@@ -56,6 +57,8 @@ export function initWidget(widget: any) {
     widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)
   if (!widget.MetricIndicators)
     widget.MetricIndicators = newMetricIndicatorsStore(widget.metricIndicators)
+  if (!widget.ChartAddons)
+    widget.ChartAddons = newChartAddonsStore(widget.chartAddons)
 
   if (!widget.IsLoaded) widget.IsLoaded = writable(false)
   if (!widget.OnUpdate) widget.OnUpdate = newOnUpdateStore(widget)

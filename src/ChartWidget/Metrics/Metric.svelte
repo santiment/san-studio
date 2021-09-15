@@ -8,6 +8,7 @@
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
+  import { SelectorNode } from '@/metrics/selector'
   import { convertBaseProjectMetric } from './utils'
   import MoreMenu from './MoreMenu.svelte'
   import ErrorTooltip from './ErrorTooltip.svelte'
@@ -81,7 +82,7 @@
       <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
     {/if}
 
-    {#if !(isPresenterMode || isEmbedded)}
+    {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
       <MoreMenu
         {metric}
         {isLocked}

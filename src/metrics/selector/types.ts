@@ -4,4 +4,5 @@ export enum SelectorType {
   Sidewidget,
   Metric,
   Notable,
+  ChartAddon,
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getTodaysEnd } from 'webkit/utils/dates'
   import { studio } from '@/stores/studio'
-  import { Metric } from '@/metrics'
+  import { SelectorNode } from '@/metrics/selector'
   import { FORMATTER } from '@/metrics/formatters'
   import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { themes } from '@/Chart/theme'
@@ -23,7 +23,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
-  import SpentCoinCost from './SpentCoinCost.svelte'
+  import SpentCoinCost from './Addons/SpentCoinCost.svelte'
 
   const widget = getWidget()
   const {
@@ -32,7 +32,7 @@
     onModRangeSelect = () => {},
   } = getAdapterController()
 
-  const { ChartAxes, ChartOptions } = widget
+  const { ChartAxes, ChartOptions, ChartAddons } = widget
   const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget
 
   export let metrics: Studio.Metric[]
@@ -163,7 +163,7 @@
     {onRangeSelect}
     isShiftForced={isEmbedded} />
 
-  {#if $globals.isBeta}
+  {#if $globals.isBeta && $ChartAddons.includes(SelectorNode.SPENT_COIN_COST)}
     <SpentCoinCost
       slug={$studio.slug}
       isPro={$globals.isPro || $globals.isProPlus} />

@@ -13,8 +13,8 @@ import { NotableSignal, getNotableItem } from '../_notables'
 SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
   label: 'Spent Coin Cost',
-  selectorType: SelectorType.Sidewidget,
-  checkIsActive: (sidewidget) => sidewidget === SelectorNode.SPENT_COIN_COST,
+  selectorType: SelectorType.ChartAddon,
+  checkIsVisible: ({ isBeta }) => isBeta,
 }
 
 SelectorNode.SOCIAL_CONTEXT = {

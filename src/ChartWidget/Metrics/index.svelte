@@ -9,7 +9,7 @@
   import AutoUpdate from './AutoUpdate.svelte'
 
   const { isOnlyChartEmbedded } = getAdapterController()
-  const { Metrics } = getWidget()
+  const { Metrics, ChartAddons } = getWidget()
   const AutoUpdater = getAutoUpdater()
   const dndContext = $globals.isBeta
     ? newSortableContext({ onDragEnd })
@@ -72,6 +72,15 @@
           ? undefined
           : onMetricDelete}
         onLock={onMetricLock}
+        onSettings={onMetricSettings} />
+    {/each}
+    {#each $ChartAddons as metric}
+      <Metric
+        {metric}
+        onClick={() => {}}
+        onEnter={onMetricEnter}
+        onLeave={onMetricLeave}
+        onDelete={() => ChartAddons.delete(metric)}
         onSettings={onMetricSettings} />
     {/each}
   </div>

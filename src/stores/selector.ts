@@ -8,17 +8,21 @@ export type SelectedMetrics = {
   items: Studio.Metric[]
   subwidgets: any[]
   notables: any[]
+  addons: any[]
   has: (item: Studio.Metric) => boolean
 }
 export const selectedMetrics = (() => {
   let metricsSet = new Set<Studio.Metric>()
   const subwidgetsSet = new Set<any>()
   const notablesSet = new Set<any>()
+  const addonsSet = new Set<any>()
   const store: SelectedMetrics = {
     items: [],
     subwidgets: [],
     notables: [],
-    has: (item) => metricsSet.has(item) || subwidgetsSet.has(item),
+    addons: [],
+    has: (item) =>
+      metricsSet.has(item) || subwidgetsSet.has(item) || addonsSet.has(item),
   }
   const { subscribe, set } = writable<SelectedMetrics>(store)
 
@@ -44,10 +48,12 @@ export const selectedMetrics = (() => {
       metricsSet.clear()
       subwidgetsSet.clear()
       notablesSet.clear()
+      addonsSet.clear()
 
       store.items = []
       store.subwidgets = []
       store.notables = []
+      store.addons = []
 
       set(store)
     },
@@ -81,6 +87,16 @@ export const selectedMetrics = (() => {
       }
       set(store)
     },
+    toggleAddon(item: Studio.SelectorNode) {
+      if (addonsSet.has(item)) {
+        addonsSet.delete(item)
+      } else {
+        addonsSet.add(item)
+      }
+
+      store.addons = Array.from(addonsSet)
+      set(store)
+    },
   }
 })()
 
@@ -88,6 +104,9 @@ export const selector = {
   toggle(node: Studio.SelectorNode): void {
     if (Metric[node.key] || (node as any).metric) {
       selectedMetrics.toggle(node as Studio.Metric)
+    }
+    if (node.selectorType === SelectorType.ChartAddon) {
+      selectedMetrics.toggleAddon(node as Studio.Metric)
     }
   },
   checkActive(
@@ -124,6 +143,9 @@ export function newNodeController(Widgets, Sidewidget, adjustSelectedMetric) {
       if (widget) return Widgets.addSubwidgets(widget, [node])
 
       return selectedMetrics.toggle(node)
+    } else if (node.selectorType === SelectorType.ChartAddon) {
+      if (widget) return widget.ChartAddons.add(node)
+      return selectedMetrics.toggleAddon(node)
     }
 
     // TODO: Refactor notables selection [@vanguard | Jun  9, 2021]

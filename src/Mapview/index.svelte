@@ -19,7 +19,9 @@
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
-    $selectedMetrics.items.length > 0 || $selectedMetrics.subwidgets.length > 0,
+    $selectedMetrics.items.length > 0 ||
+      $selectedMetrics.subwidgets.length > 0 ||
+      $selectedMetrics.addons.length > 0,
   )
   $: isMapview = $mapview !== MapviewPhase.None
   $: isMetricsPhase = $mapview === MapviewPhase.Metrics
@@ -49,6 +51,10 @@
       Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
     }
 
+    if ($selectedMetrics.addons.length) {
+      widget.ChartAddons.concat($selectedMetrics.addons)
+    }
+
     if (widget.Metrics) {
       const metrics = adjustMetrics($selectedMetrics.items)
       const notables = $selectedMetrics.notables.slice()
@@ -74,6 +80,9 @@
 
   function onNewWidgetClick({ ctrlKey, metaKey }: MouseEvent) {
     const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
+    if ($selectedMetrics.addons.length) {
+      widget.chartAddons = $selectedMetrics.addons
+    }
 
     History.add(
       'New widget',
