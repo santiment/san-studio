@@ -49,6 +49,11 @@ export function getDefaultTooltipSettings() {
         return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
       },
     },
+
+    spentCoinCost: {
+      formatter: (value) => value,
+      label: 'Spent Coin Cost',
+    },
   }
 }
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getTodaysEnd } from 'webkit/utils/dates'
   import { studio } from '@/stores/studio'
+  import { Metric } from '@/metrics'
   import { FORMATTER } from '@/metrics/formatters'
   import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { themes } from '@/Chart/theme'
@@ -22,6 +23,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
+  import SpentCoinCost from './SpentCoinCost.svelte'
 
   const widget = getWidget()
   const {
@@ -160,6 +162,12 @@
     {onPointClick}
     {onRangeSelect}
     isShiftForced={isEmbedded} />
+
+  {#if $globals.isBeta}
+    <SpentCoinCost
+      slug={$studio.slug}
+      isPro={$globals.isPro || $globals.isProPlus} />
+  {/if}
 
   {#if allTimeData}
     <Brush

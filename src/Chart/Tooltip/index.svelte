@@ -113,7 +113,7 @@
 
     drawTooltip(
       ctx,
-      point,
+      chart.modifyPoint?.(point, x, y) || point,
       metricSettings,
       marker,
       theme.tooltip,
