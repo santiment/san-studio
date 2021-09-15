@@ -86,12 +86,14 @@
   input {
     padding: 5px 8px;
     margin-left: 8px;
+    color: var(--black);
   }
 
   .tip {
     padding: 5px;
     background: var(--green-light-1);
     position: relative;
+    border-radius: 4px;
   }
 
   .example {
