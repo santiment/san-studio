@@ -8,7 +8,6 @@
   import VirtualList from './VirtualList.svelte'
   import ProjectSelector from './ProjectSelector.svelte'
 
-  export let metrics: Studio.Metric[]
   export let onMetricSelect
 
   let availableMetrics = [] as any[]

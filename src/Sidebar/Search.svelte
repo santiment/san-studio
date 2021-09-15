@@ -19,6 +19,7 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center fluid {className}">
   <Svg id="search" w="12" class="$style.search" />
   <input type="text" on:input={onInput} {placeholder} {autofocus} />

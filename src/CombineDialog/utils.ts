@@ -97,9 +97,10 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
           scope['x' + (j + 1)] = allData[j][offsets[j] + i][COMBINED_KEY]
         }
 
+        const value = math.evaluate(expression, scope)
         result[i] = {
           datetime: allData[0][offsets[0] + i].datetime,
-          [key]: math.evaluate(expression, scope),
+          [key]: Number.isFinite(value) ? value : i && result[i - 1][key],
         }
       }
 
