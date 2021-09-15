@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
@@ -71,6 +73,7 @@
 
   function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
     if (e.target === e.currentTarget) {
+      track.event(Event.MetricSettings, { metric: metric.key })
       settingsOpenedMetric = metric
     }
   }
