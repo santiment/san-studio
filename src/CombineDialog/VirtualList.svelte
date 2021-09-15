@@ -4,24 +4,28 @@
   let className = ''
   export { className as class }
   export let items: any[]
-  export let keyProp = 'key'
-  export let renderAmount = 15
+  export let key = 'key'
+  export let renderAmount = 14
 
   const delayItems = 3
+  const updateListHeight = () => (listHeight = listNode?.scrollHeight) // TODO: Think of better way [@vanguard | Sep 15, 2021]
 
   let viewportNode
   let listNode
+  let listHeight = 0
 
   $: viewportNode && (items, (viewportNode.scrollTop = 0))
   $: offsetTop = (items, 0)
   $: start = (items, 0)
   $: end = (items, renderAmount)
-  $: listHeight = listNode?.offsetHeight || 0
   $: renderItems = items.slice(start, end)
   $: renderHeight = listHeight / renderAmount
   $: scrollHeight = renderHeight * items.length
   $: scrollStop = scrollHeight - listHeight
   $: offsetRenderDelay = renderHeight * delayItems
+
+  $: style = listHeight ? `height:${scrollHeight}px` : ''
+  $: listNode && setTimeout(updateListHeight, 300)
 
   async function onScroll() {
     const { scrollTop } = viewportNode
@@ -48,12 +52,12 @@
 </script>
 
 <div class="viewport {className}" bind:this={viewportNode} on:scroll={onScroll}>
-  <div class="scroll" style="height:{scrollHeight}px">
+  <div class="scroll" {style}>
     <div
       class="list"
       style="transform:translateY({offsetTop}px)"
       bind:this={listNode}>
-      {#each renderItems as item (item[keyProp])}
+      {#each renderItems as item (item[key])}
         <slot {item} />
       {/each}
     </div>

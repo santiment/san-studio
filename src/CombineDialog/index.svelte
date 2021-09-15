@@ -21,6 +21,7 @@
     newExpessionMetric,
     checkIsExpressionValid,
   } from './utils'
+  import Sidebar from './Sidebar.svelte'
 
   // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
   importMath()
@@ -82,51 +83,57 @@
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
   class="$style.dialog">
-  <div class="dialog-body">
-    <div class="caption">Metrics</div>
-    <div class="row metrics">
-      <AddMetric {metrics} {onMetricSelect} />
+  <div class="row">
+    <Sidebar {metrics} />
 
-      {#each metrics as metric, i}
-        <Metric
-          {i}
-          {metric}
-          onLock={onMetricLock}
-          onDelete={metrics.length > 2 ? onMetricDelete : undefined} />
-      {/each}
-    </div>
+    <div class="dialog-body">
+      <div class="caption">Metrics</div>
+      <div class="row metrics">
+        <AddMetric {metrics} {onMetricSelect} />
 
-    <div class="caption mrg-l mrg--t">Name</div>
-    <input
-      class="border fluid"
-      type="text"
-      bind:value={label}
-      placeholder="Combined metric"
-      on:blur={() => (isLabelInputDirty = true)}
-      class:invalid={isLabelInputDirty && !label.trim()} />
-
-    <div class="caption mrg-l mrg--t">Expression</div>
-    <input
-      class="border fluid"
-      type="text"
-      bind:value={expression}
-      on:blur={() => (isExpressionDirty = true)}
-      class:invalid={!isValidExpression} />
-
-    <div class="caption mrg-l mrg--t">Preview</div>
-    <div class="border">
-      <Chart metrics={[expressionMetric]} {colors} />
-    </div>
-
-    <div class="row mrg-l mrg--t v-center">
-      <div
-        class="btn btn-1 btn--green mrg-a mrg--l"
-        class:disabled={!isValid}
-        on:click={onCombineClick}>
-        {metric ? 'Edit' : 'Combine'}
+        {#each metrics as metric, i}
+          <Metric
+            {i}
+            {metric}
+            onLock={onMetricLock}
+            onDelete={metrics.length > 2 ? onMetricDelete : undefined} />
+        {/each}
       </div>
-      <div class="btn btn-1 border mrg-l mrg--l cancel" on:click={closeDialog}>
-        Cancel
+
+      <div class="caption mrg-l mrg--t">Name</div>
+      <input
+        class="border fluid"
+        type="text"
+        bind:value={label}
+        placeholder="Combined metric"
+        on:blur={() => (isLabelInputDirty = true)}
+        class:invalid={isLabelInputDirty && !label.trim()} />
+
+      <div class="caption mrg-l mrg--t">Expression</div>
+      <input
+        class="border fluid"
+        type="text"
+        bind:value={expression}
+        on:blur={() => (isExpressionDirty = true)}
+        class:invalid={!isValidExpression} />
+
+      <div class="caption mrg-l mrg--t">Preview</div>
+      <div class="border">
+        <Chart metrics={[expressionMetric]} {colors} />
+      </div>
+
+      <div class="row mrg-l mrg--t v-center">
+        <div
+          class="btn btn-1 btn--green mrg-a mrg--l"
+          class:disabled={!isValid}
+          on:click={onCombineClick}>
+          {metric ? 'Edit' : 'Combine'}
+        </div>
+        <div
+          class="btn btn-1 border mrg-l mrg--l cancel"
+          on:click={closeDialog}>
+          Cancel
+        </div>
       </div>
     </div>
   </div>
@@ -134,8 +141,12 @@
 
 <style>
   .dialog {
-    width: 700px;
+    width: 800px;
     position: relative;
+  }
+
+  .dialog-body {
+    flex: 1;
   }
 
   input {
