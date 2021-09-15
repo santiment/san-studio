@@ -24,11 +24,13 @@
   )
   $: items = (searchTerm, getItems(graph))
 
+  const selectorTypeFilter = ({ selectorType }) => selectorType === undefined
   const itemsFilter = ({ selectorType, label }) =>
     selectorType === undefined && label.toLowerCase().includes(searchTerm)
+
   function getItems(graph) {
     const items = Object.values(graph).flat()
-    return searchTerm ? items.filter(itemsFilter) : items
+    return items.filter(searchTerm ? itemsFilter : selectorTypeFilter)
   }
 
   function onSelect(metric) {
