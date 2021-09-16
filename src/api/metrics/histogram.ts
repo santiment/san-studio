@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const HISTOGRAM_DATA_QUERY = (slug: string, from: string, to: string) => `
@@ -27,19 +26,37 @@ const HISTOGRAM_DATA_QUERY = (slug: string, from: string, to: string) => `
   }
 `
 
+type HistogramQuery = {
+  hq: {
+    histogramData: {
+      values: {
+        data?: { r: [number, number]; v: number }[]
+      }
+    }
+  }
+
+  pq: {
+    v: number
+  }
+}
+
+type Histogram = {
+  buckets: { range: [number, number]; amount: number }[]
+  price: number
+}
+
 const bucketsMap = ({ r, v }) => ({ range: r, amount: v })
 const precacher =
   () =>
-  ({ hq, pq }) => ({
-    buckets: hq.histogramData.values.data.map(bucketsMap),
+  ({ hq, pq }: HistogramQuery): Histogram => ({
+    buckets: hq.histogramData.values.data?.map(bucketsMap) || [],
     price: pq.v,
   })
 
 const options = { precacher }
-
 export const queryPriceHistogram = (
   slug: string,
   from: string,
   to: string,
-): Promise<string[]> =>
-  query<any>(HISTOGRAM_DATA_QUERY(slug, from, to), options) as any
+): Promise<Histogram[]> =>
+  query<any>(HISTOGRAM_DATA_QUERY(slug, from, to), options)
