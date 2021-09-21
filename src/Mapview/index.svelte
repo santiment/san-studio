@@ -5,7 +5,7 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
-  import { selectedMetrics } from '@/stores/selector'
+  import { selectedItems } from '@/stores/selector'
   import { getAdapterController } from '@/adapter/context'
   import { newSortableDndCtx } from './dnd'
   import Preview from './Preview.svelte'
@@ -19,9 +19,9 @@
 
   $: widgets = $Widgets
   $: mapview.checkActiveMetrics(
-    $selectedMetrics.items.length > 0 ||
-      $selectedMetrics.subwidgets.length > 0 ||
-      $selectedMetrics.addons.length > 0,
+    $selectedItems.metrics.length > 0 ||
+      $selectedItems.subwidgets.length > 0 ||
+      $selectedItems.chartAddons.length > 0,
   )
   $: isMapview = $mapview !== MapviewPhase.None
   $: isMetricsPhase = $mapview === MapviewPhase.Metrics
@@ -37,7 +37,7 @@
     window.addEventListener('keydown', onEscape)
   } else {
     window.removeEventListener('keydown', onEscape)
-    selectedMetrics.clear()
+    selectedItems.clear()
   }
 
   function onWidgetClick(widget, e?: MouseEvent) {
@@ -47,17 +47,17 @@
       return
     }
 
-    if ($selectedMetrics.subwidgets.length) {
-      Widgets.addSubwidgets(widget, $selectedMetrics.subwidgets)
+    if ($selectedItems.subwidgets.length) {
+      Widgets.addSubwidgets(widget, $selectedItems.subwidgets)
     }
 
-    if ($selectedMetrics.addons.length) {
-      widget.ChartAddons.concat($selectedMetrics.addons)
+    if ($selectedItems.chartAddons.length) {
+      widget.ChartAddons.concat($selectedItems.chartAddons)
     }
 
     if (widget.Metrics) {
-      const metrics = adjustMetrics($selectedMetrics.items)
-      const notables = $selectedMetrics.notables.slice()
+      const metrics = adjustMetrics($selectedItems.metrics)
+      const notables = $selectedItems.notables.slice()
       const redo = () => {
         widget.Metrics.concat(metrics)
         widget.MetricsSignals.concat(notables)
@@ -74,14 +74,14 @@
       )
 
       if (e?.ctrlKey || e?.metaKey) return
-      selectedMetrics.clear()
+      selectedItems.clear()
     }
   }
 
   function onNewWidgetClick({ ctrlKey, metaKey }: MouseEvent) {
-    const widget = Widgets.add(adjustMetrics($selectedMetrics.items))
-    if ($selectedMetrics.addons.length) {
-      widget.chartAddons = $selectedMetrics.addons
+    const widget = Widgets.add(adjustMetrics($selectedItems.metrics))
+    if ($selectedItems.chartAddons.length) {
+      widget.chartAddons = $selectedItems.chartAddons
     }
 
     History.add(
@@ -94,7 +94,7 @@
     )
 
     if (ctrlKey || metaKey) return
-    selectedMetrics.clear()
+    selectedItems.clear()
   }
 
   function adjustMetrics(metrics: Studio.Metric[]) {
@@ -147,7 +147,7 @@
             {/if}
           {/each}
 
-          {#if isMetricsPhase && $selectedMetrics.items.length}
+          {#if isMetricsPhase && $selectedItems.metrics.length}
             <Preview
               class="column hv-center body-2 txt-m $style.new"
               on:click={onNewWidgetClick}>

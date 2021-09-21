@@ -1,8 +1,8 @@
 <script lang="ts">
   import { getHistoryContext } from 'webkit/ui/history'
   import { getSavedValue, saveValue } from '@/utils/localStorage'
-  import { getNodeController } from '@/stores/selector'
   import { getAdapterController } from '@/adapter/context'
+  import { handleItemSelect } from './controller'
   import Sidebar from './Sidebar.svelte'
   import Toggle from './Toggle.svelte'
   import Modes, { Mode } from './Modes.svelte'
@@ -10,9 +10,10 @@
   import LayoutsSidebar from './Layouts/Sidebar.svelte'
 
   const History = getHistoryContext()
-  const NodeController = getNodeController()
   const { checkIsMapviewDisabled } = getAdapterController() as any
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
+
+  export let Widgets, Sidewidget, adjustSelectedMetric
 
   let mode = Mode.Metrics
   let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED, true)
@@ -23,7 +24,14 @@
 
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return
-    NodeController(item, e, History)
+    handleItemSelect(
+      item,
+      e,
+      Widgets,
+      Sidewidget,
+      History,
+      adjustSelectedMetric,
+    )
   }
 </script>
 

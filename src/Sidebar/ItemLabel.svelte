@@ -1,6 +1,6 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
-  import { selector, selectedMetrics } from '@/stores/selector'
+  import { selectedItems } from '@/stores/selector'
   import { getSidewidget } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'
   const { InsightsContextStore } = getAdapterController()
@@ -10,7 +10,7 @@
   export let active = false
 
   $: active =
-    selector.checkActive(item, $selectedMetrics) ||
+    $selectedItems.has(item) ||
     item.checkIsActive?.($Sidewidget) ||
     item === $InsightsContextStore.insight
   $: removeClass = active ? '$style.remove' : ''

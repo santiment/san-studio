@@ -13,7 +13,6 @@
   import { studio, newLockedAssetStore } from '@/stores/studio'
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
-  import { newNodeController } from '@/stores/selector'
   import { setAdapterController } from '@/adapter/context'
   import { newSizedQueue } from '@/Widget/queue'
 
@@ -59,7 +58,6 @@
     InsightsContextStore,
     adjustSelectedMetric,
   })
-  newNodeController(Widgets, Sidewidget, adjustSelectedMetric)
   newTooltipSynchronizer()
   newLockedAssetStore()
 
@@ -82,7 +80,7 @@
 </script>
 
 <main>
-  <Sidebar />
+  <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
   <div class="content column">
     <div class="studio-top">
       <ProjectInfo />

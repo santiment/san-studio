@@ -1,15 +1,15 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
   import Svg from 'webkit/ui/Svg.svelte'
-  import { selectedMetrics } from '@/stores/selector'
+  import { selectedItems } from '@/stores/selector'
   import MetricButton from '@/MetricButton.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
 
   const noExpressionMetricsFilter = ({ expression }) => !expression
   const expressionMetricsFilter = ({ expression }) => expression
 
-  $: ({ items: metrics, subwidgets, addons } = $selectedMetrics)
-  $: items = metrics.concat(subwidgets).concat(addons)
+  $: ({ metrics, subwidgets, chartAddons } = $selectedItems)
+  $: items = metrics.concat(subwidgets).concat(chartAddons)
   $: baseMetrics = metrics.filter(noExpressionMetricsFilter)
 
   function onCombineClick() {
@@ -20,7 +20,7 @@
     }).then((metric) => {
       if (!metric) return
 
-      selectedMetrics.set(expressionMetrics.concat(metric))
+      selectedItems.set(expressionMetrics.concat(metric))
     })
   }
 </script>
@@ -41,14 +41,14 @@
         id="cross"
         w="10"
         class="$style.delete"
-        on:click={selectedMetrics.clear} />
+        on:click={selectedItems.clear} />
 
       <div class="items">
         <div class="metrics row mrg-l mrg--b">
           {#each items as metric (metric.key)}
             <MetricButton
               {metric}
-              onDelete={selectedMetrics.toggle}
+              onDelete={selectedItems.toggle}
               class="$style.btn" />
           {/each}
         </div>
