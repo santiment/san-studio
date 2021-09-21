@@ -1,10 +1,10 @@
 <script lang="ts">
   import { getTodaysEnd } from 'webkit/utils/dates'
   import { studio } from '@/stores/studio'
-  import { SelectorNode } from '@/metrics/selector'
   import { FORMATTER } from '@/metrics/formatters'
   import { getDefaultTooltipSettings } from '@/Chart/utils'
   import { themes } from '@/Chart/theme'
+  import Addons from './Addons/index.svelte'
   import Chart from '@/Chart/index.svelte'
   import Candles from '@/Chart/Candles.svelte'
   import Lines from '@/Chart/Lines.svelte'
@@ -23,7 +23,6 @@
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
-  import SpentCoinCost from './Addons/SpentCoinCost.svelte'
 
   const widget = getWidget()
   const {
@@ -163,11 +162,10 @@
     {onRangeSelect}
     isShiftForced={isEmbedded} />
 
-  {#if $globals.isBeta && $ChartAddons.includes(SelectorNode.SPENT_COIN_COST)}
-    <SpentCoinCost
-      slug={$studio.slug}
-      isPro={$globals.isPro || $globals.isProPlus} />
-  {/if}
+  <Addons
+    addons={$ChartAddons}
+    slug={$studio.slug}
+    isPro={$globals.isPro || $globals.isProPlus} />
 
   {#if allTimeData}
     <Brush

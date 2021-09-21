@@ -14,7 +14,6 @@ SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
   label: 'Spent Coin Cost',
   selectorType: SelectorType.ChartAddon,
-  checkIsVisible: ({ isBeta }) => isBeta,
 }
 
 SelectorNode.SOCIAL_CONTEXT = {
