@@ -50,6 +50,7 @@
 
   let chart
   let isSharedAxisEnabled = widget.isSharedAxisEnabled || false
+  let ChartAddonError = new Map()
 
   $: metrics = $Metrics
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
@@ -59,6 +60,15 @@
   // prettier-ignore
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
       $MetricsSignals, $ChartOptions, $ChartAddons, OnUpdate.emit())
+
+  widget.setChartAddonError = (addon: any, error: string) => {
+    ChartAddonError.set(addon, error)
+    ChartAddonError = ChartAddonError
+  }
+  widget.deleteChartAddonError = (addon: any) => {
+    ChartAddonError.delete(addon)
+    ChartAddonError = ChartAddonError
+  }
 
   function changeStudioPeriod(
     startDatetime: number | string,
@@ -166,6 +176,7 @@
       {loadings}
       {colors}
       {MetricError}
+      {ChartAddonError}
       {isSingleWidget}
       {changeStudioPeriod}
       {onMetricClick}

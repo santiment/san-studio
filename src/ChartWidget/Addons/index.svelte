@@ -10,10 +10,10 @@
   }
 </script>
 
-{#each addons as { key } (key)}
-  {#if PATHS[key]}
-    {#await PATHS[key]() then Component}
-      <svelte:component this={Component.default} {isPro} {slug} />
+{#each addons as addon (addon.key)}
+  {#if PATHS[addon.key]}
+    {#await PATHS[addon.key]() then Component}
+      <svelte:component this={Component.default} {addon} {isPro} {slug} />
     {/await}
   {/if}
 {/each}

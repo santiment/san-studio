@@ -137,10 +137,6 @@
   {domainModifier}
   {onChart}
   bind:width={chartWidth}>
-  {#if $ChartOptions.watermark}
-    <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />
-  {/if}
-
   <GreenRedBars />
   <Bars />
   <Areas />
@@ -166,6 +162,10 @@
     addons={$ChartAddons}
     slug={$studio.slug}
     isPro={$globals.isPro || $globals.isProPlus} />
+
+  {#if $ChartOptions.watermark}
+    <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />
+  {/if}
 
   {#if allTimeData}
     <Brush

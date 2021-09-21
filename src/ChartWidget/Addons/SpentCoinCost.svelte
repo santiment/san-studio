@@ -4,12 +4,15 @@
   import { millify } from 'webkit/utils/formatting'
   import { getDateFormats, getTodaysEnd } from 'webkit/utils/dates'
   import { getChart } from '@/Chart/context'
+  import { getWidget } from '@/ChartWidget/context'
   import { queryPriceHistogram } from '@/api/metrics/histogram'
 
+  const widget = getWidget()
   const chart = getChart()
   const ID = 'spent_coin_cost'
   const WIDTH = 150
 
+  export let addon
   export let slug
   export let isPro = false
 
@@ -28,6 +31,12 @@
       buckets = data.buckets
       price = data.price
       chart.redraw()
+
+      if (data.buckets.length === 0) {
+        widget.setChartAddonError(addon, 'No data for this date')
+      } else {
+        widget.deleteChartAddonError(addon)
+      }
     },
   )
   $: dateLabel = getDate(to)

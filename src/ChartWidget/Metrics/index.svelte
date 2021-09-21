@@ -16,7 +16,7 @@
     : undefined
 
   export let metrics, colors, loadings, settingsOpenedMetric
-  export let MetricError
+  export let MetricError, ChartAddonError
   export let isSingleWidget
   export let changeStudioPeriod
   export let onMetricClick,
@@ -77,6 +77,7 @@
     {#each $ChartAddons as metric}
       <Metric
         {metric}
+        error={ChartAddonError.get(metric)}
         onClick={() => {}}
         onEnter={onMetricEnter}
         onLeave={onMetricLeave}
