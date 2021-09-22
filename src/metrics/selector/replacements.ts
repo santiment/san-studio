@@ -1,6 +1,7 @@
 import type { Selector } from './index'
 import { Metric } from '@/metrics'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
+import { ExchangesV2Metric, LabelsV2Metric } from '@/metrics/_onchain/labelsV2'
 import {
   PriceDAADivergenceNode,
   AdjustedPriceDAADivergenceNode,
@@ -17,11 +18,17 @@ export const ReplacementNode = {
 
   [Metric.price_daa_divergence.key]: PriceDAADivergenceNode,
   [Metric.adjusted_price_daa_divergence.key]: AdjustedPriceDAADivergenceNode,
-} as const
+
+  [ExchangesV2Metric.labelled_historical_balance.key]:
+    Object.values(ExchangesV2Metric).slice(1),
+
+  [LabelsV2Metric.labelled_historical_balance_changes.key]:
+    Object.values(LabelsV2Metric).slice(1),
+}
 
 function replace(SelectorNode: Selector, key: string): boolean {
   const replacement = ReplacementNode[key]
-  if (replacement) SelectorNode[replacement.key] = replacement
+  if (replacement) SelectorNode[(replacement as any).key] = replacement
   return replacement ? true : false
 }
 

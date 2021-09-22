@@ -29,12 +29,13 @@ export function getTimeseries(
     const { preTransform, fetcher = fetch } = metricSettings
     const queryKey = metricSettings.queryKey || metric.queryKey || key
 
-    const { interval, slug, from, to, transform, owner, labels, holdersCount } =
+    // prettier-ignore
+    const { interval, slug, from, to, transform, owner, labels, holdersCount, label_fqn  } =
       Object.assign({}, variables, metricSettings)
 
     // prettier-ignore
     const vars = Object.assign(
-        { key, metric: queryKey, from, to, interval, transform, owner, labels, holdersCount , [selector]: slug },
+        { key, metric: queryKey, from, to, interval, transform, owner, labels, holdersCount, label_fqn, [selector]: slug },
       reqMeta,
     )
 

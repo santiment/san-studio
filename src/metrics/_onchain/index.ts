@@ -1,6 +1,7 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { MakerDaoMetric } from './makerDao'
-import { MetricCategory, MetricGroup } from '@/metrics/graph'
+import { ExchangesV2Metric, LabelsV2Metric } from './labelsV2'
+import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
 import { mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
@@ -239,6 +240,8 @@ export const OnChainMetric = each(
 
     FeesMetric,
     ExchangesMetric,
+    ExchangesV2Metric,
+    LabelsV2Metric,
     DefiMetric,
     HolderDistributionMetric,
     WhalesMetric,

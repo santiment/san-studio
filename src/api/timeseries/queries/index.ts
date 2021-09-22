@@ -23,6 +23,7 @@ export const GET_METRIC = `
     $label: String
     $labels: [String]
     $aggregation: Aggregation
+    $label_fqn: String
   ) {
     getMetric(metric: $metric) {
       timeseriesData(
@@ -38,6 +39,7 @@ export const GET_METRIC = `
           source: $source
           owner: $owner
           label: $label
+          label_fqn: $label_fqn
         }
         from: $from
         to: $to

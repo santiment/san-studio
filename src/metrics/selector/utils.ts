@@ -43,9 +43,16 @@ export function getMetricsSelectorGraph(
     const node = (ReplacementNode[metricKey] || SelectorNode[metricKey]) as
       | undefined
       | Studio.SelectorNode
+      | Studio.SelectorNode[]
 
     if (node === undefined || IsSubitem[metricKey]) continue
-    addItemToSelectorGraph(graph, node, metricKey, filter)
+    if (Array.isArray(node)) {
+      for (let i = 0, len = node.length; i < len; i++) {
+        addItemToSelectorGraph(graph, node[i], metricKey, filter)
+      }
+    } else {
+      addItemToSelectorGraph(graph, node, metricKey, filter)
+    }
   }
 
   return graph
