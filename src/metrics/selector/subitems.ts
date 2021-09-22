@@ -12,7 +12,7 @@ import { NotableSignal, getNotableItem } from '../_notables'
 
 SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
-  label: 'Spent Coin Cost',
+  label: 'Transacted Coin Acquisition Cost',
   selectorType: SelectorType.ChartAddon,
 }
 

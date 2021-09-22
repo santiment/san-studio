@@ -14,6 +14,8 @@
   import TopHoldersSetting from './TopHoldersSetting.svelte'
   import AxisMaxMinSetting from './AxisMaxMinSetting.svelte'
   import { TOP_HOLDERS } from './settings'
+  import AddonSettings from '../Addons/Settings.svelte'
+  import { ADDONS } from '../Addons/addons'
 
   const { isEmbedded } = getAdapterController()
 
@@ -26,30 +28,34 @@
 
 {#key metric.key}
   <div class="row mrg-xs mrg--b caption txt-m v-center">
-    {#if isNotIndicator}
-      <NodeSetting {metric} />
-    {/if}
-    <ColorSetting {metric} />
-    {#if isExchangeModifiable(metric)}
-      <ExchangeSetting {metric} />
-    {/if}
-    {#if isNotIndicator && !isEmbedded}
-      <IntervalSetting {metric} />
-      {#if getBase(metric) !== Metric.dev_activity && !metric.baseMetrics}
-        <IndicatorSetting {metric} />
+    {#if ADDONS[metric.key]}
+      <AddonSettings addon={metric} />
+    {:else}
+      {#if isNotIndicator}
+        <NodeSetting {metric} />
       {/if}
+      <ColorSetting {metric} />
+      {#if isExchangeModifiable(metric)}
+        <ExchangeSetting {metric} />
+      {/if}
+      {#if isNotIndicator && !isEmbedded}
+        <IntervalSetting {metric} />
+        {#if getBase(metric) !== Metric.dev_activity && !metric.baseMetrics}
+          <IndicatorSetting {metric} />
+        {/if}
+      {/if}
+      {#if isNotIndicator && SocialMetric[getBase(metric).key]}
+        <SmoothingSetting {metric} />
+      {/if}
+      {#if TOP_HOLDERS.has(metric)}
+        <TopHoldersSetting {metric} />
+      {/if}
+      <ShowAxisSetting {metric} />
+      {#if metric.expression}
+        <ExpressionSetting {metric} />
+      {/if}
+      <AxisMaxMinSetting {metric} />
     {/if}
-    {#if isNotIndicator && SocialMetric[getBase(metric).key]}
-      <SmoothingSetting {metric} />
-    {/if}
-    {#if TOP_HOLDERS.has(metric)}
-      <TopHoldersSetting {metric} />
-    {/if}
-    <ShowAxisSetting {metric} />
-    {#if metric.expression}
-      <ExpressionSetting {metric} />
-    {/if}
-    <AxisMaxMinSetting {metric} />
   </div>
 {/key}
 

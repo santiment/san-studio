@@ -52,7 +52,7 @@ export function getDefaultTooltipSettings() {
 
     spentCoinCost: {
       formatter: (value) => value,
-      label: 'Spent Coin Cost',
+      label: 'Transacted Coin Acquisition Cost',
     },
   }
 }

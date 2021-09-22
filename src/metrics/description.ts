@@ -1,4 +1,5 @@
 import { Metric } from '@/metrics'
+import { SelectorNode } from '@/metrics/selector'
 
 const TICKER_REGEX = /\[Project Ticker\]/g
 export function prepareDescription(
@@ -156,4 +157,7 @@ For each coin that moves on-chain, NPL takes the price at which it was last move
     'Number of Transactions Transferring More Than 1M USD"',
   [Metric.mvrv_usd_z_score.key]:
     'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap',
+
+  [SelectorNode.SPENT_COIN_COST.key]:
+    'It shows at what price the tokens that were transacted today were last moved. More info <a target="_blank" rel="noopener noreferrer" href="https://academy.santiment.net/metrics/spent-coin-cost/">here</a>',
 }

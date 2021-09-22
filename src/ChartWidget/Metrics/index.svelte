@@ -78,7 +78,7 @@
       <Metric
         {metric}
         error={ChartAddonError.get(metric)}
-        onClick={() => {}}
+        onClick={onMetricClick}
         onEnter={onMetricEnter}
         onLeave={onMetricLeave}
         onDelete={() => ChartAddons.delete(metric)}

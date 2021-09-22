@@ -2,10 +2,11 @@
   import { onDestroy } from 'svelte'
   import { linearScale } from 'san-chart/scales'
   import { millify } from 'webkit/utils/formatting'
-  import { getDateFormats, getTodaysEnd } from 'webkit/utils/dates'
+  import { getDateFormats } from 'webkit/utils/dates'
   import { getChart } from '@/Chart/context'
   import { getWidget } from '@/ChartWidget/context'
   import { queryPriceHistogram } from '@/api/metrics/histogram'
+  import { getCoinCostDate } from './utils'
 
   const widget = getWidget()
   const chart = getChart()
@@ -19,13 +20,9 @@
   let buckets = []
   let price = 0
 
-  $: from = getTodaysEnd()
-  $: to = new Date(from)
+  $: to = getCoinCostDate(new Date(), isPro)
+  $: from = new Date(to)
   $: from.setDate(from.getDate() - 1)
-  $: if (isPro === false) {
-    from.setMonth(from.getMonth() - 1)
-    to.setMonth(to.getMonth() - 1)
-  }
   $: queryPriceHistogram(slug, from.toISOString(), to.toISOString()).then(
     (data) => {
       buckets = data.buckets
@@ -42,8 +39,8 @@
   $: dateLabel = getDate(to)
 
   function getDate(date) {
-    const { DD, MM, YY } = getDateFormats(date)
-    return ` on ${DD}.${MM}.${YY}`
+    const { DD, MMM, YY } = getDateFormats(date)
+    return ` on ${MMM} ${DD}, ${YY}`
   }
 
   chart.plotManager.set(ID, (chart, scale) => {
