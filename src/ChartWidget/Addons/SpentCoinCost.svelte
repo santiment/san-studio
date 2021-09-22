@@ -12,6 +12,7 @@
   const chart = getChart()
   const ID = 'spent_coin_cost'
   const WIDTH = 150
+  const { MetricSettings } = widget
 
   export let addon
   export let slug
@@ -20,7 +21,8 @@
   let buckets = []
   let price = 0
 
-  $: to = getCoinCostDate(new Date(), isPro)
+  $: metricSettings = $MetricSettings[addon.key]
+  $: to = getCoinCostDate(metricSettings?.date, isPro)
   $: from = new Date(to)
   $: from.setDate(from.getDate() - 1)
   $: queryPriceHistogram(slug, from.toISOString(), to.toISOString()).then(
@@ -36,9 +38,9 @@
       }
     },
   )
-  $: dateLabel = getDate(to)
+  $: dateLabel = getLabel(to)
 
-  function getDate(date) {
+  function getLabel(date) {
     const { DD, MMM, YY } = getDateFormats(date)
     return ` on ${MMM} ${DD}, ${YY}`
   }

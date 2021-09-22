@@ -13,13 +13,13 @@
   let calendarNode
 
   $: metricSettings = $MetricSettings[addon.key]
-  $: date = getDate($globals.isPro || $globals.isProPlus)
-  $: window.mountSettingsCalendar?.(calendarNode)
+  $: date = getCoinCostDate(
+    metricSettings?.date,
+    $globals.isPro || $globals.isProPlus,
+  )
+  $: window.mountSettingsCalendar?.(calendarNode, date)
 
-  function getDate(isPro = false) {
-    const date = metricSettings?.date
-      ? new Date(metricSettings.date)
-      : getCoinCostDate(new Date(), isPro)
+  function getLabel(date: Date) {
     const { DD, MMM, YY } = getDateFormats(date)
     return `${DD} ${MMM} ${YY}`
   }
@@ -30,7 +30,7 @@
 </script>
 
 <Dropdown isList={false}>
-  Date: {date}
+  Date: {getLabel(date)}
 
   <svelte:fragment slot="options">
     <div bind:this={calendarNode} class="calendar" />

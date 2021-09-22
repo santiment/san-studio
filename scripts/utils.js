@@ -9,12 +9,14 @@ const modulePrefix = IS_NODE_MODULES_INSTALL
   : ''
 
 const ROUTE_REGEX = /from '@\//g
+const IMPORT_REGEX = /import '@\//g
 const DYN_IMPORT_REGEX = /import\('@\//g
 function replaceModuleAliases(fileContent, srcFilePath) {
   const diff = path.relative(srcFilePath, SRC).replace('..', '.')
 
   return fileContent
     .replace(ROUTE_REGEX, `from '${diff}/`)
+    .replace(IMPORT_REGEX, `import '${diff}/`)
     .replace(DYN_IMPORT_REGEX, `import('${diff}/`)
     .replace(
       /from 'san-chart/g,
