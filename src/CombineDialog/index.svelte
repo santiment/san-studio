@@ -82,7 +82,7 @@
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
   class="$style.dialog">
-  <div class="row">
+  <div class="dialog-content row">
     <Sidebar {metrics} {onMetricSelect} />
 
     <div class="dialog-body">
@@ -124,7 +124,7 @@
           class="btn btn-1 btn--green mrg-a mrg--l"
           class:disabled={!isValid}
           on:click={onCombineClick}>
-          {metric ? 'Edit' : 'Combine'}
+          {metric ? 'Save' : 'Combine'}
         </div>
         <div
           class="btn btn-1 border mrg-l mrg--l cancel"
@@ -140,6 +140,10 @@
   .dialog {
     width: 900px;
     position: relative;
+  }
+
+  .dialog-content {
+    overflow: auto;
   }
 
   .dialog-body {
