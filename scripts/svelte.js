@@ -38,7 +38,7 @@ async function processSvelte() {
     fs.writeFileSync(libFilePath, code)
   })
 
-  forFile(['src/**/*.svg'], async (entry) => {
+  forFile(['src/**/*.svg', 'src/**/*.png'], async (entry) => {
     const absolutePath = path.resolve(entry)
     const file = fs.readFileSync(absolutePath)
     const libFilePath = path.resolve(LIB, entry.slice('src/'.length))

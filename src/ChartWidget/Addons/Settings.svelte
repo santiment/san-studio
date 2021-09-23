@@ -3,7 +3,12 @@
   import { globals } from '@/stores/globals'
   import { getWidget } from '@/ChartWidget/context'
   import Dropdown from '@/ChartWidget/MetricSettings/Dropdown.svelte'
-  import { getCoinCostDate } from './utils'
+  import {
+    getCoinCostDate,
+    checkAreSameDay,
+    MAX_DATE,
+    MAX_FREE_DATE,
+  } from './utils'
 
   const widget = getWidget()
   const { MetricSettings } = widget
@@ -13,24 +18,37 @@
   let calendarNode
 
   $: metricSettings = $MetricSettings[addon.key]
-  $: date = getCoinCostDate(
-    metricSettings?.date,
-    $globals.isPro || $globals.isProPlus,
+  $: isPro = $globals.isPro || $globals.isProPlus
+  $: dates = getCoinCostDate(metricSettings, isPro)
+  $: window.mountSettingsCalendar?.(
+    calendarNode,
+    dates,
+    isPro ? MAX_DATE : MAX_FREE_DATE,
   )
-  $: window.mountSettingsCalendar?.(calendarNode, date)
 
-  function getLabel(date: Date) {
+  function formatDate(date: Date) {
     const { DD, MMM, YY } = getDateFormats(date)
     return `${DD} ${MMM} ${YY}`
   }
 
-  window.setSettingsCalendarDate = (date: Date) => {
-    MetricSettings.set(addon.key, { date: date.toISOString() })
+  function getLabel([from, to]: [Date, Date]) {
+    if (checkAreSameDay(from, to)) {
+      return formatDate(to)
+    }
+
+    return formatDate(from) + ' - ' + formatDate(to)
+  }
+
+  window.setSettingsCalendarDate = ([from, to]: [Date, Date | undefined]) => {
+    MetricSettings.set(addon.key, {
+      from: from.toISOString(),
+      to: to?.toISOString(),
+    })
   }
 </script>
 
 <Dropdown isList={false}>
-  Date: {getLabel(date)}
+  Date: {getLabel(dates)}
 
   <svelte:fragment slot="options">
     <div bind:this={calendarNode} class="calendar" />

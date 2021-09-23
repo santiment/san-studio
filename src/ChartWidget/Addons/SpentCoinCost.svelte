@@ -6,7 +6,7 @@
   import { getChart } from '@/Chart/context'
   import { getWidget } from '@/ChartWidget/context'
   import { queryPriceHistogram } from '@/api/metrics/histogram'
-  import { getCoinCostDate } from './utils'
+  import { getCoinCostDate, checkAreSameDay } from './utils'
 
   const widget = getWidget()
   const chart = getChart()
@@ -22,9 +22,7 @@
   let price = 0
 
   $: metricSettings = $MetricSettings[addon.key]
-  $: to = getCoinCostDate(metricSettings?.date, isPro)
-  $: from = new Date(to)
-  $: from.setDate(from.getDate() - 1)
+  $: [from, to] = getCoinCostDate(metricSettings, isPro)
   $: queryPriceHistogram(slug, from.toISOString(), to.toISOString()).then(
     (data) => {
       buckets = data.buckets
@@ -38,11 +36,19 @@
       }
     },
   )
-  $: dateLabel = getLabel(to)
+  $: dateLabel = getLabel(from, to)
 
-  function getLabel(date) {
+  function formatDate(date) {
     const { DD, MMM, YY } = getDateFormats(date)
-    return ` on ${MMM} ${DD}, ${YY}`
+    return `${MMM} ${DD}, ${YY}`
+  }
+  function getLabel(from, to) {
+    const toLabel = formatDate(to)
+    if (checkAreSameDay(from, to)) {
+      return ` on ${toLabel}`
+    }
+
+    return ` on ${formatDate(from)} - ${toLabel}`
   }
 
   chart.plotManager.set(ID, (chart, scale) => {
