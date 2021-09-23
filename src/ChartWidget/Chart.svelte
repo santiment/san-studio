@@ -16,7 +16,7 @@
   import Axes from '@/Chart/Axes/index.svelte'
   import { getResponsiveAxesKeys, getXTicksByWidth } from '@/Chart/Axes/utils'
   import Brush from '@/Chart/Brush/index.svelte'
-  import Drawer from '@/Chart/Drawer/index.svelte'
+  import Drawer from '@/Chart/Drawer/Drawer.svelte'
   import Watermark from '@/Chart/Watermark.svelte'
   import ReferenceDots from '@/Chart/ReferenceDots.svelte'
   import { globals } from '@/stores/globals'

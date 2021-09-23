@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { newCanvas } from 'san-chart'
   import {
     paintDrawings,
@@ -13,7 +14,8 @@
   } from './events'
   import { getChartDrawer } from './context'
   import { getChart } from '../context'
-  import { onDestroy } from 'svelte'
+  import Stickers from './Stickers.svelte'
+
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
 
@@ -144,3 +146,5 @@
     delete chart.drawer
   })
 </script>
+
+<Stickers {chart} {drawer} />
