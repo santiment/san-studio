@@ -52,11 +52,8 @@ export function newRectHandle(
   return handle
 }
 
-export function updateSticker(
-  drawer: Drawer,
-  drawing: Sticker,
-  minMax: MinMax,
-) {
+export function updateSticker(drawer: Drawer, drawing: Sticker) {
+  const { minMax } = drawer
   const { size, x: left, y: top } = drawing
 
   const right = left + size

@@ -2,9 +2,14 @@ import type { Chart, Drawer, Drawing } from './drawer'
 import type { Sticker } from './stickers'
 import { getEventCoordinates, checkIntersection } from './intersection'
 
+type HoverPainter = (drawer: Drawer, drawing: Drawing) => void
+
 const DrawingHoverPainter = {
   sticker: paintStickerHover,
-}
+} as Record<any, undefined | HoverPainter>
+
+export const getDrawingHoverPainter = ({ type = 'line' }: Drawing) =>
+  DrawingHoverPainter[type]
 
 export function handleMouseIntersection(chart: Chart) {
   const { canvas, drawer } = chart
@@ -23,7 +28,7 @@ export function handleMouseIntersection(chart: Chart) {
 
     if (!hovered) return
 
-    DrawingHoverPainter[hovered.type || 'line']?.(drawer, hovered, mouseXY)
+    getDrawingHoverPainter(hovered)?.(drawer, hovered)
   }
 
   parent.addEventListener('mousemove', onMouseMove)

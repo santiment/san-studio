@@ -11,7 +11,7 @@ type Offset = {
 }
 
 export type Drawing = {
-  type: undefined | 'sticker'
+  type: undefined | 'line' | 'sticker'
 }
 
 export type Drawer = {

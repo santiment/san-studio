@@ -1,6 +1,8 @@
 import type { Chart, Drawer, Drawing } from './drawer'
 import type { Sticker } from './stickers'
 import { getEventCoordinates, checkIntersection } from './intersection'
+import { getDrawingHoverPainter } from './hovered'
+import { updateSticker } from './stickers'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
@@ -74,7 +76,9 @@ function newDrawingDragHandler(
     drawing.x = x + diffX
     drawing.y = y + diffY
 
+    updateSticker(drawer, drawing)
     wasDragged.value = true
     drawer.redraw()
+    getDrawingHoverPainter(drawing)?.(drawer, drawing)
   }
 }
