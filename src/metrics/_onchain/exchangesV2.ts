@@ -18,21 +18,21 @@ const checkIsVisible = ({ slug }) => slug === 'bitcoin'
 const ExchangesV2Metric = {
   labelled_historical_balance: {} as Studio.Metric,
 }
-const LabelsV2Metric = {
-  labelled_historical_balance_changes: {} as Studio.Metric,
-}
 
-LABELS.forEach((label) => {
-  const label_fqn = `santiment/owner->${label}:v1`
+const eachLabel = (clb: (label: string, label_fqn: string) => void) =>
+  LABELS.forEach((label) => clb(label, `santiment/owner->${label}:v1`))
 
+eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhb_' + label] = {
     checkIsVisible,
     queryKey: 'labelled_historical_balance',
     label: `${label} Historical Balance`,
     reqMeta: { label_fqn },
   }
+})
 
-  LabelsV2Metric['lhbc_' + label] = {
+eachLabel((label, label_fqn) => {
+  ExchangesV2Metric['lhbc_' + label] = {
     checkIsVisible,
     queryKey: 'labelled_historical_balance_changes',
     label: `${label} Historical Balance Changes`,
@@ -44,6 +44,5 @@ each(
   ExchangesV2Metric,
   (metric: Studio.Metric) => (metric.group = 'Exchanges 2.0'),
 )
-each(LabelsV2Metric, (metric: Studio.Metric) => (metric.group = 'Labels 2.0'))
 
-export { ExchangesV2Metric, LabelsV2Metric }
+export { ExchangesV2Metric }
