@@ -1,13 +1,16 @@
 import type { Chart, Drawer, Drawing, MinMax } from './drawer'
+import { newRectHandle } from './_utils'
 import rocket from './rocket.png'
 
 export type StickerIds = 'rocket'
-export type Sticker = Drawing & {
+export interface Sticker extends Drawing {
   type: 'sticker'
   id: StickerIds
   size: number
   /** [x, y] */
   absCoor: [number, number]
+  /** [x, y] */
+  relCoor: [number, number]
   hitbox: Path2D
   handlers: [Path2D, Path2D, Path2D, Path2D]
 }
@@ -42,17 +45,6 @@ function loadSticker(chart: Chart, drawing: Sticker) {
   CachedSticker.set(drawing.id, null)
 }
 
-export function newRectHandle(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-) {
-  const handle = new Path2D()
-  handle.rect(x, y, width, height)
-  return handle
-}
-
 export function updateSticker(drawer: Drawer, drawing: Sticker) {
   const { minMax } = drawer
   const { size, absCoor } = drawing
@@ -72,14 +64,15 @@ export function updateSticker(drawer: Drawer, drawing: Sticker) {
   drawing.hitbox = newRectHandle(left, top, size, size)
 }
 
+type StickerDragData = [Sticker['size'], boolean, boolean]
 export function getStickerDragData(
   ctx: CanvasRenderingContext2D,
   drawing: Sticker,
   x: number,
   y: number,
-): [number, boolean, boolean] {
+): StickerDragData {
   const { size, handlers } = drawing
-  const data: [Sticker['size'], boolean, boolean] = [size, false, false]
+  const data: StickerDragData = [size, false, false]
 
   for (let i = 0; i < 4; i++) {
     if (ctx.isPointInPath(handlers[i], x, y)) {
@@ -97,7 +90,7 @@ const MAX_SIZE = 70
 export function stickerDragModifier(
   drawing: Sticker,
   initialAbsCoor: Sticker['absCoor'],
-  [initialSize, isResize, areLeftHandlers]: [Sticker['size'], boolean, boolean],
+  [initialSize, isResize, areLeftHandlers]: StickerDragData,
   xDiff: number,
   yDiff: number,
 ) {

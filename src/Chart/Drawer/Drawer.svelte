@@ -19,6 +19,11 @@
   import { paintDrawings, setupDrawings } from './drawer'
   import { handleMouseIntersection } from './hovered'
   import { handleMouseSelect } from './selectAndDrag'
+  import {
+    resetCoordinates,
+    updateCoordinates,
+    newAbsoluteToRelativeCoordinatesUpdater,
+  } from './coordinates'
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
@@ -35,6 +40,7 @@
   chart.drawer = drawer
   plotManager.set('Drawer', updateDrawings)
 
+  const onMetricKeyChange = () => resetCoordinates(drawer)
   const removeMouseIntersectionHandler = handleMouseIntersection(
     chart,
     setHovered,
@@ -45,7 +51,7 @@
     onLineDelete: console.log,
     startDrawing,
     stopDrawing,
-    onDrawingDragEnd: console.log,
+    onDrawingDragEnd,
   })
 
   // $: ({ drawings } = $ChartDrawer)
@@ -55,10 +61,13 @@
       type: 'sticker',
       id: 'rocket',
       size: 50,
-      absCoor: [100, 100],
+      // absCoor: [100, 100],
+      absCoor: [],
+      relCoor: [1629881445421, 3000],
     },
   ]
   $: drawer.drawings = drawings
+  $: metricKey, onMetricKeyChange()
 
   function redraw() {
     paintDrawings(chart)
@@ -76,6 +85,7 @@
       minMax.max !== prevMinMax.max
     ) {
       drawer.minMax = minMax
+      updateCoordinates(chart)
       setupDrawings(chart)
     }
 
@@ -104,6 +114,13 @@
   function updateCursor(cursor?: string) {
     const { canvas } = chart.tooltip || chart
     canvas.style.cursor = cursor || 'initial'
+  }
+
+  function onDrawingDragEnd(drawing: Drawing) {
+    const { minMax } = drawer
+    if (!minMax) return
+    const { absCoor, relCoor } = drawing
+    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)(absCoor, relCoor)
   }
 
   onDestroy(() => {

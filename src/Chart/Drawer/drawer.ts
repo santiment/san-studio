@@ -10,9 +10,12 @@ type Offset = {
   left: number
 }
 
-export type Drawing = {
+export interface Drawing {
   type: undefined | 'line' | 'sticker'
+  /** [chart x, chart y] */
   absCoor: number[]
+  /** [datetime, metric's value] */
+  relCoor: number[]
 }
 
 export type Drawer = {
