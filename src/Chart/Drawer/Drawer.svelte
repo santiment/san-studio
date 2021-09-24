@@ -15,7 +15,7 @@
   import { getChartDrawer } from './context'
   import { getChart } from '../context'
 
-  import type { MinMax } from './drawer'
+  import type { MinMax, Drawing } from './drawer'
   import { paintDrawings, setupDrawings } from './drawer'
   import Stickers from './Stickers.svelte'
   import { handleMouseIntersection } from './hovered'
@@ -36,13 +36,16 @@
   chart.drawer = drawer
   plotManager.set('Drawer', updateDrawings)
 
-  const removeMouseIntersectionHandler = handleMouseIntersection(chart)
+  const removeMouseIntersectionHandler = handleMouseIntersection(
+    chart,
+    setHovered,
+  )
 
   handleMouseSelect(chart, {
     selectDrawing: console.log,
     onLineDelete: console.log,
-    startDrawing: console.log,
-    stopDrawing: console.log,
+    startDrawing,
+    stopDrawing,
     onDrawingDragEnd: console.log,
   })
 
@@ -75,7 +78,7 @@
       minMax.max !== prevMinMax.max
     ) {
       drawer.minMax = minMax
-      setupDrawings(chart, minMax)
+      setupDrawings(chart)
     }
 
     redraw()
@@ -84,6 +87,27 @@
   function addDrawing(drawing) {
     drawer.drawings.push(drawing)
     setDrawings(drawer.drawings)
+  }
+
+  const setIsDrawing = (value: boolean) =>
+    ($ChartDrawer.isDrawing = chart.isDrawing = value)
+
+  function startDrawing() {
+    setIsDrawing(true)
+  }
+  function stopDrawing() {
+    setIsDrawing(false)
+  }
+
+  let hovered: undefined | Drawing
+  $: updateCursor(hovered && 'pointer')
+  function setHovered(drawing?: any) {
+    hovered = drawer.hovered = drawing
+  }
+
+  function updateCursor(cursor?: string) {
+    const { canvas } = chart.tooltip || chart
+    canvas.style.cursor = cursor || 'initial'
   }
 
   onDestroy(() => {

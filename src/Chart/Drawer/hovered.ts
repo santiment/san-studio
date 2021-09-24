@@ -11,7 +11,10 @@ const DrawingHoverPainter = {
 export const getDrawingHoverPainter = ({ type = 'line' }: Drawing) =>
   DrawingHoverPainter[type]
 
-export function handleMouseIntersection(chart: Chart) {
+export function handleMouseIntersection(
+  chart: Chart,
+  setHovered: (drawing?: Drawing) => void,
+) {
   const { canvas, drawer } = chart
   const parent = canvas.parentNode as HTMLElement
 
@@ -23,7 +26,7 @@ export function handleMouseIntersection(chart: Chart) {
 
     if (hovered === drawer.hovered) return
 
-    drawer.hovered = hovered
+    setHovered(hovered)
     drawer.redraw()
 
     if (!hovered) return

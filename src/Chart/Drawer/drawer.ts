@@ -55,15 +55,18 @@ export function paintDrawings(chart: Chart) {
 
 const DrawingUpdater = {
   sticker: updateSticker,
-}
-export function setupDrawings(chart: Chart, minMax: MinMax) {
+} as Record<any, undefined | ((drawer: Drawer, drawing: Drawing) => void)>
+
+export const getDrawingUpdater = ({ type = 'line' }: Drawing) =>
+  DrawingUpdater[type]
+
+export function setupDrawings(chart: Chart) {
   const { drawer } = chart
   const { drawings } = drawer
   console.log('new min max')
 
   for (let i = 0, len = drawings.length; i < len; i++) {
     const drawing = drawings[i]
-    const updater = DrawingUpdater[drawing.type || 'line']
-    updater?.(drawer, drawing, minMax)
+    getDrawingUpdater(drawing)?.(drawer, drawing)
   }
 }
