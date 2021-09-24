@@ -17,13 +17,14 @@
 
   import type { MinMax, Drawing } from './drawer'
   import { paintDrawings, setupDrawings } from './drawer'
-  import { handleMouseIntersection } from './hovered'
+  import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
   import { handleMouseSelect } from './selectAndDrag'
   import {
     resetCoordinates,
     updateCoordinates,
     newAbsoluteToRelativeCoordinatesUpdater,
   } from './coordinates'
+  import { newDrawingAxesPainter } from './axes'
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
@@ -47,7 +48,7 @@
   )
 
   handleMouseSelect(chart, {
-    selectDrawing: console.log,
+    selectDrawing,
     onLineDelete: console.log,
     startDrawing,
     stopDrawing,
@@ -72,6 +73,7 @@
   function redraw() {
     paintDrawings(chart)
     // paintDrawingAxes(chart)
+    drawer.drawSelection?.()
   }
 
   function updateDrawings() {
@@ -116,11 +118,31 @@
     canvas.style.cursor = cursor || 'initial'
   }
 
-  function onDrawingDragEnd(drawing: Drawing) {
-    const { minMax } = drawer
-    if (!minMax) return
-    const { absCoor, relCoor } = drawing
-    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)(absCoor, relCoor)
+  function onDrawingDragEnd(drawing: Drawing) {}
+
+  function selectDrawing(drawing?: Drawing) {
+    drawer.selected = drawing
+    $ChartDrawer.selectedLine = drawing
+
+    if (drawing) {
+      const hoverPainter = getDrawingHoverPainter(drawing)
+      if (!hoverPainter) return
+      const { minMax } = drawer
+      if (!minMax) return
+
+      const drawingAxesPainter = newDrawingAxesPainter(chart, drawing)
+      drawer.drawSelection = () => {
+        hoverPainter(drawer, drawing)
+        drawingAxesPainter()
+      }
+      drawer.updateSelectionCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
+        chart,
+        minMax,
+      )
+    } else {
+      drawer.drawSelection = undefined
+      drawer.updateSelectionCoordinates = undefined
+    }
   }
 
   onDestroy(() => {

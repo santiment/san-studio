@@ -32,7 +32,8 @@ export function paintSticker(chart: Chart, drawing: Sticker) {
   const { size, absCoor } = drawing
   const [x, y] = absCoor
 
-  chart.drawer.ctx.drawImage(img, x, y, size, size)
+  const sizeOffset = size / 2
+  chart.drawer.ctx.drawImage(img, x - sizeOffset, y - sizeOffset, size, size)
 }
 
 function loadSticker(chart: Chart, drawing: Sticker) {
@@ -45,13 +46,15 @@ function loadSticker(chart: Chart, drawing: Sticker) {
   CachedSticker.set(drawing.id, null)
 }
 
-export function updateSticker(drawer: Drawer, drawing: Sticker) {
-  const { minMax } = drawer
+export function updateSticker(_: Drawer, drawing: Sticker) {
   const { size, absCoor } = drawing
-  const [left, top] = absCoor
+  const [x, y] = absCoor
 
-  const right = left + size
-  const bottom = top + size
+  const sizeOffset = size / 2
+  const top = y - sizeOffset
+  const left = x - sizeOffset
+  const right = x + sizeOffset
+  const bottom = y + sizeOffset
   const offset = 4
 
   drawing.handlers = [
@@ -102,9 +105,6 @@ export function stickerDragModifier(
     drawing.size =
       size < MIN_SIZE ? MIN_SIZE : size > MAX_SIZE ? MAX_SIZE : size
 
-    const coorCorrection = (initialSize - drawing.size) / 2
-    drawing.absCoor[0] = x + coorCorrection
-    drawing.absCoor[1] = y + coorCorrection
     return
   }
 

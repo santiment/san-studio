@@ -12,9 +12,9 @@ type Offset = {
 
 export interface Drawing {
   type: undefined | 'line' | 'sticker'
-  /** [chart x, chart y] */
+  /** [chart x, chart y, ... x(i), y(i+1), ...] */
   absCoor: number[]
-  /** [datetime, metric's value] */
+  /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
   relCoor: number[]
 }
 

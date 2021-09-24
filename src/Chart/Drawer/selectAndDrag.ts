@@ -3,6 +3,7 @@ import { getDrawingUpdater } from './drawer'
 import { getEventCoordinates, checkIntersection } from './intersection'
 import { getDrawingHoverPainter } from './hovered'
 import { getStickerDragData, stickerDragModifier } from './stickers'
+import { newDrawingAxesPainter } from './axes'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
@@ -22,21 +23,20 @@ export function handleMouseSelect(chart: Chart, controller: Controller) {
     if (!hovered) {
       if (selected) {
         window.removeEventListener('keydown', controller.onLineDelete)
-        drawer.selected = undefined
         controller.selectDrawing()
         drawer.redraw()
       }
       return
     }
 
-    drawer.selected = hovered
     controller.selectDrawing(hovered)
     controller.startDrawing()
     if (selected && selected !== hovered) drawer.redraw()
+    else drawer.drawSelection?.()
 
     const wasDragged = { value: false }
     const onDrawingDrag = newDrawingDragHandler(
-      drawer,
+      chart,
       hovered as any,
       getEventCoordinates(e),
       dpr,
@@ -79,25 +79,25 @@ const DrawingDragModifier = {
 } as Record<any, undefined | DragModifier>
 
 function newDrawingDragHandler(
-  drawer: Drawer,
+  chart: Chart,
   drawing: Drawing,
   [startX, startY]: [number, number],
   dpr: number,
   wasDragged: { value: boolean },
 ) {
+  const { drawer } = chart
   const { type = 'line' } = drawing
 
   const updater = getDrawingUpdater(drawing)
-  const hoverPainter = getDrawingHoverPainter(drawing)
   const getDragData = DrawingDragDataGetter[type]
   const dragModifier = DrawingDragModifier[type]
 
-  if (!(updater && hoverPainter && getDragData && dragModifier)) return
+  if (!(updater && getDragData && dragModifier)) return
 
-  const { ctx } = drawer
+  const { ctx, updateSelectionCoordinates } = drawer
   const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
 
-  const { absCoor } = drawing
+  const { absCoor, relCoor } = drawing
   const initialAbsCoor = absCoor.slice()
 
   return (e: MouseEvent) => {
@@ -106,10 +106,10 @@ function newDrawingDragHandler(
     const diffY = moveY - startY
 
     dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY)
-
+    updateSelectionCoordinates(absCoor, relCoor)
     updater(drawer, drawing)
+
     wasDragged.value = true
     drawer.redraw()
-    hoverPainter(drawer, drawing)
   }
 }
