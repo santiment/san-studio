@@ -94,34 +94,44 @@ function getStickerDragData(
   drawing: Sticker,
   x: number,
   y: number,
-): [number, boolean] {
+): [number, boolean, boolean] {
   const { size, handlers } = drawing
-  const data: [Sticker['size'], boolean] = [size, false]
+  const data: [Sticker['size'], boolean, boolean] = [size, false, false]
 
   for (let i = 0; i < 4; i++) {
-    if (ctx.isPointInPath(handlers[i], x, y)) data[1] = true
+    if (ctx.isPointInPath(handlers[i], x, y)) {
+      data[1] = true
+      data[2] = i == 0 || i === 2
+      break
+    }
   }
 
   return data
 }
 
 const MIN_SIZE = 25
-const MAX_SIZE = 80
+const MAX_SIZE = 70
 function stickerDragModifier(
   drawing: Sticker,
   initialAbsCoor: Sticker['absCoor'],
-  [initialSize, isResize]: [Sticker['size'], boolean],
+  [initialSize, isResize, areLeftHandlers]: [Sticker['size'], boolean, boolean],
   xDiff: number,
   yDiff: number,
 ) {
+  const [x, y] = initialAbsCoor
+
   if (isResize) {
-    const size = initialSize + xDiff
+    const diff = areLeftHandlers ? -xDiff : xDiff
+    const size = initialSize + diff
     drawing.size =
       size < MIN_SIZE ? MIN_SIZE : size > MAX_SIZE ? MAX_SIZE : size
+
+    const coorCorrection = (initialSize - drawing.size) / 2
+    drawing.absCoor[0] = x + coorCorrection
+    drawing.absCoor[1] = y + coorCorrection
     return
   }
 
-  const [x, y] = initialAbsCoor
   drawing.absCoor[0] = x + xDiff
   drawing.absCoor[1] = y + yDiff
 }
