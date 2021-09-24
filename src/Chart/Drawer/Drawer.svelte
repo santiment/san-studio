@@ -17,7 +17,6 @@
 
   import type { MinMax, Drawing } from './drawer'
   import { paintDrawings, setupDrawings } from './drawer'
-  import Stickers from './Stickers.svelte'
   import { handleMouseIntersection } from './hovered'
   import { handleMouseSelect } from './selectAndDrag'
 
@@ -56,8 +55,7 @@
       type: 'sticker',
       id: 'rocket',
       size: 50,
-      x: 100,
-      y: 100,
+      absCoor: [100, 100],
     },
   ]
   $: drawer.drawings = drawings
@@ -91,7 +89,6 @@
 
   const setIsDrawing = (value: boolean) =>
     ($ChartDrawer.isDrawing = chart.isDrawing = value)
-
   function startDrawing() {
     setIsDrawing(true)
   }
@@ -104,7 +101,6 @@
   function setHovered(drawing?: any) {
     hovered = drawer.hovered = drawing
   }
-
   function updateCursor(cursor?: string) {
     const { canvas } = chart.tooltip || chart
     canvas.style.cursor = cursor || 'initial'
@@ -116,5 +112,3 @@
     delete chart.drawer
   })
 </script>
-
-<Stickers {chart} {drawer} />

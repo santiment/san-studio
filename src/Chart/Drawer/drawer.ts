@@ -12,6 +12,7 @@ type Offset = {
 
 export type Drawing = {
   type: undefined | 'line' | 'sticker'
+  absCoor: number[]
 }
 
 export type Drawer = {

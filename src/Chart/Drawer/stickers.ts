@@ -6,8 +6,8 @@ export type Sticker = Drawing & {
   type: 'sticker'
   id: StickerIds
   size: number
-  x: number
-  y: number
+  /** [x, y] */
+  absCoor: [number, number]
   hitbox: Path2D
   handlers: [Path2D, Path2D, Path2D, Path2D]
 }
@@ -26,7 +26,8 @@ export function paintSticker(chart: Chart, drawing: Sticker) {
   if (img === null) return
   if (img === undefined) return loadSticker(chart, drawing)
 
-  const { size, x, y } = drawing
+  const { size, absCoor } = drawing
+  const [x, y] = absCoor
 
   chart.drawer.ctx.drawImage(img, x, y, size, size)
 }
@@ -54,7 +55,8 @@ export function newRectHandle(
 
 export function updateSticker(drawer: Drawer, drawing: Sticker) {
   const { minMax } = drawer
-  const { size, x: left, y: top } = drawing
+  const { size, absCoor } = drawing
+  const [left, top] = absCoor
 
   const right = left + size
   const bottom = top + size
