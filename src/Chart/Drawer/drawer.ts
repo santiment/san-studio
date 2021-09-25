@@ -1,7 +1,7 @@
 import { newCanvas } from 'san-chart'
 import { setupDrawings, paintDrawings } from './drawings'
 import {
-  updateCoordinates,
+  updateDrawingsCoordinates,
   resetRelativeCoordinates,
   correctAbsoluteCoordinatesRatio,
 } from './coordinates'
@@ -33,9 +33,10 @@ export type Drawer = {
   selected: undefined | Drawing
   redraw: () => void
   drawSelection: undefined | (() => void)
-  updateSelectionCoordinates:
-    | undefined
-    | ((absCoor: number[], relCoor: number[]) => void)
+  updateRelativeByAbsoluteCoordinates: (
+    absCoor: number[],
+    relCoor: number[],
+  ) => void
 }
 
 export type Chart = Offset & {
@@ -60,6 +61,7 @@ export function newDrawer(chart: Chart) {
   const { parentNode, nextElementSibling } = canvas as any
   parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
 
+  drawer.updateRelativeByAbsoluteCoordinates = () => {}
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
   chart.drawer = drawer
   plotManager.set('Drawer', newDrawerUpdater(drawer))
@@ -100,14 +102,10 @@ function newDrawerUpdater(drawer: Drawer) {
     }
 
     if (isNewMinMax || isNewDimensions) {
-      resetDrawings(chart)
+      updateDrawingsCoordinates(chart)
+      setupDrawings(chart.drawer)
     }
 
     drawer.redraw()
   }
-}
-
-export function resetDrawings(chart: Chart) {
-  updateCoordinates(chart)
-  setupDrawings(chart.drawer)
 }

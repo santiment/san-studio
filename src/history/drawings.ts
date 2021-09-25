@@ -1,18 +1,9 @@
 import type { History, Scrollable } from 'webkit/ui/history'
 import type { Chart, Drawing } from '@/Chart/Drawer/drawer'
 import { withScroll } from 'webkit/ui/history'
-import { resetDrawings } from '@/Chart/Drawer/drawer'
+import { getDrawingUpdater } from '@/Chart/Drawer/drawings'
 
 type Widget = Scrollable & { chart: Chart }
-
-function newDrawingResetter(drawing: Drawing) {
-  const absCoor = drawing.absCoor.slice()
-
-  return () => {
-    applyCoordinates(drawing.absCoor, absCoor)
-    drawing.relCoor.length = 0
-  }
-}
 
 export function recordNewDrawing(
   History: History,
@@ -20,12 +11,12 @@ export function recordNewDrawing(
   widget: Widget,
   drawing: Drawing,
 ) {
-  const reset = newDrawingResetter(drawing)
+  const { absCoor, relCoor } = drawing
   History.add(
     'New drawing',
     withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
     withScroll(widget, () => {
-      reset()
+      widget.chart.drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
       ChartDrawer.addDrawing(drawing)
     }),
   )
@@ -37,11 +28,11 @@ export function recordDeleteDrawing(
   widget: Widget,
   drawing: Drawing,
 ) {
-  const reset = newDrawingResetter(drawing)
+  const { absCoor, relCoor } = drawing
   History.add(
     'Delete drawing',
     withScroll(widget, () => {
-      reset()
+      widget.chart.drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
       ChartDrawer.addDrawing(drawing)
     }),
     withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
@@ -58,10 +49,11 @@ export function recordDrawingModified(
   const newAbsCoor = drawing.absCoor.slice()
 
   function reset(absCoor: Drawing['absCoor']) {
+    const { drawer } = chart
     applyCoordinates(drawing.absCoor, absCoor)
-    drawing.relCoor.length = 0
-    resetDrawings(chart)
-    chart.drawer.redraw()
+    drawer.updateRelativeByAbsoluteCoordinates(absCoor, drawing.relCoor)
+    getDrawingUpdater(drawing)?.(drawer, drawing)
+    drawer.redraw()
   }
 
   History.add(

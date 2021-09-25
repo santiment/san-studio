@@ -7,7 +7,6 @@
   import { newDrawer } from './drawer'
   import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
   import { handleMouseSelect, newDrawingDeleteHandler } from './selectAndDrag'
-  import { newAbsoluteToRelativeCoordinatesUpdater } from './coordinates'
   import { newDrawingAxesPainter } from './axes'
   import { getChart } from '../context'
 
@@ -115,14 +114,9 @@
         hoverPainter(drawer, drawing)
         drawingAxesPainter()
       }
-      drawer.updateSelectionCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
-        chart,
-        minMax,
-      )
       window.addEventListener('keydown', onDrawingDelete)
     } else {
       drawer.drawSelection = undefined
-      drawer.updateSelectionCoordinates = undefined
       window.removeEventListener('keydown', onDrawingDelete)
     }
   }

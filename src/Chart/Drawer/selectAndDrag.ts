@@ -95,8 +95,7 @@ function newDrawingDragHandler(
 
   if (!(updater && getDragData && dragModifier)) return
 
-  const { ctx, updateSelectionCoordinates } = drawer
-  if (!updateSelectionCoordinates) return
+  const { ctx, updateRelativeByAbsoluteCoordinates } = drawer
 
   const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
   const { absCoor, relCoor } = drawing
@@ -107,7 +106,7 @@ function newDrawingDragHandler(
     const diffY = moveY - startY
 
     dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY)
-    updateSelectionCoordinates(absCoor, relCoor)
+    updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
     updater(drawer, drawing)
 
     wasDragged.value = true

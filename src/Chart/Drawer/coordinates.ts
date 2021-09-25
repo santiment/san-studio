@@ -33,7 +33,7 @@ export function correctAbsoluteCoordinatesRatio(
   }
 }
 
-export function updateCoordinates(chart: Chart) {
+export function updateDrawingsCoordinates(chart: Chart) {
   const { drawer } = chart
   const { minMax, drawings } = drawer
 
@@ -46,6 +46,8 @@ export function updateCoordinates(chart: Chart) {
     chart,
     minMax,
   )
+
+  drawer.updateRelativeByAbsoluteCoordinates = absToRelCoordinates
 
   for (let i = 0, len = drawings.length; i < len; i++) {
     const drawing = drawings[i]
