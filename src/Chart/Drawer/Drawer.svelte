@@ -1,10 +1,12 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import type { Drawing } from './drawer'
   import { onDestroy } from 'svelte'
   import { getChartDrawer } from './context'
   import { newDrawer } from './drawer'
   import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
-  import { handleMouseSelect } from './selectAndDrag'
+  import { handleMouseSelect, newDrawingDeleteHandler } from './selectAndDrag'
   import { newAbsoluteToRelativeCoordinatesUpdater } from './coordinates'
   import { newDrawingAxesPainter } from './axes'
   import { getChart } from '../context'
@@ -13,34 +15,58 @@
   const ChartDrawer = getChartDrawer()
   const drawer = newDrawer(chart)
 
-  export let metricKey: string
-
+  const onDrawingDelete = newDrawingDeleteHandler(drawer)
   const removeMouseIntersectionHandler = handleMouseIntersection(
     chart,
     setHovered,
   )
 
+  export let metricKey: string
+
+  let selected: Drawing | undefined
+  let isAwaitingRedraw = false
+
   handleMouseSelect(chart, {
     selectDrawing,
-    onLineDelete: console.log,
     startDrawing,
     stopDrawing,
     onDrawingDragEnd,
   })
+  drawer.addDrawing = addDrawing
+  drawer.deleteDrawing = deleteDrawing
 
-  $: ({ drawings, selectedLine: selected } = $ChartDrawer)
   $: onSelectionChange(selected)
-  $: drawer.drawings = drawings
+  $: drawer.drawings = $ChartDrawer.drawings
   $: drawer.metricKey = metricKey
-
-  function addDrawing(drawing) {
-    $ChartDrawer.drawings = drawings
-    drawer.drawings.push(drawing)
-    setDrawings(drawer.drawings)
+  $: console.log(selected)
+  $: if (isAwaitingRedraw) {
+    drawer.redraw()
+    isAwaitingRedraw = false
   }
 
-  function onDrawingDelete(drawing: Drawing) {
+  const unsubscribeStore = ChartDrawer.subscribe((store) => {
+    selected = store.selectedLine
+
+    if (store.isAwaitingRedraw) {
+      store.isAwaitingRedraw = false
+      isAwaitingRedraw = true
+    }
+  })
+
+  function addDrawing(drawing) {
+    ChartDrawer.addDrawing(drawing)
+    ChartDrawer.dispatch({
+      type: 'new line',
+      data: drawing,
+    })
+  }
+
+  function deleteDrawing(drawing: Drawing) {
     ChartDrawer.deleteDrawing(drawing)
+    ChartDrawer.dispatch({
+      type: 'delete',
+      data: drawing,
+    })
   }
 
   function onDrawingDragEnd(drawing: Drawing, oldAbsCoor: Drawing['absCoor']) {
@@ -70,8 +96,8 @@
   }
 
   function selectDrawing(drawing?: Drawing) {
-    if (selected === drawing) return
-    $ChartDrawer.selectedLine = drawing
+    if (drawer.selected === drawing) return
+    ChartDrawer.selectDrawing(drawing)
     onSelectionChange(drawing)
   }
   function onSelectionChange(drawing?: Drawing) {
@@ -93,13 +119,16 @@
         chart,
         minMax,
       )
+      window.addEventListener('keydown', onDrawingDelete)
     } else {
       drawer.drawSelection = undefined
       drawer.updateSelectionCoordinates = undefined
+      window.removeEventListener('keydown', onDrawingDelete)
     }
   }
 
   onDestroy(() => {
+    unsubscribeStore()
     chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
     delete chart.drawer

@@ -16,37 +16,35 @@ function newDrawingResetter(drawing: Drawing) {
 
 export function recordNewDrawing(
   History: History,
+  ChartDrawer,
   widget: Widget,
   drawing: Drawing,
 ) {
-  const { chart } = widget
   const reset = newDrawingResetter(drawing)
-
   History.add(
     'New drawing',
-    withScroll(widget, () => chart.drawer.deleteDrawing(drawing)),
+    withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
     withScroll(widget, () => {
       reset()
-      chart.drawer.addDrawing(drawing)
+      ChartDrawer.addDrawing(drawing)
     }),
   )
 }
 
 export function recordDeleteDrawing(
   History: History,
+  ChartDrawer,
   widget: Widget,
   drawing: Drawing,
 ) {
-  const { chart } = widget
   const reset = newDrawingResetter(drawing)
-
   History.add(
     'Delete drawing',
     withScroll(widget, () => {
       reset()
-      chart.drawer.addDrawing(drawing)
+      ChartDrawer.addDrawing(drawing)
     }),
-    withScroll(widget, () => chart.drawer.deleteDrawing(drawing)),
+    withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
   )
 }
 

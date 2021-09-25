@@ -46,7 +46,7 @@
 
   function onLineDelete() {
     const { selectedLine } = $ChartDrawer
-    chart.drawer.deleteDrawingWithDispatch(selectedLine)
+    chart.drawer.deleteDrawing(selectedLine)
   }
 
   function onDrawingEnd() {
@@ -59,9 +59,9 @@
       const { type, data } = event
 
       if (type === 'new line') {
-        recordNewDrawing(History, widget, data)
+        recordNewDrawing(History, ChartDrawer, widget, data)
       } else if (type === 'delete') {
-        recordDeleteDrawing(History, widget, data)
+        recordDeleteDrawing(History, ChartDrawer, widget, data)
       } else if (type === 'modified') {
         const { drawing, oldAbsCoor } = data
         recordDrawingModified(History, widget, drawing, oldAbsCoor)

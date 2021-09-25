@@ -1,11 +1,10 @@
-import type { Chart, Drawing } from './drawer'
+import type { Chart, Drawer, Drawing } from './drawer'
 import { getDrawingUpdater } from './drawings'
 import { getEventCoordinates } from './intersection'
 import { getStickerDragData, stickerDragModifier } from './stickers'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
-  onLineDelete: () => void
   startDrawing: () => void
   stopDrawing: () => void
   onDrawingDragEnd: (drawing: Drawing, oldAbsCoor: Drawing['absCoor']) => void
@@ -20,7 +19,6 @@ export function handleMouseSelect(chart: Chart, controller: Controller) {
 
     if (!hovered) {
       if (selected) {
-        window.removeEventListener('keydown', controller.onLineDelete)
         controller.selectDrawing()
         drawer.redraw()
       }
@@ -116,3 +114,10 @@ function newDrawingDragHandler(
     drawer.redraw()
   }
 }
+
+export const newDrawingDeleteHandler =
+  (drawer: Drawer) =>
+  ({ key }: KeyboardEvent) => {
+    if (key !== 'Backspace' || !drawer.selected) return
+    drawer.deleteDrawing(drawer.selected)
+  }
