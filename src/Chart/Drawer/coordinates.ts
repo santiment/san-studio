@@ -13,11 +13,24 @@ function newDatetimeRelativeScaler(chart: Chart): Scaler {
   return (x: number) => Math.round(factor * (x - left)) + firstDatetime
 }
 
-export function resetCoordinates(drawer: Drawer) {
+export function resetRelativeCoordinates(drawer: Drawer) {
   console.log('resetting coordinates')
   drawer.drawings.forEach(({ absCoor, relCoor }) => {
     if (absCoor.length) relCoor.length = 0
   })
+}
+export function correctAbsoluteCoordinatesRatio(
+  { drawings }: Drawer,
+  xRatio: number,
+  yRatio: number,
+) {
+  for (let i = 0, len = drawings.length; i < len; i++) {
+    const { absCoor } = drawings[i]
+    for (let j = 0, coorLen = absCoor.length; j < coorLen; j += 2) {
+      if (xRatio) absCoor[j] *= xRatio
+      if (yRatio) absCoor[j + 1] *= yRatio
+    }
+  }
 }
 
 export function updateCoordinates(chart: Chart) {

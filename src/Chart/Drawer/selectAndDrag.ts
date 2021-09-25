@@ -1,5 +1,5 @@
 import type { Chart, Drawer, Drawing } from './drawer'
-import { getDrawingUpdater } from './drawer'
+import { getDrawingUpdater } from './drawings'
 import { getEventCoordinates, checkIntersection } from './intersection'
 import { getDrawingHoverPainter } from './hovered'
 import { getStickerDragData, stickerDragModifier } from './stickers'
@@ -95,8 +95,9 @@ function newDrawingDragHandler(
   if (!(updater && getDragData && dragModifier)) return
 
   const { ctx, updateSelectionCoordinates } = drawer
-  const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
+  if (!updateSelectionCoordinates) return
 
+  const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
   const { absCoor, relCoor } = drawing
   const initialAbsCoor = absCoor.slice()
 

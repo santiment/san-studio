@@ -1,5 +1,10 @@
-import { clearCtx } from '../utils'
-import { paintSticker, updateSticker } from './stickers'
+import { newCanvas } from 'san-chart'
+import { setupDrawings, paintDrawings } from './drawings'
+import {
+  updateCoordinates,
+  resetRelativeCoordinates,
+  correctAbsoluteCoordinatesRatio,
+} from './coordinates'
 
 export type MinMax = { min: number; max: number }
 
@@ -22,55 +27,79 @@ export type Drawer = {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   drawings: Drawing[]
+  metricKey: string
   minMax: undefined | MinMax
   hovered: undefined | Drawing
   selected: undefined | Drawing
   redraw: () => void
+  drawSelection: undefined | (() => void)
+  updateSelectionCoordinates:
+    | undefined
+    | ((absCoor: number[], relCoor: number[]) => void)
 }
 
 export type Chart = Offset & {
   canvas: HTMLCanvasElement
   drawer: Drawer
   dpr: number
+  width: number
+  height: number
+  plotManager: any
+  minMaxes: { [metric: string]: undefined | MinMax }
+  rightAxisMargin?: number
 }
 
-const DrawingPainter = {
-  sticker: paintSticker,
+export function newDrawer(chart: Chart) {
+  const drawer = newCanvas(chart) as Drawer
+  const { canvas, plotManager } = chart
+
+  const { parentNode, nextElementSibling } = canvas as any
+  parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
+
+  drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
+  chart.drawer = drawer
+  plotManager.set('Drawer', newDrawerUpdater(drawer))
+
+  return drawer
 }
 
-export function paintDrawings(chart: Chart) {
-  const { drawer, right, bottom, left } = chart
-  const { ctx, drawings, minMax } = drawer
+function newDrawerUpdater(drawer: Drawer) {
+  const oldWidthHeight = [0, 0]
+  let oldMetricKey: string
 
-  if (!minMax) return
+  return (chart: Chart) => {
+    const { width, height, minMaxes } = chart
+    const minMax = minMaxes[drawer.metricKey]
+    if (!minMax) return
 
-  clearCtx(chart, ctx)
+    const { min, max } = minMax
+    const oldMinMax = drawer.minMax
+    const isNewMinMax =
+      !oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max
+    if (isNewMinMax) drawer.minMax = minMax
 
-  for (let i = 0, len = drawings.length; i < len; i++) {
-    const drawing = drawings[i]
-    const painter = DrawingPainter[drawing.type || 'line']
-    painter?.(chart, drawing)
-  }
+    const [oldWidth, oldHeight] = oldWidthHeight
+    const isNewDimensions = oldWidth !== width || oldHeight !== height
+    if (isNewDimensions) {
+      correctAbsoluteCoordinatesRatio(
+        drawer,
+        width / oldWidth,
+        height / oldHeight,
+      )
+      oldWidthHeight[0] = width
+      oldWidthHeight[1] = height
+    }
 
-  ctx.clearRect(left, 0, -200, bottom)
-  ctx.clearRect(right, 0, 200, bottom)
-  ctx.clearRect(0, bottom, right, 200)
-}
+    if (oldMetricKey !== drawer.metricKey) {
+      oldMetricKey = drawer.metricKey
+      resetRelativeCoordinates(drawer)
+    }
 
-const DrawingUpdater = {
-  sticker: updateSticker,
-} as Record<any, undefined | ((drawer: Drawer, drawing: Drawing) => void)>
+    if (isNewMinMax || isNewDimensions) {
+      updateCoordinates(chart)
+      setupDrawings(drawer)
+    }
 
-export const getDrawingUpdater = ({ type = 'line' }: Drawing) =>
-  DrawingUpdater[type]
-
-export function setupDrawings(chart: Chart) {
-  const { drawer } = chart
-  const { drawings } = drawer
-  console.log('new min max')
-
-  for (let i = 0, len = drawings.length; i < len; i++) {
-    const drawing = drawings[i]
-    getDrawingUpdater(drawing)?.(drawer, drawing)
+    drawer.redraw()
   }
 }

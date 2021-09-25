@@ -16,11 +16,10 @@
   import { getChart } from '../context'
 
   import type { MinMax, Drawing } from './drawer'
-  import { paintDrawings, setupDrawings } from './drawer'
+  import { newDrawer } from './drawer'
   import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
   import { handleMouseSelect } from './selectAndDrag'
   import {
-    resetCoordinates,
     updateCoordinates,
     newAbsoluteToRelativeCoordinatesUpdater,
   } from './coordinates'
@@ -28,20 +27,11 @@
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
+  const drawer = newDrawer(chart)
 
   export let metricKey: string
   export let axesMetricKeys: string[]
 
-  const { canvas, plotManager } = chart
-  const drawer = newCanvas(chart)
-  const { parentNode, nextElementSibling } = canvas
-  parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
-
-  drawer.redraw = redraw
-  chart.drawer = drawer
-  plotManager.set('Drawer', updateDrawings)
-
-  const onMetricKeyChange = () => resetCoordinates(drawer)
   const removeMouseIntersectionHandler = handleMouseIntersection(
     chart,
     setHovered,
@@ -68,31 +58,7 @@
     },
   ]
   $: drawer.drawings = drawings
-  $: metricKey, onMetricKeyChange()
-
-  function redraw() {
-    paintDrawings(chart)
-    // paintDrawingAxes(chart)
-    drawer.drawSelection?.()
-  }
-
-  function updateDrawings() {
-    const minMax = chart.minMaxes[metricKey] as undefined | MinMax
-    if (!minMax) return
-
-    const prevMinMax = drawer.minMax
-    if (
-      !prevMinMax ||
-      minMax.min !== prevMinMax.min ||
-      minMax.max !== prevMinMax.max
-    ) {
-      drawer.minMax = minMax
-      updateCoordinates(chart)
-      setupDrawings(chart)
-    }
-
-    redraw()
-  }
+  $: drawer.metricKey = metricKey
 
   function addDrawing(drawing) {
     drawer.drawings.push(drawing)
@@ -108,12 +74,12 @@
     setIsDrawing(false)
   }
 
-  let hovered: undefined | Drawing
-  $: updateCursor(hovered && 'pointer')
   function setHovered(drawing?: any) {
-    hovered = drawer.hovered = drawing
+    if (drawer.hovered !== drawing) updateCursor(drawing && 'pointer')
+    drawer.hovered = drawing
   }
   function updateCursor(cursor?: string) {
+    console.log('cursor change')
     const { canvas } = chart.tooltip || chart
     canvas.style.cursor = cursor || 'initial'
   }
@@ -121,6 +87,8 @@
   function onDrawingDragEnd(drawing: Drawing) {}
 
   function selectDrawing(drawing?: Drawing) {
+    if (drawer.selected === drawing) return
+
     drawer.selected = drawing
     $ChartDrawer.selectedLine = drawing
 
