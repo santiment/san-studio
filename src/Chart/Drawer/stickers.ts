@@ -1,4 +1,4 @@
-import type { Chart, Drawer, Drawing, MinMax } from './drawer'
+import type { Chart, Drawer, Drawing } from './drawer'
 import { newRectHandle } from './_utils'
 import rocket from './rocket.png'
 

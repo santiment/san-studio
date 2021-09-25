@@ -1,36 +1,19 @@
 <script lang="ts">
+  import type { Drawing } from './drawer'
   import { onDestroy } from 'svelte'
-  import { newCanvas } from 'san-chart'
-  import {
-    paintDrawingAxes,
-    relativeToAbsoluteCoordinates,
-    absoluteToRelativeCoordinates,
-  } from './utils'
-
-  import {
-    handleLineCreation,
-    handleLineHover,
-    handleLineMouseDown,
-  } from './events'
   import { getChartDrawer } from './context'
-  import { getChart } from '../context'
-
-  import type { MinMax, Drawing } from './drawer'
   import { newDrawer } from './drawer'
   import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
   import { handleMouseSelect } from './selectAndDrag'
-  import {
-    updateCoordinates,
-    newAbsoluteToRelativeCoordinatesUpdater,
-  } from './coordinates'
+  import { newAbsoluteToRelativeCoordinatesUpdater } from './coordinates'
   import { newDrawingAxesPainter } from './axes'
+  import { getChart } from '../context'
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
   const drawer = newDrawer(chart)
 
   export let metricKey: string
-  export let axesMetricKeys: string[]
 
   const removeMouseIntersectionHandler = handleMouseIntersection(
     chart,
@@ -52,7 +35,6 @@
       type: 'sticker',
       id: 'rocket',
       size: 50,
-      // absCoor: [100, 100],
       absCoor: [],
       relCoor: [1629881445421, 3000],
     },
@@ -114,7 +96,7 @@
   }
 
   onDestroy(() => {
-    plotManager.delete('Drawer')
+    chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
     delete chart.drawer
   })

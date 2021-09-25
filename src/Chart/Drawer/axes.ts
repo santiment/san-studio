@@ -27,8 +27,7 @@ export function newValueBubbleDrawer(
   chart: Chart,
   ctx: CanvasRenderingContext2D,
 ) {
-  const { scale, rightAxisMargin = 20 } = chart
-  const scaleValue = scale === logScale ? valueByLogY : valueByY
+  const scaleValue = chart.scale === logScale ? valueByLogY : valueByY
   const theme = chart.theme.drawer
 
   return (metric: string, y: number, offset: number) => {
@@ -45,8 +44,8 @@ export function newValueBubbleDrawer(
 }
 
 export function newDrawingAxesPainter(chart: Chart, drawing: Drawing) {
-  const { drawer, axesMetricKeys, right, bottom, rightAxisMargin = 20 } = chart
-  const ctx = chart.drawer.ctx
+  const { drawer, right, bottom, rightAxisMargin = 20 } = chart
+  const { ctx } = drawer
 
   const { absCoor, relCoor } = drawing
   const { length } = absCoor
@@ -55,6 +54,7 @@ export function newDrawingAxesPainter(chart: Chart, drawing: Drawing) {
 
   let offset = rightAxisMargin
   return () => {
+    const { axesMetricKeys } = chart
     ctx.save()
     for (let i = 0; i < length; i += 2) {
       drawDatetimeBubble(absCoor[i], relCoor[i])

@@ -1,9 +1,7 @@
-import type { Chart, Drawer, Drawing } from './drawer'
+import type { Chart, Drawing } from './drawer'
 import { getDrawingUpdater } from './drawings'
-import { getEventCoordinates, checkIntersection } from './intersection'
-import { getDrawingHoverPainter } from './hovered'
+import { getEventCoordinates } from './intersection'
 import { getStickerDragData, stickerDragModifier } from './stickers'
-import { newDrawingAxesPainter } from './axes'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void

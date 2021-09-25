@@ -45,6 +45,10 @@ export type Chart = Offset & {
   width: number
   height: number
   plotManager: any
+  theme: any
+  scale: any
+  metricSettings: any
+  axesMetricKeys: string[]
   minMaxes: { [metric: string]: undefined | MinMax }
   rightAxisMargin?: number
 }

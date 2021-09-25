@@ -1,4 +1,4 @@
-import type { Chart, Drawer, Drawing, MinMax } from './drawer'
+import type { Chart, Drawer, MinMax } from './drawer'
 import { linearScale, valueByY } from 'san-chart/scales'
 import { linearDatetimeScale } from '../utils'
 

@@ -1,4 +1,4 @@
-import type { Chart, Drawer, Drawing, MinMax } from './drawer'
+import type { Chart, Drawer, Drawing } from './drawer'
 import { paintSticker, updateSticker } from './stickers'
 import { clearCtx } from '../utils'
 

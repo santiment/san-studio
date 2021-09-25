@@ -1,4 +1,4 @@
-import type { Chart, Drawing } from './drawer'
+import type { Chart } from './drawer'
 import type { Sticker } from './stickers'
 
 export function getEventCoordinates(e: MouseEvent): [number, number] {
