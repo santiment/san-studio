@@ -1,5 +1,7 @@
 import App from './index.svelte'
 import 'webkit/styles/main.css'
+import { newGlobalShortcut } from 'webkit/utils/events'
+import { CONTEXT as HISTORY_CONTEXT } from 'webkit/ui/history'
 import { Metric } from '@/metrics'
 import { newWidget } from '@/stores/widgets'
 import { studio } from '@/stores/studio'
@@ -27,5 +29,9 @@ const app = new App({
 // @ts-ignore
 window.toggleNight = () =>
   globals.toggle('isNightMode', document.body.classList.toggle('night-mode'))
+
+const History = app.$$.context.get(HISTORY_CONTEXT)
+newGlobalShortcut('CMD+Z', History.undo)
+newGlobalShortcut('CMD+SHIFT+Z', History.redo)
 
 export default app

@@ -100,10 +100,14 @@ function newDrawerUpdater(drawer: Drawer) {
     }
 
     if (isNewMinMax || isNewDimensions) {
-      updateCoordinates(chart)
-      setupDrawings(drawer)
+      resetDrawings(chart)
     }
 
     drawer.redraw()
   }
+}
+
+export function resetDrawings(chart: Chart) {
+  updateCoordinates(chart)
+  setupDrawings(chart.drawer)
 }

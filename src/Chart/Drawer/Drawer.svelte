@@ -28,23 +28,26 @@
     onDrawingDragEnd,
   })
 
-  // $: ({ drawings } = $ChartDrawer)
-
-  $: drawings = [
-    {
-      type: 'sticker',
-      id: 'rocket',
-      size: 50,
-      absCoor: [],
-      relCoor: [1629881445421, 3000],
-    },
-  ]
+  $: ({ drawings, selectedLine: selected } = $ChartDrawer)
+  $: onSelectionChange(selected)
   $: drawer.drawings = drawings
   $: drawer.metricKey = metricKey
 
   function addDrawing(drawing) {
+    $ChartDrawer.drawings = drawings
     drawer.drawings.push(drawing)
     setDrawings(drawer.drawings)
+  }
+
+  function onDrawingDelete(drawing: Drawing) {
+    ChartDrawer.deleteDrawing(drawing)
+  }
+
+  function onDrawingDragEnd(drawing: Drawing, oldAbsCoor: Drawing['absCoor']) {
+    ChartDrawer.dispatch({
+      type: 'modified',
+      data: { drawing, oldAbsCoor },
+    })
   }
 
   const setIsDrawing = (value: boolean) =>
@@ -66,13 +69,14 @@
     canvas.style.cursor = cursor || 'initial'
   }
 
-  function onDrawingDragEnd(drawing: Drawing) {}
-
   function selectDrawing(drawing?: Drawing) {
-    if (drawer.selected === drawing) return
-
-    drawer.selected = drawing
+    if (selected === drawing) return
     $ChartDrawer.selectedLine = drawing
+    onSelectionChange(drawing)
+  }
+  function onSelectionChange(drawing?: Drawing) {
+    if (drawer.selected === drawing) return
+    drawer.selected = drawing
 
     if (drawing) {
       const hoverPainter = getDrawingHoverPainter(drawing)

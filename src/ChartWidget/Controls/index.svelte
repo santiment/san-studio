@@ -1,14 +1,18 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
+  import {
+    recordNewDrawing,
+    recordDeleteDrawing,
+    recordDrawingModified,
+  } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
-  import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
@@ -41,9 +45,8 @@
   }
 
   function onLineDelete() {
-    const { drawer } = chart
     const { selectedLine } = $ChartDrawer
-    drawer.deleteDrawingWithDispatch(selectedLine)
+    chart.drawer.deleteDrawingWithDispatch(selectedLine)
   }
 
   function onDrawingEnd() {
@@ -53,43 +56,15 @@
   onDestroy(
     ChartDrawer.onDispatch((event) => {
       if (!event) return
-      const { chart } = widget
       const { type, data } = event
 
       if (type === 'new line') {
-        const absCoor = data.absCoor.slice()
-        History.add(
-          'New drawing',
-          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
-          withScroll(widget, () => {
-            chart.drawer.addDrawing(data)
-            recalc(data, absCoor)
-          }),
-        )
+        recordNewDrawing(History, widget, data)
       } else if (type === 'delete') {
-        History.add(
-          'Delete drawing',
-          withScroll(widget, () => {
-            chart.drawer.addDrawing(data)
-            recalc(data)
-          }),
-          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
-        )
+        recordDeleteDrawing(History, widget, data)
       } else if (type === 'modified') {
         const { drawing, oldAbsCoor } = data
-        const newAbsCoor = drawing.absCoor.slice()
-
-        History.add(
-          'Drawing modified',
-          withScroll(widget, () => recalc(drawing, oldAbsCoor)),
-          withScroll(widget, () => recalc(drawing, newAbsCoor)),
-        )
-      }
-
-      function recalc(drawing, coor = drawing.absCoor) {
-        drawing.absCoor = coor
-        drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-        chart.drawer.redraw()
+        recordDrawingModified(History, widget, drawing, oldAbsCoor)
       }
     }),
   )

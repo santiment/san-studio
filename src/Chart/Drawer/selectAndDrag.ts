@@ -8,7 +8,7 @@ type Controller = {
   onLineDelete: () => void
   startDrawing: () => void
   stopDrawing: () => void
-  onDrawingDragEnd: (drawing?: Drawing) => void
+  onDrawingDragEnd: (drawing: Drawing, oldAbsCoor: Drawing['absCoor']) => void
 }
 
 export function handleMouseSelect(chart: Chart, controller: Controller) {
@@ -32,10 +32,12 @@ export function handleMouseSelect(chart: Chart, controller: Controller) {
     if (selected && selected !== hovered) drawer.redraw()
     else drawer.drawSelection?.()
 
+    const initialAbsCoor = hovered.absCoor.slice()
     const wasDragged = { value: false }
     const onDrawingDrag = newDrawingDragHandler(
       chart,
       hovered as any,
+      initialAbsCoor,
       getEventCoordinates(e),
       dpr,
       wasDragged,
@@ -47,7 +49,9 @@ export function handleMouseSelect(chart: Chart, controller: Controller) {
       parent.removeEventListener('mousemove', onDrawingDrag as any)
       parent.removeEventListener('mouseup', onMouseUp)
       controller.stopDrawing()
-      if (wasDragged.value) controller.onDrawingDragEnd(hovered)
+      if (wasDragged.value) {
+        controller.onDrawingDragEnd(hovered as Drawing, initialAbsCoor)
+      }
     }
   }
 
@@ -79,6 +83,7 @@ const DrawingDragModifier = {
 function newDrawingDragHandler(
   chart: Chart,
   drawing: Drawing,
+  initialAbsCoor: Drawing['absCoor'],
   [startX, startY]: [number, number],
   dpr: number,
   wasDragged: { value: boolean },
@@ -97,7 +102,6 @@ function newDrawingDragHandler(
 
   const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
   const { absCoor, relCoor } = drawing
-  const initialAbsCoor = absCoor.slice()
 
   return (e: MouseEvent) => {
     const [moveX, moveY] = getEventCoordinates(e)

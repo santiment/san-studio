@@ -47,14 +47,15 @@ export function newDrawingAxesPainter(chart: Chart, drawing: Drawing) {
   const { drawer, right, bottom, rightAxisMargin = 20 } = chart
   const { ctx } = drawer
 
-  const { absCoor, relCoor } = drawing
-  const { length } = absCoor
   const drawDatetimeBubble = newDatetimeBubbleDrawer(chart, ctx)
   const drawValueBubble = newValueBubbleDrawer(chart, ctx)
 
   let offset = rightAxisMargin
   return () => {
     const { axesMetricKeys } = chart
+    const { absCoor, relCoor } = drawing
+    const { length } = absCoor
+
     ctx.save()
     for (let i = 0; i < length; i += 2) {
       drawDatetimeBubble(absCoor[i], relCoor[i])
