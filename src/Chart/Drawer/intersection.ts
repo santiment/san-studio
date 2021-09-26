@@ -1,17 +1,13 @@
 import type { Chart } from './drawer'
-import type { Sticker } from './stickers'
+import type { Sticker } from './drawings/stickers'
+import { checkLineIsHovered } from './drawings/line'
 
-export function getEventCoordinates(e: MouseEvent): [number, number] {
-  const { offsetX, offsetY, target } = e
-  const { offsetLeft, offsetTop } = target as HTMLElement
-  return [offsetX + offsetLeft, offsetY + offsetTop]
+const DrawingIsHoveredChecker = {
+  line: checkLineIsHovered,
+  sticker: checkStickerIsHovered,
 }
 
-const DrawingIntersectionChecker = {
-  sticker: checkStickerIntersection,
-}
-
-export function checkIntersection(
+export function checkIsHovered(
   chart: Chart,
   mouseXY: [number, number],
   e: MouseEvent,
@@ -21,12 +17,12 @@ export function checkIntersection(
 
   for (let i = 0, len = drawings.length; i < len; i++) {
     const drawing = drawings[i]
-    const checker = DrawingIntersectionChecker[drawing.type || 'line']
+    const checker = DrawingIsHoveredChecker[drawing.type]
     if (checker?.(ctx, drawing, mouseXY, dpr, e)) return drawing
   }
 }
 
-function checkStickerIntersection(
+function checkStickerIsHovered(
   ctx: CanvasRenderingContext2D,
   drawing: Sticker,
   mouseXY: [number, number],

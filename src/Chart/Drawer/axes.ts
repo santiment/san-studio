@@ -65,8 +65,8 @@ export function newDrawingAxesPainter(chart: Chart, drawing: Drawing) {
         drawValueBubble(axesMetricKeys[j], y, offset)
         offset += MULTI_AXIS_WIDTH
       }
+      offset = rightAxisMargin
     }
-    offset = rightAxisMargin
     ctx.clearRect(right, bottom, 200, 200)
     ctx.restore()
   }

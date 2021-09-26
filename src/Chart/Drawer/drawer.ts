@@ -16,7 +16,7 @@ type Offset = {
 }
 
 export interface Drawing {
-  type: undefined | 'line' | 'sticker'
+  type: 'line' | 'sticker'
   /** [chart x, chart y, ... x(i), y(i+1), ...] */
   absCoor: number[]
   /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
@@ -103,7 +103,7 @@ function newDrawerUpdater(drawer: Drawer) {
 
     if (isNewMinMax || isNewDimensions) {
       updateDrawingsCoordinates(chart)
-      setupDrawings(chart.drawer)
+      setupDrawings(chart)
     }
 
     drawer.redraw()

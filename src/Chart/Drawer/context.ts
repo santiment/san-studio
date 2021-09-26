@@ -33,6 +33,12 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
     {
       drawings: defaultValue || [
         {
+          type: 'line',
+          absCoor: [],
+          relCoor: [1625081445421, 2000, 1629881445421, 2500],
+        },
+
+        {
           type: 'sticker',
           id: 'rocket',
           size: 50,

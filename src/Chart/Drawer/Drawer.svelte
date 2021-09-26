@@ -52,7 +52,7 @@
     }
   })
 
-  function addDrawing(drawing) {
+  function addDrawing(drawing: Drawing) {
     ChartDrawer.addDrawing(drawing)
     ChartDrawer.dispatch({
       type: 'new line',
@@ -111,7 +111,7 @@
 
       const drawingAxesPainter = newDrawingAxesPainter(chart, drawing)
       drawer.drawSelection = () => {
-        hoverPainter(drawer, drawing)
+        hoverPainter(chart, drawing)
         drawingAxesPainter()
       }
       window.addEventListener('keydown', onDrawingDelete)

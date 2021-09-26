@@ -1,10 +1,12 @@
-import type { Chart, Drawer, Drawing } from './drawer'
+import type { Chart, Drawer, Drawing } from '../drawer'
+import { paintLine, updateLine } from './line'
 import { paintSticker, updateSticker } from './stickers'
-import { clearCtx } from '../utils'
+import { clearCtx } from '../../utils'
 
 const DrawingPainter = {
+  line: paintLine,
   sticker: paintSticker,
-}
+} as Record<any, undefined | ((chart: Chart, drawing: Drawing) => void)>
 
 export function paintDrawings(chart: Chart) {
   const { drawer, right, bottom, left } = chart
@@ -16,7 +18,7 @@ export function paintDrawings(chart: Chart) {
 
   for (let i = 0, len = drawings.length; i < len; i++) {
     const drawing = drawings[i]
-    const painter = DrawingPainter[drawing.type || 'line']
+    const painter = DrawingPainter[drawing.type]
     painter?.(chart, drawing)
   }
 
@@ -26,16 +28,14 @@ export function paintDrawings(chart: Chart) {
 }
 
 const DrawingUpdater = {
+  line: updateLine,
   sticker: updateSticker,
 } as Record<any, undefined | ((drawer: Drawer, drawing: Drawing) => void)>
 
-export const getDrawingUpdater = ({ type = 'line' }: Drawing) =>
-  DrawingUpdater[type]
+export const getDrawingUpdater = ({ type }: Drawing) => DrawingUpdater[type]
 
-export function setupDrawings(drawer: Drawer) {
+export function setupDrawings({ drawer }: Chart) {
   const { drawings } = drawer
-  console.log('new min max')
-
   for (let i = 0, len = drawings.length; i < len; i++) {
     const drawing = drawings[i]
     getDrawingUpdater(drawing)?.(drawer, drawing)

@@ -1,5 +1,5 @@
-import type { Chart, Drawer, Drawing } from './drawer'
-import { newRectHandle } from './_utils'
+import type { Chart, Drawer, Drawing } from '../drawer'
+import { newRectHandle } from '../_utils'
 import rocket from './rocket.png'
 
 export type StickerIds = 'rocket'
@@ -46,7 +46,7 @@ function loadSticker(chart: Chart, drawing: Sticker) {
   CachedSticker.set(drawing.id, null)
 }
 
-export function updateSticker(_: Drawer, drawing: Sticker) {
+export function updateSticker(_, drawing: Sticker) {
   const { size, absCoor } = drawing
   const [x, y] = absCoor
 

@@ -1,7 +1,8 @@
 import type { Chart, Drawer, Drawing } from './drawer'
 import { getDrawingUpdater } from './drawings'
-import { getEventCoordinates } from './intersection'
-import { getStickerDragData, stickerDragModifier } from './stickers'
+import { getLineDragData, lineDragModifier } from './drawings/line'
+import { getStickerDragData, stickerDragModifier } from './drawings/stickers'
+import { getEventCoordinates } from './_utils'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
@@ -64,6 +65,7 @@ type DragDataGetter = (
   y: number,
 ) => any[]
 const DrawingDragDataGetter = {
+  line: getLineDragData,
   sticker: getStickerDragData,
 } as Record<any, undefined | DragDataGetter>
 
@@ -73,8 +75,10 @@ type DragModifier = (
   dragData: any[],
   xDiff: number,
   yDiff: number,
+  e: MouseEvent,
 ) => void
 const DrawingDragModifier = {
+  line: lineDragModifier,
   sticker: stickerDragModifier,
 } as Record<any, undefined | DragModifier>
 
@@ -87,7 +91,7 @@ function newDrawingDragHandler(
   wasDragged: { value: boolean },
 ) {
   const { drawer } = chart
-  const { type = 'line' } = drawing
+  const { type } = drawing
 
   const updater = getDrawingUpdater(drawing)
   const getDragData = DrawingDragDataGetter[type]
@@ -105,7 +109,7 @@ function newDrawingDragHandler(
     const diffX = moveX - startX
     const diffY = moveY - startY
 
-    dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY)
+    dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY, e)
     updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
     updater(drawer, drawing)
 
