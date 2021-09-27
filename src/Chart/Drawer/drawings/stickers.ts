@@ -1,5 +1,5 @@
-import type { Chart, Drawer, Drawing } from '../drawer'
-import { newRectHandle } from '../_utils'
+import type { Chart, Drawing } from '../drawer'
+import { newRectHandle } from '../utils'
 import rocket from './rocket.png'
 
 export type StickerIds = 'rocket'

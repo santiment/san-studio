@@ -2,7 +2,7 @@ import type { Chart, Drawer, Drawing } from './drawer'
 import { getDrawingUpdater } from './drawings'
 import { getLineDragData, lineDragModifier } from './drawings/line'
 import { getStickerDragData, stickerDragModifier } from './drawings/stickers'
-import { getEventCoordinates } from './_utils'
+import { getEventCoordinates } from './utils'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void

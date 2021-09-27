@@ -1,11 +1,21 @@
-import type { Chart } from './drawer'
+import type { Chart, Drawing } from './drawer'
 import type { Sticker } from './drawings/stickers'
 import { checkLineIsHovered } from './drawings/line'
 
 const DrawingIsHoveredChecker = {
   line: checkLineIsHovered,
   sticker: checkStickerIsHovered,
-}
+} as Record<
+  any,
+  | undefined
+  | ((
+      ctx: CanvasRenderingContext2D,
+      drawing: Drawing,
+      mouseXY: [number, number],
+      dpr: number,
+      e: MouseEvent,
+    ) => boolean)
+>
 
 export function checkIsHovered(
   chart: Chart,

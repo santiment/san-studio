@@ -1,8 +1,8 @@
-import type { Chart, Drawer, Drawing } from './drawer'
+import type { Chart, Drawing } from './drawer'
 import type { Sticker } from './drawings/stickers'
 import { checkIsHovered } from './intersection'
 import { paintLineHover } from './drawings/line'
-import { getEventCoordinates } from './_utils'
+import { getEventCoordinates } from './utils'
 
 type HoverPainter = (chart: Chart, drawing: Drawing) => void
 const DrawingHoverPainter = {

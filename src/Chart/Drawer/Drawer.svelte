@@ -12,7 +12,7 @@
   } from './selectAndDrag'
   import { newDrawingAxesPainter } from './axes'
   import { newLineCreationHandler } from './newLine'
-  import { hook } from './_utils'
+  import { hook } from './utils'
   import { getChart } from '../context'
 
   const chart = getChart()

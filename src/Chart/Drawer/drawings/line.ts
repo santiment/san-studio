@@ -3,7 +3,7 @@ import {
   newRoundHandle,
   checkIsOnStrokeArea,
   getEventCoordinates,
-} from '../_utils'
+} from '../utils'
 import { Color } from '../../theme'
 
 export interface Line extends Drawing {

@@ -1,7 +1,9 @@
 import { initChart, updateChartState } from 'san-chart'
 import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 import { getPadding } from '@/Chart/Axes/utils'
-import { relativeToAbsoluteCoordinates, LINE_WIDTH } from '@/Chart/Drawer/utils'
+
+const LINE_WIDTH = 2
+const relativeToAbsoluteCoordinates = () => []
 
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5

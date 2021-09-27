@@ -1,6 +1,6 @@
-import type { Chart, Drawer, Drawing } from './drawer'
+import type { Chart, Drawing } from './drawer'
 import type { Line } from './drawings/line'
-import { getEventCoordinates } from './_utils'
+import { getEventCoordinates } from './utils'
 import { updateLine } from './drawings/line'
 
 const LineLockType = {

@@ -37,6 +37,8 @@ export type Drawer = {
     absCoor: number[],
     relCoor: number[],
   ) => void
+  addDrawing: (drawing: Drawing) => void
+  deleteDrawing: (drawing: Drawing) => void
 }
 
 export type Chart = Offset & {

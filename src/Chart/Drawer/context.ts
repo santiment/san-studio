@@ -1,11 +1,6 @@
+import type { Drawing } from './drawer'
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
-
-export type Drawing = {
-  color: string
-  absCoor: [number, number, number, number]
-  relCoor: [number, number, number, number]
-}
 
 export type Drawer = {
   isDrawing: boolean
