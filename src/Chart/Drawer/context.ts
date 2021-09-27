@@ -77,6 +77,11 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       store.isNewDrawing = !store.isNewDrawing
       set(store)
     },
+    setIsDrawing(isDrawing: boolean) {
+      store.isDrawing = isDrawing
+      if (isDrawing === false) store.isNewDrawing = false
+      set(store)
+    },
     dispatch(event: any) {
       subscribers.forEach((subscriber) => subscriber(event))
     },

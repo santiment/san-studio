@@ -13,7 +13,7 @@ const DrawingHoverPainter = {
 export const getDrawingHoverPainter = ({ type }: Drawing) =>
   DrawingHoverPainter[type]
 
-export function handleMouseIntersection(
+export function newMouseHoverHandler(
   chart: Chart,
   setHovered: (drawing?: Drawing) => void,
 ) {
@@ -36,8 +36,9 @@ export function handleMouseIntersection(
     getDrawingHoverPainter(hovered)?.(chart, hovered)
   }
 
-  parent.addEventListener('mousemove', onMouseMove)
-  return () => parent.removeEventListener('mousemove', onMouseMove)
+  return onMouseMove
+  // parent.addEventListener('mousemove', onMouseMove)
+  // return () => parent.removeEventListener('mousemove', onMouseMove)
 }
 
 function paintStickerHover({ drawer }: Chart, drawing: Sticker) {

@@ -5,39 +5,47 @@
   import { onDestroy } from 'svelte'
   import { getChartDrawer } from './context'
   import { newDrawer } from './drawer'
-  import { handleMouseIntersection, getDrawingHoverPainter } from './hovered'
-  import { handleMouseSelect, newDrawingDeleteHandler } from './selectAndDrag'
+  import { newMouseHoverHandler, getDrawingHoverPainter } from './hovered'
+  import {
+    newMouseSelectHandler,
+    newDrawingDeleteHandler,
+  } from './selectAndDrag'
   import { newDrawingAxesPainter } from './axes'
+  import { newLineCreationHandler } from './newLine'
+  import { hook } from './_utils'
   import { getChart } from '../context'
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
   const drawer = newDrawer(chart)
 
-  const onDrawingDelete = newDrawingDeleteHandler(drawer)
-  const removeMouseIntersectionHandler = handleMouseIntersection(
-    chart,
-    setHovered,
-  )
-
   export let metricKey: string
 
   let selected: Drawing | undefined
   let isAwaitingRedraw = false
+  let isNewDrawing = false
 
-  handleMouseSelect(chart, {
+  const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
+  const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
+  const lineCreationHandler = newLineCreationHandler(
+    chart,
+    onNewDrawingStart,
+    onNewDrawingEnd,
+  )
+  const drawingSelectHandler = newMouseSelectHandler(chart, {
     selectDrawing,
     startDrawing,
     stopDrawing,
     onDrawingDragEnd,
   })
+
   drawer.addDrawing = addDrawing
   drawer.deleteDrawing = deleteDrawing
 
   $: onSelectionChange(selected)
   $: drawer.drawings = $ChartDrawer.drawings
   $: drawer.metricKey = metricKey
-  $: console.log(selected)
+  $: cleanup = hookDrawer(isNewDrawing)
   $: if (isAwaitingRedraw) {
     drawer.redraw()
     isAwaitingRedraw = false
@@ -45,6 +53,7 @@
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
     selected = store.selectedLine
+    isNewDrawing = store.isNewDrawing
 
     if (store.isAwaitingRedraw) {
       store.isAwaitingRedraw = false
@@ -76,7 +85,7 @@
   }
 
   const setIsDrawing = (value: boolean) =>
-    ($ChartDrawer.isDrawing = chart.isDrawing = value)
+    ChartDrawer.setIsDrawing((chart.isDrawing = value))
   function startDrawing() {
     setIsDrawing(true)
   }
@@ -89,7 +98,6 @@
     drawer.hovered = drawing
   }
   function updateCursor(cursor?: string) {
-    console.log('cursor change')
     const { canvas } = chart.tooltip || chart
     canvas.style.cursor = cursor || 'initial'
   }
@@ -114,15 +122,55 @@
         hoverPainter(chart, drawing)
         drawingAxesPainter()
       }
-      window.addEventListener('keydown', onDrawingDelete)
+      window.addEventListener('keydown', drawingDeleteHandler)
     } else {
       drawer.drawSelection = undefined
-      window.removeEventListener('keydown', onDrawingDelete)
+      window.removeEventListener('keydown', drawingDeleteHandler)
+    }
+  }
+
+  function onNewDrawingStart(drawing: Drawing) {
+    ChartDrawer.addDrawing(drawing)
+    selectDrawing(drawing)
+    startDrawing()
+  }
+
+  function onNewDrawingEnd(drawing: Drawing) {
+    stopDrawing()
+    ChartDrawer.dispatch({
+      type: 'new line',
+      data: drawing,
+    })
+  }
+
+  function hookDrawer(isNewDrawing: boolean) {
+    if (cleanup) cleanup()
+    const parent = chart.canvas.parentNode as HTMLElement
+
+    if (isNewDrawing) {
+      return hook(parent, 'mousedown', lineCreationHandler)
+    }
+
+    const removeDrawingHoverHandler = hook(
+      parent,
+      'mousemove',
+      drawingHoverHandler,
+    )
+    const removeDrawingSelectHandler = hook(
+      parent,
+      'mousedown',
+      drawingSelectHandler,
+    )
+
+    return () => {
+      removeDrawingHoverHandler()
+      removeDrawingSelectHandler()
     }
   }
 
   onDestroy(() => {
     unsubscribeStore()
+    cleanup()
     chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
     delete chart.drawer

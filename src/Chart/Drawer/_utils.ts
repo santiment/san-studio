@@ -42,3 +42,12 @@ export function checkIsOnStrokeArea(
 
   return false
 }
+
+export function hook(
+  node: HTMLElement,
+  event: string,
+  callback: (e: any) => any,
+) {
+  node.addEventListener(event, callback)
+  return () => node.removeEventListener(event, callback)
+}

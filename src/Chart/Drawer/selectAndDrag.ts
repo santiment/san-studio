@@ -11,7 +11,7 @@ type Controller = {
   onDrawingDragEnd: (drawing: Drawing, oldAbsCoor: Drawing['absCoor']) => void
 }
 
-export function handleMouseSelect(chart: Chart, controller: Controller) {
+export function newMouseSelectHandler(chart: Chart, controller: Controller) {
   const { canvas, drawer, dpr } = chart
   const parent = canvas.parentNode as HTMLElement
 
@@ -54,8 +54,9 @@ export function handleMouseSelect(chart: Chart, controller: Controller) {
     }
   }
 
-  parent.addEventListener('mousedown', onMouseDown)
-  return () => parent.removeEventListener('mousedown', onMouseDown)
+  return onMouseDown
+  // parent.addEventListener('mousedown', onMouseDown)
+  // return () => parent.removeEventListener('mousedown', onMouseDown)
 }
 
 type DragDataGetter = (

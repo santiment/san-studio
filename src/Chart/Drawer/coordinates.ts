@@ -14,7 +14,6 @@ function newDatetimeRelativeScaler(chart: Chart): Scaler {
 }
 
 export function resetRelativeCoordinates(drawer: Drawer) {
-  console.log('resetting coordinates')
   drawer.drawings.forEach(({ absCoor, relCoor }) => {
     if (absCoor.length) relCoor.length = 0
   })
