@@ -18,6 +18,11 @@ export function resetRelativeCoordinates(drawer: Drawer) {
     if (absCoor.length) relCoor.length = 0
   })
 }
+export function resetAbsoluteCoordinates(drawer: Drawer) {
+  drawer.drawings.forEach(({ absCoor, relCoor }) => {
+    if (relCoor.length) absCoor.length = 0
+  })
+}
 export function correctAbsoluteCoordinatesRatio(
   { drawings }: Drawer,
   xRatio: number,
@@ -38,9 +43,10 @@ export function updateDrawingsCoordinates(chart: Chart) {
 
   if (!minMax) return
 
-  const { min, max } = minMax
-  const scaleX = linearDatetimeScale(chart)
-  const scaleY = linearScale(chart, min, max)
+  const relToAbsCoordinates = newRelativeToAbsoluteCoordinatesUpdater(
+    chart,
+    minMax,
+  )
   const absToRelCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
     chart,
     minMax,
@@ -53,7 +59,7 @@ export function updateDrawingsCoordinates(chart: Chart) {
     const { relCoor, absCoor } = drawing
 
     if (relCoor.length) {
-      relativeToAbsoluteCoordinates(relCoor, absCoor, scaleX, scaleY)
+      relToAbsCoordinates(relCoor, absCoor)
     } else {
       absToRelCoordinates(absCoor, relCoor)
     }
@@ -92,4 +98,14 @@ export function newAbsoluteToRelativeCoordinatesUpdater(
   const scaleValue = (y: number) => valueByY(chart, y, min, max)
   return (absCoor: number[], relCoor: number[]) =>
     absoluteToRelativeCoordinates(absCoor, relCoor, scaleDatetime, scaleValue)
+}
+
+export function newRelativeToAbsoluteCoordinatesUpdater(
+  chart: Chart,
+  { min, max }: MinMax,
+) {
+  const scaleX = linearDatetimeScale(chart)
+  const scaleY = linearScale(chart, min, max)
+  return (relCoor: number[], absCoor: number[]) =>
+    relativeToAbsoluteCoordinates(relCoor, absCoor, scaleX, scaleY)
 }

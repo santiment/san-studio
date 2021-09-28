@@ -41,6 +41,7 @@
   export let categories
   export let domainGroups
   export let from, to
+  export let isFullscreened: boolean
   export let onChart, changeStudioPeriod
 
   let chartWidth
@@ -136,6 +137,7 @@
   {domainGroups}
   {domainModifier}
   {onChart}
+  disabled={isFullscreened}
   bind:width={chartWidth}>
   <GreenRedBars />
   <Bars />

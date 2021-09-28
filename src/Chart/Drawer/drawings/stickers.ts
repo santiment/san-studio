@@ -67,6 +67,51 @@ export function updateSticker(_, drawing: Sticker) {
   drawing.hitbox = newRectHandle(left, top, size, size)
 }
 
+// ------------------------
+// --- HOVERING ---
+// ------------------------
+
+export function checkStickerIsHovered(
+  ctx: CanvasRenderingContext2D,
+  drawing: Sticker,
+  mouseXY: [number, number],
+  dpr: number,
+) {
+  const { hitbox, handlers } = drawing
+
+  const x = mouseXY[0] * dpr
+  const y = mouseXY[1] * dpr
+
+  if (ctx.isPointInPath(hitbox, x, y)) return true
+  for (let i = 0; i < 4; i++) {
+    if (ctx.isPointInPath(handlers[i], x, y)) return true
+  }
+
+  return false
+}
+
+export function paintStickerHover({ drawer }: Chart, drawing: Sticker) {
+  const { ctx } = drawer
+  const { hitbox, handlers } = drawing
+
+  ctx.save()
+
+  ctx.strokeStyle = '#68B3F4'
+  ctx.stroke(hitbox)
+
+  ctx.fillStyle = 'white'
+  for (let i = 0; i < 4; i++) {
+    ctx.fill(handlers[i])
+    ctx.stroke(handlers[i])
+  }
+
+  ctx.restore()
+}
+
+// ------------------------
+// --- DRAGGING ---
+// ------------------------
+
 type StickerDragData = [Sticker['size'], boolean, boolean]
 export function getStickerDragData(
   ctx: CanvasRenderingContext2D,

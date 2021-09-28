@@ -29,6 +29,7 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
+  export let isFullscreened: boolean
 
   let onDownload
 
@@ -119,7 +120,7 @@
       </div>
     </OptionsMenu>
 
-    <Fullscreen {fullscreenMetricsFilter} />
+    <Fullscreen {fullscreenMetricsFilter} bind:isFullscreened />
   {/if}
 </div>
 

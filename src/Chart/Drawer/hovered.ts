@@ -1,8 +1,37 @@
 import type { Chart, Drawing } from './drawer'
-import type { Sticker } from './drawings/stickers'
-import { checkIsHovered } from './intersection'
-import { paintLineHover } from './drawings/line'
+import { checkLineIsHovered, paintLineHover } from './drawings/line'
+import { checkStickerIsHovered, paintStickerHover } from './drawings/stickers'
 import { getEventCoordinates } from './utils'
+
+const DrawingIsHoveredChecker = {
+  line: checkLineIsHovered,
+  sticker: checkStickerIsHovered,
+} as Record<
+  any,
+  | undefined
+  | ((
+      ctx: CanvasRenderingContext2D,
+      drawing: Drawing,
+      mouseXY: [number, number],
+      dpr: number,
+      e: MouseEvent,
+    ) => boolean)
+>
+
+export function checkIsHovered(
+  chart: Chart,
+  mouseXY: [number, number],
+  e: MouseEvent,
+) {
+  const { dpr } = chart
+  const { ctx, drawings } = chart.drawer
+
+  for (let i = 0, len = drawings.length; i < len; i++) {
+    const drawing = drawings[i]
+    const checker = DrawingIsHoveredChecker[drawing.type]
+    if (checker?.(ctx, drawing, mouseXY, dpr, e)) return drawing
+  }
+}
 
 type HoverPainter = (chart: Chart, drawing: Drawing) => void
 const DrawingHoverPainter = {
@@ -17,8 +46,7 @@ export function newMouseHoverHandler(
   chart: Chart,
   setHovered: (drawing?: Drawing) => void,
 ) {
-  const { canvas, drawer } = chart
-  const parent = canvas.parentNode as HTMLElement
+  const { drawer } = chart
 
   function onMouseMove(e: MouseEvent) {
     if (!drawer.minMax) return
@@ -37,24 +65,4 @@ export function newMouseHoverHandler(
   }
 
   return onMouseMove
-  // parent.addEventListener('mousemove', onMouseMove)
-  // return () => parent.removeEventListener('mousemove', onMouseMove)
-}
-
-function paintStickerHover({ drawer }: Chart, drawing: Sticker) {
-  const { ctx } = drawer
-  const { hitbox, handlers } = drawing
-
-  ctx.save()
-
-  ctx.strokeStyle = '#68B3F4'
-  ctx.stroke(hitbox)
-
-  ctx.fillStyle = 'white'
-  for (let i = 0; i < 4; i++) {
-    ctx.fill(handlers[i])
-    ctx.stroke(handlers[i])
-  }
-
-  ctx.restore()
 }

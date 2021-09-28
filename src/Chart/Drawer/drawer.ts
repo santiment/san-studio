@@ -66,13 +66,13 @@ export function newDrawer(chart: Chart) {
   drawer.updateRelativeByAbsoluteCoordinates = () => {}
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
   chart.drawer = drawer
-  plotManager.set('Drawer', newDrawerUpdater(drawer))
+  plotManager.set('Drawer', newDrawerUpdater(chart))
 
   return drawer
 }
 
-function newDrawerUpdater(drawer: Drawer) {
-  const oldWidthHeight = [0, 0]
+function newDrawerUpdater({ drawer, width, height }: Chart) {
+  const oldWidthHeight = [width, height]
   let oldMetricKey: string
 
   return (chart: Chart) => {

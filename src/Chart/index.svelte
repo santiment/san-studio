@@ -26,6 +26,7 @@
   export let theme = themes[0]
   export let metricSettings = undefined
   export let onChart = undefined
+  export let disabled = false
 
   let chart
   let canvas
@@ -37,7 +38,7 @@
   // prettier-ignore
   $: chart &&
     // @ts-ignore
-    (theme, shouldRedraw, categories, colors, scale, domainGroups, data, drawChart(chart))
+    (disabled, theme, shouldRedraw, categories, colors, scale, domainGroups, data, drawChart(chart))
 
   onMount(() => {
     const _width = width || canvas.parentNode.offsetWidth
@@ -62,6 +63,7 @@
   }
 
   function drawChart(chart) {
+    if (disabled) return
     clearCtx(chart)
 
     chart.theme = theme

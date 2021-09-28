@@ -10,16 +10,21 @@
   import { setContext } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import ChartWidget from '@/ChartWidget/index.svelte'
+  import { resetAbsoluteCoordinates } from '@/Chart/Drawer/coordinates'
 
   export let widget
   export let fullscreenMetricsFilter = undefined
   let closeDialog
 
+  if (widget.chart.drawer) {
+    resetAbsoluteCoordinates(widget.chart.drawer)
+  }
+
   setContext('fullscreen', () => closeDialog(false))
 
   function onBeforeDialogClose() {
     const { drawer } = widget.chart
-    if (drawer) drawer.recalcAbsCoor()
+    if (drawer) resetAbsoluteCoordinates(drawer)
   }
 </script>
 

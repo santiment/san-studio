@@ -51,6 +51,7 @@
   let chart
   let isSharedAxisEnabled = widget.isSharedAxisEnabled || false
   let ChartAddonError = new Map()
+  let isFullscreened = false
 
   $: metrics = $Metrics
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
@@ -165,6 +166,7 @@
         {deleteWidget}
         {hasDomainGroups}
         {fullscreenMetricsFilter}
+        bind:isFullscreened
         bind:isSharedAxisEnabled />
     {/if}
 
@@ -198,6 +200,7 @@
       {domainGroups}
       from={$studio.from}
       to={$studio.to}
+      {isFullscreened}
       {changeStudioPeriod}
       {onChart} />
   </div>
