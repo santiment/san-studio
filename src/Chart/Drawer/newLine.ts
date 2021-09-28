@@ -2,6 +2,7 @@ import type { Chart, Drawing } from './drawer'
 import type { Line } from './drawings/line'
 import { getEventCoordinates } from './utils'
 import { updateLine } from './drawings/line'
+import { absoluteToRatioCoordinates } from './coordinates'
 
 const LineLockType = {
   FREE: 0,
@@ -15,6 +16,7 @@ export const newLine = (x: number, y: number) => ({
   type: 'line',
   absCoor: [x, y, x, y],
   relCoor: [] as number[],
+  ratioCoor: [] as number[],
   //color: Color.baliHai,
 })
 
@@ -23,13 +25,13 @@ export function newLineCreationHandler(
   onNewDrawingStart: (drawing: Drawing) => void,
   onNewDrawingEnd: (drawing: Drawing) => void,
 ) {
-  const { drawer, canvas } = chart
+  const { drawer, canvas, width, height } = chart
   const parent = canvas.parentNode as HTMLElement
 
   function onMouseDown(e: MouseEvent) {
     const [startX, startY] = getEventCoordinates(e)
     const drawing = newLine(startX, startY) as Line
-    const { absCoor, relCoor } = drawing
+    const { absCoor, relCoor, ratioCoor } = drawing
 
     updateLine(undefined, drawing)
     drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
@@ -50,6 +52,7 @@ export function newLineCreationHandler(
 
       updateLine(undefined, drawing)
 
+      absoluteToRatioCoordinates(absCoor, ratioCoor, width, height)
       drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
       drawer.redraw()
     }

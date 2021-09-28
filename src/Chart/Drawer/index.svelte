@@ -22,9 +22,7 @@
   export let metricKey: string
 
   let selected: Drawing | undefined
-  let isAwaitingRedraw = false
   let isNewDrawing = false
-  let drawingsAmount = $ChartDrawer.drawings.length
 
   const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
   const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
@@ -39,6 +37,7 @@
     stopDrawing,
     onDrawingDragEnd,
   })
+  const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
   drawer.drawings = $ChartDrawer.drawings
   drawer.addDrawing = addDrawing
@@ -47,19 +46,10 @@
   $: onSelectionChange(selected)
   $: drawer.metricKey = metricKey
   $: cleanup = hookDrawer(isNewDrawing)
-  $: if (isAwaitingRedraw) {
-    drawer.redraw()
-    isAwaitingRedraw = false
-  }
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
     selected = store.selectedLine
     isNewDrawing = store.isNewDrawing
-
-    if (drawingsAmount !== store.drawings.length) {
-      drawingsAmount = store.drawings.length
-      isAwaitingRedraw = true
-    }
   })
 
   function addDrawing(drawing: Drawing) {
@@ -173,6 +163,7 @@
   onDestroy(() => {
     unsubscribeStore()
     cleanup()
+    deleteDrawer()
     chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
     delete chart.drawer

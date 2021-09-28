@@ -1,7 +1,7 @@
 import type { History, Scrollable } from 'webkit/ui/history'
 import type { Chart, Drawing } from '@/Chart/Drawer/drawer'
 import { withScroll } from 'webkit/ui/history'
-import { getDrawingUpdater } from '@/Chart/Drawer/drawings'
+import { resetDrawingAbsoluteCoordinates } from '@/Chart/Drawer/coordinates'
 
 type Widget = Scrollable & { chart: Chart }
 
@@ -11,12 +11,11 @@ export function recordNewDrawing(
   widget: Widget,
   drawing: Drawing,
 ) {
-  const { absCoor, relCoor } = drawing
   History.add(
     'New drawing',
     withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
     withScroll(widget, () => {
-      widget.chart.drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
+      resetDrawingAbsoluteCoordinates(drawing)
       ChartDrawer.addDrawing(drawing)
     }),
   )
@@ -28,11 +27,10 @@ export function recordDeleteDrawing(
   widget: Widget,
   drawing: Drawing,
 ) {
-  const { absCoor, relCoor } = drawing
   History.add(
     'Delete drawing',
     withScroll(widget, () => {
-      widget.chart.drawer.updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
+      resetDrawingAbsoluteCoordinates(drawing)
       ChartDrawer.addDrawing(drawing)
     }),
     withScroll(widget, () => ChartDrawer.deleteDrawing(drawing)),
@@ -43,23 +41,20 @@ export function recordDrawingModified(
   History: History,
   widget: Widget,
   drawing: Drawing,
-  oldAbsCoor: Drawing['absCoor'],
+  oldRatioCoor: Drawing['absCoor'],
 ) {
-  const { chart } = widget
-  const newAbsCoor = drawing.absCoor.slice()
+  const newRatioCoor = drawing.ratioCoor.slice()
 
-  function reset(absCoor: Drawing['absCoor']) {
-    const { drawer } = chart
-    applyCoordinates(drawing.absCoor, absCoor)
-    drawer.updateRelativeByAbsoluteCoordinates(absCoor, drawing.relCoor)
-    getDrawingUpdater(drawing)?.(drawer, drawing)
-    drawer.redraw()
+  function reset(ratioCoor: Drawing['absCoor']) {
+    applyCoordinates(drawing.ratioCoor, ratioCoor)
+    resetDrawingAbsoluteCoordinates(drawing)
+    widget.ChartDrawer.redrawDrawers()
   }
 
   History.add(
     'Drawing modified',
-    withScroll(widget, () => reset(oldAbsCoor)),
-    withScroll(widget, () => reset(newAbsCoor)),
+    withScroll(widget, () => reset(oldRatioCoor)),
+    withScroll(widget, () => reset(newRatioCoor)),
   )
 }
 

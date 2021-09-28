@@ -1,4 +1,4 @@
-import type { Chart, Drawer, MinMax } from './drawer'
+import type { Chart, Drawer, Drawing, MinMax } from './drawer'
 import { linearScale, valueByY } from 'san-chart/scales'
 import { linearDatetimeScale } from '../utils'
 
@@ -13,56 +13,64 @@ function newDatetimeRelativeScaler(chart: Chart): Scaler {
   return (x: number) => Math.round(factor * (x - left)) + firstDatetime
 }
 
-export function resetRelativeCoordinates(drawer: Drawer) {
-  drawer.drawings.forEach(({ absCoor, relCoor }) => {
-    if (absCoor.length) relCoor.length = 0
-  })
-}
-export function resetAbsoluteCoordinates(drawer: Drawer) {
-  drawer.drawings.forEach(({ absCoor, relCoor }) => {
-    if (relCoor.length) absCoor.length = 0
-  })
-}
+export const resetDrawingRelativeCoordinates = ({ ratioCoor, relCoor }) =>
+  ratioCoor.length && (relCoor.length = 0)
+export const resetRelativeCoordinates = (drawer: Drawer) =>
+  drawer.drawings.forEach(resetDrawingRelativeCoordinates)
+
+export const resetDrawingAbsoluteCoordinates = ({
+  absCoor,
+  ratioCoor,
+}: Drawing) => ratioCoor.length && (absCoor.length = 0)
+export const resetAbsoluteCoordinates = (drawer: Drawer) =>
+  drawer.drawings.forEach(resetDrawingAbsoluteCoordinates)
+
 export function correctAbsoluteCoordinatesRatio(
   { drawings }: Drawer,
-  xRatio: number,
-  yRatio: number,
+  width: number,
+  height: number,
 ) {
   for (let i = 0, len = drawings.length; i < len; i++) {
-    const { absCoor } = drawings[i]
-    for (let j = 0, coorLen = absCoor.length; j < coorLen; j += 2) {
-      if (xRatio) absCoor[j] *= xRatio
-      if (yRatio) absCoor[j + 1] *= yRatio
+    const { absCoor, ratioCoor } = drawings[i]
+    for (let j = 0, coorLen = ratioCoor.length; j < coorLen; j += 2) {
+      absCoor[j] *= ratioCoor[j] * width
+      absCoor[j + 1] *= ratioCoor[j + 1] * height
     }
   }
 }
 
-export function updateDrawingsCoordinates(chart: Chart) {
-  const { drawer } = chart
+export function setupDrawingsCoordinatesUpdater(chart: Chart) {
+  const { drawer, width, height } = chart
   const { minMax, drawings } = drawer
 
   if (!minMax) return
 
-  const relToAbsCoordinates = newRelativeToAbsoluteCoordinatesUpdater(
-    chart,
-    minMax,
-  )
-  const absToRelCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
-    chart,
-    minMax,
-  )
+  drawer.updateAbsoluteByRelativeCoordinates =
+    newRelativeToAbsoluteCoordinatesUpdater(chart, minMax)
+  drawer.updateRelativeByAbsoluteCoordinates =
+    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)
+}
 
-  drawer.updateRelativeByAbsoluteCoordinates = absToRelCoordinates
-
-  for (let i = 0, len = drawings.length; i < len; i++) {
-    const drawing = drawings[i]
-    const { relCoor, absCoor } = drawing
-
-    if (relCoor.length) {
-      relToAbsCoordinates(relCoor, absCoor)
-    } else {
-      absToRelCoordinates(absCoor, relCoor)
-    }
+export function absoluteToRatioCoordinates(
+  absCoor: number[],
+  ratioCoor: number[],
+  width: number,
+  height: number,
+) {
+  for (let i = 0, len = absCoor.length; i < len; i += 2) {
+    ratioCoor[i] = absCoor[i] / width
+    ratioCoor[i + 1] = absCoor[i + 1] / height
+  }
+}
+export function ratioToAbsoluteCoordinates(
+  ratioCoor: number[],
+  absCoor: number[],
+  width: number,
+  height: number,
+) {
+  for (let i = 0, len = ratioCoor.length; i < len; i += 2) {
+    absCoor[i] = ratioCoor[i] * width
+    absCoor[i + 1] = ratioCoor[i + 1] * height
   }
 }
 

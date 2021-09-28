@@ -152,7 +152,9 @@
     axesMetricKeys={getResponsiveAxesKeys(chartWidth, axesMetricKeys)}
     {metricSettings}
     xTicks={getXTicksByWidth(chartWidth)} />
-  <Drawer {axesMetricKeys} metricKey={drawingKey} />
+
+  {#if !isFullscreened} <Drawer {axesMetricKeys} metricKey={drawingKey} /> {/if}
+
   <Tooltip
     {axesMetricKeys}
     {metricSettings}

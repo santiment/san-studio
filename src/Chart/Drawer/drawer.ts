@@ -1,9 +1,8 @@
 import { newCanvas } from 'san-chart'
-import { setupDrawings, paintDrawings } from './drawings'
+import { paintDrawings } from './drawings'
 import {
-  updateDrawingsCoordinates,
-  resetRelativeCoordinates,
-  correctAbsoluteCoordinatesRatio,
+  resetAbsoluteCoordinates,
+  setupDrawingsCoordinatesUpdater,
 } from './coordinates'
 
 export type MinMax = { min: number; max: number }
@@ -19,6 +18,8 @@ export interface Drawing {
   type: 'line' | 'sticker'
   /** [chart x, chart y, ... x(i), y(i+1), ...] */
   absCoor: number[]
+  /** [width/chart x, height/chart y, ... x(i), y(i+1), ...] */
+  ratioCoor: number[]
   /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
   relCoor: number[]
 }
@@ -89,7 +90,9 @@ function newDrawerUpdater(
     const { min, max } = minMax
     const oldMinMax = drawer.minMax
     const isNewMinMax =
-      !oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max
+      Number.isFinite(min) &&
+      Number.isFinite(max) &&
+      (!oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max)
     if (isNewMinMax) drawer.minMax = minMax
 
     if (!oldMinMax && minMax && drawer.selected && !drawer.drawSelection) {
@@ -101,23 +104,18 @@ function newDrawerUpdater(
     const [oldWidth, oldHeight] = oldWidthHeight
     const isNewDimensions = oldWidth !== width || oldHeight !== height
     if (isNewDimensions) {
-      correctAbsoluteCoordinatesRatio(
-        drawer,
-        width / oldWidth,
-        height / oldHeight,
-      )
       oldWidthHeight[0] = width
       oldWidthHeight[1] = height
     }
 
     if (oldMetricKey !== drawer.metricKey) {
       oldMetricKey = drawer.metricKey
-      resetRelativeCoordinates(drawer)
+      console.log('resetting rel coor')
     }
 
     if (isNewMinMax || isNewDimensions) {
-      updateDrawingsCoordinates(chart)
-      setupDrawings(chart)
+      setupDrawingsCoordinatesUpdater(chart)
+      resetAbsoluteCoordinates(drawer)
     }
 
     drawer.redraw()

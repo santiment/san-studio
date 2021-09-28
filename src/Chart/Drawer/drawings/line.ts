@@ -28,12 +28,19 @@ const LineLockType = {
   Y: 2,
 } as const
 
-export const newDrawing = () => ({ absCoor: [], relCoor: [], handlers: [] })
+export const newDrawing = () => ({
+  absCoor: [],
+  relCoor: [],
+  handlers: [],
+  ratioCoor: [],
+})
 
 export const newLine = (x: number, y: number) =>
   ({
     type: 'line',
     absCoor: [x, y, x, y],
+    ratioCoor: [],
+    relCoor: [],
     //color: Color.baliHai,
   } as Line)
 

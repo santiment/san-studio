@@ -28,6 +28,7 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
         {
           type: 'line',
           absCoor: [],
+          ratioCoor: [],
           relCoor: [1625081445421, 2000, 1629881445421, 2500],
         },
 
@@ -36,6 +37,7 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
           id: 'rocket',
           size: 50,
           absCoor: [],
+          ratioCoor: [],
           relCoor: [1629881445421, 3000],
         },
       ],
@@ -44,13 +46,21 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
   )
   const { subscribe, set } = writable<Drawer>(store)
   const subscribers = new Set<any>()
+  const drawers = new Set<any>()
+  const redrawDrawers = () => drawers.forEach((drawer) => drawer.redraw())
 
   return {
     subscribe,
     set,
+    redrawDrawers,
+    addDrawer(drawer) {
+      drawers.add(drawer)
+      return () => drawers.delete(drawer)
+    },
     addDrawing(drawing) {
       store.drawings.push(drawing)
       set(store)
+      redrawDrawers()
     },
     deleteDrawing(drawing) {
       if (store.selectedLine === drawing) store.selectedLine = undefined
@@ -59,6 +69,7 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
 
       store.drawings.splice(index, 1)
       set(store)
+      redrawDrawers()
     },
     selectDrawing(drawing) {
       store.selectedLine = drawing

@@ -1,8 +1,9 @@
 import type { Chart, Drawer, Drawing } from './drawer'
+import { getEventCoordinates } from './utils'
+import { absoluteToRatioCoordinates } from './coordinates'
 import { getDrawingUpdater } from './drawings'
 import { getLineDragData, lineDragModifier } from './drawings/line'
 import { getStickerDragData, stickerDragModifier } from './drawings/stickers'
-import { getEventCoordinates } from './utils'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
@@ -31,12 +32,11 @@ export function newMouseSelectHandler(chart: Chart, controller: Controller) {
     if (selected && selected !== hovered) drawer.redraw()
     else drawer.drawSelection?.()
 
-    const initialAbsCoor = hovered.absCoor.slice()
+    const initialRatioCoor = hovered.ratioCoor.slice()
     const wasDragged = { value: false }
     const onDrawingDrag = newDrawingDragHandler(
       chart,
       hovered as any,
-      initialAbsCoor,
       getEventCoordinates(e),
       dpr,
       wasDragged,
@@ -49,14 +49,12 @@ export function newMouseSelectHandler(chart: Chart, controller: Controller) {
       parent.removeEventListener('mouseup', onMouseUp)
       controller.stopDrawing()
       if (wasDragged.value) {
-        controller.onDrawingDragEnd(hovered as Drawing, initialAbsCoor)
+        controller.onDrawingDragEnd(hovered as Drawing, initialRatioCoor)
       }
     }
   }
 
   return onMouseDown
-  // parent.addEventListener('mousedown', onMouseDown)
-  // return () => parent.removeEventListener('mousedown', onMouseDown)
 }
 
 type DragDataGetter = (
@@ -86,13 +84,13 @@ const DrawingDragModifier = {
 function newDrawingDragHandler(
   chart: Chart,
   drawing: Drawing,
-  initialAbsCoor: Drawing['absCoor'],
   [startX, startY]: [number, number],
   dpr: number,
   wasDragged: { value: boolean },
 ) {
-  const { drawer } = chart
+  const { drawer, width, height } = chart
   const { type } = drawing
+  const initialAbsCoor = drawing.absCoor.slice()
 
   const updater = getDrawingUpdater(drawing)
   const getDragData = DrawingDragDataGetter[type]
@@ -103,7 +101,7 @@ function newDrawingDragHandler(
   const { ctx, updateRelativeByAbsoluteCoordinates } = drawer
 
   const dragData = getDragData(ctx, drawing, startX * dpr, startY * dpr)
-  const { absCoor, relCoor } = drawing
+  const { absCoor, relCoor, ratioCoor } = drawing
 
   return (e: MouseEvent) => {
     const [moveX, moveY] = getEventCoordinates(e)
@@ -112,6 +110,7 @@ function newDrawingDragHandler(
 
     dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY, e)
     updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
+    absoluteToRatioCoordinates(absCoor, ratioCoor, width, height)
     updater(drawer, drawing)
 
     wasDragged.value = true
