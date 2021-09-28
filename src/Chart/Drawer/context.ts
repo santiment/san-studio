@@ -7,7 +7,6 @@ export type Drawer = {
   isNewDrawing: boolean
   drawings: Drawing[]
   selectedLine: undefined | Drawing
-  isAwaitingRedraw: boolean
 }
 export type ChartDrawerStore = ReturnType<typeof newChartDrawerStore>
 
@@ -15,7 +14,6 @@ const DRAWER = {
   isDrawing: false,
   isNewDrawing: false,
   selectedLine: undefined,
-  isAwaitingRedraw: false,
 }
 
 const CONTEXT = 'chartDrawer'
@@ -52,7 +50,6 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
     set,
     addDrawing(drawing) {
       store.drawings.push(drawing)
-      store.isAwaitingRedraw = true
       set(store)
     },
     deleteDrawing(drawing) {
@@ -61,7 +58,6 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       if (index === -1) return
 
       store.drawings.splice(index, 1)
-      store.isAwaitingRedraw = true
       set(store)
     },
     selectDrawing(drawing) {

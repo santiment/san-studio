@@ -31,6 +31,7 @@
   export let fullscreenMetricsFilter = undefined
   export let MetricError
   export let loadings
+  export let isFullscreen: boolean
   export let onLoad = getOnLoadContext()
 
   initWidget(widget)
@@ -166,6 +167,7 @@
         {deleteWidget}
         {hasDomainGroups}
         {fullscreenMetricsFilter}
+        {isFullscreen}
         bind:isFullscreened
         bind:isSharedAxisEnabled />
     {/if}

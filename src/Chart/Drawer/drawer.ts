@@ -56,7 +56,10 @@ export type Chart = Offset & {
   rightAxisMargin?: number
 }
 
-export function newDrawer(chart: Chart) {
+export function newDrawer(
+  chart: Chart,
+  onSelectionChange: (drawing?: Drawing) => void,
+) {
   const drawer = newCanvas(chart) as Drawer
   const { canvas, plotManager } = chart
 
@@ -66,12 +69,15 @@ export function newDrawer(chart: Chart) {
   drawer.updateRelativeByAbsoluteCoordinates = () => {}
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
   chart.drawer = drawer
-  plotManager.set('Drawer', newDrawerUpdater(chart))
+  plotManager.set('Drawer', newDrawerUpdater(chart, onSelectionChange))
 
   return drawer
 }
 
-function newDrawerUpdater({ drawer, width, height }: Chart) {
+function newDrawerUpdater(
+  { drawer, width, height }: Chart,
+  onSelectionChange: (drawing?: Drawing) => void,
+) {
   const oldWidthHeight = [width, height]
   let oldMetricKey: string
 
@@ -85,6 +91,12 @@ function newDrawerUpdater({ drawer, width, height }: Chart) {
     const isNewMinMax =
       !oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max
     if (isNewMinMax) drawer.minMax = minMax
+
+    if (!oldMinMax && minMax && drawer.selected && !drawer.drawSelection) {
+      const { selected } = drawer
+      drawer.selected = undefined
+      onSelectionChange(selected)
+    }
 
     const [oldWidth, oldHeight] = oldWidthHeight
     const isNewDimensions = oldWidth !== width || oldHeight !== height

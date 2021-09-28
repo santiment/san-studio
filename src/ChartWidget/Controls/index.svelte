@@ -29,7 +29,8 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
-  export let isFullscreened: boolean
+  export let isFullscreen: boolean // Is in fullscreen dialog
+  export let isFullscreened: boolean // Was fullscreen triggered?
 
   let onDownload
 
@@ -54,21 +55,25 @@
     $globals.isNewDrawing = false
   }
 
-  onDestroy(
-    ChartDrawer.onDispatch((event) => {
-      if (!event) return
-      const { type, data } = event
+  const removeDrawerDispatchListener = isFullscreen
+    ? undefined
+    : ChartDrawer.onDispatch((event) => {
+        if (!event) return
+        const { type, data } = event
 
-      if (type === 'new line') {
-        recordNewDrawing(History, ChartDrawer, widget, data)
-      } else if (type === 'delete') {
-        recordDeleteDrawing(History, ChartDrawer, widget, data)
-      } else if (type === 'modified') {
-        const { drawing, oldAbsCoor } = data
-        recordDrawingModified(History, widget, drawing, oldAbsCoor)
-      }
-    }),
-  )
+        if (type === 'new line') {
+          recordNewDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'delete') {
+          recordDeleteDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'modified') {
+          const { drawing, oldAbsCoor } = data
+          recordDrawingModified(History, widget, drawing, oldAbsCoor)
+        }
+      })
+
+  onDestroy(() => {
+    removeDrawerDispatchListener?.()
+  })
 </script>
 
 <div class="row controls v-center mrg-s mrg--b">

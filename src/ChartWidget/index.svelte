@@ -80,6 +80,7 @@
   {MetricError}
   {loadings}
   {isSingleWidget}
+  {isFullscreen}
   {deleteWidget}
   {metricsFilter}
   {fullscreenMetricsFilter}

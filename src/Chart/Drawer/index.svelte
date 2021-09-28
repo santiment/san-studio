@@ -17,13 +17,14 @@
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
-  const drawer = newDrawer(chart)
+  const drawer = newDrawer(chart, onSelectionChange)
 
   export let metricKey: string
 
   let selected: Drawing | undefined
   let isAwaitingRedraw = false
   let isNewDrawing = false
+  let drawingsAmount = $ChartDrawer.drawings.length
 
   const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
   const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
@@ -39,11 +40,11 @@
     onDrawingDragEnd,
   })
 
+  drawer.drawings = $ChartDrawer.drawings
   drawer.addDrawing = addDrawing
   drawer.deleteDrawing = deleteDrawing
 
   $: onSelectionChange(selected)
-  $: drawer.drawings = $ChartDrawer.drawings
   $: drawer.metricKey = metricKey
   $: cleanup = hookDrawer(isNewDrawing)
   $: if (isAwaitingRedraw) {
@@ -55,8 +56,8 @@
     selected = store.selectedLine
     isNewDrawing = store.isNewDrawing
 
-    if (store.isAwaitingRedraw) {
-      store.isAwaitingRedraw = false
+    if (drawingsAmount !== store.drawings.length) {
+      drawingsAmount = store.drawings.length
       isAwaitingRedraw = true
     }
   })
@@ -122,6 +123,7 @@
         hoverPainter(chart, drawing)
         drawingAxesPainter()
       }
+
       window.addEventListener('keydown', drawingDeleteHandler)
     } else {
       drawer.drawSelection = undefined
