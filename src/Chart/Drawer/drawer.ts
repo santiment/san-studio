@@ -34,6 +34,10 @@ export type Drawer = {
   selected: undefined | Drawing
   redraw: () => void
   drawSelection: undefined | (() => void)
+  updateAbsoluteByRelativeCoordinates: (
+    relCoor: number[],
+    absCoor: number[],
+  ) => void
   updateRelativeByAbsoluteCoordinates: (
     absCoor: number[],
     relCoor: number[],
@@ -57,6 +61,8 @@ export type Chart = Offset & {
   rightAxisMargin?: number
 }
 
+export const PLOT_ID = 'Drawer'
+
 export function newDrawer(
   chart: Chart,
   onSelectionChange: (drawing?: Drawing) => void,
@@ -70,20 +76,20 @@ export function newDrawer(
   drawer.updateRelativeByAbsoluteCoordinates = () => {}
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
   chart.drawer = drawer
-  plotManager.set('Drawer', newDrawerUpdater(chart, onSelectionChange))
+  plotManager.set(PLOT_ID, newDrawerUpdater(chart, onSelectionChange))
 
   return drawer
 }
 
 function newDrawerUpdater(
-  { drawer, width, height }: Chart,
+  { width, height }: Chart,
   onSelectionChange: (drawing?: Drawing) => void,
 ) {
   const oldWidthHeight = [width, height]
   let oldMetricKey: string
 
   return (chart: Chart) => {
-    const { width, height, minMaxes } = chart
+    const { drawer, width, height, minMaxes } = chart
     const minMax = minMaxes[drawer.metricKey]
     if (!minMax) return
 
@@ -110,11 +116,10 @@ function newDrawerUpdater(
 
     if (oldMetricKey !== drawer.metricKey) {
       oldMetricKey = drawer.metricKey
-      console.log('resetting rel coor')
     }
 
     if (isNewMinMax || isNewDimensions) {
-      setupDrawingsCoordinatesUpdater(chart)
+      setupDrawingsCoordinatesUpdater(chart, minMax)
       resetAbsoluteCoordinates(drawer)
     }
 

@@ -1,9 +1,8 @@
 import { initChart, updateChartState } from 'san-chart'
 import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 import { getPadding } from '@/Chart/Axes/utils'
-
-const LINE_WIDTH = 2
-const relativeToAbsoluteCoordinates = () => []
+import { PLOT_ID } from '@/Chart/Drawer/drawer'
+import { drawDrawings } from '@/Chart/Drawer/drawings'
 
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
@@ -62,28 +61,6 @@ function drawLegend(pngChart, metrics, textColor, ticker: string) {
   })
 }
 
-function paintDrawings(chart) {
-  const { ctx, drawer } = chart
-  const { drawings } = drawer
-
-  for (let i = 0, len = drawings.length; i < len; i++) {
-    const drawing = drawings[i]
-    const absCoor = relativeToAbsoluteCoordinates(chart, drawing)
-    if (!absCoor.length) continue
-
-    const [x1, y1, x2, y2] = absCoor
-    const { color, width = LINE_WIDTH } = drawing
-    const shape = new Path2D()
-
-    ctx.lineWidth = width
-    ctx.strokeStyle = color
-
-    shape.moveTo(x1, y1)
-    shape.lineTo(x2, y2)
-    ctx.stroke(shape)
-  }
-}
-
 export function downloadPng(
   widget: Studio.ChartWidget,
   { slug, name = slug, ticker },
@@ -113,12 +90,16 @@ export function downloadPng(
     new Set(categories.candles) as any,
   )
 
+  pngChart.drawer = Object.assign({}, chart.drawer)
+  pngChart.drawer.ctx = pngChart.ctx
+  pngChart.drawer.redraw = () => drawDrawings(pngChart)
+
   chart.plotManager.items.forEach((plot) => {
     plot(pngChart, scale, data, colors, categories)
   })
+  chart.plotManager.get(PLOT_ID)?.(chart)
 
   drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text, ticker)
-  paintDrawings(pngChart)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
   pngChart.ctx.fillStyle = chart.theme.bg

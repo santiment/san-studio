@@ -3,7 +3,7 @@ import type { Chart, Drawing } from '@/Chart/Drawer/drawer'
 import { withScroll } from 'webkit/ui/history'
 import { resetDrawingAbsoluteCoordinates } from '@/Chart/Drawer/coordinates'
 
-type Widget = Scrollable & { chart: Chart }
+type Widget = Scrollable & { chart: Chart; ChartDrawer: any }
 
 export function recordNewDrawing(
   History: History,
