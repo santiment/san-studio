@@ -1,24 +1,13 @@
 import type { Chart, Drawing } from './drawer'
 import type { Line } from './drawings/line'
 import { getEventCoordinates } from './utils'
-import { updateLine } from './drawings/line'
 import { absoluteToRatioCoordinates } from './coordinates'
-
-const LineLockType = {
-  FREE: 0,
-  X: 1,
-  Y: 2,
-} as const
-const getLineLockType = (x1: number, y1: number, x2: number, y2: number) =>
-  Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y
-
-export const newLine = (x: number, y: number) => ({
-  type: 'line',
-  absCoor: [x, y, x, y],
-  relCoor: [] as number[],
-  ratioCoor: [] as number[],
-  //color: Color.baliHai,
-})
+import {
+  LineLockType,
+  getLineLockType,
+  updateLine,
+  newLine,
+} from './drawings/line'
 
 export function newLineCreationHandler(
   chart: Chart,
@@ -67,5 +56,3 @@ export function newLineCreationHandler(
 
   return onMouseDown
 }
-
-export function handleLineCreation() {}

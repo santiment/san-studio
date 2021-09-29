@@ -1,5 +1,6 @@
-import type { Chart, Drawer, Drawing } from '../drawer'
+import type { Chart, Drawing } from '../drawer'
 import {
+  newDrawing,
   newRoundHandle,
   checkIsOnStrokeArea,
   getEventCoordinates,
@@ -12,6 +13,8 @@ export interface Line extends Drawing {
   absCoor: [number, number, number, number]
   /** [x1, y1, x2, y2] */
   relCoor: [number, number, number, number]
+  /** [x1, y1, x2, y2] */
+  ratioCoor: [number, number, number, number]
   handlers: [Path2D, Path2D]
   shape: Path2D
 }
@@ -22,27 +25,20 @@ export const HandleType = {
   MOVE: 3,
 } as const
 
-const LineLockType = {
+export const LineLockType = {
   FREE: 0,
   X: 1,
   Y: 2,
 } as const
 
-export const newDrawing = () => ({
-  absCoor: [],
-  relCoor: [],
-  handlers: [],
-  ratioCoor: [],
-})
-
-export const newLine = (x: number, y: number) =>
-  ({
+export function newLine(x: number, y: number) {
+  const line = {
     type: 'line',
     absCoor: [x, y, x, y],
-    ratioCoor: [],
-    relCoor: [],
-    //color: Color.baliHai,
-  } as Line)
+  } as Line
+
+  return newDrawing(line)
+}
 
 export function paintLine(chart: Chart, drawing: Line) {
   const { ctx } = chart.drawer

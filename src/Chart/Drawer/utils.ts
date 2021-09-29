@@ -1,3 +1,15 @@
+import type { Drawing } from './drawer'
+
+type NewDrawing = Partial<Drawing> & Pick<Drawing, 'type'>
+export function newDrawing<T extends NewDrawing>(drawing: T): T {
+  const { absCoor = [], relCoor = [], ratioCoor = [], handlers = [] } = drawing
+  drawing.absCoor = absCoor
+  drawing.relCoor = relCoor
+  drawing.ratioCoor = ratioCoor
+  drawing.handlers = handlers
+  return drawing
+}
+
 export function getEventCoordinates(e: MouseEvent): [number, number] {
   const { offsetX, offsetY, target } = e
   const { offsetLeft, offsetTop } = target as HTMLElement

@@ -22,6 +22,7 @@ export interface Drawing {
   ratioCoor: number[]
   /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
   relCoor: number[]
+  handlers: Path2D[]
 }
 
 export type Drawer = {

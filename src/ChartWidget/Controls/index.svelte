@@ -13,6 +13,7 @@
     recordDrawingModified,
   } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
+  import Emoji from './Emoji.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
@@ -85,9 +86,11 @@
     <Svg id="line" w="15" />
   </div>
 
-  {#if $ChartDrawer.selectedLine}
-    <div class="divider" />
+  <Emoji {chart} />
 
+  <div class="divider" />
+
+  {#if $ChartDrawer.selectedLine}
     <div class="btn delete" on:click={onLineDelete}>
       <Svg id="delete" w="16" />
     </div>

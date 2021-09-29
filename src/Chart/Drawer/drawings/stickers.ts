@@ -1,8 +1,27 @@
 import type { Chart, Drawing } from '../drawer'
-import { newRectHandle } from '../utils'
+import { newDrawing, newRectHandle } from '../utils'
 import rocket from './rocket.png'
+import fire from './rocket.png'
+import bear from './rocket.png'
+import stop from './rocket.png'
+import unicorn from './rocket.png'
+import bell from './rocket.png'
+import poo from './rocket.png'
+import rock from './rocket.png'
 
-export type StickerIds = 'rocket'
+const MIN_SIZE = 25
+const MAX_SIZE = 70
+
+export type StickerIds =
+  | 'rocket'
+  | 'fire'
+  | 'bear'
+  | 'stop'
+  | 'unicorn'
+  | 'bell'
+  | 'poo'
+  | 'rock'
+
 export interface Sticker extends Drawing {
   type: 'sticker'
   id: StickerIds
@@ -11,13 +30,31 @@ export interface Sticker extends Drawing {
   absCoor: [number, number]
   /** [x, y] */
   relCoor: [number, number]
+  /** [x, y] */
+  ratioCoor: [number, number]
   hitbox: Path2D
   handlers: [Path2D, Path2D, Path2D, Path2D]
 }
 
-const StickerSrc = {
+type NewSticker = Partial<
+  Pick<Sticker, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
+> & { id: StickerIds }
+export function newSticker(drawing: NewSticker) {
+  drawing.size = drawing.size || MAX_SIZE
+  const sticker = Object.assign(drawing, { type: 'sticker' }) as Sticker
+  return newDrawing(sticker)
+}
+
+const StickerSrc: Record<StickerIds, string> = {
   rocket,
-} as Record<StickerIds, string>
+  fire,
+  bear,
+  stop,
+  unicorn,
+  bell,
+  poo,
+  rock,
+}
 
 export const CachedSticker = new Map<
   StickerIds,
@@ -133,8 +170,6 @@ export function getStickerDragData(
   return data
 }
 
-const MIN_SIZE = 25
-const MAX_SIZE = 70
 export function stickerDragModifier(
   drawing: Sticker,
   initialAbsCoor: Sticker['absCoor'],
