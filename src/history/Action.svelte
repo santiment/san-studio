@@ -42,7 +42,7 @@
   div {
     position: fixed;
     bottom: 20px;
-    z-index: 27;
+    z-index: 101;
     left: 50%;
     transform: translateX(-50%);
     background: #505573;

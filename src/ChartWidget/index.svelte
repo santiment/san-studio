@@ -79,8 +79,8 @@
   {allTimeData}
   {MetricError}
   {loadings}
-  {isFullscreen}
   {isSingleWidget}
+  {isFullscreen}
   {deleteWidget}
   {metricsFilter}
   {fullscreenMetricsFilter}

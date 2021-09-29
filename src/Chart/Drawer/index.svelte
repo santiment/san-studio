@@ -1,145 +1,187 @@
+<svelte:options immutable />
+
 <script lang="ts">
-  import { newCanvas } from 'san-chart'
-  import {
-    paintDrawings,
-    paintDrawingAxes,
-    relativeToAbsoluteCoordinates,
-    absoluteToRelativeCoordinates,
-  } from './utils'
-  import {
-    handleLineCreation,
-    handleLineHover,
-    handleLineMouseDown,
-  } from './events'
-  import { getChartDrawer } from './context'
-  import { getChart } from '../context'
+  import type { Drawing } from './drawer'
   import { onDestroy } from 'svelte'
+  import { getChartDrawer } from './context'
+  import { newDrawer } from './drawer'
+  import { newMouseHoverHandler, getDrawingHoverPainter } from './hovered'
+  import {
+    newMouseSelectHandler,
+    newDrawingDeleteHandler,
+  } from './selectAndDrag'
+  import { newDrawingAxesPainter } from './axes'
+  import { newLineCreationHandler } from './newLine'
+  import { hook } from './utils'
+  import { getChart } from '../context'
+  import { clearCtx } from '../utils'
+
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
+  const drawer = newDrawer(chart, onSelectionChange)
+  const { redraw } = drawer
+  const clear = () => clearCtx(chart, drawer.ctx)
+
+  const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
+  const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
+  const lineCreationHandler = newLineCreationHandler(
+    chart,
+    onNewDrawingStart,
+    onNewDrawingEnd,
+  )
+  const drawingSelectHandler = newMouseSelectHandler(chart, {
+    selectDrawing,
+    startDrawing,
+    stopDrawing,
+    onDrawingDragEnd,
+  })
+  const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
   export let metricKey: string
-  export let axesMetricKeys: string[]
 
-  const { canvas, plotManager } = chart
-  const drawer = newCanvas(chart)
-  const { parentNode, nextElementSibling } = canvas
+  let isNewDrawing = false
 
-  parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
-  drawer.onLineHover = handleLineHover(chart)
-  drawer.onLineMouseDown = handleLineMouseDown(
-    chart,
-    selectLine,
-    setIsDrawing,
-    setDrawings,
-  )
-  drawer.redraw = redraw
-  drawer.recalcAbsCoor = recalcAbsCoor
-  drawer.dispatch = ChartDrawer.dispatch
-  drawer.deleteDrawing = deleteDrawing
-  drawer.deleteDrawingWithDispatch = deleteDrawingWithDispatch
+  drawer.drawings = $ChartDrawer.drawings
   drawer.addDrawing = addDrawing
-  chart.drawer = drawer
-  plotManager.set('Drawer', drawer.recalcAbsCoor)
+  drawer.deleteDrawing = deleteDrawing
 
-  $: ({ drawings } = $ChartDrawer)
-  $: drawer.drawings = drawings
-  $: axesMetricKeys && recalcAbsCoor()
-  $: chart.drawingKey = metricKey
-  $: ({ isNewDrawing } = $ChartDrawer)
-  $: recalcRelCoor(metricKey)
+  $: drawer.metricKey = metricKey
   $: cleanup = hookDrawer(isNewDrawing)
 
-  function redraw() {
-    paintDrawings(chart)
-    paintDrawingAxes(chart)
-  }
+  const unsubscribeStore = ChartDrawer.subscribe((store) => {
+    drawer.drawings = store.drawings
+    isNewDrawing = store.isNewDrawing
 
-  function selectLine(line) {
-    $ChartDrawer.selectedLine = line
-  }
+    const { isHidden, selectedLine } = store
+    if (drawer.selected !== selectedLine) onSelectionChange(selectedLine)
 
-  function setIsDrawing(value: boolean) {
-    chart.isDrawing = value
-    $ChartDrawer.isDrawing = value
-  }
+    const redrawer = isHidden ? clear : redraw
+    if (drawer.redraw !== redrawer) {
+      drawer.redraw = redrawer
 
-  function setIsNewDrawing(value: boolean) {
-    if ($ChartDrawer.isNewDrawing === value) return
-    $ChartDrawer.isNewDrawing = value
-  }
-
-  function setDrawings(drawings: any[]) {
-    $ChartDrawer.drawings = drawings
-  }
-
-  function recalcAbsCoor() {
-    if (!chart.minMaxes || !chart.minMaxes[metricKey]) return
-
-    drawer.drawings.forEach((drawing) => {
-      if (drawing.relCoor) {
-        drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
-      }
-    })
-    drawer.redraw()
-  }
-
-  function recalcRelCoor(metricKey: string) {
-    if (!chart.minMaxes || !chart.minMaxes[metricKey]) return
-
-    drawer.drawings.forEach((drawing) => {
-      if (drawing.relCoor) {
-        drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-      }
-    })
-    drawer.redraw()
-  }
-
-  function hookDrawer(isNewDrawing: boolean) {
-    if (cleanup) cleanup()
-    const parent = chart.canvas.parentNode
-    const { onLineHover, onLineMouseDown } = chart.drawer
-
-    if (isNewDrawing) {
-      return handleLineCreation(
-        chart,
-        selectLine,
-        setIsDrawing,
-        setIsNewDrawing,
-        setDrawings,
-      )
+      if (isHidden) cleanup?.()
+      else cleanup = hookDrawer(false)
     }
+  })
 
-    parent.addEventListener('mousemove', onLineHover)
-    parent.addEventListener('mousedown', onLineMouseDown)
-    return () => {
-      parent.removeEventListener('mousemove', onLineHover)
-      parent.removeEventListener('mousedown', onLineMouseDown)
-    }
+  function addDrawing(drawing: Drawing) {
+    ChartDrawer.addDrawing(drawing)
+    ChartDrawer.dispatch({
+      type: 'new line',
+      data: drawing,
+    })
   }
 
-  function addDrawing(drawing) {
-    drawer.drawings.push(drawing)
-    setDrawings(drawer.drawings)
-  }
-
-  function deleteDrawing(drawing) {
-    drawer.selected = null
-    drawer.drawings = drawer.drawings.filter((d) => d !== drawing)
-    setDrawings(drawer.drawings)
-    selectLine()
-    setIsDrawing(false)
-    drawer.redraw()
-  }
-  function deleteDrawingWithDispatch(drawing) {
-    deleteDrawing(drawing)
-    drawer.dispatch({
+  function deleteDrawing(drawing: Drawing) {
+    ChartDrawer.deleteDrawing(drawing)
+    ChartDrawer.dispatch({
       type: 'delete',
       data: drawing,
     })
   }
 
+  function onDrawingDragEnd(
+    drawing: Drawing,
+    oldAbsCoor: Drawing['absCoor'],
+    data: any[],
+  ) {
+    ChartDrawer.dispatch({
+      type: 'modified',
+      data: { drawing, oldAbsCoor, data },
+    })
+  }
+
+  const setIsDrawing = (value: boolean) =>
+    ChartDrawer.setIsDrawing((chart.isDrawing = value))
+  function startDrawing() {
+    setIsDrawing(true)
+  }
+  function stopDrawing() {
+    setIsDrawing(false)
+  }
+
+  function setHovered(drawing?: any) {
+    if (drawer.hovered !== drawing) updateCursor(drawing && 'pointer')
+    drawer.hovered = drawing
+  }
+  function updateCursor(cursor?: string) {
+    const { canvas } = chart.tooltip || chart
+    canvas.style.cursor = cursor || 'initial'
+  }
+
+  function selectDrawing(drawing?: Drawing) {
+    if (drawer.selected === drawing) return
+    ChartDrawer.selectDrawing(drawing)
+    onSelectionChange(drawing)
+  }
+  function onSelectionChange(drawing?: Drawing) {
+    if (drawer.selected === drawing) return
+    drawer.selected = drawing
+
+    if (drawing) {
+      const hoverPainter = getDrawingHoverPainter(drawing)
+      if (!hoverPainter) return
+      const { minMax } = drawer
+      if (!minMax) return
+
+      const drawingAxesPainter = newDrawingAxesPainter(chart, drawing)
+      drawer.drawSelection = () => {
+        hoverPainter(chart, drawing)
+        drawingAxesPainter()
+      }
+
+      window.addEventListener('keydown', drawingDeleteHandler)
+    } else {
+      drawer.drawSelection = undefined
+      window.removeEventListener('keydown', drawingDeleteHandler)
+    }
+  }
+
+  function onNewDrawingStart(drawing: Drawing) {
+    ChartDrawer.addDrawing(drawing)
+    selectDrawing(drawing)
+    startDrawing()
+  }
+
+  function onNewDrawingEnd(drawing: Drawing) {
+    stopDrawing()
+    ChartDrawer.dispatch({
+      type: 'new line',
+      data: drawing,
+    })
+  }
+
+  function hookDrawer(isNewDrawing: boolean) {
+    if (cleanup) cleanup()
+    const parent = chart.canvas.parentNode as HTMLElement
+
+    if (isNewDrawing) {
+      return hook(parent, 'mousedown', lineCreationHandler)
+    }
+
+    const removeDrawingHoverHandler = hook(
+      parent,
+      'mousemove',
+      drawingHoverHandler,
+    )
+    const removeDrawingSelectHandler = hook(
+      parent,
+      'mousedown',
+      drawingSelectHandler,
+    )
+
+    return () => {
+      removeDrawingHoverHandler()
+      removeDrawingSelectHandler()
+    }
+  }
+
   onDestroy(() => {
-    plotManager.delete('Drawer')
+    unsubscribeStore()
+    cleanup()
+    window.removeEventListener('keydown', drawingDeleteHandler)
+    deleteDrawer()
+    chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
     delete chart.drawer
   })

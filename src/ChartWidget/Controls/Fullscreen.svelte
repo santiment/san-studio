@@ -10,12 +10,14 @@
   const closeFullscreen = getContext('fullscreen')
 
   export let fullscreenMetricsFilter = undefined
+  export let isFullscreened: boolean
 
   function onFullscreen() {
+    isFullscreened = true
     showFullscreenChart({
       widget,
       fullscreenMetricsFilter,
-    })
+    }).then(() => (isFullscreened = false))
     track.event(Event.Fullscreen)
   }
 </script>

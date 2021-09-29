@@ -1,11 +1,6 @@
+import type { Drawing } from './drawer'
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
-
-export type Drawing = {
-  color: string
-  absCoor: [number, number, number, number]
-  relCoor: [number, number, number, number]
-}
 
 export type Drawer = {
   isDrawing: boolean
@@ -19,6 +14,7 @@ const DRAWER = {
   isDrawing: false,
   isNewDrawing: false,
   selectedLine: undefined,
+  isHidden: false,
 }
 
 const CONTEXT = 'chartDrawer'
@@ -27,16 +23,53 @@ export const setChartDrawer = (chart: ChartDrawerStore): void =>
 export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 
 export function newChartDrawerStore(defaultValue?: Drawing[]) {
-  const controller = Object.assign({ drawings: defaultValue || [] }, DRAWER)
-  const { subscribe, set } = writable<Drawer>(controller)
+  const store = Object.assign({ drawings: defaultValue || [] }, DRAWER)
+  const { subscribe, set } = writable<any>(store)
   const subscribers = new Set<any>()
+  const drawers = new Set<any>()
+  const redrawDrawers = () => drawers.forEach((drawer) => drawer.redraw())
 
-  const store = {
+  return {
     subscribe,
     set,
+    redrawDrawers,
+    addDrawer(drawer) {
+      drawers.add(drawer)
+      return () => drawers.delete(drawer)
+    },
+    addDrawing(drawing) {
+      store.drawings.push(drawing)
+      set(store)
+      redrawDrawers()
+    },
+    deleteDrawing(drawing) {
+      if (store.selectedLine === drawing) store.selectedLine = undefined
+      const index = store.drawings.indexOf(drawing)
+      if (index === -1) return
+
+      store.drawings.splice(index, 1)
+      set(store)
+      redrawDrawers()
+    },
+    selectDrawing(drawing) {
+      store.selectedLine = drawing
+      set(store)
+    },
     toggleNewDrawing() {
-      controller.isNewDrawing = !controller.isNewDrawing
-      set(controller)
+      store.isNewDrawing = !store.isNewDrawing
+      set(store)
+    },
+    setIsDrawing(isDrawing: boolean) {
+      store.isDrawing = isDrawing
+      if (isDrawing === false) store.isNewDrawing = false
+      set(store)
+    },
+    toggleVisibility(value: boolean) {
+      store.isHidden = value
+      store.selectedLine = undefined
+
+      set(store)
+      redrawDrawers()
     },
     dispatch(event: any) {
       subscribers.forEach((subscriber) => subscriber(event))
@@ -46,5 +79,4 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       return () => subscribers.delete(subscriber)
     },
   }
-  return store
 }

@@ -1,6 +1,6 @@
 import { setContext, getContext } from 'svelte'
 import { get, writable } from 'svelte/store'
-import type { Drawing } from '@/Chart/Drawer/context'
+import type { Drawing } from '@/Chart/Drawer/drawer'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { newMetricSignalsStore, newSignalsTimeseriesStore } from './signals'

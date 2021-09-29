@@ -13,7 +13,9 @@ export const Event = {
   Scale: 'charts_scale',
   Download: 'charts_download',
 
+  DrawingsVisibility: 'charts_drawings_visibility',
   NewDrawing: 'charts_new_drawing',
+  ShowEmojis: 'charts_show_emojis',
 
   AddMetric: 'charts_add_metric',
   AddMetrics: 'charts_add_metrics',

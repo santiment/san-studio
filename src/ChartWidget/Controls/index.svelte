@@ -1,14 +1,20 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
+  import {
+    recordNewDrawing,
+    recordDeleteDrawing,
+    recordDrawingModified,
+  } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
-  import { absoluteToRelativeCoordinates } from '@/Chart/Drawer/utils'
+  import Emoji from './Emoji.svelte'
+  import DrawingsVisibility from './DrawingsVisibility.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
@@ -25,6 +31,8 @@
   export let isSingleWidget: boolean
   export let deleteWidget
   export let fullscreenMetricsFilter
+  export let isFullscreen: boolean // Is in fullscreen dialog
+  export let isFullscreened: boolean // Was fullscreen triggered?
 
   let onDownload
 
@@ -35,64 +43,41 @@
   }
 
   function onNewLine() {
-    if ($ChartDrawer.isNewDrawing === false) track.event(Event.NewDrawing)
+    if ($ChartDrawer.isNewDrawing === false) {
+      track.event(Event.NewDrawing, { type: 'line' })
+    }
 
     ChartDrawer.toggleNewDrawing()
   }
 
   function onLineDelete() {
-    const { drawer } = chart
     const { selectedLine } = $ChartDrawer
-    drawer.deleteDrawingWithDispatch(selectedLine)
+    chart.drawer.deleteDrawing(selectedLine)
   }
 
   function onDrawingEnd() {
     $globals.isNewDrawing = false
   }
 
-  onDestroy(
-    ChartDrawer.onDispatch((event) => {
-      if (!event) return
-      const { chart } = widget
-      const { type, data } = event
+  const removeDrawerDispatchListener = isFullscreen
+    ? undefined
+    : ChartDrawer.onDispatch((event) => {
+        if (!event) return
+        const { type, data } = event
 
-      if (type === 'new line') {
-        const absCoor = data.absCoor.slice()
-        History.add(
-          'New drawing',
-          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
-          withScroll(widget, () => {
-            chart.drawer.addDrawing(data)
-            recalc(data, absCoor)
-          }),
-        )
-      } else if (type === 'delete') {
-        History.add(
-          'Delete drawing',
-          withScroll(widget, () => {
-            chart.drawer.addDrawing(data)
-            recalc(data)
-          }),
-          withScroll(widget, () => chart.drawer.deleteDrawing(data)),
-        )
-      } else if (type === 'modified') {
-        const { drawing, oldAbsCoor } = data
-        const newAbsCoor = drawing.absCoor.slice()
+        if (type === 'new line') {
+          recordNewDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'delete') {
+          recordDeleteDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'modified') {
+          const { drawing, oldAbsCoor } = data
+          recordDrawingModified(History, widget, drawing, oldAbsCoor, data.data)
+        }
+      })
 
-        History.add(
-          'Drawing modified',
-          withScroll(widget, () => recalc(drawing, oldAbsCoor)),
-          withScroll(widget, () => recalc(drawing, newAbsCoor)),
-        )
-      }
-
-      function recalc(drawing, coor = drawing.absCoor) {
-        drawing.absCoor = coor
-        drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-        chart.drawer.redraw()
-      }
-    }),
-  )
+  onDestroy(() => {
+    removeDrawerDispatchListener?.()
+  })
 </script>
 
 <div class="row controls v-center mrg-s mrg--b">
@@ -100,13 +85,17 @@
     class="btn expl-tooltip"
     title="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing}
+    class:disabled={$ChartDrawer.isHidden}
     on:click={onNewLine}>
     <Svg id="line" w="15" />
   </div>
 
-  {#if $ChartDrawer.selectedLine}
-    <div class="divider" />
+  <Emoji {chart} {ChartDrawer} />
 
+  <div class="divider" />
+  <DrawingsVisibility {widget} {ChartDrawer} />
+
+  {#if $ChartDrawer.selectedLine}
     <div class="btn delete" on:click={onLineDelete}>
       <Svg id="delete" w="16" />
     </div>
@@ -136,7 +125,7 @@
 
     <OptionsMenu
       bind:onDownload
-      activeClass="$style._active"
+      activeClass="controls-btn_active"
       {isSingleWidget}
       {deleteWidget}>
       <div class="btn">
@@ -144,7 +133,7 @@
       </div>
     </OptionsMenu>
 
-    <Fullscreen {fullscreenMetricsFilter} />
+    <Fullscreen {fullscreenMetricsFilter} bind:isFullscreened />
   {/if}
 </div>
 
@@ -160,8 +149,14 @@
     align-items: center;
   }
 
-  .active,
-  ._active {
+  :global(.controls-btn.disabled),
+  .disabled {
+    --fill: var(--porcelain);
+    --bg: var(--white) !important;
+  }
+
+  :global(.btn.controls-btn_active),
+  .active {
     --fill: var(--green) !important;
     --bg: var(--green-light-1);
   }
@@ -179,9 +174,11 @@
     color: var(--black);
   }
 
+  :global(.controls-expl),
   .expl-tooltip {
     position: relative;
   }
+  :global(.controls-expl::before),
   .expl-tooltip::before {
     z-index: 24;
   }

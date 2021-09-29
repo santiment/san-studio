@@ -37,6 +37,9 @@ export function newPlotManager() {
     delete(id: string) {
       this.items.set(id, noop)
     },
+    get(id: string): null | Plotter {
+      return this.items.get(id)
+    },
     set(id: string, clb: Plotter) {
       this.items.set(id, clb)
     },
