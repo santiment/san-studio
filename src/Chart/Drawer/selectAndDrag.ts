@@ -94,7 +94,7 @@ function newDrawingDragHandler(
   drawing: Drawing,
   [startX, startY]: [number, number],
   dpr: number,
-  wasDragged: { value: boolean },
+  wasDragged: { value: boolean; data: any[] },
 ) {
   const { drawer, width, height } = chart
   const { type } = drawing
