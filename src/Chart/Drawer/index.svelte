@@ -68,10 +68,14 @@
     })
   }
 
-  function onDrawingDragEnd(drawing: Drawing, oldAbsCoor: Drawing['absCoor']) {
+  function onDrawingDragEnd(
+    drawing: Drawing,
+    oldAbsCoor: Drawing['absCoor'],
+    data: any[],
+  ) {
     ChartDrawer.dispatch({
       type: 'modified',
-      data: { drawing, oldAbsCoor },
+      data: { drawing, oldAbsCoor, data },
     })
   }
 

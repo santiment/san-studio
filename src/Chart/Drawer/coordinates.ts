@@ -13,17 +13,30 @@ function newDatetimeRelativeScaler(chart: Chart): Scaler {
   return (x: number) => Math.round(factor * (x - left)) + firstDatetime
 }
 
+type Resetter = (drawing: Drawing) => any
+const newCoordinatesResetter = (resetter: Resetter) => (drawer: Drawer) =>
+  drawer.drawings.forEach(resetter)
+
+export const resetDrawingRatioCoordinates = ({ ratioCoor, relCoor }) =>
+  relCoor.length && (ratioCoor.length = 0)
+export const resetRatioCoordinates = newCoordinatesResetter(
+  resetDrawingRatioCoordinates,
+)
+
 export const resetDrawingRelativeCoordinates = ({ ratioCoor, relCoor }) =>
   ratioCoor.length && (relCoor.length = 0)
-export const resetRelativeCoordinates = (drawer: Drawer) =>
-  drawer.drawings.forEach(resetDrawingRelativeCoordinates)
+export const resetRelativeCoordinates = newCoordinatesResetter(
+  resetDrawingRelativeCoordinates,
+)
 
 export const resetDrawingAbsoluteCoordinates = ({
   absCoor,
+  relCoor,
   ratioCoor,
-}: Drawing) => ratioCoor.length && (absCoor.length = 0)
-export const resetAbsoluteCoordinates = (drawer: Drawer) =>
-  drawer.drawings.forEach(resetDrawingAbsoluteCoordinates)
+}: Drawing) => (relCoor.length || ratioCoor.length) && (absCoor.length = 0)
+export const resetAbsoluteCoordinates = newCoordinatesResetter(
+  resetDrawingAbsoluteCoordinates,
+)
 
 export function correctAbsoluteCoordinatesRatio(
   { drawings }: Drawer,

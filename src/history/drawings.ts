@@ -42,10 +42,18 @@ export function recordDrawingModified(
   widget: Widget,
   drawing: Drawing,
   oldRatioCoor: Drawing['absCoor'],
+  data: any[],
 ) {
   const newRatioCoor = drawing.ratioCoor.slice()
+  let oldSize = drawing.type === 'sticker' ? data[0] : undefined
 
   function reset(ratioCoor: Drawing['absCoor']) {
+    if (drawing.type === 'sticker') {
+      const sticker = drawing as any
+      const { size } = sticker
+      sticker.size = oldSize
+      oldSize = size
+    }
     applyCoordinates(drawing.ratioCoor, ratioCoor)
     resetDrawingAbsoluteCoordinates(drawing)
     widget.ChartDrawer.redrawDrawers()

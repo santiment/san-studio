@@ -22,28 +22,7 @@ export const setChartDrawer = (chart: ChartDrawerStore): void =>
 export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 
 export function newChartDrawerStore(defaultValue?: Drawing[]) {
-  const store = Object.assign(
-    {
-      drawings: defaultValue || [
-        {
-          type: 'line',
-          absCoor: [],
-          ratioCoor: [],
-          relCoor: [1625081445421, 2000, 1629881445421, 2500],
-        },
-
-        {
-          type: 'sticker',
-          id: 'rocket',
-          size: 50,
-          absCoor: [],
-          ratioCoor: [],
-          relCoor: [1629881445421, 3000],
-        },
-      ],
-    },
-    DRAWER,
-  )
+  const store = Object.assign({ drawings: defaultValue || [] }, DRAWER)
   const { subscribe, set } = writable<any>(store)
   const subscribers = new Set<any>()
   const drawers = new Set<any>()

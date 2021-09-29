@@ -9,7 +9,11 @@ type Controller = {
   selectDrawing: (drawing?: Drawing) => void
   startDrawing: () => void
   stopDrawing: () => void
-  onDrawingDragEnd: (drawing: Drawing, oldAbsCoor: Drawing['absCoor']) => void
+  onDrawingDragEnd: (
+    drawing: Drawing,
+    oldAbsCoor: Drawing['absCoor'],
+    data: any[],
+  ) => void
 }
 
 export function newMouseSelectHandler(chart: Chart, controller: Controller) {
@@ -33,7 +37,7 @@ export function newMouseSelectHandler(chart: Chart, controller: Controller) {
     else drawer.drawSelection?.()
 
     const initialRatioCoor = hovered.ratioCoor.slice()
-    const wasDragged = { value: false }
+    const wasDragged = { value: false, data: [] as any[] }
     const onDrawingDrag = newDrawingDragHandler(
       chart,
       hovered as any,
@@ -49,7 +53,11 @@ export function newMouseSelectHandler(chart: Chart, controller: Controller) {
       parent.removeEventListener('mouseup', onMouseUp)
       controller.stopDrawing()
       if (wasDragged.value) {
-        controller.onDrawingDragEnd(hovered as Drawing, initialRatioCoor)
+        controller.onDrawingDragEnd(
+          hovered as Drawing,
+          initialRatioCoor,
+          wasDragged.data,
+        )
       }
     }
   }
@@ -114,6 +122,7 @@ function newDrawingDragHandler(
     updater(drawer, drawing)
 
     wasDragged.value = true
+    wasDragged.data = dragData
     drawer.redraw()
   }
 }

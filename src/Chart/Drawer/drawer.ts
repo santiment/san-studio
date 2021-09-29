@@ -1,6 +1,8 @@
 import { newCanvas } from 'san-chart'
 import { paintDrawings } from './drawings'
 import {
+  resetRatioCoordinates,
+  resetRelativeCoordinates,
   resetAbsoluteCoordinates,
   setupDrawingsCoordinatesUpdater,
 } from './coordinates'
@@ -94,13 +96,22 @@ function newDrawerUpdater(
     const minMax = minMaxes[drawer.metricKey]
     if (!minMax) return
 
+    if (oldMetricKey !== drawer.metricKey) {
+      oldMetricKey = drawer.metricKey
+      resetRelativeCoordinates(drawer)
+    }
+
     const { min, max } = minMax
     const oldMinMax = drawer.minMax
     const isNewMinMax =
       Number.isFinite(min) &&
       Number.isFinite(max) &&
       (!oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max)
-    if (isNewMinMax) drawer.minMax = minMax
+
+    if (isNewMinMax) {
+      drawer.minMax = minMax
+      resetRatioCoordinates(drawer)
+    }
 
     if (!oldMinMax && minMax && drawer.selected && !drawer.drawSelection) {
       const { selected } = drawer
@@ -113,10 +124,6 @@ function newDrawerUpdater(
     if (isNewDimensions) {
       oldWidthHeight[0] = width
       oldWidthHeight[1] = height
-    }
-
-    if (oldMetricKey !== drawer.metricKey) {
-      oldMetricKey = drawer.metricKey
     }
 
     if (isNewMinMax || isNewDimensions) {

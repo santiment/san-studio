@@ -68,7 +68,7 @@
           recordDeleteDrawing(History, ChartDrawer, widget, data)
         } else if (type === 'modified') {
           const { drawing, oldAbsCoor } = data
-          recordDrawingModified(History, widget, drawing, oldAbsCoor)
+          recordDrawingModified(History, widget, drawing, oldAbsCoor, data.data)
         }
       })
 
