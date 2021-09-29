@@ -21,7 +21,6 @@
 
   export let metricKey: string
 
-  let selected: Drawing | undefined
   let isNewDrawing = false
 
   const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
@@ -43,13 +42,14 @@
   drawer.addDrawing = addDrawing
   drawer.deleteDrawing = deleteDrawing
 
-  $: onSelectionChange(selected)
   $: drawer.metricKey = metricKey
   $: cleanup = hookDrawer(isNewDrawing)
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
-    selected = store.selectedLine
     isNewDrawing = store.isNewDrawing
+
+    const { selectedLine } = store
+    if (drawer.selected !== selectedLine) onSelectionChange(selectedLine)
   })
 
   function addDrawing(drawing: Drawing) {
@@ -163,6 +163,7 @@
   onDestroy(() => {
     unsubscribeStore()
     cleanup()
+    window.removeEventListener('keydown', drawingDeleteHandler)
     deleteDrawer()
     chart.plotManager.delete('Drawer')
     drawer.canvas.remove()
