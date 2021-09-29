@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { StickerIds } from '@/Chart/Drawer/drawings/stickers'
+  import { track } from 'webkit/analytics'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { Event } from '@/analytics'
   import { StickerSrc, newSticker } from '@/Chart/Drawer/drawings/stickers'
 
   const random = (max: number, min: number) => Math.random() * (max - min) + min
@@ -10,20 +12,28 @@
   export let chart
   export let ChartDrawer
 
+  let isOpened
+
+  $: if (isOpened) track.event(Event.ShowEmojis)
+
   function onClick(e: MouseEvent) {
     const img = e.currentTarget as HTMLImageElement
+    const id = img.alt as StickerIds
     const xOffset = random(-0.01, 0.01)
     const yOffset = random(-0.06, 0.06)
+
     chart.drawer.addDrawing(
       newSticker({
-        id: img.alt as StickerIds,
+        id,
         ratioCoor: [0.06 + xOffset, 0.3 + yOffset],
       }),
     )
+    track.event(Event.NewDrawing, { type: 'emoji', id })
   }
 </script>
 
 <Tooltip
+  bind:isOpened
   on="click"
   duration={0}
   align="center"

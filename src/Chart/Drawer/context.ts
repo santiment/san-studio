@@ -64,8 +64,8 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       if (isDrawing === false) store.isNewDrawing = false
       set(store)
     },
-    toggleVisibility() {
-      store.isHidden = !store.isHidden
+    toggleVisibility(value: boolean) {
+      store.isHidden = value
       store.selectedLine = undefined
 
       set(store)

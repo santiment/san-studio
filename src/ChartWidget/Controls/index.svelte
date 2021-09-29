@@ -43,7 +43,9 @@
   }
 
   function onNewLine() {
-    if ($ChartDrawer.isNewDrawing === false) track.event(Event.NewDrawing)
+    if ($ChartDrawer.isNewDrawing === false) {
+      track.event(Event.NewDrawing, { type: 'line' })
+    }
 
     ChartDrawer.toggleNewDrawing()
   }
@@ -91,7 +93,7 @@
   <Emoji {chart} {ChartDrawer} />
 
   <div class="divider" />
-  <DrawingsVisibility {ChartDrawer} />
+  <DrawingsVisibility {widget} {ChartDrawer} />
 
   {#if $ChartDrawer.selectedLine}
     <div class="btn delete" on:click={onLineDelete}>

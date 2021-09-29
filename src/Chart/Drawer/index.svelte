@@ -59,7 +59,7 @@
     if (drawer.redraw !== redrawer) {
       drawer.redraw = redrawer
 
-      if (isHidden) cleanup()
+      if (isHidden) cleanup?.()
       else cleanup = hookDrawer(false)
     }
   })

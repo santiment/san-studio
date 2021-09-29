@@ -74,3 +74,15 @@ function applyCoordinates(
     coordinates[i] = newCoordinates[i]
   }
 }
+
+export function recordDrawingVisibility(
+  History: History,
+  widget: Widget,
+  isHidden: boolean,
+) {
+  History.add(
+    isHidden ? 'Hide drawings' : 'Show drawings',
+    withScroll(widget, () => widget.ChartDrawer.toggleVisibility(!isHidden)),
+    withScroll(widget, () => widget.ChartDrawer.toggleVisibility(isHidden)),
+  )
+}
