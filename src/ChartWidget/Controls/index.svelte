@@ -14,6 +14,7 @@
   } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
   import Emoji from './Emoji.svelte'
+  import DrawingsVisibility from './DrawingsVisibility.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
@@ -82,13 +83,15 @@
     class="btn expl-tooltip"
     title="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing}
+    class:disabled={$ChartDrawer.isHidden}
     on:click={onNewLine}>
     <Svg id="line" w="15" />
   </div>
 
-  <Emoji {chart} />
+  <Emoji {chart} {ChartDrawer} />
 
   <div class="divider" />
+  <DrawingsVisibility {ChartDrawer} />
 
   {#if $ChartDrawer.selectedLine}
     <div class="btn delete" on:click={onLineDelete}>
@@ -120,7 +123,7 @@
 
     <OptionsMenu
       bind:onDownload
-      activeClass="$style._active"
+      activeClass="controls-btn_active"
       {isSingleWidget}
       {deleteWidget}>
       <div class="btn">
@@ -144,8 +147,14 @@
     align-items: center;
   }
 
-  .active,
-  ._active {
+  :global(.controls-btn.disabled),
+  .disabled {
+    --fill: var(--porcelain);
+    --bg: var(--white) !important;
+  }
+
+  :global(.btn.controls-btn_active),
+  .active {
     --fill: var(--green) !important;
     --bg: var(--green-light-1);
   }
@@ -163,9 +172,11 @@
     color: var(--black);
   }
 
+  :global(.controls-expl),
   .expl-tooltip {
     position: relative;
   }
+  :global(.controls-expl::before),
   .expl-tooltip::before {
     z-index: 24;
   }

@@ -14,6 +14,7 @@ const DRAWER = {
   isDrawing: false,
   isNewDrawing: false,
   selectedLine: undefined,
+  isHidden: false,
 }
 
 const CONTEXT = 'chartDrawer'
@@ -62,6 +63,13 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
       store.isDrawing = isDrawing
       if (isDrawing === false) store.isNewDrawing = false
       set(store)
+    },
+    toggleVisibility() {
+      store.isHidden = !store.isHidden
+      store.selectedLine = undefined
+
+      set(store)
+      redrawDrawers()
     },
     dispatch(event: any) {
       subscribers.forEach((subscriber) => subscriber(event))

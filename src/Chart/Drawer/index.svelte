@@ -14,14 +14,13 @@
   import { newLineCreationHandler } from './newLine'
   import { hook } from './utils'
   import { getChart } from '../context'
+  import { clearCtx } from '../utils'
 
   const chart = getChart()
   const ChartDrawer = getChartDrawer()
   const drawer = newDrawer(chart, onSelectionChange)
-
-  export let metricKey: string
-
-  let isNewDrawing = false
+  const { redraw } = drawer
+  const clear = () => clearCtx(chart, drawer.ctx)
 
   const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
   const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
@@ -38,6 +37,10 @@
   })
   const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
+  export let metricKey: string
+
+  let isNewDrawing = false
+
   drawer.drawings = $ChartDrawer.drawings
   drawer.addDrawing = addDrawing
   drawer.deleteDrawing = deleteDrawing
@@ -46,10 +49,19 @@
   $: cleanup = hookDrawer(isNewDrawing)
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
+    drawer.drawings = store.drawings
     isNewDrawing = store.isNewDrawing
 
-    const { selectedLine } = store
+    const { isHidden, selectedLine } = store
     if (drawer.selected !== selectedLine) onSelectionChange(selectedLine)
+
+    const redrawer = isHidden ? clear : redraw
+    if (drawer.redraw !== redrawer) {
+      drawer.redraw = redrawer
+
+      if (isHidden) cleanup()
+      else cleanup = hookDrawer(false)
+    }
   })
 
   function addDrawing(drawing: Drawing) {

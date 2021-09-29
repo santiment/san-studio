@@ -8,6 +8,7 @@
   const EMOJIS: [StickerIds, string][] = Object.entries(StickerSrc)
 
   export let chart
+  export let ChartDrawer
 
   function onClick(e: MouseEvent) {
     const img = e.currentTarget as HTMLImageElement
@@ -27,8 +28,11 @@
   duration={0}
   align="center"
   class="$style.Tooltip"
-  activeClass="$style.active">
-  <div slot="trigger" class="controls-btn btn">
+  activeClass="controls-btn_active">
+  <div
+    slot="trigger"
+    class="controls-btn btn"
+    class:disabled={$ChartDrawer.isHidden}>
     <Svg id="smile" w="16" />
   </div>
 
@@ -54,10 +58,5 @@
   .emoji {
     width: 32px;
     height: 32px;
-  }
-
-  .active {
-    --fill: var(--green) !important;
-    --bg: var(--green-light-1);
   }
 </style>
