@@ -109,10 +109,7 @@ function newDrawerUpdater(
       Number.isFinite(max) &&
       (!oldMinMax || min !== oldMinMax.min || max !== oldMinMax.max)
 
-    if (isNewMinMax) {
-      drawer.minMax = minMax
-      resetRatioCoordinates(drawer)
-    }
+    if (isNewMinMax) drawer.minMax = minMax
 
     if (!oldMinMax && minMax && drawer.selected && !drawer.drawSelection) {
       const { selected } = drawer
@@ -129,6 +126,7 @@ function newDrawerUpdater(
 
     if (isNewMinMax || isNewDimensions) {
       setupDrawingsCoordinatesUpdater(chart, minMax)
+      resetRatioCoordinates(drawer)
       resetAbsoluteCoordinates(drawer)
     }
 
