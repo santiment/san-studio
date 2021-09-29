@@ -26,7 +26,7 @@ export function checkIsHovered(
   const { dpr } = chart
   const { ctx, drawings } = chart.drawer
 
-  for (let i = 0, len = drawings.length; i < len; i++) {
+  for (let i = drawings.length - 1; i > -1; i--) {
     const drawing = drawings[i]
     const checker = DrawingIsHoveredChecker[drawing.type]
     if (checker?.(ctx, drawing, mouseXY, dpr, e)) return drawing

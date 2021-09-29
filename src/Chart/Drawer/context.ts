@@ -44,7 +44,7 @@ export function newChartDrawerStore(defaultValue?: Drawing[]) {
     },
     DRAWER,
   )
-  const { subscribe, set } = writable<Drawer>(store)
+  const { subscribe, set } = writable<any>(store)
   const subscribers = new Set<any>()
   const drawers = new Set<any>()
   const redrawDrawers = () => drawers.forEach((drawer) => drawer.redraw())

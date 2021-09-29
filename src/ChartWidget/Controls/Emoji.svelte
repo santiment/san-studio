@@ -2,28 +2,21 @@
   import type { StickerIds } from '@/Chart/Drawer/drawings/stickers'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
-  import { newSticker } from '@/Chart/Drawer/drawings/stickers'
-  import rocket from '@/Chart/Drawer/drawings/rocket.png'
+  import { StickerSrc, newSticker } from '@/Chart/Drawer/drawings/stickers'
 
-  const EMOJIS: [StickerIds, string][] = [
-    ['rocket', rocket],
-    ['fire', rocket],
-    ['bear', rocket],
-    ['stop', rocket],
-    ['unicorn', rocket],
-    ['bell', rocket],
-    ['poo', rocket],
-    ['rock', rocket],
-  ]
+  const random = (max: number, min: number) => Math.random() * (max - min) + min
+  const EMOJIS: [StickerIds, string][] = Object.entries(StickerSrc)
 
   export let chart
 
   function onClick(e: MouseEvent) {
     const img = e.currentTarget as HTMLImageElement
+    const xOffset = random(-0.01, 0.01)
+    const yOffset = random(-0.06, 0.06)
     chart.drawer.addDrawing(
       newSticker({
         id: img.alt as StickerIds,
-        ratioCoor: [0.06, 0.3],
+        ratioCoor: [0.06 + xOffset, 0.3 + yOffset],
       }),
     )
   }

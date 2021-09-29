@@ -1,13 +1,13 @@
-import type { Chart, Drawing } from '../drawer'
-import { newDrawing, newRectHandle } from '../utils'
+import type { Chart, Drawing } from '../../drawer'
+import { newDrawing, newRectHandle } from '../../utils'
 import rocket from './rocket.png'
-import fire from './rocket.png'
-import bear from './rocket.png'
-import stop from './rocket.png'
-import unicorn from './rocket.png'
-import bell from './rocket.png'
-import poo from './rocket.png'
-import rock from './rocket.png'
+import fire from './fire.png'
+import bear from './bear.png'
+import stop from './stop.png'
+import unicorn from './unicorn.png'
+import bell from './bell.png'
+import poo from './poo.png'
+import rock from './rock.png'
 
 const MIN_SIZE = 25
 const MAX_SIZE = 70
@@ -40,20 +40,20 @@ type NewSticker = Partial<
   Pick<Sticker, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
 > & { id: StickerIds }
 export function newSticker(drawing: NewSticker) {
-  drawing.size = drawing.size || MAX_SIZE
+  drawing.size = drawing.size || 50
   const sticker = Object.assign(drawing, { type: 'sticker' }) as Sticker
   return newDrawing(sticker)
 }
 
-const StickerSrc: Record<StickerIds, string> = {
-  rocket,
+export const StickerSrc: Record<StickerIds, string> = {
   fire,
-  bear,
+  rocket,
   stop,
+  poo,
+  bear,
+  rock,
   unicorn,
   bell,
-  poo,
-  rock,
 }
 
 export const CachedSticker = new Map<
