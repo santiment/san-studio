@@ -45,13 +45,13 @@ export function recordDrawingModified(
   data: any[],
 ) {
   const newRatioCoor = drawing.ratioCoor.slice()
-  let oldSize = drawing.type === 'sticker' ? data[0] : undefined
+  let oldSize = drawing.type === 'emoji' ? data[0] : undefined
 
   function reset(ratioCoor: Drawing['absCoor']) {
-    if (drawing.type === 'sticker') {
-      const sticker = drawing as any
-      const { size } = sticker
-      sticker.size = oldSize
+    if (drawing.type === 'emoji') {
+      const emoji = drawing as any
+      const { size } = emoji
+      emoji.size = oldSize
       oldSize = size
     }
     applyCoordinates(drawing.ratioCoor, ratioCoor)

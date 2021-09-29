@@ -1,9 +1,9 @@
-import type { Chart, Drawer, Drawing } from './drawer'
+import type { Chart, Drawer, Drawing, DrawingTypes } from './drawer'
 import { getEventCoordinates } from './utils'
 import { absoluteToRatioCoordinates } from './coordinates'
 import { getDrawingUpdater } from './drawings'
 import { getLineDragData, lineDragModifier } from './drawings/line'
-import { getStickerDragData, stickerDragModifier } from './drawings/stickers'
+import { getEmojiDragData, emojiDragModifier } from './drawings/emoji'
 
 type Controller = {
   selectDrawing: (drawing?: Drawing) => void
@@ -73,8 +73,8 @@ type DragDataGetter = (
 ) => any[]
 const DrawingDragDataGetter = {
   line: getLineDragData,
-  sticker: getStickerDragData,
-} as Record<any, undefined | DragDataGetter>
+  emoji: getEmojiDragData,
+} as Record<DrawingTypes, undefined | DragDataGetter>
 
 type DragModifier = (
   drawing: Drawing,
@@ -86,8 +86,8 @@ type DragModifier = (
 ) => void
 const DrawingDragModifier = {
   line: lineDragModifier,
-  sticker: stickerDragModifier,
-} as Record<any, undefined | DragModifier>
+  emoji: emojiDragModifier,
+} as Record<DrawingTypes, undefined | DragModifier>
 
 function newDrawingDragHandler(
   chart: Chart,

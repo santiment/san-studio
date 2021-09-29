@@ -1,6 +1,6 @@
-import type { Chart, Drawer, Drawing } from '../drawer'
+import type { Chart, Drawer, Drawing, DrawingTypes } from '../drawer'
 import { paintLine, updateLine } from './line'
-import { paintSticker, updateSticker } from './stickers'
+import { paintEmoji, updateEmoji } from './emoji'
 import {
   ratioToAbsoluteCoordinates,
   absoluteToRatioCoordinates,
@@ -9,13 +9,19 @@ import { clearCtx } from '../../utils'
 
 const DrawingPainter = {
   line: paintLine,
-  sticker: paintSticker,
-} as Record<any, undefined | ((chart: Chart, drawing: Drawing) => void)>
+  emoji: paintEmoji,
+} as Record<
+  DrawingTypes,
+  undefined | ((chart: Chart, drawing: Drawing) => void)
+>
 
 const DrawingUpdater = {
   line: updateLine,
-  sticker: updateSticker,
-} as Record<any, undefined | ((drawer: Drawer, drawing: Drawing) => void)>
+  emoji: updateEmoji,
+} as Record<
+  DrawingTypes,
+  undefined | ((drawer: Drawer, drawing: Drawing) => void)
+>
 
 export const getDrawingUpdater = ({ type }: Drawing) => DrawingUpdater[type]
 

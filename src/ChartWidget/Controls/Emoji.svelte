@@ -1,13 +1,12 @@
 <script lang="ts">
-  import type { StickerIds } from '@/Chart/Drawer/drawings/stickers'
+  import type { EmojiIds } from '@/Chart/Drawer/drawings/emoji'
   import { track } from 'webkit/analytics'
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
-  import { StickerSrc, newSticker } from '@/Chart/Drawer/drawings/stickers'
+  import { EMOJIS, newEmoji } from '@/Chart/Drawer/drawings/emoji'
 
   const random = (max: number, min: number) => Math.random() * (max - min) + min
-  const EMOJIS: [StickerIds, string][] = Object.entries(StickerSrc)
 
   export let chart
   export let ChartDrawer
@@ -18,12 +17,12 @@
 
   function onClick(e: MouseEvent) {
     const img = e.currentTarget as HTMLImageElement
-    const id = img.alt as StickerIds
+    const id = img.alt as EmojiIds
     const xOffset = random(-0.01, 0.01)
     const yOffset = random(-0.06, 0.06)
 
     chart.drawer.addDrawing(
-      newSticker({
+      newEmoji({
         id,
         ratioCoor: [0.06 + xOffset, 0.3 + yOffset],
       }),

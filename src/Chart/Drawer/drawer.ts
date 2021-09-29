@@ -16,8 +16,9 @@ type Offset = {
   left: number
 }
 
+export type DrawingTypes = 'line' | 'emoji'
 export interface Drawing {
-  type: 'line' | 'sticker'
+  type: DrawingTypes
   /** [chart x, chart y, ... x(i), y(i+1), ...] */
   absCoor: number[]
   /** [width/chart x, height/chart y, ... x(i), y(i+1), ...] */

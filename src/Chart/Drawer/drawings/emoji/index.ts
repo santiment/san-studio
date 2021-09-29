@@ -12,7 +12,7 @@ import rock from './rock.png'
 const MIN_SIZE = 25
 const MAX_SIZE = 70
 
-export type StickerIds =
+export type EmojiIds =
   | 'rocket'
   | 'fire'
   | 'bear'
@@ -22,9 +22,9 @@ export type StickerIds =
   | 'poo'
   | 'rock'
 
-export interface Sticker extends Drawing {
-  type: 'sticker'
-  id: StickerIds
+export interface Emoji extends Drawing {
+  type: 'emoji'
+  id: EmojiIds
   size: number
   /** [x, y] */
   absCoor: [number, number]
@@ -36,16 +36,16 @@ export interface Sticker extends Drawing {
   handlers: [Path2D, Path2D, Path2D, Path2D]
 }
 
-type NewSticker = Partial<
-  Pick<Sticker, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
-> & { id: StickerIds }
-export function newSticker(drawing: NewSticker) {
+type NewEmoji = Partial<
+  Pick<Emoji, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
+> & { id: EmojiIds }
+export function newEmoji(drawing: NewEmoji) {
   drawing.size = drawing.size || 50
-  const sticker = Object.assign(drawing, { type: 'sticker' }) as Sticker
-  return newDrawing(sticker)
+  const emoji = Object.assign(drawing, { type: 'emoji' }) as Emoji
+  return newDrawing(emoji)
 }
 
-export const StickerSrc: Record<StickerIds, string> = {
+export const EmojiSrc: Record<EmojiIds, string> = {
   fire,
   rocket,
   stop,
@@ -55,16 +55,17 @@ export const StickerSrc: Record<StickerIds, string> = {
   unicorn,
   bell,
 }
+export const EMOJIS = Object.entries(EmojiSrc) as [EmojiIds, string][]
 
-export const CachedSticker = new Map<
-  StickerIds,
+export const CachedEmoji = new Map<
+  EmojiIds,
   undefined | null | HTMLImageElement
 >()
 
-export function paintSticker(chart: Chart, drawing: Sticker) {
-  const img = CachedSticker.get(drawing.id)
+export function paintEmoji(chart: Chart, drawing: Emoji) {
+  const img = CachedEmoji.get(drawing.id)
   if (img === null) return
-  if (img === undefined) return loadSticker(chart, drawing)
+  if (img === undefined) return loadEmoji(chart, drawing)
 
   const { size, absCoor } = drawing
   const [x, y] = absCoor
@@ -73,17 +74,17 @@ export function paintSticker(chart: Chart, drawing: Sticker) {
   chart.drawer.ctx.drawImage(img, x - sizeOffset, y - sizeOffset, size, size)
 }
 
-function loadSticker(chart: Chart, drawing: Sticker) {
+function loadEmoji(chart: Chart, drawing: Emoji) {
   const img = new Image()
   img.onload = () => {
-    CachedSticker.set(drawing.id, img)
+    CachedEmoji.set(drawing.id, img)
     chart.drawer.redraw()
   }
-  img.src = StickerSrc[drawing.id]
-  CachedSticker.set(drawing.id, null)
+  img.src = EmojiSrc[drawing.id]
+  CachedEmoji.set(drawing.id, null)
 }
 
-export function updateSticker(_, drawing: Sticker) {
+export function updateEmoji(_, drawing: Emoji) {
   const { size, absCoor } = drawing
   const [x, y] = absCoor
 
@@ -108,9 +109,9 @@ export function updateSticker(_, drawing: Sticker) {
 // --- HOVERING ---
 // ------------------------
 
-export function checkStickerIsHovered(
+export function checkEmojiIsHovered(
   ctx: CanvasRenderingContext2D,
-  drawing: Sticker,
+  drawing: Emoji,
   mouseXY: [number, number],
   dpr: number,
 ) {
@@ -127,7 +128,7 @@ export function checkStickerIsHovered(
   return false
 }
 
-export function paintStickerHover({ drawer }: Chart, drawing: Sticker) {
+export function paintEmojiHover({ drawer }: Chart, drawing: Emoji) {
   const { ctx } = drawer
   const { hitbox, handlers } = drawing
 
@@ -149,15 +150,15 @@ export function paintStickerHover({ drawer }: Chart, drawing: Sticker) {
 // --- DRAGGING ---
 // ------------------------
 
-type StickerDragData = [Sticker['size'], boolean, boolean]
-export function getStickerDragData(
+type EmojiDragData = [Emoji['size'], boolean, boolean]
+export function getEmojiDragData(
   ctx: CanvasRenderingContext2D,
-  drawing: Sticker,
+  drawing: Emoji,
   x: number,
   y: number,
-): StickerDragData {
+): EmojiDragData {
   const { size, handlers } = drawing
-  const data: StickerDragData = [size, false, false]
+  const data: EmojiDragData = [size, false, false]
 
   for (let i = 0; i < 4; i++) {
     if (ctx.isPointInPath(handlers[i], x, y)) {
@@ -170,10 +171,10 @@ export function getStickerDragData(
   return data
 }
 
-export function stickerDragModifier(
-  drawing: Sticker,
-  initialAbsCoor: Sticker['absCoor'],
-  [initialSize, isResize, areLeftHandlers]: StickerDragData,
+export function emojiDragModifier(
+  drawing: Emoji,
+  initialAbsCoor: Emoji['absCoor'],
+  [initialSize, isResize, areLeftHandlers]: EmojiDragData,
   xDiff: number,
   yDiff: number,
 ) {
