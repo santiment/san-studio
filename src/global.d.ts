@@ -1,6 +1,11 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
 
+declare module '*.png' {
+  const value: string
+  export = value
+}
+
 declare namespace NodeJS {
   interface Process {
     browser: boolean

@@ -71,7 +71,7 @@ export function newDrawer(
   chart: Chart,
   onSelectionChange: (drawing?: Drawing) => void,
 ) {
-  const drawer = newCanvas(chart) as Drawer
+  const drawer = newCanvas(chart as any) as Drawer
   const { canvas, plotManager } = chart
 
   const { parentNode, nextElementSibling } = canvas as any

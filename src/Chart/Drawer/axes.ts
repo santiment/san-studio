@@ -20,7 +20,7 @@ export function newDatetimeBubbleDrawer(
 
   const theme = chart.theme.drawer
   return (x: number, date: number) =>
-    drawValueBubbleX(chart, ctx, xBubbleFormatter(date), x, theme)
+    drawValueBubbleX(chart as any, ctx, xBubbleFormatter(date), x, theme)
 }
 
 export function newValueBubbleDrawer(
@@ -39,7 +39,7 @@ export function newValueBubbleDrawer(
     const metricDisplayer = metricSettings[metric]
     const formatter = metricDisplayer?.axisFormatter || yBubbleFormatter
     const formatted = formatter(scaleValue(chart, y, min, max))
-    drawValueBubbleY(chart, ctx, formatted, y, theme, offset)
+    drawValueBubbleY(chart as any, ctx, formatted, y, theme, offset)
   }
 }
 
