@@ -7,7 +7,8 @@
   import { newDrawer } from './drawer'
   import { newMouseHoverHandler, getDrawingHoverPainter } from './hovered'
   import {
-    newMouseSelectHandler,
+    newDoubleClickHandler,
+    newDrawingSelectHandler,
     newDrawingDeleteHandler,
   } from './selectAndDrag'
   import { newDrawingAxesPainter } from './axes'
@@ -29,12 +30,13 @@
     onNewDrawingStart,
     onNewDrawingEnd,
   )
-  const drawingSelectHandler = newMouseSelectHandler(chart, {
+  const drawingSelectHandler = newDrawingSelectHandler(chart, {
     selectDrawing,
     startDrawing,
     stopDrawing,
     onDrawingDragEnd,
   })
+  const drawingDblClickHandler = newDoubleClickHandler(chart)
   const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
   export let metricKey: string
@@ -169,10 +171,16 @@
       'mousedown',
       drawingSelectHandler,
     )
+    const removeDrawingDblClickHandler = hook(
+      parent,
+      'dblclick',
+      drawingDblClickHandler,
+    )
 
     return () => {
       removeDrawingHoverHandler()
       removeDrawingSelectHandler()
+      removeDrawingDblClickHandler()
     }
   }
 

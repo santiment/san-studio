@@ -16,7 +16,7 @@ type Offset = {
   left: number
 }
 
-export type DrawingTypes = 'line' | 'emoji'
+export type DrawingTypes = 'line' | 'emoji' | 'note'
 export interface Drawing {
   type: DrawingTypes
   /** [chart x, chart y, ... x(i), y(i+1), ...] */

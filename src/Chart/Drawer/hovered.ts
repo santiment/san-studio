@@ -1,11 +1,13 @@
 import type { Chart, DrawingTypes, Drawing } from './drawer'
 import { checkLineIsHovered, paintLineHover } from './drawings/line'
 import { checkEmojiIsHovered, paintEmojiHover } from './drawings/emoji'
+import { checkNoteIsHovered, paintNoteHover } from './drawings/note'
 import { getEventCoordinates } from './utils'
 
 const DrawingIsHoveredChecker = {
   line: checkLineIsHovered,
   emoji: checkEmojiIsHovered,
+  note: checkNoteIsHovered,
 } as Record<
   DrawingTypes,
   | undefined
@@ -37,6 +39,7 @@ type HoverPainter = (chart: Chart, drawing: Drawing) => void
 const DrawingHoverPainter = {
   line: paintLineHover,
   emoji: paintEmojiHover,
+  note: paintNoteHover,
 } as Record<DrawingTypes, undefined | HoverPainter>
 
 export const getDrawingHoverPainter = ({ type }: Drawing) =>
