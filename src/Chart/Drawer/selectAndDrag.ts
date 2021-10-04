@@ -21,13 +21,20 @@ const DrawingDoubleClickHandler = {
   note: handleNoteDoubleClick,
 } as Record<DrawingTypes, undefined | any>
 
-export function newDoubleClickHandler(chart: Chart) {
+export function newDoubleClickHandler(
+  chart: Chart,
+  onDrawingModified: Controller['onDrawingDragEnd'],
+) {
   const { drawer } = chart
 
   return function onDoubleClick() {
     const { selected } = drawer
     if (!selected) return
-    DrawingDoubleClickHandler[selected.type]?.(drawer, selected)
+    DrawingDoubleClickHandler[selected.type]?.(
+      drawer,
+      selected,
+      onDrawingModified,
+    )
   }
 }
 

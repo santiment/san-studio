@@ -122,10 +122,14 @@ export function noteDragModifier(
 // ------------------------
 
 const stopPropagation = (e: Event) => e.stopImmediatePropagation()
-export function handleNoteDoubleClick(drawer: Drawer, drawing: Note) {
+export function handleNoteDoubleClick(
+  drawer: Drawer,
+  drawing: Note,
+  onDrawingModified: any,
+) {
   drawing.hidden = true
 
-  const { absCoor, text } = drawing
+  const { absCoor, text, width, height } = drawing
   const [x, y] = absCoor
   const parent = drawer.canvas.parentNode as HTMLElement
   const input = newInput(text, EDIT_STYLE, x - 1, y - 1)
@@ -134,10 +138,20 @@ export function handleNoteDoubleClick(drawer: Drawer, drawing: Note) {
   input.ondblclick = stopPropagation
   input.onkeydown = stopPropagation
   input.onblur = () => {
-    const { innerText, clientWidth, clientHeight } = input
-    drawing.text = innerText
-    drawing.width = clientWidth
-    drawing.height = clientHeight
+    const { clientWidth, clientHeight } = input
+    const newText = extractInputText(input)
+
+    if (text !== newText) {
+      drawing.text = newText
+      drawing.width = clientWidth
+      drawing.height = clientHeight
+      onDrawingModified(drawing, drawing.ratioCoor.slice(), [
+        text,
+        width,
+        height,
+      ])
+    }
+
     drawing.hidden = false
     input.remove()
     drawer.redraw()
@@ -146,4 +160,13 @@ export function handleNoteDoubleClick(drawer: Drawer, drawing: Note) {
   parent.append(input)
   window.getSelection()?.selectAllChildren(input)
   drawer.redraw()
+}
+
+function extractInputText(input: HTMLElement) {
+  const children = input.childNodes
+  let text = children[0].textContent as string
+  for (let i = 1, len = children.length; i < len; i++) {
+    text += '\n' + children[i].textContent
+  }
+  return text
 }

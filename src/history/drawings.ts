@@ -45,15 +45,24 @@ export function recordDrawingModified(
   data: any[],
 ) {
   const newRatioCoor = drawing.ratioCoor.slice()
-  let oldSize = drawing.type === 'emoji' ? data[0] : undefined
 
   function reset(ratioCoor: Drawing['absCoor']) {
     if (drawing.type === 'emoji') {
       const emoji = drawing as any
       const { size } = emoji
-      emoji.size = oldSize
-      oldSize = size
+      emoji.size = data[0]
+      data[0] = size
+    } else if (drawing.type === 'note' && data) {
+      const note = drawing as any
+      const { text, width, height } = note
+      note.text = data[0]
+      data[0] = text
+      note.width = data[1]
+      data[1] = width
+      note.height = data[2]
+      data[2] = height
     }
+
     applyCoordinates(drawing.ratioCoor, ratioCoor)
     resetDrawingAbsoluteCoordinates(drawing)
     widget.ChartDrawer.redrawDrawers()

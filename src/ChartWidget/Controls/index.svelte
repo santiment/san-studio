@@ -70,8 +70,14 @@
         } else if (type === 'delete') {
           recordDeleteDrawing(History, ChartDrawer, widget, data)
         } else if (type === 'modified') {
-          const { drawing, oldAbsCoor } = data
-          recordDrawingModified(History, widget, drawing, oldAbsCoor, data.data)
+          const { drawing, oldRatioCoor } = data
+          recordDrawingModified(
+            History,
+            widget,
+            drawing,
+            oldRatioCoor,
+            data.data,
+          )
         }
       })
 

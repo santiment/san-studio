@@ -36,7 +36,7 @@
     stopDrawing,
     onDrawingDragEnd,
   })
-  const drawingDblClickHandler = newDoubleClickHandler(chart)
+  const drawingDblClickHandler = newDoubleClickHandler(chart, onDrawingDragEnd)
   const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
   export let metricKey: string
@@ -84,12 +84,12 @@
 
   function onDrawingDragEnd(
     drawing: Drawing,
-    oldAbsCoor: Drawing['absCoor'],
+    oldRatioCoor: Drawing['ratioCoor'],
     data: any[],
   ) {
     ChartDrawer.dispatch({
       type: 'modified',
-      data: { drawing, oldAbsCoor, data },
+      data: { drawing, oldRatioCoor, data },
     })
   }
 
