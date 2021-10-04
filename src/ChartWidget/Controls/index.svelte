@@ -14,6 +14,7 @@
   } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
   import Emoji from './Emoji.svelte'
+  import Note from './Note.svelte'
   import DrawingsVisibility from './DrawingsVisibility.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
@@ -95,6 +96,8 @@
     on:click={onNewLine}>
     <Svg id="line" w="15" />
   </div>
+
+  <Note {chart} {ChartDrawer} />
 
   <Emoji {chart} {ChartDrawer} />
 

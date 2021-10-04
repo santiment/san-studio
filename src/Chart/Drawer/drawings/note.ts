@@ -18,7 +18,7 @@ export interface Note extends Drawing {
 
 type NewNote = Partial<Pick<Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>>
 export function newNote(drawing: NewNote) {
-  if (!drawing.text) drawing.text = ''
+  if (!drawing.text) drawing.text = 'Text'
   return newDrawing(Object.assign(drawing, { type: 'note' }) as Note)
 }
 
@@ -138,9 +138,16 @@ export function handleNoteDoubleClick(
   input.ondblclick = stopPropagation
   input.onkeydown = stopPropagation
   input.onblur = () => {
-    const { clientWidth, clientHeight } = input
-    const newText = extractInputText(input)
+    const { textContent, clientWidth, clientHeight } = input
 
+    if (!textContent) {
+      drawer.deleteDrawing(drawing)
+      input.remove()
+      drawing.hidden = false
+      return
+    }
+
+    const newText = extractInputText(input)
     if (text !== newText) {
       drawing.text = newText
       drawing.width = clientWidth
