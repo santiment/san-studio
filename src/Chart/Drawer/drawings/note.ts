@@ -25,8 +25,10 @@ export function newNote(drawing: NewNote) {
 const PADDING = 8
 const BG = '#FFEA79'
 const BORDER = '#68B3F4'
+const COLOR = '#2F354D'
 const STYLE = `padding:${PADDING}px;white-space:pre-line;background:${BG};font:14px sans-serif;position:absolute;line-height:15px;word-break:keep-all`
-const EDIT_STYLE = STYLE + `;outline:0;border:1px solid ${BORDER}`
+const EDIT_STYLE =
+  STYLE + `;outline:0;border:1px solid ${BORDER};color:${COLOR}`
 function newInput(text: string, style = STYLE, x = -999, y = -999) {
   const input = document.createElement('div')
   input.contentEditable = 'true'
@@ -50,7 +52,7 @@ export function paintNote(chart: Chart, drawing: Note) {
   ctx.fillRect(x, y, width, height)
 
   const lines = text.split('\n')
-  ctx.fillStyle = '#2F354D'
+  ctx.fillStyle = COLOR
   ctx.font = '14px sans-serif'
   ctx.textAlign = 'left'
   ctx.textBaseline = 'top'
