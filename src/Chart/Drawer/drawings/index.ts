@@ -29,7 +29,7 @@ const DrawingUpdater = {
 export const getDrawingUpdater = ({ type }: Drawing) => DrawingUpdater[type]
 
 export function paintDrawings(chart: Chart) {
-  const { drawer, right, bottom, left } = chart
+  const { drawer, right, bottom, left, canvasWidth } = chart
   const { ctx, minMax } = drawer
 
   if (!minMax) return
@@ -40,7 +40,7 @@ export function paintDrawings(chart: Chart) {
 
   ctx.clearRect(left, 0, -200, bottom)
   ctx.clearRect(right, 0, 200, bottom)
-  ctx.clearRect(0, bottom, right, 200)
+  ctx.clearRect(0, bottom, canvasWidth, 200)
 }
 
 export function drawDrawings(chart: Chart) {

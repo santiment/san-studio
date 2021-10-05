@@ -37,10 +37,11 @@ function newInput(text: string, style = STYLE, x = -999, y = -999) {
 }
 
 export function paintNote(chart: Chart, drawing: Note) {
-  if (drawing.hidden) return
+  const { hidden, text } = drawing
+  if (hidden || !text) return
 
   const { ctx } = chart.drawer
-  const { absCoor, text, width, height } = drawing
+  const { absCoor, width, height } = drawing
   const [x, y] = absCoor
 
   ctx.save()

@@ -56,6 +56,7 @@ export type Chart = Offset & {
   dpr: number
   width: number
   height: number
+  canvasWidth: number
   plotManager: any
   theme: any
   scale: any
