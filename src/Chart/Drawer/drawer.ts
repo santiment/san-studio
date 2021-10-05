@@ -63,6 +63,7 @@ export type Chart = Offset & {
   axesMetricKeys: string[]
   minMaxes: { [metric: string]: undefined | MinMax }
   rightAxisMargin?: number
+  data: { datetime: number }[]
 }
 
 export const PLOT_ID = 'Drawer'
@@ -92,8 +93,10 @@ function newDrawerUpdater(
   const oldWidthHeight = [width, height]
   let oldMetricKey: string
 
+  const checkIsNewDatetimes = newChangedDatetimesChecker()
+
   return (chart: Chart) => {
-    const { drawer, width, height, minMaxes } = chart
+    const { drawer, width, height, minMaxes, data } = chart
     const minMax = minMaxes[drawer.metricKey]
     if (!minMax) return
 
@@ -124,12 +127,31 @@ function newDrawerUpdater(
       oldWidthHeight[1] = height
     }
 
-    if (isNewMinMax || isNewDimensions) {
+    const isNewDatetimes = checkIsNewDatetimes(data)
+    if (isNewMinMax || isNewDimensions || isNewDatetimes) {
       setupDrawingsCoordinatesUpdater(chart, minMax)
       resetRatioCoordinates(drawer)
       resetAbsoluteCoordinates(drawer)
     }
 
     drawer.redraw()
+  }
+}
+
+function newChangedDatetimesChecker() {
+  const datetimes = [] as number[]
+  return (data: Chart['data']) => {
+    const { length } = data
+    if (!length) return false
+
+    const left = data[0].datetime
+    const right = data[length - 1].datetime
+
+    if (left === datetimes[0] && right === datetimes[1]) return false
+
+    datetimes[0] = left
+    datetimes[1] = right
+
+    return true
   }
 }
