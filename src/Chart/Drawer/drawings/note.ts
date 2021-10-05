@@ -51,6 +51,7 @@ export function paintNote(chart: Chart, drawing: Note) {
   const lines = text.split('\n')
   ctx.fillStyle = '#2F354D'
   ctx.font = '14px sans-serif'
+  ctx.textAlign = 'left'
   ctx.textBaseline = 'top'
   for (let i = 0, len = lines.length; i < len; i++) {
     ctx.fillText(lines[i], x + PADDING, y + PADDING + 15 * i)
