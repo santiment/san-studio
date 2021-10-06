@@ -11,6 +11,7 @@ export const LAYOUT_QUERY_FIELDS = `id
 			title
 			options
 			metrics
+      description
 			project {
         projectId: id
 				name
@@ -36,6 +37,7 @@ const LAYOUT_QUERY = (id: number) => `
 export type Layout = {
   id: number
   title: string
+  description: string
   metrics: string[]
   options: { widgets?: { [key: string]: any }[] }
   project: {
