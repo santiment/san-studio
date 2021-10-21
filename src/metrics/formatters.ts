@@ -12,7 +12,7 @@ export function FORMATTER(value: number) {
   }
 
   if (Math.abs(absValue) < 1) {
-    return absValue.toFixed(6)
+    return value.toFixed(6)
   }
 
   return Number.isInteger(value) ? value : value.toFixed(2)
