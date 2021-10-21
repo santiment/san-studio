@@ -235,6 +235,7 @@ export const OnChainMetric = each(
       miners_balance: {
         label: 'Miners Balance',
         category: 'On-chain',
+        checkIsVisible: () => false,
       },
     },
 

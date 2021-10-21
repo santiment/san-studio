@@ -3,6 +3,8 @@ import { each } from './utils'
 import { percentFormatter, axisPercentFormatter } from './formatters'
 import { Node } from '@/Chart/nodes'
 
+const hidden = () => false
+
 const TotalSentimentMetric = each(
   {
     sentiment_positive_total: {
@@ -14,6 +16,7 @@ const TotalSentimentMetric = each(
     sentiment_balance_total: {
       node: 'filledLine',
       label: 'Average Sentiment (Total)',
+      checkIsVisible: hidden,
     },
     sentiment_volume_consumed_total: {
       node: 'filledLine',
@@ -27,17 +30,21 @@ const TelegramSentimentMetric = each(
   {
     sentiment_positive_telegram: {
       label: 'Positive sentiment (Telegram)',
+      checkIsVisible: hidden,
     },
     sentiment_negative_telegram: {
       label: 'Negative sentiment (Telegram)',
+      checkIsVisible: hidden,
     },
     sentiment_balance_telegram: {
       node: 'filledLine',
       label: 'Average Sentiment (Telegram)',
+      checkIsVisible: hidden,
     },
     sentiment_volume_consumed_telegram: {
       node: 'filledLine',
       label: 'Weighted sentiment (Telegram)',
+      checkIsVisible: hidden,
     },
   },
   (metric: Studio.Metric) => (metric.group = MetricGroup.TelegramSentiment),
@@ -47,17 +54,21 @@ const TwitterSentimentMetric = each(
   {
     sentiment_positive_twitter: {
       label: 'Positive sentiment (Twitter)',
+      checkIsVisible: hidden,
     },
     sentiment_negative_twitter: {
       label: 'Negative sentiment (Twitter)',
+      checkIsVisible: hidden,
     },
     sentiment_balance_twitter: {
       node: 'filledLine',
       label: 'Average Sentiment (Twitter)',
+      checkIsVisible: hidden,
     },
     sentiment_volume_consumed_twitter: {
       node: 'filledLine',
       label: 'Weighted sentiment (Twitter)',
+      checkIsVisible: hidden,
     },
   },
   (metric: Studio.Metric) => (metric.group = MetricGroup.TwitterSentiment),
@@ -67,17 +78,21 @@ const RedditSentimentMetric = each(
   {
     sentiment_positive_reddit: {
       label: 'Positive sentiment (Reddit)',
+      checkIsVisible: hidden,
     },
     sentiment_negative_reddit: {
       label: 'Negative sentiment (Reddit)',
+      checkIsVisible: hidden,
     },
     sentiment_balance_reddit: {
       node: 'filledLine',
       label: 'Average Sentiment (Reddit)',
+      checkIsVisible: hidden,
     },
     sentiment_volume_consumed_reddit: {
       node: 'filledLine',
       label: 'Weighted sentiment (Reddit)',
+      checkIsVisible: hidden,
     },
   },
   (metric: Studio.Metric) => (metric.group = MetricGroup.RedditSentiment),

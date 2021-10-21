@@ -34,7 +34,6 @@
 
 <style>
   aside {
-    width: 292px;
     min-width: 292px;
     background: var(--white);
     border-right: 1px solid var(--porcelain);
@@ -50,6 +49,7 @@
     top: 0;
     height: 100vh;
     flex: 1;
+    width: 263px;
   }
 
   .opened,
