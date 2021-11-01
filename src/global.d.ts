@@ -21,6 +21,7 @@ interface Window {
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void
+  closeCreationDialog?: () => void
   renderCombineProjectSelector?: () => void
 }
 

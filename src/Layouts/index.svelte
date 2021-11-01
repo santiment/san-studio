@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Layout } from '@/api/layouts'
-  import { onDestroy } from 'svelte'
+  import { onDestroy, afterUpdate } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
   import { newGlobalShortcut } from 'webkit/utils/events'
@@ -24,6 +24,7 @@
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
+  $: location = window.location
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
 
@@ -99,6 +100,13 @@
     if (dialogs.has(LoadLayoutDialog)) return
     showLoadLayoutDialog()
   }
+
+  afterUpdate(() => {
+    const pathname = location.pathname.split('/')
+    if (pathname[1] === 'charts' && pathname[pathname.length - 1] === 'new') {
+      callIfRegistered(onNew)()
+    }
+  })
 
   const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave))
   const unsubLoad = newGlobalShortcut('CMD+L', openLoadLayoutDialog)

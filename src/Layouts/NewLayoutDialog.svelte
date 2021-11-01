@@ -68,6 +68,7 @@
         window.notifyLayoutEdit?.()
       } else {
         window.notifyLayoutCreation?.()
+        window.closeCreationDialog?.()
       }
     })
   }
