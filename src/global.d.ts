@@ -21,7 +21,7 @@ interface Window {
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void
-  closeCreationDialog?: () => void
+  onLayoutCreationOpen?: () => void
   renderCombineProjectSelector?: () => void
 }
 
@@ -79,11 +79,9 @@ namespace Studio {
     baseMetrics: any[]
   }
 
-  type MetricSetting =
-    import('@/ChartWidget/MetricSettings/context').MetricSetting
+  type MetricSetting = import('@/ChartWidget/MetricSettings/context').MetricSetting
 
-  type MetricSettings =
-    import('@/ChartWidget/MetricSettings/context').MetricSettings
+  type MetricSettings = import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
 
 declare module 'mathjs/lib/esm/number' {
