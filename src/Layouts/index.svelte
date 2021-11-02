@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Layout } from '@/api/layouts'
-  import { onDestroy, afterUpdate } from 'svelte'
+  import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
   import { newGlobalShortcut } from 'webkit/utils/events'
@@ -78,6 +78,10 @@
 
   const onNew = () => showNewLayoutDialog().then(selectLayout)
 
+  window.onLayoutCreationOpen = () => {
+    callIfRegistered(onNew)()
+  }
+
   window.onLayoutSelect = (layout: Layout) => {
     if ($selectedLayout && +layout.id === +$selectedLayout.id) return
 
@@ -101,18 +105,12 @@
     showLoadLayoutDialog()
   }
 
-  afterUpdate(() => {
-    const pathname = location.pathname.split('/')
-    if (pathname[1] === 'charts' && pathname[pathname.length - 1] === 'new') {
-      callIfRegistered(onNew)()
-    }
-  })
-
   const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave))
   const unsubLoad = newGlobalShortcut('CMD+L', openLoadLayoutDialog)
   onDestroy(() => {
     // @ts-ignore
     window.onLayoutSelect = undefined
+    window.onLayoutCreationOpen = undefined
     unsubSave()
     unsubLoad()
   })
