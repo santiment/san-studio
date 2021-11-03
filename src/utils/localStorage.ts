@@ -22,3 +22,7 @@ export function getSavedJson(key: string, defaultValue?: any): any | undefined {
   const value = getSavedValue(key)
   return value ? parseJson(value) : defaultValue
 }
+
+export function deleteSavedValue(key: string) {
+  window.localStorage.removeItem(key)
+}

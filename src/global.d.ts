@@ -21,6 +21,8 @@ interface Window {
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void
+  onChartsLayoutMount?: () => void
+  notifyLayoutAnonCreation?: () => void
   onLayoutCreationOpen?: () => void
   renderCombineProjectSelector?: () => void
 }
