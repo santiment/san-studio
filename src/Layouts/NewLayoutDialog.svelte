@@ -10,16 +10,20 @@
     Save: 1,
     Edit: 2,
   } as const
+
+  export const SCHEDULED_CHART = 'SCHEDULED_CHART'
 </script>
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
+  import { saveJson } from 'webkit/utils/localStorage'
   import type { Layout } from '@/api/layouts'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import { Event } from '@/analytics'
   import { studio } from '@/stores/studio'
+  import { globals } from '@/stores/globals'
   import { getWidgets } from '@/stores/widgets'
   import { createUserLayout, updateUserLayout } from '@/api/layouts/mutate'
   import { getAllWidgetsMetricsKeys } from './utils'
@@ -53,23 +57,29 @@
       },
     }
 
-    const mutation = isEditMode
-      ? updateUserLayout(id as number, settings)
-      : createUserLayout(settings)
-
-    mutation.then((layout) => {
-      track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
-        id: layout.id,
-      })
-      DialogPromise.resolve(layout)
+    if (!$globals.isLoggedIn) {
+      saveJson(SCHEDULED_CHART, settings)
       closeDialog()
+      window.notifyLayoutAnonCreation?.()
+    } else {
+      const mutation = isEditMode
+        ? updateUserLayout(id as number, settings)
+        : createUserLayout(settings)
 
-      if (isEditMode) {
-        window.notifyLayoutEdit?.()
-      } else {
-        window.notifyLayoutCreation?.()
-      }
-    })
+      mutation.then((layout) => {
+        track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
+          id: layout.id,
+        })
+        DialogPromise.resolve(layout)
+        closeDialog()
+
+        if (isEditMode) {
+          window.notifyLayoutEdit?.()
+        } else {
+          window.notifyLayoutCreation?.()
+        }
+      })
+    }
   }
 
   function toggleLayoutPublicity() {

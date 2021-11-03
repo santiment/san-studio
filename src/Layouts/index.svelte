@@ -13,8 +13,17 @@
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
   import { currentUser } from '@/stores/user'
-  import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
-  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
+  import { deleteSavedValue, getSavedJson } from '@/utils/localStorage'
+  import {
+    updateUserLayout,
+    createUserLayout,
+    LayoutCreation,
+  } from '@/api/layouts/mutate'
+  import {
+    showNewLayoutDialog,
+    Mode,
+    SCHEDULED_CHART,
+  } from './NewLayoutDialog.svelte'
   import LoadLayoutDialog, {
     showLoadLayoutDialog,
   } from './LoadLayoutDialog.svelte'
@@ -79,7 +88,7 @@
   const onNew = () => showNewLayoutDialog().then(selectLayout)
 
   window.onLayoutCreationOpen = () => {
-    callIfRegistered(onNew)()
+    onNew()
   }
 
   window.onLayoutSelect = (layout: Layout) => {
@@ -100,6 +109,26 @@
     track.event(Event.LoadLayout, { id: layout.id })
   }
 
+  window.onChartsLayoutMount = () => {
+    const settings = getSavedJson(SCHEDULED_CHART) as LayoutCreation
+
+    if (settings) {
+      const mutation = createUserLayout(settings)
+
+      mutation.then((layout) => {
+        track.event(Event.NewLayout, {
+          id: layout.id,
+        })
+
+        window.onLayoutSelect(layout)
+
+        deleteSavedValue(SCHEDULED_CHART)
+
+        window.notifyLayoutCreation?.()
+      })
+    }
+  }
+
   function openLoadLayoutDialog() {
     if (dialogs.has(LoadLayoutDialog)) return
     showLoadLayoutDialog()
@@ -111,6 +140,7 @@
     // @ts-ignore
     window.onLayoutSelect = undefined
     window.onLayoutCreationOpen = undefined
+    window.onChartsLayoutMount = undefined
     unsubSave()
     unsubLoad()
   })

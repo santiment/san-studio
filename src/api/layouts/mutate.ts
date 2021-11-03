@@ -97,7 +97,7 @@ export const updateUserLayout = (
 
 const CREATE_LAYOUT_MUTATION = newLayoutMutation('createChartConfiguration')
 
-type LayoutCreation = Pick<Layout, 'title' | 'metrics' | 'options'> & {
+export type LayoutCreation = Pick<Layout, 'title' | 'metrics' | 'options'> & {
   projectId: number | string
   isPublic?: boolean
   description?: string
