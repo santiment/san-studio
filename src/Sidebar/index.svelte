@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getHistoryContext } from 'webkit/ui/history'
-  import { getSavedValue, saveValue } from '@/utils/localStorage'
+  import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
   import { getAdapterController } from '@/adapter/context'
   import { handleItemSelect } from './controller'
   import Sidebar from './Sidebar.svelte'
@@ -16,11 +16,11 @@
   export let Widgets, Sidewidget, adjustSelectedMetric
 
   let mode = Mode.Metrics
-  let isLocked = !!getSavedValue(LS_IS_SIDEBAR_LOCKED, true)
+  let isLocked = getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
   let isPeeked = false
 
   $: isOpened = isPeeked // || isDraggingMetric
-  $: saveValue(LS_IS_SIDEBAR_LOCKED, isLocked ? '+' : '')
+  $: saveBoolean(LS_IS_SIDEBAR_LOCKED, isLocked)
 
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return

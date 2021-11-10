@@ -1,4 +1,12 @@
-import { saveValue, getSavedValue } from 'webkit/utils/localStorage'
+import type { Layout } from '@/api/layouts'
+import type { LayoutCreation } from '@/api/layouts/mutate'
+import {
+  saveJson,
+  getSavedJson,
+  saveValue,
+  getSavedValue,
+  deleteSavedValue,
+} from 'webkit/utils/localStorage'
 
 type Widget = { metrics?: Studio.Metric[] }
 
@@ -39,3 +47,14 @@ function saveRecentLayoutIds(items: number[]) {
   saveValue(RECENT_LAYOUTS, recents.filter(Boolean).toString())
   return recents
 }
+
+const SCHEDULED_CHART = 'SCHEDULED_CHART'
+export const saveScheduledLayout = (
+  layout: Omit<Layout, 'id' | 'project' | 'user'>,
+): void => saveJson(SCHEDULED_CHART, layout)
+
+export const getScheduledLayout = () =>
+  getSavedJson(SCHEDULED_CHART) as LayoutCreation
+
+export const deleteScheduledLayout = (): void =>
+  deleteSavedValue(SCHEDULED_CHART)

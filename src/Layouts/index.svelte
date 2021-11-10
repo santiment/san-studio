@@ -13,27 +13,21 @@
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
   import { currentUser } from '@/stores/user'
-  import { deleteSavedValue, getSavedJson } from '@/utils/localStorage'
-  import {
-    updateUserLayout,
-    createUserLayout,
-    LayoutCreation,
-  } from '@/api/layouts/mutate'
-  import {
-    showNewLayoutDialog,
-    Mode,
-    SCHEDULED_CHART,
-  } from './NewLayoutDialog.svelte'
+  import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
+  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import LoadLayoutDialog, {
     showLoadLayoutDialog,
   } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
-  import { getAllWidgetsMetricsKeys } from './utils'
+  import {
+    getScheduledLayout,
+    deleteScheduledLayout,
+    getAllWidgetsMetricsKeys,
+  } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
-  $: location = window.location
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
 
@@ -110,20 +104,16 @@
   }
 
   window.onChartsLayoutMount = () => {
-    const settings = getSavedJson(SCHEDULED_CHART) as LayoutCreation
+    const settings = getScheduledLayout()
 
     if (settings) {
-      const mutation = createUserLayout(settings)
-
-      mutation.then((layout) => {
+      createUserLayout(settings).then((layout) => {
         track.event(Event.NewLayout, {
           id: layout.id,
         })
 
         window.onLayoutSelect(layout)
-
-        deleteSavedValue(SCHEDULED_CHART)
-
+        deleteScheduledLayout()
         window.notifyLayoutCreation?.()
       })
     }

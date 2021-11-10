@@ -1,20 +1,19 @@
 import { writable } from 'svelte/store'
 import { logScale, linearScale } from 'san-chart/scales'
 import { track } from 'webkit/analytics'
+import { getSavedBoolean, saveBoolean } from 'webkit/utils/localStorage'
 import { Event } from '@/analytics'
-import { getSavedValue, saveValue } from '@/utils/localStorage'
 
 const SaveOption = {
-  cartesianGrid: (value) => saveValue('isCartesianGridActive', value || ''),
-  watermark: (value) => saveValue('isWatermarkVisible', value || ''),
-  isWatermarkLessVisible: (value) =>
-    saveValue('isWatermarkLighter', value || ''),
+  cartesianGrid: (value) => saveBoolean('isCartesianGridActive', value),
+  watermark: (value) => saveBoolean('isWatermarkVisible', value),
+  isWatermarkLessVisible: (value) => saveBoolean('isWatermarkLighter', value),
 }
 
 const OPTIONS = {
   scale: linearScale,
   isLogScale: false,
-  cartesianGrid: !!getSavedValue('isCartesianGridActive', true),
+  cartesianGrid: getSavedBoolean('isCartesianGridActive', true),
   watermark: true,
   isWatermarkLessVisible: false,
 }
@@ -51,10 +50,10 @@ export function newChartOptionsStore({
     },
     getProDefaults(isPro, isProPlus) {
       if (isProPlus)
-        options.watermark = !!getSavedValue('isWatermarkVisible', true)
+        options.watermark = getSavedBoolean('isWatermarkVisible', true)
 
       if (isPro || isProPlus) {
-        options.isWatermarkLessVisible = !!getSavedValue(
+        options.isWatermarkLessVisible = getSavedBoolean(
           'isWatermarkLighter',
           false,
         )
