@@ -23,6 +23,7 @@ export function newNote(drawing: NewNote) {
 }
 
 const PADDING = 8
+const SIDES_PADDING = PADDING * 2
 const BG = '#FFEA79'
 const BORDER = '#68B3F4'
 const COLOR = '#2F354D'
@@ -63,15 +64,23 @@ export function paintNote(chart: Chart, drawing: Note) {
   ctx.restore()
 }
 
-export function updateNote(_, drawing: Note) {
+export function updateNote(drawer: Drawer, drawing: Note) {
   if (!drawing.width) {
-    const input = newInput(drawing.text)
-    document.body.appendChild(input)
-    const { clientWidth, clientHeight } = input
-    drawing.width = clientWidth
-    drawing.height = clientHeight
+    const { ctx } = drawer
+    const lines = drawing.text.split('\n')
+    ctx.font = '14px sans-serif'
 
-    input.remove()
+    let width = 0
+    let height = 0
+    for (let i = 0, len = lines.length; i < len; i++) {
+      const lineWidth = ctx.measureText(lines[i]).width
+
+      if (lineWidth > width) width = lineWidth
+      height += 14
+    }
+
+    drawing.width = width + SIDES_PADDING
+    drawing.height = height + SIDES_PADDING
   }
 }
 

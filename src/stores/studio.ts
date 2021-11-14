@@ -17,14 +17,14 @@ FROM.setMonth(FROM.getMonth() - 6)
 export const STUDIO = {
   slug: 'bitcoin',
   ticker: 'BTC',
-  interval: '4h',
   from: FROM.toISOString(),
   to: TO.toISOString(),
+  interval: getPeriodInterval(FROM, TO),
 }
 
 const { subscribe, set } = writable<StudioSettings>(STUDIO)
 
-function getPeriodInterval(from: Date, to: Date): string {
+export function getPeriodInterval(from: Date, to: Date): string {
   const diff = (+to - +from) / ONE_DAY_IN_MS
 
   if (diff < 7) return '5m'
