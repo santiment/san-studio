@@ -76,8 +76,10 @@ export function newDrawer(
   const drawer = newCanvas(chart as any) as Drawer
   const { canvas, plotManager } = chart
 
-  const { parentNode, nextElementSibling } = canvas as any
-  parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
+  if (process.browser) {
+    const { parentNode, nextElementSibling } = canvas as any
+    parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
+  }
 
   drawer.updateRelativeByAbsoluteCoordinates = () => {}
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())

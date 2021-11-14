@@ -155,12 +155,14 @@
 
   {#if !isFullscreened} <Drawer {axesMetricKeys} metricKey={drawingKey} /> {/if}
 
-  <Tooltip
-    {axesMetricKeys}
-    {metricSettings}
-    {onPointClick}
-    {onRangeSelect}
-    isShiftForced={isEmbedded} />
+  {#if process.browser}
+    <Tooltip
+      {axesMetricKeys}
+      {metricSettings}
+      {onPointClick}
+      {onRangeSelect}
+      isShiftForced={isEmbedded} />
+  {/if}
 
   <Addons
     addons={$ChartAddons}

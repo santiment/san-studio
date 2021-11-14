@@ -13,7 +13,9 @@ const SaveOption = {
 const OPTIONS = {
   scale: linearScale,
   isLogScale: false,
-  cartesianGrid: getSavedBoolean('isCartesianGridActive', true),
+  cartesianGrid: process.browser
+    ? getSavedBoolean('isCartesianGridActive', true)
+    : false,
   watermark: true,
   isWatermarkLessVisible: false,
 }

@@ -74,14 +74,15 @@ export function paintEmoji(chart: Chart, drawing: Emoji) {
   chart.drawer.ctx.drawImage(img, x - sizeOffset, y - sizeOffset, size, size)
 }
 
-function loadEmoji(chart: Chart, drawing: Emoji) {
+export function loadEmoji(chart: Chart, drawing: Emoji) {
+  const Image = process.browser ? window.Image : require('canvas').Image
   const img = new Image()
   img.onload = () => {
     CachedEmoji.set(drawing.id, img)
-    chart.drawer.redraw()
+    chart?.drawer.redraw()
   }
   img.src = EmojiSrc[drawing.id]
-  CachedEmoji.set(drawing.id, null)
+  if (!CachedEmoji.get(drawing.id)) CachedEmoji.set(drawing.id, null)
 }
 
 export function updateEmoji(_, drawing: Emoji) {
