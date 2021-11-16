@@ -23,7 +23,8 @@
   export let metricSettings
   export let axesMetricKeys: string[]
 
-  $: chart.rightAxisMargin = axesMetricKeys.length ? Y_MARGIN : 0
+  const rightAxisMargin = chart.rightAxisMargin || Y_MARGIN
+  $: chart.rightAxisMargin = axesMetricKeys.length ? rightAxisMargin : 0
   $: {
     chart.xAxesTicks = xTicks
     chart.yAxesTicks = yTicks

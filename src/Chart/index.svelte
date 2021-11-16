@@ -69,7 +69,7 @@
     chart.theme = theme
     chart.redraw = () => (shouldRedraw += 1)
     chart.plotManager = newPlotManager()
-    chart.rightAxisMargin = 0
+    chart.rightAxisMargin = chart.rightAxisMargin || 0
   }
 
   function setPadding(newPadding) {
