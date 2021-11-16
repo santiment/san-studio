@@ -48,7 +48,7 @@
   drawer.deleteDrawing = deleteDrawing
 
   $: drawer.metricKey = metricKey
-  $: cleanup = hookDrawer(isNewDrawing)
+  $: cleanup = process.browser && hookDrawer(isNewDrawing)
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
     drawer.drawings = store.drawings
@@ -185,6 +185,7 @@
   }
 
   onDestroy(() => {
+    if (!process.browser) return
     unsubscribeStore()
     cleanup()
     window.removeEventListener('keydown', drawingDeleteHandler)

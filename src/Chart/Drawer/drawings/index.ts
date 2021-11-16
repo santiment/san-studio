@@ -34,13 +34,15 @@ export function paintDrawings(chart: Chart) {
 
   if (!minMax) return
 
-  clearCtx(chart, ctx)
+  if (process.browser) clearCtx(chart, ctx)
 
   drawDrawings(chart)
 
-  ctx.clearRect(left, 0, -200, bottom)
-  ctx.clearRect(right, 0, 200, bottom)
-  ctx.clearRect(0, bottom, canvasWidth, 200)
+  if (process.browser) {
+    ctx.clearRect(left, 0, -200, bottom)
+    ctx.clearRect(right, 0, 200, bottom)
+    ctx.clearRect(0, bottom, canvasWidth, 200)
+  }
 }
 
 export function drawDrawings(chart: Chart) {

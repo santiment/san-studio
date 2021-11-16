@@ -1,5 +1,7 @@
+<svelte:options immutable />
+
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, getContext } from 'svelte'
   import {
     initChart,
     updateChartState,
@@ -28,9 +30,21 @@
   export let onChart = undefined
   export let disabled = false
 
-  let chart
-  let canvas
+  const SSR_CHART = getContext('SSR_CHART')
+  let chart = SSR_CHART
+  let canvas = chart?.canvas || undefined
   let shouldRedraw = 1
+
+  if (SSR_CHART) {
+    width = chart.canvasWidth
+    height = chart.canvasHeight
+    padding = DEFAULT_PADDING
+    setupChart(chart)
+    chart.setPadding = (newPadding) => {
+      padding = newPadding
+      updateChartDimensions(chart, width, height, newPadding)
+    }
+  }
 
   $: setChart(chart)
   $: chart && width && height && padding && updateDimensions()
@@ -43,15 +57,20 @@
   onMount(() => {
     const _width = width || canvas.parentNode.offsetWidth
     const _height = height || canvas.parentNode.offsetHeight
+
     chart = initChart(canvas, _width, _height, padding || DEFAULT_PADDING)
-    chart.theme = theme
-    chart.redraw = () => (shouldRedraw += 1)
-    chart.plotManager = newPlotManager()
+    setupChart(chart)
     chart.setPadding = setPadding
-    chart.rightAxisMargin = 0
 
     if (onChart) onChart(chart)
   })
+
+  function setupChart(chart) {
+    chart.theme = theme
+    chart.redraw = () => (shouldRedraw += 1)
+    chart.plotManager = newPlotManager()
+    chart.rightAxisMargin = chart.rightAxisMargin || 0
+  }
 
   function setPadding(newPadding) {
     padding = newPadding
@@ -78,6 +97,8 @@
     if (data.length === 0) {
       chart.points = []
     } else {
+      if (!process.browser) return
+
       updateChartState(
         chart,
         data,

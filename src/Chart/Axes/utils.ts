@@ -6,12 +6,13 @@ export const X_MARGIN = 20
 export const MULTI_AXIS_WIDTH = 50
 
 export function getPadding(chart: Studio.Chart, axesMetricKeys: any[]) {
-  const { padding } = chart
+  const { padding, rightAxisMargin = Y_MARGIN } = chart
   const axesLength = axesMetricKeys.length
+
   return {
     ...padding,
     bottom: padding.bottom > X_MARGIN ? padding.bottom : X_MARGIN,
-    right: axesLength * MULTI_AXIS_WIDTH + (axesLength ? Y_MARGIN : 3),
+    right: axesLength * MULTI_AXIS_WIDTH + (axesLength ? rightAxisMargin : 3),
   }
 }
 

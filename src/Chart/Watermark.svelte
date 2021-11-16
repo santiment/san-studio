@@ -28,6 +28,8 @@
   }
 
   onDestroy(() => {
+    if (!process.browser) return
+
     chart.plotManager.delete(ID)
     chart.redraw()
   })
