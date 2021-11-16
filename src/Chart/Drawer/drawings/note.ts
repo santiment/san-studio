@@ -67,6 +67,7 @@ export function paintNote(chart: Chart, drawing: Note) {
 export function updateNote(drawer: Drawer, drawing: Note) {
   if (!drawing.width) {
     const { ctx } = drawer
+    ctx.save()
     const lines = drawing.text.split('\n')
     ctx.font = '14px sans-serif'
 
@@ -78,6 +79,7 @@ export function updateNote(drawer: Drawer, drawing: Note) {
       if (lineWidth > width) width = lineWidth
       height += 14
     }
+    ctx.restore()
 
     drawing.width = width + SIDES_PADDING
     drawing.height = height + SIDES_PADDING

@@ -79,7 +79,7 @@ export function loadEmoji(chart: Chart, drawing: Emoji) {
   const img = new Image()
   img.onload = () => {
     CachedEmoji.set(drawing.id, img)
-    chart?.drawer.redraw()
+    chart.drawer.redraw()
   }
   img.src = EmojiSrc[drawing.id]
   if (!CachedEmoji.get(drawing.id)) CachedEmoji.set(drawing.id, null)
