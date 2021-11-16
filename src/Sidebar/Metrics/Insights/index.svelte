@@ -1,10 +1,14 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'
   import Category from '@/Sidebar/Category.svelte'
   import { getInsightsGraph } from './utils'
+
+  export let searchTerm = ''
+  export let isFiltering = false
 
   const { InsightsContextStore } = getAdapterController()
   const Widgets = getWidgets()
@@ -17,11 +21,10 @@
     ticker,
     hasMyInsights,
     hasFollowings,
+    searchTerm,
   ))
   $: ticker && updateInsightProject()
   $: updateInsightPeriod(from, to)
-
-  const VisibleGroup = { Tags: true }
 
   function updateInsightProject() {
     if (insight && insight.type === 'project') {
@@ -47,8 +50,18 @@
 </script>
 
 <Category
-  category="Santiment Insights"
+  category="Insights"
   isOpened
+  {isFiltering}
   items={insights}
-  {VisibleGroup}
-  onItemClick={(_, item) => InsightsContextStore.set(item)} />
+  onItemClick={(_, item) => InsightsContextStore.set(item)}>
+  <svelte:fragment slot="pre-title">
+    <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r $style.icon" />
+  </svelte:fragment>
+</Category>
+
+<style>
+  .icon {
+    fill: var(--green) !important;
+  }
+</style>

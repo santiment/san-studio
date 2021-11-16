@@ -1,11 +1,3 @@
-<script lang="ts" context="module">
-  enum Tab {
-    Metrics = 'Metrics',
-    Insights = 'Insights',
-  }
-  const TABS = [Tab.Metrics, Tab.Insights]
-</script>
-
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
   import { getAdapterController } from '@/adapter/context'
@@ -21,7 +13,6 @@
   import Favorites from './Favorites.svelte'
   import Notables from './Notables/index.svelte'
   import Insights from './Insights/index.svelte'
-  import Tabs from '../Tabs.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
 
@@ -33,7 +24,6 @@
   let projectNode
   let metrics: string[] = DEFAULT_METRICS
   let searchTerm = ''
-  let tab = Tab.Metrics
 
   $: LockedAsset.set($studio)
   $: ({ slug } = $LockedAsset)
@@ -49,25 +39,21 @@
 </script>
 
 <div class="sidebar-header">
-  <Tabs tabs={TABS} bind:tab />
-  <div class="mrg-l mrg--t sidebar-project" bind:this={projectNode} />
+  <div class="sidebar-project" bind:this={projectNode} />
   <Search bind:searchTerm />
 </div>
 <div
   class="sidebar-content"
   on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
-  {#if tab === Tab.Metrics}
-    <Favorites {searchTerm} {isFiltering} {onItemClick} />
-    <Notables {searchTerm} {isFiltering} {onItemClick} />
-    {#each categories as category}
-      <Category
-        {category}
-        {isFiltering}
-        items={filteredGraph[category]}
-        {HoverItem}
-        {onItemClick} />
-    {/each}
-  {:else}
-    <Insights />
-  {/if}
+  <Favorites {searchTerm} {isFiltering} {onItemClick} />
+  <Insights {searchTerm} {isFiltering} />
+  <Notables {searchTerm} {isFiltering} {onItemClick} />
+  {#each categories as category}
+    <Category
+      {category}
+      {isFiltering}
+      items={filteredGraph[category]}
+      {HoverItem}
+      {onItemClick} />
+  {/each}
 </div>
