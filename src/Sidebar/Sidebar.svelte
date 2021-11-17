@@ -19,6 +19,10 @@
   }
 </script>
 
+{#if !(isLocked || $mapview)}
+  <div class="filler" />
+{/if}
+
 <aside
   class="row"
   class:leaving
@@ -33,15 +37,17 @@
 </aside>
 
 <style>
+  .filler {
+    width: 32px;
+  }
+
   aside {
-    min-width: 292px;
     background: var(--white);
-    border-right: 1px solid var(--porcelain);
     z-index: 25;
     position: absolute;
-    transform: translate(-284px);
     top: 0;
     bottom: 0;
+    width: 32px;
   }
 
   .content {
@@ -49,22 +55,27 @@
     top: 0;
     height: 100vh;
     flex: 1;
-    width: 263px;
+    min-width: 259px;
+    transform: translate(-263px);
+    background: var(--white);
+    border-right: 1px solid var(--porcelain);
   }
 
-  .opened,
-  .locked {
+  .opened .content,
+  .locked .content {
     transform: translate(0, 0);
     transition: transform 250ms ease-out;
   }
 
   .locked {
-    transition: none;
+    width: auto;
     position: sticky;
-    top: 0;
+  }
+  .locked .content {
+    transition: none;
   }
 
-  .leaving {
+  .leaving .content {
     transition: transform 200ms;
   }
 
