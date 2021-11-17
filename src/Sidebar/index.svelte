@@ -4,7 +4,6 @@
   import { getAdapterController } from '@/adapter/context'
   import { handleItemSelect } from './controller'
   import Sidebar from './Sidebar.svelte'
-  import Toggle from './Toggle.svelte'
   import Modes, { Mode } from './Modes.svelte'
   import MetricsSidebar from './Metrics/Sidebar.svelte'
   import LayoutsSidebar from './Layouts/Sidebar.svelte'
@@ -37,7 +36,7 @@
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
   <svelte:fragment slot="left">
-    <Modes bind:mode />
+    <Modes bind:mode bind:isLocked />
   </svelte:fragment>
 
   {#if mode === Mode.Metrics}
@@ -45,8 +44,6 @@
   {:else}
     <LayoutsSidebar {onItemClick} />
   {/if}
-
-  <Toggle bind:isLocked />
 </Sidebar>
 
 <style>

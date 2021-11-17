@@ -17,6 +17,9 @@
   } from '@/Shortcuts/Dialog.svelte'
 
   export let mode = Mode.Metrics
+  export let isLocked
+
+  const MODES = [Mode.Metrics, Mode.Layouts]
 
   function openShortcutsDialog() {
     if (dialogs.has(ShortcutsDialog)) return
@@ -32,12 +35,24 @@
     track.event(Event.HelpFeedback), window.Intercom?.('show')
   )
 
-  const MODES = [Mode.Metrics, Mode.Layouts]
+  const toggleSidebar = () => (isLocked = !isLocked)
 
-  onDestroy(newGlobalShortcut('SHIFT+?', openShortcutsDialog))
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut(
+    'SHIFT+?',
+    openShortcutsDialog,
+  )
+  const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar)
+
+  onDestroy(() => {
+    removeOpenShortcutsDialogHandler()
+    removeToggleSidebarHandler()
+  })
 </script>
 
 <div class="nav row">
+  <div class="toggle btn row hv-center" on:click={toggleSidebar}>
+    <Svg id="sidebar" w="12" h="10" class={isLocked ? '$style.opened' : ''} />
+  </div>
   {#each MODES as id}
     <div
       class="btn"
@@ -71,6 +86,7 @@
     top: 0;
     height: 100vh;
     z-index: 1;
+    background: var(--white);
   }
   .btn {
     padding: 16px 5px;
@@ -81,6 +97,14 @@
   .active {
     --color: var(--green);
     --bg: var(--green-light-1);
+  }
+
+  .toggle {
+    height: 32px;
+    padding: 0;
+  }
+  .opened {
+    transform: rotate(180deg);
   }
 
   .shortcuts {

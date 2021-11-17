@@ -130,14 +130,14 @@
 
   .content {
     background: var(--athens);
-    padding: 20px 27px;
+    padding: 16px;
     position: relative;
     min-height: calc(100vh + 80px);
   }
 
   .studio-top {
-    padding: 20px 27px;
-    margin: -20px -27px 20px;
+    padding: 16px;
+    margin: -16px -16px 16px;
     background: var(--white);
   }
 

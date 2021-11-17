@@ -67,4 +67,15 @@
   .leaving {
     transition: transform 200ms;
   }
+
+  /* Used to overlay the scrollbar */
+  .content::after {
+    content: '';
+    display: block;
+    width: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -1px;
+  }
 </style>
