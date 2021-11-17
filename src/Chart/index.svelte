@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { onMount, getContext } from 'svelte'
   import {

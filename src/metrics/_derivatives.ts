@@ -25,14 +25,12 @@ export const DerivativesMetric = each(
     usdt_bnb_funding_rates: {
       label: 'Binance Funding Rate (USDT)',
       node: 'filledLine',
-      checkIsVisible: ({ isBeta }) => isBeta,
       formatter: ratioPercentForamtter,
       axisFormatter: ratioPercentAxisFormatter,
     },
     busd_bnb_funding_rates: {
       label: 'Binance Funding Rate (BUSD)',
       node: 'filledLine',
-      checkIsVisible: ({ isBeta }) => isBeta,
       formatter: ratioPercentForamtter,
       axisFormatter: ratioPercentAxisFormatter,
     },
@@ -40,7 +38,6 @@ export const DerivativesMetric = each(
       label: 'FTX Funding Rate',
       formatter: ratioPercentForamtter,
       axisFormatter: ratioPercentAxisFormatter,
-      checkIsVisible: ({ isBeta }) => isBeta,
     },
   },
   (metric: Studio.Metric) => {

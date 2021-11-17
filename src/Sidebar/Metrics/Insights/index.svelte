@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
+  import { onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
@@ -37,12 +37,6 @@
       InsightsContextStore.changePeriod(from, to)
     }
   }
-
-  onMount(() => {
-    InsightsContextStore.set(projectInsight, from, to)
-    const widget = $Widgets[0]
-    widget?.scrollIntoView?.()
-  })
 
   onDestroy(() => {
     InsightsContextStore.set()
