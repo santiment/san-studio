@@ -83,16 +83,24 @@
         })
       }
 
-      plotAxis(chart, point, color, formatter, offset, lastValueOffset)
+      plotAxis(chart, point, color, formatter, offset, lastValueOffset, true)
 
       offset += MULTI_AXIS_WIDTH
       lastValueOffset += MULTI_AXIS_WIDTH
     })
   }
 
-  function plotAxis(chart, point, color, formatter, offset, valueOffset) {
+  function plotAxis(
+    chart,
+    point,
+    color,
+    formatter,
+    offset,
+    valueOffset,
+    isWithLine = false,
+  ) {
     const { ctx, theme, top, bottom } = chart
-    drawAxisLine(ctx, color, offset, top, offset, bottom)
+    if (isWithLine) drawAxisLine(ctx, color, offset, top, offset, bottom)
 
     const { y } = point
     const value = formatter(point.value)

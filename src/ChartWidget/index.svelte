@@ -5,11 +5,6 @@
   import { getAdapterController } from '@/adapter/context'
   import Widget from './Widget.svelte'
   import { initWidget, getOnLoadContext } from './context'
-  import {
-    groupDomains,
-    getIndicatorDomainGroups,
-    checkHasDomainGroups,
-  } from './domain'
   import { debounced } from './utils'
 
   const { isOnlyChartEmbedded } = getAdapterController()
