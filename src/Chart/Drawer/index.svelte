@@ -48,7 +48,7 @@
   drawer.deleteDrawing = deleteDrawing
 
   $: drawer.metricKey = metricKey
-  $: cleanup = process.browser && hookDrawer(isNewDrawing)
+  $: cleanup = hookDrawer(isNewDrawing)
 
   const unsubscribeStore = ChartDrawer.subscribe((store) => {
     drawer.drawings = store.drawings
@@ -60,6 +60,7 @@
     const redrawer = isHidden ? clear : redraw
     if (drawer.redraw !== redrawer) {
       drawer.redraw = redrawer
+      drawer.isHidden = isHidden
 
       if (isHidden) cleanup?.()
       else cleanup = hookDrawer(false)
@@ -154,6 +155,8 @@
   }
 
   function hookDrawer(isNewDrawing: boolean) {
+    if (process.browser === false) return
+
     if (cleanup) cleanup()
     const parent = chart.canvas.parentNode as HTMLElement
 

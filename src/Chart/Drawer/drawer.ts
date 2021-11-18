@@ -33,9 +33,10 @@ export type Drawer = {
   ctx: CanvasRenderingContext2D
   drawings: Drawing[]
   metricKey: string
-  minMax: undefined | MinMax
-  hovered: undefined | Drawing
-  selected: undefined | Drawing
+  minMax?: MinMax
+  hovered?: Drawing
+  selected?: Drawing
+  isHidden?: boolean
   redraw: () => void
   drawSelection: undefined | (() => void)
   updateAbsoluteByRelativeCoordinates: (
