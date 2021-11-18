@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Svg from 'webkit/ui/Svg.svelte'
   import LayoutActions from '@/Layouts/index.svelte'
   import Layout from './Layout.svelte'
 </script>
@@ -8,7 +9,10 @@
 
   <LayoutActions />
 
-  <div class="copy btn btn-1 btn--green">Copy</div>
+  <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
+    <button class="share action btn">Share</button>
+    <button class="link action btn"><Svg id="link" w="16" /></button>
+  </div>
   <div class="mapview btn border">Mapview</div>
 </div>
 
@@ -27,16 +31,20 @@
     min-height: 64px;
   }
 
-  .btn {
-    margin-left: 8px;
-  }
-
   .mapview {
     padding: 5px 20px;
     --color-hover: var(--green);
   }
 
-  .copy {
+  .share {
     padding: 6px 14px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .link {
+    padding: 6px 8px;
+    border-left: 1px solid var(--white);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 </style>
