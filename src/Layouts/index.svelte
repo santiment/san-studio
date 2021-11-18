@@ -136,7 +136,7 @@
   })
 </script>
 
-<div class="layout border btn row">
+<div class="layout border btn row mrg-a mrg--l">
   <div class="action btn" on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
@@ -191,8 +191,8 @@
   .action,
   .menu {
     --color-hover: var(--green);
-    height: 32px;
-    padding: 6px 12px;
+    height: 30px;
+    padding: 5px 12px;
   }
 
   .menu {

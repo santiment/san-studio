@@ -1,29 +1,15 @@
 <script lang="ts">
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
   import LayoutActions from '@/Layouts/index.svelte'
-  import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
-  import { selectedLayout } from '@/stores/layout'
-
-  $: layout = $selectedLayout
+  import Layout from './Layout.svelte'
 </script>
 
 <div class="border header panel row v-center">
-  {#if layout}
-    <Tooltip on="click" duration={0}>
-      <div slot="trigger" class="row v-center mrg-l mrg--r">
-        <div class="btn info mrg-s mrg--r row v-center">
-          <Svg id="info" w="16" />
-        </div>
-        {layout.title}
-      </div>
+  <Layout />
 
-      <div slot="tooltip" class="tooltip">
-        <LayoutInfo {layout} />
-      </div>
-    </Tooltip>
-  {/if}
   <LayoutActions />
+
+  <div class="copy btn btn-1 btn--green">Copy</div>
+  <div class="mapview btn border">Mapview</div>
 </div>
 
 <style>
@@ -41,13 +27,16 @@
     min-height: 64px;
   }
 
-  .info {
-    --fill: var(--casper);
-    --fill-hover: var(--green);
+  .btn {
+    margin-left: 8px;
   }
 
-  .tooltip {
-    padding: 24px;
-    width: 484px;
+  .mapview {
+    padding: 5px 20px;
+    --color-hover: var(--green);
+  }
+
+  .copy {
+    padding: 6px 14px;
   }
 </style>

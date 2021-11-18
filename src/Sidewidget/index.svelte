@@ -40,10 +40,11 @@
   }
 
   .icon {
-    --fill: var(--casper);
+    --fill: var(--waterloo);
     --fill-hover: var(--green);
     --bg: var(--white);
-    padding: 10px 4px;
+    padding: 10px 7px;
+    transform: rotate(180deg);
   }
 
   .studio-sidewidget {
