@@ -11,7 +11,8 @@
 
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
     <button class="share action btn">Share</button>
-    <button class="link action btn"><Svg id="link" w="16" /></button>
+    <button class="link action btn expl-tooltip" aria-label="Copy link"
+      ><Svg id="link" w="16" /></button>
   </div>
   <div class="mapview btn border">Mapview</div>
 </div>
@@ -46,5 +47,6 @@
     border-left: 1px solid var(--white);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    --expl-align-x: -46%;
   }
 </style>

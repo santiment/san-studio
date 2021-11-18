@@ -111,6 +111,10 @@ export function initWidgets(defaultWidgets, getExternalWidget, History) {
   return store
 }
 
+export const SidewidgetType = {
+  LAYOUT_COMMENTS: 'LAYOUT_COMMENTS',
+} as const
+
 const SIDEWIDGET_CONTEXT = 'sidewidget'
 export const setSidewidget = (sidewidget): void =>
   setContext(SIDEWIDGET_CONTEXT, sidewidget)

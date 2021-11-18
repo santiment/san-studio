@@ -22,7 +22,7 @@
 
 <div
   class="btn expl-tooltip controls-btn controls-expl"
-  title={isActive ? 'Show drawings' : 'Hide drawings'}
+  aria-label={isActive ? 'Show drawings' : 'Hide drawings'}
   class:controls-btn_active={isActive}
   on:click={onClick}>
   {#if isActive}

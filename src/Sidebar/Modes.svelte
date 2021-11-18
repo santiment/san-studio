@@ -9,6 +9,7 @@
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { newGlobalShortcut } from 'webkit/utils/events'
+  import { CMD } from 'webkit/utils/os'
   import { dialogs } from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
@@ -50,8 +51,11 @@
 </script>
 
 <div class="nav row">
-  <div class="toggle btn row hv-center" on:click={toggleSidebar}>
-    <Svg id="sidebar" w="12" h="10" class={isLocked ? '$style.opened' : ''} />
+  <div
+    aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \"
+    class="toggle btn row hv-center expl-tooltip"
+    on:click={toggleSidebar}>
+    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : '$style.closed'} />
   </div>
   {#each MODES as id}
     <div
@@ -64,7 +68,7 @@
 
   <div class="bottom mrg-a mrg--t row">
     <div
-      title="Shortcuts | Shift + ?"
+      aria-label="Shortcuts | Shift + ?"
       class="shortcuts btn row hv-center expl-tooltip"
       on:click={showShortcutsDialog}>
       <Svg id="cmd-key" w="16" />
@@ -102,8 +106,11 @@
   .toggle {
     height: 32px;
     padding: 0;
+    transform: none;
+    border: none;
+    border-bottom: 1px solid var(--porcelain);
   }
-  .opened {
+  .closed {
     transform: rotate(180deg);
   }
 
@@ -113,8 +120,11 @@
     width: 32px;
     padding: 0;
     transform: none;
-    position: relative;
-    --expl-position: 28px;
+  }
+
+  .toggle,
+  .shortcuts {
+    --expl-position-y: 28px;
   }
 
   .expl-tooltip::before {

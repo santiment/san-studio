@@ -4,12 +4,11 @@
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
   import LayoutAuthor from '@/Layouts/LayoutAuthor.svelte'
   import { selectedLayout } from '@/stores/layout'
-  import { getSidewidget } from '@/stores/widgets'
+  import { SidewidgetType, getSidewidget } from '@/stores/widgets'
 
   const Sidewidget = getSidewidget()
 
   $: layout = $selectedLayout
-  const LAYOUT_COMMENTS = 'LAYOUT_COMMENTS'
 </script>
 
 {#if layout}
@@ -34,8 +33,8 @@
 
   <div
     class="action btn border txt-m"
-    class:active={$Sidewidget === LAYOUT_COMMENTS}
-    on:click={() => Sidewidget.set(LAYOUT_COMMENTS)}>
+    class:active={$Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
+    on:click={() => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS)}>
     <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
     0
   </div>
