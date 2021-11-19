@@ -7,7 +7,6 @@
 </script>
 
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import Dialog from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
@@ -18,7 +17,7 @@
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
 
-  export let layout: Layout
+  export let layout: SAN.Layout
   export let isAuthor = false
   export let closeLoadDialog
 

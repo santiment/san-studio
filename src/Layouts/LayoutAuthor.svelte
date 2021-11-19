@@ -1,10 +1,9 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import Svg from 'webkit/ui/Svg.svelte'
 
   let className = ''
   export { className as class }
-  export let user: Layout['user']
+  export let user: SAN.Author
 </script>
 
 <a class="row v-center {className}" href="/profile/{user.id}">

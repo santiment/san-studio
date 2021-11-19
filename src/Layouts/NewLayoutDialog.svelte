@@ -3,7 +3,7 @@
   import NewLayoutDialog from './NewLayoutDialog.svelte'
 
   export const showNewLayoutDialog = (props?: any) =>
-    dialogs.show<Layout>(NewLayoutDialog, props)
+    dialogs.show<SAN.Layout>(NewLayoutDialog, props)
 
   export const Mode = {
     New: 0,
@@ -14,7 +14,6 @@
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
-  import type { Layout } from '@/api/layouts'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
   import Toggle from 'webkit/ui/Toggle.svelte'
@@ -30,7 +29,7 @@
   export let DialogPromise: DialogController
   export let title = 'New Chart Layout'
   export let mode: typeof Mode[keyof typeof Mode] = Mode.New
-  export let layout: undefined | Layout
+  export let layout: undefined | SAN.Layout
 
   let closeDialog
 

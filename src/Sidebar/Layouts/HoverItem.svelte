@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import { onMount, onDestroy } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
   import { currentUser } from '@/stores/user'
@@ -14,7 +13,7 @@
   export let hoverNode: HTMLElement
 
   let timer
-  let layout = {} as Layout
+  let layout = {} as SAN.Layout
   let destroyed = false
 
   $: isAuthor =

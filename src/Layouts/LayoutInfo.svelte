@@ -1,10 +1,9 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Metric } from '@/metrics'
   import Author from './LayoutAuthor.svelte'
 
-  export let layout: Pick<Layout, 'project' | 'user' | 'metrics'>
+  export let layout: Pick<SAN.Layout, 'project' | 'user' | 'metrics'>
 
   $: ({ project, user, metrics } = layout)
 

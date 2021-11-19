@@ -34,31 +34,12 @@ const LAYOUT_QUERY = (id: number) => `
   }
 `
 
-export type Layout = {
-  id: number
-  title: string
-  description: string
-  metrics: string[]
-  options: { widgets?: { [key: string]: any }[] }
-  project: {
-    projectId: string
-    name: string
-    slug: string
-    ticker: string
-  }
-  user: {
-    id: number
-    username: string | null
-    email: string | null
-    avatarUrl: string | null
-  }
-}
-type LayoutQuery = Query<'layout', Layout>
+type LayoutQuery = Query<'layout', SAN.Layout>
 
-export const queryLayout = (id: number): Promise<Layout> =>
+export const queryLayout = (id: number): Promise<SAN.Layout> =>
   query<LayoutQuery>(LAYOUT_QUERY(id)).then(layoutAccessor)
 
-export const updateLayoutCache = (layout: Layout): void =>
+export const updateLayoutCache = (layout: SAN.Layout): void =>
   Cache.set<LayoutQuery>(LAYOUT_QUERY(layout.id), { layout })
 
 // --------------------------
@@ -74,8 +55,7 @@ const SHORT_LAYOUT_QUERY = (id: number) => `
   }
 `
 
-export type ShortLayout = Pick<Layout, 'id' | 'title'>
-type ShortLayoutQuery = Query<'layout', ShortLayout>
+type ShortLayoutQuery = Query<'layout', SAN.ShortLayout>
 
-export const queryShortLayout = (id: number): Promise<ShortLayout> =>
+export const queryShortLayout = (id: number): Promise<SAN.ShortLayout> =>
   query<ShortLayoutQuery>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)

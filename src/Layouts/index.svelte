@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
@@ -85,7 +84,7 @@
     onNew()
   }
 
-  window.onLayoutSelect = (layout: Layout) => {
+  window.onLayoutSelect = (layout: SAN.Layout) => {
     if ($selectedLayout && +layout.id === +$selectedLayout.id) return
 
     const newWidgets = window.parseLayoutWidgets(layout)

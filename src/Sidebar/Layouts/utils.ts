@@ -1,4 +1,3 @@
-import type { Layout } from '@/api/layouts'
 import { saveValue, getSavedValue } from 'webkit/utils/localStorage'
 import { queryShortLayout } from '@/api/layouts'
 import { getSavedRecentLayoutIds } from '@/Layouts/utils'
@@ -25,7 +24,7 @@ export const newExploreGraph = () => ({
 })
 
 const emptyLayoutsFilter = (layouts) => layouts.filter(Boolean)
-export function queryRecentLayouts(): Promise<Layout[]> {
+export function queryRecentLayouts(): Promise<SAN.Layout[]> {
   const ids = getSavedRecentLayoutIds()
   const query = (id: number) => queryShortLayout(id).catch(() => null)
   return ids.length

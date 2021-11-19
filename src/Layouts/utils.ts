@@ -1,4 +1,3 @@
-import type { Layout } from '@/api/layouts'
 import type { LayoutCreation } from '@/api/layouts/mutate'
 import {
   saveJson,
@@ -50,7 +49,7 @@ function saveRecentLayoutIds(items: number[]) {
 
 const SCHEDULED_CHART = 'SCHEDULED_CHART'
 export const saveScheduledLayout = (
-  layout: Omit<Layout, 'id' | 'project' | 'user'>,
+  layout: Omit<SAN.Layout, 'id' | 'project' | 'user'>,
 ): void => saveJson(SCHEDULED_CHART, layout)
 
 export const getScheduledLayout = () =>
