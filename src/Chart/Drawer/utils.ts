@@ -1,6 +1,4 @@
-import type { Drawing } from './drawer'
-
-type NewDrawing = Partial<Drawing> & Pick<Drawing, 'type'>
+type NewDrawing = Partial<SAN.Charts.Drawing> & Pick<SAN.Charts.Drawing, 'type'>
 export function newDrawing<T extends NewDrawing>(drawing: T): T {
   const { absCoor = [], relCoor = [], ratioCoor = [], handlers = [] } = drawing
   drawing.absCoor = absCoor

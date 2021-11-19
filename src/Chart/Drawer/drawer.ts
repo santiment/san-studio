@@ -7,74 +7,13 @@ import {
   setupDrawingsCoordinatesUpdater,
 } from './coordinates'
 
-export type MinMax = { min: number; max: number }
-
-type Offset = {
-  top: number
-  right: number
-  bottom: number
-  left: number
-}
-
-export type DrawingTypes = 'line' | 'emoji' | 'note'
-export interface Drawing {
-  type: DrawingTypes
-  /** [chart x, chart y, ... x(i), y(i+1), ...] */
-  absCoor: number[]
-  /** [width/chart x, height/chart y, ... x(i), y(i+1), ...] */
-  ratioCoor: number[]
-  /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
-  relCoor: number[]
-  handlers: Path2D[]
-}
-
-export type Drawer = {
-  canvas: HTMLCanvasElement
-  ctx: CanvasRenderingContext2D
-  drawings: Drawing[]
-  metricKey: string
-  minMax?: MinMax
-  hovered?: Drawing
-  selected?: Drawing
-  isHidden?: boolean
-  redraw: () => void
-  drawSelection: undefined | (() => void)
-  updateAbsoluteByRelativeCoordinates: (
-    relCoor: number[],
-    absCoor: number[],
-  ) => void
-  updateRelativeByAbsoluteCoordinates: (
-    absCoor: number[],
-    relCoor: number[],
-  ) => void
-  addDrawing: (drawing: Drawing) => void
-  deleteDrawing: (drawing: Drawing) => void
-}
-
-export type Chart = Offset & {
-  canvas: HTMLCanvasElement
-  drawer: Drawer
-  dpr: number
-  width: number
-  height: number
-  canvasWidth: number
-  plotManager: any
-  theme: any
-  scale: any
-  metricSettings: any
-  axesMetricKeys: string[]
-  minMaxes: { [metric: string]: undefined | MinMax }
-  rightAxisMargin?: number
-  data: { datetime: number }[]
-}
-
 export const PLOT_ID = 'Drawer'
 
 export function newDrawer(
-  chart: Chart,
-  onSelectionChange: (drawing?: Drawing) => void,
+  chart: SAN.Charts.Chart,
+  onSelectionChange: (drawing?: SAN.Charts.Drawing) => void,
 ) {
-  const drawer = newCanvas(chart as any) as Drawer
+  const drawer = newCanvas(chart as any) as SAN.Charts.Drawer
   const { canvas, plotManager } = chart
 
   if (process.browser) {
@@ -91,15 +30,15 @@ export function newDrawer(
 }
 
 function newDrawerUpdater(
-  { width, height }: Chart,
-  onSelectionChange: (drawing?: Drawing) => void,
+  { width, height }: SAN.Charts.Chart,
+  onSelectionChange: (drawing?: SAN.Charts.Drawing) => void,
 ) {
   const oldWidthHeight = [width, height]
   let oldMetricKey: string
 
   const checkIsNewDatetimes = newChangedDatetimesChecker()
 
-  return (chart: Chart) => {
+  return (chart: SAN.Charts.Chart) => {
     const { drawer, width, height, minMaxes, data } = chart
     const minMax = minMaxes[drawer.metricKey]
     if (!minMax) return
@@ -144,7 +83,7 @@ function newDrawerUpdater(
 
 function newChangedDatetimesChecker() {
   const datetimes = [] as number[]
-  return (data: Chart['data']) => {
+  return (data: SAN.Charts.Data) => {
     const { length } = data
     if (!length) return false
 

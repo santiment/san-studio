@@ -1,25 +1,11 @@
-import type { Chart, Drawer, Drawing } from '../drawer'
 import { newDrawing } from '../utils'
 
-export interface Note extends Drawing {
-  type: 'note'
-  text: string
-  width: number
-  height: number
-  hidden?: boolean
-  /** [x, y] */
-  absCoor: [number, number]
-  /** [x, y] */
-  relCoor: [number, number]
-  /** [x, y] */
-  ratioCoor: [number, number]
-  handlers: []
-}
-
-type NewNote = Partial<Pick<Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>>
+type NewNote = Partial<
+  Pick<SAN.Charts.Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>
+>
 export function newNote(drawing: NewNote) {
   if (!drawing.text) drawing.text = 'Text'
-  return newDrawing(Object.assign(drawing, { type: 'note' }) as Note)
+  return newDrawing(Object.assign(drawing, { type: 'note' }) as SAN.Charts.Note)
 }
 
 const PADDING = 8
@@ -39,7 +25,7 @@ function newInput(text: string, style = STYLE, x = -999, y = -999) {
   return input
 }
 
-export function paintNote(chart: Chart, drawing: Note) {
+export function paintNote(chart: SAN.Charts.Chart, drawing: SAN.Charts.Note) {
   const { hidden, text } = drawing
   if (hidden || !text) return
 
@@ -64,7 +50,10 @@ export function paintNote(chart: Chart, drawing: Note) {
   ctx.restore()
 }
 
-export function updateNote(drawer: Drawer, drawing: Note) {
+export function updateNote(
+  drawer: SAN.Charts.Drawer,
+  drawing: SAN.Charts.Note,
+) {
   if (!drawing.width) {
     const { ctx } = drawer
     ctx.save()
@@ -92,7 +81,7 @@ export function updateNote(drawer: Drawer, drawing: Note) {
 
 export function checkNoteIsHovered(
   _,
-  drawing: Note,
+  drawing: SAN.Charts.Note,
   mouseXY: [number, number],
 ) {
   if (drawing.hidden) return false
@@ -104,7 +93,10 @@ export function checkNoteIsHovered(
   return x < mouseX && mouseX < x + width && y < mouseY && mouseY < y + height
 }
 
-export function paintNoteHover({ drawer }: Chart, drawing: Note) {
+export function paintNoteHover(
+  { drawer }: SAN.Charts.Chart,
+  drawing: SAN.Charts.Note,
+) {
   if (drawing.hidden) return
 
   const { ctx } = drawer
@@ -122,8 +114,8 @@ export function paintNoteHover({ drawer }: Chart, drawing: Note) {
 // ------------------------
 
 export function noteDragModifier(
-  drawing: Note,
-  [x, y]: Note['absCoor'],
+  drawing: SAN.Charts.Note,
+  [x, y]: SAN.Charts.Note['absCoor'],
   _,
   xDiff: number,
   yDiff: number,
@@ -138,8 +130,8 @@ export function noteDragModifier(
 
 const stopPropagation = (e: Event) => e.stopImmediatePropagation()
 export function handleNoteDoubleClick(
-  drawer: Drawer,
-  drawing: Note,
+  drawer: SAN.Charts.Drawer,
+  drawing: SAN.Charts.Note,
   onDrawingModified: any,
 ) {
   drawing.hidden = true

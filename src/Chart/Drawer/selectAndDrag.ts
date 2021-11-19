@@ -1,4 +1,3 @@
-import type { Chart, Drawer, Drawing, DrawingTypes } from './drawer'
 import { getEventCoordinates } from './utils'
 import { absoluteToRatioCoordinates } from './coordinates'
 import { getDrawingUpdater } from './drawings'
@@ -7,22 +6,22 @@ import { getEmojiDragData, emojiDragModifier } from './drawings/emoji'
 import { noteDragModifier, handleNoteDoubleClick } from './drawings/note'
 
 type Controller = {
-  selectDrawing: (drawing?: Drawing) => void
+  selectDrawing: (drawing?: SAN.Charts.Drawing) => void
   startDrawing: () => void
   stopDrawing: () => void
   onDrawingDragEnd: (
-    drawing: Drawing,
-    oldAbsCoor: Drawing['absCoor'],
+    drawing: SAN.Charts.Drawing,
+    oldAbsCoor: SAN.Charts.Drawing['absCoor'],
     data: any[],
   ) => void
 }
 
 const DrawingDoubleClickHandler = {
   note: handleNoteDoubleClick,
-} as Record<DrawingTypes, undefined | any>
+} as Record<SAN.Charts.DrawingTypes, undefined | any>
 
 export function newDoubleClickHandler(
-  chart: Chart,
+  chart: SAN.Charts.Chart,
   onDrawingModified: Controller['onDrawingDragEnd'],
 ) {
   const { drawer } = chart
@@ -38,7 +37,10 @@ export function newDoubleClickHandler(
   }
 }
 
-export function newDrawingSelectHandler(chart: Chart, controller: Controller) {
+export function newDrawingSelectHandler(
+  chart: SAN.Charts.Chart,
+  controller: Controller,
+) {
   const { canvas, drawer, dpr } = chart
   const parent = canvas.parentNode as HTMLElement
 
@@ -76,7 +78,7 @@ export function newDrawingSelectHandler(chart: Chart, controller: Controller) {
       controller.stopDrawing()
       if (wasDragged.value) {
         controller.onDrawingDragEnd(
-          hovered as Drawing,
+          hovered as SAN.Charts.Drawing,
           initialRatioCoor,
           wasDragged.data,
         )
@@ -87,7 +89,7 @@ export function newDrawingSelectHandler(chart: Chart, controller: Controller) {
 
 type DragDataGetter = (
   ctx: CanvasRenderingContext2D,
-  drawing: Drawing,
+  drawing: SAN.Charts.Drawing,
   x: number,
   y: number,
 ) => any[]
@@ -95,10 +97,10 @@ const DrawingDragDataGetter = {
   line: getLineDragData,
   emoji: getEmojiDragData,
   note: undefined,
-} as Record<DrawingTypes, undefined | DragDataGetter>
+} as Record<SAN.Charts.DrawingTypes, undefined | DragDataGetter>
 
 type DragModifier = (
-  drawing: Drawing,
+  drawing: SAN.Charts.Drawing,
   initialAbsCoor: number[],
   dragData: undefined | any[],
   xDiff: number,
@@ -109,11 +111,11 @@ const DrawingDragModifier = {
   line: lineDragModifier,
   emoji: emojiDragModifier,
   note: noteDragModifier,
-} as Record<DrawingTypes, undefined | DragModifier>
+} as Record<SAN.Charts.DrawingTypes, undefined | DragModifier>
 
 function newDrawingDragHandler(
-  chart: Chart,
-  drawing: Drawing,
+  chart: SAN.Charts.Chart,
+  drawing: SAN.Charts.Drawing,
   [startX, startY]: [number, number],
   dpr: number,
   wasDragged: { value: boolean; data: any[] },
@@ -149,9 +151,9 @@ function newDrawingDragHandler(
   }
 }
 
-export const newDrawingDeleteHandler =
-  (drawer: Drawer) =>
-  ({ key }: KeyboardEvent) => {
-    if (key !== 'Backspace' || !drawer.selected) return
-    drawer.deleteDrawing(drawer.selected)
-  }
+export const newDrawingDeleteHandler = (drawer: SAN.Charts.Drawer) => ({
+  key,
+}: KeyboardEvent) => {
+  if (key !== 'Backspace' || !drawer.selected) return
+  drawer.deleteDrawing(drawer.selected)
+}

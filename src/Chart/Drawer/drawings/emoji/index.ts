@@ -1,4 +1,3 @@
-import type { Chart, Drawing } from '../../drawer'
 import { newDrawing, newRectHandle } from '../../utils'
 import rocket from './rocket.png'
 import fire from './fire.png'
@@ -12,40 +11,16 @@ import rock from './rock.png'
 const MIN_SIZE = 25
 const MAX_SIZE = 70
 
-export type EmojiIds =
-  | 'rocket'
-  | 'fire'
-  | 'bear'
-  | 'stop'
-  | 'unicorn'
-  | 'bell'
-  | 'poo'
-  | 'rock'
-
-export interface Emoji extends Drawing {
-  type: 'emoji'
-  id: EmojiIds
-  size: number
-  /** [x, y] */
-  absCoor: [number, number]
-  /** [x, y] */
-  relCoor: [number, number]
-  /** [x, y] */
-  ratioCoor: [number, number]
-  hitbox: Path2D
-  handlers: [Path2D, Path2D, Path2D, Path2D]
-}
-
 type NewEmoji = Partial<
-  Pick<Emoji, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
-> & { id: EmojiIds }
+  Pick<SAN.Charts.Emoji, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
+> & { id: SAN.Charts.EmojiIds }
 export function newEmoji(drawing: NewEmoji) {
   drawing.size = drawing.size || 50
-  const emoji = Object.assign(drawing, { type: 'emoji' }) as Emoji
+  const emoji = Object.assign(drawing, { type: 'emoji' }) as SAN.Charts.Emoji
   return newDrawing(emoji)
 }
 
-export const EmojiSrc: Record<EmojiIds, string> = {
+export const EmojiSrc: Record<SAN.Charts.EmojiIds, string> = {
   fire,
   rocket,
   stop,
@@ -55,14 +30,17 @@ export const EmojiSrc: Record<EmojiIds, string> = {
   unicorn,
   bell,
 }
-export const EMOJIS = Object.entries(EmojiSrc) as [EmojiIds, string][]
+export const EMOJIS = Object.entries(EmojiSrc) as [
+  SAN.Charts.EmojiIds,
+  string,
+][]
 
 export const CachedEmoji = new Map<
-  EmojiIds,
+  SAN.Charts.EmojiIds,
   undefined | null | HTMLImageElement
 >()
 
-export function paintEmoji(chart: Chart, drawing: Emoji) {
+export function paintEmoji(chart: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
   const img = CachedEmoji.get(drawing.id)
   if (img === null) return
   if (img === undefined) return loadEmoji(chart, drawing)
@@ -74,7 +52,7 @@ export function paintEmoji(chart: Chart, drawing: Emoji) {
   chart.drawer.ctx.drawImage(img, x - sizeOffset, y - sizeOffset, size, size)
 }
 
-export function loadEmoji(chart: Chart, drawing: Emoji) {
+export function loadEmoji(chart: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
   const Image = process.browser ? window.Image : require('canvas').Image
   const img = new Image()
   img.onload = () => {
@@ -85,7 +63,7 @@ export function loadEmoji(chart: Chart, drawing: Emoji) {
   if (!CachedEmoji.get(drawing.id)) CachedEmoji.set(drawing.id, null)
 }
 
-export function updateEmoji(_, drawing: Emoji) {
+export function updateEmoji(_, drawing: SAN.Charts.Emoji) {
   const { size, absCoor } = drawing
   const [x, y] = absCoor
 
@@ -112,7 +90,7 @@ export function updateEmoji(_, drawing: Emoji) {
 
 export function checkEmojiIsHovered(
   ctx: CanvasRenderingContext2D,
-  drawing: Emoji,
+  drawing: SAN.Charts.Emoji,
   mouseXY: [number, number],
   dpr: number,
 ) {
@@ -129,7 +107,10 @@ export function checkEmojiIsHovered(
   return false
 }
 
-export function paintEmojiHover({ drawer }: Chart, drawing: Emoji) {
+export function paintEmojiHover(
+  { drawer }: SAN.Charts.Chart,
+  drawing: SAN.Charts.Emoji,
+) {
   const { ctx } = drawer
   const { hitbox, handlers } = drawing
 
@@ -151,10 +132,10 @@ export function paintEmojiHover({ drawer }: Chart, drawing: Emoji) {
 // --- DRAGGING ---
 // ------------------------
 
-type EmojiDragData = [Emoji['size'], boolean, boolean]
+type EmojiDragData = [SAN.Charts.Emoji['size'], boolean, boolean]
 export function getEmojiDragData(
   ctx: CanvasRenderingContext2D,
-  drawing: Emoji,
+  drawing: SAN.Charts.Emoji,
   x: number,
   y: number,
 ): EmojiDragData {
@@ -173,8 +154,8 @@ export function getEmojiDragData(
 }
 
 export function emojiDragModifier(
-  drawing: Emoji,
-  initialAbsCoor: Emoji['absCoor'],
+  drawing: SAN.Charts.Emoji,
+  initialAbsCoor: SAN.Charts.Emoji['absCoor'],
   [initialSize, isResize, areLeftHandlers]: EmojiDragData,
   xDiff: number,
   yDiff: number,
