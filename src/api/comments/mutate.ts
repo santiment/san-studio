@@ -3,6 +3,10 @@ import type { Query } from 'webkit/api'
 import { mutate } from 'webkit/api'
 import { COMMENT_FIELDS } from './index'
 
+// -----------------------------
+// CREATE COMMENT
+// -----------------------------
+
 const CREATE_COMMENT_MUTATION = `
   mutation(
     $id: Int
@@ -38,3 +42,27 @@ export function createLayoutComment(
   const variables = { id, content, parentId, type: CommentsType.Layout }
   return createComment(variables)
 }
+
+// -----------------------------
+// UPDATE COMMENT
+// -----------------------------
+
+const UPDATE_COMMENT_MUTATION = `
+  mutation($id: Int!, $content: String!) {
+    updateComment(commentId:$id, content:$content) { id }
+  }
+`
+export const updateComment = (id: number, content: string): Promise<void> =>
+  mutate<void>(UPDATE_COMMENT_MUTATION, {
+    variables: { id, content },
+  })
+
+// -----------------------------
+// DELETE COMMENT
+// -----------------------------
+
+const DELETE_COMMENT_MUTATION = (id: number) => `
+  mutation { deleteComment(commentId:${id}) { id } }
+`
+export const deleteComment = (id: number): Promise<void> =>
+  mutate<void>(DELETE_COMMENT_MUTATION(id))

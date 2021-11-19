@@ -11,22 +11,25 @@
     {#if user.avatarUrl}
       <img alt="Avatar" src={user.avatarUrl} />
     {:else}
-      <Svg id="user" w="16" />
+      <Svg id="user" w="16" class="$style.svg" />
     {/if}
   </div>
+
   <span>
     {user.username || user.email}
+    <slot />
   </span>
 </a>
 
 <style>
   .img,
   img {
-    width: 32px;
-    height: 32px;
-    max-width: 32px;
-    max-height: 32px;
-    min-width: 32px;
+    --size: var(--img-size, 32px);
+    width: var(--size);
+    height: var(--size);
+    max-width: var(--size);
+    max-height: var(--size);
+    min-width: var(--size);
   }
 
   .img {
@@ -47,5 +50,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .svg {
+    max-width: 50%;
   }
 </style>

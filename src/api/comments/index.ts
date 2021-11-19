@@ -6,6 +6,7 @@ export const COMMENT_FIELDS = `id
   content
   insertedAt
   editedAt
+  parentId
   user {
     id
     username

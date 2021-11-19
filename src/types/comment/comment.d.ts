@@ -3,6 +3,7 @@ declare namespace SAN {
 
   type Comment = {
     id: number
+    parentId: null | number
     content: string
     insertedAt: string
     editedAt: null | string
