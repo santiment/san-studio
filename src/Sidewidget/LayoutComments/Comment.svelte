@@ -72,6 +72,7 @@
   .actions {
     --color: var(--waterloo);
     --color-hover: var(--green);
+    position: relative;
   }
 
   .user {
