@@ -70,12 +70,17 @@
     }
   }
 
+  function adjustHeight({ currentTarget }) {
+    currentTarget.style.height = '1px'
+    currentTarget.style.height = currentTarget.scrollHeight + 2 + 'px'
+  }
+
   onDestroy(() => {
     removeHighlight?.()
   })
 </script>
 
-<h3 class="body-2 txt-m">Conversations ({comments.length})</h3>
+<div class="body-2 txt-m">Conversations ({comments.length})</div>
 
 {#if $globals.isLoggedIn}
   <form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
@@ -84,7 +89,8 @@
       required
       rows="1"
       class="border fluid"
-      placeholder="Type your comment here" />
+      placeholder="Type your comment here"
+      on:input={adjustHeight} />
 
     <button
       type="submit"
@@ -109,6 +115,9 @@
   textarea {
     resize: none;
     padding: 5px 10px;
+    font-family: 'Proxima Nova', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
   }
 
   .comments {
