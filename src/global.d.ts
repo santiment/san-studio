@@ -25,6 +25,8 @@ interface Window {
   notifyLayoutAnonCreation?: () => void
   onLayoutCreationOpen?: () => void
   renderCombineProjectSelector?: () => void
+  onHeaderCopyLinkClick?: () => void
+  onHeaderShareClick?: () => void
   __onLinkClick?: (e: MouseEvent) => void
 }
 

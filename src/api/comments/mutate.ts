@@ -53,7 +53,7 @@ const UPDATE_COMMENT_MUTATION = `
   }
 `
 export const updateComment = (id: number, content: string): Promise<void> =>
-  mutate<void>(UPDATE_COMMENT_MUTATION, {
+  mutate<any>(UPDATE_COMMENT_MUTATION, {
     variables: { id, content },
   })
 
@@ -65,4 +65,4 @@ const DELETE_COMMENT_MUTATION = (id: number) => `
   mutation { deleteComment(commentId:${id}) { id } }
 `
 export const deleteComment = (id: number): Promise<void> =>
-  mutate<void>(DELETE_COMMENT_MUTATION(id))
+  mutate<any>(DELETE_COMMENT_MUTATION(id))
