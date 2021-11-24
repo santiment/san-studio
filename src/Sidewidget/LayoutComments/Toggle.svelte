@@ -36,7 +36,8 @@
     padding: 5px 12px;
     border-radius: 20px;
     --color: var(--waterloo);
-    --border-hover: var(--green);
+    --color-hover: var(--black);
+    --border-hover: var(--mystic);
   }
 
   .active {

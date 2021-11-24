@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg.svelte'
+  import { Event } from '@/analytics'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import LayoutActions from '@/Layouts/index.svelte'
   import Layout from './Layout.svelte'
@@ -26,6 +28,16 @@
     }
     headerNode.style.transform = transform
   }
+
+  function onShareClick() {
+    track.event(Event.Share)
+    window.onHeaderShareClick?.()
+  }
+
+  function onCopyLinkClick() {
+    track.event(Event.CopyLink)
+    window.onHeaderCopyLinkClick?.()
+  }
 </script>
 
 <div class="border header panel row v-center" bind:this={headerNode}>
@@ -34,12 +46,11 @@
   <LayoutActions />
 
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
-    <button class="share action btn" on:click={window.onHeaderShareClick}
-      >Share</button>
+    <button class="share action btn" on:click={onShareClick}>Share</button>
     <button
       class="link action btn expl-tooltip"
       aria-label="Copy link"
-      on:click={window.onHeaderCopyLinkClick}><Svg id="link" w="16" /></button>
+      on:click={onCopyLinkClick}><Svg id="link" w="16" /></button>
   </div>
 
   <div class="studio-calendar" />
@@ -79,6 +90,9 @@
     --border-hover: var(--green-hover);
   }
 
+  .action {
+    height: 32px;
+  }
   .share {
     padding: 6px 14px;
     border-top-right-radius: 0;

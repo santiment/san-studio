@@ -54,11 +54,3 @@
     </div>
   </div>
 </Dialog>
-
-<style>
-  textarea {
-    padding: 9px 12px;
-    min-height: 40px;
-    width: 400px;
-  }
-</style>

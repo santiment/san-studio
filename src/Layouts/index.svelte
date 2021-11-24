@@ -27,12 +27,44 @@
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
+  let changed = false
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
 
   const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
   const callIfRegistered = (clb: () => any) => () =>
     ($currentUser ? clb : window.showLoginPrompt)?.()
+
+  /*
+  const stringify = (data) => JSON.stringify(data)
+  function checkIsChanged(layout: SAN.Layout, widgets: any[]) {
+    const optimizeLayout = window.shareLayoutWidgets
+    if (!optimizeLayout) return false
+
+    const layoutWidgets = layout.options.widgets
+    if (!layoutWidgets) return true
+
+    // Removing undefined values
+    const userWidgets: any[] = JSON.parse(stringify(optimizeLayout(widgets)))
+
+    if (layoutWidgets.length !== userWidgets.length) return true
+
+    for (let i = 0; i < layoutWidgets.length; i++) {
+      const layoutWidget = layoutWidgets[i]
+      const userWidget = userWidgets[i]
+
+      console.log(layoutWidget, userWidget)
+
+      if (
+        Object.keys(layoutWidget).some(
+          (key) => stringify(layoutWidget[key]) !== stringify(userWidget[key]),
+        )
+      ) {
+        return true
+      }
+    }
+  }
+  */
 
   function onSave() {
     let promise: Promise<any>
@@ -135,12 +167,15 @@
   })
 </script>
 
-<div class="layout border btn row mrg-a mrg--l">
-  <div class="action btn" on:click={callIfRegistered(onSave)}>
+<div class="layout btn row mrg-a mrg--l">
+  <div
+    class="action btn border"
+    class:changed
+    on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
   <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
-    <div class="menu btn" slot="trigger">
+    <div class="menu btn border" slot="trigger">
       <Svg id="arrow" w="8" h="5" class="$style.arrow" />
     </div>
 
@@ -190,13 +225,19 @@
   .action,
   .menu {
     --color-hover: var(--green);
-    height: 30px;
-    padding: 5px 12px;
+    height: 32px;
+    padding: 6px 12px;
+  }
+
+  .action {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .menu {
-    border-left: 1px solid var(--porcelain);
-    border-radius: 0;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
     --color: var(--waterloo);
   }
 
@@ -222,5 +263,12 @@
 
   .caption {
     color: var(--waterloo);
+  }
+
+  .changed {
+    --color: var(--orange);
+    --border: var(--orange);
+    --color-hover: var(--orange-hover);
+    --border-hover: var(--orange-hover);
   }
 </style>
