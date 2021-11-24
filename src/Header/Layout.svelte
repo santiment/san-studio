@@ -10,12 +10,12 @@
 </script>
 
 {#if layout}
-  <div class="row v-center mrg-l mrg--r">
-    <LayoutAuthor user={layout.user} />
+  <div class="layout row v-center mrg-l mrg--r">
+    <LayoutAuthor user={layout.user} class="$style.author" />
 
     <div class="divider" />
 
-    <span class="body-2">
+    <span class="title body-2">
       {layout.title}
     </span>
 
@@ -33,6 +33,10 @@
 {/if}
 
 <style>
+  .layout {
+    max-width: 50%;
+  }
+
   .info {
     --fill: var(--casper);
     --fill-hover: var(--green);
@@ -48,5 +52,16 @@
     width: 1px;
     background: var(--mystic);
     margin: 0 12px;
+  }
+
+  .author {
+    overflow: hidden;
+    max-width: 200px;
+  }
+
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

@@ -25,6 +25,7 @@ interface Window {
   notifyLayoutAnonCreation?: () => void
   onLayoutCreationOpen?: () => void
   renderCombineProjectSelector?: () => void
+  __onLinkClick?: (e: MouseEvent) => void
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode

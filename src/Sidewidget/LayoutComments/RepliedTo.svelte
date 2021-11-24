@@ -11,10 +11,13 @@
 </script>
 
 {#if comment}
-  <a class="caption btn row" href="#comment-{id}" on:click={scrollToReply}>
+  <a
+    class="caption btn row"
+    href="#comment-{id}"
+    on:click|capture={scrollToReply}>
     <div>
       <Author user={comment.user} class="$style.comment" />
-      {comment.content}
+      {' ' + comment.content}
     </div>
   </a>
 {/if}
@@ -68,5 +71,11 @@
   div,
   .comment {
     color: var(--fiord) !important;
+  }
+
+  @supports not (display: -webkit-box) {
+    div {
+      white-space: nowrap;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy, setContext } from 'svelte'
+  import Svg from 'webkit/ui/Svg.svelte'
   import { globals } from '@/stores/globals'
   import { selectedLayout } from '@/stores/layout'
   import { queryLayoutComments } from '@/api/comments'
@@ -18,9 +19,6 @@
   $: layout && queryLayoutComments(layout.id).then(setComments)
   $: authorId = layout?.user.id
 
-  $: console.log(layout)
-  $: console.log(comments)
-
   function setComments(data: SAN.Comment[]) {
     comments = data
     updateLayoutCommentsCountCache((layout as SAN.Layout).id, data.length)
@@ -35,7 +33,7 @@
 
     createLayoutComment(layout.id, commentNode.value).then((comment) => {
       comments.push(comment)
-      comments = comments.slice()
+      setComments(comments)
       commentNode.value = ''
       loading = false
     })
@@ -77,26 +75,31 @@
   })
 </script>
 
-<h3 class="body-2 txt-m mrg-l mrg--b">Conversations ({comments.length})</h3>
+<h3 class="body-2 txt-m">Conversations ({comments.length})</h3>
 
-<form class="row" on:submit|preventDefault={onSubmit}>
-  <textarea
-    name="comment"
-    required
-    rows="1"
-    class="border fluid"
-    placeholder="Type your comment here" />
+{#if $globals.isLoggedIn}
+  <form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
+    <textarea
+      name="comment"
+      required
+      rows="1"
+      class="border fluid"
+      placeholder="Type your comment here" />
 
-  <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l"
-    >Post</button>
-</form>
+    <button
+      type="submit"
+      class:loading
+      class="btn btn-1 btn--green mrg-l mrg--l">Post</button>
+  </form>
+{/if}
 
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
   {#each comments as comment (comment.id)}
     <Comment {comment} {authorId} {updateComments} />
   {:else}
     <div class="column hv-center">
-      <div class="body-2 txt-m">No comments yet</div>
+      <Svg illus id="comment-bubble" w="128" h="98" />
+      <div class="body-2 txt-m mrg-xl mrg--t">No comments yet</div>
       Be the first to comment
     </div>
   {/each}
@@ -108,14 +111,15 @@
     padding: 5px 10px;
   }
 
-  .column {
-    flex: 1;
-  }
-
   .comments {
     overflow: auto;
     margin-right: -8px;
     padding-right: 8px;
+    flex: 1;
+  }
+
+  .column {
+    height: 100%;
   }
 
   .highlight {

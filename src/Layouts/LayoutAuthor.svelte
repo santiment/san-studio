@@ -6,7 +6,10 @@
   export let user: SAN.Author
 </script>
 
-<a class="row v-center {className}" href="/profile/{user.id}">
+<a
+  class="row v-center {className}"
+  href="/profile/{user.id}"
+  on:click={window.__onLinkClick}>
   <div class="img mrg-s mrg--r row hv-center">
     {#if user.avatarUrl}
       <img alt="Avatar" src={user.avatarUrl} />
