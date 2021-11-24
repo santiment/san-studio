@@ -13,6 +13,7 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg.svelte'
   import { Event } from '@/analytics'
+  import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import ShortcutsDialog, {
     showShortcutsDialog,
   } from '@/Shortcuts/Dialog.svelte'
@@ -20,6 +21,7 @@
   export let mode = Mode.Metrics
   export let isLocked
 
+  const Sidewidget = getSidewidget()
   const MODES = [Mode.Metrics, Mode.Layouts]
 
   function openShortcutsDialog() {
@@ -68,8 +70,15 @@
 
   <div class="bottom mrg-a mrg--t row">
     <div
+      aria-label="Explain metrics"
+      class="academy icon btn row hv-center expl-tooltip"
+      class:active={$Sidewidget === SidewidgetType.EXPLAIN_METRICS}
+      on:click={() => Sidewidget.set(SidewidgetType.EXPLAIN_METRICS)}>
+      <Svg id="academy-hat" w="18" h="14" />
+    </div>
+    <div
       aria-label="Shortcuts | Shift + ?"
-      class="shortcuts btn row hv-center expl-tooltip"
+      class="icon btn row hv-center expl-tooltip"
       on:click={showShortcutsDialog}>
       <Svg id="cmd-key" w="16" />
     </div>
@@ -97,6 +106,7 @@
     border-top: 1px solid var(--porcelain);
     border-radius: 0;
     transform: rotate(180deg);
+    --expl-position-y: 28px;
   }
   .active {
     --color: var(--green);
@@ -114,17 +124,15 @@
     transform: rotate(180deg);
   }
 
-  .shortcuts {
+  .icon {
     border-bottom: 1px solid var(--porcelain);
     height: 32px;
     width: 32px;
     padding: 0;
     transform: none;
   }
-
-  .toggle,
-  .shortcuts {
-    --expl-position-y: 28px;
+  .icon:first-child {
+    border-bottom: none;
   }
 
   .expl-tooltip::before {

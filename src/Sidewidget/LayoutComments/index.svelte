@@ -4,13 +4,13 @@
   import { selectedLayout } from '@/stores/layout'
   import { queryLayoutComments } from '@/api/comments'
   import { createLayoutComment } from '@/api/comments/mutate'
+  import { updateLayoutCommentsCountCache } from '@/api/layouts/comments'
   import Comment from './Comment.svelte'
 
   let comments = [] as SAN.Comment[]
   let loading = false
   let commentsNode
 
-  const setComments = (data: SAN.Comment[]) => (comments = data)
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
@@ -20,6 +20,11 @@
 
   $: console.log(layout)
   $: console.log(comments)
+
+  function setComments(data: SAN.Comment[]) {
+    comments = data
+    updateLayoutCommentsCountCache((layout as SAN.Layout).id, data.length)
+  }
 
   function onSubmit({ currentTarget }: Event) {
     if (!layout || !$globals.isLoggedIn || loading) return

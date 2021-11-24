@@ -113,6 +113,7 @@ export function initWidgets(defaultWidgets, getExternalWidget, History) {
 
 export const SidewidgetType = {
   LAYOUT_COMMENTS: 'LAYOUT_COMMENTS',
+  EXPLAIN_METRICS: 'METRICS_EXPLANATION_PANE',
 } as const
 
 const SIDEWIDGET_CONTEXT = 'sidewidget'

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Author from '@/Layouts/LayoutAuthor.svelte'
   import { getContext } from 'svelte'
+  import Author from '@/Layouts/LayoutAuthor.svelte'
 
   const scrollToReply = getContext('scrollToReply')
   const getRepliedToComment = getContext('getRepliedToComment')

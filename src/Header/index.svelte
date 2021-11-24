@@ -1,10 +1,34 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
+  import { mapview, MapviewPhase } from '@/stores/mapview'
   import LayoutActions from '@/Layouts/index.svelte'
   import Layout from './Layout.svelte'
+
+  export let headerPadding = 0
+
+  let headerNode: HTMLDivElement
+
+  $: isMapview = $mapview !== MapviewPhase.None
+  $: headerNode && changeHeaderPosition(isMapview)
+
+  function changeHeaderPosition(isMapview: boolean) {
+    let transform
+    if (isMapview) {
+      let { top } = headerNode.getBoundingClientRect()
+
+      if (window.scrollY < headerPadding) {
+        top -= headerPadding - window.scrollY - 1
+      }
+
+      transform = `translateY(-${top}px)`
+    } else {
+      transform = null
+    }
+    headerNode.style.transform = transform
+  }
 </script>
 
-<div class="border header panel row v-center">
+<div class="border header panel row v-center" bind:this={headerNode}>
   <Layout />
 
   <LayoutActions />
@@ -14,7 +38,12 @@
     <button class="link action btn expl-tooltip" aria-label="Copy link"
       ><Svg id="link" w="16" /></button>
   </div>
-  <div class="mapview btn border">Mapview</div>
+  <div
+    class="mapview btn border"
+    on:click={mapview.toggle}
+    class:active={$mapview !== MapviewPhase.None}>
+    Mapview
+  </div>
 </div>
 
 <style>
@@ -35,6 +64,13 @@
   .mapview {
     padding: 5px 20px;
     --color-hover: var(--green);
+  }
+  .active {
+    --bg: var(--green-light-1);
+    --color: var(--green);
+    --border: var(--green);
+    --color-hover: var(--green-hover);
+    --border-hover: var(--green-hover);
   }
 
   .share {
