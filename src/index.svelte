@@ -34,6 +34,7 @@
   export let shareLayoutWidgets = undefined
   export let InsightsContextStore = undefined
   export let onSidebarProjectMount = undefined
+  export let headerPadding = 0
 
   studio.setProject(defaultSettings)
   const HistoryEmitter = newHistoryEmitter()
@@ -87,7 +88,7 @@
     </div>
 
     {#if !screen}
-      <Header />
+      <Header {headerPadding} />
 
       <div class="row main" bind:this={screenRef}>
         <div class="widgets">

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
-  import { getSidewidget } from '@/stores/widgets'
+  import { SidewidgetType, getSidewidget } from '@/stores/widgets'
+  import LayoutComment from './LayoutComments/index.svelte'
 
   const Sidewidget = getSidewidget()
 </script>
@@ -15,7 +16,11 @@
       on:click={() => ($Sidewidget = null)} />
   </div>
 
-  <div class="studio-sidewidget row" />
+  {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
+    <LayoutComment />
+  {:else}
+    <div class="studio-sidewidget row" />
+  {/if}
 </div>
 
 <style>
@@ -40,10 +45,11 @@
   }
 
   .icon {
-    --fill: var(--casper);
+    --fill: var(--waterloo);
     --fill-hover: var(--green);
     --bg: var(--white);
-    padding: 10px 4px;
+    padding: 10px 7px;
+    transform: rotate(180deg);
   }
 
   .studio-sidewidget {

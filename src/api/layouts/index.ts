@@ -1,4 +1,3 @@
-export type { Layout } from './layout'
 export { queryLayout, queryShortLayout } from './layout'
 export {
   queryLayouts,

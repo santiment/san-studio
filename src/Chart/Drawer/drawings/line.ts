@@ -1,4 +1,3 @@
-import type { Chart, Drawing } from '../drawer'
 import {
   newDrawing,
   newRoundHandle,
@@ -6,18 +5,6 @@ import {
   getEventCoordinates,
 } from '../utils'
 import { Color } from '../../theme'
-
-export interface Line extends Drawing {
-  type: 'line'
-  /** [x1, y1, x2, y2] */
-  absCoor: [number, number, number, number]
-  /** [x1, y1, x2, y2] */
-  relCoor: [number, number, number, number]
-  /** [x1, y1, x2, y2] */
-  ratioCoor: [number, number, number, number]
-  handlers: [Path2D, Path2D]
-  shape: Path2D
-}
 
 export const HandleType = {
   LEFT: 1,
@@ -35,12 +22,12 @@ export function newLine(x: number, y: number) {
   const line = {
     type: 'line',
     absCoor: [x, y, x, y],
-  } as Line
+  } as SAN.Charts.Line
 
   return newDrawing(line)
 }
 
-export function paintLine(chart: Chart, drawing: Line) {
+export function paintLine(chart: SAN.Charts.Chart, drawing: SAN.Charts.Line) {
   const { ctx } = chart.drawer
 
   ctx.save()
@@ -50,7 +37,7 @@ export function paintLine(chart: Chart, drawing: Line) {
   ctx.restore()
 }
 
-export function updateLine(_, drawing: Line) {
+export function updateLine(_, drawing: SAN.Charts.Line) {
   const { absCoor } = drawing
   const [x1, y1, x2, y2] = absCoor
 
@@ -68,7 +55,7 @@ export function updateLine(_, drawing: Line) {
 
 export function checkLineIsHovered(
   ctx: CanvasRenderingContext2D,
-  drawing: Line,
+  drawing: SAN.Charts.Line,
   mouseXY: [number, number],
   dpr: number,
 ) {
@@ -84,7 +71,10 @@ export function checkLineIsHovered(
   return false
 }
 
-export function paintLineHover({ drawer, theme }: Chart, drawing: Line) {
+export function paintLineHover(
+  { drawer, theme }: SAN.Charts.Chart,
+  drawing: SAN.Charts.Line,
+) {
   const { ctx } = drawer
   const { handlers } = drawing
 
@@ -108,7 +98,7 @@ export function paintLineHover({ drawer, theme }: Chart, drawing: Line) {
 type LineDragData = [number, number, boolean]
 export function getLineDragData(
   ctx: CanvasRenderingContext2D,
-  drawing: Line,
+  drawing: SAN.Charts.Line,
   x: number,
   y: number,
 ): LineDragData {
@@ -134,8 +124,8 @@ export const getLineLockType = (
 ) => (Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y)
 
 export function lineDragModifier(
-  drawing: Line,
-  initialAbsCoor: Line['absCoor'],
+  drawing: SAN.Charts.Line,
+  initialAbsCoor: SAN.Charts.Line['absCoor'],
   [isLeftHandleDrag, isRightHandleDrag, isNotLineDrag]: LineDragData,
   xDiff: number,
   yDiff: number,

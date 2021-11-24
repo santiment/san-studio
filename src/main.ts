@@ -9,6 +9,11 @@ import { globals } from '@/stores/globals'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
 
+window.__onLinkClick = (e) => {
+  e.preventDefault()
+  console.log('link clicked ->', e.currentTarget)
+}
+
 // @ts-ignore
 window.studio = studio
 studio.setProject({ slug: 'ethereum', ticker: 'ETH', name: 'Ethereum' })

@@ -31,16 +31,16 @@
   },
   "dependencies": {
     "mathjs": "^9.4.4",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#054d8d7",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#8c50a3e",
     "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
-    "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#276a017",
+    "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#895859f",
     "typescript": "^4.2.4"
   },
   "peerDependencies": {
     "svelte": "^3.44.1",
     "@santiment-network/chart": "^0.10.12",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#054d8d7",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#8c50a3e",
     "canvas": "^2.8.0"
   }
 }

@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import Svg from 'webkit/ui/Svg.svelte'
   import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte'
 
-  export let layout: Layout
+  export let layout: SAN.Layout
   export let isAuthor = false
   export let closeDialog
   export let onClick

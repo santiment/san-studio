@@ -90,7 +90,7 @@
 <div class="row controls v-center mrg-s mrg--b">
   <div
     class="btn expl-tooltip"
-    title="Draw Line | L"
+    aria-label="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing}
     class:disabled={$ChartDrawer.isHidden}
     on:click={onNewLine}>
@@ -125,7 +125,7 @@
   {#if !noWidgetControls}
     <div
       class="btn mrg-s mrg--r expl-tooltip"
-      title="Download as PNG"
+      aria-label="Download as PNG"
       on:click={() => onDownload(downloadPng)}>
       <Svg id="download" w="17" />
     </div>
@@ -183,10 +183,6 @@
     color: var(--black);
   }
 
-  :global(.controls-expl),
-  .expl-tooltip {
-    position: relative;
-  }
   :global(.controls-expl::before),
   .expl-tooltip::before {
     z-index: 24;

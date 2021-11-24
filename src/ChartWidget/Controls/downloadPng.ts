@@ -3,6 +3,7 @@ import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 import { getPadding } from '@/Chart/Axes/utils'
 import { PLOT_ID } from '@/Chart/Drawer/drawer'
 import { drawDrawings } from '@/Chart/Drawer/drawings'
+import { noteDragModifier } from '@/Chart/Drawer/drawings/note'
 
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
@@ -78,6 +79,7 @@ export function downloadPng(
   const pngChart = Object.assign(
     {}, chart, initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, padding),
   ) as any
+  const plotters = new Map<string, any>(chart.plotManager.items)
 
   ;(window as any).devicePixelRatio = dpr
 
@@ -90,14 +92,12 @@ export function downloadPng(
     new Set(categories.candles) as any,
   )
 
-  pngChart.drawer = Object.assign({}, chart.drawer)
-  pngChart.drawer.ctx = pngChart.ctx
-  pngChart.drawer.redraw = () => drawDrawings(pngChart)
+  setupPngDrawings(chart, pngChart, plotters)
 
-  chart.plotManager.items.forEach((plot) => {
+  plotters.forEach((plot) => {
     plot(pngChart, scale, data, colors, categories)
   })
-  chart.plotManager.get(PLOT_ID)?.(chart)
+  plotters.get(PLOT_ID)?.(chart) // NOTE: redrawing drawings on the main chart [@vanguard | Nov 18, 2021]
 
   drawLegend(pngChart, widget.Metrics.getValue(), chart.theme.text, ticker)
 
@@ -115,4 +115,16 @@ export function downloadPng(
   a.click()
   a.remove()
   pngCanvas.remove()
+}
+
+function setupPngDrawings(
+  chart: any,
+  pngChart: any,
+  plotters: Map<string, any>,
+) {
+  if (chart.drawer.isHidden) return plotters.delete(PLOT_ID)
+
+  pngChart.drawer = Object.assign({}, chart.drawer)
+  pngChart.drawer.ctx = pngChart.ctx
+  pngChart.drawer.redraw = () => drawDrawings(pngChart)
 }

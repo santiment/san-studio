@@ -1,6 +1,5 @@
 import { setContext, getContext } from 'svelte'
 import { get, writable } from 'svelte/store'
-import type { Drawing } from '@/Chart/Drawer/drawer'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { newMetricSignalsStore, newSignalsTimeseriesStore } from './signals'
@@ -24,7 +23,7 @@ export type ChartWidget = {
   MetricIndicators: ReturnType<typeof newMetricIndicatorsStore>
   axesMetrics?: Set<Studio.Metric>
   disabledAxesMetrics?: Set<Studio.Metric>
-  drawings?: Drawing[]
+  drawings?: SAN.Charts.Drawing[]
   metricSettings?: MetricSettings
   metricIndicators?: MetricIndicators
   chart: any

@@ -181,7 +181,7 @@
     height: 100vh;
     top: 0;
     position: sticky;
-    padding: 64px 27px 0;
+    padding: 64px 16px 0;
   }
 
   .visible {

@@ -1,4 +1,3 @@
-import type { Chart, Drawer, Drawing, DrawingTypes } from '../drawer'
 import { paintLine, updateLine } from './line'
 import { paintEmoji, updateEmoji } from './emoji'
 import { paintNote, updateNote } from './note'
@@ -13,8 +12,8 @@ const DrawingPainter = {
   emoji: paintEmoji,
   note: paintNote,
 } as Record<
-  DrawingTypes,
-  undefined | ((chart: Chart, drawing: Drawing) => void)
+  SAN.Charts.DrawingTypes,
+  undefined | ((chart: SAN.Charts.Chart, drawing: SAN.Charts.Drawing) => void)
 >
 
 const DrawingUpdater = {
@@ -22,13 +21,14 @@ const DrawingUpdater = {
   emoji: updateEmoji,
   note: updateNote,
 } as Record<
-  DrawingTypes,
-  undefined | ((drawer: Drawer, drawing: Drawing) => void)
+  SAN.Charts.DrawingTypes,
+  undefined | ((drawer: SAN.Charts.Drawer, drawing: SAN.Charts.Drawing) => void)
 >
 
-export const getDrawingUpdater = ({ type }: Drawing) => DrawingUpdater[type]
+export const getDrawingUpdater = ({ type }: SAN.Charts.Drawing) =>
+  DrawingUpdater[type]
 
-export function paintDrawings(chart: Chart) {
+export function paintDrawings(chart: SAN.Charts.Chart) {
   const { drawer, right, bottom, left, canvasWidth } = chart
   const { ctx, minMax } = drawer
 
@@ -45,7 +45,7 @@ export function paintDrawings(chart: Chart) {
   }
 }
 
-export function drawDrawings(chart: Chart) {
+export function drawDrawings(chart: SAN.Charts.Chart) {
   const { drawer, width, height } = chart
   const { drawings } = drawer
 

@@ -1,5 +1,3 @@
-import type { Chart, Drawing } from './drawer'
-import type { Line } from './drawings/line'
 import { getEventCoordinates } from './utils'
 import { absoluteToRatioCoordinates } from './coordinates'
 import {
@@ -10,16 +8,16 @@ import {
 } from './drawings/line'
 
 export function newLineCreationHandler(
-  chart: Chart,
-  onNewDrawingStart: (drawing: Drawing) => void,
-  onNewDrawingEnd: (drawing: Drawing) => void,
+  chart: SAN.Charts.Chart,
+  onNewDrawingStart: (drawing: SAN.Charts.Drawing) => void,
+  onNewDrawingEnd: (drawing: SAN.Charts.Drawing) => void,
 ) {
   const { drawer, canvas, width, height } = chart
   const parent = canvas.parentNode as HTMLElement
 
   function onMouseDown(e: MouseEvent) {
     const [startX, startY] = getEventCoordinates(e)
-    const drawing = newLine(startX, startY) as Line
+    const drawing = newLine(startX, startY) as SAN.Charts.Line
     const { absCoor, relCoor, ratioCoor } = drawing
 
     updateLine(undefined, drawing)

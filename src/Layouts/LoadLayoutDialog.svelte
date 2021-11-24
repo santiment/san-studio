@@ -7,7 +7,6 @@
 </script>
 
 <script lang="ts">
-  import type { Layout } from '@/api/layouts'
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
@@ -27,8 +26,8 @@
 
   let closeDialog
   let tab = $globals.isLoggedIn ? Tab.MyLibrary : Tab.Explore
-  let layouts = [] as Layout[]
-  let oldSortedLayouts = [] as Layout[]
+  let layouts = [] as SAN.Layout[]
+  let oldSortedLayouts = [] as SAN.Layout[]
   let searchTerm = ''
   let unsubscribe
 
@@ -60,7 +59,7 @@
     return layouts.filter(filter)
   }
 
-  function onLayoutSelect(layout: Layout) {
+  function onLayoutSelect(layout: SAN.Layout) {
     window.onLayoutSelect(layout)
     closeDialog()
   }

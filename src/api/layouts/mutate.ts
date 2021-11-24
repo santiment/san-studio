@@ -1,7 +1,5 @@
 import type { Query } from 'webkit/api'
-import type { Layout } from './layout'
 import type {
-  CurrentUserLayout,
   CurrentUserLayoutsQuery,
   CurrentUserShortLayoutsQuery,
 } from './user'
@@ -13,10 +11,12 @@ import {
 import { LAYOUT_QUERY_FIELDS, updateLayoutCache } from './layout'
 import { dateSorter } from './utils'
 
-type MutatedLayoutQuery = Query<'layout', CurrentUserLayout>
+type MutatedLayoutQuery = Query<'layout', SAN.CurrentUserLayout>
 type CurrentUserLayouts = CurrentUserLayoutsQuery & CurrentUserShortLayoutsQuery
 
-type LayoutUpdates = Partial<Pick<Layout, 'title' | 'metrics' | 'options'>> & {
+type LayoutUpdates = Partial<
+  Pick<SAN.Layout, 'title' | 'metrics' | 'options'>
+> & {
   isPublic?: boolean
   projectId?: number | string
   description?: string
@@ -60,9 +60,9 @@ const UPDATE_LAYOUT_MUTATION = newLayoutMutation(
   ',id: $id',
 )
 
-function mutateLayoutsCacheOnUpdate(newLayout: CurrentUserLayout) {
+function mutateLayoutsCacheOnUpdate(newLayout: SAN.CurrentUserLayout) {
   const id = +newLayout.id
-  const updateLayout = (cachedLayout: Pick<Layout, 'id'>) =>
+  const updateLayout = (cachedLayout: Pick<SAN.Layout, 'id'>) =>
     +cachedLayout.id === id && Object.assign(cachedLayout, newLayout)
 
   function updateCache(cached: CurrentUserLayouts) {
@@ -86,7 +86,7 @@ function mutateLayoutsCacheOnUpdate(newLayout: CurrentUserLayout) {
 export const updateUserLayout = (
   id: number,
   settings: LayoutUpdates,
-): Promise<CurrentUserLayout> =>
+): Promise<SAN.CurrentUserLayout> =>
   mutate<MutatedLayoutQuery>(UPDATE_LAYOUT_MUTATION, {
     variables: { id, settings: normalizeSettings(settings) },
   }).then(({ layout }) => mutateLayoutsCacheOnUpdate(layout))
@@ -97,13 +97,16 @@ export const updateUserLayout = (
 
 const CREATE_LAYOUT_MUTATION = newLayoutMutation('createChartConfiguration')
 
-export type LayoutCreation = Pick<Layout, 'title' | 'metrics' | 'options'> & {
+export type LayoutCreation = Pick<
+  SAN.Layout,
+  'title' | 'metrics' | 'options'
+> & {
   projectId: number | string
   isPublic?: boolean
   description?: string
 }
 
-function mutateLayoutsCacheOnCreation(newLayout: CurrentUserLayout) {
+function mutateLayoutsCacheOnCreation(newLayout: SAN.CurrentUserLayout) {
   function updateCache(cached: CurrentUserLayouts) {
     if (!cached.currentUser) return cached
 
@@ -120,7 +123,7 @@ function mutateLayoutsCacheOnCreation(newLayout: CurrentUserLayout) {
 
 export const createUserLayout = (
   settings: LayoutCreation,
-): Promise<CurrentUserLayout> =>
+): Promise<SAN.CurrentUserLayout> =>
   mutate<MutatedLayoutQuery>(CREATE_LAYOUT_MUTATION, {
     variables: { settings: normalizeSettings(settings) },
   }).then(({ layout }) => mutateLayoutsCacheOnCreation(layout))

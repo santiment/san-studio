@@ -1,10 +1,9 @@
-import type { Chart, Drawer, Drawing, MinMax } from './drawer'
 import { linearScale, valueByY } from 'san-chart/scales'
 import { linearDatetimeScale } from '../utils'
 
 type Scaler = (value: number) => number
 
-function newDatetimeRelativeScaler(chart: Chart): Scaler {
+function newDatetimeRelativeScaler(chart: SAN.Charts.Chart): Scaler {
   const { data, left, width } = chart as any
   const firstDatetime = data[0].datetime as number
   const lastDatetime = data[data.length - 1].datetime
@@ -13,9 +12,10 @@ function newDatetimeRelativeScaler(chart: Chart): Scaler {
   return (x: number) => Math.round(factor * (x - left)) + firstDatetime
 }
 
-type Resetter = (drawing: Drawing) => any
-const newCoordinatesResetter = (resetter: Resetter) => (drawer: Drawer) =>
-  drawer.drawings.forEach(resetter)
+type Resetter = (drawing: SAN.Charts.Drawing) => any
+const newCoordinatesResetter = (resetter: Resetter) => (
+  drawer: SAN.Charts.Drawer,
+) => drawer.drawings.forEach(resetter)
 
 export const resetDrawingRatioCoordinates = ({ ratioCoor, relCoor }) =>
   relCoor.length && (ratioCoor.length = 0)
@@ -33,13 +33,14 @@ export const resetDrawingAbsoluteCoordinates = ({
   absCoor,
   relCoor,
   ratioCoor,
-}: Drawing) => (relCoor.length || ratioCoor.length) && (absCoor.length = 0)
+}: SAN.Charts.Drawing) =>
+  (relCoor.length || ratioCoor.length) && (absCoor.length = 0)
 export const resetAbsoluteCoordinates = newCoordinatesResetter(
   resetDrawingAbsoluteCoordinates,
 )
 
 export function correctAbsoluteCoordinatesRatio(
-  { drawings }: Drawer,
+  { drawings }: SAN.Charts.Drawer,
   width: number,
   height: number,
 ) {
@@ -52,13 +53,20 @@ export function correctAbsoluteCoordinatesRatio(
   }
 }
 
-export function setupDrawingsCoordinatesUpdater(chart: Chart, minMax: MinMax) {
+export function setupDrawingsCoordinatesUpdater(
+  chart: SAN.Charts.Chart,
+  minMax: SAN.Charts.MinMax,
+) {
   const { drawer } = chart
 
-  drawer.updateAbsoluteByRelativeCoordinates =
-    newRelativeToAbsoluteCoordinatesUpdater(chart, minMax)
-  drawer.updateRelativeByAbsoluteCoordinates =
-    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)
+  drawer.updateAbsoluteByRelativeCoordinates = newRelativeToAbsoluteCoordinatesUpdater(
+    chart,
+    minMax,
+  )
+  drawer.updateRelativeByAbsoluteCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
+    chart,
+    minMax,
+  )
 }
 
 export function absoluteToRatioCoordinates(
@@ -109,8 +117,8 @@ function absoluteToRelativeCoordinates(
 }
 
 export function newAbsoluteToRelativeCoordinatesUpdater(
-  chart: Chart,
-  { min, max }: MinMax,
+  chart: SAN.Charts.Chart,
+  { min, max }: SAN.Charts.MinMax,
 ) {
   const scaleDatetime = newDatetimeRelativeScaler(chart)
   const scaleValue = (y: number) => valueByY(chart, y, min, max)
@@ -119,8 +127,8 @@ export function newAbsoluteToRelativeCoordinatesUpdater(
 }
 
 export function newRelativeToAbsoluteCoordinatesUpdater(
-  chart: Chart,
-  { min, max }: MinMax,
+  chart: SAN.Charts.Chart,
+  { min, max }: SAN.Charts.MinMax,
 ) {
   const scaleX = linearDatetimeScale(chart)
   const scaleY = linearScale(chart, min, max)

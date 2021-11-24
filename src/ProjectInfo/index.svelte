@@ -46,7 +46,7 @@
     <div
       class="change txt-m row v-center expl-tooltip"
       class:up={change >= 0}
-      title="24h change">
+      aria-label="24h change">
       <span class="direction row hv-center mrg-xs mrg--r">
         <Svg id="triangle" w="6" h="4" />
       </span>

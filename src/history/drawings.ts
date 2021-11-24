@@ -1,15 +1,14 @@
 import type { History, Scrollable } from 'webkit/ui/history'
-import type { Chart, Drawing } from '@/Chart/Drawer/drawer'
 import { withScroll } from 'webkit/ui/history'
 import { resetDrawingAbsoluteCoordinates } from '@/Chart/Drawer/coordinates'
 
-type Widget = Scrollable & { chart: Chart; ChartDrawer: any }
+type Widget = Scrollable & { chart: SAN.Charts.Chart; ChartDrawer: any }
 
 export function recordNewDrawing(
   History: History,
   ChartDrawer,
   widget: Widget,
-  drawing: Drawing,
+  drawing: SAN.Charts.Drawing,
 ) {
   History.add(
     'New drawing',
@@ -25,7 +24,7 @@ export function recordDeleteDrawing(
   History: History,
   ChartDrawer,
   widget: Widget,
-  drawing: Drawing,
+  drawing: SAN.Charts.Drawing,
 ) {
   History.add(
     'Delete drawing',
@@ -40,13 +39,13 @@ export function recordDeleteDrawing(
 export function recordDrawingModified(
   History: History,
   widget: Widget,
-  drawing: Drawing,
-  oldRatioCoor: Drawing['absCoor'],
+  drawing: SAN.Charts.Drawing,
+  oldRatioCoor: SAN.Charts.Drawing['absCoor'],
   data: any[],
 ) {
   const newRatioCoor = drawing.ratioCoor.slice()
 
-  function reset(ratioCoor: Drawing['absCoor']) {
+  function reset(ratioCoor: SAN.Charts.Drawing['absCoor']) {
     if (drawing.type === 'emoji') {
       const emoji = drawing as any
       const { size } = emoji
@@ -76,8 +75,8 @@ export function recordDrawingModified(
 }
 
 function applyCoordinates(
-  coordinates: Drawing['absCoor'],
-  newCoordinates: Drawing['absCoor'],
+  coordinates: SAN.Charts.Drawing['absCoor'],
+  newCoordinates: SAN.Charts.Drawing['absCoor'],
 ) {
   for (let i = 0, len = newCoordinates.length; i < len; i++) {
     coordinates[i] = newCoordinates[i]

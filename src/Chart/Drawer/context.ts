@@ -1,12 +1,11 @@
-import type { Drawing } from './drawer'
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 
 export type Drawer = {
   isDrawing: boolean
   isNewDrawing: boolean
-  drawings: Drawing[]
-  selectedLine: undefined | Drawing
+  drawings: SAN.Charts.Drawing[]
+  selectedLine: undefined | SAN.Charts.Drawing
 }
 export type ChartDrawerStore = ReturnType<typeof newChartDrawerStore>
 
@@ -22,7 +21,7 @@ export const setChartDrawer = (chart: ChartDrawerStore): void =>
   setContext(CONTEXT, chart)
 export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 
-export function newChartDrawerStore(defaultValue?: Drawing[]) {
+export function newChartDrawerStore(defaultValue?: SAN.Charts.Drawing[]) {
   const store = Object.assign({ drawings: defaultValue || [] }, DRAWER)
   const { subscribe, set } = writable<any>(store)
   const subscribers = new Set<any>()

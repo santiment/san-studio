@@ -1,4 +1,3 @@
-import type { Chart, DrawingTypes, Drawing } from './drawer'
 import { checkLineIsHovered, paintLineHover } from './drawings/line'
 import { checkEmojiIsHovered, paintEmojiHover } from './drawings/emoji'
 import { checkNoteIsHovered, paintNoteHover } from './drawings/note'
@@ -9,11 +8,11 @@ const DrawingIsHoveredChecker = {
   emoji: checkEmojiIsHovered,
   note: checkNoteIsHovered,
 } as Record<
-  DrawingTypes,
+  SAN.Charts.DrawingTypes,
   | undefined
   | ((
       ctx: CanvasRenderingContext2D,
-      drawing: Drawing,
+      drawing: SAN.Charts.Drawing,
       mouseXY: [number, number],
       dpr: number,
       e: MouseEvent,
@@ -21,7 +20,7 @@ const DrawingIsHoveredChecker = {
 >
 
 export function checkIsHovered(
-  chart: Chart,
+  chart: SAN.Charts.Chart,
   mouseXY: [number, number],
   e: MouseEvent,
 ) {
@@ -35,19 +34,22 @@ export function checkIsHovered(
   }
 }
 
-type HoverPainter = (chart: Chart, drawing: Drawing) => void
+type HoverPainter = (
+  chart: SAN.Charts.Chart,
+  drawing: SAN.Charts.Drawing,
+) => void
 const DrawingHoverPainter = {
   line: paintLineHover,
   emoji: paintEmojiHover,
   note: paintNoteHover,
-} as Record<DrawingTypes, undefined | HoverPainter>
+} as Record<SAN.Charts.DrawingTypes, undefined | HoverPainter>
 
-export const getDrawingHoverPainter = ({ type }: Drawing) =>
+export const getDrawingHoverPainter = ({ type }: SAN.Charts.Drawing) =>
   DrawingHoverPainter[type]
 
 export function newMouseHoverHandler(
-  chart: Chart,
-  setHovered: (drawing?: Drawing) => void,
+  chart: SAN.Charts.Chart,
+  setHovered: (drawing?: SAN.Charts.Drawing) => void,
 ) {
   const { drawer } = chart
 
