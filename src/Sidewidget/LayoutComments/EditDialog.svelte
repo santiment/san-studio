@@ -62,5 +62,6 @@
     padding: 9px 12px;
     min-height: 40px;
     width: 400px;
+    color: var(--black);
   }
 </style>

@@ -118,6 +118,7 @@
     font-family: 'Proxima Nova', sans-serif;
     font-size: 14px;
     line-height: 20px;
+    color: var(--black);
   }
 
   .comments {
