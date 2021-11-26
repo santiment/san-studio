@@ -71,6 +71,11 @@
   }
 
   function adjustHeight({ currentTarget }) {
+    if (!currentTarget.value) {
+      currentTarget.style.height = '32px'
+      return
+    }
+
     currentTarget.style.height = '1px'
     currentTarget.style.height = currentTarget.scrollHeight + 2 + 'px'
   }
@@ -115,10 +120,7 @@
   textarea {
     resize: none;
     padding: 5px 10px;
-    font-family: 'Proxima Nova', sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--black);
+    height: 32px;
   }
 
   .comments {

@@ -22,49 +22,22 @@
     getScheduledLayout,
     deleteScheduledLayout,
     getAllWidgetsMetricsKeys,
+    checkIsDifferentLayouts,
   } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
-  let changed = false
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
+  $: changed =
+    isAuthor &&
+    layout?.options?.widgets &&
+    checkIsDifferentLayouts(layout.options.widgets, $Widgets)
 
   const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
   const callIfRegistered = (clb: () => any) => () =>
     ($currentUser ? clb : window.showLoginPrompt)?.()
-
-  /*
-  const stringify = (data) => JSON.stringify(data)
-  function checkIsChanged(layout: SAN.Layout, widgets: any[]) {
-    const optimizeLayout = window.shareLayoutWidgets
-    if (!optimizeLayout) return false
-
-    const layoutWidgets = layout.options.widgets
-    if (!layoutWidgets) return true
-
-    // Removing undefined values
-    const userWidgets: any[] = JSON.parse(stringify(optimizeLayout(widgets)))
-
-    if (layoutWidgets.length !== userWidgets.length) return true
-
-    for (let i = 0; i < layoutWidgets.length; i++) {
-      const layoutWidget = layoutWidgets[i]
-      const userWidget = userWidgets[i]
-
-      console.log(layoutWidget, userWidget)
-
-      if (
-        Object.keys(layoutWidget).some(
-          (key) => stringify(layoutWidget[key]) !== stringify(userWidget[key]),
-        )
-      ) {
-        return true
-      }
-    }
-  }
-  */
 
   function onSave() {
     let promise: Promise<any>

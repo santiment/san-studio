@@ -46,16 +46,20 @@
 
     <div class="caption">{time}</div>
   </div>
-  <div class="content mrg-s mrg--t">{content}</div>
-  <div class="actions row v-center txt-m">
-    {#if content !== DELETE_MSG}
-      <button class="reply btn" on:click={onReply}>Reply</button>
-    {/if}
 
-    {#if $currentUser && $currentUser.id === user.id}
-      <Menu bind:comment />
-    {/if}
-  </div>
+  <div class="content mrg-s mrg--t">{content}</div>
+
+  {#if $currentUser}
+    <div class="actions row v-center txt-m">
+      {#if content !== DELETE_MSG}
+        <button class="reply btn" on:click={onReply}>Reply</button>
+      {/if}
+
+      {#if $currentUser.id === user.id}
+        <Menu bind:comment />
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -63,7 +67,7 @@
     padding: 16px;
     background: var(--athens);
     border-radius: 8px;
-    white-space: pre;
+    white-space: pre-line;
     word-break: break-word;
     transition: background 700ms;
     scroll-margin: 50px;

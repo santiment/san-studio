@@ -36,8 +36,8 @@
     padding: 5px 12px;
     border-radius: 20px;
     --color: var(--waterloo);
-    --color-hover: var(--black);
-    --border-hover: var(--mystic);
+    --color-hover: var(--green);
+    --fill-hover: var(--waterloo);
   }
 
   .active {
@@ -45,5 +45,6 @@
     --border: var(--green);
     --color-hover: var(--green-hover);
     --border-hover: var(--green-hover);
+    --fill-hover: var(--green-hover);
   }
 </style>
