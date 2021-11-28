@@ -34,7 +34,7 @@
 
 <style>
   .layout {
-    max-width: 50%;
+    overflow: hidden;
   }
 
   .info {
@@ -56,7 +56,10 @@
 
   .author {
     overflow: hidden;
-    max-width: 200px;
+    min-width: fit-content;
+  }
+  .author :global(span) {
+    max-width: 140px;
   }
 
   .title {

@@ -76,6 +76,7 @@
     margin: 0 0 13px;
     transition: transform 0.3s ease-out;
     min-height: 64px;
+    white-space: nowrap;
   }
 
   .mapview {

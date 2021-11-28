@@ -24,7 +24,7 @@
 </script>
 
 <div
-  class="action btn border txt-m"
+  class="action btn border txt-m mrg-xxl mrg--r"
   class:active={$Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
   on:click={() => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS)}>
   <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
