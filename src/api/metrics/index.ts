@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
@@ -9,7 +8,7 @@ const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
     }
   }
 `
-type ProjectMetrics = Query<
+type ProjectMetrics = SAN.API.Query<
   'projectBySlug',
   { availableMetrics: string[]; availableQueries: string[] }
 >

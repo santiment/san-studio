@@ -1,5 +1,3 @@
-import type { Query } from 'webkit/api'
-import type { Updater, Subscriber, Unsubscriber } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { Cache } from 'webkit/api/cache'
 import {
@@ -8,19 +6,20 @@ import {
 } from './utils'
 import { LAYOUT_QUERY_FIELDS } from './layout'
 
-type CurrentUserQuery<T> = Query<'currentUser', null | { layouts: T[] }>
+type CurrentUserQuery<T> = SAN.API.Query<'currentUser', null | { layouts: T[] }>
 
 const newCurrentUserShortLayoutsCacheUpdater = <
   T extends CurrentUserQuery<unknown>
 >(
   query: string,
-) => (updateCache: Updater<T>) => Cache.set$<T>(query, updateCache)
+) => (updateCache: SAN.API.Updater<T>) => Cache.set$<T>(query, updateCache)
 
 const newCurrentUserShortLayoutsCacheSubscriber = <
   T extends CurrentUserQuery<unknown>
 >(
   query: string,
-) => (clb: Subscriber<T>): Unsubscriber => Cache.get$<T>(query, clb)
+) => (clb: SAN.API.Subscriber<T>): SAN.API.Unsubscriber =>
+  Cache.get$<T>(query, clb)
 
 // ----------------------------------
 // ------ CURRENT USER LAYOUTS ------

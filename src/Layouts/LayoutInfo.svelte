@@ -1,7 +1,7 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
+  import Author from 'webkit/ui/Author/svelte'
   import { Metric } from '@/metrics'
-  import Author from './LayoutAuthor.svelte'
 
   export let layout: Pick<SAN.Layout, 'project' | 'user' | 'metrics'>
 

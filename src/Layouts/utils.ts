@@ -6,7 +6,7 @@ import {
   getSavedValue,
   deleteSavedValue,
 } from 'webkit/utils/localStorage'
-import { checkIsDiffObjects } from 'webkit/utils/objects'
+import { checkAreDiffObjects } from 'webkit/utils/objects'
 
 type Widget = { metrics?: Studio.Metric[] }
 
@@ -75,7 +75,7 @@ export function checkIsDifferentLayouts(
     const layoutWidget = layoutWidgets[i]
     const userWidget = userWidgets[i]
 
-    if (checkIsDiffObjects(layoutWidget, userWidget)) return true
+    if (checkAreDiffObjects(layoutWidget, userWidget)) return true
   }
 
   return false

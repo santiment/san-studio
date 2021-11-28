@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import type {
   CurrentUserLayoutsQuery,
   CurrentUserShortLayoutsQuery,
@@ -11,7 +10,7 @@ import {
 import { LAYOUT_QUERY_FIELDS, updateLayoutCache } from './layout'
 import { dateSorter } from './utils'
 
-type MutatedLayoutQuery = Query<'layout', SAN.CurrentUserLayout>
+type MutatedLayoutQuery = SAN.API.Query<'layout', SAN.CurrentUserLayout>
 type CurrentUserLayouts = CurrentUserLayoutsQuery & CurrentUserShortLayoutsQuery
 
 type LayoutUpdates = Partial<

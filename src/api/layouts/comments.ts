@@ -1,5 +1,3 @@
-import type { Subscriber, Unsubscriber } from 'webkit/api/cache'
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 import { Cache } from 'webkit/api/cache'
 
@@ -9,7 +7,10 @@ const LAYOUT_QUERY = (id: number) => `
   }
 `
 
-type LayoutCommentsCountQuery = Query<'layout', { commentsCount: number }>
+type LayoutCommentsCountQuery = SAN.API.Query<
+  'layout',
+  { commentsCount: number }
+>
 
 const precacher = () => ({ layout }: LayoutCommentsCountQuery): number =>
   layout.commentsCount
@@ -24,8 +25,8 @@ export const queryLayoutCommentsCount = (id: number): Promise<number> =>
 
 export const subscribeLayoutCommentsCountCache = (
   id: number,
-  clb: Subscriber<any>,
-): Unsubscriber => Cache.get$(LAYOUT_QUERY(id), clb)
+  clb: SAN.API.Subscriber<any>,
+): SAN.API.Unsubscriber => Cache.get$(LAYOUT_QUERY(id), clb)
 
 export const updateLayoutCommentsCountCache = (
   id: number,

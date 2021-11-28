@@ -31,7 +31,7 @@ export default defineConfig({
     'process.env.IS_DEV_MODE': process.env.IS_DEV_MODE,
   },
   optimizeDeps: {
-    exclude: ['webkit', 'san-webkit', 'canvas'],
+    exclude: ['webkit', 'san-webkit', 'canvas', 'node-fetch'],
   },
 
   build: {

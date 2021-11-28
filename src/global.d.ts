@@ -1,5 +1,6 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
+/// <reference types="san-webkit" />
 
 declare module '*.png' {
   const value: string

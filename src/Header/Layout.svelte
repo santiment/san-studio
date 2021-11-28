@@ -1,9 +1,9 @@
 <script lang="ts">
   import Tooltip from 'webkit/ui/Tooltip.svelte'
   import Svg from 'webkit/ui/Svg.svelte'
+  import Author from 'webkit/ui/Author/svelte'
   import { selectedLayout } from '@/stores/layout'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
-  import LayoutAuthor from '@/Layouts/LayoutAuthor.svelte'
   import LayoutCommentsToggle from '@/Sidewidget/LayoutComments/Toggle.svelte'
 
   $: layout = $selectedLayout
@@ -11,7 +11,7 @@
 
 {#if layout}
   <div class="layout row v-center mrg-l mrg--r">
-    <LayoutAuthor user={layout.user} class="$style.author" />
+    <Author user={layout.user} class="$style.author" />
 
     <div class="divider" />
 

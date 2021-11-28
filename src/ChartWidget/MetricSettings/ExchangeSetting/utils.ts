@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 import { Metric } from '@/metrics'
 

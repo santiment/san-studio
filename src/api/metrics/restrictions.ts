@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 
 const newQuery = (data: string) => `{ getAccessRestrictions {
@@ -8,7 +7,7 @@ const newQuery = (data: string) => `{ getAccessRestrictions {
 const MIN_INTERVAL_QUERY = newQuery('minInterval')
 
 type RestrictionMetric = { name: string }
-type RestrictionQuery<T> = Query<'getAccessRestrictions', T[]>
+type RestrictionQuery<T> = SAN.API.Query<'getAccessRestrictions', T[]>
 
 type RestrictionMetricMinInterval = RestrictionMetric & { minInterval: string }
 type MinIntervalQuery = RestrictionQuery<RestrictionMetricMinInterval>
@@ -31,10 +30,10 @@ function precacher() {
 
 const options = { precacher }
 export const queryMinInterval = (): Promise<MetricMinInterval> =>
-  query<MinIntervalQuery>(
+  (query<MinIntervalQuery>(
     MIN_INTERVAL_QUERY,
     options as any,
-  ) as any as Promise<MetricMinInterval>
+  ) as any) as Promise<MetricMinInterval>
 
 export const getMetricKeyMinInterval = (metricKey: string) =>
   queryMinInterval().then(

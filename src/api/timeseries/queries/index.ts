@@ -1,5 +1,3 @@
-import type { Query } from 'webkit/api'
-import type { CachePolicy } from 'webkit/api/cache'
 import { query } from 'webkit/api'
 import { getMetricKeyMinInterval } from '@/api/metrics/restrictions'
 import { normalizeInterval } from '@/utils/intervals'
@@ -55,7 +53,7 @@ export const GET_METRIC = `
   }
 `
 
-export type RawTimeseries = Query<
+export type RawTimeseries = SAN.API.Query<
   'getMetric',
   {
     timeseriesData: {
@@ -66,7 +64,7 @@ export type RawTimeseries = Query<
 >
 
 export type MetricTimeseries = { datetime: number; [key: string]: number }[]
-export type Timeseries = Query<
+export type Timeseries = SAN.API.Query<
   'getMetric',
   { timeseriesData: MetricTimeseries }
 >
@@ -81,32 +79,32 @@ export type Variables = {
 }
 
 // TODO: defaultPrecacher using newPrecacher constructor [@vanguard | May 24, 2021]
-const defaultPrecacher =
-  ({ key }: Variables) =>
-  ({ getMetric: { timeseriesData } }: RawTimeseries): Timeseries => {
-    const data: Timeseries['getMetric']['timeseriesData'] = new Array(
-      timeseriesData.length,
-    )
+const defaultPrecacher = ({ key }: Variables) => ({
+  getMetric: { timeseriesData },
+}: RawTimeseries): Timeseries => {
+  const data: Timeseries['getMetric']['timeseriesData'] = new Array(
+    timeseriesData.length,
+  )
 
-    for (let i = timeseriesData.length - 1; i > -1; i--) {
-      const { d, v } = timeseriesData[i]
-      data[i] = {
-        datetime: +new Date(d),
-        [key as any]: v,
-      }
+  for (let i = timeseriesData.length - 1; i > -1; i--) {
+    const { d, v } = timeseriesData[i]
+    data[i] = {
+      datetime: +new Date(d),
+      [key as any]: v,
     }
-
-    return {
-      getMetric: {
-        timeseriesData: data,
-      },
-    } as Timeseries
   }
+
+  return {
+    getMetric: {
+      timeseriesData: data,
+    },
+  } as Timeseries
+}
 
 export function queryMetric(
   variables: Variables,
   precacher: (variables: Variables) => any = defaultPrecacher,
-  cachePolicy?: CachePolicy,
+  cachePolicy?: SAN.API.CachePolicy,
 ): Promise<any> {
   return getMetricKeyMinInterval(variables.metric as string).then(
     (minInterval) => {

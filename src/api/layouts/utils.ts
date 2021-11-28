@@ -1,10 +1,12 @@
-import type { Query } from 'webkit/api'
+export const layoutAccessor = <T>({ layout }: SAN.API.Query<'layout', T>) =>
+  layout
 
-export const layoutAccessor = <T>({ layout }: Query<'layout', T>) => layout
-export const layoutsAccessor = <T>({ layouts }: Query<'layouts', T>) => layouts
+export const layoutsAccessor = <T>({ layouts }: SAN.API.Query<'layouts', T>) =>
+  layouts
+
 export const currentUserLayoutsAccessor = <T>({
   currentUser,
-}: Query<'currentUser', null | { layouts: T }>) =>
+}: SAN.API.Query<'currentUser', null | { layouts: T }>) =>
   (currentUser?.layouts || []) as T
 
 type Sortable = { updatedAt: string }
@@ -13,14 +15,14 @@ export const dateSorter = (
   { updatedAt: b }: Sortable,
 ) => +new Date(b) - +new Date(a)
 
-function dataSorter<T extends Sortable>(data: Query<'layouts', T[]>) {
+function dataSorter<T extends Sortable>(data: SAN.API.Query<'layouts', T[]>) {
   data.layouts.sort(dateSorter)
   return data
 }
 export const sortableLayoutsOptions = { precacher: () => dataSorter }
 
 function currentUserDataSorter<T extends Sortable>(
-  data: Query<'currentUser', null | { layouts: T[] }>,
+  data: SAN.API.Query<'currentUser', null | { layouts: T[] }>,
 ) {
   data.currentUser?.layouts.sort(dateSorter)
   return data

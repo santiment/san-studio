@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query, mutate } from 'webkit/api'
 
 export const FAVORITE_METRICS_QUERY = `
@@ -20,7 +19,7 @@ const UPDATE_FAVORITES_MUTATION = `
 `
 
 export type FavoriteMetrics = string[]
-type FavoriteMetricsQuery = Query<
+type FavoriteMetricsQuery = SAN.API.Query<
   'currentUser',
   null | {
     settings: {

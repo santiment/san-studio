@@ -1,4 +1,3 @@
-import type { Query } from 'webkit/api'
 import { query } from 'webkit/api'
 import { Cache } from 'webkit/api/cache'
 import { layoutAccessor } from './utils'
@@ -34,7 +33,7 @@ const LAYOUT_QUERY = (id: number) => `
   }
 `
 
-type LayoutQuery = Query<'layout', SAN.Layout>
+type LayoutQuery = SAN.API.Query<'layout', SAN.Layout>
 
 export const queryLayout = (id: number): Promise<SAN.Layout> =>
   query<LayoutQuery>(LAYOUT_QUERY(id)).then(layoutAccessor)
@@ -55,7 +54,7 @@ const SHORT_LAYOUT_QUERY = (id: number) => `
   }
 `
 
-type ShortLayoutQuery = Query<'layout', SAN.ShortLayout>
+type ShortLayoutQuery = SAN.API.Query<'layout', SAN.ShortLayout>
 
 export const queryShortLayout = (id: number): Promise<SAN.ShortLayout> =>
   query<ShortLayoutQuery>(SHORT_LAYOUT_QUERY(id)).then(layoutAccessor)
