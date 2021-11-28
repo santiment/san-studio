@@ -5,4 +5,8 @@ declare namespace SAN {
     email: string | null
     avatarUrl: string | null
   }
+
+  type CurrentUser = {
+    id: number
+  }
 }

@@ -1,16 +1,17 @@
 <script lang="ts">
   import { dateDifferenceInWords } from 'webkit/utils/dates'
-  import { currentUser } from '@/stores/user'
-  import { selectedLayout } from '@/stores/layout'
   import Author from '@/Layouts/LayoutAuthor.svelte'
   import Menu from './Menu.svelte'
   import RepliedTo from './RepliedTo.svelte'
   import { DELETE_MSG } from './DeleteDialog.svelte'
   import { showCommentReplyDialog } from './ReplyDialog.svelte'
 
+  export let commentsFor: SAN.Layout
   export let comment: SAN.Comment
   export let authorId: number
+  export let currentUser: null | SAN.CurrentUser = null
   export let updateComments: any
+  export let scrollToNewComment: () => void
 
   $: ({ content, insertedAt, editedAt, user, parentId } = comment)
 
@@ -20,14 +21,12 @@
     dateDifferenceInWords(new Date(edited ? (editedAt as string) : insertedAt))
 
   function onReply() {
-    if (!$selectedLayout) return
-
-    showCommentReplyDialog($selectedLayout.id, comment.id).then(
-      (newComment) => {
+    showCommentReplyDialog(commentsFor.id, comment.id)
+      .then((newComment) => {
         if (!newComment) return
         updateComments((comments) => (comments.push(newComment), comments))
-      },
-    )
+      })
+      .then(scrollToNewComment)
   }
 </script>
 
@@ -49,13 +48,13 @@
 
   <div class="content mrg-s mrg--t">{content}</div>
 
-  {#if $currentUser}
+  {#if currentUser}
     <div class="actions row v-center txt-m">
       {#if content !== DELETE_MSG}
         <button class="reply btn" on:click={onReply}>Reply</button>
       {/if}
 
-      {#if $currentUser.id === user.id}
+      {#if currentUser.id === user.id}
         <Menu bind:comment />
       {/if}
     </div>

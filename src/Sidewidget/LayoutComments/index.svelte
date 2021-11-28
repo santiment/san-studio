@@ -1,42 +1,69 @@
 <script lang="ts">
   import { onDestroy, setContext } from 'svelte'
   import Svg from 'webkit/ui/Svg.svelte'
-  import { globals } from '@/stores/globals'
-  import { selectedLayout } from '@/stores/layout'
-  import { queryLayoutComments } from '@/api/comments'
+  import { CommentsType, queryComments } from '@/api/comments'
   import { createLayoutComment } from '@/api/comments/mutate'
-  import { updateLayoutCommentsCountCache } from '@/api/layouts/comments'
   import Comment from './Comment.svelte'
+  import {
+    findCommentNode,
+    scrollToComment,
+    saveComment,
+    clearSavedComment,
+    adjustHeight,
+  } from './utils'
+
+  const noop = () => {}
+
+  export let type: CommentsType
+  export let commentsFor: SAN.Layout
+  export let currentUser: null | SAN.CurrentUser = null
+  export let onNewComment: (layout: SAN.Layout, comments: SAN.Comment[]) => void
+  export let onAnonComment: undefined | (() => void)
+  export let onCommentError = noop
 
   let comments = [] as SAN.Comment[]
   let loading = false
-  let commentsNode
+  let commentsNode: HTMLElement
 
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
-  $: layout = $selectedLayout
-  $: layout && queryLayoutComments(layout.id).then(setComments)
-  $: authorId = layout?.user.id
+  $: queryComments(commentsFor.id, type).then(setComments)
+  $: authorId = commentsFor.user.id
 
   function setComments(data: SAN.Comment[]) {
     comments = data
-    updateLayoutCommentsCountCache((layout as SAN.Layout).id, data.length)
+    onNewComment?.(commentsFor, data)
+  }
+
+  function scrollToNewComment() {
+    const node = commentsNode.lastElementChild?.querySelector('.content')
+    removeHighlight = scrollToComment(node as HTMLElement)
   }
 
   function onSubmit({ currentTarget }: Event) {
-    if (!layout || !$globals.isLoggedIn || loading) return
+    if (!commentsFor || loading) return
 
-    loading = true
     const commentNode = (currentTarget as HTMLFormElement)
       .comment as HTMLTextAreaElement
 
-    createLayoutComment(layout.id, commentNode.value).then((comment) => {
-      comments.push(comment)
-      setComments(comments)
+    if (!currentUser) {
+      saveComment(commentsFor.id, commentNode.value)
       commentNode.value = ''
-      loading = false
-    })
+      return onAnonComment?.()
+    }
+
+    loading = true
+    createLayoutComment(commentsFor.id, commentNode.value)
+      .then((comment) => {
+        comments.push(comment)
+        setComments(comments)
+        commentNode.value = ''
+        clearSavedComment()
+      })
+      .then(scrollToNewComment)
+      .catch(onCommentError)
+      .then(() => (loading = false))
   }
 
   setContext('getRepliedToComment', getRepliedToComment)
@@ -44,40 +71,15 @@
     return comments.find((comment) => comment.id === id)
   }
 
-  let removeHighlight: () => void
-  setContext('scrollToReply', scrollToReply)
-  function scrollToReply(e: MouseEvent) {
+  let removeHighlight: undefined | (() => void)
+  setContext('scrollToComment', onRepliedToClick)
+  function onRepliedToClick(e: MouseEvent): void {
     e.preventDefault()
     e.stopImmediatePropagation()
-    removeHighlight?.()
 
     const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href')
-    const comment = commentsNode.querySelector(`${href} .content`)
-    if (!comment) return
-
-    comment.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-    })
-    comment.classList.add('$style.highlight')
-
-    const timer = setTimeout(undo, 900)
-    removeHighlight = undo
-
-    function undo() {
-      comment?.classList.remove('$style.highlight')
-      clearTimeout(timer)
-    }
-  }
-
-  function adjustHeight({ currentTarget }) {
-    if (!currentTarget.value) {
-      currentTarget.style.height = '32px'
-      return
-    }
-
-    currentTarget.style.height = '1px'
-    currentTarget.style.height = currentTarget.scrollHeight + 2 + 'px'
+    const comment = findCommentNode(commentsNode, href || '')
+    removeHighlight = scrollToComment(comment, removeHighlight)
   }
 
   onDestroy(() => {
@@ -87,26 +89,29 @@
 
 <div class="body-2 txt-m">Conversations ({comments.length})</div>
 
-{#if $globals.isLoggedIn}
-  <form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
-    <textarea
-      name="comment"
-      required
-      rows="1"
-      class="border fluid"
-      placeholder="Type your comment here"
-      on:input={adjustHeight} />
+<form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
+  <textarea
+    name="comment"
+    required
+    rows="1"
+    class="border fluid"
+    placeholder="Type your comment here"
+    on:input={(e) => adjustHeight(e.currentTarget)} />
 
-    <button
-      type="submit"
-      class:loading
-      class="btn btn-1 btn--green mrg-l mrg--l">Post</button>
-  </form>
-{/if}
+  <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l">
+    {currentUser ? 'Post' : 'Sign up to post'}
+  </button>
+</form>
 
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
   {#each comments as comment (comment.id)}
-    <Comment {comment} {authorId} {updateComments} />
+    <Comment
+      {commentsFor}
+      {comment}
+      {authorId}
+      {currentUser}
+      {updateComments}
+      {scrollToNewComment} />
   {:else}
     <div class="column hv-center">
       <Svg illus id="comment-bubble" w="128" h="98" />
@@ -121,6 +126,7 @@
     resize: none;
     padding: 5px 10px;
     height: 32px;
+    min-height: 100%;
   }
 
   .comments {
@@ -132,9 +138,5 @@
 
   .column {
     height: 100%;
-  }
-
-  .highlight {
-    background: var(--green-light-2) !important;
   }
 </style>

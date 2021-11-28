@@ -22,18 +22,14 @@
     getScheduledLayout,
     deleteScheduledLayout,
     getAllWidgetsMetricsKeys,
-    checkIsDifferentLayouts,
   } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
+  let changed = false
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
-  $: changed =
-    isAuthor &&
-    layout?.options?.widgets &&
-    checkIsDifferentLayouts(layout.options.widgets, $Widgets)
 
   const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
   const callIfRegistered = (clb: () => any) => () =>

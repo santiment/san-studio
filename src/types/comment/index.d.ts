@@ -1,5 +1,5 @@
 declare namespace SAN {
-  type CommentsType = import('./index').CommentsType
+  type CommentsType = import('@/api/comments').CommentsType
 
   type Comment = {
     id: number

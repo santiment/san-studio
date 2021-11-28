@@ -1,9 +1,17 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
+  import { currentUser } from '@/stores/user'
+  import { selectedLayout } from '@/stores/layout'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
+  import { CommentsType } from '@/api/comments'
+  import { updateLayoutCommentsCountCache } from '@/api/layouts/comments'
   import LayoutComment from './LayoutComments/index.svelte'
 
   const Sidewidget = getSidewidget()
+
+  function onNewComment(layout: SAN.Layout, comments: SAN.Comment[]) {
+    updateLayoutCommentsCountCache(layout.id, comments.length)
+  }
 </script>
 
 <div class="sidewidget border mrg-l mrg--l column">
@@ -17,7 +25,13 @@
   </div>
 
   {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
-    <LayoutComment />
+    {#if $selectedLayout}
+      <LayoutComment
+        type={CommentsType.Layout}
+        commentsFor={$selectedLayout}
+        currentUser={$currentUser}
+        {onNewComment} />
+    {/if}
   {:else}
     <div class="studio-sidewidget row" />
   {/if}

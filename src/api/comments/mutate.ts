@@ -1,7 +1,6 @@
-import { CommentsType } from '@/types/comment'
 import type { Query } from 'webkit/api'
 import { mutate } from 'webkit/api'
-import { COMMENT_FIELDS } from './index'
+import { CommentsType, COMMENT_FIELDS } from './index'
 
 // -----------------------------
 // CREATE COMMENT
