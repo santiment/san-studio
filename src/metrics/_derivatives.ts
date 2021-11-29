@@ -34,6 +34,12 @@ export const DerivativesMetric = each(
       formatter: ratioPercentForamtter,
       axisFormatter: ratioPercentAxisFormatter,
     },
+    dydx_perpetual_funding_rate: {
+      label: 'DyDx Exchange Funding Rates',
+      node: 'filledLine',
+      formatter: ratioPercentForamtter,
+      axisFormatter: ratioPercentAxisFormatter,
+    },
     ftx_perpetual_funding_rate: {
       label: 'FTX Funding Rate',
       formatter: ratioPercentForamtter,
