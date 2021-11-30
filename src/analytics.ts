@@ -8,6 +8,8 @@ export const Event = {
   LoadLayout: 'charts_load_layout',
   SaveLayout: 'charts_save_layout',
 
+  LikeLayout: 'charts_like_layout',
+
   Fullscreen: 'charts_fullscreen',
   Embed: 'charts_embed',
   Scale: 'charts_scale',

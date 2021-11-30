@@ -6,6 +6,8 @@
     subscribeLayoutCommentsCountCache,
   } from '@/api/layouts/comments'
 
+  let className = ''
+  export { className as class }
   export let layout: Pick<SAN.Layout, 'id'>
 
   const Sidewidget = getSidewidget()
@@ -24,7 +26,7 @@
 </script>
 
 <div
-  class="action btn border txt-m mrg-xxl mrg--r"
+  class="action btn border txt-m {className}"
   class:active={$Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
   on:click={() => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS)}>
   <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
@@ -35,9 +37,6 @@
   .action {
     padding: 5px 12px;
     border-radius: 20px;
-    --color: var(--waterloo);
-    --color-hover: var(--green);
-    --fill-hover: var(--waterloo);
   }
 
   .active {

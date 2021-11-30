@@ -5,6 +5,7 @@
   import { selectedLayout } from '@/stores/layout'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
   import LayoutCommentsToggle from '@/Sidewidget/LayoutComments/Toggle.svelte'
+  import LayoutLikeButton from './LayoutLikeButton.svelte'
 
   $: layout = $selectedLayout
 </script>
@@ -29,7 +30,8 @@
     </Tooltip>
   </div>
 
-  <LayoutCommentsToggle {layout} />
+  <LayoutCommentsToggle {layout} class="mrg-s mrg--r $style.action" />
+  <LayoutLikeButton {layout} class="mrg-xxl mrg--r $style.action" />
 {/if}
 
 <style>
@@ -66,5 +68,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .action {
+    background: var(--white) !important;
+    --color: var(--waterloo);
+    --color-hover: var(--green);
+    --fill-hover: var(--waterloo);
+  }
+  .action.voted {
+    --fill-hover: var(--green-hover);
   }
 </style>

@@ -78,6 +78,9 @@
     --color: #26c953;
     --bg: #d6f6d6;
   }
+  .change::before {
+    z-index: 999;
+  }
 
   .img {
     border-radius: 50%;
