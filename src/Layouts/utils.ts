@@ -6,7 +6,6 @@ import {
   getSavedValue,
   deleteSavedValue,
 } from 'webkit/utils/localStorage'
-import { checkAreDiffObjects } from 'webkit/utils/objects'
 
 type Widget = { metrics?: Studio.Metric[] }
 
@@ -58,25 +57,3 @@ export const getScheduledLayout = () =>
 
 export const deleteScheduledLayout = (): void =>
   deleteSavedValue(SCHEDULED_CHART)
-
-export function checkIsDifferentLayouts(
-  layoutWidgets: any[],
-  widgets: any[],
-): boolean {
-  const optimizeLayout = window.shareLayoutWidgets
-  if (!optimizeLayout) return false
-
-  // Removing undefined values
-  const userWidgets: any[] = JSON.parse(JSON.stringify(optimizeLayout(widgets)))
-
-  if (layoutWidgets.length !== userWidgets.length) return true
-
-  for (let i = 0; i < layoutWidgets.length; i++) {
-    const layoutWidget = layoutWidgets[i]
-    const userWidget = userWidgets[i]
-
-    if (checkAreDiffObjects(layoutWidget, userWidget)) return true
-  }
-
-  return false
-}

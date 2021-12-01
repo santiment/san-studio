@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { tick, onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
   import { newGlobalShortcut } from 'webkit/utils/events'
@@ -12,6 +12,7 @@
   import { getWidgets } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
   import { currentUser } from '@/stores/user'
+  import { widgetsListener } from '@/stores/widgetsListener'
   import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import LoadLayoutDialog, {
@@ -22,18 +23,35 @@
     getScheduledLayout,
     deleteScheduledLayout,
     getAllWidgetsMetricsKeys,
-    checkIsDifferentLayouts,
   } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
 
+  let widgetsHash = ''
+  let changed = false
+
   $: layout = $selectedLayout
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
-  $: changed =
-    isAuthor &&
-    layout?.options?.widgets &&
-    checkIsDifferentLayouts(layout.options.widgets, $Widgets)
+  // @ts-ignore
+  $: layout, isAuthor, hashWidgets()
+
+  const getWidgetsHash = (widgets = Widgets.get()) =>
+    JSON.stringify(window.shareLayoutWidgets?.(widgets))
+  function hashWidgets() {
+    if (!layout || !isAuthor) return (widgetsHash = '')
+
+    tick().then(() => {
+      widgetsHash = getWidgetsHash(window.parseLayoutWidgets(layout))
+      checkIsChanged()
+    })
+  }
+
+  function checkIsChanged() {
+    changed = isAuthor ? widgetsHash !== getWidgetsHash() : false
+  }
+
+  const unsubWidgets = widgetsListener.subscribe(checkIsChanged)
 
   const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
   const callIfRegistered = (clb: () => any) => () =>
@@ -50,9 +68,7 @@
         description,
         projectId,
         metrics: getAllWidgetsMetricsKeys($Widgets),
-        options: {
-          widgets: window.shareLayoutWidgets?.($Widgets),
-        },
+        options: { widgets: window.shareLayoutWidgets?.($Widgets) },
       }
 
       promise = (
@@ -136,6 +152,7 @@
     window.onChartsLayoutMount = undefined
     unsubSave()
     unsubLoad()
+    unsubWidgets()
   })
 </script>
 

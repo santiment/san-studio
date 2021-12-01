@@ -78,6 +78,7 @@ export function newOnUpdateStore(widget: any) {
       widget.axesMetrics = get(widget.ChartAxes)
       widget.signalMetrics = get(widget.MetricsSignals)
 
+      widget.onWidgetUpdate?.()
       set(i++)
     },
   }

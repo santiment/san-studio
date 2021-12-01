@@ -33,6 +33,9 @@ export function initWidgets(defaultWidgets, getExternalWidget, History) {
 
   const store = {
     subscribe,
+    get() {
+      return widgets
+    },
     set(newWidgets) {
       set((widgets = newWidgets))
     },

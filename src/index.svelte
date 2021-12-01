@@ -13,6 +13,7 @@
   import { studio, newLockedAssetStore } from '@/stores/studio'
   import { initWidgets, initSidewidget } from '@/stores/widgets'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
+  import { widgetsListener } from '@/stores/widgetsListener'
   import { setAdapterController } from '@/adapter/context'
   import { newSizedQueue } from '@/Widget/queue'
 
@@ -72,6 +73,10 @@
   // Queueing only on mount
   $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
 
+  function onWidgetUpdate() {
+    widgetsListener.update()
+  }
+
   onDestroy(() => {
     window.showLoginPrompt = undefined
     window.shareLayoutWidgets = undefined
@@ -93,7 +98,7 @@
       <div class="row main" bind:this={screenRef}>
         <div class="widgets">
           {#each $Widgets as widget (widget.id)}
-            <Widget {widget} {Widgets} />
+            <Widget {widget} {Widgets} {onWidgetUpdate} />
           {/each}
         </div>
 

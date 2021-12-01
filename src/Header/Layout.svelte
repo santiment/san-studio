@@ -20,7 +20,7 @@
       {layout.title}
     </span>
 
-    <Tooltip on="click" duration={0}>
+    <Tooltip duration={0} openDelay={110}>
       <div slot="trigger" class="btn info mrg-s mrg--l row v-center">
         <Svg id="info" w="16" />
       </div>

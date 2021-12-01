@@ -12,10 +12,12 @@
 
   export let widget
   export let Widgets
+  export let onWidgetUpdate
 
   const isNative = !widget.isExternal
   widget.delete = deleteWidget
   widget.deleteWithHistory = deleteWidgetWithHistory
+  widget.onWidgetUpdate = onWidgetUpdate
 
   let target
   $: isSingleWidget = $Widgets.length < 2
