@@ -29,6 +29,10 @@ interface Window {
   onHeaderCopyLinkClick?: () => void
   onHeaderShareClick?: () => void
   __onLinkClick?: (e: MouseEvent) => void
+
+  onAnonComment?: () => void
+  onCommentsLoaded?: () => void
+  onCommentError?: () => void
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode
@@ -85,9 +89,11 @@ namespace Studio {
     baseMetrics: any[]
   }
 
-  type MetricSetting = import('@/ChartWidget/MetricSettings/context').MetricSetting
+  type MetricSetting =
+    import('@/ChartWidget/MetricSettings/context').MetricSetting
 
-  type MetricSettings = import('@/ChartWidget/MetricSettings/context').MetricSettings
+  type MetricSettings =
+    import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
 
 declare module 'mathjs/lib/esm/number' {

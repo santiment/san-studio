@@ -5,9 +5,6 @@
   import { currentUser } from '@/stores/user'
   import { updateLayoutCommentsCountCache } from '@/api/layouts/comments'
 
-  // export let onAnonComment: undefined | (() => void)
-  // export let onCommentError = noop
-
   function onNewComment(layout: SAN.Layout, comments: SAN.Comment[]) {
     updateLayoutCommentsCountCache(layout.id, comments.length)
   }
@@ -17,4 +14,7 @@
   type={CommentsType.Layout}
   commentsFor={$selectedLayout}
   currentUser={$currentUser}
+  onAnonComment={window.onAnonComment}
+  onCommentsLoaded={window.onCommentsLoaded}
+  onCommentError={window.onCommentError}
   {onNewComment} />
