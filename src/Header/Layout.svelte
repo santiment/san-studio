@@ -32,6 +32,11 @@
 
   <LayoutCommentsToggle {layout} class="mrg-s mrg--r $style.action" />
   <LayoutLikeButton {layout} class="mrg-xxl mrg--r $style.action" />
+{:else}
+  <div class="img mrg-m mrg--r row hv-center">
+    <Svg id="user" w="16" class="$style.svg" />
+  </div>
+  Unsaved layout
 {/if}
 
 <style>
@@ -78,5 +83,15 @@
   }
   .action.voted {
     --fill-hover: var(--green-hover);
+  }
+
+  .img {
+    fill: var(--waterloo);
+    background: var(--porcelain);
+    border-radius: 50%;
+    overflow: hidden;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
   }
 </style>
