@@ -1,10 +1,10 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg.svelte'
-  import { selectedLayout } from '@/stores/layout'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import LayoutComment from './LayoutComments/index.svelte'
 
   const Sidewidget = getSidewidget()
+  const closeSidewidget = () => ($Sidewidget = null)
 </script>
 
 <div class="sidewidget border mrg-l mrg--l column">
@@ -14,11 +14,11 @@
       w="12"
       h="10"
       class="btn $style.icon"
-      on:click={() => ($Sidewidget = null)} />
+      on:click={closeSidewidget} />
   </div>
 
   {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
-    {#if $selectedLayout} <LayoutComment /> {/if}
+    <LayoutComment {closeSidewidget} />
   {:else}
     <div class="studio-sidewidget row" />
   {/if}
