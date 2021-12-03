@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { getWidgets } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'

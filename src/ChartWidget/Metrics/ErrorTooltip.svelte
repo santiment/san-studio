@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
   export let error
 </script>
 

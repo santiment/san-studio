@@ -1,7 +1,7 @@
 <script lang="ts">
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
-  import Svg from 'webkit/ui/Svg.svelte'
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'

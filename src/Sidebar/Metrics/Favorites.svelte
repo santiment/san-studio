@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { SelectorNode } from '@/metrics/selector'
   import { checkIsFilterMatch } from '@/metrics/selector/utils'

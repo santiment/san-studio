@@ -3,7 +3,7 @@
   import { track } from 'webkit/analytics'
   import { getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'

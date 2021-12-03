@@ -8,9 +8,9 @@
 
 <script lang="ts">
   import Dialog from 'webkit/ui/Dialog'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { selectedLayout } from '@/stores/layout'
   import { updateUserLayout } from '@/api/layouts/mutate'
   import LayoutInfo from './LayoutInfo.svelte'

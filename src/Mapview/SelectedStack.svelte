@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { selectedItems } from '@/stores/selector'
   import MetricButton from '@/MetricButton.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'

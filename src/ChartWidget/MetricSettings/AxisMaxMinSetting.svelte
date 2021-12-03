@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import { getSavedValue, saveValue } from 'webkit/utils/localStorage'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import Dropdown from './Dropdown.svelte'

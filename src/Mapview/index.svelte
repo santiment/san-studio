@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { getHistoryContext, withScroll } from 'webkit/ui/history'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { dialogs } from 'webkit/ui/Dialog'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'

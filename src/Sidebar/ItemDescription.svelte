@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Description, prepareDescription } from '@/metrics/description'
   import { studio } from '@/stores/studio'
 

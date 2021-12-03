@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { selectedItems } from '@/stores/selector'
   import { getSidewidget } from '@/stores/widgets'
   import { getAdapterController } from '@/adapter/context'

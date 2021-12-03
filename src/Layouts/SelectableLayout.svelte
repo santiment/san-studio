@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte'
 
   export let layout: SAN.Layout

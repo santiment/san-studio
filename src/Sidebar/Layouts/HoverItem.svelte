@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { currentUser } from '@/stores/user'
   import { queryLayout } from '@/api/layouts'
   import { createUserLayout } from '@/api/layouts/mutate'

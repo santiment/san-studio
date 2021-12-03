@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import MetricButton from '@/MetricButton.svelte'
   import { getWidget } from '@/ChartWidget/context'

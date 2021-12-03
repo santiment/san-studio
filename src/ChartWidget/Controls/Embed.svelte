@@ -1,6 +1,6 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { showEmbedDialog } from './Embed/Dialog.svelte'

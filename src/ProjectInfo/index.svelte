@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ProjectPriceChange } from '@/api/project'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { studio } from '@/stores/studio'
   import { queryProject, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'

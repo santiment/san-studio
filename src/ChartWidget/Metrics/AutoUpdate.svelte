@@ -5,7 +5,7 @@
     ONE_MINUTE_IN_MS,
     ONE_HOUR_IN_MS,
   } from 'webkit/utils/dates'
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Event } from '@/analytics'
 
   export let AutoUpdater

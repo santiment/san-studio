@@ -11,7 +11,7 @@
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { CMD } from 'webkit/utils/os'
   import { dialogs } from 'webkit/ui/Dialog'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import ShortcutsDialog, {

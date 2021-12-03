@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { EmojiIds } from '@/Chart/Drawer/drawings/emoji'
   import { track } from 'webkit/analytics'
-  import Tooltip from 'webkit/ui/Tooltip.svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Tooltip from 'webkit/ui/Tooltip/svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { EMOJIS, newEmoji } from '@/Chart/Drawer/drawings/emoji'
 

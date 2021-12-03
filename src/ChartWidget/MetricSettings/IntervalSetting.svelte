@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { getMetricMinInterval } from '@/api/metrics/restrictions'
   import { INTERVALS, getIntervals, getValidInterval } from '@/utils/intervals'

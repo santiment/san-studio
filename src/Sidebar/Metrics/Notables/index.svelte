@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { queryRawSignal } from '@/api/signals'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { debounced } from '@/ChartWidget/utils'

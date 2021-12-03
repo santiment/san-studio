@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getHistoryContext } from 'webkit/ui/history'
   import { track } from 'webkit/analytics'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { recordDrawingVisibility } from '@/history/drawings'
 

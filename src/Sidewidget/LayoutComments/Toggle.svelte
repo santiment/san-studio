@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import {
     queryLayoutCommentsCount,

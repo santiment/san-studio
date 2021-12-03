@@ -1,6 +1,6 @@
 <script lang="ts">
   import Checkbox from 'webkit/ui/Checkbox.svelte'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
 
   export let metric: Studio.Metric
   export let colors

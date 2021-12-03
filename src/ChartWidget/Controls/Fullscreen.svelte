@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import { track } from 'webkit/analytics'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { showFullscreenChart } from './FullscreenDialog.svelte'

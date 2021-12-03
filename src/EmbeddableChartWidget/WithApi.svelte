@@ -1,7 +1,7 @@
 <script lang="ts">
   import { newHistoryContext } from 'webkit/ui/history'
   import { ONE_MINUTE_IN_MS } from 'webkit/utils/dates'
-  import Svg from 'webkit/ui/Svg.svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { studio } from '@/stores/studio'
   import { setAdapterController } from '@/adapter/context'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
