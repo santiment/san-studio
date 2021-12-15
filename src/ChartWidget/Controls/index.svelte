@@ -111,7 +111,7 @@
     class:active={$ChartDrawer.isNewDrawing === 'hray'}
     class:disabled={$ChartDrawer.isHidden}
     on:click={onNewHorizontalRay}>
-    <Svg id="line" w="15" />
+    <Svg id="hray" w="17" h="5" />
   </div>
 
   <Note {chart} {ChartDrawer} />

@@ -34,11 +34,13 @@
   noTitle
   bind:closeDialog
   class="$style.dialog">
-  <ChartWidget
-    {widget}
-    isFullscreen
-    isSingleWidget
-    metricsFilter={fullscreenMetricsFilter} />
+  {#await Promise.resolve() then _}
+    <ChartWidget
+      {widget}
+      isFullscreen
+      isSingleWidget
+      metricsFilter={fullscreenMetricsFilter} />
+  {/await}
 </Dialog>
 
 <style>

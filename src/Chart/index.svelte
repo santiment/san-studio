@@ -114,6 +114,8 @@
   }
 
   function updateDimensions() {
+    if (disabled) return
+
     const { tooltip, brush, drawer, canvasWidth, canvasHeight } = chart
     const _width = width || canvasWidth
     const _height = height || canvasHeight

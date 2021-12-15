@@ -14,6 +14,7 @@
   {:else}
     <img
       alt="Project"
+      loading="lazy"
       on:error={() => (error = true)}
       src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png" />
   {/if}

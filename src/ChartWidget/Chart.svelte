@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { getContext } from 'svelte'
+  import { dialogs } from 'webkit/ui/Dialog'
   import { getTodaysEnd } from 'webkit/utils/dates'
   import { studio } from '@/stores/studio'
   import { FORMATTER } from '@/metrics/formatters'
@@ -125,6 +127,8 @@
       changeStudioPeriod(_start.value, _end.value)
     }
   }
+
+  const isInFullscreenDialog = !!getContext('fullscreen')
 </script>
 
 <Chart
@@ -137,7 +141,7 @@
   {domainGroups}
   {domainModifier}
   {onChart}
-  disabled={isFullscreened}
+  disabled={isInFullscreenDialog ? false : $dialogs.length > 0}
   bind:width={chartWidth}>
   <GreenRedBars />
   <Bars />
