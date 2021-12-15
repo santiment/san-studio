@@ -18,6 +18,7 @@ export function newDatetimeBubbleDrawer(
 
   const theme = chart.theme.drawer
   return (x: number, date: number) =>
+    date &&
     drawValueBubbleX(chart as any, ctx, xBubbleFormatter(date), x, theme)
 }
 

@@ -44,7 +44,7 @@
   }
 
   function onNewLine() {
-    if ($ChartDrawer.isNewDrawing === false) {
+    if ($ChartDrawer.isNewDrawing !== 'line') {
       track.event(Event.NewDrawing, { type: 'line' })
     }
 
@@ -52,7 +52,7 @@
   }
 
   function onNewHorizontalRay() {
-    if ($ChartDrawer.isNewDrawing === false) {
+    if ($ChartDrawer.isNewDrawing !== 'hray') {
       track.event(Event.NewDrawing, { type: 'hray' })
     }
 

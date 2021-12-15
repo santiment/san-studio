@@ -13,9 +13,9 @@ function newDatetimeRelativeScaler(chart: SAN.Charts.Chart): Scaler {
 }
 
 type Resetter = (drawing: SAN.Charts.Drawing) => any
-const newCoordinatesResetter = (resetter: Resetter) => (
-  drawer: SAN.Charts.Drawer,
-) => drawer.drawings.forEach(resetter)
+const newCoordinatesResetter =
+  (resetter: Resetter) => (drawer: SAN.Charts.Drawer) =>
+    drawer.drawings.forEach(resetter)
 
 export const resetDrawingRatioCoordinates = ({ ratioCoor, relCoor }) =>
   relCoor.length && (ratioCoor.length = 0)
@@ -47,7 +47,7 @@ export function correctAbsoluteCoordinatesRatio(
   for (let i = 0, len = drawings.length; i < len; i++) {
     const { absCoor, ratioCoor } = drawings[i]
     for (let j = 0, coorLen = ratioCoor.length; j < coorLen; j += 2) {
-      absCoor[j] *= ratioCoor[j] * width
+      absCoor[j] *= ratioCoor[j] && ratioCoor[j] * width
       absCoor[j + 1] *= ratioCoor[j + 1] * height
     }
   }
@@ -59,14 +59,10 @@ export function setupDrawingsCoordinatesUpdater(
 ) {
   const { drawer } = chart
 
-  drawer.updateAbsoluteByRelativeCoordinates = newRelativeToAbsoluteCoordinatesUpdater(
-    chart,
-    minMax,
-  )
-  drawer.updateRelativeByAbsoluteCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
-    chart,
-    minMax,
-  )
+  drawer.updateAbsoluteByRelativeCoordinates =
+    newRelativeToAbsoluteCoordinatesUpdater(chart, minMax)
+  drawer.updateRelativeByAbsoluteCoordinates =
+    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)
 }
 
 export function absoluteToRatioCoordinates(
@@ -76,7 +72,7 @@ export function absoluteToRatioCoordinates(
   height: number,
 ) {
   for (let i = 0, len = absCoor.length; i < len; i += 2) {
-    ratioCoor[i] = absCoor[i] / width
+    ratioCoor[i] = absCoor[i] && absCoor[i] / width
     ratioCoor[i + 1] = absCoor[i + 1] / height
   }
 }
@@ -87,7 +83,7 @@ export function ratioToAbsoluteCoordinates(
   height: number,
 ) {
   for (let i = 0, len = ratioCoor.length; i < len; i += 2) {
-    absCoor[i] = ratioCoor[i] * width
+    absCoor[i] = ratioCoor[i] && ratioCoor[i] * width
     absCoor[i + 1] = ratioCoor[i + 1] * height
   }
 }
@@ -99,7 +95,7 @@ function relativeToAbsoluteCoordinates(
   scaleY: Scaler,
 ) {
   for (let i = 0, len = relCoor.length; i < len; i += 2) {
-    absCoor[i] = scaleX(relCoor[i])
+    absCoor[i] = relCoor[i] && scaleX(relCoor[i])
     absCoor[i + 1] = scaleY(relCoor[i + 1])
   }
 }
@@ -111,7 +107,7 @@ function absoluteToRelativeCoordinates(
   scaleValue: Scaler,
 ) {
   for (let i = 0, len = absCoor.length; i < len; i += 2) {
-    relCoor[i] = scaleDatetime(absCoor[i])
+    relCoor[i] = absCoor[i] && scaleDatetime(absCoor[i])
     relCoor[i + 1] = scaleValue(absCoor[i + 1])
   }
 }
