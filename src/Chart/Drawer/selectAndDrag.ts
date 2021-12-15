@@ -4,6 +4,7 @@ import { getDrawingUpdater } from './drawings'
 import { getLineDragData, lineDragModifier } from './drawings/line'
 import { getEmojiDragData, emojiDragModifier } from './drawings/emoji'
 import { noteDragModifier, handleNoteDoubleClick } from './drawings/note'
+import { horizontalRayDragModifier } from './drawings/horizontalRay'
 
 type Controller = {
   selectDrawing: (drawing?: SAN.Charts.Drawing) => void
@@ -96,6 +97,7 @@ type DragDataGetter = (
 const DrawingDragDataGetter = {
   line: getLineDragData,
   emoji: getEmojiDragData,
+  hray: undefined,
   note: undefined,
 } as Record<SAN.Charts.DrawingTypes, undefined | DragDataGetter>
 
@@ -111,6 +113,7 @@ const DrawingDragModifier = {
   line: lineDragModifier,
   emoji: emojiDragModifier,
   note: noteDragModifier,
+  hray: horizontalRayDragModifier,
 } as Record<SAN.Charts.DrawingTypes, undefined | DragModifier>
 
 function newDrawingDragHandler(
@@ -143,7 +146,7 @@ function newDrawingDragHandler(
     dragModifier(drawing, initialAbsCoor, dragData, diffX, diffY, e)
     updateRelativeByAbsoluteCoordinates(absCoor, relCoor)
     absoluteToRatioCoordinates(absCoor, ratioCoor, width, height)
-    updater(drawer, drawing)
+    updater(chart, drawing)
 
     wasDragged.value = true
     wasDragged.data = dragData as any
@@ -151,9 +154,9 @@ function newDrawingDragHandler(
   }
 }
 
-export const newDrawingDeleteHandler = (drawer: SAN.Charts.Drawer) => ({
-  key,
-}: KeyboardEvent) => {
-  if (key !== 'Backspace' || !drawer.selected) return
-  drawer.deleteDrawing(drawer.selected)
-}
+export const newDrawingDeleteHandler =
+  (drawer: SAN.Charts.Drawer) =>
+  ({ key }: KeyboardEvent) => {
+    if (key !== 'Backspace' || !drawer.selected) return
+    drawer.deleteDrawing(drawer.selected)
+  }

@@ -51,7 +51,7 @@ export function paintNote(chart: SAN.Charts.Chart, drawing: SAN.Charts.Note) {
 }
 
 export function updateNote(
-  drawer: SAN.Charts.Drawer,
+  { drawer }: SAN.Charts.Chart,
   drawing: SAN.Charts.Note,
 ) {
   if (!drawing.width) {

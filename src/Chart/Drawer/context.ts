@@ -3,7 +3,7 @@ import { writable } from 'svelte/store'
 
 export type Drawer = {
   isDrawing: boolean
-  isNewDrawing: boolean
+  isNewDrawing: SAN.Charts.NewDrawingType
   drawings: SAN.Charts.Drawing[]
   selectedLine: undefined | SAN.Charts.Drawing
 }
@@ -14,7 +14,7 @@ const DRAWER = {
   isNewDrawing: false,
   selectedLine: undefined,
   isHidden: false,
-}
+} as any
 
 const CONTEXT = 'chartDrawer'
 export const setChartDrawer = (chart: ChartDrawerStore): void =>
@@ -54,13 +54,14 @@ export function newChartDrawerStore(defaultValue?: SAN.Charts.Drawing[]) {
       store.selectedLine = drawing
       set(store)
     },
-    toggleNewDrawing() {
-      store.isNewDrawing = !store.isNewDrawing
+    toggleNewDrawing(type: SAN.Charts.NewDrawingType) {
+      const newDrawing = type === store.isNewDrawing ? null : type
+      store.isNewDrawing = newDrawing
       set(store)
     },
     setIsDrawing(isDrawing: boolean) {
       store.isDrawing = isDrawing
-      if (isDrawing === false) store.isNewDrawing = false
+      if (isDrawing === false) store.isNewDrawing = null
       set(store)
     },
     toggleVisibility(value: boolean) {

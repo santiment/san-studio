@@ -1,4 +1,5 @@
 import { paintLine, updateLine } from './line'
+import { paintHorizontalRay, updateHorizontalRay } from './horizontalRay'
 import { paintEmoji, updateEmoji } from './emoji'
 import { paintNote, updateNote } from './note'
 import {
@@ -9,6 +10,7 @@ import { clearCtx } from '../../utils'
 
 const DrawingPainter = {
   line: paintLine,
+  hray: paintHorizontalRay,
   emoji: paintEmoji,
   note: paintNote,
 } as Record<
@@ -18,17 +20,18 @@ const DrawingPainter = {
 
 const DrawingUpdater = {
   line: updateLine,
+  hray: updateHorizontalRay,
   emoji: updateEmoji,
   note: updateNote,
 } as Record<
   SAN.Charts.DrawingTypes,
-  undefined | ((drawer: SAN.Charts.Drawer, drawing: SAN.Charts.Drawing) => void)
+  undefined | ((chart: SAN.Charts.Chart, drawing: SAN.Charts.Drawing) => void)
 >
 
 export const getDrawingUpdater = ({ type }: SAN.Charts.Drawing) =>
   DrawingUpdater[type]
 
-export function paintDrawings(chart: SAN.Charts.Chart) {
+export function paintDrawings(chart: SAN.Charts.Chart): void {
   const { drawer, right, bottom, left, canvasWidth } = chart
   const { ctx, minMax } = drawer
 
@@ -45,7 +48,7 @@ export function paintDrawings(chart: SAN.Charts.Chart) {
   }
 }
 
-export function drawDrawings(chart: SAN.Charts.Chart) {
+export function drawDrawings(chart: SAN.Charts.Chart): void {
   const { drawer, width, height } = chart
   const { drawings } = drawer
 
@@ -61,7 +64,7 @@ export function drawDrawings(chart: SAN.Charts.Chart) {
         drawer.updateAbsoluteByRelativeCoordinates(relCoor, absCoor)
         absoluteToRatioCoordinates(absCoor, ratioCoor, width, height)
       }
-      getDrawingUpdater(drawing)?.(drawer, drawing)
+      getDrawingUpdater(drawing)?.(chart, drawing)
     }
 
     const painter = DrawingPainter[drawing.type]

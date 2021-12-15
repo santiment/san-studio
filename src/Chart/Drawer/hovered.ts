@@ -2,9 +2,14 @@ import { checkLineIsHovered, paintLineHover } from './drawings/line'
 import { checkEmojiIsHovered, paintEmojiHover } from './drawings/emoji'
 import { checkNoteIsHovered, paintNoteHover } from './drawings/note'
 import { getEventCoordinates } from './utils'
+import {
+  checkHorizontalRayIsHovered,
+  paintHorizontalRayHover,
+} from './drawings/horizontalRay'
 
 const DrawingIsHoveredChecker = {
   line: checkLineIsHovered,
+  hray: checkHorizontalRayIsHovered,
   emoji: checkEmojiIsHovered,
   note: checkNoteIsHovered,
 } as Record<
@@ -40,6 +45,7 @@ type HoverPainter = (
 ) => void
 const DrawingHoverPainter = {
   line: paintLineHover,
+  hray: paintHorizontalRayHover,
   emoji: paintEmojiHover,
   note: paintNoteHover,
 } as Record<SAN.Charts.DrawingTypes, undefined | HoverPainter>

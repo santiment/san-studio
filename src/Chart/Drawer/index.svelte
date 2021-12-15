@@ -13,6 +13,7 @@
   } from './selectAndDrag'
   import { newDrawingAxesPainter } from './axes'
   import { newLineCreationHandler } from './newLine'
+  import { newHorizontalRayCreationHandler } from './drawings/horizontalRay'
   import { hook } from './utils'
   import { getChart } from '../context'
   import { clearCtx } from '../utils'
@@ -25,11 +26,6 @@
 
   const drawingDeleteHandler = newDrawingDeleteHandler(drawer)
   const drawingHoverHandler = newMouseHoverHandler(chart, setHovered)
-  const lineCreationHandler = newLineCreationHandler(
-    chart,
-    onNewDrawingStart,
-    onNewDrawingEnd,
-  )
   const drawingSelectHandler = newDrawingSelectHandler(chart, {
     selectDrawing,
     startDrawing,
@@ -39,9 +35,18 @@
   const drawingDblClickHandler = newDoubleClickHandler(chart, onDrawingDragEnd)
   const deleteDrawer = ChartDrawer.addDrawer(drawer)
 
+  const NewDrawingHandler = {
+    line: newLineCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
+    hray: newHorizontalRayCreationHandler(
+      chart,
+      onNewDrawingStart,
+      onNewDrawingEnd,
+    ),
+  } as Record<NonNullable<SAN.Charts.NewDrawingType>, (...args) => any>
+
   export let metricKey: string
 
-  let isNewDrawing = false
+  let isNewDrawing: SAN.Charts.NewDrawingType = null
 
   drawer.drawings = $ChartDrawer.drawings
   drawer.addDrawing = addDrawing
@@ -63,7 +68,7 @@
       drawer.isHidden = isHidden
 
       if (isHidden) cleanup?.()
-      else cleanup = hookDrawer(false)
+      else cleanup = hookDrawer(null)
     }
   })
 
@@ -154,14 +159,15 @@
     })
   }
 
-  function hookDrawer(isNewDrawing: boolean) {
+  function hookDrawer(isNewDrawing: null | string) {
     if (process.browser === false) return
 
     if (cleanup) cleanup()
     const parent = chart.canvas.parentNode as HTMLElement
 
     if (isNewDrawing) {
-      return hook(parent, 'mousedown', lineCreationHandler)
+      const newDrawing = NewDrawingHandler[isNewDrawing]
+      return newDrawing && hook(parent, 'mousedown', newDrawing)
     }
 
     const removeDrawingHoverHandler = hook(

@@ -48,7 +48,15 @@
       track.event(Event.NewDrawing, { type: 'line' })
     }
 
-    ChartDrawer.toggleNewDrawing()
+    ChartDrawer.toggleNewDrawing('line')
+  }
+
+  function onNewHorizontalRay() {
+    if ($ChartDrawer.isNewDrawing === false) {
+      track.event(Event.NewDrawing, { type: 'hray' })
+    }
+
+    ChartDrawer.toggleNewDrawing('hray')
   }
 
   function onLineDelete() {
@@ -91,9 +99,18 @@
   <div
     class="btn expl-tooltip"
     aria-label="Draw Line | L"
-    class:active={$ChartDrawer.isNewDrawing}
+    class:active={$ChartDrawer.isNewDrawing === 'line'}
     class:disabled={$ChartDrawer.isHidden}
     on:click={onNewLine}>
+    <Svg id="line" w="15" />
+  </div>
+
+  <div
+    class="btn expl-tooltip"
+    aria-label="Horizontal Ray"
+    class:active={$ChartDrawer.isNewDrawing === 'hray'}
+    class:disabled={$ChartDrawer.isHidden}
+    on:click={onNewHorizontalRay}>
     <Svg id="line" w="15" />
   </div>
 

@@ -28,7 +28,9 @@ declare namespace SAN {
       drawer: Drawer
     }
 
-    type DrawingTypes = 'line' | 'emoji' | 'note'
+    type DrawingTypes = 'line' | 'hray' | 'emoji' | 'note'
+    type NewDrawingType = 'line' | 'hray' | null
+
     interface Drawing {
       type: DrawingTypes
       /** [chart x, chart y, ... x(i), y(i+1), ...] */
@@ -72,6 +74,14 @@ declare namespace SAN {
       /** [x1, y1, x2, y2] */
       ratioCoor: [number, number, number, number]
       handlers: [Path2D, Path2D]
+      shape: Path2D
+    }
+
+    interface HorizontalRay extends Drawing {
+      type: 'hray'
+      absCoor: [0, number]
+      relCoor: [0, number]
+      ratioCoor: [0, number]
       shape: Path2D
     }
 
