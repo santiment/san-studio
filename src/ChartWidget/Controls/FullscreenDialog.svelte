@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import { setContext } from 'svelte'
+  import { setContext, tick } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import { resetAbsoluteCoordinates } from '@/Chart/Drawer/coordinates'
@@ -34,7 +34,7 @@
   noTitle
   bind:closeDialog
   class="$style.dialog">
-  {#await Promise.resolve() then _}
+  {#await tick() then _}
     <ChartWidget
       {widget}
       isFullscreen

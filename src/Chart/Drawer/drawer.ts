@@ -25,6 +25,7 @@ export function newDrawer(
   drawer.redraw = () => (paintDrawings(chart), drawer.drawSelection?.())
   chart.drawer = drawer
   plotManager.set(PLOT_ID, newDrawerUpdater(chart, onSelectionChange))
+  chart.redraw()
 
   return drawer
 }

@@ -26,16 +26,19 @@
   $: isMapview = $mapview !== MapviewPhase.None
   $: isMetricsPhase = $mapview === MapviewPhase.Metrics
   $: dndContext.toggle(isMetricsPhase)
-  $: document.body.style.overflow = isMapview ? 'hidden' : ''
   $: if ($mapview) {
     tick().then(tick).then(dndContext.ctx.recalcGrid)
   }
 
   const onEscape = ({ key }) =>
     key === 'Escape' && $dialogs.length === 0 && mapview.exit()
+
   $: if (isMapview) {
+    document.body.style.maxWidth = document.body.offsetWidth + 'px'
+    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onEscape)
   } else {
+    document.body.style.overflow = ''
     window.removeEventListener('keydown', onEscape)
     selectedItems.clear()
   }
