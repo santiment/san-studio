@@ -26,6 +26,7 @@ declare namespace SAN {
       data: Data
       rightAxisMargin?: number
       drawer: Drawer
+      redraw: () => void
     }
 
     type DrawingTypes = 'line' | 'hray' | 'emoji' | 'note'
