@@ -1,4 +1,5 @@
 import { query } from 'webkit/api'
+import { NO_PROJECT_METRICS } from '@/metrics/withoutProject'
 
 const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
   {
@@ -17,9 +18,7 @@ function precacher() {
   return ({ projectBySlug }) => {
     const { availableMetrics, availableQueries } = projectBySlug
     const metricsSet = new Set(
-      ['percent_of_whale_stablecoin_total_supply']
-        .concat(availableMetrics)
-        .concat(availableQueries),
+      NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries),
     )
     return Array.from(metricsSet)
   }

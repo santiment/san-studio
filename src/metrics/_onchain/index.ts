@@ -50,7 +50,7 @@ const ExchangesMetric = each(
   (metric: Studio.Metric) => (metric.group = 'Exchanges'),
 )
 
-const WhalesMetric = each(
+export const WhalesMetric = each(
   {
     topHoldersPercentOfTotalSupply: {
       label: 'Supply held by top addresses (as % of total supply)',
@@ -218,6 +218,35 @@ export const FeesMetric = each(
   (metric: Studio.Metric) => (metric.group = 'Fees'),
 )
 
+export const NFTMetric = each(
+  {
+    nft_trades_count: {
+      label: 'Total NFT Trades Count',
+    },
+    nft_trade_volume_usd: {
+      label: 'Total NFT Trades Volume In USD',
+    },
+    nft_whale_trades_count: {
+      label: 'Amount of Uniq Addresses Bought More Than 100k USD of NFTs',
+    },
+    nft_whale_trade_volume_usd: {
+      label: 'Total Volume For NFT Worth More Than 100k USD',
+    },
+    nft_retail_trades_count: {
+      label: 'Amount of Uniq Addresses Bought Less Than 1k USD of NFTs',
+    },
+    nft_retail_trade_volume_usd: {
+      label: 'Total Volume For NFT Worth Less Than 1k USD',
+    },
+  },
+  (metric: Studio.Metric) => {
+    metric.group = 'NFT harbor'
+    metric.noProject = true
+    metric.reqMeta = { slug: 'ethereum' }
+    metric.getLabel = () => metric.label
+  },
+)
+
 export const OnChainMetric = each(
   Object.assign(
     {
@@ -242,6 +271,7 @@ export const OnChainMetric = each(
     FeesMetric,
     ExchangesMetric,
     ExchangesV2Metric,
+    NFTMetric,
     DefiMetric,
     HolderDistributionMetric,
     WhalesMetric,
