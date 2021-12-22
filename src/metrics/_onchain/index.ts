@@ -221,21 +221,27 @@ export const FeesMetric = each(
 export const NFTMetric = each(
   {
     nft_trades_count: {
+      node: 'filledLine',
       label: 'Total NFT Trades Count',
     },
     nft_trade_volume_usd: {
+      node: 'bar',
       label: 'Total NFT Trades Volume In USD',
     },
     nft_whale_trades_count: {
+      node: 'bar',
       label: 'Amount of Uniq Addresses Bought More Than 100k USD of NFTs',
     },
     nft_whale_trade_volume_usd: {
+      node: 'bar',
       label: 'Total Volume For NFT Worth More Than 100k USD',
     },
     nft_retail_trades_count: {
+      node: 'bar',
       label: 'Amount of Uniq Addresses Bought Less Than 1k USD of NFTs',
     },
     nft_retail_trade_volume_usd: {
+      node: 'bar',
       label: 'Total Volume For NFT Worth Less Than 1k USD',
     },
   },
