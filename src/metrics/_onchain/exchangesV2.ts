@@ -1,17 +1,17 @@
 import { each } from '@/metrics/utils'
 
 export const LABELS = [
-  'KuCoin',
-  'Poloniex',
-  'Kraken',
-  'Binance',
-  'Bitfinex',
-  'Gate',
-  'Bittrex',
-  'Huobi',
-  'Coinbase',
-  'OKEx',
-  'Bitstamp',
+  'kucoin',
+  'poloniex',
+  'kraken',
+  'binance',
+  'bitfinex',
+  'gate',
+  'bittrex',
+  'huobi',
+  'coinbase',
+  'okex',
+  'bitstamp',
 ] as const
 
 const checkIsVisible = ({ slug }) => slug === 'bitcoin'
