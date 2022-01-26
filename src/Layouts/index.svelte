@@ -83,12 +83,14 @@
 
     promise.then(selectLayout)
   }
+  window.saveLayout = callIfRegistered(onSave)
 
   const onSaveAsNew = () =>
     layout &&
     showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(
       selectLayout,
     )
+  window.saveAsNewLayout = callIfRegistered(onSaveAsNew)
 
   const onEdit = () =>
     layout &&
@@ -97,6 +99,7 @@
       title: 'Edit Chart Layout',
       mode: Mode.Edit,
     }).then(selectLayout)
+  window.onLayoutEdit = callIfRegistered(onEdit)
 
   const onNew = () => showNewLayoutDialog().then(selectLayout)
 
@@ -147,9 +150,12 @@
   const unsubLoad = newGlobalShortcut('CMD+L', openLoadLayoutDialog)
   onDestroy(() => {
     // @ts-ignore
-    window.onLayoutSelect = undefined
-    window.onLayoutCreationOpen = undefined
-    window.onChartsLayoutMount = undefined
+    delete window.onLayoutSelect
+    delete window.onLayoutCreationOpen
+    delete window.onChartsLayoutMount
+    delete window.onLayoutEdit
+    delete window.saveLayout
+    delete window.saveAsNewLayout
     unsubSave()
     unsubLoad()
     unsubWidgets()

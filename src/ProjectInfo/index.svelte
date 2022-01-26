@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ProjectPriceChange } from '@/api/project'
   import Svg from 'webkit/ui/Svg/svelte'
+  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import { studio } from '@/stores/studio'
   import { queryProject, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
@@ -9,8 +10,6 @@
   let change = 0
 
   $: ({ slug, ticker, name = slug } = $studio)
-  // @ts-ignore
-  $: error = (slug, false)
   $: queryProject(slug).then(setProject)
   $: queryProjectPriceChange(slug).then(setPriceChange)
 
@@ -25,17 +24,8 @@
 
 <div class="row v-center">
   <div class="project body-1 btn row v-center">
-    <div class="img row hv-center mrg-l mrg--r" class:error>
-      {#if error}
-        <Svg id="asset-small" w="12" class="$style.placeholder" />
-      {:else}
-        <img
-          alt="Project"
-          loading="lazy"
-          on:error={() => (error = true)}
-          src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png" />
-      {/if}
-    </div>
+    <ProjectIcon {slug} size={40} class="mrg-l mrg--r" />
+
     {name} ({ticker})
     <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>
@@ -81,30 +71,6 @@
   }
   .change::before {
     z-index: 999;
-  }
-
-  .img {
-    border-radius: 50%;
-  }
-  .error {
-    background: var(--porcelain);
-  }
-  :global(.night-mode) .error {
-    background: var(--mystic);
-  }
-
-  .img,
-  img {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-  }
-
-  .placeholder {
-    fill: var(--casper);
-  }
-  :global(.night-mode) .placeholder {
-    fill: var(--waterloo);
   }
 
   .arrow {

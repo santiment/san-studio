@@ -42,4 +42,8 @@
   .author {
     margin-left: 20px;
   }
+
+  .value {
+    white-space: normal;
+  }
 </style>

@@ -3,11 +3,17 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Author from 'webkit/ui/Author/svelte'
   import { selectedLayout } from '@/stores/layout'
+  import { currentUser } from '@/stores/user'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
   import LayoutCommentsToggle from '@/Sidewidget/LayoutComments/Toggle.svelte'
   import LayoutLikeButton from './LayoutLikeButton.svelte'
+  import LayoutHoverAction from './LayoutHoverAction.svelte'
 
   $: layout = $selectedLayout
+  let isEditVisible = false
+  let showEdit, hideEdit
+
+  $: hide = isEditVisible ? null : hideEdit
 </script>
 
 {#if layout}
@@ -16,7 +22,8 @@
 
     <div class="divider" />
 
-    <span class="title body-2">
+    <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+    <span class="title body-2" on:mouseover={showEdit} on:mouseleave={hide}>
       {layout.title}
     </span>
 
@@ -36,7 +43,13 @@
   <div class="img mrg-m mrg--r row hv-center">
     <Svg id="user" w="16" class="$style.svg" />
   </div>
-  Unsaved layout
+
+  <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+  <span on:mouseover={showEdit} on:mouseleave={hide}>Unsaved layout</span>
+{/if}
+
+{#if $currentUser}
+  <LayoutHoverAction bind:isEditVisible bind:showEdit bind:hideEdit />
 {/if}
 
 <style>
@@ -45,7 +58,7 @@
   }
 
   .info {
-    --fill: var(--casper);
+    --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
 

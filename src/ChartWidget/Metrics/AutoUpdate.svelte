@@ -66,7 +66,7 @@
   <div
     slot="trigger"
     class:active={$AutoUpdater.isUpdating}
-    class="btn live row hv-center mrg-s mrg--b"
+    class="btn-3 live row hv-center mrg-s mrg--b"
     on:click={onClick} />
 
   <svelte:fragment slot="tooltip">Updated {updated} ago</svelte:fragment>
@@ -75,8 +75,6 @@
 <style>
   .live {
     align-self: flex-end;
-    width: 32px;
-    height: 32px;
     --bg: var(--athens);
     --bg-hover: var(--athens);
     --dot: var(--casper);
@@ -110,7 +108,7 @@
   }
 
   .active {
-    --bg: none;
+    --bg: none !important;
     --bg-hover: var(--green-light-1);
     --dot: #26c953;
     --border: #c3e9d2;
