@@ -58,7 +58,7 @@
     right: 0;
   }
   .btn-3 {
-    fill: var(--waterloo);
+    --color: var(--waterloo);
     z-index: 2;
     position: relative;
   }
