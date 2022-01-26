@@ -37,11 +37,8 @@
   duration={0}
   align="center"
   class="$style.Tooltip"
-  activeClass="controls-btn_active">
-  <div
-    slot="trigger"
-    class="controls-btn btn"
-    class:disabled={$ChartDrawer.isHidden}>
+  activeClass="active">
+  <div slot="trigger" class="btn-3" class:disabled={$ChartDrawer.isHidden}>
     <Svg id="smile" w="16" />
   </div>
 

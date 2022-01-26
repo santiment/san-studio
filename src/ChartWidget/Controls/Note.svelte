@@ -17,9 +17,6 @@
   }
 </script>
 
-<div
-  class="controls-btn btn"
-  class:disabled={$ChartDrawer.isHidden}
-  on:click={onClick}>
+<div class="btn-3" class:disabled={$ChartDrawer.isHidden} on:click={onClick}>
   <Svg id="note" w="14" />
 </div>

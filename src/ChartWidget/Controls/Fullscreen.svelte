@@ -22,8 +22,6 @@
   }
 </script>
 
-<div
-  class="btn controls-btn mrg-s mrg--l"
-  on:click={closeFullscreen || onFullscreen}>
+<div class="btn-3 mrg-s mrg--l" on:click={closeFullscreen || onFullscreen}>
   <Svg id={closeFullscreen ? 'close' : 'fullscreen'} w="14" />
 </div>

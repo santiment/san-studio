@@ -14,14 +14,8 @@
 </script>
 
 <div
-  class="btn controls-btn mrg-s mrg--r expl-tooltip"
+  class="btn-3 mrg-s mrg--r expl-tooltip"
   aria-label="Embed chart"
   on:click={onEmbed}>
   <Svg id="embed" w="20" h="12" />
 </div>
-
-<style>
-  .expl-tooltip::before {
-    z-index: 24;
-  }
-</style>

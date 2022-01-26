@@ -18,7 +18,7 @@
 
   function getColor({ key }: Studio.Metric, colors, highlight = false) {
     const color = colors[key]
-    let style = `--color:${color};--m-color:${color}22`
+    let style = `--b-color:${color};--m-color:${color}22`
 
     if (highlight && color.length < 8) {
       style += `;--h-color:${color}11;---border:${color}55`
@@ -70,7 +70,7 @@
     top: 0;
     height: 100%;
     width: 4px;
-    background: var(--color);
+    background: var(--b-color);
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
     overflow: hidden;
@@ -87,7 +87,7 @@
 
   .active,
   .metric:hover {
-    ---border: var(--color) !important;
+    ---border: var(--b-color) !important;
   }
 
   :global(.MetricButton__btn) {

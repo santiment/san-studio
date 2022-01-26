@@ -21,9 +21,9 @@
 </script>
 
 <div
-  class="btn expl-tooltip controls-btn controls-expl"
+  class="btn-3 expl-tooltip"
   aria-label={isActive ? 'Show drawings' : 'Hide drawings'}
-  class:controls-btn_active={isActive}
+  class:active={isActive}
   on:click={onClick}>
   {#if isActive}
     <Svg id="eye-crossed" w="20" h="17" />

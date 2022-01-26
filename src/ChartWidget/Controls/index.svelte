@@ -97,7 +97,7 @@
 
 <div class="row controls v-center mrg-s mrg--b">
   <div
-    class="btn expl-tooltip"
+    class="btn-3 expl-tooltip"
     aria-label="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing === 'line'}
     class:disabled={$ChartDrawer.isHidden}
@@ -106,7 +106,7 @@
   </div>
 
   <div
-    class="btn expl-tooltip"
+    class="btn-3 expl-tooltip"
     aria-label="Horizontal Ray"
     class:active={$ChartDrawer.isNewDrawing === 'hray'}
     class:disabled={$ChartDrawer.isHidden}
@@ -141,7 +141,7 @@
 
   {#if !noWidgetControls}
     <div
-      class="btn mrg-s mrg--r expl-tooltip"
+      class="btn-3 mrg-s mrg--r expl-tooltip"
       aria-label="Download as PNG"
       on:click={() => onDownload(downloadPng)}>
       <Svg id="download" w="17" />
@@ -151,10 +151,10 @@
 
     <OptionsMenu
       bind:onDownload
-      activeClass="controls-btn_active"
+      activeClass="active"
       {isSingleWidget}
       {deleteWidget}>
-      <div class="btn">
+      <div class="btn-3">
         <Svg id="cog" w="16" />
       </div>
     </OptionsMenu>
@@ -164,27 +164,8 @@
 </div>
 
 <style>
-  .btn,
-  :global(.controls-btn) {
-    width: 32px;
-    height: 32px;
-    --fill: var(--waterloo);
-    --fill-hover: var(--green);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  :global(.controls-btn.disabled),
-  .disabled {
-    --fill: var(--porcelain);
-    --bg: var(--white) !important;
-  }
-
-  :global(.btn.controls-btn_active),
-  .active {
-    --fill: var(--green) !important;
-    --bg: var(--green-light-1);
+  .controls {
+    fill: var(--waterloo);
   }
 
   .divider {
@@ -200,8 +181,7 @@
     color: var(--black);
   }
 
-  :global(.controls-expl::before),
-  .expl-tooltip::before {
+  .controls :global(.expl-tooltip::before) {
     z-index: 24;
   }
 </style>

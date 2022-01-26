@@ -1,17 +1,17 @@
 import { each } from '@/metrics/utils'
 
 export const LABELS = [
-  'kucoin',
-  'poloniex',
-  'kraken',
-  'binance',
-  'bitfinex',
-  'gate',
-  'bittrex',
-  'huobi',
-  'coinbase',
-  'okex',
-  'bitstamp',
+  'KuCoin',
+  'Poloniex',
+  'Kraken',
+  'Binance',
+  'Bitfinex',
+  'Gate',
+  'Bittrex',
+  'Huobi',
+  'Coinbase',
+  'OKEx',
+  'Bitstamp',
 ] as const
 
 const checkIsVisible = ({ slug }) => slug === 'bitcoin'
@@ -20,7 +20,9 @@ const ExchangesV2Metric = {
 }
 
 const eachLabel = (clb: (label: string, label_fqn: string) => void) =>
-  LABELS.forEach((label) => clb(label, `santiment/owner->${label}:v1`))
+  LABELS.forEach((label) =>
+    clb(label, `santiment/owner->${label.toLowerCase()}:v1`),
+  )
 
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhb_' + label] = {
