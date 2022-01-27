@@ -122,7 +122,7 @@
   <DrawingsVisibility {widget} {ChartDrawer} />
 
   {#if $ChartDrawer.selectedLine}
-    <div class="btn delete" on:click={onLineDelete}>
+    <div class="btn-3 delete" on:click={onLineDelete}>
       <Svg id="delete" w="16" />
     </div>
   {/if}

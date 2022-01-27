@@ -56,7 +56,7 @@
   <div class="studio-calendar" />
 
   <div
-    class="mapview btn border"
+    class="mapview btn-2"
     on:click={mapview.toggle}
     class:active={$mapview !== MapviewPhase.None}>
     Mapview
@@ -79,10 +79,6 @@
     white-space: nowrap;
   }
 
-  .mapview {
-    padding: 5px 20px;
-    --color-hover: var(--green);
-  }
   .active {
     --bg: var(--green-light-1);
     --color: var(--green);

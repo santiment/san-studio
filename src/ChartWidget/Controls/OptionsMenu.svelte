@@ -181,6 +181,7 @@
   span {
     display: flex;
     align-items: center;
+    color: inherit;
   }
 
   .disabled {

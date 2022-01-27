@@ -87,7 +87,7 @@
 <div class="sidebar-header">
   <Tabs tabs={TABS} bind:tab />
   <div
-    class="btn btn-1 btn--green mrg-l mrg--t row v-center"
+    class="btn-1 btn--s mrg-l mrg--t row v-center"
     on:click={onNewLayoutClick}>
     <Svg id="plus-circle" w="16" class="$style.plus mrg-s mrg--r" />
     Create chart layout
@@ -110,9 +110,3 @@
     {/if}
   {/each}
 </div>
-
-<style>
-  .btn {
-    padding: 6px 12px;
-  }
-</style>
