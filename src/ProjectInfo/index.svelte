@@ -12,6 +12,7 @@
   $: ({ slug, ticker, name = slug } = $studio)
   $: queryProject(slug).then(setProject)
   $: queryProjectPriceChange(slug).then(setPriceChange)
+  $: isUpChange = change >= 0
 
   function setProject(project: any) {
     studio.setProject(project)
@@ -21,6 +22,10 @@
     change = +(+percentChange24h).toFixed(2)
   }
 </script>
+
+<svelte:head>
+  <title>{ticker} {price} {isUpChange ? '▲ +' : '▼ '}{change}%</title>
+</svelte:head>
 
 <div class="row v-center">
   <div class="project body-1 btn row v-center">
@@ -36,7 +41,7 @@
 
     <div
       class="change txt-m row v-center expl-tooltip"
-      class:up={change >= 0}
+      class:up={isUpChange}
       aria-label="24h change">
       <span class="direction row hv-center mrg-xs mrg--r">
         <Svg id="triangle" w="6" h="4" />
