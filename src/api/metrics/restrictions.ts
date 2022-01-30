@@ -30,10 +30,10 @@ function precacher() {
 
 const options = { precacher }
 export const queryMinInterval = (): Promise<MetricMinInterval> =>
-  (query<MinIntervalQuery>(
+  query<MinIntervalQuery>(
     MIN_INTERVAL_QUERY,
     options as any,
-  ) as any) as Promise<MetricMinInterval>
+  ) as any as Promise<MetricMinInterval>
 
 export const getMetricKeyMinInterval = (metricKey: string) =>
   queryMinInterval().then(
@@ -42,3 +42,10 @@ export const getMetricKeyMinInterval = (metricKey: string) =>
 
 export const getMetricMinInterval = ({ key, queryKey = key }: Studio.Metric) =>
   getMetricKeyMinInterval(queryKey)
+
+const RESTRICTED_DATES_QUERY = newQuery('restrictedFrom restrictedTo')
+export const queryRestrictedDates = (): Promise<MetricMinInterval> =>
+  query<MinIntervalQuery>(
+    RESTRICTED_DATES_QUERY,
+    options as any,
+  ) as any as Promise<MetricMinInterval>

@@ -7,15 +7,12 @@
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
-  import {
-    recordNewDrawing,
-    recordDeleteDrawing,
-    recordDrawingModified,
-  } from '@/history/drawings'
+  import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
   import Emoji from './Emoji.svelte'
   import Note from './Note.svelte'
   import DrawingsVisibility from './DrawingsVisibility.svelte'
+  import IncompleteData from './IncompleteData.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
@@ -80,13 +77,7 @@
           recordDeleteDrawing(History, ChartDrawer, widget, data)
         } else if (type === 'modified') {
           const { drawing, oldRatioCoor } = data
-          recordDrawingModified(
-            History,
-            widget,
-            drawing,
-            oldRatioCoor,
-            data.data,
-          )
+          recordDrawingModified(History, widget, drawing, oldRatioCoor, data.data)
         }
       })
 
@@ -127,15 +118,11 @@
     </div>
   {/if}
 
-  <div class="studio-why-gaps mrg-a mrg--l" />
+  <IncompleteData {chart} />
 
   {#if hasDomainGroups}
-    <button
-      class="row v-center"
-      on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>
-      Shared axis <Toggle
-        class="mrg-s mrg--l mrg--r"
-        isActive={isSharedAxisEnabled} />
+    <button class="row v-center" on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>
+      Shared axis <Toggle class="mrg-s mrg--l mrg--r" isActive={isSharedAxisEnabled} />
     </button>
   {/if}
 
@@ -149,11 +136,7 @@
 
     <Embed />
 
-    <OptionsMenu
-      bind:onDownload
-      activeClass="active"
-      {isSingleWidget}
-      {deleteWidget}>
+    <OptionsMenu bind:onDownload activeClass="active" {isSingleWidget} {deleteWidget}>
       <div class="btn-3">
         <Svg id="cog" w="16" />
       </div>

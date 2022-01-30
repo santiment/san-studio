@@ -5,6 +5,8 @@ module.exports = {
   arrowParens: 'always',
   proseWrap: 'always',
   endOfLine: 'lf',
+  printWidth: 100,
+
   // Svelte
   svelteBracketNewLine: false,
 }

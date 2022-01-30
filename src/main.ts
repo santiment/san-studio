@@ -18,7 +18,7 @@ window.__onLinkClick = (e) => {
 window.studio = studio
 studio.setProject({ slug: 'ethereum', ticker: 'ETH', name: 'Ethereum' })
 
-const defaultMetrics: Studio.Metric[] = [Metric.price_usd, Metric.dev_activity]
+const defaultMetrics: Studio.Metric[] = [Metric.price_usd, Metric.social_dominance_total]
 const app = new App({
   target: document.getElementById('app') as Element,
   props: {
