@@ -133,13 +133,14 @@
 {#if isMapview}
   <div class="mapview">
     <div class="sticky column">
-      <div class="visible mrg-l mrg--t">
+      <div class="visible">
         <div class="widgets">
           {#each widgets as widget (widget.id)}
             {#if widget.metrics}
               <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
             {:else}
               <Preview
+                {widget}
                 isBlocked={isMetricsPhase}
                 class="column hv-center"
                 on:click={() => onWidgetClick(widget)}>
@@ -190,7 +191,7 @@
   .visible {
     overflow: auto;
     flex: 1;
-    margin-right: -40px;
+    margin-right: -17px;
     user-select: none;
     -webkit-user-select: none;
     padding-bottom: 40px;
@@ -198,10 +199,11 @@
 
   .widgets {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 475px);
+    grid-template-columns: repeat(auto-fit, 474px);
     grid-auto-flow: row dense;
-    grid-gap: 23px;
+    grid-gap: 20px;
     flex: 1 1;
+    padding-top: 18px;
   }
 
   .title {

@@ -26,7 +26,7 @@
     chart.ctx.drawImage(
       widget.chart.canvas,
       0,
-      0,
+      5,
       chart.canvasWidth,
       chart.canvasHeight + 25,
     )
@@ -34,8 +34,9 @@
 </script>
 
 <Preview
-  isBlocked={isBlocked && isMetricsPhase}
+  {widget}
   {isMetricsPhase}
+  isBlocked={isBlocked && isMetricsPhase}
   on:click={(e) => onClick(widget, e)}>
   <canvas bind:this={canvas} />
 

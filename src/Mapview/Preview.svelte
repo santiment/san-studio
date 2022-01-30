@@ -1,14 +1,24 @@
 <script lang="ts">
+  import { getWidgets } from '@/stores/widgets'
+
+  import Svg from 'webkit/ui/Svg/svelte'
   import { getSortableDndCtx } from './dnd'
   const sortableDndCtx = getSortableDndCtx()
+  const Widgets = getWidgets()
 
   let className = ''
   export { className as class }
+  export let widget
   export let isBlocked = false
   export let isMetricsPhase = false
 
   let node
   $: node && sortableDndCtx.addItem(node)
+
+  function onDeleteClick(e: MouseEvent) {
+    e.stopImmediatePropagation()
+    widget.delete()
+  }
 </script>
 
 <div
@@ -18,14 +28,19 @@
   class:apply={isMetricsPhase}
   class:blocked={isBlocked}>
   <slot />
+
+  {#if widget && $Widgets.length > 1}
+    <div class="btn-2 btn-3 delete" on:click={onDeleteClick}>
+      <Svg id="delete" w="16" />
+    </div>
+  {/if}
 </div>
 
 <style>
   .preview {
-    height: 250px;
+    height: 240px;
     border-radius: 8px;
     cursor: pointer;
-    overflow: hidden;
     position: relative;
   }
 
@@ -46,6 +61,7 @@
     background: rgba(24, 27, 43, 0.84);
     color: #fff;
     transition: opacity 0.2s ease-in-out;
+    border-radius: 8px;
   }
   .preview:hover::after {
     opacity: 1;
@@ -61,5 +77,20 @@
   .blocked::after {
     opacity: 1;
     content: "New metrics can't be added to this widget";
+  }
+
+  .delete {
+    display: none;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    z-index: 10;
+    --bg: var(--white);
+    --fill: var(--red);
+    --fill-hover: var(--red-hover);
+  }
+
+  .preview:hover .delete {
+    display: inline-flex;
   }
 </style>
