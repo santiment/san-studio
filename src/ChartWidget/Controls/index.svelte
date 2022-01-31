@@ -12,11 +12,11 @@
   import Emoji from './Emoji.svelte'
   import Note from './Note.svelte'
   import DrawingsVisibility from './DrawingsVisibility.svelte'
-  import IncompleteData from './IncompleteData.svelte'
   import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
   import { downloadPng } from './downloadPng'
+  import IncompleteData from '../IncompleteData/index.svelte'
 
   const History = getHistoryContext()
   const widget = getWidget()
