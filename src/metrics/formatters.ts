@@ -35,8 +35,7 @@ function normalizeAxisPercent(value: number) {
   return +value.toFixed(3)
 }
 
-export const axisPercentFormatter = (value: number) =>
-  normalizeAxisPercent(value) + '%'
+export const axisPercentFormatter = (value: number) => normalizeAxisPercent(value) + '%'
 
 const decimalFormatter = new Intl.NumberFormat('en', {
   style: 'decimal',
@@ -53,9 +52,7 @@ export function newCurrencyFormatter(currency: string) {
     if (!Number.isFinite(+value)) return 'No data'
 
     const absValue = Math.abs(value)
-    const formatted = (
-      absValue >= 2 ? decimalFormatter : smallDecimalFormatter
-    ).format(absValue)
+    const formatted = (absValue >= 2 ? decimalFormatter : smallDecimalFormatter).format(absValue)
     const sign = absValue !== value ? '-' : ''
 
     return sign + currency + formatted
@@ -66,9 +63,7 @@ export const usdFormatter = newCurrencyFormatter('$')
 export const btcFormatter = newCurrencyFormatter('BTC ')
 export const ethFormatter = newCurrencyFormatter('ETH ')
 
-export const ratioPercentForamtter = (value: number) =>
-  percentFormatter(100 * value)
-export const ratioPercentAxisFormatter = (value: number) =>
-  axisPercentFormatter(100 * value)
+export const ratioPercentForamtter = (value: number) => percentFormatter(100 * value)
+export const ratioPercentAxisFormatter = (value: number) => axisPercentFormatter(100 * value)
 
 export const mvrvFormatter = ratioPercentForamtter

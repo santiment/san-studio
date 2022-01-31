@@ -10,11 +10,7 @@
     getMetricAxisFormatter,
   } from './utils'
   import { getChart } from '../context'
-  import {
-    isDayInterval,
-    getDateHoursMinutes,
-    getDateDayMonthYear,
-  } from '../utils'
+  import { isDayInterval, getDateHoursMinutes, getDateDayMonthYear } from '../utils'
 
   const chart = getChart()
 
@@ -41,9 +37,7 @@
     drawAxisLine(ctx, theme.axes, left, bottom, right + rightAxisMargin, bottom)
     plotAxes(chart)
 
-    const formatter = isDayInterval(chart)
-      ? getDateHoursMinutes
-      : getDateDayMonthYear
+    const formatter = isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear
     drawXAxisTicks(chart, formatter, scale, xTicks)
   })
 
@@ -90,15 +84,7 @@
     })
   }
 
-  function plotAxis(
-    chart,
-    point,
-    color,
-    formatter,
-    offset,
-    valueOffset,
-    isWithLine = false,
-  ) {
+  function plotAxis(chart, point, color, formatter, offset, valueOffset, isWithLine = false) {
     const { ctx, theme, top, bottom } = chart
     if (isWithLine) drawAxisLine(ctx, color, offset, top, offset, bottom)
 
