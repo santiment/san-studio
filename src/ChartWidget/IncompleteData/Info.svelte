@@ -16,8 +16,11 @@
     })
     closeBanners()
 
-    if ($globals.isLoggedIn) window.showPaymentDialog?.()
-    else window.__onLinkClick?.(e)
+    if ($globals.isLoggedIn && window.showPaymentDialog) {
+      return window.showPaymentDialog()
+    }
+
+    window.__onLinkClick?.(e)
   }
 </script>
 
