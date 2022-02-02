@@ -1,7 +1,8 @@
-import { setContext, getContext } from 'svelte'
-import { get, writable } from 'svelte/store'
+import type { CachePolicy } from 'san-webkit/lib/api/cache'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
+import { setContext, getContext } from 'svelte'
+import { get, writable } from 'svelte/store'
 import { newMetricSignalsStore, newSignalsTimeseriesStore } from './signals'
 import { newMetricDisplayersStore } from './metricDisplayers'
 import { newChartDrawerStore, setChartDrawer } from '@/Chart/Drawer/context'
@@ -27,37 +28,27 @@ export type ChartWidget = {
   metricSettings?: MetricSettings
   metricIndicators?: MetricIndicators
   chart: any
+  defferedCachePolicy?: CachePolicy
 }
 
 const CONTEXT = 'widget'
-export const setWidget = (widget: ChartWidget): void =>
-  setContext(CONTEXT, widget)
+export const setWidget = (widget: ChartWidget): void => setContext(CONTEXT, widget)
 export const getWidget = (): ChartWidget => getContext(CONTEXT)
 
 export function initWidget(widget: any) {
   if (!widget.ChartAxes)
-    widget.ChartAxes = newChartAxesStore(
-      widget.axesMetrics,
-      widget.disabledAxesMetrics,
-    )
-  if (!widget.ChartDrawer)
-    widget.ChartDrawer = newChartDrawerStore(widget.drawings)
-  if (!widget.ChartColors)
-    widget.ChartColors = newChartColorsStore(widget.colors)
+    widget.ChartAxes = newChartAxesStore(widget.axesMetrics, widget.disabledAxesMetrics)
+  if (!widget.ChartDrawer) widget.ChartDrawer = newChartDrawerStore(widget.drawings)
+  if (!widget.ChartColors) widget.ChartColors = newChartColorsStore(widget.colors)
   if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore(widget)
-  if (!widget.ChartMetricDisplays)
-    widget.ChartMetricDisplays = newMetricDisplayersStore()
+  if (!widget.ChartMetricDisplays) widget.ChartMetricDisplays = newMetricDisplayersStore()
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)
-  if (!widget.MetricsSignals)
-    widget.MetricsSignals = newMetricSignalsStore(widget.signalMetrics)
-  if (!widget.SignalsTimeseries)
-    widget.SignalsTimeseries = newSignalsTimeseriesStore()
-  if (!widget.MetricSettings)
-    widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)
+  if (!widget.MetricsSignals) widget.MetricsSignals = newMetricSignalsStore(widget.signalMetrics)
+  if (!widget.SignalsTimeseries) widget.SignalsTimeseries = newSignalsTimeseriesStore()
+  if (!widget.MetricSettings) widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)
   if (!widget.MetricIndicators)
     widget.MetricIndicators = newMetricIndicatorsStore(widget.metricIndicators)
-  if (!widget.ChartAddons)
-    widget.ChartAddons = newChartAddonsStore(widget.chartAddons)
+  if (!widget.ChartAddons) widget.ChartAddons = newChartAddonsStore(widget.chartAddons)
 
   if (!widget.IsLoaded) widget.IsLoaded = writable(false)
   if (!widget.OnUpdate) widget.OnUpdate = newOnUpdateStore(widget)
@@ -90,6 +81,5 @@ export function initWidgetContext(widget: any) {
 }
 
 const ON_LOAD_CONTEXT = 'ON_LOAD'
-export const setOnLoadContext = (onLoad): void =>
-  setContext(ON_LOAD_CONTEXT, onLoad)
+export const setOnLoadContext = (onLoad): void => setContext(ON_LOAD_CONTEXT, onLoad)
 export const getOnLoadContext = (): any => getContext(ON_LOAD_CONTEXT)

@@ -34,8 +34,10 @@ export function newAutoUpdaterStore(Widgets: any) {
       if (refetch) {
         const widgets = Array.isArray(Widgets) ? Widgets : get<any>(Widgets)
         widgets.forEach((widget) => {
-          // TODO(vanguard): Clear cache if widget is hidden
-          if (widget.isHidden) return
+          if (widget.isHidden) {
+            widget.defferedCachePolicy = CachePolicy.NewCache
+            return
+          }
           widget.fetchData?.(CachePolicy.NewCache)
         })
       }

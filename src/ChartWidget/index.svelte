@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { studio } from '@/stores/studio'
   import { getTimeseries, getAllTimeData } from '@/api/timeseries'
   import { setIsTooltipSyncEnabled } from '@/Chart/Tooltip/context'
@@ -47,7 +48,12 @@
       MetricSettings: Studio.MetricSettings,
       cachePolicy?: any,
     ) => {
-      if (abortFetch) abortFetch()
+      abortFetch?.()
+
+      if (!cachePolicy && widget.defferedCachePolicy) {
+        cachePolicy = widget.defferedCachePolicy
+        delete widget.defferedCachePolicy
+      }
 
       // prettier-ignore
       abortFetch = getTimeseries(
@@ -64,6 +70,10 @@
     loadings = newLoadings
     if (newData) rawData = newData
   }
+
+  onDestroy(() => {
+    abortFetch?.()
+  })
 </script>
 
 <Widget
