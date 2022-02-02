@@ -1,0 +1,124 @@
+<script lang="ts">
+  import { onDestroy, tick } from 'svelte'
+  import { getHistoryContext } from 'webkit/ui/history'
+  import { dialogs } from 'webkit/ui/Dialog'
+  import { mapview } from '@/stores/mapview'
+  import { getWidgets } from '@/stores/widgets'
+  import { selectedItems } from '@/stores/selector'
+  import { newSortableDndCtx } from './dnd'
+  import SelectedStack from './SelectedStack.svelte'
+
+  export let isMetricsPhase
+  export let widgets
+
+  const isMapview = true
+  const Widgets = getWidgets()
+  const dndContext = newSortableDndCtx({ onDragEnd })
+  const History = getHistoryContext()
+
+  mountHiddenWidgets()
+
+  $: dndContext.toggle(isMetricsPhase)
+  $: if ($mapview) {
+    tick().then(tick).then(dndContext.ctx.recalcGrid)
+  }
+
+  const onEscape = ({ key }) => key === 'Escape' && $dialogs.length === 0 && mapview.exit()
+
+  if (isMapview) {
+    document.body.style.maxWidth = document.body.offsetWidth + 'px'
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', onEscape)
+  }
+
+  function onDragEnd(oldIndex: number, newIndex: number) {
+    if (oldIndex === newIndex) return
+
+    const oldWidgets = widgets.slice()
+    const newWidgets = widgets.slice()
+    const widget = newWidgets.splice(oldIndex, 1)[0]
+    newWidgets.splice(newIndex, 0, widget)
+
+    Widgets.set(newWidgets)
+
+    History.add(
+      'Widgets rearranged',
+      () => Widgets.set(oldWidgets),
+      () => Widgets.set(newWidgets),
+    )
+
+    const { scrollParent } = dndContext.ctx
+    if (!scrollParent) return
+
+    const scrollTop = scrollParent.scrollTop
+    window.requestAnimationFrame(() => {
+      scrollParent.scrollTop = scrollTop
+    })
+  }
+
+  function mountHiddenWidgets() {
+    let i = 0
+    widgets.forEach((widget) => {
+      if (!widget.isHidden) return
+      setTimeout(widget.show, i * 500)
+    })
+  }
+
+  onDestroy(() => {
+    document.body.style.overflow = ''
+    window.removeEventListener('keydown', onEscape)
+    selectedItems.clear()
+  })
+</script>
+
+<div class="mapview">
+  <div class="sticky column">
+    <div class="visible">
+      <div class="widgets">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+{#if isMetricsPhase}
+  <SelectedStack />
+{/if}
+
+<style>
+  .mapview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--athens);
+    user-select: none;
+    z-index: 23;
+  }
+
+  .sticky {
+    height: 100vh;
+    top: 0;
+    position: sticky;
+    padding: 64px 16px 0;
+  }
+
+  .visible {
+    overflow: auto;
+    flex: 1;
+    margin-right: -17px;
+    user-select: none;
+    -webkit-user-select: none;
+    padding-bottom: 40px;
+  }
+
+  .widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 474px);
+    grid-auto-flow: row dense;
+    grid-gap: 20px;
+    flex: 1 1;
+    padding-top: 18px;
+  }
+</style>
