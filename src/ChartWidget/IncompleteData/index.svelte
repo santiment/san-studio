@@ -43,7 +43,7 @@
 </script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} align="center" class="$style.tooltip">
+  <Tooltip duration={0} openDelay={110} align="center" class="$style.tooltip">
     <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
       Incomplete data
     </div>
