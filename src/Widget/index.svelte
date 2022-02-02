@@ -1,29 +1,48 @@
+<script lang="ts" context="module">
+  function handleIntersection({ target, isIntersecting }: IntersectionObserverEntry) {
+    const { widget } = target
+    if (isIntersecting) widget.show()
+    else widget.hide()
+  }
+  const intersectionHandler = (entries: IntersectionObserverEntry[]) =>
+    entries.forEach(handleIntersection)
+
+  export function newWidgetViewportObserver() {
+    return new IntersectionObserver(intersectionHandler, {
+      rootMargin: '150px 0px 150px',
+    })
+  }
+</script>
+
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
   import { getHistoryContext } from 'webkit/ui/history'
   import { getAdapterController } from '@/adapter/context'
-  import { setOnLoadContext } from '@/ChartWidget/context'
-  import { getQueueStore } from './queue'
   import Subwidget from './Subwidget.svelte'
 
   const History = getHistoryContext()
-  const Queue = getQueueStore()
   const { onWidget } = getAdapterController()
 
   export let widget
   export let Widgets
   export let onWidgetUpdate
+  export let viewportObserver: IntersectionObserver
 
   const isNative = !widget.isExternal
   widget.delete = deleteWidget
   widget.deleteWithHistory = deleteWidgetWithHistory
   widget.onWidgetUpdate = onWidgetUpdate
+  widget.hide = () => (isVisible = false)
+  widget.show = () => (isVisible = true)
 
+  let isVisible = false
   let target
   $: isSingleWidget = $Widgets.length < 2
+  $: widget.isHidden = !isVisible
 
   function deleteWidget() {
     Widgets.delete(widget)
+    viewportObserver.unobserve(target)
     delete widget.chart
   }
   function deleteWidgetWithHistory() {
@@ -38,9 +57,11 @@
     )
   }
 
-  setOnLoadContext(Queue.delete)
   onMount(() => {
     widget.container = target
+    target.widget = widget
+    viewportObserver.observe(target)
+
     if (onWidget) onWidget(widget)
     const options = { block: widget.scrollAlign || 'center' }
     widget.scrollIntoView = () => target?.scrollIntoView(options)
@@ -49,11 +70,10 @@
       delete widget.scrollOnMount
     }
   })
-  onDestroy(() => isNative && Queue.delete(widget))
 </script>
 
 <div class="widget border" bind:this={target}>
-  {#if isNative && $Queue.has(widget) === false}
+  {#if isNative && isVisible}
     <svelte:component
       this={widget.Widget}
       {widget}

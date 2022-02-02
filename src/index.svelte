@@ -5,7 +5,7 @@
   import HistoryAction from '@/history/Action.svelte'
   import ProjectInfo from '@/ProjectInfo/index.svelte'
   import Header from '@/Header/index.svelte'
-  import Widget from '@/Widget/index.svelte'
+  import Widget, { newWidgetViewportObserver } from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
   import Mapview from '@/Mapview/index.svelte'
   import SidewidgetComponent from '@/Sidewidget/index.svelte'
@@ -15,7 +15,6 @@
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { widgetsListener } from '@/stores/widgetsListener'
   import { setAdapterController } from '@/adapter/context'
-  import { newSizedQueue } from '@/Widget/queue'
 
   export let widgets
   export let sidewidget
@@ -64,18 +63,16 @@
   newLockedAssetStore()
 
   const AutoUpdater = newAutoUpdaterStore(Widgets)
-  const Queue = newSizedQueue()
 
   let screenRef
   $: screenRef && onScreen()
   $: AutoUpdater.check($studio)
 
-  // Queueing only on mount
-  $Widgets.forEach((widget) => widget.isExternal || Queue.add(widget))
-
   function onWidgetUpdate() {
     widgetsListener.update()
   }
+
+  const widgetViewportObserver = newWidgetViewportObserver()
 
   onDestroy(() => {
     window.showLoginPrompt = undefined
@@ -98,7 +95,7 @@
       <div class="row main" bind:this={screenRef}>
         <div class="widgets">
           {#each $Widgets as widget (widget.id)}
-            <Widget {widget} {Widgets} {onWidgetUpdate} />
+            <Widget {widget} {Widgets} {onWidgetUpdate} viewportObserver={widgetViewportObserver} />
           {/each}
         </div>
 
