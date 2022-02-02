@@ -13,11 +13,7 @@
   import MetricSettingsRow from './MetricSettings/index.svelte'
   import { initWidget, initWidgetContext, getOnLoadContext } from './context'
 
-  const {
-    onWidgetInit,
-    isWithMetricSettings = true,
-    isOnlyChartEmbedded,
-  } = getAdapterController()
+  const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded } = getAdapterController()
   const History = getHistoryContext()
 
   let className = ''
@@ -38,13 +34,7 @@
   initWidgetContext(widget)
   if (onWidgetInit) onWidgetInit(widget)
 
-  const {
-    ChartAxes,
-    ChartColors,
-    ChartDrawer,
-    ChartOptions,
-    ChartAddons,
-  } = widget
+  const { ChartAxes, ChartColors, ChartDrawer, ChartOptions, ChartAddons } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals } = widget
   const { IsLoaded, OnUpdate } = widget
@@ -72,16 +62,12 @@
     ChartAddonError = ChartAddonError
   }
 
-  function changeStudioPeriod(
-    startDatetime: number | string,
-    endDatetime: number | string,
-  ) {
+  function changeStudioPeriod(startDatetime: number | string, endDatetime: number | string) {
     if (isOnlyChartEmbedded) return
 
     const { from, to } = $studio
     const undo = () => studio.setPeriod(new Date(from), new Date(to))
-    const redo = () =>
-      studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
+    const redo = () => studio.setPeriod(new Date(startDatetime), new Date(endDatetime))
 
     History.add('Period change', undo, redo)
     redo()
@@ -113,11 +99,7 @@
     return settingsOpenedMetric
   }
 
-  function onMetricLock(
-    oldMetric: Studio.Metric,
-    newMetric: Studio.Metric,
-    index: number,
-  ) {
+  function onMetricLock(oldMetric: Studio.Metric, newMetric: Studio.Metric, index: number) {
     lockMetric(newMetric, index)
     History.add(
       'Lock metric',
@@ -143,7 +125,7 @@
   }
 
   function onChart(newChart) {
-    if (!widget.chart) widget.chart = newChart
+    if (!isFullscreen) widget.chart = newChart
     chart = newChart
   }
 </script>

@@ -23,8 +23,7 @@
   setIsTooltipSyncEnabled(!isFullscreen)
 
   const { Metrics, MetricSettings } = widget
-  const onData = (newData, newLoadings) =>
-    (rawData = newData) && (loadings = newLoadings)
+  const onData = (newData, newLoadings) => (rawData = newData) && (loadings = newLoadings)
   const onAllTimeData = (newData) => (allTimeData = newData)
   const noop = () => {}
 
@@ -38,8 +37,7 @@
   $: fetchData(metrics, $studio, $MetricSettings)
   $: isOnlyChartEmbedded !== true && fetchAllData(metrics, slug)
 
-  widget.fetchData = (cachePolicy) =>
-    fetchData(metrics, $studio, $MetricSettings, cachePolicy)
+  widget.fetchData = (cachePolicy) => fetchData(metrics, $studio, $MetricSettings, cachePolicy)
 
   let abortFetch
   const fetchData = debounced(

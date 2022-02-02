@@ -2,10 +2,11 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
-  import { getDateFormats } from 'san-webkit/lib/utils/dates'
   import { getWidget } from '@/ChartWidget/context'
   import Info from './Info.svelte'
+  import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
   const { Metrics } = getWidget()
+  const shouldShowBanner = checkShouldShowBanner()
 
   export let chart: SAN.Charts.Chart
 
@@ -16,7 +17,6 @@
   queryRestrictedDates().then((data) => (restrictions = data))
 
   $: restrictedMetrics = restrictions ? filterMetrics($Metrics) : []
-
   $: if (banner && chart) {
     chart.canvas.parentNode?.appendChild(banner)
   }
@@ -35,16 +35,10 @@
 
     metricRestrictions = restrictedMetrics.map(({ key, queryKey = key, label }) => {
       const { restrictedFrom: from, restrictedTo: to } = restrictions[queryKey]
-      console.log(label)
       const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to)
       return `${label} (${date})`
     })
     return metricRestrictions
-  }
-
-  function formatDate(date: string) {
-    const { DD, MMM, YY } = getDateFormats(new Date(date))
-    return `${DD} ${MMM}, ${YY}`
   }
 </script>
 
@@ -60,9 +54,9 @@
     </div>
   </Tooltip>
 
-  {#if chart}
-    <div class="banner column body-3 hv-center" bind:this={banner}>
-      <div class="close btn">
+  {#if shouldShowBanner && chart}
+    <div class="limit-banner column body-3 hv-center" bind:this={banner}>
+      <div class="close btn" on:click={closeBanners}>
         <Svg id="close" w="14" />
       </div>
 
@@ -77,7 +71,6 @@
 
 <style>
   .btn-2 {
-    margin-left: auto;
     --color: var(--orange);
     --color-hover: var(--orange-hover);
   }
@@ -88,7 +81,7 @@
     z-index: 11 !important;
   }
 
-  .banner {
+  .limit-banner {
     color: #fff;
     position: absolute;
     top: 0;
@@ -97,11 +90,8 @@
     z-index: 10;
     background: #000000bf;
     padding: 24px;
-    width: 390px;
+    width: 350px;
     text-align: center;
-
-    padding-left: 75px;
-    background: linear-gradient(90deg, #00000000 0%, #000000bf 15%, #000000bf 100%);
   }
 
   .close {

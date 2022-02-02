@@ -34,6 +34,7 @@
 
   let onDownload
 
+  $: hasSubscription = $globals.isPro || $globals.isProPlus
   $: widget.isSharedAxisEnabled = isSharedAxisEnabled
   $: $ChartDrawer.isNewDrawing = $globals.isNewDrawing
   $: if ($globals.isNewDrawing && $ChartDrawer.isNewDrawing === false) {
@@ -118,7 +119,9 @@
     </div>
   {/if}
 
-  <IncompleteData {chart} />
+  <div class="mrg-a mrg--l" />
+
+  {#if !hasSubscription} <IncompleteData {chart} />{/if}
 
   {#if hasDomainGroups}
     <button class="row v-center" on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>

@@ -40,9 +40,8 @@ export function yAxisFormatter(value: number) {
     return 0
   }
 
-  if (absValue < 1) {
-    const formatted = +value.toFixed(6)
-    return formatted.toString().slice(1)
+  if (absValue < 0.01) {
+    return +value.toFixed(6)
   }
 
   if (absValue < 10) {
