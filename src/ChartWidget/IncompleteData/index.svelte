@@ -50,7 +50,7 @@
 
     <div slot="tooltip" class="caption c-waterloo">
       <h2 class="txt-m c-black mrg-m mrg--b">Why is some data hidden?</h2>
-      <Info restrictions={formatMetrics()} />
+      <Info restrictions={formatMetrics()} {restrictedMetrics} />
     </div>
   </Tooltip>
 
@@ -63,8 +63,10 @@
       <h2 class="h4 txt-m mrg-xl mrg--b">Incomplete data</h2>
 
       <Info
+        {restrictedMetrics}
         restrictions={formatMetrics().slice(0, 4).concat('and many others')}
-        upgradeClass="btn--l" />
+        upgradeClass="btn--l"
+        isBanner />
     </div>
   {/if}
 {/if}

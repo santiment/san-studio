@@ -16,6 +16,8 @@ declare namespace NodeJS {
 
 interface Window {
   showLoginPrompt?: () => void
+  showPaymentDialog?: () => void
+
   shareLayoutWidgets?: (widgets: any[]) => any[]
   parseLayoutWidgets: (layout: import('@/api/layouts').Layout) => any[]
   onLayoutSelect: (layout: import('@/api/layouts').Layout) => void
@@ -89,11 +91,9 @@ namespace Studio {
     baseMetrics: any[]
   }
 
-  type MetricSetting =
-    import('@/ChartWidget/MetricSettings/context').MetricSetting
+  type MetricSetting = import('@/ChartWidget/MetricSettings/context').MetricSetting
 
-  type MetricSettings =
-    import('@/ChartWidget/MetricSettings/context').MetricSettings
+  type MetricSettings = import('@/ChartWidget/MetricSettings/context').MetricSettings
 }
 
 declare module 'mathjs/lib/esm/number' {

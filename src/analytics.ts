@@ -58,4 +58,6 @@ export const Event = {
   Shortcuts: 'charts_shortcuts',
 
   HelpFeedback: 'charts_help_feedback',
+
+  IncompleteDataUpgrade: 'charts_incomplete_data_upgrade',
 } as const

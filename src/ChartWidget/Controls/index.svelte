@@ -121,7 +121,12 @@
 
   <div class="mrg-a mrg--l" />
 
-  {#if !hasSubscription} <IncompleteData {chart} />{/if}
+  {#if !hasSubscription}
+    <IncompleteData {chart} />
+  {:else if $globals.isTrial}
+    <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
+      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />Upgrade</a>
+  {/if}
 
   {#if hasDomainGroups}
     <button class="row v-center" on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>
