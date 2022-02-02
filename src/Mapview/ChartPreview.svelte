@@ -1,19 +1,34 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount, tick } from 'svelte'
   import { initChart } from 'san-chart'
   import Preview from './Preview.svelte'
   import MetricButton from '@/MetricButton.svelte'
   import { clearCtx } from '@/Chart/utils'
+  import { subscribeWidgetDataLoadedEvent } from '@/ChartWidget/context'
 
   export let widget
   export let onClick
   export let isMetricsPhase: boolean
+  export let wasHiddenWidgets = false
 
   const { ChartColors, Metrics, IsLoaded, isBlocked } = widget
   let chart
   let canvas
+  let unsubscribeWidgetDataLoaded
 
   $: $IsLoaded, requestAnimationFrame(drawChart)
+
+  if (!widget.chart) {
+    unsubscribeWidgetDataLoaded = subscribeWidgetDataLoadedEvent(({ detail }) => {
+      if (detail !== widget) return
+      tick()
+        .then(tick)
+        .then(() => {
+          drawChart()
+          if (wasHiddenWidgets) widget.hide()
+        })
+    })
+  }
 
   onMount(() => {
     chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight)
@@ -23,14 +38,12 @@
   function drawChart() {
     if (!chart || !widget.chart) return
     clearCtx(chart)
-    chart.ctx.drawImage(
-      widget.chart.canvas,
-      0,
-      5,
-      chart.canvasWidth,
-      chart.canvasHeight + 25,
-    )
+    chart.ctx.drawImage(widget.chart.canvas, 0, 5, chart.canvasWidth, chart.canvasHeight + 25)
   }
+
+  onDestroy(() => {
+    unsubscribeWidgetDataLoaded?.()
+  })
 </script>
 
 <Preview

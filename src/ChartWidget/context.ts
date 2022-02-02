@@ -83,3 +83,12 @@ export function initWidgetContext(widget: any) {
 const ON_LOAD_CONTEXT = 'ON_LOAD'
 export const setOnLoadContext = (onLoad): void => setContext(ON_LOAD_CONTEXT, onLoad)
 export const getOnLoadContext = (): any => getContext(ON_LOAD_CONTEXT)
+
+const WIDGET_DATA_LOADED = 'WIDGET_DATA_LOADED'
+export const dispatchWidgetDataLoaded = (widget) =>
+  window.dispatchEvent(new CustomEvent(WIDGET_DATA_LOADED, { detail: widget }))
+
+export const subscribeWidgetDataLoadedEvent = (clb) => {
+  window.addEventListener(WIDGET_DATA_LOADED, clb)
+  return () => window.removeEventListener(WIDGET_DATA_LOADED, clb)
+}

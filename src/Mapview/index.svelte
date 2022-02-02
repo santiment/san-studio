@@ -85,10 +85,14 @@
 </script>
 
 {#if isMapview}
-  <Grid {isMetricsPhase} {widgets}>
+  <Grid {isMetricsPhase} {widgets} let:hiddenWidgets>
     {#each widgets as widget (widget.id)}
       {#if widget.metrics}
-        <ChartPreview {widget} {isMetricsPhase} onClick={onWidgetClick} />
+        <ChartPreview
+          {widget}
+          {isMetricsPhase}
+          onClick={onWidgetClick}
+          wasHiddenWidgets={hiddenWidgets.has(widget)} />
       {:else}
         <Preview
           {widget}

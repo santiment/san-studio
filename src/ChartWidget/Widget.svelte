@@ -11,7 +11,12 @@
   import Controls from './Controls/index.svelte'
   import MetricsRow from './Metrics/index.svelte'
   import MetricSettingsRow from './MetricSettings/index.svelte'
-  import { initWidget, initWidgetContext, getOnLoadContext } from './context'
+  import {
+    initWidget,
+    initWidgetContext,
+    getOnLoadContext,
+    dispatchWidgetDataLoaded,
+  } from './context'
 
   const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded } = getAdapterController()
   const History = getHistoryContext()
@@ -47,8 +52,10 @@
   $: metrics = $Metrics
   $: displayedMetrics = metricsFilter ? metrics.filter(metricsFilter) : metrics
   $: settingsOpenedMetric = getSettingsOpenedMetric(displayedMetrics)
-  $: IsLoaded.set(loadings.size === 0)
-  $: onLoad && loadings.size === 0 && onLoad(widget)
+  $: isLoaded = loadings.size === 0
+  $: IsLoaded.set(isLoaded)
+  $: onLoad && isLoaded && onLoad(widget)
+  $: process.browser && isLoaded && dispatchWidgetDataLoaded(widget)
   // prettier-ignore
   $: ($ChartAxes, $ChartColors, $MetricIndicators, $MetricSettings, $ChartDrawer,
       $MetricsSignals, $ChartOptions, $ChartAddons, OnUpdate.emit())

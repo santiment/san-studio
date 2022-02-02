@@ -11,24 +11,22 @@
   export let isMetricsPhase
   export let widgets
 
-  const isMapview = true
   const Widgets = getWidgets()
   const dndContext = newSortableDndCtx({ onDragEnd })
   const History = getHistoryContext()
+  const onEscape = ({ key }) => key === 'Escape' && $dialogs.length === 0 && mapview.exit()
 
+  let mountTimers = []
+  let hiddenWidgets = new Set()
   mountHiddenWidgets()
+
+  document.body.style.maxWidth = document.body.offsetWidth + 'px'
+  document.body.style.overflow = 'hidden'
+  window.addEventListener('keydown', onEscape)
 
   $: dndContext.toggle(isMetricsPhase)
   $: if ($mapview) {
     tick().then(tick).then(dndContext.ctx.recalcGrid)
-  }
-
-  const onEscape = ({ key }) => key === 'Escape' && $dialogs.length === 0 && mapview.exit()
-
-  if (isMapview) {
-    document.body.style.maxWidth = document.body.offsetWidth + 'px'
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', onEscape)
   }
 
   function onDragEnd(oldIndex: number, newIndex: number) {
@@ -58,16 +56,22 @@
 
   function mountHiddenWidgets() {
     let i = 0
-    widgets.forEach((widget) => {
-      if (!widget.isHidden) return
-      setTimeout(widget.show, i * 500)
-    })
+
+    hiddenWidgets.clear()
+    mountTimers = widgets
+      .map((widget) => {
+        if (!widget.isHidden || !widget.show || widget.chart) return
+        hiddenWidgets.add(widget)
+        return setTimeout(widget.show, 500 * i++)
+      })
+      .filter(Boolean)
   }
 
   onDestroy(() => {
     document.body.style.overflow = ''
     window.removeEventListener('keydown', onEscape)
     selectedItems.clear()
+    mountTimers.forEach(clearTimeout)
   })
 </script>
 
@@ -75,7 +79,7 @@
   <div class="sticky column">
     <div class="visible">
       <div class="widgets">
-        <slot />
+        <slot {hiddenWidgets} />
       </div>
     </div>
   </div>
