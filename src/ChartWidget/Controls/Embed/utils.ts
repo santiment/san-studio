@@ -20,26 +20,16 @@ import {
   parseMetricGraphValue,
   parseAxesMetrics,
 } from '@/sharing/parse'
+import { parseDrawings, shareDrawings } from '@/sharing/drawings'
 
 const stringify = (v: any) => JSON.stringify(v)
 
 export function shareEmbeded(widget, studio, options) {
   const { slug, ticker, from, to } = studio
-  const {
-    isNightMode,
-    isWithMetricSettings,
-    isCartesianGrid,
-    isWatermarkHidden,
-    isAutoUpdated,
-  } = options
-  const {
-    metrics,
-    axesMetrics,
-    colors,
-    metricSettings,
-    metricIndicators,
-    isSharedAxisEnabled,
-  } = widget
+  const { isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, isAutoUpdated } =
+    options
+  const { metrics, axesMetrics, colors, metricSettings, metricIndicators, isSharedAxisEnabled } =
+    widget
 
   const keys = shareMetrics(metrics)
   const metricAlias = newMetricAlias(keys)
@@ -79,6 +69,8 @@ export function shareEmbeded(widget, studio, options) {
     win: shareIndicators(metricIndicators, metricAlias).map(stringify),
     // widget combined metrics
     wcm: shareCombinedMetrics(metrics).map(stringify),
+    // widget drawings
+    wd: shareDrawings(widget.drawings).map(stringify),
   })
 
   return qs
@@ -89,7 +81,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
   const { ps, pt, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
-  const { wm, wax, wc, ws, win, wcm } = shared
+  const { wm, wax, wc, ws, win, wcm, wd } = shared
 
   const KnownMetric = {}
   const sharedMetrics = parseArray(wm)
@@ -125,11 +117,9 @@ export function parseQueryString(qs: string) {
       KnownMetric,
     ),
     colors: parseMetricGraphValue(parseArray(wc), sharedMetrics, KnownMetric),
+    drawings: parseDrawings(parseArray(wd).map(parseJSON)),
   }
-  Object.assign(
-    parsed,
-    parseAxesMetrics(parseArray(wax), sharedMetrics, KnownMetric),
-  )
+  Object.assign(parsed, parseAxesMetrics(parseArray(wax), sharedMetrics, KnownMetric))
 
   return parsed
 }

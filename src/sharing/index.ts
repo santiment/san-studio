@@ -10,8 +10,7 @@ export type CombinedMetric = Metric & {
 type MetricAlias = {
   [metricKey: string]: string
 }
-const checkIsEmptyObject = (obj: { [key: string]: any }) =>
-  Object.keys(obj).length === 0
+const checkIsEmptyObject = (obj: { [key: string]: any }) => Object.keys(obj).length === 0
 
 export function newURLQuery(obj: {
   [key: string]: undefined | number | string | string[]
@@ -21,9 +20,8 @@ export function newURLQuery(obj: {
   for (let key in obj) {
     const value = obj[key]
     if (value === undefined || (value as string).length === 0) continue
-    const encodedValue = encodeURIComponent(
-      Array.isArray(value) ? value.join(';') : value,
-    )
+    if (value === '[]' || value === '{}') continue
+    const encodedValue = encodeURIComponent(Array.isArray(value) ? value.join(';') : value)
     if (encodedValue === '') continue
     searchString += `&${encodeURIComponent(key)}=${encodedValue}`
   }
@@ -91,10 +89,7 @@ export function shareIndicators(
     .map((metricKey) => {
       const value = indicators[metricKey]
       if (value.size === 0) return
-      return [
-        getKey(metricKey, metricAlias),
-        Array.from(value).map(keyAccessor),
-      ]
+      return [getKey(metricKey, metricAlias), Array.from(value).map(keyAccessor)]
     })
     .filter(Boolean) as [string, string[]][]
 }

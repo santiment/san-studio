@@ -54,14 +54,8 @@ declare namespace SAN {
       isHidden?: boolean
       redraw: () => void
       drawSelection: undefined | (() => void)
-      updateAbsoluteByRelativeCoordinates: (
-        relCoor: number[],
-        absCoor: number[],
-      ) => void
-      updateRelativeByAbsoluteCoordinates: (
-        absCoor: number[],
-        relCoor: number[],
-      ) => void
+      updateAbsoluteByRelativeCoordinates: (relCoor: number[], absCoor: number[]) => void
+      updateRelativeByAbsoluteCoordinates: (absCoor: number[], relCoor: number[]) => void
       addDrawing: (drawing: Drawing) => void
       deleteDrawing: (drawing: Drawing) => void
     }
@@ -86,15 +80,7 @@ declare namespace SAN {
       shape: Path2D
     }
 
-    type EmojiIds =
-      | 'rocket'
-      | 'fire'
-      | 'bear'
-      | 'stop'
-      | 'unicorn'
-      | 'bell'
-      | 'poo'
-      | 'rock'
+    type EmojiIds = 'rocket' | 'fire' | 'bear' | 'stop' | 'unicorn' | 'bell' | 'poo' | 'rock'
 
     interface Emoji extends Drawing {
       type: 'emoji'

@@ -7,10 +7,7 @@
 
   export let widgets
   export let width, height
-  export let isNightMode,
-    isWithMetricSettings,
-    isCartesianGrid,
-    isWatermarkHidden
+  export let isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden
 
   let codeRef
   let copyTimer
@@ -60,9 +57,7 @@
   class="border row fluid"
   value={code}
   readonly />
-<div
-  class="btn btn-1 btn--green row h-center mrg-m mrg--t"
-  on:click={onCopyClick}>
+<div class="btn-1 row h-center mrg-m mrg--t" on:click={onCopyClick}>
   {copyLabel}
 </div>
 
