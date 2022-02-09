@@ -107,11 +107,7 @@ const newTwitterFollowers = (interval: string) => ({
   },
 })
 
-const newSocialActiveUsers = (
-  channel: string,
-  label: string,
-  source = channel,
-) => ({
+const newSocialActiveUsers = (channel: string, label: string, source = channel) => ({
   queryKey: 'social_active_users',
   label: `Active social users (${label})`,
   reqMeta: {
@@ -135,13 +131,13 @@ export const SocialMetric = each(
       node: Node.BAR,
       label: 'Social Volume',
     },
+    social_volume_ai_total: {
+      node: Node.BAR,
+      label: 'Social Volume AI',
+    },
 
     social_active_users_telegram: newSocialActiveUsers('telegram', 'Telegram'),
-    social_active_users_twitter: newSocialActiveUsers(
-      'twitter',
-      'Twitter',
-      'twitter_crypto',
-    ),
+    social_active_users_twitter: newSocialActiveUsers('twitter', 'Twitter', 'twitter_crypto'),
 
     twitter_followers: {
       label: 'Twitter Followers',

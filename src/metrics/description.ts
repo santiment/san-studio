@@ -2,16 +2,16 @@ import { Metric } from '@/metrics'
 import { SelectorNode } from '@/metrics/selector'
 
 const TICKER_REGEX = /\[Project Ticker\]/g
-export function prepareDescription(
-  description: string,
-  ticker: string,
-): string {
+export function prepareDescription(description: string, ticker: string): string {
   return description.replace(TICKER_REGEX, ticker)
 }
 
 export const Description = {
   [Metric.social_volume_total.key]:
     'Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.',
+
+  [Metric.social_volume_ai_total.key]:
+    'This metric computed using Natural Language Processing (NLP) technique such as Named Entity Recognition (NER). Our trained NER model can process large amount of social data and extract from it mentions about crypto assets.',
 
   [Metric.age_consumed.key]:
     'Tracks the movement of previously idle [Project Ticker] tokens. The metric shows the amount of [Project Ticker] changing addresses daily multiplied by the number of days since they last moved. Spikes indicate a significant amount of previously idle [Project Ticker] tokens moving between addresses.',
@@ -82,8 +82,7 @@ export const Description = {
   [Metric.topHoldersPercentOfTotalSupply.key]:
     'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
 
-  [Metric.amount_in_top_holders.key]:
-    'Shows the combined balance of the top N addresses overall',
+  [Metric.amount_in_top_holders.key]: 'Shows the combined balance of the top N addresses overall',
   [Metric.amount_in_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses belonging to exchanges',
   [Metric.amount_in_non_exchange_top_holders.key]:
