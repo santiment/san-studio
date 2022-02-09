@@ -2,6 +2,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import LayoutComment from './LayoutComments/index.svelte'
+  import ExplainMetrics from './ExplainMetrics/index.svelte'
 
   const Sidewidget = getSidewidget()
   const closeSidewidget = () => ($Sidewidget = null)
@@ -9,16 +10,13 @@
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">
-    <Svg
-      id="sidebar"
-      w="12"
-      h="10"
-      class="btn $style.icon"
-      on:click={closeSidewidget} />
+    <Svg id="sidebar" w="12" h="10" class="btn $style.icon" on:click={closeSidewidget} />
   </div>
 
   {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
     <LayoutComment {closeSidewidget} />
+  {:else if $Sidewidget === SidewidgetType.EXPLAIN_METRICS}
+    <ExplainMetrics />
   {:else}
     <div class="studio-sidewidget row" />
   {/if}
