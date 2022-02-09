@@ -6,9 +6,7 @@ import { getMetricMinInterval } from '@/api/metrics/restrictions'
 
 let math = { evaluate: (expression: string, scope: any) => {} }
 export function importMath() {
-  return import('mathjs/lib/esm/number').then(
-    ({ create, all }) => (math = create(all)),
-  )
+  return import('mathjs/lib/esm/number').then(({ create, all }) => (math = create(all)))
 }
 
 export function checkIsExpressionValid(metrics: any[], expression: string) {
@@ -61,13 +59,11 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   const mathPromise = importMath()
   const { key, baseMetrics, expression } = metric
 
-  const minIntervalPromise = Promise.all<string>(
-    baseMetrics.map(getMetricMinInterval),
-  )
+  const minIntervalPromise = Promise.all<string>(baseMetrics.map(getMetricMinInterval))
     .then(getCommonMinInterval)
     .then((minInterval) => (metric.minInterval = minInterval))
 
-  const queries = baseMetrics.map(({ key, queryKey = key, project }) =>
+  const queries = baseMetrics.map(({ key, queryKey = key, project, reqMeta }) =>
     minIntervalPromise
       .then((minInterval) =>
         queryMetric(
@@ -77,6 +73,7 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
             metric: queryKey,
             key: COMBINED_KEY,
             interval: normalizeInterval(variables.interval || '', minInterval),
+            label_fqn: reqMeta?.label_fqn,
           },
           undefined,
           cachePolicy,

@@ -15,11 +15,7 @@
   import { convertBaseProjectMetric } from '@/ChartWidget/Metrics/utils'
   import Chart from './Chart.svelte'
   import Metric from './Metric.svelte'
-  import {
-    importMath,
-    newExpessionMetric,
-    checkIsExpressionValid,
-  } from './utils'
+  import { importMath, newExpessionMetric, checkIsExpressionValid } from './utils'
   import Sidebar from './Sidebar.svelte'
 
   // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
@@ -120,17 +116,10 @@
       </div>
 
       <div class="row mrg-l mrg--t v-center">
-        <div
-          class="btn btn-1 btn--green mrg-a mrg--l"
-          class:disabled={!isValid}
-          on:click={onCombineClick}>
+        <div class="btn-1 mrg-a mrg--l" class:disabled={!isValid} on:click={onCombineClick}>
           {metric ? 'Save' : 'Combine'}
         </div>
-        <div
-          class="btn btn-1 border mrg-l mrg--l cancel"
-          on:click={closeDialog}>
-          Cancel
-        </div>
+        <div class="btn-2 border mrg-l mrg--l cancel" on:click={closeDialog}>Cancel</div>
       </div>
     </div>
   </div>
