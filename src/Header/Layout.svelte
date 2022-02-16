@@ -9,10 +9,10 @@
   import LayoutLikeButton from './LayoutLikeButton.svelte'
   import LayoutHoverAction from './LayoutHoverAction.svelte'
 
-  $: layout = $selectedLayout
   let isEditVisible = false
   let showEdit, hideEdit
 
+  $: layout = $selectedLayout
   $: hide = isEditVisible ? null : hideEdit
 </script>
 

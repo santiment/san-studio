@@ -25,6 +25,18 @@
     isEditVisible = false
   }
 
+  function onEditClick() {
+    if (!$currentUser) return
+
+    const handler = layout
+      ? isAuthor
+        ? window.onLayoutEdit
+        : window.saveAsNewLayout
+      : window.saveLayout
+
+    return handler?.()
+  }
+
   onDestroy(() => clearTimeout(timer))
 </script>
 
@@ -33,14 +45,9 @@
     bind:this={node}
     class="edit mrg-s mrg--l"
     style="--width:{width}px"
-    on:mouseleave={hideEdit}>
-    <div
-      class="btn-3"
-      on:click={layout
-        ? isAuthor
-          ? window.onLayoutEdit
-          : window.saveAsNewLayout
-        : window.saveLayout}>
+    on:mouseleave={hideEdit}
+    on:click={onEditClick}>
+    <div class="btn-3">
       <Svg id="pencil" w="16" />
     </div>
   </div>
@@ -54,8 +61,10 @@
     content: '';
     position: absolute;
     width: calc(var(--width) + 40px);
-    height: 20px;
+    height: 25px;
+    top: 2px;
     right: 0;
+    cursor: pointer;
   }
   .btn-3 {
     --color: var(--waterloo);

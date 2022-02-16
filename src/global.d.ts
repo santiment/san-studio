@@ -32,6 +32,10 @@ interface Window {
   onHeaderShareClick?: () => void
   __onLinkClick?: (e: MouseEvent) => void
 
+  onLayoutEdit?: () => void
+  saveAsNewLayout?: () => void
+  saveLayout?: () => void
+
   onAnonComment?: () => void
   onCommentsLoaded?: () => void
   onCommentError?: () => void
