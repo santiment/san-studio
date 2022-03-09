@@ -14,7 +14,7 @@
 
 <div
   {style}
-  class="btn btn--ghost mrg-s mrg--b row v-center"
+  class="btn-ghost mrg-s mrg--b row v-center"
   class:active={isActive}
   on:click={(e) => onClick(metric, e)}>
   {#if isMerging}
@@ -27,7 +27,7 @@
 </div>
 
 <style>
-  .btn {
+  .btn-ghost {
     padding: 6px 12px;
     --fill: var(---fill, var(--casper));
     --fill-hover: var(---fill, var(--casper));

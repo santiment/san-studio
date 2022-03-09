@@ -15,9 +15,7 @@
   let project
 
   $: ({ slug } = $studio)
-  $: queryProjectMetrics(project?.slug || slug).then(
-    (items) => (availableMetrics = items),
-  )
+  $: queryProjectMetrics(project?.slug || slug).then((items) => (availableMetrics = items))
   $: graph = getMetricsSelectorGraph(
     availableMetrics,
     Object.assign({}, $globals, project || $studio),
@@ -41,14 +39,10 @@
 <div class="sidebar column">
   <ProjectSelector class="mrg-s mrg--b" bind:project />
 
-  <Search
-    class="mrg-s mrg--b"
-    autofocus
-    placeholder="Search metrics"
-    bind:searchTerm />
+  <Search class="mrg-s mrg--b" autofocus placeholder="Search metrics" bind:searchTerm />
 
   <VirtualList class="$style.items" {items} let:item>
-    <div class="item btn btn--ghost" on:click={() => onSelect(item)}>
+    <div class="item btn-ghost" on:click={() => onSelect(item)}>
       {item.label}
     </div>
   </VirtualList>

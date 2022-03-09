@@ -43,9 +43,7 @@
   }
 
   function onDeleteClick() {
-    showDeleteLayoutDialog({ layout }).then(
-      (wasDeleted) => wasDeleted && closeDialog(),
-    )
+    showDeleteLayoutDialog({ layout }).then((wasDeleted) => wasDeleted && closeDialog())
   }
 </script>
 
@@ -64,29 +62,20 @@
     <div class="actions row txt-m mrg-xl mrg--b v-center">
       {#if isAuthor}
         <Tooltip duration={0} on="click">
-          <div
-            class="menu btn border row hv-center mrg-a mrg--r"
-            slot="trigger">
+          <div class="menu btn border row hv-center mrg-a mrg--r" slot="trigger">
             <Svg id="vert-dots" w="4" h="14" />
           </div>
 
           <div slot="tooltip" class="tooltip">
-            <div class="btn btn--ghost" on:click={onEditClick}>Edit</div>
-            <div class="delete btn btn--ghost" on:click={onDeleteClick}>
-              Delete
-            </div>
+            <div class="btn-ghost" on:click={onEditClick}>Edit</div>
+            <div class="delete btn-ghost" on:click={onDeleteClick}>Delete</div>
           </div>
         </Tooltip>
 
         Public
-        <Toggle
-          class="mrg-m mrg--l"
-          isActive={layout.isPublic}
-          on:click={toggleLayoutPublicity} />
+        <Toggle class="mrg-m mrg--l" isActive={layout.isPublic} on:click={toggleLayoutPublicity} />
       {:else}
-        <div class="btn btn-1 btn--green" on:click={onUseClick}>
-          Use Chart Layout
-        </div>
+        <div class="btn btn-1 btn--green" on:click={onUseClick}>Use Chart Layout</div>
       {/if}
     </div>
 

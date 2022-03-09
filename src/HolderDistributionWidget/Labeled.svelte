@@ -16,8 +16,7 @@
   export let isSingleWidget: boolean
   export let deleteWidget
 
-  if (!widget.metrics)
-    widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
+  if (!widget.metrics) widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
   initWidget(widget)
   const { Metrics, MetricSettings } = widget
   const newHistory = (name, undo, redo = undo) =>
@@ -84,10 +83,7 @@
 
   <svelte:fragment slot="tabs">
     <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
-      <div
-        slot="trigger"
-        class="border v-center btn row mrg-l mrg--b"
-        class:text>
+      <div slot="trigger" class="border v-center btn row mrg-l mrg--b" class:text>
         {text || 'Show all labels'}
         <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l $style.arrow" />
       </div>
@@ -95,9 +91,7 @@
       <svelte:fragment slot="tooltip">
         <div class="column">
           {#each LABELS as label, i}
-            <div
-              class="label btn btn--ghost mrg-s mrg--t row v-center"
-              on:click={() => onToggle(i)}>
+            <div class="label btn-ghost mrg-s mrg--t row v-center" on:click={() => onToggle(i)}>
               <Checkbox class="mrg-s mrg--r" isActive={labels.has(i)} />
               {label}
             </div>

@@ -27,17 +27,10 @@
   $: getMinInterval(metric, isCandleNode, from, to)
   $: autoInterval = getValidInterval(interval, intervals)
 
-  function getMinInterval(
-    metric: Studio.Metric,
-    isCandleNode: boolean,
-    from: string,
-    to: string,
-  ) {
+  function getMinInterval(metric: Studio.Metric, isCandleNode: boolean, from: string, to: string) {
     let promise
     if (isCandleNode) {
-      promise = Promise.resolve(
-        getCandlesPeriodMinInterval(new Date(from), new Date(to)),
-      )
+      promise = Promise.resolve(getCandlesPeriodMinInterval(new Date(from), new Date(to)))
     } else {
       promise = metric.minInterval
         ? Promise.resolve(metric.minInterval)
@@ -85,17 +78,14 @@
 
   <svelte:fragment slot="options">
     {#if isCandleNode === false}
-      <div
-        class="btn btn--ghost"
-        class:active={!metricInterval}
-        on:click={onAutoClick}>
+      <div class="btn-ghost" class:active={!metricInterval} on:click={onAutoClick}>
         Auto ({autoInterval})
       </div>
     {/if}
 
     {#each intervals as interval}
       <div
-        class="btn btn--ghost"
+        class="btn-ghost"
         class:active={metricInterval === interval.id}
         on:click={() => onClick(interval)}>
         {interval.label}

@@ -10,9 +10,7 @@
   $: ({ title, isPublic = true, project, metrics } = layout)
 </script>
 
-<div
-  class="layout btn btn--ghost column h-center"
-  on:click={() => onClick(layout)}>
+<div class="layout btn-ghost column h-center" on:click={() => onClick(layout)}>
   <div class="body-2 txt-m mrg-xs mrg--b">
     {title}
   </div>

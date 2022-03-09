@@ -20,16 +20,12 @@
   queryAllProjects().then((projects) => (items = projects))
 
   function projectsFilter({ name, ticker }) {
-    return (
-      name.toLowerCase().includes(searchTerm) ||
-      ticker.toLowerCase().includes(searchTerm)
-    )
+    return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm)
   }
 
   function onProjectSelect(newProject) {
     isOpened = false
-    project =
-      newProject && newProject.slug !== $studio.slug ? newProject : undefined
+    project = newProject && newProject.slug !== $studio.slug ? newProject : undefined
   }
 </script>
 
@@ -40,16 +36,10 @@
   </div>
 
   <svelte:fragment slot="tooltip">
-    <Search
-      class="mrg-s mrg--b"
-      autofocus
-      placeholder="Search assets"
-      bind:searchTerm />
+    <Search class="mrg-s mrg--b" autofocus placeholder="Search assets" bind:searchTerm />
 
     <VirtualList class="$style.items" items={filteredItems} let:item key="slug">
-      <div
-        class="row v-center btn btn--ghost"
-        on:click={() => onProjectSelect(item)}>
+      <div class="row v-center btn-ghost" on:click={() => onProjectSelect(item)}>
         <Project project={item} />
       </div>
     </VirtualList>

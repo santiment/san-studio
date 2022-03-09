@@ -71,10 +71,7 @@
     </div>
     <div slot="tooltip" class="tooltip">
       {#each metrics as item (item.key)}
-        <div
-          class="btn btn--ghost"
-          class:active={metric === item}
-          on:click={() => onMetricChange(item)}>
+        <div class="btn-ghost" class:active={metric === item} on:click={() => onMetricChange(item)}>
           {item.label}
         </div>
       {/each}

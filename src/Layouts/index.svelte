@@ -15,15 +15,9 @@
   import { widgetsListener } from '@/stores/widgetsListener'
   import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
-  import LoadLayoutDialog, {
-    showLoadLayoutDialog,
-  } from './LoadLayoutDialog.svelte'
+  import LoadLayoutDialog, { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
-  import {
-    getScheduledLayout,
-    deleteScheduledLayout,
-    getAllWidgetsMetricsKeys,
-  } from './utils'
+  import { getScheduledLayout, deleteScheduledLayout, getAllWidgetsMetricsKeys } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
@@ -71,12 +65,12 @@
         options: { widgets: window.shareLayoutWidgets?.($Widgets) },
       }
 
-      promise = (
-        isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)
-      ).then((layout) => {
-        window.notifyLayoutSave?.()
-        return layout
-      })
+      promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then(
+        (layout) => {
+          window.notifyLayoutSave?.()
+          return layout
+        },
+      )
     } else {
       promise = showNewLayoutDialog()
     }
@@ -86,10 +80,7 @@
   window.saveLayout = callIfRegistered(onSave)
 
   const onSaveAsNew = () =>
-    layout &&
-    showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(
-      selectLayout,
-    )
+    layout && showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(selectLayout)
   window.saveAsNewLayout = callIfRegistered(onSaveAsNew)
 
   const onEdit = () =>
@@ -163,10 +154,7 @@
 </script>
 
 <div class="layout btn row mrg-a mrg--l">
-  <div
-    class="action btn border"
-    class:changed
-    on:click={callIfRegistered(onSave)}>
+  <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
   <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
@@ -176,31 +164,27 @@
 
     <div slot="tooltip">
       {#if layout}
-        <div
-          class="btn btn--ghost row v-center"
-          on:click={callIfRegistered(onSave)}>
+        <div class="btn-ghost row v-center" on:click={callIfRegistered(onSave)}>
           Save
           <span class="caption mrg-a mrg--l">{CMD} + S</span>
         </div>
-        <div class="btn btn--ghost" on:click={callIfRegistered(onSaveAsNew)}>
-          Save as new
-        </div>
+        <div class="btn-ghost" on:click={callIfRegistered(onSaveAsNew)}>Save as new</div>
       {/if}
 
       {#if isAuthor}
-        <div class="btn btn--ghost" on:click={onEdit}>Edit</div>
+        <div class="btn-ghost" on:click={onEdit}>Edit</div>
       {/if}
 
       {#if layout}
         <div class="divider" />
       {/if}
 
-      <div class="btn btn--ghost" on:click={showLoadLayoutDialog}>Load</div>
-      <div class="btn btn--ghost" on:click={callIfRegistered(onNew)}>New</div>
+      <div class="btn-ghost" on:click={showLoadLayoutDialog}>Load</div>
+      <div class="btn-ghost" on:click={callIfRegistered(onNew)}>New</div>
 
       {#if isAuthor}
         <div
-          class="delete btn btn--ghost"
+          class="delete btn-ghost"
           on:click={() =>
             showDeleteLayoutDialog({ layout }).then(
               (wasDeleted) => wasDeleted && selectedLayout.set(undefined),

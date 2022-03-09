@@ -50,14 +50,10 @@
   <div slot="tooltip" class="menu">
     {#if !metric.noProject}
       <div
-        class="btn btn--ghost option"
+        class="btn-ghost option"
         class:disabled={Metrics.hasConvertedMetric(metric, $studio)}
         on:click={onLockClick}>
-        <Svg
-          id={isLocked ? 'locked' : 'unlocked'}
-          w="14"
-          h="15"
-          class="mrg-s mrg--r" />
+        <Svg id={isLocked ? 'locked' : 'unlocked'} w="14" h="15" class="mrg-s mrg--r" />
         {#if isLocked}
           Unlock metric
         {:else}
@@ -67,34 +63,26 @@
     {/if}
 
     {#if !metric.base}
-      <div
-        class="btn btn--ghost option"
-        class:favorited={isFavorited}
-        on:click={onFavoriteClick}>
-        <Svg
-          id="star{isFavorited ? '-filled' : ''}"
-          w="16"
-          class="mrg-s mrg--r" />
+      <div class="btn-ghost option" class:favorited={isFavorited} on:click={onFavoriteClick}>
+        <Svg id="star{isFavorited ? '-filled' : ''}" w="16" class="mrg-s mrg--r" />
         {isFavorited ? 'Unfavorite' : 'Make favorite'}
       </div>
     {/if}
 
     {#if $MetricsSignals.includes(metric)}
-      <div class="btn btn--ghost option" on:click={onHideSignal}>
+      <div class="btn-ghost option" on:click={onHideSignal}>
         <Svg id="flash" w="12" h="16" class="mrg-s mrg--r $style.flash" />
         Hide signals
       </div>
     {/if}
 
-    <div
-      class="btn btn--ghost option"
-      on:click={() => selectedItems.toggle(metric)}>
+    <div class="btn-ghost option" on:click={() => selectedItems.toggle(metric)}>
       <Svg id="plus-circle" w="16" class="mrg-s mrg--r" />
       Reapply metric
     </div>
 
     <div
-      class="btn btn--ghost option"
+      class="btn-ghost option"
       class:disabled={isSettingsOpened}
       on:click={() => onSettings(metric)}>
       <Svg id="cog" w="16" h="16" class="mrg-s mrg--r" />

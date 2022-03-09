@@ -3,10 +3,7 @@
   import type { MetricSetting } from './context'
   import { track } from 'webkit/analytics'
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
-  import {
-    cleanupCandlesSettings,
-    setCandlesSettings,
-  } from '@/ChartWidget/transformers/candles'
+  import { cleanupCandlesSettings, setCandlesSettings } from '@/ChartWidget/transformers/candles'
   import { studio } from '@/stores/studio'
   import { Node, NodeAlias } from '@/Chart/nodes'
   import { Metric } from '@/metrics'
@@ -51,9 +48,7 @@
       withScroll(widget, () =>
         setMetricNode(metric, metricSettings, newNode.id, IdToNode[oldNode]),
       ),
-      withScroll(widget, () =>
-        setMetricNode(metric, metricSettings, oldNode, newNode),
-      ),
+      withScroll(widget, () => setMetricNode(metric, metricSettings, oldNode, newNode)),
     )
   }
 
@@ -75,10 +70,7 @@
     })
   }
 
-  function getMetricNode(
-    metric: Studio.Metric,
-    metricSettings?: MetricSetting,
-  ) {
+  function getMetricNode(metric: Studio.Metric, metricSettings?: MetricSetting) {
     const node = (metricSettings?.node || metric.node) as ChartNodes
     return NodeAlias[node] || node
   }
@@ -93,17 +85,16 @@
     {#key metric}
       {#if !metric.indicator && (metric.base || metric) === Metric.price_usd}
         <div
-          class="btn btn--ghost"
+          class="btn-ghost"
           class:active={metricNode === CANDLES_NODE.id}
-          on:click={() =>
-            onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
+          on:click={() => onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
           {CANDLES_NODE.label}
         </div>
       {/if}
 
       {#each NODES as node}
         <div
-          class="btn btn--ghost"
+          class="btn-ghost"
           class:active={metricNode === node.id}
           on:click={() => onClick(metric, metricSettings, metricNode, node)}>
           {node.label}
@@ -112,10 +103,9 @@
 
       {#if metric === Metric.bitmex_perpetual_funding_rate}
         <div
-          class="btn btn--ghost"
+          class="btn-ghost"
           class:active={metricNode === PN_BARS_NODE.id}
-          on:click={() =>
-            onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
+          on:click={() => onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
           {PN_BARS_NODE.label}
         </div>
       {/if}

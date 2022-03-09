@@ -11,8 +11,7 @@
 
   export let metric: Studio.Metric
 
-  $: metricIndicators =
-    metric && $MetricIndicators && MetricIndicators.get(metric.key)
+  $: metricIndicators = metric && $MetricIndicators && MetricIndicators.get(metric.key)
 
   function getActiveLabels(metricIndicators) {
     let label = ''
@@ -42,13 +41,11 @@
   <svelte:fragment slot="options">
     {#each INDICATORS as indicator}
       <div
-        class="btn btn--ghost row v-center justify"
+        class="btn-ghost row v-center justify"
         class:active={false}
         on:click={() => onClick(indicator)}>
         Moving Average {indicator.base}
-        <Toggle
-          class="mrg-l mrg--l"
-          isActive={metricIndicators.has(indicator)} />
+        <Toggle class="mrg-l mrg--l" isActive={metricIndicators.has(indicator)} />
       </div>
     {/each}
   </svelte:fragment>

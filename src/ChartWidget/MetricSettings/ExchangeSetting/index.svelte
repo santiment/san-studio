@@ -5,11 +5,7 @@
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { debounced } from '@/ChartWidget/utils'
-  import {
-    DEFAULT_EXCHANGE,
-    DEFAULT_EXCHANGES,
-    queryProjectExchanges,
-  } from './utils'
+  import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils'
   import Dropdown from '../Dropdown.svelte'
 
   const History = getHistoryContext()
@@ -70,18 +66,8 @@
 
   <svelte:fragment slot="dropdown">
     <div slot="header" class="tabs row txt-m mrg-s mrg--b">
-      <div
-        class:tab-active={!isDex}
-        class="tab btn"
-        on:click={() => (isDex = false)}>
-        CEX
-      </div>
-      <div
-        class:tab-active={isDex}
-        class="tab btn"
-        on:click={() => (isDex = true)}>
-        DEX
-      </div>
+      <div class:tab-active={!isDex} class="tab btn" on:click={() => (isDex = false)}>CEX</div>
+      <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>
     </div>
 
     {#if loading}
@@ -91,7 +77,7 @@
     <div class="options">
       {#each exchanges as exchange}
         <div
-          class="btn btn--ghost"
+          class="btn btn-ghost"
           class:active={metricOwner === exchange}
           on:click={() => onChange(exchange)}>
           {exchange}
