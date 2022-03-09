@@ -1,7 +1,7 @@
 <script lang="ts">
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Svg from 'webkit/ui/Svg/svelte'
-  import Author from 'webkit/ui/Author/svelte'
+  import Author from 'webkit/ui/Profile/svelte'
   import { selectedLayout } from '@/stores/layout'
   import { currentUser } from '@/stores/user'
   import LayoutInfo from '@/Layouts/LayoutInfo.svelte'
