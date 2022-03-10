@@ -14,7 +14,8 @@
     "validate:errors": "yarn validate --threshold error",
     "lib:prepare": "node scripts/prepare.js && tsc --p ./scripts/tsconfig.json && node scripts/cleanup.js",
     "lib": "npm run lib:prepare && node scripts/lib.js",
-    "install": "npm run lib"
+    "install": "npm run lib",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@santiment-network/chart": "^0.10.12",
@@ -26,15 +27,19 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-svelte3": "^3.1.2",
     "eslint-svelte3-preprocess": "0.0.5",
+    "marked": "^4.0.12",
+    "medium-editor": "^5.23.3",
+    "patch-package": "^6.4.7",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
     "svelte": "^3.46.3",
+    "turndown": "^7.1.1",
     "vite": "^2.5.1",
     "vite-plugin-ts-checker": "^0.1.5"
   },
   "dependencies": {
     "mathjs": "^9.4.4",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#615fb08",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#25a16bb",
     "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#895859f",
@@ -43,10 +48,7 @@
   "peerDependencies": {
     "svelte": "^3.46.3",
     "@santiment-network/chart": "^0.10.12",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#615fb08",
-    "canvas": "^2.8.0",
-    "turndown": "^7.1.1",
-    "medium-editor": "^5.23.3",
-    "marked": "^4.0.12"
+    "san-webkit": "https://github.com/santiment/san-webkit.git#25a16bb",
+    "canvas": "^2.8.0"
   }
 }

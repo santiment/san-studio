@@ -1,0 +1,32 @@
+diff --git a/node_modules/medium-editor/dist/js/medium-editor.js b/node_modules/medium-editor/dist/js/medium-editor.js
+index 568fa89..8a5bcb6 100644
+--- a/node_modules/medium-editor/dist/js/medium-editor.js
++++ b/node_modules/medium-editor/dist/js/medium-editor.js
+@@ -383,18 +383,8 @@ if (!("classList" in document.createElement("_"))) {
+   view.Blob.prototype = getPrototypeOf(new view.Blob());
+ }(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
+ 
+-(function (root, factory) {
+-    'use strict';
+-    var isElectron = typeof module === 'object' && typeof process !== 'undefined' && process && process.versions && process.versions.electron;
+-    if (!isElectron && typeof module === 'object') {
+-        module.exports = factory;
+-    } else if (typeof define === 'function' && define.amd) {
+-        define(function () {
+-            return factory;
+-        });
+-    } else {
+-        root.MediumEditor = factory;
+-    }
++const MediumEditor = (function (_, factory) {
++    return factory
+ }(this, function () {
+ 
+     'use strict';
+@@ -7891,3 +7881,5 @@ MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
+ 
+     return MediumEditor;
+ }()));
++
++export default MediumEditor
+\ No newline at end of file
