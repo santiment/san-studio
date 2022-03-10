@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from 'webkit/ui/Svg/svelte'
+  import CommentsButton from 'webkit/ui/Comments/Button.svelte'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
   import {
     queryLayoutCommentsCount,
@@ -25,25 +25,8 @@
   }
 </script>
 
-<div
-  class="action btn border txt-m {className}"
-  class:active={$Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
-  on:click={() => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS)}>
-  <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
-  {commentsCount}
-</div>
-
-<style>
-  .action {
-    padding: 5px 12px;
-    border-radius: 20px;
-  }
-
-  .active {
-    --color: var(--green);
-    --border: var(--green);
-    --color-hover: var(--green-hover);
-    --border-hover: var(--green-hover);
-    --fill-hover: var(--green-hover);
-  }
-</style>
+<CommentsButton
+  count={commentsCount}
+  class={className}
+  active={$Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
+  on:click={() => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS)} />
