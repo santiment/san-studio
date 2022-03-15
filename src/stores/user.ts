@@ -1,6 +1,6 @@
 import type { CurrentUser } from 'webkit/api/analytics'
 import { writable } from 'svelte/store'
-import { queryCurrentUser } from 'webkit/api/analytics'
+import { queryCurrentUser } from '@/api/user'
 
 const { subscribe, set } = writable<CurrentUser>(null)
 let wasNotFetched = true
