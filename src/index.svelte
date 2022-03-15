@@ -15,7 +15,7 @@
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { widgetsListener } from '@/stores/widgetsListener'
   import { setAdapterController } from '@/adapter/context'
-  import OptionsMenuTooltipCtx from './ChartWidget/OptionsMenuTooltipCtx.svelte'
+  import ChartTooltipContexts from '@/ChartWidget/TooltipContexts.svelte'
 
   export let widgets
   export let sidewidget
@@ -83,7 +83,7 @@
   })
 </script>
 
-<OptionsMenuTooltipCtx>
+<ChartTooltipContexts>
   <main>
     <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
     <div class="content column">
@@ -120,7 +120,7 @@
   </main>
 
   <Dialogs />
-</OptionsMenuTooltipCtx>
+</ChartTooltipContexts>
 
 <style>
   main {

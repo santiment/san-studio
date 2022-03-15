@@ -11,10 +11,11 @@
   import { SelectorNode } from '@/metrics/selector'
   import { convertBaseProjectMetric } from './utils'
   import MoreMenu from './MoreMenu.svelte'
-  import ErrorTooltip from './ErrorTooltip.svelte'
+  import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte'
 
   const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
   const { Metrics, MetricsSignals } = getWidget()
+  const metricErrorTooltip = getMetricErrorTooltip()
 
   export let metric: Studio.Metric
   export let colors
@@ -23,9 +24,12 @@
   export let dndContext
 
   let isMenuOpened = false
+  let node
 
   $: isLocked = !!metric.project
   $: ({ isPresenterMode } = $globals)
+  $: node && dndContext?.addItem(node)
+  $: node && useErrorTooltip(node, error)
 
   const onMouseEnter = () => onEnter(metric)
   const onMouseLeave = onLeave
@@ -39,60 +43,52 @@
       track.event(Event.LockMetric, { metric: metric.key, asset: $studio.slug })
     }
 
-    onLock(
-      metric,
-      convertBaseProjectMetric(metric, $studio),
-      $Metrics.indexOf(metric),
-    )
+    onLock(metric, convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
+  }
+
+  function useErrorTooltip(node: HTMLElement, error?: string) {
+    metricErrorTooltip(node, {
+      error,
+      isEnabled: !!error,
+    })
   }
 
   onDestroy(onMouseLeave)
-
-  let node
-  $: node && dndContext?.addItem(node)
 </script>
 
-<ErrorTooltip {error}>
-  <MetricButton
-    bind:node
-    {metric}
-    {colors}
-    {error}
-    {isLoading}
-    onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
-    ticker={$studio.ticker}
-    active={isMenuOpened}
-    highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
-    on:click={(e) => onClick(metric, e)}
-    on:mouseenter={onMouseEnter}
-    on:mouseleave={onMouseLeave}>
-    {#if !metric.noProject}
-      {#if isLocked}
-        {#if !isEmbedded}
-          <div class="locked row hv-center">
-            <Svg id="locked-small" w="8" />
-          </div>
-        {/if}
-      {:else if !metric.indicator}
-        ({$studio.ticker})
+<MetricButton
+  bind:node
+  {metric}
+  {colors}
+  {error}
+  {isLoading}
+  onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
+  ticker={$studio.ticker}
+  active={isMenuOpened}
+  highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
+  on:click={(e) => onClick(metric, e)}
+  on:mouseenter={onMouseEnter}
+  on:mouseleave={onMouseLeave}>
+  {#if !metric.noProject}
+    {#if isLocked}
+      {#if !isEmbedded}
+        <div class="locked row hv-center">
+          <Svg id="locked-small" w="8" />
+        </div>
       {/if}
+    {:else if !metric.indicator}
+      ({$studio.ticker})
     {/if}
+  {/if}
 
-    {#if $MetricsSignals.includes(metric)}
-      <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
-    {/if}
+  {#if $MetricsSignals.includes(metric)}
+    <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
+  {/if}
 
-    {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
-      <MoreMenu
-        {metric}
-        {isLocked}
-        {isSettingsOpened}
-        bind:isMenuOpened
-        {onLockClick}
-        {onSettings} />
-    {/if}
-  </MetricButton>
-</ErrorTooltip>
+  {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
+    <MoreMenu {metric} {isLocked} {isSettingsOpened} bind:isMenuOpened {onLockClick} {onSettings} />
+  {/if}
+</MetricButton>
 
 <style>
   .locked {
