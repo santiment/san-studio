@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
-  import { dialogs } from 'webkit/ui/Dialog'
+  import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import HistoryAction from '@/history/Action.svelte'
   import ProjectInfo from '@/ProjectInfo/index.svelte'
   import Header from '@/Header/index.svelte'
@@ -15,6 +15,7 @@
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import { widgetsListener } from '@/stores/widgetsListener'
   import { setAdapterController } from '@/adapter/context'
+  import OptionsMenuTooltipCtx from './ChartWidget/OptionsMenuTooltipCtx.svelte'
 
   export let widgets
   export let sidewidget
@@ -82,42 +83,44 @@
   })
 </script>
 
-<main>
-  <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
-  <div class="content column">
-    <div class="studio-top">
-      <ProjectInfo />
-    </div>
-
-    {#if !screen}
-      <Header {headerPadding} />
-
-      <div class="row main" bind:this={screenRef}>
-        <div class="widgets">
-          {#each $Widgets as widget (widget.id)}
-            <Widget {widget} {Widgets} {onWidgetUpdate} viewportObserver={widgetViewportObserver} />
-          {/each}
-        </div>
-
-        {#if $Sidewidget} <SidewidgetComponent /> {/if}
+<OptionsMenuTooltipCtx>
+  <main>
+    <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
+    <div class="content column">
+      <div class="studio-top">
+        <ProjectInfo />
       </div>
-    {:else}
-      {#key screen}
-        <div class="main studio-screen" bind:this={screenRef} />
-      {/key}
-    {/if}
 
-    <Mapview />
+      {#if !screen}
+        <Header {headerPadding} />
 
-    <HistoryAction {HistoryEmitter} />
-  </div>
-</main>
+        <div class="row main" bind:this={screenRef}>
+          <div class="widgets">
+            {#each $Widgets as widget (widget.id)}
+              <Widget
+                {widget}
+                {Widgets}
+                {onWidgetUpdate}
+                viewportObserver={widgetViewportObserver} />
+            {/each}
+          </div>
 
-<div id="dialogs">
-  {#each $dialogs as { Component, props }, i}
-    <svelte:component this={Component} {...props} {i} />
-  {/each}
-</div>
+          {#if $Sidewidget} <SidewidgetComponent /> {/if}
+        </div>
+      {:else}
+        {#key screen}
+          <div class="main studio-screen" bind:this={screenRef} />
+        {/key}
+      {/if}
+
+      <Mapview />
+
+      <HistoryAction {HistoryEmitter} />
+    </div>
+  </main>
+
+  <Dialogs />
+</OptionsMenuTooltipCtx>
 
 <style>
   main {

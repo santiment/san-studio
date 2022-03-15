@@ -1,42 +1,26 @@
 <script lang="ts">
-  import { tick } from 'svelte'
-  import { track } from 'webkit/analytics'
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
-  import Tooltip from 'webkit/ui/Tooltip/svelte'
-  import { Event } from '@/analytics'
   import { globals } from '@/stores/globals'
-  import { studio } from '@/stores/studio'
-  import { getWidget } from '@/ChartWidget/context'
-  import { downloadPng } from './downloadPng'
-  import { downloadCsv } from './downloadCsv'
+  import { download, downloadPng, downloadCsv } from './download'
 
   const History = getHistoryContext()
-  const widget = getWidget()
-  const { ChartOptions } = widget
 
-  export let activeClass = ''
   export let isSingleWidget: boolean
   export let deleteWidget
+  export let widget
 
-  let isOpened = false
-
+  $: ({ ChartOptions } = widget)
   $: ({ isPro, isProPlus } = $globals)
   $: ChartOptions.getProDefaults(isPro, isProPlus)
 
   function onDelete() {
-    isOpened = false
-    // NOTE: Widget is not deleted if tooltip is not closed [@vanguard | May 26, 2021]
-    tick()
-      .then(tick)
-      .then(() => deleteWidget(true))
+    deleteWidget(true)
   }
 
-  export function onDownload(downloader) {
-    // prettier-ignore
-    track.event(Event.Download, { type: downloader === downloadPng ? 'png' : 'csv'})
-    downloader(widget, $studio)
+  function onDownload(downloader) {
+    download(widget, downloader)
   }
 
   function newHistoryToggle(name, toggle) {
@@ -48,88 +32,73 @@
   }
 </script>
 
-<Tooltip on="click" duration={0} align="end" {activeClass} bind:isOpened>
-  <slot slot="trigger" />
-  <div slot="tooltip" class="menu">
-    <div
-      class="btn"
-      on:click={newHistoryToggle(
-        'Toggle "Log scale"',
-        ChartOptions.toggleScale,
-      )}>
-      Log scale <Toggle isActive={$ChartOptions.isLogScale} />
-    </div>
-    <div
-      class="btn"
-      on:click={newHistoryToggle('Toggle "Cartesian grid"', () =>
-        ChartOptions.toggle('cartesianGrid'),
-      )}>
-      Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
-    </div>
-    <div
-      class="btn"
-      on:click={newHistoryToggle('Toggle "Presenter mode"', () =>
-        globals.toggle('isPresenterMode'),
-      )}>
-      Presenter mode <Toggle isActive={$globals.isPresenterMode} />
-    </div>
-    <div
-      class="btn"
-      class:disabled={!isPro}
-      on:click={() => isPro && ChartOptions.toggle('isWatermarkLessVisible')}>
-      Make watermark less visible
-      {#if isPro}
-        <Toggle
-          isActive={$ChartOptions.isWatermarkLessVisible}
-          class="mrg-xl mrg--l" />
-      {:else}
-        <a href="/pricing" class="label">PRO</a>
-      {/if}
-    </div>
-
-    <div
-      class="btn"
-      on:click={() => isProPlus && ChartOptions.toggle('watermark')}
-      class:disabled={!isProPlus}>
-      Hide watermark
-      {#if isProPlus}
-        <Toggle isActive={!$ChartOptions.watermark} class="mrg-xl mrg--l" />
-      {:else}
-        <a href="/pricing" class="label plus">PRO+</a>
-      {/if}
-    </div>
-
-    <div class="divider" />
-
-    <div
-      class="btn"
-      class:disabled={!isPro}
-      on:click={() => isPro && onDownload(downloadCsv)}>
-      <span>
-        <Svg id="download" w="16" class="mrg-s mrg--r" />
-        Download as CSV
-      </span>
-      {#if !isPro}
-        <a href="/pricing" class="label">PRO</a>
-      {/if}
-    </div>
-    <div class="btn" on:click={() => onDownload(downloadPng)}>
-      <span>
-        <Svg id="download" w="16" class="mrg-s mrg--r" />
-        Download as PNG
-      </span>
-    </div>
-
-    {#if !isSingleWidget}
-      <div class="btn delete" on:click={onDelete}>
-        <span>
-          <Svg id="delete" w="12" class="mrg-s mrg--r" />
-          Delete chart
-        </span>
-      </div>
+<div class="menu">
+  <div class="btn" on:click={newHistoryToggle('Toggle "Log scale"', ChartOptions.toggleScale)}>
+    Log scale <Toggle isActive={$ChartOptions.isLogScale} />
+  </div>
+  <div
+    class="btn"
+    on:click={newHistoryToggle('Toggle "Cartesian grid"', () =>
+      ChartOptions.toggle('cartesianGrid'),
+    )}>
+    Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
+  </div>
+  <div
+    class="btn"
+    on:click={newHistoryToggle('Toggle "Presenter mode"', () => globals.toggle('isPresenterMode'))}>
+    Presenter mode <Toggle isActive={$globals.isPresenterMode} />
+  </div>
+  <div
+    class="btn"
+    class:disabled={!isPro}
+    on:click={() => isPro && ChartOptions.toggle('isWatermarkLessVisible')}>
+    Make watermark less visible
+    {#if isPro}
+      <Toggle isActive={$ChartOptions.isWatermarkLessVisible} class="mrg-xl mrg--l" />
+    {:else}
+      <a href="/pricing" class="label">PRO</a>
     {/if}
   </div>
-</Tooltip>
+
+  <div
+    class="btn"
+    on:click={() => isProPlus && ChartOptions.toggle('watermark')}
+    class:disabled={!isProPlus}>
+    Hide watermark
+    {#if isProPlus}
+      <Toggle isActive={!$ChartOptions.watermark} class="mrg-xl mrg--l" />
+    {:else}
+      <a href="/pricing" class="label plus">PRO+</a>
+    {/if}
+  </div>
+
+  <div class="divider" />
+
+  <div class="btn" class:disabled={!isPro} on:click={() => isPro && onDownload(downloadCsv)}>
+    <span>
+      <Svg id="download" w="16" class="mrg-s mrg--r" />
+      Download as CSV
+    </span>
+    {#if !isPro}
+      <a href="/pricing" class="label">PRO</a>
+    {/if}
+  </div>
+  <div class="btn" on:click={() => onDownload(downloadPng)}>
+    <span>
+      <Svg id="download" w="16" class="mrg-s mrg--r" />
+      Download as PNG
+    </span>
+  </div>
+
+  {#if !isSingleWidget}
+    <div class="btn delete" on:click={onDelete}>
+      <span>
+        <Svg id="delete" w="12" class="mrg-s mrg--r" />
+        Delete chart
+      </span>
+    </div>
+  {/if}
+</div>
 
 <style>
   .menu {

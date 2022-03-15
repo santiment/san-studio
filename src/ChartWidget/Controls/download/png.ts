@@ -3,7 +3,6 @@ import { getTimeFormats, getDateFormats } from 'webkit/utils/dates'
 import { getPadding } from '@/Chart/Axes/utils'
 import { PLOT_ID } from '@/Chart/Drawer/drawer'
 import { drawDrawings } from '@/Chart/Drawer/drawings'
-import { noteDragModifier } from '@/Chart/Drawer/drawings/note'
 
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
@@ -45,27 +44,17 @@ function drawLegend(pngChart, metrics, textColor, ticker: string) {
 
   metrics.forEach((metric) => {
     pngCtx.fillStyle = colors[metric.key]
-    pngCtx.fillRect(
-      textX,
-      textY - LEGEND_RECT_SIZE,
-      LEGEND_RECT_SIZE,
-      LEGEND_RECT_SIZE,
-    )
+    pngCtx.fillRect(textX, textY - LEGEND_RECT_SIZE, LEGEND_RECT_SIZE, LEGEND_RECT_SIZE)
 
     pngCtx.textAlign = 'left'
     pngCtx.textBaseline = 'alphabetic'
     pngCtx.fillStyle = textColor
     textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
-    textX +=
-      drawAndMeasureText(pngCtx, getLabel(metric, ticker), textX, textY) +
-      TEXT_RIGHT_MARGIN
+    textX += drawAndMeasureText(pngCtx, getLabel(metric, ticker), textX, textY) + TEXT_RIGHT_MARGIN
   })
 }
 
-export function downloadPng(
-  widget: Studio.ChartWidget,
-  { slug, name = slug, ticker },
-) {
+export function downloadPng(widget: Studio.ChartWidget, { slug, name = slug, ticker }) {
   const { chart } = widget
   const { data, categories, scale, colors, theme } = chart
   const { domainModifier, domainGroups } = chart
@@ -117,11 +106,7 @@ export function downloadPng(
   pngCanvas.remove()
 }
 
-function setupPngDrawings(
-  chart: any,
-  pngChart: any,
-  plotters: Map<string, any>,
-) {
+function setupPngDrawings(chart: any, pngChart: any, plotters: Map<string, any>) {
   if (chart.drawer.isHidden) return plotters.delete(PLOT_ID)
 
   pngChart.drawer = Object.assign({}, chart.drawer)

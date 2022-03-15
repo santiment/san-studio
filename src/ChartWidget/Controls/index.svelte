@@ -12,16 +12,17 @@
   import Emoji from './Emoji.svelte'
   import Note from './Note.svelte'
   import DrawingsVisibility from './DrawingsVisibility.svelte'
-  import OptionsMenu from './OptionsMenu.svelte'
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
-  import { downloadPng } from './downloadPng'
+  import { download, downloadPng } from './download'
   import IncompleteData from '../IncompleteData/index.svelte'
+  import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte'
 
   const History = getHistoryContext()
   const widget = getWidget()
   const { ChartDrawer } = widget
   const { noWidgetControls } = getAdapterController()
+  const optionsTooltip = getOptionsMenuTooltip()
 
   export let chart
   export let hasDomainGroups
@@ -31,8 +32,6 @@
   export let fullscreenMetricsFilter
   export let isFullscreen: boolean // Is in fullscreen dialog
   export let isFullscreened: boolean // Was fullscreen triggered?
-
-  let onDownload
 
   $: hasSubscription = $globals.isPro || $globals.isProPlus
   $: widget.isSharedAxisEnabled = isSharedAxisEnabled
@@ -138,17 +137,15 @@
     <div
       class="btn-3 mrg-s mrg--r expl-tooltip"
       aria-label="Download as PNG"
-      on:click={() => onDownload(downloadPng)}>
+      on:click={() => download(widget, downloadPng)}>
       <Svg id="download" w="17" />
     </div>
 
     <Embed />
 
-    <OptionsMenu bind:onDownload activeClass="active" {isSingleWidget} {deleteWidget}>
-      <div class="btn-3">
-        <Svg id="cog" w="16" />
-      </div>
-    </OptionsMenu>
+    <div class="btn-3" use:optionsTooltip={{ isSingleWidget, deleteWidget, widget }}>
+      <Svg id="cog" w="16" />
+    </div>
 
     <Fullscreen {fullscreenMetricsFilter} bind:isFullscreened />
   {/if}

@@ -32,8 +32,8 @@
 </script>
 
 <LikeButton
-  class={className}
   {onVote}
+  class={className}
   disabled={!$currentUser}
   bind:userVotes={votes.userVotes}
   bind:totalVotes={votes.totalVotes} />
