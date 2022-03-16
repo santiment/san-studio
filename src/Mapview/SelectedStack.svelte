@@ -30,26 +30,14 @@
     <div class="info row v-center">
       Selected item(s): <span class="mrg-xs mrg--l">{items.length}</span>
 
-      <div
-        class="btn border mrg-l mrg--r combine"
-        class:disabled={baseMetrics.length < 2}
-        on:click={onCombineClick}>
-        Combine
-      </div>
+      <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>Combine</div>
 
-      <Svg
-        id="cross"
-        w="10"
-        class="$style.delete"
-        on:click={selectedItems.clear} />
+      <Svg id="cross" w="10" class="$style.delete" on:click={selectedItems.clear} />
 
       <div class="items">
         <div class="metrics row mrg-l mrg--b">
           {#each items as metric (metric.key)}
-            <MetricButton
-              {metric}
-              onDelete={selectedItems.toggle}
-              class="$style.btn" />
+            <MetricButton {metric} onDelete={selectedItems.toggle} class="$style.btn" />
           {/each}
         </div>
       </div>

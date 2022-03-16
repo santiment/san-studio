@@ -51,10 +51,8 @@
         <TopHoldersSetting {metric} />
       {/if}
       <ShowAxisSetting {metric} />
-      {#if metric.expression}
-        <ExpressionSetting {metric} />
-      {/if}
       <AxisMaxMinSetting {metric} />
+      <ExpressionSetting {metric} />
     {/if}
   </div>
 {/key}

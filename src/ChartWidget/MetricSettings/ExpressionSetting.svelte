@@ -1,8 +1,10 @@
 <script lang="ts">
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { getWidget } from '@/ChartWidget/context'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
-  import Dropdown from './Dropdown.svelte'
+  import { updateCombinedMetric } from '@/CombineDialog/flow'
+  import Setting from './Setting.svelte'
 
   const History = getHistoryContext()
   const widget = getWidget()
@@ -10,30 +12,37 @@
 
   export let metric: Studio.Metric
 
-  function onClick(e: MouseEvent) {
-    e.stopImmediatePropagation()
+  function onExpressionClick() {
     showCombineDialog({ metric }).then((updatedMetric) => {
       if (!updatedMetric) return
 
-      const oldMetric = Object.assign({}, metric)
-      const update = (newMetric: any) => {
-        metric.expression = newMetric.expression
-        metric.label = newMetric.label
-        metric.minInterval = newMetric.minInterval
-        metric.baseMetrics = newMetric.baseMetrics
-        Metrics.set($Metrics)
-      }
+      updateCombinedMetric(metric, updatedMetric, {
+        History,
+        widget,
+        onUpdate: () => Metrics.set(Metrics.getValue()),
+      })
+    })
+  }
 
-      update(updatedMetric)
+  function onCombineClick() {
+    showCombineDialog({ metrics: [metric] }).then((combinedMetric) => {
+      if (!combinedMetric) return
+
+      Metrics.add(combinedMetric)
       History.add(
-        'Combined metric change',
-        withScroll(widget, () => update(oldMetric)),
-        withScroll(widget, () => update(updatedMetric)),
+        'Combine metrics',
+        withScroll(widget, () => Metrics.delete(combinedMetric)),
+        withScroll(widget, () => Metrics.add(combinedMetric)),
       )
     })
   }
 </script>
 
-<Dropdown {onClick}>
-  Expression: {metric.expression}
-</Dropdown>
+<Setting on:click={metric.expression ? onExpressionClick : onCombineClick}>
+  {#if metric.expression}
+    Expression: {metric.expression}
+  {:else}
+    <Svg id="plus" w="8" class="mrg-s mrg--r" />
+    Combine metrics
+  {/if}
+</Setting>
