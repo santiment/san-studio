@@ -55,11 +55,7 @@ export function newMetricSettingsStore(defaultValue?: MetricSettings) {
       const NewMetricSetings = {}
       metrics.forEach((metric) => {
         const metricSettings = MetricSettings[metric.key] || {}
-        NewMetricSetings[metric.key] = transformer(
-          metric,
-          metricSettings,
-          metrics,
-        )
+        NewMetricSetings[metric.key] = transformer(metric, metricSettings, metrics)
       })
 
       set((MetricSettings = NewMetricSetings))

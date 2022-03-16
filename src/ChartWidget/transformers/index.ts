@@ -37,26 +37,14 @@ export function transformMetricSettings(
   transformCandles(metric, metricSettings, studioSettings, ChartMetricDisplays)
   transformWeightedSocialMetrics(metric, metricSettings, studioSettings)
 
-  if (key === Metric.dev_activity.key)
-    return transformDevActivity(metricSettings, studioSettings)
+  if (key === Metric.dev_activity.key) return transformDevActivity(metricSettings, studioSettings)
 
-  if (MirroredMetric[metric.key])
-    return transformMirroredMetric(metric, metricSettings, metrics)
+  if (MirroredMetric[metric.key]) return transformMirroredMetric(metric, metricSettings, metrics)
 
   return metricSettings
 }
 
 export function newMetricSettingsTransformer(settings, ChartMetricDisplays) {
-  return (
-    metric: Studio.Metric,
-    metricSettings: Studio.MetricSetting,
-    metrics: Studio.Metric[],
-  ) =>
-    transformMetricSettings(
-      metric,
-      metricSettings,
-      metrics,
-      settings,
-      ChartMetricDisplays,
-    )
+  return (metric: Studio.Metric, metricSettings: Studio.MetricSetting, metrics: Studio.Metric[]) =>
+    transformMetricSettings(metric, metricSettings, metrics, settings, ChartMetricDisplays)
 }

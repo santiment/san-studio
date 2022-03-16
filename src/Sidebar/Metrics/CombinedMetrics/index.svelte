@@ -8,6 +8,7 @@
   import Item from '@/Sidebar/Item.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
   import HoverItem from './HoverItem.svelte'
+  import { checkIsFilterMatch } from '@/metrics/selector/utils'
 
   const Widgets = getWidgets()
   const unsubWidgets = widgetsListener.subscribe(onWidgetsChange)
@@ -18,9 +19,13 @@
 
   let metrics = [] as any[]
   let MetricWidgets = new Map()
+  let searchedMetrics = searchTerm ? searchMetrics() : metrics
+
+  function searchMetrics() {
+    return metrics.filter((metric) => checkIsFilterMatch(searchTerm, metric))
+  }
 
   setContext('updateCombinedMetrics', updateMetrics)
-
   function updateMetrics(metric) {
     metrics = metrics
     MetricWidgets.get(metric)?.forEach(({ Metrics }) => {
@@ -61,7 +66,7 @@
   onDestroy(unsubWidgets)
 </script>
 
-{#if !isFiltering || (isFiltering && items.length)}
+{#if !isFiltering || (isFiltering && searchedMetrics.length)}
   <Category category="Combined metrics" isOpened {isFiltering} arrowClass="mrg-l">
     <svelte:fragment slot="pre-title">
       <Svg id="fx" w="16" h="15" class="mrg-s mrg--r $style.icon" />
@@ -76,7 +81,7 @@
       </button>
     </svelte:fragment>
 
-    {#each metrics as item (item.key)}
+    {#each searchedMetrics as item (item.key)}
       <Item {item} {HoverItem} on:click={(e) => onItemClick(e, item)} />
     {:else}
       <div class="mrg-s mrg--l">Create brand new metric composites</div>

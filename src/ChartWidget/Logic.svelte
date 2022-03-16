@@ -4,11 +4,7 @@
   import { mapClosestValue } from '@/Chart/utils'
   import { getMetricNodes } from '@/Chart/nodes'
   import { newMetricSettingsTransformer } from './transformers'
-  import {
-    groupDomains,
-    getIndicatorDomainGroups,
-    checkHasDomainGroups,
-  } from './domain'
+  import { groupDomains, getIndicatorDomainGroups, checkHasDomainGroups } from './domain'
 
   export let widget: Studio.ChartWidget
   export let rawData = []
@@ -19,10 +15,7 @@
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals, SignalsTimeseries } = widget
 
-  $: metricSettingsTransformer = newMetricSettingsTransformer(
-    $studio,
-    ChartMetricDisplays,
-  )
+  $: metricSettingsTransformer = newMetricSettingsTransformer($studio, ChartMetricDisplays)
   $: metrics = $Metrics
   $: nodes = getMetricNodes(metrics, $MetricSettings)
   $: data = mapClosestValue(rawData, nodes)
@@ -45,10 +38,4 @@
   }
 </script>
 
-<slot
-  {data}
-  {nodes}
-  {colors}
-  {domainGroups}
-  {hasDomainGroups}
-  {onMetricHover} />
+<slot {data} {nodes} {colors} {domainGroups} {hasDomainGroups} {onMetricHover} />
