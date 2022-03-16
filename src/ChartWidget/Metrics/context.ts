@@ -61,10 +61,7 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
       metrics.forEach((metric) => metricSet.delete(metric))
       update()
     },
-    hasConvertedMetric(
-      metric: Studio.Metric,
-      project: Studio.Project,
-    ): boolean {
+    hasConvertedMetric(metric: Studio.Metric, project: Studio.Project): boolean {
       const { key } = convertBaseProjectMetric(metric, project)
       return metrics.some((metric) => key === metric.key)
     },

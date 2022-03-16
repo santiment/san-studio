@@ -1,19 +1,64 @@
 <script lang="ts">
+  import { onDestroy, setContext } from 'svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { getWidgets } from '@/stores/widgets'
+  import { selectedItems } from '@/stores/selector'
+  import { widgetsListener } from '@/stores/widgetsListener'
   import Category from '@/Sidebar/Category.svelte'
+  import Item from '@/Sidebar/Item.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
+  import HoverItem from './HoverItem.svelte'
+
+  const Widgets = getWidgets()
+  const unsubWidgets = widgetsListener.subscribe(onWidgetsChange)
 
   export let searchTerm = ''
   export let isFiltering = false
+  export let onItemClick
 
-  let items = []
+  let metrics = [] as any[]
+  let MetricWidgets = new Map()
+
+  setContext('updateCombinedMetrics', updateMetrics)
+
+  function updateMetrics(metric) {
+    metrics = metrics
+    MetricWidgets.get(metric)?.forEach(({ Metrics }) => {
+      Metrics.set(Metrics.getValue())
+    })
+  }
 
   function onAdd() {
     showCombineDialog({
       metrics: [],
+    }).then((metric) => {
+      if (!metric) return
+
+      selectedItems.toggle(metric)
     })
   }
+
+  function onWidgetsChange() {
+    MetricWidgets = new Map()
+
+    metrics = Widgets.get().flatMap((widget) => {
+      return widget.metrics.filter((metric) => {
+        if (!metric.expression) return
+        linkMetricWidget(metric, widget)
+        return metric
+      })
+    })
+  }
+
+  function linkMetricWidget(metric, widget) {
+    let widgets = MetricWidgets.get(metric)
+
+    if (!widgets) MetricWidgets.set(metric, (widgets = []))
+
+    widgets.push(widget)
+  }
+
+  onDestroy(unsubWidgets)
 </script>
 
 {#if !isFiltering || (isFiltering && items.length)}
@@ -31,8 +76,8 @@
       </button>
     </svelte:fragment>
 
-    {#each items as _}
-      Metrics
+    {#each metrics as item (item.key)}
+      <Item {item} {HoverItem} on:click={(e) => onItemClick(e, item)} />
     {:else}
       <div class="mrg-s mrg--l">Create brand new metric composites</div>
     {/each}

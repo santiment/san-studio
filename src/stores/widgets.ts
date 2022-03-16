@@ -24,12 +24,11 @@ export function newWidget(Widget: any, props?: any) {
 }
 
 const WIDGETS_CONTEXT = 'widgets'
-export const setWidgets = (widgets): void =>
-  setContext(WIDGETS_CONTEXT, widgets)
+export const setWidgets = (widgets): void => setContext(WIDGETS_CONTEXT, widgets)
 export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
 export function initWidgets(defaultWidgets, getExternalWidget, History) {
   let widgets = defaultWidgets.slice()
-  const { update, subscribe, set } = writable(widgets)
+  const { subscribe, set } = writable(widgets)
 
   const store = {
     subscribe,
@@ -39,11 +38,7 @@ export function initWidgets(defaultWidgets, getExternalWidget, History) {
     set(newWidgets) {
       set((widgets = newWidgets))
     },
-    add(
-      metrics: Studio.Metric[],
-      signalMetrics: Studio.Metric[],
-      addToStart = false,
-    ) {
+    add(metrics: Studio.Metric[], signalMetrics: Studio.Metric[], addToStart = false) {
       const widget = newWidget(ChartWidget, {
         metrics,
         signalMetrics,
@@ -120,8 +115,7 @@ export const SidewidgetType = {
 } as const
 
 const SIDEWIDGET_CONTEXT = 'sidewidget'
-export const setSidewidget = (sidewidget): void =>
-  setContext(SIDEWIDGET_CONTEXT, sidewidget)
+export const setSidewidget = (sidewidget): void => setContext(SIDEWIDGET_CONTEXT, sidewidget)
 export const getSidewidget = () => getContext(SIDEWIDGET_CONTEXT)
 export function initSidewidget(defaultValue) {
   let sidewidget = defaultValue

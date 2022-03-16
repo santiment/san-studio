@@ -41,7 +41,7 @@
 <div class="sidebar-content" on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
   <Favorites {searchTerm} {isFiltering} {onItemClick} />
   <Insights {searchTerm} {isFiltering} />
-  <CombinedMetrics {searchTerm} {isFiltering} />
+  <CombinedMetrics {searchTerm} {isFiltering} {onItemClick} />
   <Notables {searchTerm} {isFiltering} {onItemClick} />
   {#each categories as category}
     <Category {category} {isFiltering} items={filteredGraph[category]} {HoverItem} {onItemClick} />

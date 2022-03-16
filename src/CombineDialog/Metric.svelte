@@ -14,12 +14,14 @@
   <span class="var mrg-s mrg--r">x{i + 1}</span>
   {metric.label}
 
-  <div
-    class="btn row expl-tooltip"
-    aria-label={isLocked ? 'Unlock metric' : 'Lock metric to ' + ticker}
-    on:click={() => onLock(metric, i, $studio)}>
-    <Svg id={isLocked ? 'locked' : 'unlocked'} w="14" />
-  </div>
+  {#if onLock}
+    <div
+      class="btn row expl-tooltip"
+      aria-label={isLocked ? 'Unlock metric' : 'Lock metric to ' + ticker}
+      on:click={() => onLock(metric, i, $studio)}>
+      <Svg id={isLocked ? 'locked' : 'unlocked'} w="14" />
+    </div>
+  {/if}
 
   {#if onDelete}
     <div class="btn row" on:click={() => onDelete(i)}>
