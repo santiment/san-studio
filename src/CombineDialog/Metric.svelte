@@ -16,7 +16,7 @@
 
   <div
     class="btn row expl-tooltip"
-    title={isLocked ? 'Unlock metric' : 'Lock metric to ' + ticker}
+    aria-label={isLocked ? 'Unlock metric' : 'Lock metric to ' + ticker}
     on:click={() => onLock(metric, i, $studio)}>
     <Svg id={isLocked ? 'locked' : 'unlocked'} w="14" />
   </div>

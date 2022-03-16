@@ -12,6 +12,7 @@
   export let isFiltering: boolean
   export let isOpened = false
   export let onItemClick = undefined
+  export let arrowClass = 'mrg-a'
 
   let visible = isOpened || category === MetricCategory.Financial
   $: GroupIndex = prepareGroups(items)
@@ -36,13 +37,12 @@
 
 {#if items.length || $$slots.default}
   <div class="category {className}" on:mouseleave>
-    <h3
-      on:click={() => (visible = !visible)}
-      class="row v-center"
-      class:hidden={!visible}>
+    <h3 on:click={() => (visible = !visible)} class="row v-center" class:hidden={!visible}>
       <slot name="pre-title" />
       {category}
-      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg-a mrg--l" />
+
+      <slot name="post-title" />
+      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg--l {arrowClass}" />
     </h3>
 
     {#if visible || isFiltering}

@@ -42,6 +42,3 @@
 <Chart {data} {colors} {theme} {metricSettings} categories={nodes}>
   <Areas />
 </Chart>
-
-<style>
-</style>

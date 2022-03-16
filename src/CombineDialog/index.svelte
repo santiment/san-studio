@@ -33,9 +33,10 @@
   let closeDialog
 
   $: checkExpression(metrics, expression)
-  $: expressionMetric = newExpessionMetric(metrics, expression, label)
+  $: expressionMetric = metrics.length ? newExpessionMetric(metrics, expression, label) : undefined
   $: isValid = isValidExpression && label
-  $: colors = { [expressionMetric.key]: '#14c393' }
+  $: colors = expressionMetric && { [expressionMetric.key]: '#14c393' }
+  $: chartMetrics = expressionMetric ? [expressionMetric] : []
   $: if (isLabelInputDirty || isExpressionDirty) {
     DialogPromise.locking = DialogLock.WARN
   }
@@ -85,11 +86,11 @@
       <div class="caption">Metrics</div>
       <div class="row metrics">
         {#each metrics as metric, i}
-          <Metric
-            {i}
-            {metric}
-            onLock={onMetricLock}
-            onDelete={metrics.length > 2 ? onMetricDelete : undefined} />
+          <Metric {i} {metric} onLock={onMetricLock} onDelete={onMetricDelete} />
+        {:else}
+          <div class="mrg-s mrg--l mrg--b c-waterloo">
+            Select at least two metrics from left side-bar for combine...
+          </div>
         {/each}
       </div>
 
@@ -112,7 +113,7 @@
 
       <div class="caption mrg-l mrg--t">Preview</div>
       <div class="border">
-        <Chart metrics={[expressionMetric]} {colors} />
+        <Chart metrics={chartMetrics} {colors} />
       </div>
 
       <div class="row mrg-l mrg--t v-center">
