@@ -19,7 +19,8 @@
 
   let metrics = [] as any[]
   let MetricWidgets = new Map()
-  let searchedMetrics = searchTerm ? searchMetrics() : metrics
+
+  $: searchedMetrics = searchTerm ? searchMetrics() : metrics
 
   function searchMetrics() {
     return metrics.filter((metric) => checkIsFilterMatch(searchTerm, metric))
@@ -84,7 +85,7 @@
     {#each searchedMetrics as item (item.key)}
       <Item {item} {HoverItem} on:click={(e) => onItemClick(e, item)} />
     {:else}
-      <div class="mrg-s mrg--l">Create brand new metric composites</div>
+      <div class="mrg-s mrg--l c-waterloo">Create brand new metric composites</div>
     {/each}
   </Category>
 {/if}
