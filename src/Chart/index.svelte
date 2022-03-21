@@ -1,11 +1,8 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import { onMount, getContext } from 'svelte'
-  import {
-    initChart,
-    updateChartState,
-    updateChartDimensions,
-    updateSize,
-  } from 'san-chart'
+  import { initChart, updateChartState, updateChartDimensions, updateSize } from 'san-chart'
   import { linearScale } from 'san-chart/scales'
   import { themes } from './theme'
   import { setChart, newPlotManager } from './context'

@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import { plotBars } from 'san-chart/bars'
   import { getChart } from './context'

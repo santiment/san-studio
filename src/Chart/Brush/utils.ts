@@ -34,8 +34,7 @@ export function setViewedIndicis(brush, data, from, to): boolean {
     endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
   }
 
-  startIndex =
-    startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
+  startIndex = startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
   endIndex = endIndex > 0 ? (endIndex < length ? endIndex : lastIndex) : 0
 
   if (endIndex - startIndex < 2) {

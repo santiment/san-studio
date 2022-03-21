@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import { plotCandles } from '@santiment-network/chart/candles'
   import { getChart } from './context'

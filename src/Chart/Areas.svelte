@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import { plotAreas } from 'san-chart/areas'
   import { getChart } from './context'

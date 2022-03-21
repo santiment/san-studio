@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import { plotLines, plotFilledLines, plotGradientLine } from 'san-chart/lines'
   import { getChart } from './context'
