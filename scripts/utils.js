@@ -5,7 +5,7 @@ const LIB = path.resolve(__dirname, '../lib')
 
 const IS_NODE_MODULES_INSTALL = __dirname.includes('node_modules')
 const modulePrefix = IS_NODE_MODULES_INSTALL
-  ? process.cwd().slice(0, process.cwd().lastIndexOf('/') + 1)
+  ? process.cwd().slice(0, process.cwd().indexOf('node_modules')) + 'node_modules/'
   : ''
 
 const ROUTE_REGEX = /from '@\//g
@@ -18,10 +18,7 @@ function replaceModuleAliases(fileContent, srcFilePath) {
     .replace(ROUTE_REGEX, `from '${diff}/`)
     .replace(IMPORT_REGEX, `import '${diff}/`)
     .replace(DYN_IMPORT_REGEX, `import('${diff}/`)
-    .replace(
-      /from 'san-chart/g,
-      `from '${modulePrefix}@santiment-network/chart`,
-    )
+    .replace(/from 'san-chart/g, `from '${modulePrefix}@santiment-network/chart`)
     .replace(/from 'webkit/g, `from '${modulePrefix}san-webkit/lib`)
 }
 
