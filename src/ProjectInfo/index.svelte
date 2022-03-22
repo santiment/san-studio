@@ -6,6 +6,7 @@
   import { studio } from '@/stores/studio'
   import { queryProject, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
+  import { showMasterSelectorDialog } from '@/MasterSelectorDialog/index.svelte'
 
   let price = ''
   let change = 0
@@ -33,7 +34,7 @@
 </svelte:head>
 
 <div class="row v-center">
-  <div class="project body-1 btn row v-center">
+  <div class="project body-1 btn row v-center" on:click={showMasterSelectorDialog}>
     <ProjectIcon {slug} size={32} class="mrg-s mrg--r" />
 
     {name} ({ticker})
