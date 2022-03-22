@@ -14,9 +14,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
-  import ShortcutsDialog, {
-    showShortcutsDialog,
-  } from '@/Shortcuts/Dialog.svelte'
+  import ShortcutsDialog, { showShortcutsDialog } from '@/Shortcuts/Dialog.svelte'
 
   export let mode = Mode.Metrics
   export let isLocked
@@ -34,16 +32,11 @@
     track.event(Event.Sidebar, { mode: id.toLowerCase() })
   }
 
-  const onHelpClick = () => (
-    track.event(Event.HelpFeedback), window.Intercom?.('show')
-  )
+  const onHelpClick = () => (track.event(Event.HelpFeedback), window.Intercom?.('show'))
 
   const toggleSidebar = () => (isLocked = !isLocked)
 
-  const removeOpenShortcutsDialogHandler = newGlobalShortcut(
-    'SHIFT+?',
-    openShortcutsDialog,
-  )
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', openShortcutsDialog)
   const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar)
 
   onDestroy(() => {
@@ -60,10 +53,7 @@
     <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : '$style.closed'} />
   </div>
   {#each MODES as id}
-    <div
-      class="btn"
-      class:active={mode === id}
-      on:click={() => onModeCange(id)}>
+    <div class="btn" class:active={mode === id} on:click={() => onModeCange(id)}>
       {id}
     </div>
   {/each}
@@ -100,6 +90,7 @@
     height: 100vh;
     z-index: 1;
     background: var(--white);
+    margin-top: -73px;
   }
   .btn {
     padding: 16px 5px;

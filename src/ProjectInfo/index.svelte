@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ProjectPriceChange } from '@/api/project'
+  import { millify } from 'webkit/utils/formatting'
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import { studio } from '@/stores/studio'
@@ -8,6 +9,8 @@
 
   let price = ''
   let change = 0
+  let marketcap = ''
+  let projectRank = 0
 
   $: ({ slug, ticker, name = slug } = $studio)
   $: queryProject(slug).then(setProject)
@@ -17,9 +20,11 @@
   function setProject(project: any) {
     studio.setProject(project)
   }
-  function setPriceChange({ priceUsd, percentChange24h }: ProjectPriceChange) {
+  function setPriceChange({ priceUsd, percentChange24h, marketcapUsd, rank }: ProjectPriceChange) {
     price = usdFormatter(priceUsd)
+    marketcap = millify(marketcapUsd)
     change = +(+percentChange24h).toFixed(2)
+    projectRank = rank
   }
 </script>
 
@@ -29,14 +34,14 @@
 
 <div class="row v-center">
   <div class="project body-1 btn row v-center">
-    <ProjectIcon {slug} size={40} class="mrg-l mrg--r" />
+    <ProjectIcon {slug} size={32} class="mrg-s mrg--r" />
 
     {name} ({ticker})
-    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
+    <Svg id="arrow" w="8" h="5" class="mrg-s mrg--l $style.arrow" />
   </div>
 
-  <div class="row v-center">
-    <span class="price"> Price </span>
+  <div class="row v-center mrg-xxl mrg--l mrg--r">
+    <span class="c-waterloo">Price</span>
     <span class="body-1 mrg-s mrg--l mrg--r">{price}</span>
 
     <div
@@ -49,18 +54,21 @@
       {change}%
     </div>
   </div>
+
+  <div class="row v-center">
+    <span class="c-waterloo">Market cap</span>
+    <span class="body-1 mrg-s mrg--l">${marketcap}</span>
+  </div>
+
+  <div class="rank mrg-xxl mrg--l">Rank #{projectRank}</div>
+
   <div class="project-actions mrg-a mrg--l row v-center" />
 </div>
 
 <style>
   .project {
-    margin-right: 80px;
     --fill: var(--waterloo);
     --color-hover: var(--green);
-  }
-
-  .price {
-    color: var(--waterloo);
   }
 
   .change {
@@ -88,5 +96,11 @@
     height: 12px;
     fill: var(--color);
     background: var(--bg);
+  }
+
+  .rank {
+    background: var(--athens);
+    padding: 6px 12px;
+    border-radius: 4px;
   }
 </style>

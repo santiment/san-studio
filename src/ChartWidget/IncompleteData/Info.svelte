@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
+  import { track } from 'webkit/analytics'
+  import { showPaymentDialog } from 'webkit/ui/PaymentDialog/index.svelte'
   import { Event } from '@/analytics'
   import { globals } from '@/stores/globals'
   import { closeBanners } from './utils'
@@ -17,7 +18,7 @@
     closeBanners()
 
     if ($globals.isLoggedIn && window.showPaymentDialog) {
-      return window.showPaymentDialog()
+      return showPaymentDialog()
     }
 
     window.__onLinkClick?.(e)

@@ -23,14 +23,7 @@
 
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return
-    handleItemSelect(
-      item,
-      e,
-      Widgets,
-      Sidewidget,
-      History,
-      adjustSelectedMetric,
-    )
+    handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric)
   }
 </script>
 

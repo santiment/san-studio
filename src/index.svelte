@@ -84,38 +84,39 @@
 </script>
 
 <ChartTooltipContexts>
-  <main>
-    <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
-    <div class="content column">
-      <div class="studio-top">
-        <ProjectInfo />
-      </div>
+  <main class="column">
+    <div class="studio-top">
+      <ProjectInfo />
+    </div>
+    <div class="row">
+      <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
+      <div class="content column">
+        {#if !screen}
+          <Header {headerPadding} />
 
-      {#if !screen}
-        <Header {headerPadding} />
+          <div class="row main" bind:this={screenRef}>
+            <div class="widgets">
+              {#each $Widgets as widget (widget.id)}
+                <Widget
+                  {widget}
+                  {Widgets}
+                  {onWidgetUpdate}
+                  viewportObserver={widgetViewportObserver} />
+              {/each}
+            </div>
 
-        <div class="row main" bind:this={screenRef}>
-          <div class="widgets">
-            {#each $Widgets as widget (widget.id)}
-              <Widget
-                {widget}
-                {Widgets}
-                {onWidgetUpdate}
-                viewportObserver={widgetViewportObserver} />
-            {/each}
+            {#if $Sidewidget} <SidewidgetComponent /> {/if}
           </div>
+        {:else}
+          {#key screen}
+            <div class="main studio-screen" bind:this={screenRef} />
+          {/key}
+        {/if}
 
-          {#if $Sidewidget} <SidewidgetComponent /> {/if}
-        </div>
-      {:else}
-        {#key screen}
-          <div class="main studio-screen" bind:this={screenRef} />
-        {/key}
-      {/if}
+        <Mapview />
 
-      <Mapview />
-
-      <HistoryAction {HistoryEmitter} />
+        <HistoryAction {HistoryEmitter} />
+      </div>
     </div>
   </main>
 
@@ -125,7 +126,6 @@
 <style>
   main {
     min-height: 100vh;
-    display: flex;
     position: relative;
   }
 
@@ -143,8 +143,9 @@
 
   .studio-top {
     padding: 16px;
-    margin: -16px -16px 16px;
     background: var(--white);
+    border-bottom: 1px solid var(--porcelain);
+    margin-left: 33px;
   }
 
   .widgets {
