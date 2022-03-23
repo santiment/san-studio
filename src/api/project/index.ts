@@ -43,6 +43,7 @@ const ALL_PROJECTS = `
       slug
       ticker
       name
+      priceUsd
     }
   }
 `

@@ -8,20 +8,51 @@
 
 <script lang="ts">
   import type { DialogController } from 'webkit/ui/Dialog/dialogs'
-  import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
   import Dialog from 'webkit/ui/Dialog'
-  import { DialogLock } from 'webkit/ui/Dialog/dialogs'
-  import { Event } from '@/analytics'
   import Suggestions from './Suggestions.svelte'
+  import { handleNavigation } from './navigation'
 
   export let DialogPromise: DialogController
+
+  let searchTerm = ''
+  let suggestions = []
+  let context = {
+    cursor: 0,
+    items: [],
+    onSelect,
+  }
+
+  $: updateSuggestions(suggestions)
+
+  function updateSuggestions(suggestions) {
+    context.items = suggestions
+    context.cursor = 0
+  }
+
+  function onKeyDown(e: KeyboardEvent) {
+    if (handleNavigation(e, context)) return
+    context = context
+  }
+
+  function onSelect(item) {
+    if (!item) return
+    console.log(item)
+  }
 </script>
+
+<!-- svelte-ignore a11y-autofocus -->
 
 <Dialog {...$$props} noTitle class="$style.dialog">
   <div class="search row v-center nowrap">
     <Svg id="search" w="16" class="$style.icon" />
-    <input class="fluid body-2" type="text" placeholder="Search for asset name..." />
+    <input
+      autofocus
+      class="fluid body-2"
+      type="text"
+      placeholder="Search for asset name..."
+      bind:value={searchTerm}
+      on:keydown={onKeyDown} />
 
     <button class="btn-2 btn--s mrg-l mrg--r row v-center"
       >All blockchains
@@ -29,23 +60,28 @@
     </button>
   </div>
 
-  <Suggestions />
+  <Suggestions
+    bind:items={suggestions}
+    searchTerm={searchTerm.toLowerCase()}
+    cursor={context.cursor}
+    {onSelect} />
 
-  <div class="tip row v-center caption c-waterloo">PROTIP:</div>
+  <!-- <div class="tip row v-center caption c-waterloo">PROTIP:</div> -->
 </Dialog>
 
 <style lang="scss">
   .dialog {
     width: 480px;
+    max-height: 480px !important;
     border-radius: 10px !important;
     overflow: hidden;
   }
 
-  .tip {
-    padding: 12px 16px;
-    background: var(--athens);
-    border-top: 1px solid var(--porcelain);
-  }
+  // .tip {
+  // padding: 12px 16px;
+  // background: var(--athens);
+  // border-top: 1px solid var(--porcelain);
+  // }
 
   .search {
     fill: var(--waterloo);
