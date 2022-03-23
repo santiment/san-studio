@@ -35,7 +35,7 @@
   export let shareLayoutWidgets = undefined
   export let InsightsContextStore = undefined
   export let onSidebarProjectMount = undefined
-  export let headerPadding = 0
+  export let headerPadding = 65
 
   studio.setProject(defaultSettings)
   const HistoryEmitter = newHistoryEmitter()

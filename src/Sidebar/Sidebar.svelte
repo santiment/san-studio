@@ -75,6 +75,10 @@
     transition: none;
   }
 
+  .locked > :global(.nav) {
+    margin-top: -65px;
+  }
+
   .leaving .content {
     transition: transform 200ms;
   }

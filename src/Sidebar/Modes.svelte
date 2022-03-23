@@ -90,7 +90,6 @@
     height: 100vh;
     z-index: 1;
     background: var(--white);
-    margin-top: -73px;
   }
   .btn {
     padding: 16px 5px;
