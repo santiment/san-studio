@@ -7,14 +7,14 @@
 </script>
 
 <script lang="ts">
-  import type { DialogController } from 'webkit/ui/Dialog/dialogs'
   import Svg from 'webkit/ui/Svg/svelte'
   import Dialog from 'webkit/ui/Dialog'
+  import { studio } from '@/stores/studio'
   import Suggestions from './Suggestions.svelte'
+  // import Blockchains from './Blockchains.svelte'
   import { handleNavigation } from './navigation'
 
-  export let DialogPromise: DialogController
-
+  let closeDialog
   let searchTerm = ''
   let suggestions = []
   let context = {
@@ -37,13 +37,14 @@
 
   function onSelect(item) {
     if (!item) return
-    console.log(item)
+    studio.setProject(item)
+    closeDialog()
   }
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="$style.dialog">
+<Dialog {...$$props} noTitle class="$style.dialog" bind:closeDialog>
   <div class="search row v-center nowrap">
     <Svg id="search" w="16" class="$style.icon" />
     <input
@@ -54,10 +55,7 @@
       bind:value={searchTerm}
       on:keydown={onKeyDown} />
 
-    <button class="btn-2 btn--s mrg-l mrg--r row v-center"
-      >All blockchains
-      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg-s mrg--l" />
-    </button>
+    <!-- <Blockchains /> -->
   </div>
 
   <Suggestions
@@ -99,9 +97,5 @@
     top: 20px;
     left: 20px;
     pointer-events: none;
-  }
-
-  .arrow {
-    transform: rotate(180deg);
   }
 </style>

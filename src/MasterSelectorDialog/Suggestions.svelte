@@ -27,9 +27,26 @@
   $: cursor, tick().then(scrollToCursor)
 
   function filter(items) {
-    return items.filter(({ name, ticker }) => {
-      return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm)
+    let match
+
+    const filtered = items.filter((item) => {
+      const name = item.name.toLowerCase()
+      const ticker = item.ticker.toLowerCase()
+
+      if (!match && (name === searchTerm || ticker === searchTerm)) {
+        match = item
+      }
+
+      return name.includes(searchTerm) || ticker.includes(searchTerm)
     })
+
+    if (match) {
+      const index = filtered.indexOf(match)
+      filtered.splice(index, 1)
+      filtered.splice(0, 0, match)
+    }
+
+    return filtered
   }
 
   function scrollToCursor() {
@@ -38,6 +55,7 @@
 </script>
 
 <VirtualList
+  hideEmptyResults
   class="$style.suggestions"
   items={filtered}
   key="slug"
@@ -47,12 +65,10 @@
   bind:renderHeight
   let:item
   let:i>
-  <!-- <div class="suggestions" bind:this={node}> -->
   {#if i === 0}
-    <div class="caption txt-m c-waterloo">Recent</div>
+    <div class="caption txt-m c-waterloo">All</div>
   {/if}
 
-  <!-- {#each filtered.slice(0, 20) as item, i (item.slug)} -->
   <div
     class="suggestion btn row v-center nowrap mrg-s mrg--t"
     class:cursored={i === cursor}
@@ -63,14 +79,11 @@
 
     <div class="c-waterloo mrg-a mrg--l">{usdFormatter(item.priceUsd)}</div>
   </div>
-  <!-- {/each} -->
-  <!-- </div> -->
 </VirtualList>
 
 <style lang="scss">
   .suggestions {
     border-top: 1px solid var(--porcelain);
-    // overflow: auto;
   }
   .suggestions :global(.list) {
     padding: 16px 24px;
