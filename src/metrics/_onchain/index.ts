@@ -75,8 +75,7 @@ export const WhalesMetric = each(
       node: 'bar',
     },
     percent_of_whale_stablecoin_total_supply: {
-      label:
-        'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
+      label: 'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
       getLabel: () =>
         'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
       noProject: true,
@@ -115,6 +114,18 @@ const NetworkActivityMetric = each(
     },
     transaction_volume_usd: {
       label: 'Transaction Volume USD',
+      node: 'bar',
+    },
+    transaction_volume_in_profit: {
+      label: 'Daily On-Chain Transaction Volume in Profit',
+      node: 'bar',
+    },
+    transaction_volume_in_loss: {
+      label: 'Daily On-Chain Transaction Volume in Loss',
+      node: 'bar',
+    },
+    transaction_volume_profit_loss_ratio: {
+      label: 'The Ratio of Daily On-Chain Transaction Volume in Profit to Loss',
       node: 'bar',
     },
     velocity: {
