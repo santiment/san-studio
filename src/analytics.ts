@@ -9,6 +9,7 @@ export const Event = {
   SaveLayout: 'charts_save_layout',
 
   LikeLayout: 'charts_like_layout',
+  LikeWatchlist: 'watchlists_like',
 
   Fullscreen: 'charts_fullscreen',
   Embed: 'charts_embed',
