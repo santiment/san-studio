@@ -40,11 +40,17 @@
     studio.setProject(item)
     closeDialog()
   }
+
+  function onEditableEscaped(target: HTMLInputElement, closeDialog: () => void) {
+    if (!target.value) return closeDialog()
+
+    searchTerm = ''
+  }
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="$style.dialog" bind:closeDialog>
+<Dialog {...$$props} noTitle class="$style.dialog" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
     <Svg id="search" w="16" class="$style.icon" />
     <input
