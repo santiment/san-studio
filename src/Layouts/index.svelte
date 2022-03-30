@@ -17,7 +17,12 @@
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import LoadLayoutDialog, { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
-  import { getScheduledLayout, deleteScheduledLayout, getAllWidgetsMetricsKeys } from './utils'
+  import {
+    getScheduledLayout,
+    deleteScheduledLayout,
+    getAllWidgetsMetricsKeys,
+    getLayoutMetrics,
+  } from './utils'
 
   const Widgets = getWidgets()
   const History = getHistoryContext()
@@ -62,6 +67,7 @@
         description,
         projectId,
         metrics: getAllWidgetsMetricsKeys($Widgets),
+        metricsJson: getLayoutMetrics($Widgets),
         options: { widgets: window.shareLayoutWidgets?.($Widgets) },
       }
 
