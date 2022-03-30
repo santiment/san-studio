@@ -5,10 +5,13 @@
   import { millify } from 'webkit/utils/formatting'
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
+  import { dialogs } from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
   import { queryProject, queryAllProjects, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
-  import { showMasterSelectorDialog } from '@/MasterSelectorDialog/index.svelte'
+  import MasterSelectorDialog, {
+    showMasterSelectorDialog,
+  } from '@/MasterSelectorDialog/index.svelte'
   import { preloadSuggestions } from '@/MasterSelectorDialog/Suggestions.svelte'
 
   let price = ''
@@ -31,14 +34,19 @@
     projectRank = rank
   }
 
-  const unsubSelectorShortcut = newGlobalShortcut('CMD+K', showMasterSelectorDialog)
+  function openMasterSelectorDialog() {
+    if (dialogs.has(MasterSelectorDialog)) return
+    showMasterSelectorDialog()
+  }
+
+  const removeOpenMasterSelectorDialogHandler = newGlobalShortcut('CMD+K', openMasterSelectorDialog)
   let timer
   onMount(() => {
     timer = setTimeout(queryAllProjects, 300)
   })
 
   onDestroy(() => {
-    unsubSelectorShortcut()
+    removeOpenMasterSelectorDialogHandler()
     clearTimeout(timer)
   })
 </script>
