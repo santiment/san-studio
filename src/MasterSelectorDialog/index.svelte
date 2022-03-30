@@ -11,10 +11,11 @@
   import Dialog from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
   import Suggestions from './Suggestions.svelte'
-  // import Blockchains from './Blockchains.svelte'
+  import Blockchains from './Blockchains.svelte'
   import { handleNavigation } from './navigation'
 
   let closeDialog
+  let inputNode
   let searchTerm = ''
   let suggestions = []
   let context = {
@@ -22,6 +23,7 @@
     items: [],
     onSelect,
   }
+  let blockchain = undefined
 
   $: updateSuggestions(suggestions)
 
@@ -40,14 +42,21 @@
     studio.setProject(item)
     closeDialog()
   }
+
+  function onEditableEscaped(target: HTMLInputElement, closeDialog: () => void) {
+    if (!target.value) return closeDialog()
+
+    searchTerm = ''
+  }
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="$style.dialog" bind:closeDialog>
+<Dialog {...$$props} noTitle class="$style.dialog" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
     <Svg id="search" w="16" class="$style.icon" />
     <input
+      bind:this={inputNode}
       autofocus
       class="fluid body-2"
       type="text"
@@ -55,13 +64,14 @@
       bind:value={searchTerm}
       on:keydown={onKeyDown} />
 
-    <!-- <Blockchains /> -->
+    <Blockchains bind:blockchain {inputNode} />
   </div>
 
   <Suggestions
     bind:items={suggestions}
     searchTerm={searchTerm.toLowerCase()}
     cursor={context.cursor}
+    {blockchain}
     {onSelect} />
 
   <!-- <div class="tip row v-center caption c-waterloo">PROTIP:</div> -->
@@ -72,7 +82,6 @@
     width: 480px;
     max-height: 480px !important;
     border-radius: 10px !important;
-    overflow: hidden;
   }
 
   // .tip {
@@ -90,6 +99,7 @@
 
   input {
     padding: 16px 16px 16px 48px;
+    border-radius: 10px;
   }
 
   .icon {

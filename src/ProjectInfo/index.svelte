@@ -1,12 +1,17 @@
 <script lang="ts">
   import type { ProjectPriceChange } from '@/api/project'
+  import { onDestroy, onMount } from 'svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import { millify } from 'webkit/utils/formatting'
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
+  import { dialogs } from 'webkit/ui/Dialog'
   import { studio } from '@/stores/studio'
-  import { queryProject, queryProjectPriceChange } from '@/api/project'
+  import { queryProject, queryAllProjects, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
-  import { showMasterSelectorDialog } from '@/MasterSelectorDialog/index.svelte'
+  import MasterSelectorDialog, {
+    showMasterSelectorDialog,
+  } from '@/MasterSelectorDialog/index.svelte'
   import { preloadSuggestions } from '@/MasterSelectorDialog/Suggestions.svelte'
 
   let price = ''
@@ -28,6 +33,22 @@
     change = +(+percentChange24h).toFixed(2)
     projectRank = rank
   }
+
+  function openMasterSelectorDialog() {
+    if (dialogs.has(MasterSelectorDialog)) return
+    showMasterSelectorDialog()
+  }
+
+  const removeOpenMasterSelectorDialogHandler = newGlobalShortcut('CMD+K', openMasterSelectorDialog)
+  let timer
+  onMount(() => {
+    timer = setTimeout(queryAllProjects, 300)
+  })
+
+  onDestroy(() => {
+    removeOpenMasterSelectorDialogHandler()
+    clearTimeout(timer)
+  })
 </script>
 
 <svelte:head>

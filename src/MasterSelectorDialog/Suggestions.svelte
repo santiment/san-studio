@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script context="module">
   import { Preloader } from 'webkit/utils/fn'
   import { queryAllProjects } from '@/api/project'
@@ -11,25 +13,36 @@
   import { usdFormatter } from '@/metrics/formatters'
   import { tick } from 'svelte'
 
-  let filtered = []
+  let filtered = [] as any[]
   export let searchTerm = ''
   export { filtered as items }
   export let cursor = 0
+  export let blockchain
   export let onSelect
 
   queryAllProjects().then((projects) => (items = projects))
 
   let node
-  let items = []
+  let items = [] as any[]
   let renderHeight
 
-  $: filtered = searchTerm ? filter(items) : items
+  $: filtered = filter(searchTerm, items, blockchain)
   $: cursor, tick().then(scrollToCursor)
 
-  function filter(items) {
+  function filter(
+    searchTerm: string,
+    items: any[],
+    blockchain?: { infrastructure: string },
+  ): any[] {
+    if (!searchTerm) {
+      return blockchain ? items.filter(filterBlockchain) : items
+    }
+
     let match
 
     const filtered = items.filter((item) => {
+      if (!filterBlockchain(item)) return false
+
       const name = item.name.toLowerCase()
       const ticker = item.ticker.toLowerCase()
 
@@ -49,6 +62,10 @@
     return filtered
   }
 
+  function filterBlockchain(item) {
+    return blockchain ? blockchain.infrastructure === item.infrastructure : true
+  }
+
   function scrollToCursor() {
     node?.scroll(0, renderHeight * cursor)
   }
@@ -56,7 +73,7 @@
 
 <VirtualList
   hideEmptyResults
-  class="$style.suggestions"
+  class="$style.suggestions {!filtered.length ? 'hide' : ''}"
   items={filtered}
   key="slug"
   defaultItemHeight={48}

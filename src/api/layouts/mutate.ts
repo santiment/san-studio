@@ -1,24 +1,17 @@
-import type {
-  CurrentUserLayoutsQuery,
-  CurrentUserShortLayoutsQuery,
-} from './user'
+import type { CurrentUserLayoutsQuery, CurrentUserShortLayoutsQuery } from './user'
 import { mutate } from 'webkit/api'
-import {
-  updateCurrentUserLayoutsCache,
-  updateCurrentUserShortLayoutsCache,
-} from './user'
+import { updateCurrentUserLayoutsCache, updateCurrentUserShortLayoutsCache } from './user'
 import { LAYOUT_QUERY_FIELDS, updateLayoutCache } from './layout'
 import { dateSorter } from './utils'
 
 type MutatedLayoutQuery = SAN.API.Query<'layout', SAN.CurrentUserLayout>
 type CurrentUserLayouts = CurrentUserLayoutsQuery & CurrentUserShortLayoutsQuery
 
-type LayoutUpdates = Partial<
-  Pick<SAN.Layout, 'title' | 'metrics' | 'options'>
-> & {
+type LayoutUpdates = Partial<Pick<SAN.Layout, 'title' | 'metrics' | 'options'>> & {
   isPublic?: boolean
   projectId?: number | string
   description?: string
+  metricsJson?: any
 }
 
 const newLayoutMutation = (mutation: string, argTypes = '', args = '') => `
@@ -35,15 +28,20 @@ const newLayoutMutation = (mutation: string, argTypes = '', args = '') => `
 
 function normalizeSettings(settings: LayoutUpdates) {
   const variables = Object.assign({}, settings)
-  const { projectId, options } = variables
+  const { projectId, options, metricsJson } = variables
 
   if (projectId) variables.projectId = +projectId
+
   if (options) {
     if (typeof options === 'string') {
       settings.options = JSON.parse(options)
     } else {
       variables.options = JSON.stringify(options) as any
     }
+  }
+
+  if (metricsJson) {
+    variables.metricsJson = JSON.stringify(metricsJson) as any
   }
 
   return variables
@@ -53,11 +51,7 @@ function normalizeSettings(settings: LayoutUpdates) {
 // ------- UPDATE LAYOUT --------
 // ------------------------------
 
-const UPDATE_LAYOUT_MUTATION = newLayoutMutation(
-  'updateChartConfiguration',
-  '$id: ID!',
-  ',id: $id',
-)
+const UPDATE_LAYOUT_MUTATION = newLayoutMutation('updateChartConfiguration', '$id: ID!', ',id: $id')
 
 function mutateLayoutsCacheOnUpdate(newLayout: SAN.CurrentUserLayout) {
   const id = +newLayout.id
@@ -96,10 +90,7 @@ export const updateUserLayout = (
 
 const CREATE_LAYOUT_MUTATION = newLayoutMutation('createChartConfiguration')
 
-export type LayoutCreation = Pick<
-  SAN.Layout,
-  'title' | 'metrics' | 'options'
-> & {
+export type LayoutCreation = Pick<SAN.Layout, 'title' | 'metrics' | 'options'> & {
   projectId: number | string
   isPublic?: boolean
   description?: string
@@ -120,9 +111,7 @@ function mutateLayoutsCacheOnCreation(newLayout: SAN.CurrentUserLayout) {
   return newLayout
 }
 
-export const createUserLayout = (
-  settings: LayoutCreation,
-): Promise<SAN.CurrentUserLayout> =>
+export const createUserLayout = (settings: LayoutCreation): Promise<SAN.CurrentUserLayout> =>
   mutate<MutatedLayoutQuery>(CREATE_LAYOUT_MUTATION, {
     variables: { settings: normalizeSettings(settings) },
   }).then(({ layout }) => mutateLayoutsCacheOnCreation(layout))

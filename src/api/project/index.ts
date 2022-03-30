@@ -44,6 +44,7 @@ const ALL_PROJECTS = `
       ticker
       name
       priceUsd
+      infrastructure
     }
   }
 `

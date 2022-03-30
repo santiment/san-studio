@@ -19,6 +19,20 @@ export function getAllWidgetsMetrics(widgets: Widget[]) {
 export const getAllWidgetsMetricsKeys = (widgets: Widget[]) =>
   getAllWidgetsMetrics(widgets).map(({ key }) => key)
 
+export function getLayoutMetrics(widgets: Widget[]) {
+  const metrics = {}
+  getAllWidgetsMetrics(widgets).forEach((metric, i) => {
+    const { key, queryKey = key } = metric.base || metric
+
+    // NOTE: Backend accepts jsonb map, that's why index is used as a unique key [vanguard, 30 Mar 2022]
+    metrics[i] = {
+      metric: queryKey,
+      slug: metric.reqMeta?.slug,
+    }
+  })
+  return metrics
+}
+
 const RECENT_LAYOUTS = 'RECENT_TEMPLATES'
 
 function removeRecent(id: number | string) {
@@ -48,12 +62,9 @@ function saveRecentLayoutIds(items: number[]) {
 }
 
 const SCHEDULED_CHART = 'SCHEDULED_CHART'
-export const saveScheduledLayout = (
-  layout: Omit<SAN.Layout, 'id' | 'project' | 'user'>,
-): void => saveJson(SCHEDULED_CHART, layout)
+export const saveScheduledLayout = (layout: Omit<SAN.Layout, 'id' | 'project' | 'user'>): void =>
+  saveJson(SCHEDULED_CHART, layout)
 
-export const getScheduledLayout = () =>
-  getSavedJson(SCHEDULED_CHART) as LayoutCreation
+export const getScheduledLayout = () => getSavedJson(SCHEDULED_CHART) as LayoutCreation
 
-export const deleteScheduledLayout = (): void =>
-  deleteSavedValue(SCHEDULED_CHART)
+export const deleteScheduledLayout = (): void => deleteSavedValue(SCHEDULED_CHART)

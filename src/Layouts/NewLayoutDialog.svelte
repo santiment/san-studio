@@ -22,7 +22,7 @@
   import { globals } from '@/stores/globals'
   import { getWidgets } from '@/stores/widgets'
   import { createUserLayout, updateUserLayout } from '@/api/layouts/mutate'
-  import { saveScheduledLayout, getAllWidgetsMetricsKeys } from './utils'
+  import { saveScheduledLayout, getAllWidgetsMetricsKeys, getLayoutMetrics } from './utils'
 
   const Widgets = getWidgets()
 
@@ -33,8 +33,7 @@
 
   let closeDialog
 
-  let { title: layoutTitle = '', description = '', isPublic = true } =
-    layout || {}
+  let { title: layoutTitle = '', description = '', isPublic = true } = layout || {}
 
   function onSubmit({ currentTarget }) {
     const title: string = currentTarget.title.value
@@ -47,6 +46,7 @@
       description,
       isPublic,
       metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
+      metricsJson: getLayoutMetrics($Widgets),
       projectId: project?.projectId || $studio.projectId,
       options: options || {
         widgets: window.shareLayoutWidgets?.($Widgets),
@@ -105,10 +105,7 @@
         {mode === Mode.New ? 'Create' : 'Save'}</button>
 
       Public
-      <Toggle
-        class="mrg-m mrg--l"
-        isActive={isPublic}
-        on:click={toggleLayoutPublicity} />
+      <Toggle class="mrg-m mrg--l" isActive={isPublic} on:click={toggleLayoutPublicity} />
     </div>
   </form>
 </Dialog>
