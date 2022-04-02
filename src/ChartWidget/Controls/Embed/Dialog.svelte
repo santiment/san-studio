@@ -2,16 +2,15 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import EmbedDialog from './Dialog.svelte'
 
-  export const showEmbedDialog = (props): Promise<unknown> =>
-    dialogs.show(EmbedDialog, props)
+  export const showEmbedDialog = (props): Promise<unknown> => dialogs.show(EmbedDialog, props)
 </script>
 
 <script lang="ts">
   import Dialog from 'webkit/ui/Dialog'
-  import Toggle from 'webkit/ui/Toggle.svelte'
+  import { globals } from '@/stores/globals'
   import Code from './Code.svelte'
   import SelectChart from './SelectChart.svelte'
-  import { globals } from '@/stores/globals'
+  import Setting, { PRO_PLUS } from './Setting.svelte'
 
   export let widgets
   const { ChartOptions } = widgets[0] || ({} as any)
@@ -41,51 +40,16 @@
       </div>
     </div>
 
-    <div
-      class="row btn mrg-m mrg--b justify"
-      class:disabled={!isPro}
-      on:click={() => (isNightMode = !isNightMode)}>
-      Night mode
-      {#if isPro}
-        <Toggle isActive={isNightMode} />
-      {:else}
-        <a href="/pricing" class="label">PRO</a>
-      {/if}
-    </div>
+    <!-- <Setting>Share data access</Setting> -->
 
-    <div
-      class="row btn mrg-m mrg--b justify"
-      class:disabled={!isPro}
-      on:click={() => (isCartesianGrid = !isCartesianGrid)}>
-      Cartesian grid
-      {#if isPro}
-        <Toggle isActive={isCartesianGrid} />
-      {:else}
-        <a href="/pricing" class="label">PRO</a>
-      {/if}
-    </div>
+    <Setting bind:isActive={isNightMode} disabled={!isPro}>Night mode</Setting>
 
-    <div
-      class="row btn mrg-l mrg--b justify"
-      class:disabled={!isPro}
-      on:click={() => (isWithMetricSettings = !isWithMetricSettings)}>
-      Show metric's settings {#if isPro}
-        <Toggle isActive={isWithMetricSettings} />
-      {:else}
-        <a href="/pricing" class="label">PRO</a>
-      {/if}
-    </div>
+    <Setting bind:isActive={isCartesianGrid} disabled={!isPro}>Cartesian grid</Setting>
 
-    <div
-      class="row btn mrg-l mrg--b justify"
-      class:disabled={!isProPlus}
-      on:click={() => (isWatermarkHidden = !isWatermarkHidden)}>
-      Hide watermark {#if isProPlus}
-        <Toggle isActive={isWatermarkHidden} />
-      {:else}
-        <a href="/pricing" class="label plus">PRO+</a>
-      {/if}
-    </div>
+    <Setting bind:isActive={isWithMetricSettings} disabled={!isPro}>Show metric's settings</Setting>
+
+    <Setting bind:isActive={isWatermarkHidden} disabled={!isProPlus} access={PRO_PLUS}
+      >Hide watermark</Setting>
 
     <div class="caption txt-m">Code</div>
     <Code
@@ -102,39 +66,12 @@
 <style>
   .caption {
     color: var(--waterloo);
-    margin: 0 0 4px;
+    margin: 4px 0;
   }
 
   input {
     width: 120px;
     padding: 5px 10px;
     color: var(--black);
-  }
-
-  .label {
-    font-size: 12px;
-    color: #fff;
-    background: var(--orange);
-    padding: 0 7px;
-    border-radius: 4px;
-    margin-left: 12px;
-  }
-  .label:hover {
-    background: var(--orange-hover);
-  }
-
-  .disabled {
-    background: none !important;
-  }
-
-  a {
-    pointer-events: all;
-  }
-
-  .plus {
-    background: var(--yellow);
-  }
-  .plus:hover {
-    background: var(--yellow-hover);
   }
 </style>
