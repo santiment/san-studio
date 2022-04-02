@@ -56,7 +56,7 @@ function drawLegend(pngChart, metrics, textColor, ticker: string) {
 
 export function downloadPng(widget: Studio.ChartWidget, { slug, name = slug, ticker }) {
   const { chart } = widget
-  const { data, categories, scale, colors, theme } = chart
+  const { data, categories, scale, colors } = chart
   const { domainModifier, domainGroups } = chart
   const padding = getPadding(chart, chart.axesMetricKeys)
 

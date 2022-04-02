@@ -44,7 +44,7 @@ export const GET_METRIC = `
         interval: $interval
         transform: $transform
         aggregation: $aggregation
-        includeIncompleteData: false
+        includeIncompleteData: true
       ) {
         d: datetime
         v: value

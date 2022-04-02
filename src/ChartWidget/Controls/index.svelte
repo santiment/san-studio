@@ -137,7 +137,7 @@
     <div
       class="btn-3 mrg-s mrg--r expl-tooltip"
       aria-label="Download as PNG"
-      on:click={() => download(widget, downloadPng)}>
+      on:click={() => download({ ...widget, chart }, downloadPng)}>
       <Svg id="download" w="17" />
     </div>
 
