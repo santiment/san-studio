@@ -11,6 +11,7 @@
   import Code from './Code.svelte'
   import SelectChart from './SelectChart.svelte'
   import Setting, { PRO_PLUS } from './Setting.svelte'
+  import EmbedPreview from './EmbedPreview.svelte'
 
   export let widgets
   const { ChartOptions } = widgets[0] || ({} as any)
@@ -21,45 +22,59 @@
   let isWithMetricSettings = false
   let isCartesianGrid = true
   let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false
+  let code = ''
 
   $: ({ isPro, isProPlus } = $globals)
+  $: iframe = getIframeSource(code)
+
+  function getIframeSource(code) {
+    const html = code.split('\n')[0] as string
+    const index = html.indexOf('src=') + 5
+    return html.slice(index, html.indexOf('"', index))
+  }
 </script>
 
 <Dialog {...$$props} title="Embed charts">
-  <div class="dialog-body">
-    <SelectChart bind:charts={widgets} />
+  <div class="dialog-body row">
+    <div class="column">
+      <SelectChart bind:charts={widgets} />
 
-    <div class="row mrg-l mrg--b">
-      <div class="column">
-        <div class="caption txt-m">Width</div>
-        <input class="border body-3" type="text" bind:value={width} />
+      <div class="row mrg-l mrg--b">
+        <div class="column">
+          <div class="caption txt-m">Width</div>
+          <input class="border body-3" type="text" bind:value={width} />
+        </div>
+        <div class="column mrg-l mrg--l">
+          <div class="caption txt-m">Height</div>
+          <input class="border body-3" type="text" bind:value={height} />
+        </div>
       </div>
-      <div class="column mrg-l mrg--l">
-        <div class="caption txt-m">Height</div>
-        <input class="border body-3" type="text" bind:value={height} />
-      </div>
+
+      <Setting>Share data access</Setting>
+
+      <Setting bind:isActive={isNightMode} disabled={!isPro}>Night mode</Setting>
+
+      <Setting bind:isActive={isCartesianGrid} disabled={!isPro}>Cartesian grid</Setting>
+
+      <Setting bind:isActive={isWithMetricSettings} disabled={!isPro}
+        >Show metric's settings</Setting>
+
+      <Setting bind:isActive={isWatermarkHidden} disabled={!isProPlus} access={PRO_PLUS}
+        >Hide watermark</Setting>
+
+      <div class="caption txt-m">Code</div>
+      <Code
+        bind:code
+        {widgets}
+        {width}
+        {height}
+        {isNightMode}
+        {isWithMetricSettings}
+        {isCartesianGrid}
+        {isWatermarkHidden} />
     </div>
 
-    <!-- <Setting>Share data access</Setting> -->
-
-    <Setting bind:isActive={isNightMode} disabled={!isPro}>Night mode</Setting>
-
-    <Setting bind:isActive={isCartesianGrid} disabled={!isPro}>Cartesian grid</Setting>
-
-    <Setting bind:isActive={isWithMetricSettings} disabled={!isPro}>Show metric's settings</Setting>
-
-    <Setting bind:isActive={isWatermarkHidden} disabled={!isProPlus} access={PRO_PLUS}
-      >Hide watermark</Setting>
-
-    <div class="caption txt-m">Code</div>
-    <Code
-      {widgets}
-      {width}
-      {height}
-      {isNightMode}
-      {isWithMetricSettings}
-      {isCartesianGrid}
-      {isWatermarkHidden} />
+    <EmbedPreview src={iframe} />
   </div>
 </Dialog>
 

@@ -8,6 +8,7 @@
   export let widgets
   export let width, height
   export let isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden
+  export let code = ''
 
   let codeRef
   let copyTimer
@@ -15,7 +16,7 @@
 
   // prettier-ignore
   // @ts-ignore
-  $: code = (widgets, width, height, isNightMode, isWithMetricSettings, isCartesianGrid, getCode())
+  $: code = (widgets, width, height, isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, getCode())
 
   function getCode() {
     const settings = $studio
@@ -65,5 +66,6 @@
   textarea {
     padding: 10px 12px;
     color: var(--black);
+    resize: none;
   }
 </style>
