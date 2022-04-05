@@ -7,8 +7,9 @@
   import Widget from './Widget.svelte'
   import { initWidget, getOnLoadContext } from './context'
   import { debounced } from './utils'
+  import { getSharedAccessHeaders } from '@/api/timeseries/queries'
 
-  const { isOnlyChartEmbedded } = getAdapterController()
+  const { isOnlyChartEmbedded, sharedAccessToken } = getAdapterController()
 
   let className = ''
   export { className as class }
@@ -55,9 +56,13 @@
         delete widget.defferedCachePolicy
       }
 
+      const requestOptions = sharedAccessToken && {
+        headers: getSharedAccessHeaders(sharedAccessToken),
+      }
+
       // prettier-ignore
       abortFetch = getTimeseries(
-        metrics, settings, onData, onDataError, MetricSettings, cachePolicy
+        metrics, settings, onData, onDataError, MetricSettings, cachePolicy, requestOptions 
       )
     },
   )

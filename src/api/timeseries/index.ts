@@ -9,13 +9,10 @@ export function getTimeseries(
   metrics: Studio.Metric[],
   variables: Omit<Variables, 'key'>,
   onData: (data: any[], loadings: Set<Studio.Metric>) => any,
-  onError: (
-    errors: Map<Studio.Metric, string>,
-    loadings: Set<Studio.Metric>,
-    data?: any[],
-  ) => any,
+  onError: (errors: Map<Studio.Metric, string>, loadings: Set<Studio.Metric>, data?: any[]) => any,
   MetricSettings: any = {},
   cachePolicy?: CachePolicy,
+  requestOptions?: SAN.API.RequestOptions,
 ) {
   let isAborted = false
   let data = [] as any[]
@@ -45,8 +42,8 @@ export function getTimeseries(
       if (isAborted) return
 
       let request = fetcher
-        ? fetcher(vars, metric, cachePolicy)
-        : queryMetric(vars, precacher, cachePolicy).then(dataAccessor)
+        ? fetcher(vars, metric, cachePolicy, requestOptions)
+        : queryMetric(vars, precacher, cachePolicy, requestOptions).then(dataAccessor)
       request = preTransform ? request.then(preTransform) : request
 
       request
@@ -79,12 +76,7 @@ export function getTimeseries(
 }
 
 export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
-export function getAllTimeData(
-  metrics: Studio.Metric[],
-  slug: string,
-  onData,
-  onError,
-) {
+export function getAllTimeData(metrics: Studio.Metric[], slug: string, onData, onError) {
   return getTimeseries(
     metrics,
     {

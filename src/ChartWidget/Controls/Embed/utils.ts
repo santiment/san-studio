@@ -47,6 +47,9 @@ export function shareEmbeded(widget, studio, options) {
     // date to
     dt: isAutoUpdated ? undefined : to,
 
+    // Shared Access Token
+    sat: options.dataToken,
+
     // embedded night mode
     emnm: isNightMode ? 1 : undefined,
     // embedded cartesian grid
@@ -80,7 +83,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
-  const { ps, pt, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
+  const { ps, pt, sat, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
   const { wm, wax, wc, ws, win, wcm, wd } = shared
 
   const KnownMetric = {}
@@ -100,6 +103,8 @@ export function parseQueryString(qs: string) {
 
     from: df,
     to: dt || getTodaysEnd().toISOString(),
+
+    dataToken: sat,
 
     isNightMode: emnm ? true : false,
     isCartesianGrid: emcg ? true : false,

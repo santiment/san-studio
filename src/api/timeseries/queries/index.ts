@@ -1,4 +1,4 @@
-import { query } from 'webkit/api'
+import { query, HEADERS } from 'webkit/api'
 import { getMetricKeyMinInterval } from '@/api/metrics/restrictions'
 import { normalizeInterval } from '@/utils/intervals'
 
@@ -100,16 +100,30 @@ export function queryMetric(
   variables: Variables,
   precacher: (variables: Variables) => any = defaultPrecacher,
   cachePolicy?: SAN.API.CachePolicy,
+  requestOptions?: SAN.API.RequestOptions,
 ): Promise<any> {
   return getMetricKeyMinInterval(variables.metric as string).then((minInterval) => {
     if (minInterval) {
       variables.interval = normalizeInterval(variables.interval || '', minInterval)
     }
 
-    return query<Timeseries>(GET_METRIC, {
-      precacher,
-      cachePolicy,
-      variables,
-    })
+    return query<Timeseries>(
+      GET_METRIC,
+      {
+        precacher,
+        cachePolicy,
+        variables,
+      },
+      requestOptions,
+    )
   })
+}
+
+export function getSharedAccessHeaders(sharedAccessToken) {
+  return sharedAccessToken
+    ? {
+        ...HEADERS,
+        'X-SharedAccess-Authorization': 'SharedAccessToken ' + sharedAccessToken,
+      }
+    : undefined
 }

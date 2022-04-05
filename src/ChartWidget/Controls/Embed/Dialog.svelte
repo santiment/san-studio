@@ -11,6 +11,7 @@
   import Code from './Code.svelte'
   import SelectChart from './SelectChart.svelte'
   import Setting, { PRO_PLUS } from './Setting.svelte'
+  import EmbedSetting from './EmbedSetting.svelte'
   import EmbedPreview from './EmbedPreview.svelte'
 
   export let widgets
@@ -22,6 +23,7 @@
   let isWithMetricSettings = false
   let isCartesianGrid = true
   let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false
+  let dataToken = ''
   let code = ''
 
   $: ({ isPro, isProPlus } = $globals)
@@ -50,7 +52,7 @@
         </div>
       </div>
 
-      <Setting>Share data access</Setting>
+      <EmbedSetting bind:dataToken {isPro} />
 
       <Setting bind:isActive={isNightMode} disabled={!isPro}>Night mode</Setting>
 
@@ -68,6 +70,7 @@
         {widgets}
         {width}
         {height}
+        {dataToken}
         {isNightMode}
         {isWithMetricSettings}
         {isCartesianGrid}

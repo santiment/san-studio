@@ -9,6 +9,7 @@
   export let width, height
   export let isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden
   export let code = ''
+  export let dataToken = ''
 
   let codeRef
   let copyTimer
@@ -16,11 +17,12 @@
 
   // prettier-ignore
   // @ts-ignore
-  $: code = (widgets, width, height, isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, getCode())
+  $: code = (widgets, width, height, dataToken, isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, getCode())
 
   function getCode() {
     const settings = $studio
     const options = {
+      dataToken,
       isNightMode,
       isWithMetricSettings,
       isCartesianGrid,
