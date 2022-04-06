@@ -68,7 +68,7 @@
   }
 
   function onMetricLock(metric: Studio.Metric, i: number, project) {
-    metrics[i] = convertBaseProjectMetric(metric, project)
+    metrics[i] = convertBaseProjectMetric(metric, Object.assign({}, project))
   }
 
   track.event(Event.CombineOpened)
