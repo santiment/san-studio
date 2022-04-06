@@ -19,16 +19,26 @@ export function getAllWidgetsMetrics(widgets: Widget[]) {
 export const getAllWidgetsMetricsKeys = (widgets: Widget[]) =>
   getAllWidgetsMetrics(widgets).map(({ key }) => key)
 
+const getMetricData = ({ key, queryKey = key }: Studio.Metric, { reqMeta }: Studio.Metric) => ({
+  metric: queryKey,
+  slug: reqMeta?.slug,
+})
 export function getLayoutMetrics(widgets: Widget[]) {
+  let index = 0
   const metrics = {}
-  getAllWidgetsMetrics(widgets).forEach((metric, i) => {
-    const { key, queryKey = key } = metric.base || metric
 
-    // NOTE: Backend accepts jsonb map, that's why index is used as a unique key [vanguard, 30 Mar 2022]
-    metrics[i] = {
-      metric: queryKey,
-      slug: metric.reqMeta?.slug,
+  // NOTE: Backend accepts jsonb map, that's why index is used as a unique key [vanguard, 30 Mar 2022]
+  const addMetric = (metric: Studio.Metric) =>
+    (metrics[index++] = getMetricData(metric.base || metric, metric))
+
+  getAllWidgetsMetrics(widgets).forEach((metric) => {
+    const { baseMetrics } = metric
+
+    if (baseMetrics) {
+      return baseMetrics.forEach(addMetric)
     }
+
+    addMetric(metric)
   })
   return metrics
 }

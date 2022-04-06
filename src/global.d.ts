@@ -69,6 +69,7 @@ namespace Studio {
     domainGroup?: string
     type?: string
     noProject?: boolean
+    baseMetrics?: Metric[]
   }
 
   type Widget = {
