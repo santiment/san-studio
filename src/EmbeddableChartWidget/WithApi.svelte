@@ -6,16 +6,19 @@
   import { setAdapterController } from '@/adapter/context'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import ChartWidget from '@/ChartWidget/index.svelte'
+  import MetricErrorTooltipCtx from '@/ChartWidget/Metrics/ErrorTooltipCtx.svelte'
   import { getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
 
   export let widget = {}
   export let isWithMetricSettings = false
+  export let sharedAccessToken: string | undefined
 
   const queryString = getViewOnSantimentLink($studio, widget)
   const AutoUpdater = newAutoUpdaterStore([widget])
   newHistoryContext({ add: () => {} })
   setAdapterController({
+    sharedAccessToken,
     isWithMetricSettings,
     noWidgetControls: true,
     isOnlyChartEmbedded: true,
@@ -41,7 +44,9 @@
 </script>
 
 <div class="column">
-  <ChartWidget {widget} class="$style.widget" />
+  <MetricErrorTooltipCtx>
+    <ChartWidget {widget} class="$style.widget" />
+  </MetricErrorTooltipCtx>
 
   <div class="row justify txt-m mrg-xs mrg--t">
     <div class="update btn" on:click={AutoUpdater.update}>
@@ -49,10 +54,7 @@
       Updated {updated} ago
     </div>
 
-    <a
-      href="https://app.santiment.net/charts?{queryString}"
-      target="__blank"
-      class="btn caption">
+    <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
       View on Santiment
     </a>

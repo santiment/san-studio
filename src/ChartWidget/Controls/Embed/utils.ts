@@ -104,7 +104,7 @@ export function parseQueryString(qs: string) {
     from: df,
     to: dt || getTodaysEnd().toISOString(),
 
-    dataToken: sat,
+    sharedAccessToken: sat,
 
     isNightMode: emnm ? true : false,
     isCartesianGrid: emcg ? true : false,
