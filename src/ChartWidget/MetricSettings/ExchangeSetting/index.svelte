@@ -79,7 +79,8 @@
         <div
           class="btn btn-ghost"
           class:active={metricOwner === exchange}
-          on:click={() => onChange(exchange)}>
+          on:click={() => onChange(exchange)}
+        >
           {exchange}
         </div>
       {/each}

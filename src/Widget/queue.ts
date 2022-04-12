@@ -2,8 +2,7 @@ import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 
 export const CONTEXT = 'QUEUE'
-export const getQueueStore = (): ReturnType<typeof newSizedQueue> =>
-  getContext(CONTEXT)
+export const getQueueStore = (): ReturnType<typeof newSizedQueue> => getContext(CONTEXT)
 
 export function newSizedQueue(size = 2) {
   const processings = new Set()

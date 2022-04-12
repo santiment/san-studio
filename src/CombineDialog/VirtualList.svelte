@@ -44,19 +44,13 @@
     }
 
     const diff = offsetRenderDelay - newDelay
-    offsetTop =
-      diff <= 0 || diff - renderHeight < offsetTop
-        ? start * renderHeight
-        : offsetTop
+    offsetTop = diff <= 0 || diff - renderHeight < offsetTop ? start * renderHeight : offsetTop
   }
 </script>
 
 <div class="viewport {className}" bind:this={viewportNode} on:scroll={onScroll}>
   <div class="scroll" {style}>
-    <div
-      class="list"
-      style="transform:translateY({offsetTop}px)"
-      bind:this={listNode}>
+    <div class="list" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
       {#each renderItems as item (item[key])}
         <slot {item} />
       {/each}

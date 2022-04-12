@@ -54,9 +54,5 @@ const precacher =
   })
 
 const options = { precacher }
-export const queryPriceHistogram = (
-  slug: string,
-  from: string,
-  to: string,
-): Promise<Histogram[]> =>
+export const queryPriceHistogram = (slug: string, from: string, to: string): Promise<Histogram[]> =>
   query<any>(HISTOGRAM_DATA_QUERY(slug, from, to), options)

@@ -25,11 +25,7 @@
   import { getWidget } from './context'
 
   const widget = getWidget()
-  const {
-    isEmbedded,
-    onChartPointClick,
-    onModRangeSelect = () => {},
-  } = getAdapterController()
+  const { isEmbedded, onChartPointClick, onModRangeSelect = () => {} } = getAdapterController()
 
   const { ChartAxes, ChartOptions, ChartAddons } = widget
   const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget
@@ -50,12 +46,7 @@
   $: ({ ticker } = $studio)
   $: references = $SignalsTimeseries
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
-  $: metricSettings = getTooltipSettings(
-    metrics,
-    references,
-    ticker,
-    $ChartMetricDisplays,
-  )
+  $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays)
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
@@ -138,7 +129,8 @@
   {domainModifier}
   {onChart}
   disabled={isFullscreened}
-  bind:width={chartWidth}>
+  bind:width={chartWidth}
+>
   <GreenRedBars />
   <Bars />
   <Areas />
@@ -151,7 +143,8 @@
   <Axes
     axesMetricKeys={getResponsiveAxesKeys(chartWidth, axesMetricKeys)}
     {metricSettings}
-    xTicks={getXTicksByWidth(chartWidth)} />
+    xTicks={getXTicksByWidth(chartWidth)}
+  />
 
   {#if !isFullscreened} <Drawer {axesMetricKeys} metricKey={drawingKey} /> {/if}
 
@@ -161,26 +154,17 @@
       {metricSettings}
       {onPointClick}
       {onRangeSelect}
-      isShiftForced={isEmbedded} />
+      isShiftForced={isEmbedded}
+    />
   {/if}
 
-  <Addons
-    addons={$ChartAddons}
-    slug={$studio.slug}
-    isPro={$globals.isPro || $globals.isProPlus} />
+  <Addons addons={$ChartAddons} slug={$studio.slug} isPro={$globals.isPro || $globals.isProPlus} />
 
   {#if $ChartOptions.watermark}
     <Watermark isLessVisible={$ChartOptions.isWatermarkLessVisible} />
   {/if}
 
   {#if allTimeData}
-    <Brush
-      data={allTimeData}
-      {categories}
-      {colors}
-      {from}
-      {to}
-      {theme}
-      onChange={onBrushChange} />
+    <Brush data={allTimeData} {categories} {colors} {from} {to} {theme} onChange={onBrushChange} />
   {/if}
 </Chart>

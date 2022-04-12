@@ -14,12 +14,7 @@ export function getEventCoordinates(e: MouseEvent): [number, number] {
   return [offsetX + offsetLeft, offsetY + offsetTop]
 }
 
-export function newRectHandle(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-) {
+export function newRectHandle(x: number, y: number, width: number, height: number) {
   const handle = new Path2D()
   handle.rect(x, y, width, height)
   return handle
@@ -53,11 +48,7 @@ export function checkIsOnStrokeArea(
   return false
 }
 
-export function hook(
-  node: HTMLElement,
-  event: string,
-  callback: (e: any) => any,
-) {
+export function hook(node: HTMLElement, event: string, callback: (e: any) => any) {
   node.addEventListener(event, callback)
   return () => node.removeEventListener(event, callback)
 }

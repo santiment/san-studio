@@ -1,9 +1,4 @@
-import {
-  newDrawing,
-  newRectHandle,
-  checkIsOnStrokeArea,
-  getEventCoordinates,
-} from '../utils'
+import { newDrawing, newRectHandle, checkIsOnStrokeArea, getEventCoordinates } from '../utils'
 import { Color } from '../../theme'
 
 export function newHorizontalRay(y: number) {
@@ -15,10 +10,7 @@ export function newHorizontalRay(y: number) {
   return newDrawing(hray)
 }
 
-export function paintHorizontalRay(
-  chart: SAN.Charts.Chart,
-  drawing: SAN.Charts.HorizontalRay,
-) {
+export function paintHorizontalRay(chart: SAN.Charts.Chart, drawing: SAN.Charts.HorizontalRay) {
   const { ctx } = chart.drawer
 
   ctx.save()

@@ -13,12 +13,7 @@
   }
 </script>
 
-<Item
-  {item}
-  {HoverItem}
-  active={isActive}
-  on:click={onClick}
-  class="$style.item">
+<Item {item} {HoverItem} active={isActive} on:click={onClick} class="$style.item">
   {item.title}
 </Item>
 

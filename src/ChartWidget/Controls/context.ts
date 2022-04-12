@@ -13,9 +13,7 @@ const SaveOption = {
 const OPTIONS = {
   scale: linearScale,
   isLogScale: false,
-  cartesianGrid: process.browser
-    ? getSavedBoolean('isCartesianGridActive', true)
-    : false,
+  cartesianGrid: process.browser ? getSavedBoolean('isCartesianGridActive', true) : false,
   watermark: true,
   isWatermarkLessVisible: false,
 }
@@ -23,10 +21,7 @@ const OPTIONS = {
 type ChartOptions = typeof OPTIONS
 type ChartOptionsStore = ReturnType<typeof newChartOptionsStore>
 
-export function newChartOptionsStore({
-  isCartesianGrid,
-  isWatermarkHidden,
-}: any = OPTIONS) {
+export function newChartOptionsStore({ isCartesianGrid, isWatermarkHidden }: any = OPTIONS) {
   const options = Object.assign({}, OPTIONS)
   if (isCartesianGrid !== undefined) options.cartesianGrid = isCartesianGrid
   if (isWatermarkHidden !== undefined) options.watermark = !isWatermarkHidden
@@ -51,14 +46,10 @@ export function newChartOptionsStore({
       SaveOption[option]?.(value)
     },
     getProDefaults(isPro, isProPlus) {
-      if (isProPlus)
-        options.watermark = getSavedBoolean('isWatermarkVisible', true)
+      if (isProPlus) options.watermark = getSavedBoolean('isWatermarkVisible', true)
 
       if (isPro || isProPlus) {
-        options.isWatermarkLessVisible = getSavedBoolean(
-          'isWatermarkLighter',
-          false,
-        )
+        options.isWatermarkLessVisible = getSavedBoolean('isWatermarkLighter', false)
 
         set(options)
       }

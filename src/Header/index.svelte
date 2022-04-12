@@ -48,7 +48,8 @@
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
     <button class="share action btn" on:click={onShareClick}>Share</button>
     <button class="link action btn expl-tooltip" aria-label="Copy link" on:click={onCopyLinkClick}
-      ><Svg id="link" w="16" /></button>
+      ><Svg id="link" w="16" /></button
+    >
   </div>
 
   <div class="studio-calendar" />
@@ -56,7 +57,8 @@
   <div
     class="mapview btn-2"
     on:click={mapview.toggle}
-    class:active={$mapview !== MapviewPhase.None}>
+    class:active={$mapview !== MapviewPhase.None}
+  >
     Mapview
   </div>
 </div>

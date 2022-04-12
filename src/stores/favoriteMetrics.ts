@@ -1,9 +1,6 @@
 import { writable } from 'svelte/store'
 import { track } from 'webkit/analytics'
-import {
-  queryFavoriteMetrics,
-  mutateFavoriteMetrics,
-} from '@/api/metrics/favorites'
+import { queryFavoriteMetrics, mutateFavoriteMetrics } from '@/api/metrics/favorites'
 import { Event } from '@/analytics'
 
 let favoritesSet = new Set<string>()

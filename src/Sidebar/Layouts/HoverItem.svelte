@@ -16,11 +16,9 @@
   let layout = {} as SAN.Layout
   let destroyed = false
 
-  $: isAuthor =
-    $currentUser && layout.user && +layout.user.id === +$currentUser.id
+  $: isAuthor = $currentUser && layout.user && +layout.user.id === +$currentUser.id
 
-  const showPreview = () =>
-    queryLayout(item.id).then((data) => destroyed || (layout = data))
+  const showPreview = () => queryLayout(item.id).then((data) => destroyed || (layout = data))
 
   function startPreviewTimer() {
     window.clearTimeout(timer)

@@ -47,19 +47,17 @@
     }
   }
 
-  const onSaturationMouseDown = newMouseHandler(
-    ({ clientX, clientY }, clientRect) => {
-      const { left, right, top, bottom, width, height } = clientRect
+  const onSaturationMouseDown = newMouseHandler(({ clientX, clientY }, clientRect) => {
+    const { left, right, top, bottom, width, height } = clientRect
 
-      if (clientX < left) saturation = 0
-      else if (clientX > right) saturation = 100
-      else saturation = ((clientX - left) / width) * 100
+    if (clientX < left) saturation = 0
+    else if (clientX > right) saturation = 100
+    else saturation = ((clientX - left) / width) * 100
 
-      if (clientY < top) brightness = 100
-      else if (clientY > bottom) brightness = 0
-      else brightness = 100 - ((clientY - top) / height) * 100
-    },
-  )
+    if (clientY < top) brightness = 100
+    else if (clientY > bottom) brightness = 0
+    else brightness = 100 - ((clientY - top) / height) * 100
+  })
 
   const onHueMouseDown = newMouseHandler(({ clientX }, clientRect) => {
     const { left, right, width } = clientRect
@@ -72,9 +70,7 @@
 
 <div class="picker border">
   <div class="wbc" on:mousedown={onSaturationMouseDown}>
-    <div
-      class="wbc-cursor"
-      style="--saturation:{saturation};--brightness:{brightness}" />
+    <div class="wbc-cursor" style="--saturation:{saturation};--brightness:{brightness}" />
     <div class="wbc-color" style="--hue:{hue}">
       <div class="wbc-white">
         <div class="wbc-black" />
@@ -93,7 +89,8 @@
         class="suggestion"
         class:active={suggestion === uppercaseColor}
         on:click={() => onChange(suggestion)}
-        style="--color:{suggestion}" />
+        style="--color:{suggestion}"
+      />
     {/each}
   </div>
 </div>
@@ -139,11 +136,7 @@
   }
 
   .wbc-white {
-    background: linear-gradient(
-      to right,
-      rgb(255, 255, 255),
-      rgba(255, 255, 255, 0)
-    );
+    background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
   }
 
   .wbc-black {

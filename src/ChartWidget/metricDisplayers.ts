@@ -1,9 +1,7 @@
 import { writable } from 'svelte/store'
 import type { addCandlesTooltipPrintable } from 'san-chart/candles'
 
-export type ChartMetricDisplayStore = ReturnType<
-  typeof newMetricDisplayersStore
->
+export type ChartMetricDisplayStore = ReturnType<typeof newMetricDisplayersStore>
 export type MetricDisplayer = {
   formatter?: any
   axisFormatter?: any

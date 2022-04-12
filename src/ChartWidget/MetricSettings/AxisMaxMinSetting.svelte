@@ -17,8 +17,7 @@
   let isTipVisible = !getSavedValue(TIP)
 
   $: metricSettings = MetricSettings.getMetricSettings(metric.key)
-  $: minMaxes =
-    (isOpened && widget.defaultMinMaxes[metric.key]) || DEFAULT_MIN_MAX
+  $: minMaxes = (isOpened && widget.defaultMinMaxes[metric.key]) || DEFAULT_MIN_MAX
   $: userMinMaxes = metricSettings || {}
   $: ({ axisMin = '', axisMax = '' } = userMinMaxes)
 
@@ -51,9 +50,7 @@
         or
         <span class="example border">+5%</span>
 
-        <div
-          class="close btn"
-          on:click={() => (saveValue(TIP, '+'), (isTipVisible = false))}>
+        <div class="close btn" on:click={() => (saveValue(TIP, '+'), (isTipVisible = false))}>
           <Svg id="close" w="8" />
         </div>
       </div>
@@ -67,7 +64,8 @@
         on:input={onChange}
         name="axisMax"
         value={axisMax.toString()}
-        placeholder="Auto ({Math.floor(minMaxes.max)})" />
+        placeholder="Auto ({Math.floor(minMaxes.max)})"
+      />
     </div>
 
     <div class="row mrg-s mrg--t v-center justify">
@@ -77,7 +75,8 @@
         on:input={onChange}
         name="axisMin"
         value={axisMin.toString()}
-        placeholder="Auto ({Math.floor(minMaxes.min)})" />
+        placeholder="Auto ({Math.floor(minMaxes.min)})"
+      />
     </div>
   </svelte:fragment>
 </Dropdown>

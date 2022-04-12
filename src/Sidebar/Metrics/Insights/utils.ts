@@ -55,9 +55,7 @@ export function getInsightsGraph(
 
   const filter = (item: any) => {
     const isVisible = item.checkIsVisible?.(options) ?? true
-    return (
-      isVisible && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)
-    )
+    return isVisible && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)
   }
 
   const insights = NO_GROUP_ITEMS.concat(item, TAG_GROUP_ITEMS).filter(filter)

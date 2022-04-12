@@ -10,9 +10,7 @@ export function downloadCsv(widget, { slug, name = slug, ticker }) {
 
   const metrics = Metrics.getValue()
   const headers = [{ label: 'Date', key: 'datetime' }]
-  metrics.forEach(({ label, key }) =>
-    headers.push({ key, label: normalizeHeader(label) }),
-  )
+  metrics.forEach(({ label, key }) => headers.push({ key, label: normalizeHeader(label) }))
   const headersLength = headers.length
 
   const { length } = data
@@ -29,13 +27,11 @@ export function downloadCsv(widget, { slug, name = slug, ticker }) {
       const { key } = headers[y]
       const { getPreTransformValue } = MetricSettings.getMetricSettings(key)
       const value = metricData[key]
-      row[y] =
-        value && getPreTransformValue ? getPreTransformValue(value) : value
+      row[y] = value && getPreTransformValue ? getPreTransformValue(value) : value
     }
   }
 
-  const csvContent =
-    'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n')
+  const csvContent = 'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n')
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)

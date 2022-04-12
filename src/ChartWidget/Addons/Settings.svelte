@@ -3,12 +3,7 @@
   import { globals } from '@/stores/globals'
   import { getWidget } from '@/ChartWidget/context'
   import Dropdown from '@/ChartWidget/MetricSettings/Dropdown.svelte'
-  import {
-    getCoinCostDate,
-    checkAreSameDay,
-    MAX_DATE,
-    MAX_FREE_DATE,
-  } from './utils'
+  import { getCoinCostDate, checkAreSameDay, MAX_DATE, MAX_FREE_DATE } from './utils'
 
   const widget = getWidget()
   const { MetricSettings } = widget
@@ -20,11 +15,7 @@
   $: metricSettings = $MetricSettings[addon.key]
   $: isPro = $globals.isPro || $globals.isProPlus
   $: dates = getCoinCostDate(metricSettings, isPro)
-  $: window.mountSettingsCalendar?.(
-    calendarNode,
-    dates,
-    isPro ? MAX_DATE : MAX_FREE_DATE,
-  )
+  $: window.mountSettingsCalendar?.(calendarNode, dates, isPro ? MAX_DATE : MAX_FREE_DATE)
 
   function formatDate(date: Date) {
     const { DD, MMM, YY } = getDateFormats(date)

@@ -61,10 +61,7 @@ export function buildIndicatorMetric(metric, indicator) {
     node: Node.LINE,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicator.label}`,
-    getLabel:
-      base || noProject
-        ? undefined
-        : (ticker) => `${label} (${ticker}) ${indicator.label}`,
+    getLabel: base || noProject ? undefined : (ticker) => `${label} (${ticker}) ${indicator.label}`,
     // TODO: Think how to better handle current project labeling  [@vanguard | May 14, 2021]
     reqMeta: {
       transform: {

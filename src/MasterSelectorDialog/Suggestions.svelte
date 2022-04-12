@@ -81,7 +81,8 @@
   bind:viewportNode={node}
   bind:renderHeight
   let:item
-  let:i>
+  let:i
+>
   {#if i === 0}
     <div class="caption txt-m c-waterloo">All</div>
   {/if}
@@ -89,7 +90,8 @@
   <div
     class="suggestion btn row v-center nowrap mrg-s mrg--t"
     class:cursored={i === cursor}
-    on:click={() => onSelect(item)}>
+    on:click={() => onSelect(item)}
+  >
     <ProjectIcon slug={item.slug} size={32} class="mrg-s mrg--r" />
     <span class="mrg-xs mrg--r">{item.name}</span>
     <span class="c-waterloo mrg-xl mrg--r">{item.ticker}</span>

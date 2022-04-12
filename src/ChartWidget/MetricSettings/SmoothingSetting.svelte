@@ -49,12 +49,6 @@
   Smoothing: {hasSmoothing ? smoothing : 'Off'}
 
   <svelte:fragment slot="options">
-    <input
-      autofocus
-      type="range"
-      min="1"
-      max="21"
-      value={smoothing}
-      on:input={onChange} />
+    <input autofocus type="range" min="1" max="21" value={smoothing} on:input={onChange} />
   </svelte:fragment>
 </Dropdown>

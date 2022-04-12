@@ -13,31 +13,23 @@ function newDatetimeRelativeScaler(chart: SAN.Charts.Chart): Scaler {
 }
 
 type Resetter = (drawing: SAN.Charts.Drawing) => any
-const newCoordinatesResetter =
-  (resetter: Resetter) => (drawer: SAN.Charts.Drawer) =>
-    drawer.drawings.forEach(resetter)
+const newCoordinatesResetter = (resetter: Resetter) => (drawer: SAN.Charts.Drawer) =>
+  drawer.drawings.forEach(resetter)
 
 export const resetDrawingRatioCoordinates = ({ ratioCoor, relCoor }) =>
   relCoor.length && (ratioCoor.length = 0)
-export const resetRatioCoordinates = newCoordinatesResetter(
-  resetDrawingRatioCoordinates,
-)
+export const resetRatioCoordinates = newCoordinatesResetter(resetDrawingRatioCoordinates)
 
 export const resetDrawingRelativeCoordinates = ({ ratioCoor, relCoor }) =>
   ratioCoor.length && (relCoor.length = 0)
-export const resetRelativeCoordinates = newCoordinatesResetter(
-  resetDrawingRelativeCoordinates,
-)
+export const resetRelativeCoordinates = newCoordinatesResetter(resetDrawingRelativeCoordinates)
 
 export const resetDrawingAbsoluteCoordinates = ({
   absCoor,
   relCoor,
   ratioCoor,
-}: SAN.Charts.Drawing) =>
-  (relCoor.length || ratioCoor.length) && (absCoor.length = 0)
-export const resetAbsoluteCoordinates = newCoordinatesResetter(
-  resetDrawingAbsoluteCoordinates,
-)
+}: SAN.Charts.Drawing) => (relCoor.length || ratioCoor.length) && (absCoor.length = 0)
+export const resetAbsoluteCoordinates = newCoordinatesResetter(resetDrawingAbsoluteCoordinates)
 
 export function correctAbsoluteCoordinatesRatio(
   { drawings }: SAN.Charts.Drawer,
@@ -59,10 +51,14 @@ export function setupDrawingsCoordinatesUpdater(
 ) {
   const { drawer } = chart
 
-  drawer.updateAbsoluteByRelativeCoordinates =
-    newRelativeToAbsoluteCoordinatesUpdater(chart, minMax)
-  drawer.updateRelativeByAbsoluteCoordinates =
-    newAbsoluteToRelativeCoordinatesUpdater(chart, minMax)
+  drawer.updateAbsoluteByRelativeCoordinates = newRelativeToAbsoluteCoordinatesUpdater(
+    chart,
+    minMax,
+  )
+  drawer.updateRelativeByAbsoluteCoordinates = newAbsoluteToRelativeCoordinatesUpdater(
+    chart,
+    minMax,
+  )
 }
 
 export function absoluteToRatioCoordinates(

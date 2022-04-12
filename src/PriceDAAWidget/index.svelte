@@ -16,12 +16,7 @@
   const fullscreenMetricsFilter = metricsFilter
 </script>
 
-<ChartWidget
-  {widget}
-  {metricsFilter}
-  {isSingleWidget}
-  {deleteWidget}
-  {fullscreenMetricsFilter}>
+<ChartWidget {widget} {metricsFilter} {isSingleWidget} {deleteWidget} {fullscreenMetricsFilter}>
   <div class="row">
     {prefix} Price DAA Divergence ({$studio.ticker})
   </div>

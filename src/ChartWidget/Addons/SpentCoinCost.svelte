@@ -23,19 +23,17 @@
 
   $: metricSettings = $MetricSettings[addon.key]
   $: [from, to] = getCoinCostDate(metricSettings, isPro)
-  $: queryPriceHistogram(slug, from.toISOString(), to.toISOString()).then(
-    (data) => {
-      buckets = data.buckets
-      price = data.price
-      chart.redraw()
+  $: queryPriceHistogram(slug, from.toISOString(), to.toISOString()).then((data) => {
+    buckets = data.buckets
+    price = data.price
+    chart.redraw()
 
-      if (data.buckets.length === 0) {
-        widget.setChartAddonError(addon, 'No data for this date')
-      } else {
-        widget.deleteChartAddonError(addon)
-      }
-    },
-  )
+    if (data.buckets.length === 0) {
+      widget.setChartAddonError(addon, 'No data for this date')
+    } else {
+      widget.deleteChartAddonError(addon)
+    }
+  })
   $: dateLabel = getLabel(from, to)
 
   function formatDate(date) {

@@ -43,7 +43,8 @@
       <div
         class="btn-ghost row v-center justify"
         class:active={false}
-        on:click={() => onClick(indicator)}>
+        on:click={() => onClick(indicator)}
+      >
         Moving Average {indicator.base}
         <Toggle class="mrg-l mrg--l" isActive={metricIndicators.has(indicator)} />
       </div>

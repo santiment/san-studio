@@ -27,11 +27,7 @@ export function hsvToHex(h, s, v) {
 const parseHex = (hex: any) => parseInt(hex, 16)
 
 function hexToRgb(hex: string) {
-  return [
-    parseHex(hex.slice(1, 3)),
-    parseHex(hex.slice(3, 5)),
-    parseHex(hex.slice(5, 7)),
-  ]
+  return [parseHex(hex.slice(1, 3)), parseHex(hex.slice(3, 5)), parseHex(hex.slice(5, 7))]
 }
 
 export function hexToHsv(hex) {

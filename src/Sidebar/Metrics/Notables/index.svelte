@@ -75,7 +75,8 @@
         {onItemClick}
         {onItemEnter}
         on:mousewheel={closePreview}
-        onLeave={onItemLeave} />
+        onLeave={onItemLeave}
+      />
     {/each}
 
     {#if style}
@@ -83,7 +84,8 @@
         {style}
         class="border preview column caption"
         on:mouseenter={closePreview}
-        on:mouseleave={closePreview}>
+        on:mouseleave={closePreview}
+      >
         <div>{hoveredNotable.label}</div>
         <ChartPreview {settings} {...hoveredNotable} />
       </div>

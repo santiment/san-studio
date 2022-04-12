@@ -49,7 +49,8 @@
   <div
     aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \"
     class="toggle btn row hv-center expl-tooltip"
-    on:click={toggleSidebar}>
+    on:click={toggleSidebar}
+  >
     <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : '$style.closed'} />
   </div>
   {#each MODES as id}
@@ -63,13 +64,15 @@
       aria-label="Explain metrics"
       class="academy icon btn row hv-center expl-tooltip"
       class:active={$Sidewidget === SidewidgetType.EXPLAIN_METRICS}
-      on:click={() => Sidewidget.set(SidewidgetType.EXPLAIN_METRICS)}>
+      on:click={() => Sidewidget.set(SidewidgetType.EXPLAIN_METRICS)}
+    >
       <Svg id="academy-hat" w="18" h="14" />
     </div>
     <div
       aria-label="Shortcuts | Shift + ?"
       class="icon btn row hv-center expl-tooltip"
-      on:click={showShortcutsDialog}>
+      on:click={showShortcutsDialog}
+    >
       <Svg id="cmd-key" w="16" />
     </div>
     <div class="help btn row v-center" on:click={onHelpClick}>

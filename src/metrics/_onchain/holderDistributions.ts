@@ -18,10 +18,7 @@ const HOLDER_DISTRIBUTIONS = [
 ] as const
 
 type HolderDistributions<T extends string> = {
-  [K in typeof HOLDER_DISTRIBUTIONS[number][0] as `${T}${K}`]: Node<
-    Studio.Metric,
-    `${T}${K}`
-  >
+  [K in typeof HOLDER_DISTRIBUTIONS[number][0] as `${T}${K}`]: Node<Studio.Metric, `${T}${K}`>
 }
 
 function buildMetrics<T extends string>(
@@ -51,9 +48,7 @@ function buildMetrics<T extends string>(
   return Metric
 }
 
-export const HolderDistributionAbsoluteMetric = buildMetrics(
-  'holders_distribution',
-)
+export const HolderDistributionAbsoluteMetric = buildMetrics('holders_distribution')
 export const HolderDistributionBalancePercentMetric = buildMetrics(
   'percent_of_holders_distribution_combined_balance',
   'percent',
@@ -82,12 +77,8 @@ export const HolderDistributionMetric = {
   ...HoldersLabeledDistributionMetric,
 }
 
-export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
-  HolderDistributionAbsoluteMetric,
-)
-export const LABELED_HOLDER_DISTRIBUTION_METRICS = Object.values(
-  HoldersLabeledDistributionMetric,
-)
+export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(HolderDistributionAbsoluteMetric)
+export const LABELED_HOLDER_DISTRIBUTION_METRICS = Object.values(HoldersLabeledDistributionMetric)
 
 export const HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS = Object.values(
   HolderDistributionBalanceAbsoluteMetric,

@@ -31,10 +31,7 @@
       Metrics.set(metrics)
       metrics.forEach((metric) => {
         const { key, color, node } = metric
-        data = mergeTimeseries(
-          data,
-          normalizeData(key, metric.data, datetimeKey),
-        )
+        data = mergeTimeseries(data, normalizeData(key, metric.data, datetimeKey))
 
         metric.noProject = true
         metric.getLabel = () => metric.label
@@ -45,16 +42,10 @@
     }
   })
 
-  function normalizeData(
-    metricKey: string,
-    data: any[],
-    datetimeKey = 'datetime',
-  ) {
+  function normalizeData(metricKey: string, data: any[], datetimeKey = 'datetime') {
     if (data.length < 1) return []
 
-    const valueKey = Object.keys(data[0]).find(
-      (key) => key !== datetimeKey,
-    ) as string
+    const valueKey = Object.keys(data[0]).find((key) => key !== datetimeKey) as string
     return data.map((item) => ({
       datetime: +new Date(item[datetimeKey]),
       [metricKey]: item[valueKey],

@@ -26,8 +26,7 @@ function shareCombinedMetrics(metrics) {
     }))
 }
 
-const shareAxesMetrics = (axesMetrics) =>
-  Array.from(axesMetrics || []).map(keyAccessor)
+const shareAxesMetrics = (axesMetrics) => Array.from(axesMetrics || []).map(keyAccessor)
 
 function shareMetricSettings(MetricSettings) {
   let result
@@ -44,8 +43,7 @@ function shareMetricSettings(MetricSettings) {
 
 export function getViewOnSantimentLink(settings, widget) {
   const { from, to, slug, ticker } = settings
-  const { metrics, metricIndicators, colors, axesMetrics, metricSettings } =
-    widget
+  const { metrics, metricIndicators, colors, axesMetrics, metricSettings } = widget
 
   return newURLQuery({
     settings: JSON.stringify({ from, to, slug, ticker }),

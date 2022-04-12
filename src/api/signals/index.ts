@@ -30,10 +30,7 @@ function signalTimeseriesPrecacher() {
   }
 }
 
-export const querySignalTimeseries = (
-  signal: string,
-  { slug, from, to, interval },
-) =>
+export const querySignalTimeseries = (signal: string, { slug, from, to, interval }) =>
   query<any>(SIGNAL_QUERY, {
     variables: { signal, slug, from, to, interval },
     precacher: signalTimeseriesPrecacher,

@@ -35,10 +35,7 @@
   <div slot="trigger" class="chart row border btn v-center mrg-l mrg--b">
     <span>
       {#if charts.length === 1}
-        Chart #{widgets.indexOf(chart) + 1}: {getChartWidgetLabel(
-          chart,
-          $studio,
-        )}
+        Chart #{widgets.indexOf(chart) + 1}: {getChartWidgetLabel(chart, $studio)}
       {:else}
         All charts
       {/if}
@@ -48,17 +45,15 @@
   </div>
 
   <div slot="tooltip" class="tooltip" bind:this={optionsRef}>
-    <div
-      class="all btn border"
-      class:active={!selected}
-      on:click={() => onSelect(widgets)}>
+    <div class="all btn border" class:active={!selected} on:click={() => onSelect(widgets)}>
       All charts
     </div>
     {#each widgets as widget}
       <div
         class="option btn border mrg-m mrg--t"
         class:active={selected === widget}
-        on:click={() => onSelect(widget)}>
+        on:click={() => onSelect(widget)}
+      >
         <ChartPreview {widget} />
       </div>
     {/each}

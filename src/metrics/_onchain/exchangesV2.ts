@@ -20,9 +20,7 @@ const ExchangesV2Metric = {
 }
 
 const eachLabel = (clb: (label: string, label_fqn: string) => void) =>
-  LABELS.forEach((label) =>
-    clb(label, `santiment/owner->${label.toLowerCase()}:v1`),
-  )
+  LABELS.forEach((label) => clb(label, `santiment/owner->${label.toLowerCase()}:v1`))
 
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhb_' + label] = {
@@ -42,9 +40,6 @@ eachLabel((label, label_fqn) => {
   }
 })
 
-each(
-  ExchangesV2Metric,
-  (metric: Studio.Metric) => (metric.group = 'Exchanges 2.0'),
-)
+each(ExchangesV2Metric, (metric: Studio.Metric) => (metric.group = 'Exchanges 2.0'))
 
 export { ExchangesV2Metric }

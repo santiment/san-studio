@@ -1,9 +1,4 @@
-import {
-  newDrawing,
-  newRoundHandle,
-  checkIsOnStrokeArea,
-  getEventCoordinates,
-} from '../utils'
+import { newDrawing, newRoundHandle, checkIsOnStrokeArea, getEventCoordinates } from '../utils'
 import { Color } from '../../theme'
 
 export const HandleType = {
@@ -71,10 +66,7 @@ export function checkLineIsHovered(
   return false
 }
 
-export function paintLineHover(
-  { drawer, theme }: SAN.Charts.Chart,
-  drawing: SAN.Charts.Line,
-) {
+export function paintLineHover({ drawer, theme }: SAN.Charts.Chart, drawing: SAN.Charts.Line) {
   const { ctx } = drawer
   const { handlers } = drawing
 
@@ -116,12 +108,8 @@ export function getLineDragData(
   ]
 }
 
-export const getLineLockType = (
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-) => (Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y)
+export const getLineLockType = (x1: number, y1: number, x2: number, y2: number) =>
+  Math.abs(x2 - x1) < Math.abs(y2 - y1) ? LineLockType.X : LineLockType.Y
 
 export function lineDragModifier(
   drawing: SAN.Charts.Line,

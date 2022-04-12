@@ -17,10 +17,7 @@
 </script>
 
 <Tooltip on="click" duration={0} align="center" bind:isOpened>
-  <div
-    slot="trigger"
-    class="setting row v-center mrg-l mrg--l btn"
-    on:click={onClick}>
+  <div slot="trigger" class="setting row v-center mrg-l mrg--l btn" on:click={onClick}>
     <slot />
     <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l $style.arrow" />
   </div>
@@ -30,7 +27,8 @@
     class="body-3 column"
     class:dropdown={isList}
     class:scroll={$$slots.options}
-    bind:this={optionsNode}>
+    bind:this={optionsNode}
+  >
     <slot name="dropdown" />
     <slot name="options" />
   </div>

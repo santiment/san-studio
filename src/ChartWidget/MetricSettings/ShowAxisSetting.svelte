@@ -17,10 +17,9 @@
   function onClick() {
     if (isDisabled) return
 
-    track.event(
-      $ChartAxes.has(metric) ? Event.HideMetricAxis : Event.ShowMetricAxis,
-      { metric: metric.key },
-    )
+    track.event($ChartAxes.has(metric) ? Event.HideMetricAxis : Event.ShowMetricAxis, {
+      metric: metric.key,
+    })
 
     const toggle = () => ChartAxes.toggle(metric)
     toggle()
@@ -32,7 +31,8 @@
   Show axis
   <Checkbox
     class="mrg-s mrg--l {isDisabled ? '$style.disabled' : ''}"
-    isActive={$ChartAxes.has(metric)} />
+    isActive={$ChartAxes.has(metric)}
+  />
 </Setting>
 
 <style>

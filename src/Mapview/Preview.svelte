@@ -26,7 +26,8 @@
   on:click
   class="preview border {className}"
   class:apply={isMetricsPhase}
-  class:blocked={isBlocked}>
+  class:blocked={isBlocked}
+>
   <slot />
 
   {#if widget && $Widgets.length > 1}

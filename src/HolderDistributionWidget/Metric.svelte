@@ -16,7 +16,8 @@
   {style}
   class="btn-ghost mrg-s mrg--b row v-center"
   class:active={isActive}
-  on:click={(e) => onClick(metric, e)}>
+  on:click={(e) => onClick(metric, e)}
+>
   {#if isMerging}
     <Checkbox class="mrg-s mrg--r" {isActive} />
   {:else}

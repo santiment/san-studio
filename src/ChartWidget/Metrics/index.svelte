@@ -11,19 +11,13 @@
   const { isOnlyChartEmbedded } = getAdapterController()
   const { Metrics, ChartAddons } = getWidget()
   const AutoUpdater = getAutoUpdater()
-  const dndContext = $globals.isBeta
-    ? newSortableContext({ onDragEnd })
-    : undefined
+  const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined
 
   export let metrics, colors, loadings, settingsOpenedMetric
   export let MetricError, ChartAddonError
   export let isSingleWidget
   export let changeStudioPeriod
-  export let onMetricClick,
-    onMetricHover,
-    onMetricDelete,
-    onMetricLock,
-    onMetricSettings
+  export let onMetricClick, onMetricHover, onMetricDelete, onMetricLock, onMetricSettings
 
   function onDragEnd(oldIndex: number, newIndex: number) {
     if (oldIndex === newIndex) return
@@ -68,11 +62,10 @@
         onClick={onMetricClick}
         onEnter={onMetricEnter}
         onLeave={onMetricLeave}
-        onDelete={isSingleWidget && metrics.length === 1
-          ? undefined
-          : onMetricDelete}
+        onDelete={isSingleWidget && metrics.length === 1 ? undefined : onMetricDelete}
         onLock={onMetricLock}
-        onSettings={onMetricSettings} />
+        onSettings={onMetricSettings}
+      />
     {/each}
     {#each $ChartAddons as metric}
       <Metric
@@ -82,7 +75,8 @@
         onEnter={onMetricEnter}
         onLeave={onMetricLeave}
         onDelete={() => ChartAddons.delete(metric)}
-        onSettings={onMetricSettings} />
+        onSettings={onMetricSettings}
+      />
     {/each}
   </div>
 

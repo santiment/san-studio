@@ -33,7 +33,8 @@
         layout,
         isAuthor,
         closeLoadDialog: closeDialog,
-      })}>
+      })}
+  >
     See details
   </div>
 </div>

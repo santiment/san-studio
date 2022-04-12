@@ -17,12 +17,7 @@ export type Store = { [key in Selectables]: any[] } & {
   has: (item: any) => boolean
 }
 
-type SelectablesModifier = (
-  item: any,
-  store: Store,
-  setOf: SetOf,
-  hasItem: boolean,
-) => void
+type SelectablesModifier = (item: any, store: Store, setOf: SetOf, hasItem: boolean) => void
 
 export const SelectableModifier = {
   [Selectable.Notables]: (item, store, setOf, hasItem) => {
@@ -36,8 +31,7 @@ export const SelectableModifier = {
   },
 } as { [key in Selectables]?: SelectablesModifier }
 
-export const each = (clb: (selectable: Selectables) => any): void =>
-  selectables.forEach(clb)
+export const each = (clb: (selectable: Selectables) => any): void => selectables.forEach(clb)
 
 export function getSelectableType(item: any): Selectables {
   switch (item.selectorType) {

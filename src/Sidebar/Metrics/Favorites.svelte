@@ -33,11 +33,7 @@
     </svelte:fragment>
 
     {#each favorites as item}
-      <Item
-        {item}
-        {HoverItem}
-        isShowingSubitems={false}
-        on:click={(e) => onItemClick(e, item)} />
+      <Item {item} {HoverItem} isShowingSubitems={false} on:click={(e) => onItemClick(e, item)} />
     {:else}
       <div>Save any metric to 'Favorites' for quick access</div>
     {/each}

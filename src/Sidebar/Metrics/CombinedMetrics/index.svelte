@@ -77,7 +77,8 @@
       <button
         class="btn mrg-a mrg--l expl-tooltip row hv-center"
         aria-label="Add"
-        on:click|stopPropagation={onAdd}>
+        on:click|stopPropagation={onAdd}
+      >
         <Svg id="plus" w="10" />
       </button>
     </svelte:fragment>

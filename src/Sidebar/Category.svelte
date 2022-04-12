@@ -55,7 +55,8 @@
               <h4
                 on:click={() => toggleGroup(metric)}
                 class="row justify v-center"
-                class:hidden={!VisibleGroup[metric.group]}>
+                class:hidden={!VisibleGroup[metric.group]}
+              >
                 {metric.group}
                 <Svg id="arrow" w="8" h="5" class="$style.arrow" />
               </h4>
@@ -64,7 +65,8 @@
               <Item
                 {HoverItem}
                 item={metric}
-                on:click={(e) => onItemClick && onItemClick(e, metric)} />
+                on:click={(e) => onItemClick && onItemClick(e, metric)}
+              />
             {/if}
           {/each}
         {/if}

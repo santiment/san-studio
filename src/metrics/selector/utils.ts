@@ -20,8 +20,7 @@ function addItemToSelectorGraph(
   if (subitems) categoryItems.push(...subitems.filter(filter))
 }
 
-const indexSorter = (a: string, b: string) =>
-  (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
+const indexSorter = (a: string, b: string) => (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
 export function getMetricsSelectorGraph(
   metricKeys: string[],
   options: { [key: string]: string },
@@ -35,8 +34,7 @@ export function getMetricsSelectorGraph(
     [MetricCategory.Indicators]: [],
   }
 
-  const filter = ({ checkIsVisible }: any) =>
-    checkIsVisible ? checkIsVisible(options) : true
+  const filter = ({ checkIsVisible }: any) => (checkIsVisible ? checkIsVisible(options) : true)
   const { length } = metricKeys.sort(indexSorter)
   for (let i = 0; i < length; i++) {
     const metricKey = metricKeys[i]

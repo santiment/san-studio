@@ -6,10 +6,7 @@ function findDatetimeBorder(baseTs, cursor, targetDatetime) {
 
   do {
     cursor++
-  } while (
-    cursor < baseTsLength &&
-    targetDatetime > new Date(baseTs[cursor].datetime)
-  )
+  } while (cursor < baseTsLength && targetDatetime > new Date(baseTs[cursor].datetime))
 
   return cursor
 }
@@ -47,9 +44,7 @@ export function mergeTimeseries(ts1: MetricTimeseries, ts2: MetricTimeseries) {
 
       if (baseTsCursor >= baseTs.length) {
         // Base doesn't have data after this datetime
-        baseTs = baseTs.concat(
-          timeserie.slice(timeserieCursor).map(newDataMapper),
-        )
+        baseTs = baseTs.concat(timeserie.slice(timeserieCursor).map(newDataMapper))
         break
       } else {
         // Found potentially similar base to datetime
@@ -66,28 +61,18 @@ export function mergeTimeseries(ts1: MetricTimeseries, ts2: MetricTimeseries) {
       // current timeserie's datetime is less than the base
       const timeserieLeftCursor = timeserieCursor
 
-      timeserieCursor = findDatetimeBorder(
-        timeserie,
-        timeserieCursor,
-        baseTsDatetime,
-      )
+      timeserieCursor = findDatetimeBorder(timeserie, timeserieCursor, baseTsDatetime)
 
       if (timeserieCursor >= timeserie.length) {
         // No base found with similar datetime
-        baseTs.splice(
-          baseTsCursor,
-          0,
-          ...timeserie.slice(timeserieLeftCursor).map(newDataMapper),
-        )
+        baseTs.splice(baseTsCursor, 0, ...timeserie.slice(timeserieLeftCursor).map(newDataMapper))
         break
       } else {
         // Found potentially similar datetime to base
         baseTs.splice(
           baseTsCursor,
           0,
-          ...timeserie
-            .slice(timeserieLeftCursor, timeserieCursor)
-            .map(newDataMapper),
+          ...timeserie.slice(timeserieLeftCursor, timeserieCursor).map(newDataMapper),
         )
 
         const foundTimeserieData = timeserie[timeserieCursor]

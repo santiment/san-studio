@@ -18,11 +18,7 @@ const GAS_USED_QUERY = `
 `
 
 const precacher = newPrecacher(({ gasUsed }) => gasUsed)
-export function queryGasUsed(
-  variables: Variables,
-  _,
-  cachePolicy?: CachePolicy,
-): Promise<any> {
+export function queryGasUsed(variables: Variables, _, cachePolicy?: CachePolicy): Promise<any> {
   return query(GAS_USED_QUERY, {
     precacher,
     cachePolicy,

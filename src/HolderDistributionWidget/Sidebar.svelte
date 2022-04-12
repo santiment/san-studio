@@ -21,7 +21,8 @@
       w="12"
       h="10"
       class="btn $style.icon"
-      on:click={() => (isOpened = !isOpened)} />
+      on:click={() => (isOpened = !isOpened)}
+    />
   </div>
 
   {#if isOpened}
@@ -37,7 +38,8 @@
         class="merge btn border mrg-a mrg--l row v-center"
         on:click={onMergeClick}
         class:merging={isMerging}
-        class:confirm={isMerging && mergingMetrics.size > 1}>
+        class:confirm={isMerging && mergingMetrics.size > 1}
+      >
         {#if isMerging}
           {mergingMetrics.size > 1 ? 'Confirm' : 'Cancel'}
         {:else}
@@ -51,14 +53,8 @@
     <div class="metrics column">
       {#if !isMerging}
         {#each mergedMetrics as metric}
-          <Metric
-            {metric}
-            {colors}
-            isActive={$Metrics.includes(metric)}
-            onClick={onMetricClick}>
-            <span
-              class="btn unmerge mrg-s mrg--l"
-              on:click={() => onUnmergeClick(metric)}>
+          <Metric {metric} {colors} isActive={$Metrics.includes(metric)} onClick={onMetricClick}>
+            <span class="btn unmerge mrg-s mrg--l" on:click={() => onUnmergeClick(metric)}>
               Unmerge
             </span>
           </Metric>
@@ -70,10 +66,9 @@
           {metric}
           {colors}
           {isMerging}
-          isActive={isMerging
-            ? mergingMetrics.has(metric)
-            : $Metrics.includes(metric)}
-          onClick={onMetricClick} />
+          isActive={isMerging ? mergingMetrics.has(metric) : $Metrics.includes(metric)}
+          onClick={onMetricClick}
+        />
       {/each}
     </div>
   {/if}

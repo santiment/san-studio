@@ -32,13 +32,10 @@ export const queryFeaturedShortLayouts = (): Promise<SAN.ShortLayout[]> =>
 
 type SortedShortLayoutQuery = SAN.API.Query<'layouts', SAN.SortedShortLayout[]>
 
-export const queryShortLayouts = (
-  slug: string,
-): Promise<SAN.SortedShortLayout[]> =>
-  query<SortedShortLayoutQuery>(
-    SHORT_LAYOUTS_QUERY(slug),
-    sortableLayoutsOptions,
-  ).then(layoutsAccessor)
+export const queryShortLayouts = (slug: string): Promise<SAN.SortedShortLayout[]> =>
+  query<SortedShortLayoutQuery>(SHORT_LAYOUTS_QUERY(slug), sortableLayoutsOptions).then(
+    layoutsAccessor,
+  )
 
 // -----------------------------
 // ------ PROJECT LAYOUTS ------
@@ -57,7 +54,6 @@ const PROJECT_LAYOUTS_QUERY = (slug: string) => `
 type ProjectLayoutQuery = SAN.API.Query<'layouts', SAN.ProjectLayout[]>
 
 export const queryLayouts = (slug: string): Promise<SAN.ProjectLayout[]> =>
-  query<ProjectLayoutQuery>(
-    PROJECT_LAYOUTS_QUERY(slug),
-    sortableLayoutsOptions,
-  ).then(layoutsAccessor)
+  query<ProjectLayoutQuery>(PROJECT_LAYOUTS_QUERY(slug), sortableLayoutsOptions).then(
+    layoutsAccessor,
+  )

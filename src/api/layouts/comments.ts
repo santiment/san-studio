@@ -7,17 +7,16 @@ const LAYOUT_QUERY = (id: number) => `
   }
 `
 
-type LayoutCommentsCountQuery = SAN.API.Query<
-  'layout',
-  { commentsCount: number }
->
+type LayoutCommentsCountQuery = SAN.API.Query<'layout', { commentsCount: number }>
 
-const precacher = () => ({ layout }: LayoutCommentsCountQuery): number =>
-  layout.commentsCount
+const precacher =
+  () =>
+  ({ layout }: LayoutCommentsCountQuery): number =>
+    layout.commentsCount
 
 const options = { precacher }
 export const queryLayoutCommentsCount = (id: number): Promise<number> =>
-  (query(LAYOUT_QUERY(id), options as any) as unknown) as Promise<number>
+  query(LAYOUT_QUERY(id), options as any) as unknown as Promise<number>
 
 // ------------
 // CACHE
@@ -28,7 +27,5 @@ export const subscribeLayoutCommentsCountCache = (
   clb: SAN.API.Subscriber<any>,
 ): SAN.API.Unsubscriber => Cache.get$(LAYOUT_QUERY(id), clb)
 
-export const updateLayoutCommentsCountCache = (
-  id: number,
-  commentsCount: number,
-): void => Cache.set$(LAYOUT_QUERY(id), (() => commentsCount) as any)
+export const updateLayoutCommentsCountCache = (id: number, commentsCount: number): void =>
+  Cache.set$(LAYOUT_QUERY(id), (() => commentsCount) as any)

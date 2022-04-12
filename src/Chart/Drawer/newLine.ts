@@ -1,11 +1,6 @@
 import { getEventCoordinates } from './utils'
 import { absoluteToRatioCoordinates } from './coordinates'
-import {
-  LineLockType,
-  getLineLockType,
-  updateLine,
-  newLine,
-} from './drawings/line'
+import { LineLockType, getLineLockType, updateLine, newLine } from './drawings/line'
 
 export function newLineCreationHandler(
   chart: SAN.Charts.Chart,

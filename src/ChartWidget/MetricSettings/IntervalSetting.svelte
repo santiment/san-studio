@@ -87,7 +87,8 @@
       <div
         class="btn-ghost"
         class:active={metricInterval === interval.id}
-        on:click={() => onClick(interval)}>
+        on:click={() => onClick(interval)}
+      >
         {interval.label}
       </div>
     {/each}

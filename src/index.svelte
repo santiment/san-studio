@@ -101,7 +101,8 @@
                   {widget}
                   {Widgets}
                   {onWidgetUpdate}
-                  viewportObserver={widgetViewportObserver} />
+                  viewportObserver={widgetViewportObserver}
+                />
               {/each}
             </div>
 

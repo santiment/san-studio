@@ -66,7 +66,8 @@
         {restrictedMetrics}
         restrictions={formatMetrics().slice(0, 4).concat('and many others')}
         upgradeClass="btn--l"
-        isBanner />
+        isBanner
+      />
     </div>
   {/if}
 {/if}

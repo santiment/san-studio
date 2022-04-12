@@ -87,7 +87,8 @@
         <div
           class="btn-ghost"
           class:active={metricNode === CANDLES_NODE.id}
-          on:click={() => onClick(metric, metricSettings, metricNode, CANDLES_NODE)}>
+          on:click={() => onClick(metric, metricSettings, metricNode, CANDLES_NODE)}
+        >
           {CANDLES_NODE.label}
         </div>
       {/if}
@@ -96,7 +97,8 @@
         <div
           class="btn-ghost"
           class:active={metricNode === node.id}
-          on:click={() => onClick(metric, metricSettings, metricNode, node)}>
+          on:click={() => onClick(metric, metricSettings, metricNode, node)}
+        >
           {node.label}
         </div>
       {/each}
@@ -105,7 +107,8 @@
         <div
           class="btn-ghost"
           class:active={metricNode === PN_BARS_NODE.id}
-          on:click={() => onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}>
+          on:click={() => onClick(metric, metricSettings, metricNode, PN_BARS_NODE)}
+        >
           {PN_BARS_NODE.label}
         </div>
       {/if}

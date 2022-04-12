@@ -25,23 +25,23 @@
   {isSingleWidget}
   {deleteWidget}
   {defaultMetrics}
-  bind:isMerging>
+  bind:isMerging
+>
   <slot>by balance of addresses</slot>
 
-  <div
-    slot="tabs"
-    class="tabs row txt-m mrg-l mrg--b"
-    class:disabled={isMerging}>
+  <div slot="tabs" class="tabs row txt-m mrg-l mrg--b" class:disabled={isMerging}>
     <div
       class="tab btn"
       class:active={isPercentsMetrics}
-      on:click={() => isMerging || (isPercentsMetrics = true)}>
+      on:click={() => isMerging || (isPercentsMetrics = true)}
+    >
       Percents
     </div>
     <div
       class="tab btn"
       class:active={!isPercentsMetrics}
-      on:click={() => isMerging || (isPercentsMetrics = false)}>
+      on:click={() => isMerging || (isPercentsMetrics = false)}
+    >
       Absolute
     </div>
   </div>

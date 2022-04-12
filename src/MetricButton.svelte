@@ -37,7 +37,8 @@
   style={color}
   on:click
   on:mouseenter
-  on:mouseleave>
+  on:mouseleave
+>
   <div class="color" class:loader={isLoading} />
 
   {label}

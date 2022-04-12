@@ -9,12 +9,7 @@
   const metrics = [Metric.price_usd, Metric.adjusted_price_daa_divergence]
 </script>
 
-<PriceDAAWidget
-  {widget}
-  {isSingleWidget}
-  {deleteWidget}
-  {metrics}
-  prefix="Adjusted" />
+<PriceDAAWidget {widget} {isSingleWidget} {deleteWidget} {metrics} prefix="Adjusted" />
 
 <style>
 </style>

@@ -62,7 +62,8 @@
       type="text"
       placeholder="Search for asset name..."
       bind:value={searchTerm}
-      on:keydown={onKeyDown} />
+      on:keydown={onKeyDown}
+    />
 
     <Blockchains bind:blockchain {inputNode} />
   </div>
@@ -72,7 +73,8 @@
     searchTerm={searchTerm.toLowerCase()}
     cursor={context.cursor}
     {blockchain}
-    {onSelect} />
+    {onSelect}
+  />
 
   <!-- <div class="tip row v-center caption c-waterloo">PROTIP:</div> -->
 </Dialog>

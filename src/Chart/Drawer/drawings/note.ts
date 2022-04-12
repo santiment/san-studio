@@ -1,8 +1,6 @@
 import { newDrawing } from '../utils'
 
-type NewNote = Partial<
-  Pick<SAN.Charts.Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>
->
+type NewNote = Partial<Pick<SAN.Charts.Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>>
 export function newNote(drawing: NewNote) {
   if (!drawing.text) drawing.text = 'Text'
   return newDrawing(Object.assign(drawing, { type: 'note' }) as SAN.Charts.Note)
@@ -14,8 +12,7 @@ const BG = '#FFEA79'
 const BORDER = '#68B3F4'
 const COLOR = '#2F354D'
 const STYLE = `padding:${PADDING}px;white-space:pre-line;background:${BG};font:14px sans-serif;position:absolute;line-height:15px;word-break:keep-all`
-const EDIT_STYLE =
-  STYLE + `;outline:0;border:1px solid ${BORDER};color:${COLOR}`
+const EDIT_STYLE = STYLE + `;outline:0;border:1px solid ${BORDER};color:${COLOR}`
 function newInput(text: string, style = STYLE, x = -999, y = -999) {
   const input = document.createElement('div')
   input.contentEditable = 'true'
@@ -50,10 +47,7 @@ export function paintNote(chart: SAN.Charts.Chart, drawing: SAN.Charts.Note) {
   ctx.restore()
 }
 
-export function updateNote(
-  { drawer }: SAN.Charts.Chart,
-  drawing: SAN.Charts.Note,
-) {
+export function updateNote({ drawer }: SAN.Charts.Chart, drawing: SAN.Charts.Note) {
   if (!drawing.width) {
     const { ctx } = drawer
     ctx.save()
@@ -79,11 +73,7 @@ export function updateNote(
 // --- HOVERING ---
 // ------------------------
 
-export function checkNoteIsHovered(
-  _,
-  drawing: SAN.Charts.Note,
-  mouseXY: [number, number],
-) {
+export function checkNoteIsHovered(_, drawing: SAN.Charts.Note, mouseXY: [number, number]) {
   if (drawing.hidden) return false
 
   const { absCoor, width, height } = drawing
@@ -93,10 +83,7 @@ export function checkNoteIsHovered(
   return x < mouseX && mouseX < x + width && y < mouseY && mouseY < y + height
 }
 
-export function paintNoteHover(
-  { drawer }: SAN.Charts.Chart,
-  drawing: SAN.Charts.Note,
-) {
+export function paintNoteHover({ drawer }: SAN.Charts.Chart, drawing: SAN.Charts.Note) {
   if (drawing.hidden) return
 
   const { ctx } = drawer
@@ -159,11 +146,7 @@ export function handleNoteDoubleClick(
       drawing.text = newText
       drawing.width = clientWidth
       drawing.height = clientHeight
-      onDrawingModified(drawing, drawing.ratioCoor.slice(), [
-        text,
-        width,
-        height,
-      ])
+      onDrawingModified(drawing, drawing.ratioCoor.slice(), [text, width, height])
     }
 
     drawing.hidden = false

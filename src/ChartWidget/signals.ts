@@ -42,9 +42,7 @@ export function newMetricSignalsStore(defaultValue?: Signals) {
     update(metrics: Studio.Metric[]) {
       const newSignalsSet = new Set<any>()
 
-      metrics.forEach(
-        (metric) => signalsSet.has(metric) && newSignalsSet.add(metric),
-      )
+      metrics.forEach((metric) => signalsSet.has(metric) && newSignalsSet.add(metric))
 
       signalsSet = newSignalsSet
       update()

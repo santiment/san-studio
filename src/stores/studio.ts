@@ -58,8 +58,7 @@ export const studio = {
 }
 
 export const LOCKED_ASSET_CONTEXT = 'LOCKED_ASSET_CONTEXT'
-export const setLockedAssetStore = (store): void =>
-  setContext(LOCKED_ASSET_CONTEXT, store)
+export const setLockedAssetStore = (store): void => setContext(LOCKED_ASSET_CONTEXT, store)
 export const getLockedAssetStore = () => getContext(LOCKED_ASSET_CONTEXT)
 export function newLockedAssetStore() {
   const store = writable(STUDIO)

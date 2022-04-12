@@ -23,9 +23,7 @@ export const mapview = (() => {
       set(MapviewPhase.None)
     },
     toggle() {
-      set(
-        phase !== MapviewPhase.None ? MapviewPhase.None : MapviewPhase.Overview,
-      )
+      set(phase !== MapviewPhase.None ? MapviewPhase.None : MapviewPhase.Overview)
     },
     checkActiveMetrics(hasActiveMetrics: boolean): void {
       if (hasActiveMetrics) {

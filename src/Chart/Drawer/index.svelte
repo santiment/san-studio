@@ -37,11 +37,7 @@
 
   const NewDrawingHandler = {
     line: newLineCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
-    hray: newHorizontalRayCreationHandler(
-      chart,
-      onNewDrawingStart,
-      onNewDrawingEnd,
-    ),
+    hray: newHorizontalRayCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
   } as Record<NonNullable<SAN.Charts.NewDrawingType>, (...args) => any>
 
   export let metricKey: string
@@ -88,19 +84,14 @@
     })
   }
 
-  function onDrawingDragEnd(
-    drawing: Drawing,
-    oldRatioCoor: Drawing['ratioCoor'],
-    data: any[],
-  ) {
+  function onDrawingDragEnd(drawing: Drawing, oldRatioCoor: Drawing['ratioCoor'], data: any[]) {
     ChartDrawer.dispatch({
       type: 'modified',
       data: { drawing, oldRatioCoor, data },
     })
   }
 
-  const setIsDrawing = (value: boolean) =>
-    ChartDrawer.setIsDrawing((chart.isDrawing = value))
+  const setIsDrawing = (value: boolean) => ChartDrawer.setIsDrawing((chart.isDrawing = value))
   function startDrawing() {
     setIsDrawing(true)
   }
@@ -170,21 +161,9 @@
       return newDrawing && hook(parent, 'mousedown', newDrawing)
     }
 
-    const removeDrawingHoverHandler = hook(
-      parent,
-      'mousemove',
-      drawingHoverHandler,
-    )
-    const removeDrawingSelectHandler = hook(
-      parent,
-      'mousedown',
-      drawingSelectHandler,
-    )
-    const removeDrawingDblClickHandler = hook(
-      parent,
-      'dblclick',
-      drawingDblClickHandler,
-    )
+    const removeDrawingHoverHandler = hook(parent, 'mousemove', drawingHoverHandler)
+    const removeDrawingSelectHandler = hook(parent, 'mousedown', drawingSelectHandler)
+    const removeDrawingDblClickHandler = hook(parent, 'dblclick', drawingDblClickHandler)
 
     return () => {
       removeDrawingHoverHandler()

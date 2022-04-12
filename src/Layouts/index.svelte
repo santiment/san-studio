@@ -194,7 +194,8 @@
           on:click={() =>
             showDeleteLayoutDialog({ layout }).then(
               (wasDeleted) => wasDeleted && selectedLayout.set(undefined),
-            )}>
+            )}
+        >
           Delete
         </div>
       {/if}

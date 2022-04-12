@@ -91,18 +91,21 @@
       name="title"
       value={layoutTitle}
       placeholder="Name of the layout"
-      class="input border row" />
+      class="input border row"
+    />
 
     <textarea
       class="input border mrg-l mrg--t mrg--b"
       name="description"
       rows="4"
       value={description}
-      placeholder="Description" />
+      placeholder="Description"
+    />
 
     <div class="row v-center">
       <button class="btn btn-1 btn--green mrg-a mrg--r" type="submit">
-        {mode === Mode.New ? 'Create' : 'Save'}</button>
+        {mode === Mode.New ? 'Create' : 'Save'}</button
+      >
 
       Public
       <Toggle class="mrg-m mrg--l" isActive={isPublic} on:click={toggleLayoutPublicity} />

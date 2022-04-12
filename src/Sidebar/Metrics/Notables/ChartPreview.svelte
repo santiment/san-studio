@@ -28,9 +28,7 @@
 
   function getSignals(key, settings) {
     loading = true
-    querySignalTimeseries(key, settings).then((data) =>
-      onSignalsData(key, data),
-    )
+    querySignalTimeseries(key, settings).then((data) => onSignalsData(key, data))
   }
 
   function onSignalsData(fetchedKey: string, signals: any[]) {

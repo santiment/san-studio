@@ -17,9 +17,7 @@ type ProjectMetrics = SAN.API.Query<
 function precacher() {
   return ({ projectBySlug }) => {
     const { availableMetrics, availableQueries } = projectBySlug
-    const metricsSet = new Set(
-      NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries),
-    )
+    const metricsSet = new Set(NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries))
     return Array.from(metricsSet)
   }
 }

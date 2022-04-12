@@ -14,4 +14,5 @@
   {onLeave}
   on:mousewheel
   on:click={(e) => onItemClick(e, notable)}
-  onItemEnter={(e) => onItemEnter(e.currentTarget, notable)} />
+  onItemEnter={(e) => onItemEnter(e.currentTarget, notable)}
+/>

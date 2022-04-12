@@ -68,7 +68,8 @@
   highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
   on:click={(e) => onClick(metric, e)}
   on:mouseenter={onMouseEnter}
-  on:mouseleave={onMouseLeave}>
+  on:mouseleave={onMouseLeave}
+>
   {#if !metric.noProject}
     {#if isLocked}
       {#if !isEmbedded}

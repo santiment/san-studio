@@ -19,10 +19,7 @@
   const clear = () => ((hovered = null), onLeave?.())
   function onMouseEnter({ currentTarget }) {
     hovered = currentTarget
-    setTimeout(
-      () => currentTarget.nextElementSibling?.matches(':hover') || clear(),
-      15,
-    )
+    setTimeout(() => currentTarget.nextElementSibling?.matches(':hover') || clear(), 15)
   }
 
   onDestroy(() => (window.__clearHoverItem = null))
@@ -34,7 +31,8 @@
   class:active
   class:subitem={isShowingSubitems && item.submetricOf}
   on:mouseenter={HoverItem && onMouseEnter}
-  on:click>
+  on:click
+>
   <slot>
     <ItemLabel {item} bind:active />
   </slot>
@@ -48,7 +46,8 @@
     on:mouseenter={onItemEnter}
     on:mouseleave={clear}
     on:mousewheel={clear}
-    on:click>
+    on:click
+  >
     <svelte:component this={HoverItem} node={hovered} {item} {hoverNode} />
   </div>
 {/if}

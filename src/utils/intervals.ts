@@ -34,16 +34,13 @@ export function getIntervals(minInterval: string): Interval[] {
   return index === -1 ? INTERVALS : INTERVALS.slice(index)
 }
 
-export const isAvailableInterval = (
-  interval: string | undefined,
-  intervals: Interval[],
-): boolean => intervals.some(({ id }) => id === interval)
+export const isAvailableInterval = (interval: string | undefined, intervals: Interval[]): boolean =>
+  intervals.some(({ id }) => id === interval)
 
 export const getValidInterval = (
   interval: string | undefined,
   intervals: Interval[],
-): string | undefined =>
-  isAvailableInterval(interval, intervals) ? interval : intervals[0].id
+): string | undefined => (isAvailableInterval(interval, intervals) ? interval : intervals[0].id)
 
 const FormatToTimestamp = {
   m: ONE_MINUTE_IN_MS,
@@ -56,8 +53,7 @@ export function getIntervalMilliseconds(interval: string) {
 }
 
 export function normalizeInterval(interval: string, minInterval: string) {
-  return getIntervalMilliseconds(interval) >
-    getIntervalMilliseconds(minInterval)
+  return getIntervalMilliseconds(interval) > getIntervalMilliseconds(minInterval)
     ? interval
     : minInterval
 }

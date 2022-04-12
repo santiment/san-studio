@@ -22,5 +22,6 @@
     onAnonComment={window.onAnonComment}
     onCommentsLoaded={window.onCommentsLoaded}
     onCommentError={window.onCommentError}
-    {onNewComment} />
+    {onNewComment}
+  />
 {/if}

@@ -14,19 +14,14 @@ const immutate =
   ({ datetime }) => ({ datetime, [key]: 0 })
 const keyGetter = ({ key }) => key
 
-export const checkIfWasNotMerged = (
-  newKey: string,
-  mergedMetrics: any[],
-): boolean => !mergedMetrics.some(({ key }) => key === newKey)
+export const checkIfWasNotMerged = (newKey: string, mergedMetrics: any[]): boolean =>
+  !mergedMetrics.some(({ key }) => key === newKey)
 
 function mergeMetricLabels(startLabel: string, endLabel: string): string {
   const endRightBoundaryIndex = endLabel.lastIndexOf('-')
   return (
     startLabel.slice(0, startLabel.indexOf('-') + 2) +
-    endLabel.slice(
-      endRightBoundaryIndex + 2,
-      endLabel.indexOf(')', endRightBoundaryIndex) + 1,
-    )
+    endLabel.slice(endRightBoundaryIndex + 2, endLabel.indexOf(')', endRightBoundaryIndex) + 1)
   )
 }
 
@@ -67,8 +62,7 @@ export function buildMergedMetric(baseMetrics: any[]) {
   baseMetrics.sort(mergedMetricsSorter)
 
   const isPercentMerge = baseMetrics[0].type === 'percent'
-  const [labelPostfix, formatter, axisFormatter] =
-    MergedTypePropsTuple[+isPercentMerge]
+  const [labelPostfix, formatter, axisFormatter] = MergedTypePropsTuple[+isPercentMerge]
 
   const metric = {
     fetch,
@@ -83,11 +77,7 @@ export function buildMergedMetric(baseMetrics: any[]) {
   return metric
 }
 
-function fetch(
-  variables,
-  metric: Studio.HolderDistributionMetric,
-  cachePolicy?: CachePolicy,
-) {
+function fetch(variables, metric: Studio.HolderDistributionMetric, cachePolicy?: CachePolicy) {
   const { key, baseMetrics, type } = metric
   const isPercentMerge = type === 'percent'
 

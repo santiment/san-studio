@@ -53,17 +53,12 @@ export function handleItemSelect(
   const { Metrics, MetricsSignals } = widget
   const oldMetrics = get<any>(Metrics).slice()
   const oldSignals = get<any>(MetricsSignals).slice()
-  const redo = () => (
-    Metrics.add(metric), isNotable && MetricsSignals.concat(metrics)
-  )
+  const redo = () => (Metrics.add(metric), isNotable && MetricsSignals.concat(metrics))
 
   redo()
   History?.add(
     'Add metrics',
-    withScroll(
-      widget,
-      () => (Metrics.set(oldMetrics), MetricsSignals.set(oldSignals)),
-    ),
+    withScroll(widget, () => (Metrics.set(oldMetrics), MetricsSignals.set(oldSignals))),
     withScroll(widget, redo),
   )
 }

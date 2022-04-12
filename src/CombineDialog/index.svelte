@@ -78,7 +78,8 @@
   {...$$props}
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
-  class="$style.dialog">
+  class="$style.dialog"
+>
   <div class="dialog-content row">
     <Sidebar {metrics} {onMetricSelect} />
 
@@ -101,7 +102,8 @@
         bind:value={label}
         placeholder="Combined metric"
         on:blur={() => (isLabelInputDirty = true)}
-        class:invalid={isLabelInputDirty && !label.trim()} />
+        class:invalid={isLabelInputDirty && !label.trim()}
+      />
 
       <div class="caption mrg-l mrg--t">Expression</div>
       <input
@@ -109,7 +111,8 @@
         type="text"
         bind:value={expression}
         on:blur={() => (isExpressionDirty = true)}
-        class:invalid={!isValidExpression} />
+        class:invalid={!isValidExpression}
+      />
 
       <div class="caption mrg-l mrg--t">Preview</div>
       <div class="border">

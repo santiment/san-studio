@@ -49,10 +49,9 @@
     {#if item.selectorType === undefined}
       <Svg
         id="star{isFavorited ? '-filled' : ''}"
-        class="$style.icon $style.star mrg-m mrg--l {isFavorited
-          ? '$style.favorited'
-          : ''}"
-        on:click={onFavoriteClick} />
+        class="$style.icon $style.star mrg-m mrg--l {isFavorited ? '$style.favorited' : ''}"
+        on:click={onFavoriteClick}
+      />
     {/if}
   </svelte:fragment>
 </HoverItem>

@@ -2,8 +2,7 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import LoadLayoutDialog from './LoadLayoutDialog.svelte'
 
-  export const showLoadLayoutDialog = (): Promise<unknown> =>
-    dialogs.show(LoadLayoutDialog)
+  export const showLoadLayoutDialog = (): Promise<unknown> => dialogs.show(LoadLayoutDialog)
 </script>
 
 <script lang="ts">
@@ -12,10 +11,7 @@
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { queryLayouts } from '@/api/layouts'
-  import {
-    queryCurrentUserLayouts,
-    subscribeCurrentUserLayoutsCache,
-  } from '@/api/layouts/user'
+  import { queryCurrentUserLayouts, subscribeCurrentUserLayoutsCache } from '@/api/layouts/user'
   import Search from '@/Sidebar/Search.svelte'
   import SelectableLayout from './SelectableLayout.svelte'
 
@@ -43,9 +39,7 @@
 
     if (tab === Tab.Explore) return queryLayouts(slug)
 
-    unsubscribe = subscribeCurrentUserLayoutsCache(
-      () => (layouts = oldSortedLayouts),
-    )
+    unsubscribe = subscribeCurrentUserLayoutsCache(() => (layouts = oldSortedLayouts))
     return queryCurrentUserLayouts()
   }
 
@@ -69,23 +63,16 @@
   })
 </script>
 
-<Dialog
-  {...$$props}
-  title="Load Chart Layout"
-  class="$style.dialog"
-  bind:closeDialog>
+<Dialog {...$$props} title="Load Chart Layout" class="$style.dialog" bind:closeDialog>
   <div class="tabs row">
     <div
       class="tab btn mrg-xl mrg--r active"
       class:active={tab === Tab.MyLibrary}
-      on:click={() =>
-        (tab = $globals.isLoggedIn ? Tab.MyLibrary : Tab.Explore)}>
+      on:click={() => (tab = $globals.isLoggedIn ? Tab.MyLibrary : Tab.Explore)}
+    >
       My Library
     </div>
-    <div
-      class="tab btn"
-      class:active={tab === Tab.Explore}
-      on:click={() => (tab = Tab.Explore)}>
+    <div class="tab btn" class:active={tab === Tab.Explore} on:click={() => (tab = Tab.Explore)}>
       Explore
     </div>
   </div>
@@ -100,7 +87,8 @@
         {layout}
         {closeDialog}
         onClick={onLayoutSelect}
-        isAuthor={tab === Tab.MyLibrary} />
+        isAuthor={tab === Tab.MyLibrary}
+      />
     {/each}
   </div>
 </Dialog>

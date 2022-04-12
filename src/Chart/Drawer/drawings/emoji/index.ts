@@ -11,9 +11,9 @@ import rock from './rock.png'
 const MIN_SIZE = 25
 const MAX_SIZE = 70
 
-type NewEmoji = Partial<
-  Pick<SAN.Charts.Emoji, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>
-> & { id: SAN.Charts.EmojiIds }
+type NewEmoji = Partial<Pick<SAN.Charts.Emoji, 'size' | 'absCoor' | 'relCoor' | 'ratioCoor'>> & {
+  id: SAN.Charts.EmojiIds
+}
 export function newEmoji(drawing: NewEmoji) {
   drawing.size = drawing.size || 50
   const emoji = Object.assign(drawing, { type: 'emoji' }) as SAN.Charts.Emoji
@@ -30,15 +30,9 @@ export const EmojiSrc: Record<SAN.Charts.EmojiIds, string> = {
   unicorn,
   bell,
 }
-export const EMOJIS = Object.entries(EmojiSrc) as [
-  SAN.Charts.EmojiIds,
-  string,
-][]
+export const EMOJIS = Object.entries(EmojiSrc) as [SAN.Charts.EmojiIds, string][]
 
-export const CachedEmoji = new Map<
-  SAN.Charts.EmojiIds,
-  undefined | null | HTMLImageElement
->()
+export const CachedEmoji = new Map<SAN.Charts.EmojiIds, undefined | null | HTMLImageElement>()
 
 export function paintEmoji(chart: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
   const img = CachedEmoji.get(drawing.id)
@@ -107,10 +101,7 @@ export function checkEmojiIsHovered(
   return false
 }
 
-export function paintEmojiHover(
-  { drawer }: SAN.Charts.Chart,
-  drawing: SAN.Charts.Emoji,
-) {
+export function paintEmojiHover({ drawer }: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
   const { ctx } = drawer
   const { hitbox, handlers } = drawing
 
@@ -165,8 +156,7 @@ export function emojiDragModifier(
   if (isResize) {
     const diff = areLeftHandlers ? -xDiff : xDiff
     const size = initialSize + diff
-    drawing.size =
-      size < MIN_SIZE ? MIN_SIZE : size > MAX_SIZE ? MAX_SIZE : size
+    drawing.size = size < MIN_SIZE ? MIN_SIZE : size > MAX_SIZE ? MAX_SIZE : size
 
     return
   }

@@ -21,13 +21,7 @@ export const CONTEXT = 'chartManager'
 export const setChart = (chart: Chart): void => setContext(CONTEXT, chart)
 export const getChart = (): Chart => getContext(CONTEXT)
 
-export type Plotter = (
-  chart: any,
-  scale: any,
-  data: any,
-  colors: any,
-  categories: any,
-) => any
+export type Plotter = (chart: any, scale: any, data: any, colors: any, categories: any) => any
 export function newPlotManager() {
   const subscribers = new Set<any>()
   const call = (subscriber) => subscriber()

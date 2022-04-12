@@ -22,8 +22,7 @@ export function newInsightsContextStore() {
   return {
     subscribe,
     set(newInsight, from: string, to: string) {
-      InsightContext.insight =
-        newInsight === InsightContext.insight ? undefined : newInsight
+      InsightContext.insight = newInsight === InsightContext.insight ? undefined : newInsight
 
       if (from && to) {
         InsightContext.from = from

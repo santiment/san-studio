@@ -93,4 +93,5 @@
   {metricsFilter}
   {fullscreenMetricsFilter}
   {onLoad}
-  class={className} />
+  class={className}
+/>

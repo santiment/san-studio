@@ -78,7 +78,8 @@
   {isSingleWidget}
   {deleteWidget}
   {defaultMetrics}
-  metrics={LABELED_HOLDER_DISTRIBUTION_METRICS}>
+  metrics={LABELED_HOLDER_DISTRIBUTION_METRICS}
+>
   <slot>labeled by number of addresses</slot>
 
   <svelte:fragment slot="tabs">

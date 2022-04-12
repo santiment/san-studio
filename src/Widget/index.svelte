@@ -78,7 +78,8 @@
       this={widget.Widget}
       {widget}
       {isSingleWidget}
-      deleteWidget={deleteWidgetWithHistory} />
+      deleteWidget={deleteWidgetWithHistory}
+    />
   {/if}
 </div>
 {#if widget.subwidgets}

@@ -92,13 +92,15 @@
           {widget}
           {isMetricsPhase}
           onClick={onWidgetClick}
-          wasHiddenWidgets={hiddenWidgets.has(widget)} />
+          wasHiddenWidgets={hiddenWidgets.has(widget)}
+        />
       {:else}
         <Preview
           {widget}
           isBlocked={isMetricsPhase}
           class="column hv-center"
-          on:click={() => onWidgetClick(widget)}>
+          on:click={() => onWidgetClick(widget)}
+        >
           <div class="title">
             {widget.previewTitle}
           </div>

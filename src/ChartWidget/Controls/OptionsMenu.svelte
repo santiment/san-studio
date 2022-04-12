@@ -40,18 +40,21 @@
     class="btn"
     on:click={newHistoryToggle('Toggle "Cartesian grid"', () =>
       ChartOptions.toggle('cartesianGrid'),
-    )}>
+    )}
+  >
     Cartesian grid <Toggle isActive={$ChartOptions.cartesianGrid} />
   </div>
   <div
     class="btn"
-    on:click={newHistoryToggle('Toggle "Presenter mode"', () => globals.toggle('isPresenterMode'))}>
+    on:click={newHistoryToggle('Toggle "Presenter mode"', () => globals.toggle('isPresenterMode'))}
+  >
     Presenter mode <Toggle isActive={$globals.isPresenterMode} />
   </div>
   <div
     class="btn"
     class:disabled={!isPro}
-    on:click={() => isPro && ChartOptions.toggle('isWatermarkLessVisible')}>
+    on:click={() => isPro && ChartOptions.toggle('isWatermarkLessVisible')}
+  >
     Make watermark less visible
     {#if isPro}
       <Toggle isActive={$ChartOptions.isWatermarkLessVisible} class="mrg-xl mrg--l" />
@@ -63,7 +66,8 @@
   <div
     class="btn"
     on:click={() => isProPlus && ChartOptions.toggle('watermark')}
-    class:disabled={!isProPlus}>
+    class:disabled={!isProPlus}
+  >
     Hide watermark
     {#if isProPlus}
       <Toggle isActive={!$ChartOptions.watermark} class="mrg-xl mrg--l" />

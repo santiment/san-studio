@@ -19,8 +19,7 @@
   export let isMerging = false
 
   if (!widget.metrics) {
-    widget.metrics =
-      defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
+    widget.metrics = defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
   }
   if (!widget.Metrics) initWidget(widget)
   const { Metrics, ChartColors } = widget
@@ -35,9 +34,7 @@
   $: colors = $ChartColors
 
   function metricsFilter(metric: Studio.Metric) {
-    return (
-      !HolderDistributionMetric[metric.key] && !mergedMetricsSet.has(metric)
-    )
+    return !HolderDistributionMetric[metric.key] && !mergedMetricsSet.has(metric)
   }
 
   function checkMetric(metric: Studio.Metric) {
@@ -121,11 +118,7 @@
 </script>
 
 <div class="widget row">
-  <ChartWidget
-    {widget}
-    {metricsFilter}
-    {isSingleWidget}
-    deleteWidget={onWidgetDelete} />
+  <ChartWidget {widget} {metricsFilter} {isSingleWidget} deleteWidget={onWidgetDelete} />
 
   <Sidebar
     {metrics}
@@ -136,7 +129,8 @@
     {isMerging}
     {onMergeClick}
     {onMetricClick}
-    {onUnmergeClick}>
+    {onUnmergeClick}
+  >
     <slot>by number of addresses</slot>
     <slot name="tabs" slot="tabs" />
   </Sidebar>

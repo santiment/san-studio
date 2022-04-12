@@ -11,11 +11,7 @@ const defaultModifier = (key: string, datetime: number, value: number) => ({
   [key]: value,
 })
 
-export function newPrecacher(
-  dataAccessor: any,
-  modifyData = defaultModifier,
-  prepareResult?: any,
-) {
+export function newPrecacher(dataAccessor: any, modifyData = defaultModifier, prepareResult?: any) {
   return ({ key }: Variables) =>
     (response: any) => {
       const data = dataAccessor(response)

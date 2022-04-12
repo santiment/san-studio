@@ -17,8 +17,7 @@ const DRAWER = {
 } as any
 
 const CONTEXT = 'chartDrawer'
-export const setChartDrawer = (chart: ChartDrawerStore): void =>
-  setContext(CONTEXT, chart)
+export const setChartDrawer = (chart: ChartDrawerStore): void => setContext(CONTEXT, chart)
 export const getChartDrawer = (): ChartDrawerStore => getContext(CONTEXT)
 
 export function newChartDrawerStore(defaultValue?: SAN.Charts.Drawing[]) {

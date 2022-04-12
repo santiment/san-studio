@@ -11,10 +11,7 @@ const EXCHANGES_QUERY = (slug: string, isDex: boolean) => `
 `
 
 const accessor = ({ allExchanges }) => allExchanges
-export function queryProjectExchanges(
-  slug: string,
-  isDex = false,
-): Promise<string[]> {
+export function queryProjectExchanges(slug: string, isDex = false): Promise<string[]> {
   return query<any>(EXCHANGES_QUERY(slug, isDex)).then(accessor)
 }
 

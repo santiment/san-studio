@@ -52,7 +52,8 @@
   noBg
   class="$style.dialog"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
-  bind:closeDialog>
+  bind:closeDialog
+>
   <div class="title btn" slot="title" on:click={() => closeDialog(true)}>
     <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r $style.arrow" />
     {layout.title}

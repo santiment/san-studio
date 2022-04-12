@@ -24,7 +24,8 @@
   class="btn-3 expl-tooltip"
   aria-label={isActive ? 'Show drawings' : 'Hide drawings'}
   class:active={isActive}
-  on:click={onClick}>
+  on:click={onClick}
+>
   {#if isActive}
     <Svg id="eye-crossed" w="20" h="17" />
   {:else}

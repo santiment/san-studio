@@ -92,7 +92,8 @@
     aria-label="Draw Line | L"
     class:active={$ChartDrawer.isNewDrawing === 'line'}
     class:disabled={$ChartDrawer.isHidden}
-    on:click={onNewLine}>
+    on:click={onNewLine}
+  >
     <Svg id="line" w="15" />
   </div>
 
@@ -101,7 +102,8 @@
     aria-label="Horizontal Ray"
     class:active={$ChartDrawer.isNewDrawing === 'hray'}
     class:disabled={$ChartDrawer.isHidden}
-    on:click={onNewHorizontalRay}>
+    on:click={onNewHorizontalRay}
+  >
     <Svg id="hray" w="17" h="5" />
   </div>
 
@@ -124,7 +126,8 @@
     <IncompleteData {chart} />
   {:else if $globals.isTrial}
     <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
-      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />Upgrade</a>
+      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />Upgrade</a
+    >
   {/if}
 
   {#if hasDomainGroups}
@@ -137,7 +140,8 @@
     <div
       class="btn-3 mrg-s mrg--r expl-tooltip"
       aria-label="Download as PNG"
-      on:click={() => download({ ...widget, chart }, downloadPng)}>
+      on:click={() => download({ ...widget, chart }, downloadPng)}
+    >
       <Svg id="download" w="17" />
     </div>
 

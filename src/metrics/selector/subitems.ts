@@ -73,17 +73,12 @@ export const Subitems = {
     SelectorNode.ProjectInTrends,
   ],
 
-  [Metric.twitter_followers.key]: [
-    Metric.twitter_followers_24h,
-    Metric.twitter_followers_7d,
-  ],
+  [Metric.twitter_followers.key]: [Metric.twitter_followers_24h, Metric.twitter_followers_7d],
   [Metric.mvrv_usd.key]: Object.values(MvrvTimebounds),
   [Metric.mvrv_usd_intraday.key]: Object.values(MvrvUsdIntradayTimebounds),
   [Metric.realized_value_usd.key]: Object.values(RealizedCapTimebounds),
   [Metric.circulation.key]: Object.values(CirculationTimebounds),
-  [Metric.dormant_circulation_365d.key]: Object.values(
-    DormantCirculationTimebounds,
-  ),
+  [Metric.dormant_circulation_365d.key]: Object.values(DormantCirculationTimebounds),
 
   [Metric.median_fees_usd.key]: [SelectorNode.FeesDistribution],
   [Metric.amount_in_top_holders.key]: [SelectorNode.HoldersDistributionTable],

@@ -57,12 +57,7 @@ export function transformCandles(
     cleanupCandlesSettings(metric, metricSettings, ChartMetricDisplays)
     return metricSettings
   }
-  setCandlesSettings(
-    metric,
-    metricSettings,
-    studioSettings,
-    ChartMetricDisplays,
-  )
+  setCandlesSettings(metric, metricSettings, studioSettings, ChartMetricDisplays)
 
   return metricSettings
 }

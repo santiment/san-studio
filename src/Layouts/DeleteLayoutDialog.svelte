@@ -30,16 +30,13 @@
   {...$$props}
   title="Do you want to delete this layout?"
   bind:closeDialog
-  class="$style.dialog">
+  class="$style.dialog"
+>
   <div class="dialog-body">
     This action cannot be undone
     <div class="row mrg-l mrg--t">
-      <div class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>
-        Cancel
-      </div>
-      <div class="btn btn-1 btn--green mrg-l mrg--l" on:click={onDeleteClick}>
-        Delete
-      </div>
+      <div class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>Cancel</div>
+      <div class="btn btn-1 btn--green mrg-l mrg--l" on:click={onDeleteClick}>Delete</div>
     </div>
   </div>
 </Dialog>

@@ -1,10 +1,6 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import {
-    ONE_SECOND_IN_MS,
-    ONE_MINUTE_IN_MS,
-    ONE_HOUR_IN_MS,
-  } from 'webkit/utils/dates'
+  import { ONE_SECOND_IN_MS, ONE_MINUTE_IN_MS, ONE_HOUR_IN_MS } from 'webkit/utils/dates'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Event } from '@/analytics'
 
@@ -62,12 +58,14 @@
   position="top"
   align="end"
   duration={0}
-  closeTimeout={0}>
+  closeTimeout={0}
+>
   <div
     slot="trigger"
     class:active={$AutoUpdater.isUpdating}
     class="btn-3 live row hv-center mrg-s mrg--b"
-    on:click={onClick} />
+    on:click={onClick}
+  />
 
   <svelte:fragment slot="tooltip">Updated {updated} ago</svelte:fragment>
 </Tooltip>

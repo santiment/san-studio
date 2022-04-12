@@ -147,7 +147,8 @@
   let:nodes={categories}
   let:domainGroups
   let:hasDomainGroups
-  let:onMetricHover>
+  let:onMetricHover
+>
   <div class="widget column {className}">
     {#if isOnlyChartEmbedded !== true}
       <Controls
@@ -158,7 +159,8 @@
         {fullscreenMetricsFilter}
         {isFullscreen}
         bind:isFullscreened
-        bind:isSharedAxisEnabled />
+        bind:isSharedAxisEnabled
+      />
     {/if}
 
     <slot />
@@ -176,7 +178,8 @@
       {onMetricHover}
       {onMetricDelete}
       {onMetricLock}
-      {onMetricSettings} />
+      {onMetricSettings}
+    />
 
     {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />
@@ -193,7 +196,8 @@
       to={$studio.to}
       {isFullscreened}
       {changeStudioPeriod}
-      {onChart} />
+      {onChart}
+    />
   </div>
 </Logic>
 

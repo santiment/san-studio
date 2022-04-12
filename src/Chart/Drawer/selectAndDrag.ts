@@ -30,18 +30,11 @@ export function newDoubleClickHandler(
   return function onDoubleClick() {
     const { selected } = drawer
     if (!selected) return
-    DrawingDoubleClickHandler[selected.type]?.(
-      drawer,
-      selected,
-      onDrawingModified,
-    )
+    DrawingDoubleClickHandler[selected.type]?.(drawer, selected, onDrawingModified)
   }
 }
 
-export function newDrawingSelectHandler(
-  chart: SAN.Charts.Chart,
-  controller: Controller,
-) {
+export function newDrawingSelectHandler(chart: SAN.Charts.Chart, controller: Controller) {
   const { canvas, drawer, dpr } = chart
   const parent = canvas.parentNode as HTMLElement
 

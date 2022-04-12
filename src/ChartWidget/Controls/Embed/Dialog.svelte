@@ -59,10 +59,12 @@
       <Setting bind:isActive={isCartesianGrid} disabled={!isPro}>Cartesian grid</Setting>
 
       <Setting bind:isActive={isWithMetricSettings} disabled={!isPro}
-        >Show metric's settings</Setting>
+        >Show metric's settings</Setting
+      >
 
       <Setting bind:isActive={isWatermarkHidden} disabled={!isProPlus} access={PRO_PLUS}
-        >Hide watermark</Setting>
+        >Hide watermark</Setting
+      >
 
       <div class="caption txt-m">Code</div>
       <Code
@@ -74,7 +76,8 @@
         {isNightMode}
         {isWithMetricSettings}
         {isCartesianGrid}
-        {isWatermarkHidden} />
+        {isWatermarkHidden}
+      />
     </div>
 
     <EmbedPreview src={iframe} />

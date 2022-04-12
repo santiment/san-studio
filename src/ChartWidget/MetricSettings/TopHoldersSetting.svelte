@@ -52,7 +52,8 @@
     max="1000000"
     value={count}
     on:blur={() => !count && (count = 10)}
-    on:input={onChange} />
+    on:input={onChange}
+  />
 </Setting>
 
 <style>

@@ -7,10 +7,8 @@ export const setIsTooltipSyncEnabled = (isEnabled: boolean) =>
 const getIsTooltipSyncEnabled = () => getContext(IS_SYNC_ENABLED_CONTEXT)
 
 const CONTEXT = 'tooltipSynchronizer'
-export const setTooltipSynchronizer = (store): void =>
-  setContext(CONTEXT, store)
-export const getTooltipSynchronizer = () =>
-  getIsTooltipSyncEnabled() && getContext(CONTEXT)
+export const setTooltipSynchronizer = (store): void => setContext(CONTEXT, store)
+export const getTooltipSynchronizer = () => getIsTooltipSyncEnabled() && getContext(CONTEXT)
 
 export function newTooltipSynchronizer() {
   const subscribers = [] as Studio.Chart[]

@@ -59,7 +59,8 @@
   rows="5"
   class="border row fluid"
   value={code}
-  readonly />
+  readonly
+/>
 <div class="btn-1 row h-center mrg-m mrg--t" on:click={onCopyClick}>
   {copyLabel}
 </div>

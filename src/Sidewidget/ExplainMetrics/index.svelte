@@ -83,7 +83,8 @@
 
   {#if Description[metric.key]}
     <Section title="Description"
-      >{@html prepareDescription(Description[metric.key], ticker)}</Section>
+      >{@html prepareDescription(Description[metric.key], ticker)}</Section
+    >
   {/if}
 
   {#if Frequency[metric.key]}

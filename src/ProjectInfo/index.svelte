@@ -59,7 +59,8 @@
   <div
     class="project body-1 btn row v-center"
     on:click={showMasterSelectorDialog}
-    use:preloadSuggestions>
+    use:preloadSuggestions
+  >
     <ProjectIcon {slug} size={32} class="mrg-s mrg--r" />
 
     {name} ({ticker})
@@ -73,7 +74,8 @@
     <div
       class="change txt-m row v-center expl-tooltip"
       class:up={isUpChange}
-      aria-label="24h change">
+      aria-label="24h change"
+    >
       <span class="direction row hv-center mrg-xs mrg--r">
         <Svg id="triangle" w="6" h="4" />
       </span>

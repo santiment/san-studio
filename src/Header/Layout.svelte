@@ -70,7 +70,8 @@
     onClick: () => Sidewidget.set(SidewidgetType.LAYOUT_COMMENTS),
   }}
   {onEditClick}
-  {onVote}>
+  {onVote}
+>
   <svelte:fragment slot="info">
     <LayoutInfo {layout} />
   </svelte:fragment>

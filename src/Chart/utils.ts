@@ -1,10 +1,6 @@
 import type { MetricNodes } from './nodes'
 import { millify } from 'webkit/utils/formatting'
-import {
-  ONE_DAY_IN_MS,
-  getDateFormats,
-  getTimeFormats,
-} from 'webkit/utils/dates'
+import { ONE_DAY_IN_MS, getDateFormats, getTimeFormats } from 'webkit/utils/dates'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -146,8 +142,7 @@ export function mapClosestValue(data: any[], MetricNodes: MetricNodes): any[] {
     let lastPointsInterval = 0
     let lastPointIndex = rightValueIndex
 
-    while (lastPointIndex && !result[--lastPointIndex][metricKey])
-      lastPointsInterval += 1
+    while (lastPointIndex && !result[--lastPointIndex][metricKey]) lastPointsInterval += 1
 
     let neighbourValue = result[leftValueIndex][metricKey]
     for (let y = leftValueIndex + 1; y < rightValueIndex; y++) {
@@ -162,11 +157,7 @@ export function mapClosestValue(data: any[], MetricNodes: MetricNodes): any[] {
 
     // Applying data for most-right values based on the interval between last points
     neighbourValue = result[rightValueIndex][metricKey]
-    for (
-      let y = rightValueIndex + 1;
-      y < dataLength && lastPointsInterval > 0;
-      y++
-    ) {
+    for (let y = rightValueIndex + 1; y < dataLength && lastPointsInterval > 0; y++) {
       result[y][metricKey] = neighbourValue
       lastPointsInterval -= 1
     }

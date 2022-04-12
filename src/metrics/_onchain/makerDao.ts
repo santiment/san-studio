@@ -13,8 +13,7 @@ export const MakerDaoMetric = each(
       label: 'Multi-Collateral DAI Total Supply',
     },
     mcd_collat_ratio: {
-      label:
-        'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs',
+      label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs',
     },
     mcd_collat_ratio_weth: {
       label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs',

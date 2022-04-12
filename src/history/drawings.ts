@@ -83,11 +83,7 @@ function applyCoordinates(
   }
 }
 
-export function recordDrawingVisibility(
-  History: History,
-  widget: Widget,
-  isHidden: boolean,
-) {
+export function recordDrawingVisibility(History: History, widget: Widget, isHidden: boolean) {
   History.add(
     isHidden ? 'Hide drawings' : 'Show drawings',
     withScroll(widget, () => widget.ChartDrawer.toggleVisibility(!isHidden)),

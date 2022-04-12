@@ -69,10 +69,7 @@ export function newDomainModifier(
 }
 
 const getMetricDomain = ({ domainGroup }: Studio.Metric) => domainGroup
-export function groupDomains(
-  metrics: Studio.Metric[],
-  getDomain = getMetricDomain,
-) {
+export function groupDomains(metrics: Studio.Metric[], getDomain = getMetricDomain) {
   const Domain = {} as { [metricKey: string]: string[] }
 
   const { length } = metrics
@@ -85,9 +82,7 @@ export function groupDomains(
     if (Domain[domainGroup]) {
       Domain[domainGroup].push(key)
     } else {
-      Domain[domainGroup] = metrics.includes(Metric[domainGroup])
-        ? [domainGroup, key]
-        : [key]
+      Domain[domainGroup] = metrics.includes(Metric[domainGroup]) ? [domainGroup, key] : [key]
     }
   }
 

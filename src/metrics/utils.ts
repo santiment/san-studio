@@ -21,10 +21,7 @@ export function each<T extends Nodes, U>(
   return nodes as unknown as NodesMap<T, U>
 }
 
-export function deriveMetric(
-  baseMetric: Studio.Metric,
-  newMetric: Studio.Metric,
-) {
+export function deriveMetric(baseMetric: Studio.Metric, newMetric: Studio.Metric) {
   const { key, queryKey = key, domainGroup = key } = baseMetric
   const { reqMeta } = newMetric
 

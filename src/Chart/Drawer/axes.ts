@@ -1,31 +1,17 @@
 import { logScale, valueByY, valueByLogY } from 'san-chart/scales'
 import { drawValueBubbleY, drawValueBubbleX } from 'san-chart/tooltip'
-import {
-  getDateDayMonthYear,
-  getDateHoursMinutes,
-  isDayInterval,
-  yBubbleFormatter,
-} from '../utils'
+import { getDateDayMonthYear, getDateHoursMinutes, isDayInterval, yBubbleFormatter } from '../utils'
 import { MULTI_AXIS_WIDTH } from '../Axes/utils'
 
-export function newDatetimeBubbleDrawer(
-  chart: SAN.Charts.Chart,
-  ctx: CanvasRenderingContext2D,
-) {
-  const xBubbleFormatter = isDayInterval(chart)
-    ? getDateHoursMinutes
-    : getDateDayMonthYear
+export function newDatetimeBubbleDrawer(chart: SAN.Charts.Chart, ctx: CanvasRenderingContext2D) {
+  const xBubbleFormatter = isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear
 
   const theme = chart.theme.drawer
   return (x: number, date: number) =>
-    date &&
-    drawValueBubbleX(chart as any, ctx, xBubbleFormatter(date), x, theme)
+    date && drawValueBubbleX(chart as any, ctx, xBubbleFormatter(date), x, theme)
 }
 
-export function newValueBubbleDrawer(
-  chart: SAN.Charts.Chart,
-  ctx: CanvasRenderingContext2D,
-) {
+export function newValueBubbleDrawer(chart: SAN.Charts.Chart, ctx: CanvasRenderingContext2D) {
   const scaleValue = chart.scale === logScale ? valueByLogY : valueByY
   const theme = chart.theme.drawer
 
@@ -42,10 +28,7 @@ export function newValueBubbleDrawer(
   }
 }
 
-export function newDrawingAxesPainter(
-  chart: SAN.Charts.Chart,
-  drawing: SAN.Charts.Drawing,
-) {
+export function newDrawingAxesPainter(chart: SAN.Charts.Chart, drawing: SAN.Charts.Drawing) {
   const { drawer, right, bottom, rightAxisMargin = 20 } = chart
   const { ctx } = drawer
 

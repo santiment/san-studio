@@ -48,7 +48,8 @@
   isOpened
   {isFiltering}
   items={insights}
-  onItemClick={(_, item) => InsightsContextStore.set(item)}>
+  onItemClick={(_, item) => InsightsContextStore.set(item)}
+>
   <svelte:fragment slot="pre-title">
     <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r $style.icon" />
   </svelte:fragment>

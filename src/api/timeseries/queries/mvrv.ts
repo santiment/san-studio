@@ -11,8 +11,4 @@ const prepareResult = (data) => ({
   },
 })
 
-export const mvrvPrecacher = newPrecacher(
-  dataAccessor,
-  dataModifier,
-  prepareResult,
-)
+export const mvrvPrecacher = newPrecacher(dataAccessor, dataModifier, prepareResult)

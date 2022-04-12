@@ -19,9 +19,7 @@ const ETH_SPENT_OVER_TIME_QUERY = `
   }
 `
 
-const precacher = newPrecacher(
-  ({ projectBySlug }) => projectBySlug.ethSpentOverTime,
-)
+const precacher = newPrecacher(({ projectBySlug }) => projectBySlug.ethSpentOverTime)
 export function queryEthSpentOverTime(
   variables: Variables,
   _,

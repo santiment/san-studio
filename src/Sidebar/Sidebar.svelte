@@ -29,7 +29,8 @@
   class:locked={isLocked || $mapview}
   class:opened={isOpened}
   on:mouseenter={onEnter}
-  on:mouseleave={onLeave}>
+  on:mouseleave={onLeave}
+>
   <slot name="left" />
   <div class="content column">
     <slot />

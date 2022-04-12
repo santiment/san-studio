@@ -16,13 +16,7 @@
   function drawChart() {
     if (!chart || !widget.chart) return
     clearCtx(chart)
-    chart.ctx.drawImage(
-      widget.chart.canvas,
-      0,
-      10,
-      chart.canvasWidth,
-      chart.canvasHeight + 10,
-    )
+    chart.ctx.drawImage(widget.chart.canvas, 0, 10, chart.canvasWidth, chart.canvasHeight + 10)
   }
 </script>
 

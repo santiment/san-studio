@@ -2,12 +2,7 @@ import { handleMove as handlePointEvent } from 'san-chart/events'
 import { drawValueBubbleX } from 'san-chart/tooltip'
 import { clearCtx, getDateDayMonthYear } from '../utils'
 
-export function onSelection(
-  chart: Studio.Chart,
-  canvas,
-  onPoinClick,
-  onRangeSelect,
-) {
+export function onSelection(chart: Studio.Chart, canvas, onPoinClick, onRangeSelect) {
   canvas.onmousedown = handlePointEvent(chart, (point) => {
     if (!point || chart.isDrawing) return
     const startX = point.x

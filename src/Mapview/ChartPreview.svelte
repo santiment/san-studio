@@ -50,7 +50,8 @@
   {widget}
   {isMetricsPhase}
   isBlocked={isBlocked && isMetricsPhase}
-  on:click={(e) => onClick(widget, e)}>
+  on:click={(e) => onClick(widget, e)}
+>
   <canvas bind:this={canvas} />
 
   {#if isMetricsPhase}

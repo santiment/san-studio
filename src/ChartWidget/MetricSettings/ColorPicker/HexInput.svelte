@@ -10,8 +10,7 @@
 
   const checkIsInvalidHex = (char) => Number.isNaN(parseInt(char, 16))
 
-  const getValues = (input: string) =>
-    input.startsWith('#') ? input.slice(1) : input
+  const getValues = (input: string) => (input.startsWith('#') ? input.slice(1) : input)
 
   const normalizeHexValues = (values: string) =>
     '#' + (values.length === 3 ? normalizeHexShorthand(values) : values)
@@ -66,7 +65,8 @@
   class:error
   on:blur={onBlur}
   on:input={onInput}
-  on:keydown={onKeyDown} />
+  on:keydown={onKeyDown}
+/>
 
 <style>
   input {
