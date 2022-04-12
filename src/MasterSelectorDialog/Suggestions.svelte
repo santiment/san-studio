@@ -8,10 +8,10 @@
 </script>
 
 <script lang="ts">
-  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
-  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
-  import { usdFormatter } from '@/metrics/formatters'
   import { tick } from 'svelte'
+  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
+  import Asset from './Suggestion/Asset.svelte'
+  import Address from './Suggestion/Address.svelte'
 
   let filtered = [] as any[]
   export let searchTerm = ''
@@ -87,17 +87,7 @@
     <div class="caption txt-m c-waterloo">All</div>
   {/if}
 
-  <div
-    class="suggestion btn row v-center nowrap mrg-s mrg--t"
-    class:cursored={i === cursor}
-    on:click={() => onSelect(item)}
-  >
-    <ProjectIcon slug={item.slug} size={32} class="mrg-s mrg--r" />
-    <span class="mrg-xs mrg--r">{item.name}</span>
-    <span class="c-waterloo mrg-xl mrg--r">{item.ticker}</span>
-
-    <div class="c-waterloo mrg-a mrg--l">{usdFormatter(item.priceUsd)}</div>
-  </div>
+  <Asset {item} cursored={i === cursor} on:click={() => onSelect(item)} />
 </VirtualList>
 
 <style lang="scss">
@@ -106,14 +96,5 @@
   }
   .suggestions :global(.list) {
     padding: 16px 24px;
-  }
-
-  .suggestion {
-    padding: 8px;
-    --bg-hover: var(--athens);
-  }
-
-  .cursored {
-    background: var(--porcelain);
   }
 </style>

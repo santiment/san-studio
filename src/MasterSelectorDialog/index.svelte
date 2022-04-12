@@ -60,7 +60,7 @@
       autofocus
       class="fluid body-2"
       type="text"
-      placeholder="Search for asset name..."
+      placeholder="Search for asset or address..."
       bind:value={searchTerm}
       on:keydown={onKeyDown}
     />
