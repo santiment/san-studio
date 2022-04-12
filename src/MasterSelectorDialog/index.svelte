@@ -81,7 +81,7 @@
 
 <style lang="scss">
   .dialog {
-    width: 480px;
+    width: 500px;
     max-height: 480px !important;
     border-radius: 10px !important;
   }

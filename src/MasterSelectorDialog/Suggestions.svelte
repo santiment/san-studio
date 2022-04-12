@@ -9,9 +9,11 @@
 
 <script lang="ts">
   import { tick } from 'svelte'
+  import { getAddressInfrastructure } from 'webkit/utils/address'
   import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import Asset from './Suggestion/Asset.svelte'
   import Address from './Suggestion/Address.svelte'
+  import { newAddressSuggestion } from './utils'
 
   let filtered = [] as any[]
   export let searchTerm = ''
@@ -36,6 +38,10 @@
   ): any[] {
     if (!searchTerm) {
       return blockchain ? items.filter(filterBlockchain) : items
+    }
+
+    if (getAddressInfrastructure(searchTerm)) {
+      return [newAddressSuggestion(searchTerm)]
     }
 
     let match
@@ -83,11 +89,17 @@
   let:item
   let:i
 >
+  {@const cursored = i === cursor}
+
   {#if i === 0}
-    <div class="caption txt-m c-waterloo">All</div>
+    <div class="caption txt-m c-waterloo">Assets</div>
   {/if}
 
-  <Asset {item} cursored={i === cursor} on:click={() => onSelect(item)} />
+  {#if item.slug}
+    <Asset {item} {cursored} on:click={() => onSelect(item)} />
+  {:else if item.address}
+    <Address {item} {cursored} />
+  {/if}
 </VirtualList>
 
 <style lang="scss">
