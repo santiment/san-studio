@@ -13,6 +13,7 @@
   import Suggestions from './Suggestions.svelte'
   import Blockchains from './Blockchains.svelte'
   import { handleNavigation } from './navigation'
+  import { addRecent } from './utils'
 
   let closeDialog
   let inputNode
@@ -40,6 +41,7 @@
   function onSelect(item) {
     if (!item) return
     studio.setProject(item)
+    addRecent(item)
     closeDialog()
   }
 

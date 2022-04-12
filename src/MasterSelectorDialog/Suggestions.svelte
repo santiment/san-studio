@@ -13,7 +13,7 @@
   import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import Asset from './Suggestion/Asset.svelte'
   import Address from './Suggestion/Address.svelte'
-  import { newAddressSuggestion } from './utils'
+  import { getRecents, newAddressSuggestion } from './utils'
 
   let filtered = [] as any[]
   export let searchTerm = ''
@@ -22,14 +22,25 @@
   export let blockchain
   export let onSelect
 
-  queryAllProjects().then((projects) => (items = projects))
+  queryAllProjects().then((projects) => (items = projects.map(mapProject)))
+
+  const recents = getRecents()
+  const DEFAULT_HEADERS = recents.length
+    ? { 0: 'Recents', [recents.length]: 'Assets' }
+    : { 0: 'Assets' }
 
   let node
   let items = [] as any[]
   let renderHeight
+  let headers = DEFAULT_HEADERS
 
   $: filtered = filter(searchTerm, items, blockchain)
   $: cursor, tick().then(scrollToCursor)
+
+  function mapProject(project) {
+    project.id = project.slug
+    return project
+  }
 
   function filter(
     searchTerm: string,
@@ -37,10 +48,12 @@
     blockchain?: { infrastructure: string },
   ): any[] {
     if (!searchTerm) {
-      return blockchain ? items.filter(filterBlockchain) : items
+      headers = DEFAULT_HEADERS
+      return recents.concat(blockchain ? items.filter(filterBlockchain) : items)
     }
 
     if (getAddressInfrastructure(searchTerm)) {
+      headers = { 0: 'Smart contracts' }
       return [newAddressSuggestion(searchTerm)]
     }
 
@@ -65,6 +78,7 @@
       filtered.splice(0, 0, match)
     }
 
+    headers = { 0: 'Assets' }
     return filtered
   }
 
@@ -81,7 +95,7 @@
   hideEmptyResults
   class="$style.suggestions {!filtered.length ? 'hide' : ''}"
   items={filtered}
-  key="slug"
+  key="id"
   defaultItemHeight={48}
   maxHeight={381}
   bind:viewportNode={node}
@@ -90,9 +104,10 @@
   let:i
 >
   {@const cursored = i === cursor}
+  {@const header = headers[i]}
 
-  {#if i === 0}
-    <div class="caption txt-m c-waterloo">Assets</div>
+  {#if header}
+    <div class="caption txt-m c-waterloo mrg-m" class:mrg--t={i > 0}>{header}</div>
   {/if}
 
   {#if item.slug}
