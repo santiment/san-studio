@@ -13,7 +13,7 @@
   import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import Asset from './Suggestion/Asset.svelte'
   import Address from './Suggestion/Address.svelte'
-  import { getRecents, newAddressSuggestion } from './utils'
+  import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils'
 
   let filtered = [] as any[]
   export let searchTerm = ''
@@ -25,6 +25,7 @@
   queryAllProjects().then((projects) => (items = projects.map(mapProject)))
 
   const recents = getRecents()
+  const AssetSlugRecent = getRecentAssetMap(recents)
   const DEFAULT_HEADERS = recents.length
     ? { 0: 'Recents', [recents.length]: 'Assets' }
     : { 0: 'Assets' }
@@ -38,7 +39,11 @@
   $: cursor, tick().then(scrollToCursor)
 
   function mapProject(project) {
-    project.id = project.slug
+    const { slug, priceUsd } = project
+
+    project.key = slug
+    if (AssetSlugRecent[slug]) AssetSlugRecent[slug].priceUsd = priceUsd
+
     return project
   }
 
@@ -95,7 +100,7 @@
   hideEmptyResults
   class="$style.suggestions {!filtered.length ? 'hide' : ''}"
   items={filtered}
-  key="id"
+  key="key"
   defaultItemHeight={48}
   maxHeight={381}
   bind:viewportNode={node}

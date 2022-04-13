@@ -4,7 +4,7 @@ import { getAddressInfrastructure } from 'webkit/utils/address'
 export function newAddressSuggestion(address: string) {
   return {
     address,
-    id: address,
+    key: address,
     infrastructure: getAddressInfrastructure(address),
   }
 }
@@ -18,5 +18,13 @@ export function addRecent({ priceUsd: _, ...item }) {
     .filter(({ slug }) => slug !== item.slug)
     .slice(0, 4)
 
-  saveJson(RECENT_MASTER_SELECTIONS, [{ ...item, id: 'recent_' + item.slug }, ...recents])
+  saveJson(RECENT_MASTER_SELECTIONS, [{ ...item, key: 'recent_' + item.slug }, ...recents])
+}
+
+export function getRecentAssetMap(recents: any[]) {
+  const map = {}
+  recents.forEach((recent) => {
+    if (recent.slug) map[recent.slug] = recent
+  })
+  return map
 }
