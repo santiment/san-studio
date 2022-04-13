@@ -2,6 +2,8 @@ import type { CachePolicy } from 'webkit/api/cache'
 import { dataAccessor } from '@/api/timeseries'
 import { queryMetric } from '@/api/timeseries/queries'
 import { percentFormatter, axisPercentFormatter } from '@/metrics/formatters'
+import { MetricType, newKey } from '@/metrics/utils'
+import { getType } from '@/metrics/_onchain/holderDistributions'
 
 export const MERGED_DIVIDER = '__MM__'
 const MergedTypePropsTuple = [
@@ -57,6 +59,13 @@ function reduceMetricsLabels(baseMetrics: any[]): string {
   return label
 }
 
+function newMergedKey(baseMetrics: any[]) {
+  const base = getType(baseMetrics[0].key)
+  const map = ({ key }) => key.replace(base + '_', '')
+
+  return newKey(MetricType.MergedSupplyDistribution, base, ...baseMetrics.map(map))
+}
+
 const mergedMetricsSorter = (a, b) => a.__i - b.__i
 export function buildMergedMetric(baseMetrics: any[]) {
   baseMetrics.sort(mergedMetricsSorter)
@@ -70,7 +79,7 @@ export function buildMergedMetric(baseMetrics: any[]) {
     formatter,
     axisFormatter,
     node: 'line',
-    key: baseMetrics.map(keyGetter).join(MERGED_DIVIDER),
+    key: newMergedKey(baseMetrics),
     label: reduceMetricsLabels(baseMetrics) + labelPostfix,
   }
 

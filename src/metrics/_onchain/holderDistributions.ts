@@ -48,20 +48,24 @@ function buildMetrics<T extends string>(
   return Metric
 }
 
-export const HolderDistributionAbsoluteMetric = buildMetrics('holders_distribution')
+export const HOLDERS_DISTRIBUTION = 'holders_distribution'
+export const HolderDistributionAbsoluteMetric = buildMetrics(HOLDERS_DISTRIBUTION)
+
+export const HOLDERS_DISTRUBTION_PERCENT = 'percent_of_holders_distribution_combined_balance'
 export const HolderDistributionBalancePercentMetric = buildMetrics(
-  'percent_of_holders_distribution_combined_balance',
+  HOLDERS_DISTRUBTION_PERCENT,
   'percent',
   ' %',
   percentFormatter,
   axisPercentFormatter,
 )
-export const HolderDistributionBalanceAbsoluteMetric = buildMetrics(
-  'holders_distribution_combined_balance',
-)
 
+export const HOLDERS_DISTRUBTION_COMBINED = 'holders_distribution_combined_balance'
+export const HolderDistributionBalanceAbsoluteMetric = buildMetrics(HOLDERS_DISTRUBTION_COMBINED)
+
+export const HOLDERS_LABELED_DISTRIBUTION = 'holders_labeled_distribution'
 export const HoldersLabeledDistributionMetric = buildMetrics(
-  'holders_labeled_distribution',
+  HOLDERS_LABELED_DISTRIBUTION,
   undefined,
   undefined,
   undefined,
@@ -87,3 +91,13 @@ export const HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS = Object.values(
 export const HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS = Object.values(
   HolderDistributionBalancePercentMetric,
 )
+
+export function getType(key: string): string {
+  if (key.startsWith(HOLDERS_DISTRUBTION_PERCENT)) return HOLDERS_DISTRUBTION_PERCENT
+
+  if (key.startsWith(HOLDERS_DISTRUBTION_COMBINED)) return HOLDERS_DISTRUBTION_COMBINED
+
+  if (key.startsWith(HOLDERS_LABELED_DISTRIBUTION)) return HOLDERS_LABELED_DISTRIBUTION
+
+  return HOLDERS_DISTRIBUTION
+}

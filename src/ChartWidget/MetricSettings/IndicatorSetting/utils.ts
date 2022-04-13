@@ -1,5 +1,6 @@
 import { Node } from '@/Chart/nodes'
 import { deriveMetric } from '@/metrics/utils'
+import { newKey, MetricType } from '@/metrics/utils'
 
 const RAW_INDICATORS = {
   MA: {
@@ -59,7 +60,7 @@ export function buildIndicatorMetric(metric, indicator) {
     indicator,
     base: metric,
     node: Node.LINE,
-    key: `${indicator.key}_${key}`,
+    key: newKey(MetricType.Indicator, key, indicator.key),
     label: `${label} ${indicator.label}`,
     getLabel: base || noProject ? undefined : (ticker) => `${label} (${ticker}) ${indicator.label}`,
     // TODO: Think how to better handle current project labeling  [@vanguard | May 14, 2021]

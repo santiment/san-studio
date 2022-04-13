@@ -1,3 +1,10 @@
+export enum MetricType {
+  Basic = 0,
+  ProjectLocked = 1,
+  Indicator = 2,
+  MergedSupplyDistribution = 3,
+}
+
 export type Node<T, K> = T & {
   key: K
 }
@@ -7,6 +14,8 @@ type Nodes = { [key: string]: { [key: string]: any } }
 type NodesMap<T extends Nodes, U = Studio.Metric> = {
   [K in keyof T]: Node<U, K>
 }
+
+export const newKey = (...data) => '[' + data.join(';') + ']'
 
 export function each<T extends Nodes, U>(
   nodes: T,
@@ -39,10 +48,10 @@ type Project = {
   slug: string
   ticker: string
 }
-export const METRIC_CONNECTOR = '_MC_'
+
 export function buildProjectMetricKey(project: Project, metric: Studio.Metric) {
   const { slug, ticker } = project
-  return `${slug}${METRIC_CONNECTOR}${ticker}${METRIC_CONNECTOR}${metric.key}`
+  return newKey(MetricType.ProjectLocked, metric.key, slug, ticker)
 }
 
 const ProjectMetricCache = {}
