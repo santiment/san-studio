@@ -110,15 +110,16 @@
 >
   {@const cursored = i === cursor}
   {@const header = headers[i]}
+  {@const onClick = () => onSelect(item)}
 
   {#if header}
     <div class="caption txt-m c-waterloo mrg-m" class:mrg--t={i > 0}>{header}</div>
   {/if}
 
   {#if item.slug}
-    <Asset {item} {cursored} on:click={() => onSelect(item)} />
+    <Asset {item} {cursored} on:click={onClick} />
   {:else if item.address}
-    <Address {item} {cursored} />
+    <Address {item} {cursored} on:click={onClick} />
   {/if}
 </VirtualList>
 

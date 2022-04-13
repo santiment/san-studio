@@ -1,6 +1,7 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { MakerDaoMetric } from './makerDao'
 import { ExchangesV2Metric } from './exchangesV2'
+import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
 import { mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
@@ -284,6 +285,8 @@ export const OnChainMetric = each(
         checkIsVisible: () => false,
       },
     },
+
+    ContractAddressMetric,
 
     FeesMetric,
     ExchangesMetric,

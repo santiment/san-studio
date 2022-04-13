@@ -1,21 +1,10 @@
 <script context="module" lang="ts">
-  import { Infrastructure } from 'webkit/utils/address'
-
-  const InfrastructureAsset = {
-    [Infrastructure.ETH]: 'ethereum',
-    [Infrastructure.BTC]: 'bitcoin',
-    [Infrastructure.BCH]: 'bitcoin-cash',
-    [Infrastructure.XRP]: 'ripple',
-    [Infrastructure.LTC]: 'litecoin',
-  }
-
   const CHAR_WIDTH = 8.5
 </script>
 
 <script>
   import { tick } from 'svelte'
-  import Svg from 'webkit/ui/Svg/svelte'
-  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
+  import AddressIcon from '@/MasterAsset/AddressIcon.svelte'
   import { queryAddressLabels } from '@/api/address'
   import Suggestion from './Suggestion.svelte'
 
@@ -28,7 +17,6 @@
 
   $: ({ address, infrastructure } = item)
   $: shortAddress = address
-  $: infrastructureAsset = InfrastructureAsset[infrastructure]
   $: queryAddressLabels(address, infrastructure).then(setLabels)
 
   function setLabels(data) {
@@ -61,10 +49,7 @@
 </script>
 
 <Suggestion {cursored} on:click>
-  <div class="icon relative row hv-center mrg-s mrg--r">
-    <Svg id="report" w="16" />
-    <ProjectIcon slug={infrastructureAsset} size={16} class="$style.project" />
-  </div>
+  <AddressIcon {address} />
 
   <span bind:this={node} class="mrg-a mrg--r">{shortAddress}</span>
 
@@ -77,21 +62,6 @@
 </Suggestion>
 
 <style>
-  .icon {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 50%;
-    background: var(--casper);
-    fill: var(--white);
-  }
-
-  .project {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-
   span {
     min-width: 90px;
     overflow: hidden;

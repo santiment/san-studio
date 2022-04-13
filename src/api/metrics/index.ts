@@ -33,3 +33,6 @@ export const queryProjectMetrics = (
     PROJECT_AVAILABLE_METRIC_QUERY(slug === 'stablecoins' ? 'tether' : slug),
     options,
   ).catch(catchMetrics) as any
+
+const ADDRESS_METRICS = ['contract_transactions_count', 'contract_interacting_addresses_count']
+export const queryAddressMetrics = (_address: string) => Promise.resolve(ADDRESS_METRICS)

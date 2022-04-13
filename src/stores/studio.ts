@@ -8,6 +8,7 @@ export type StudioSettings = {
   to: string
   interval: string
   ticker: string
+  address?: string
 }
 
 const TO = getTodaysEnd()
@@ -20,7 +21,7 @@ export const STUDIO = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   interval: getPeriodInterval(FROM, TO),
-}
+} as StudioSettings
 
 const { subscribe, set } = writable<StudioSettings>(STUDIO)
 
@@ -46,7 +47,12 @@ export const studio = {
   subscribe,
   get,
   setProject(project) {
+    if (!project?.address) {
+      delete STUDIO.address
+    }
+
     Object.assign(STUDIO, project)
+
     set(STUDIO)
   },
   setPeriod(from: Date, to: Date) {

@@ -22,13 +22,13 @@ export const GET_METRIC = `
     $labels: [String]
     $aggregation: Aggregation
     $label_fqn: String
-    $contractAddress: String
+    $address: String
   ) {
     getMetric(metric: $metric) {
       timeseriesData(
         selector: {
           slug: $slug
-          contractAddress: $contractAddress
+          contractAddress: $address
           watchlistSlug: $watchlistSlug
           text: $text
           slugs: $slugs

@@ -3,7 +3,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { globals } from '@/stores/globals'
-  import { queryProjectMetrics } from '@/api/metrics'
+  import { queryAddressMetrics, queryProjectMetrics } from '@/api/metrics'
   import { filterSelectorGraph, getMetricsSelectorGraph } from '@/metrics/selector/utils'
   import { DEFAULT_METRICS } from './defaults'
   import HoverItem from './HoverItem.svelte'
@@ -24,13 +24,18 @@
   let searchTerm = ''
 
   $: LockedAsset.set($studio)
-  $: ({ slug } = $LockedAsset)
+  $: ({ slug, address } = $LockedAsset)
   $: isFiltering = !!searchTerm
   $: categories = Object.keys(graph) as MetricCategory[]
   $: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset))
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
-  $: queryProjectMetrics(slug).then((items) => (metrics = items))
+  $: getMetrics(slug, address)
   $: onSidebarProjectMount(projectNode)
+
+  const setMetrics = (data) => (metrics = data)
+  function getMetrics(slug: string, address?: string) {
+    return (address ? queryAddressMetrics(address) : queryProjectMetrics(slug)).then(setMetrics)
+  }
 </script>
 
 <div class="sidebar-header">
@@ -42,7 +47,11 @@
   <Favorites {searchTerm} {isFiltering} {onItemClick} />
   <Insights {searchTerm} {isFiltering} />
   <CombinedMetrics {searchTerm} {isFiltering} {onItemClick} />
-  <Notables {searchTerm} {isFiltering} {onItemClick} />
+
+  {#if !address}
+    <Notables {searchTerm} {isFiltering} {onItemClick} />
+  {/if}
+
   {#each categories as category}
     <Category {category} {isFiltering} items={filteredGraph[category]} {HoverItem} {onItemClick} />
   {/each}

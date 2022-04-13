@@ -3,7 +3,7 @@
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
   import HistoryAction from '@/history/Action.svelte'
-  import ProjectInfo from '@/ProjectInfo/index.svelte'
+  import MasterAsset from '@/MasterAsset/index.svelte'
   import Header from '@/Header/index.svelte'
   import Widget, { newWidgetViewportObserver } from '@/Widget/index.svelte'
   import Sidebar from '@/Sidebar/index.svelte'
@@ -37,7 +37,7 @@
   export let onSidebarProjectMount = undefined
   export let headerPadding = 65
 
-  studio.setProject(defaultSettings)
+  if (defaultSettings) studio.setProject(defaultSettings)
   const HistoryEmitter = newHistoryEmitter()
   const History = newHistoryContext(HistoryEmitter.set)
   const Widgets = initWidgets(widgets, getExternalWidget, History)
@@ -86,7 +86,7 @@
 <ChartTooltipContexts>
   <main class="column">
     <div class="studio-top">
-      <ProjectInfo />
+      <MasterAsset />
     </div>
     <div class="row">
       <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />

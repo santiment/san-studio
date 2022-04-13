@@ -40,6 +40,7 @@
 
   function onSelect(item) {
     if (!item) return
+
     studio.setProject(item)
     addRecent(item)
     closeDialog()
