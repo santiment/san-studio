@@ -30,6 +30,7 @@
   $: ({ isPresenterMode } = $globals)
   $: node && dndContext?.addItem(node)
   $: node && useErrorTooltip(node, error)
+  $: address = metric.reqMeta?.address
 
   const onMouseEnter = () => onEnter(metric)
   const onMouseLeave = onLeave
@@ -77,13 +78,19 @@
           <Svg id="locked-small" w="8" />
         </div>
       {/if}
-    {:else if !metric.indicator}
+    {:else if !metric.indicator && !address}
       ({$studio.ticker})
     {/if}
   {/if}
 
   {#if $MetricsSignals.includes(metric)}
     <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
+  {/if}
+
+  {#if address}
+    <div class="address locked row hv-center expl-tooltip" aria-label={address}>
+      <Svg id="report" w="9" />
+    </div>
   {/if}
 
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
@@ -105,5 +112,13 @@
 
   .signaled {
     background: var(--red);
+  }
+
+  .address {
+    --expl-position-y: -4px;
+    --expl-align-x: 50%;
+  }
+  .address::before {
+    z-index: 11;
   }
 </style>

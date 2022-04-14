@@ -7,7 +7,7 @@ const SUBSCRIPTION_INTERVAL = {
 
 const PROJECT_FETCH = {
   anchor: 'for project with slug',
-  msg: "Can't fetch data for this project",
+  msg: "Can't fetch data for this asset",
 }
 
 const FAILED_FETCH = {

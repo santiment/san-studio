@@ -13,7 +13,7 @@ export function getTimeseries(
   MetricSettings: any = {},
   cachePolicy?: CachePolicy,
   requestOptions?: SAN.API.RequestOptions,
-) {
+): () => any {
   let isAborted = false
   let data = [] as any[]
   const loadings = new Set(metrics)
@@ -27,14 +27,16 @@ export function getTimeseries(
     const queryKey = metricSettings.queryKey || metric.queryKey || key
 
     // prettier-ignore
-    const { interval, slug, from, to, transform, owner, labels, holdersCount, label_fqn  } =
+    const { interval, slug, from, to, transform, owner, labels, holdersCount, label_fqn, address } =
       Object.assign({}, variables, metricSettings)
 
     // prettier-ignore
     const vars = Object.assign(
-        { key, metric: queryKey, from, to, interval, transform, owner, labels, holdersCount, label_fqn, [selector]: slug },
+      { key, metric: queryKey, from, to, interval, transform, owner, labels, holdersCount, label_fqn, [selector]: slug, address },
       reqMeta,
     )
+
+    if (vars.address) delete vars.slug
 
     let attempt = 1
     fetchData()

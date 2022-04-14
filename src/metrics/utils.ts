@@ -4,6 +4,7 @@ export enum MetricType {
   ProjectLocked = 1,
   Indicator = 2,
   MergedSupplyDistribution = 3,
+  AddressLocked = 4,
   // Combined = 4,
 }
 
@@ -80,5 +81,27 @@ export function newProjectMetric(project: Project, baseMetric: Studio.Metric) {
   if (isWatchlist) metric.selector = selector
 
   ProjectMetricCache[key] = metric
+  return metric
+}
+
+const AddressMetricCache = {}
+export function minifyAddress(address: string): string {
+  return address.slice(0, 4) + '...' + address.slice(-4)
+}
+export function newAddressMetric(address: string, baseMetric: Studio.Metric) {
+  const key = newKey(MetricType.AddressLocked, baseMetric.key, address)
+
+  const cached = AddressMetricCache[key]
+  if (cached) return cached
+
+  const metric = deriveMetric(baseMetric, {
+    key,
+    base: baseMetric,
+    label: `${baseMetric.label} (${minifyAddress(address)})`,
+    reqMeta: {
+      address,
+    },
+  } as any)
+
   return metric
 }

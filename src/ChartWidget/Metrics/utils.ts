@@ -1,15 +1,23 @@
-import { newProjectMetric } from '@/metrics/utils'
+import { newAddressMetric, newProjectMetric } from '@/metrics/utils'
 import { cacheIndicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 
-export function convertBaseProjectMetric(metric: Studio.Metric, project: Studio.Project) {
+export function convertBaseProjectMetric(metric: Studio.Metric, settings: Studio.Project) {
   if (metric.project) {
     const { base } = metric
     return metric.indicator ? cacheIndicator(base.base, metric.indicator) : base
   }
 
   if (metric.indicator) {
-    return cacheIndicator(newProjectMetric(project, metric.base), metric.indicator)
+    return cacheIndicator(newProjectMetric(settings, metric.base), metric.indicator)
   }
 
-  return newProjectMetric(project, metric)
+  if (metric.reqMeta?.address) {
+    return metric.base
+  }
+
+  if (settings.address) {
+    return newAddressMetric(settings.address, metric)
+  }
+
+  return newProjectMetric(settings, metric)
 }

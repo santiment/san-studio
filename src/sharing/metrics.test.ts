@@ -4,7 +4,7 @@ import {
 } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { buildMergedMetric } from '@/HolderDistributionWidget/utils'
 import { Metric } from '@/metrics'
-import { MetricType, newKey, newProjectMetric } from '@/metrics/utils'
+import { newProjectMetric } from '@/metrics/utils'
 import {
   HolderDistributionMetric,
   HOLDERS_DISTRIBUTION,
@@ -56,7 +56,7 @@ describe('Share', () => {
   })
 })
 
-describe.only('Parse', () => {
+describe('Parse', () => {
   it('Basic metric', () => {
     const key = 'price_usd'
     expect(parseMetric(key)).toEqual(Metric.price_usd)

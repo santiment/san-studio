@@ -1,6 +1,7 @@
 import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { ONE_DAY_IN_MS, getTodaysEnd } from 'webkit/utils/dates'
+import { minifyAddress } from '@/metrics/utils'
 
 export type StudioSettings = {
   slug: string
@@ -47,7 +48,9 @@ export const studio = {
   subscribe,
   get,
   setProject(project) {
-    if (!project?.address) {
+    if (project?.address) {
+      project.ticker = minifyAddress(project.address)
+    } else {
       delete STUDIO.address
     }
 
