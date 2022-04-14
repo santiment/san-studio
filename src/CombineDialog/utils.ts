@@ -3,8 +3,10 @@ import { getIntervalMilliseconds, normalizeInterval } from '@/utils/intervals'
 import { dataAccessor } from '@/api/timeseries'
 import { queryMetric } from '@/api/timeseries/queries'
 import { getMetricMinInterval } from '@/api/metrics/restrictions'
+import { newKey } from '@/metrics/utils'
+import { parseMetricKey } from '@/sharing/metrics'
 
-let math = { evaluate: (expression: string, scope: any) => {} }
+let math = { evaluate: (_expression: string, _scope: any) => {} }
 export function importMath() {
   return import('mathjs/lib/esm/number').then(({ create, all }) => (math = create(all)))
 }
@@ -21,6 +23,17 @@ export function checkIsExpressionValid(metrics: any[], expression: string) {
   }
 }
 
+function newCombinedKey(expression: string) {
+  return expression + '|' + Date.now()
+}
+
+export function updateCombineKey(metric): void {
+  const { key, baseMetrics } = metric
+  const [type, expression, _, name] = parseMetricKey(key)
+
+  metric.key = newKey(type, expression, ...baseMetrics.map(({ key }) => key), name)
+}
+
 export function newExpessionMetric(
   baseMetrics: Studio.Metric[],
   expression: string,
@@ -34,7 +47,7 @@ export function newExpessionMetric(
     expression: normalizedExpression,
     baseMetrics,
     node: 'area',
-    key: normalizedExpression + '|' + Date.now(),
+    key: newCombinedKey(normalizedExpression),
   }
 
   return metric

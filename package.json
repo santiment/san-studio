@@ -11,6 +11,12 @@
       "prettier --write"
     ]
   },
+  "precommit": [
+    "test"
+  ],
+  "prepush": [
+    "test"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

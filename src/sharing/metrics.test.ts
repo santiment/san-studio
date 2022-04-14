@@ -9,10 +9,10 @@ import {
   HolderDistributionMetric,
   HOLDERS_DISTRIBUTION,
 } from '@/metrics/_onchain/holderDistributions'
-import { shareMetrics } from './metrics'
+import { parseMetric, shareMetrics } from './metrics'
 
 describe('Share', () => {
-  it('Base metric', () => {
+  it('Basic metric', () => {
     expect(shareMetrics([Metric.price_usd])).toEqual([Metric.price_usd.key])
   })
 
@@ -53,5 +53,59 @@ describe('Share', () => {
     expect(shareMetrics([projectMetric])).toEqual([
       `[1;[3;${HOLDERS_DISTRIBUTION};01_to_1;1_to_10];bitcoin;BTC]`,
     ])
+  })
+})
+
+describe.only('Parse', () => {
+  it('Basic metric', () => {
+    const key = 'price_usd'
+    expect(parseMetric(key)).toEqual(Metric.price_usd)
+  })
+
+  it('Project locked', () => {
+    const key = `[1;price_usd;bitcoin;BTC]`
+    expect(parseMetric(key)).toEqual(
+      newProjectMetric({ slug: 'bitcoin', ticker: 'BTC' }, Metric.price_usd),
+    )
+  })
+
+  it('Indicator(MA_7)', () => {
+    const key = `[2;price_usd;MA7]`
+    expect(parseMetric(key)).toEqual(buildIndicatorMetric(Metric.price_usd, Indicator.MA7))
+  })
+
+  it('Project locked Indicator(MA_7)', () => {
+    const key = `[2;[1;price_usd;bitcoin;BTC];MA7]`
+    expect(parseMetric(key)).toEqual(
+      buildIndicatorMetric(
+        newProjectMetric({ slug: 'bitcoin', ticker: 'BTC' }, Metric.price_usd),
+        Indicator.MA7,
+      ),
+    )
+  })
+
+  it('Merged Supply Distribution', () => {
+    const key = `[3;${HOLDERS_DISTRIBUTION};01_to_1;1_to_10]`
+
+    expect(parseMetric(key)).toEqual(
+      buildMergedMetric([
+        HolderDistributionMetric.holders_distribution_01_to_1,
+        HolderDistributionMetric.holders_distribution_1_to_10,
+      ]),
+    )
+  })
+
+  it('Project Locked Merged Supply Distribution', () => {
+    const key = `[1;[3;${HOLDERS_DISTRIBUTION};01_to_1;1_to_10];bitcoin;BTC]`
+
+    expect(parseMetric(key)).toEqual(
+      newProjectMetric(
+        { slug: 'bitcoin', ticker: 'BTC' },
+        buildMergedMetric([
+          HolderDistributionMetric.holders_distribution_01_to_1,
+          HolderDistributionMetric.holders_distribution_1_to_10,
+        ]),
+      ),
+    )
   })
 })
