@@ -1,8 +1,10 @@
+// NOTE: Don't change ids! This will break parsing of shared links
 export enum MetricType {
   Basic = 0,
   ProjectLocked = 1,
   Indicator = 2,
   MergedSupplyDistribution = 3,
+  // Combined = 4,
 }
 
 export type Node<T, K> = T & {
@@ -49,7 +51,7 @@ type Project = {
   ticker: string
 }
 
-export function buildProjectMetricKey(project: Project, metric: Studio.Metric) {
+export function newProjectMetricKey(project: Project, metric: Studio.Metric): string {
   const { slug, ticker } = project
   return newKey(MetricType.ProjectLocked, metric.key, slug, ticker)
 }
@@ -57,7 +59,7 @@ export function buildProjectMetricKey(project: Project, metric: Studio.Metric) {
 const ProjectMetricCache = {}
 export function newProjectMetric(project: Project, baseMetric: Studio.Metric) {
   const { ticker, slug } = project
-  const key = buildProjectMetricKey(project, baseMetric)
+  const key = newProjectMetricKey(project, baseMetric)
 
   const cached = ProjectMetricCache[key]
   if (cached) return cached
