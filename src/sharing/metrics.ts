@@ -63,7 +63,7 @@ export function parseMetricKey(key: string): TupleData[] {
   return getTupleData(key.slice(1, -1).split(';'))
 }
 
-function getTupleData(args: string[], cursor = { i: 0 }): TupleData[] {
+export function getTupleData(args: string[], cursor = { i: 0 }): TupleData[] {
   const data: TupleData[] = []
 
   for (; cursor.i < args.length; cursor.i++) {

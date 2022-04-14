@@ -136,6 +136,11 @@ export const SocialMetric = each(
       label: 'Social Volume AI',
     },
 
+    nft_social_volume: {
+      node: Node.BAR,
+      label: 'NFT Social Volume',
+    },
+
     social_active_users_telegram: newSocialActiveUsers('telegram', 'Telegram'),
     social_active_users_twitter: newSocialActiveUsers('twitter', 'Twitter', 'twitter_crypto'),
 

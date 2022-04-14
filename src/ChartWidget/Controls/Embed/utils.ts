@@ -7,7 +7,6 @@ import {
   shareAxesMetrics,
   shareColors,
   shareMetricSettings,
-  shareIndicators,
   shareCombinedMetrics,
 } from '@/sharing'
 import {
@@ -21,6 +20,8 @@ import {
   parseAxesMetrics,
 } from '@/sharing/parse'
 import { parseDrawings, shareDrawings } from '@/sharing/drawings'
+import { getTupleData } from '@/sharing/metrics'
+import { newKey } from '@/metrics/utils'
 
 const stringify = (v: any) => JSON.stringify(v)
 
@@ -28,8 +29,7 @@ export function shareEmbeded(widget, studio, options) {
   const { slug, ticker, from, to } = studio
   const { isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, isAutoUpdated } =
     options
-  const { metrics, axesMetrics, colors, metricSettings, metricIndicators, isSharedAxisEnabled } =
-    widget
+  const { metrics, axesMetrics, colors, metricSettings, isSharedAxisEnabled } = widget
 
   const keys = shareMetrics(metrics)
   const metricAlias = newMetricAlias(keys)
@@ -68,8 +68,6 @@ export function shareEmbeded(widget, studio, options) {
     wc: shareColors(colors, metricAlias),
     // widget settings
     ws: shareMetricSettings(metricSettings, metricAlias).map(stringify),
-    // widget indicators
-    win: shareIndicators(metricIndicators, metricAlias).map(stringify),
     // widget combined metrics
     wcm: shareCombinedMetrics(metrics).map(stringify),
     // widget drawings
@@ -81,21 +79,21 @@ export function shareEmbeded(widget, studio, options) {
 
 const parseJSON = (value: any) => value && JSON.parse(value)
 
+function parseMetricsArray(wm) {
+  return getTupleData(parseArray(wm)).map((item) => (Array.isArray(item) ? newKey(...item) : item))
+}
+
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
   const { ps, pt, sat, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
-  const { wm, wax, wc, ws, win, wcm, wd } = shared
+  const { wm, wax, wc, ws, wcm, wd } = shared
 
   const KnownMetric = {}
-  const sharedMetrics = parseArray(wm)
-
   parseCombinedMetrics(parseArray(wcm).map(parseJSON), KnownMetric)
-  const metricIndicators = parseIndicators(
-    parseArray(win).map(parseJSON),
-    sharedMetrics,
-    KnownMetric,
-  )
-  const mergedMetrics = parseMergedMetrics(sharedMetrics, KnownMetric)
+
+  const metrics = parseMetrics(parseMetricsArray(wm), KnownMetric)
+  const metricIndicators = parseIndicators(metrics)
+  const mergedMetrics = parseMergedMetrics(metrics)
 
   const parsed = {
     slug: ps,
@@ -112,19 +110,15 @@ export function parseQueryString(qs: string) {
     isWatermarkHidden: emhwm ? true : false,
     isSharedAxisEnabled: emsax ? true : false,
 
-    metrics: parseMetrics(sharedMetrics, KnownMetric),
+    metrics: metrics,
     metricIndicators,
     mergedMetrics,
 
-    metricSettings: parseMetricGraphValue(
-      parseArray(ws).map(parseJSON),
-      sharedMetrics,
-      KnownMetric,
-    ),
-    colors: parseMetricGraphValue(parseArray(wc), sharedMetrics, KnownMetric),
+    metricSettings: parseMetricGraphValue(parseArray(ws).map(parseJSON), metrics),
+    colors: parseMetricGraphValue(parseArray(wc), metrics),
     drawings: parseDrawings(parseArray(wd).map(parseJSON)),
   }
-  Object.assign(parsed, parseAxesMetrics(parseArray(wax), sharedMetrics, KnownMetric))
+  Object.assign(parsed, parseAxesMetrics(parseArray(wax), metrics))
 
   return parsed
 }

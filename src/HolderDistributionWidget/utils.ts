@@ -81,6 +81,7 @@ export function buildMergedMetric(baseMetrics: any[]) {
     node: 'line',
     key: newMergedKey(baseMetrics),
     label: reduceMetricsLabels(baseMetrics) + labelPostfix,
+    __type: MetricType.MergedSupplyDistribution,
   }
 
   return metric

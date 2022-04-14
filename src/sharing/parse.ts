@@ -1,13 +1,10 @@
-import type { Metric as MetricType } from './index'
-import { Metric } from '@/metrics'
-import { newProjectMetric } from '@/metrics/utils'
-import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
-import { cacheIndicator, Indicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
-import { MERGED_DIVIDER, buildMergedMetric } from '@/HolderDistributionWidget/utils'
+import type { Metric as BaseMetricType } from './index'
+import { MetricType } from '@/metrics/utils'
 import { newExpessionMetric } from '@/CombineDialog/utils'
+import { parseMetric } from './metrics'
 
 export type KeyToMetric = {
-  [metricKey: string]: MetricType
+  [metricKey: string]: BaseMetricType
 }
 
 export function parse(queryString: string) {
@@ -24,26 +21,13 @@ export function parse(queryString: string) {
 
 export const parseArray = (value?: string) => value?.split(';') || []
 
-const METRIC_CONNECTOR = '_MC_'
-const checkIsProjectMetricKey = (key) => key.includes(METRIC_CONNECTOR)
-
-function getMetric(metricKey: string): MetricType | undefined {
-  if (checkIsProjectMetricKey(metricKey)) {
-    let [slug, ticker, key] = metricKey.split(METRIC_CONNECTOR)
-    return newProjectMetric({ slug, ticker }, Metric[key])
-  }
-
-  return Metric[metricKey] || parseMergedMetric(metricKey)
-}
-
-function parseMetric(metricKey: string, KnownMetric: KeyToMetric) {
-  const metric = KnownMetric[metricKey] || getMetric(metricKey)
-  KnownMetric[metricKey] = metric
-  return metric
-}
-
 export function parseMetrics(metricKeys: undefined | string[], KnownMetric: KeyToMetric) {
-  return (metricKeys || []).map((key) => parseMetric(key, KnownMetric)).filter(Boolean)
+  return (metricKeys || [])
+    .map((key) => {
+      const metric = KnownMetric[key] || parseMetric(key)
+      return (KnownMetric[key] = metric)
+    })
+    .filter(Boolean)
 }
 
 export function parseCombinedMetrics(
@@ -51,7 +35,7 @@ export function parseCombinedMetrics(
   KnownMetric: KeyToMetric,
 ): any[] {
   return (metrics || []).map(({ k, exp, l, bm }) => {
-    const metric = newExpessionMetric(bm.map<any>(getMetric), exp, l)
+    const metric = newExpessionMetric(bm.map<any>(parseMetric), exp, l)
     metric.key = k
 
     KnownMetric[k] = metric
@@ -59,84 +43,41 @@ export function parseCombinedMetrics(
   })
 }
 
-function parseMergedMetric(metricKey: string) {
-  const mergedMetricKeys = metricKey.split(MERGED_DIVIDER)
-  if (mergedMetricKeys.length < 2) return
-
-  return buildMergedMetric(mergedMetricKeys.map((key) => HolderDistributionMetric[key]))
-}
-
-export function parseIndicators(
-  indicators: undefined | [string, string[]][],
-  metrics: string[],
-  KnownMetric: KeyToMetric,
-) {
+export function parseIndicators(metrics: any[]): { [metricKey: string]: Set<string> } {
   const MetricIndicators = {}
-  const values = indicators || []
-  values.forEach(([key, metricIndicators]) => {
-    if (!metricIndicators) return
-    const metricKey = metrics[key] || key
-    const metric = getMetric(metricKey)
-    if (!metric) return
+  metrics.forEach(({ indicator, base }) => {
+    if (!indicator) return
 
-    const indicatorMetrics = metricIndicators.slice()
-    metricIndicators.forEach((indicatorKey, i) => {
-      const indicator = Indicator[indicatorKey]
-      if (metric) {
-        const indicatorMetric = cacheIndicator(metric, indicator)
-        KnownMetric[`${indicatorKey}_${metricKey}`] = indicatorMetric
-      }
-      indicatorMetrics[i] = indicator
-      MetricIndicators[metric.key] = new Set(indicatorMetrics)
-    })
+    if (!MetricIndicators[base.key]) {
+      MetricIndicators[base.key] = new Set()
+    }
+
+    MetricIndicators[base.key].add(indicator.key)
   })
   return MetricIndicators
 }
 
-export function parseMergedMetrics(metrics: string[], KnownMetric: KeyToMetric) {
-  const mergedMetrics = [] as any[]
-  metrics.forEach((metricKey) => {
-    let metric
-    try {
-      metric = parseMergedMetric(metricKey)
-    } catch (e) {
-      return
-    }
-
-    if (metric) {
-      mergedMetrics.push(metric as any)
-      KnownMetric[metricKey] = metric
-    }
-  })
-  return mergedMetrics
+export function parseMergedMetrics(metrics: any[]) {
+  return metrics.filter((metric) => metric.__type === MetricType.MergedSupplyDistribution)
 }
 
-export function parseMetricGraphValue(
-  values: undefined | any[],
-  metrics: string[],
-  KnownMetric: KeyToMetric,
-) {
+export function parseMetricGraphValue(values: undefined | any[], metrics: any[]) {
   const result = {}
   ;(values || []).forEach((value, i) => {
     if (!value) return
-    const metric = KnownMetric[metrics[i]]
+    const metric = metrics[i]
     if (metric) result[metric.key] = value
   })
-
   return result
 }
 
-export function parseAxesMetrics(
-  metricIds: undefined | string[],
-  metricKeys: string[],
-  KnownMetric: KeyToMetric,
-) {
-  if (!metricKeys) return
+export function parseAxesMetrics(metricIds: undefined | string[], metrics: any[]) {
+  if (!metrics) return
 
-  const disabledAxesMetrics = new Set(Object.values(KnownMetric))
-  const axesMetrics = new Set()
+  const disabledAxesMetrics = new Set(metrics)
+  const axesMetrics = new Set<Studio.Metric>()
   ;(metricIds || []).forEach((id) => {
-    const metric = KnownMetric[metricKeys[id]]
+    const metric = metrics[id]
     if (metric) {
       axesMetrics.add(metric)
       disabledAxesMetrics.delete(metric)

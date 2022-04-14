@@ -81,19 +81,6 @@ export function getKey(metricKey: string, metricAlias: MetricAlias) {
   return alias !== undefined ? alias : metricKey
 }
 
-export function shareIndicators(
-  indicators: { [metricKey: string]: Set<Metric> },
-  metricAlias: MetricAlias,
-): [string, string[]][] {
-  return Object.keys(indicators)
-    .map((metricKey) => {
-      const value = indicators[metricKey]
-      if (value.size === 0) return
-      return [getKey(metricKey, metricAlias), Array.from(value).map(keyAccessor)]
-    })
-    .filter(Boolean) as [string, string[]][]
-}
-
 export function shareCombinedMetrics(metrics: Metric[]) {
   return metrics
     .filter(({ expression }) => expression)

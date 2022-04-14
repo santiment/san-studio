@@ -34,5 +34,9 @@ export const queryProjectMetrics = (
     options,
   ).catch(catchMetrics) as any
 
-const ADDRESS_METRICS = ['contract_transactions_count', 'contract_interacting_addresses_count']
+const ADDRESS_METRICS = [
+  'contract_transactions_count',
+  'contract_interacting_addresses_count',
+  // 'nft_social_volume',
+]
 export const queryAddressMetrics = (_address: string) => Promise.resolve(ADDRESS_METRICS)
