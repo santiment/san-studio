@@ -6,7 +6,7 @@ const { replaceModuleAliases, SRC, LIB } = require('./utils')
 async function prepare() {
   fs.rmdirSync(LIB, { recursive: true })
 
-  forFile(['src/**/*.ts', '!src/main.ts'], async (entry) => {
+  forFile(['src/**/*.ts', '!src/**/*.test.ts', '!src/main.ts'], async (entry) => {
     const absolutePath = path.resolve(entry)
     const file = fs.readFileSync(absolutePath)
 
@@ -14,10 +14,7 @@ async function prepare() {
     const libDirPath = path.dirname(libFilePath)
     mkdir(libDirPath)
 
-    fs.writeFileSync(
-      libFilePath,
-      replaceModuleAliases(file.toString(), absolutePath),
-    )
+    fs.writeFileSync(libFilePath, replaceModuleAliases(file.toString(), absolutePath))
   })
 }
 

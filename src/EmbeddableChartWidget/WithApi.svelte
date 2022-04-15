@@ -10,6 +10,8 @@
   import { getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
 
+  let className = ''
+  export { className as class }
   export let widget = {}
   export let isWithMetricSettings = false
   export let sharedAccessToken: string | undefined
@@ -43,7 +45,7 @@
   }
 </script>
 
-<div class="column">
+<div class="column {className}">
   <MetricErrorTooltipCtx>
     <ChartWidget {widget} class="$style.widget" />
   </MetricErrorTooltipCtx>

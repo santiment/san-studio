@@ -46,16 +46,12 @@ export function parseMetric(key: string | TupleData[]): any | undefined {
 
   switch (+data[0]) {
     case MetricType.ProjectLocked:
-      return parseProjectLockedMetric(data)
+      return parseProjectLockedMetric(data as any)
     case MetricType.Indicator:
-      return parseIndicatorMetric(data)
+      return parseIndicatorMetric(data as any)
     case MetricType.MergedSupplyDistribution:
-      return parseMergedSupplyDistributionMetric(data)
+      return parseMergedSupplyDistributionMetric(data as any)
   }
-}
-
-export function parseMetrics(metrics: any[]) {
-  console.log(metrics)
 }
 
 type TupleData = string | string[]

@@ -34,6 +34,7 @@
   }
 
   function setShortAddress() {
+    if (!node) return
     shortAddress = getShortAddress(address, node.clientWidth)
   }
 
