@@ -56,3 +56,9 @@
     <Category {category} {isFiltering} items={filteredGraph[category]} {HoverItem} {onItemClick} />
   {/each}
 </div>
+
+<style>
+  :global(.sidebar-project) {
+    max-width: 226px;
+  }
+</style>

@@ -78,15 +78,19 @@ export function getTimeseries(
 }
 
 export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
-export function getAllTimeData(metrics: Studio.Metric[], slug: string, onData, onError) {
+export function getAllTimeData(
+  metrics: Studio.Metric[],
+  selector: { [key: string]: string },
+  onData,
+  onError,
+) {
   return getTimeseries(
     metrics,
-    {
+    Object.assign(selector, {
       from: CRYPTO_ERA_START_DATE,
       to: 'utc_now',
       interval: '4d',
-      slug,
-    },
+    }) as any,
     onData,
     onError,
   )

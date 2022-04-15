@@ -35,9 +35,9 @@
   let loadings = new Set(widget.metrics)
 
   $: metrics = $Metrics
-  $: ({ slug } = $studio)
+  $: ({ slug, address } = $studio)
   $: fetchData(metrics, $studio, $MetricSettings)
-  $: isOnlyChartEmbedded !== true && fetchAllData(metrics, slug)
+  $: isOnlyChartEmbedded !== true && fetchAllData(metrics, slug, address)
 
   widget.fetchData = (cachePolicy) => fetchData(metrics, $studio, $MetricSettings, cachePolicy)
 
@@ -66,8 +66,8 @@
       )
     },
   )
-  const fetchAllData = debounced((metrics: Studio.Metric[], slug: string) =>
-    getAllTimeData(metrics, slug, onAllTimeData, noop),
+  const fetchAllData = debounced((metrics: Studio.Metric[], slug: string, address?: string) =>
+    getAllTimeData(metrics, address ? { address } : { slug }, onAllTimeData, noop),
   )
 
   function onDataError(Error, newLoadings, newData?: any) {

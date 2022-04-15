@@ -41,7 +41,7 @@
 
 <style>
   :global(.sidebar-header) {
-    padding: 16px 24px;
+    padding: 16px;
     border-bottom: 1px solid var(--porcelain);
   }
 

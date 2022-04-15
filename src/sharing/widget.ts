@@ -73,7 +73,7 @@ export function shareWidget(widget) {
     wd: nullify(shareDrawings(drawings)),
 
     // widget signal metrics
-    wsm: shareSignalMetrics(signalMetrics, keyAccessor),
+    wsm: nullify(shareSignalMetrics(signalMetrics, keyAccessor)),
 
     // widget holder labels
     whl: nullify(holderLabels),
