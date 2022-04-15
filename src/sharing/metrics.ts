@@ -1,11 +1,10 @@
 import { cacheIndicator, Indicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { buildMergedMetric } from '@/HolderDistributionWidget/utils'
 import { Metric } from '@/metrics'
-import { newKey, MetricType, newProjectMetric } from '@/metrics/utils'
+import { MetricType, newProjectMetric } from '@/metrics/utils'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
 
 export function shareMetrics(metrics: Studio.Metric[]): string[] {
-  console.log(metrics.map(({ key }) => key))
   return metrics.map(({ key }) => key)
 }
 

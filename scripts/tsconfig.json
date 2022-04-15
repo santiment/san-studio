@@ -15,11 +15,6 @@
     "strictNullChecks": true,
     "declaration": true
   },
-  "include": [
-    "../lib/**/*.d.ts",
-    "../lib/**/*.ts",
-    "../lib/**/*.js",
-    "../lib/**/*.svelte"
-  ],
-  "exclude": ["node_modules/*"]
+  "include": ["../lib/**/*.d.ts", "../lib/**/*.ts", "../lib/**/*.js", "../lib/**/*.svelte"],
+  "exclude": ["node_modules/*", "../lib/**/*.test.js"]
 }
