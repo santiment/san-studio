@@ -1,7 +1,11 @@
 import { saveJson, getSavedJson } from 'webkit/utils/localStorage'
 import { getAddressInfrastructure } from 'webkit/utils/address'
 
-export function newAddressSuggestion(address: string) {
+export function newAddressSuggestion(address: string): {
+  address: string
+  key: string
+  infrastructure?: string
+} {
   return {
     address,
     key: address,
