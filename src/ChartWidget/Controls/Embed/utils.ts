@@ -110,7 +110,7 @@ export function parseQueryString(qs: string) {
     isWatermarkHidden: emhwm ? true : false,
     isSharedAxisEnabled: emsax ? true : false,
 
-    metrics: metrics,
+    metrics,
     metricIndicators,
     mergedMetrics,
 
