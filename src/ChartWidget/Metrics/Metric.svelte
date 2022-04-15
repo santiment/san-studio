@@ -94,7 +94,14 @@
   {/if}
 
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
-    <MoreMenu {metric} {isLocked} {isSettingsOpened} bind:isMenuOpened {onLockClick} {onSettings} />
+    <MoreMenu
+      {metric}
+      isLocked={isLocked || address}
+      {isSettingsOpened}
+      bind:isMenuOpened
+      {onLockClick}
+      {onSettings}
+    />
   {/if}
 </MetricButton>
 
