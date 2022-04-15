@@ -36,6 +36,7 @@ export function getTimeseries(
       reqMeta,
     )
 
+    if (reqMeta?.slug) delete vars.address
     if (vars.address) delete vars.slug
 
     let attempt = 1

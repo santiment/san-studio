@@ -23,6 +23,7 @@ export const GET_METRIC = `
     $aggregation: Aggregation
     $label_fqn: String
     $address: String
+    $includeIncompleteData: Boolean = true
   ) {
     getMetric(metric: $metric) {
       timeseriesData(
@@ -46,7 +47,7 @@ export const GET_METRIC = `
         interval: $interval
         transform: $transform
         aggregation: $aggregation
-        includeIncompleteData: true
+        includeIncompleteData: $includeIncompleteData
       ) {
         d: datetime
         v: value

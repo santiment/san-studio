@@ -23,7 +23,12 @@ const TotalSentimentMetric = each(
       label: 'Weighted sentiment (Total)',
     },
   },
-  (metric: Studio.Metric) => (metric.group = MetricGroup.TotalSentiment),
+  (metric: Studio.Metric) => {
+    metric.group = MetricGroup.TotalSentiment
+    metric.reqMeta = {
+      includeIncompleteData: false,
+    }
+  },
 )
 
 const TelegramSentimentMetric = each(

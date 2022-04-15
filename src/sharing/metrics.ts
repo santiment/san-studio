@@ -1,7 +1,7 @@
 import { cacheIndicator, Indicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { buildMergedMetric } from '@/HolderDistributionWidget/utils'
 import { Metric } from '@/metrics'
-import { MetricType, newProjectMetric } from '@/metrics/utils'
+import { MetricType, newAddressMetric, newProjectMetric } from '@/metrics/utils'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
 
 export function shareMetrics(metrics: Studio.Metric[]): string[] {
@@ -33,6 +33,11 @@ function parseMergedSupplyDistributionMetric([_, base, ...mergedKeys]) {
   return buildMergedMetric(baseMetrics)
 }
 
+function parseAddressLockedMetric([_, metricKey, address]) {
+  const metric = Metric[metricKey]
+  return metric && newAddressMetric(address, metric)
+}
+
 export function parseMetric(key: string | TupleData[]): any | undefined {
   let data = key
   if (typeof key === 'string') {
@@ -50,6 +55,8 @@ export function parseMetric(key: string | TupleData[]): any | undefined {
       return parseIndicatorMetric(data as any)
     case MetricType.MergedSupplyDistribution:
       return parseMergedSupplyDistributionMetric(data as any)
+    case MetricType.AddressLocked:
+      return parseAddressLockedMetric(data as any)
   }
 }
 
