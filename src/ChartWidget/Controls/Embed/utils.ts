@@ -1,4 +1,4 @@
-import type { Metric } from '@/sharing'
+import { getArrayValues, Metric } from '@/sharing'
 import { getTodaysEnd } from 'webkit/utils/dates'
 import {
   newURLQuery,
@@ -20,13 +20,11 @@ import {
   parseAxesMetrics,
 } from '@/sharing/parse'
 import { parseDrawings, shareDrawings } from '@/sharing/drawings'
-import { getTupleData } from '@/sharing/metrics'
-import { newKey } from '@/metrics/utils'
 
 const stringify = (v: any) => JSON.stringify(v)
 
 export function shareEmbeded(widget, studio, options) {
-  const { slug, ticker, from, to } = studio
+  const { slug, ticker, from, to, address } = studio
   const { isNightMode, isWithMetricSettings, isCartesianGrid, isWatermarkHidden, isAutoUpdated } =
     options
   const { metrics, axesMetrics, colors, metricSettings, isSharedAxisEnabled } = widget
@@ -41,6 +39,8 @@ export function shareEmbeded(widget, studio, options) {
     ps: slug,
     // project ticker
     pt: ticker,
+    // selected address
+    addr: address,
 
     // date from
     df: from,
@@ -79,25 +79,23 @@ export function shareEmbeded(widget, studio, options) {
 
 const parseJSON = (value: any) => value && JSON.parse(value)
 
-function parseMetricsArray(wm) {
-  return getTupleData(parseArray(wm)).map((item) => (Array.isArray(item) ? newKey(...item) : item))
-}
-
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
-  const { ps, pt, sat, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
+  const { ps, pt, addr } = shared
+  const { sat, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
   const { wm, wax, wc, ws, wcm, wd } = shared
 
   const KnownMetric = {}
   parseCombinedMetrics(parseArray(wcm).map(parseJSON), KnownMetric)
 
-  const metrics = parseMetrics(parseMetricsArray(wm), KnownMetric)
+  const metrics = parseMetrics(getArrayValues(wm), KnownMetric)
   const metricIndicators = parseIndicators(metrics)
   const mergedMetrics = parseMergedMetrics(metrics)
 
   const parsed = {
     slug: ps,
     ticker: pt,
+    address: addr,
 
     from: df,
     to: dt || getTodaysEnd().toISOString(),

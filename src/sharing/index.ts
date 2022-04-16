@@ -91,3 +91,34 @@ export function shareCombinedMetrics(metrics: Metric[]) {
       bm: shareMetrics(baseMetrics),
     }))
 }
+
+export function getArrayValues(str: string): string[] {
+  const array = [] as string[]
+
+  let depth = 0
+  let start = 0
+  let cursor = 0
+
+  let char
+  while ((char = str[cursor])) {
+    cursor++
+
+    switch (char) {
+      case '[':
+        depth++
+        continue
+
+      case ']':
+        depth--
+        continue
+
+      case ';':
+        if (depth > 0) continue
+        array.push(str.slice(start, cursor - 1))
+        start = cursor
+    }
+  }
+
+  array.push(str.slice(start))
+  return array
+}
