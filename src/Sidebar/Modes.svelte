@@ -10,22 +10,16 @@
   import { track } from 'webkit/analytics'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { CMD } from 'webkit/utils/os'
-  import { dialogs } from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg/svelte'
   import { Event } from '@/analytics'
   import { SidewidgetType, getSidewidget } from '@/stores/widgets'
-  import ShortcutsDialog, { showShortcutsDialog } from '@/Shortcuts/Dialog.svelte'
+  import { showShortcutsDialog } from '@/Shortcuts/Dialog.svelte'
 
   export let mode = Mode.Metrics
   export let isLocked
 
   const Sidewidget = getSidewidget()
   const MODES = [Mode.Metrics, Mode.Layouts]
-
-  function openShortcutsDialog() {
-    if (dialogs.has(ShortcutsDialog)) return
-    showShortcutsDialog()
-  }
 
   function onModeCange(id) {
     mode = id
@@ -36,7 +30,7 @@
 
   const toggleSidebar = () => (isLocked = !isLocked)
 
-  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', openShortcutsDialog)
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
   const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar)
 
   onDestroy(() => {

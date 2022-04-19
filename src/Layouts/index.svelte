@@ -4,7 +4,6 @@
   import { CMD } from 'webkit/utils/os'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { getHistoryContext } from 'webkit/ui/history'
-  import { dialogs } from 'webkit/ui/Dialog'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Event } from '@/analytics'
@@ -15,7 +14,7 @@
   import { widgetsListener } from '@/stores/widgetsListener'
   import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
-  import LoadLayoutDialog, { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
+  import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
   import {
     getScheduledLayout,
@@ -138,13 +137,8 @@
     }
   }
 
-  function openLoadLayoutDialog() {
-    if (dialogs.has(LoadLayoutDialog)) return
-    showLoadLayoutDialog()
-  }
-
   const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave))
-  const unsubLoad = newGlobalShortcut('CMD+L', openLoadLayoutDialog)
+  const unsubLoad = newGlobalShortcut('CMD+L', showLoadLayoutDialog)
   onDestroy(() => {
     // @ts-ignore
     delete window.onLayoutSelect

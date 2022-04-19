@@ -2,7 +2,7 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import LoadLayoutDialog from './LoadLayoutDialog.svelte'
 
-  export const showLoadLayoutDialog = (): Promise<unknown> => dialogs.show(LoadLayoutDialog)
+  export const showLoadLayoutDialog = (): Promise<unknown> => dialogs.showOnce(LoadLayoutDialog)
 </script>
 
 <script lang="ts">

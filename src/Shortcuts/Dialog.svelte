@@ -2,7 +2,7 @@
   import { dialogs } from 'webkit/ui/Dialog'
   import ShortcutsDialog from './Dialog.svelte'
 
-  export const showShortcutsDialog = (): Promise<unknown> => dialogs.show(ShortcutsDialog)
+  export const showShortcutsDialog = (): Promise<unknown> => dialogs.showOnce(ShortcutsDialog)
 </script>
 
 <script lang="ts">

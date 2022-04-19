@@ -1,6 +1,7 @@
-import { getArrayValues, Metric } from '@/sharing'
+import type { Metric } from '@/sharing'
 import { getTodaysEnd } from 'webkit/utils/dates'
 import {
+  getArrayValues,
   newURLQuery,
   newMetricAlias,
   shareMetrics,

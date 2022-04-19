@@ -3,7 +3,7 @@
   import MasterSelectorDialog from './index.svelte'
 
   export const showMasterSelectorDialog = (props?: any): Promise<unknown> =>
-    dialogs.show(MasterSelectorDialog, props)
+    dialogs.showOnce(MasterSelectorDialog, props)
 </script>
 
 <script lang="ts">

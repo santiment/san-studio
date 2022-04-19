@@ -28,7 +28,14 @@
   }
 </script>
 
-<Dialog {...$$props} {onBeforeDialogClose} noTitle bind:closeDialog class="$style.dialog">
+<Dialog
+  {...$$props}
+  {onBeforeDialogClose}
+  noTitle
+  animated={false}
+  bind:closeDialog
+  class="$style.dialog"
+>
   {#await tick() then _}
     <ChartWidget {widget} isFullscreen isSingleWidget metricsFilter={fullscreenMetricsFilter} />
   {/await}
