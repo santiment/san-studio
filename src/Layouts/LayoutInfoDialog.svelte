@@ -50,6 +50,7 @@
 <Dialog
   {...$$props}
   noBg
+  animated={false}
   class="$style.dialog"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
   bind:closeDialog

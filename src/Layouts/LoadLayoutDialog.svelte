@@ -8,6 +8,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import Dialog from 'webkit/ui/Dialog'
+  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { queryLayouts } from '@/api/layouts'
@@ -78,19 +79,24 @@
   </div>
 
   <div class="search">
-    <Search bind:searchTerm class="" placeholder="Search chart layout..." />
+    <Search bind:searchTerm autofocus placeholder="Search chart layout..." />
   </div>
 
-  <div class="dialog-body layouts">
-    {#each filteredLayouts as layout (layout.id)}
-      <SelectableLayout
-        {layout}
-        {closeDialog}
-        onClick={onLayoutSelect}
-        isAuthor={tab === Tab.MyLibrary}
-      />
-    {/each}
-  </div>
+  <VirtualList
+    hideEmptyResults
+    items={filteredLayouts}
+    key="id"
+    defaultItemHeight={72}
+    class="$style.layouts"
+    let:item
+  >
+    <SelectableLayout
+      layout={item}
+      {closeDialog}
+      onClick={onLayoutSelect}
+      isAuthor={tab === Tab.MyLibrary}
+    />
+  </VirtualList>
 </Dialog>
 
 <style>
@@ -124,8 +130,7 @@
     border-bottom: 1px solid var(--porcelain);
   }
 
-  .layouts {
+  .layouts :global(.list) {
     padding: 12px;
-    margin: 0;
   }
 </style>

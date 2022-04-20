@@ -50,7 +50,7 @@
 <style>
   .label {
     padding: 3px 8px;
-    background: var(--porcelain);
+    background: var(--porcelain) !important;
     border-radius: 4px;
   }
 

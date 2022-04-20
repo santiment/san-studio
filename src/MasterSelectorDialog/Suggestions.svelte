@@ -58,7 +58,7 @@
     }
 
     if (getAddressInfrastructure(searchTerm)) {
-      headers = { 0: 'Smart contracts' }
+      headers = { 0: 'Address' }
       return [newAddressSuggestion(searchTerm)]
     }
 
