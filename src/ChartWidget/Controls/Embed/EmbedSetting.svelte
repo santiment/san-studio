@@ -22,7 +22,7 @@
   }
 </script>
 
-<Setting bind:isActive {disabled}>
+<Setting bind:isActive {disabled} disabledToggle={isPro}>
   <div class="row v-center">
     Share data access
     <Tooltip align="start" offsetY={4} closeTimeout={0}>

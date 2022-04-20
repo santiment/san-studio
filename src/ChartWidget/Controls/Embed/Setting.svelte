@@ -9,15 +9,16 @@
   export let isActive = false
   export let disabled = false
   export let access = PRO
+  export let disabledToggle = false
 </script>
 
 <div class="row btn mrg-m mrg--b justify" class:disabled on:click={() => (isActive = !isActive)}>
   <slot />
 
-  {#if disabled}
+  {#if disabled && !disabledToggle}
     <a href="/pricing" class="label" class:plus={access === PRO_PLUS}>{access}</a>
   {:else}
-    <Toggle {isActive} />
+    <Toggle {isActive} {disabled} />
   {/if}
 </div>
 
