@@ -3,8 +3,8 @@ export enum MetricCategory {
   Social = 'Social',
   Development = 'Development',
   Derivatives = 'Derivatives',
-  OnChain = 'On-chain',
   Indicators = 'Indicators',
+  OnChain = 'On-chain',
 }
 
 export enum MetricGroup {

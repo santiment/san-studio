@@ -30,8 +30,8 @@ export function getMetricsSelectorGraph(
     [MetricCategory.Social]: [],
     [MetricCategory.Development]: [],
     [MetricCategory.Derivatives]: [],
-    [MetricCategory.OnChain]: [],
     [MetricCategory.Indicators]: [],
+    [MetricCategory.OnChain]: [],
   }
 
   const filter = ({ checkIsVisible }: any) => (checkIsVisible ? checkIsVisible(options) : true)

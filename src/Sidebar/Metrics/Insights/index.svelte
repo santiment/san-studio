@@ -45,7 +45,6 @@
 
 <Category
   category="Insights"
-  isOpened
   {isFiltering}
   items={insights}
   onItemClick={(_, item) => InsightsContextStore.set(item)}

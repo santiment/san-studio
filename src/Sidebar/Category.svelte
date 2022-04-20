@@ -14,7 +14,9 @@
   export let onItemClick = undefined
   export let arrowClass = 'mrg-a'
 
-  let visible = isOpened || category === MetricCategory.Financial
+  let visible =
+    isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain
+
   $: GroupIndex = prepareGroups(items)
 
   function prepareGroups(items: Studio.SelectorNode[]) {

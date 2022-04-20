@@ -16,8 +16,8 @@ export const Metric = each(
     SocialMetric,
     DevelopmentMetric,
     DerivativesMetric,
-    OnChainMetric,
     IndicatorsMetric,
+    OnChainMetric,
   ),
   (metric: Studio.Metric, key, i) => {
     metric.key = key

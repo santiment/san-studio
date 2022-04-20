@@ -7,18 +7,15 @@ export const FinancialMetric = each(
   {
     price_usd: {
       label: 'Price',
-      category: 'Financial',
       formatter: usdFormatter,
     },
     price_btc: {
       label: 'Price BTC',
-      category: 'Financial',
       formatter: btcFormatter,
       checkIsVisible: ({ slug }) => slug !== 'bitcoin',
     },
     price_eth: {
       label: 'Price ETH',
-      category: 'Financial',
       formatter: ethFormatter,
       checkIsVisible: ({ slug }) => slug !== 'ethereum',
     },
@@ -29,7 +26,6 @@ export const FinancialMetric = each(
     volume_usd: {
       node: Node.BAR,
       label: 'Volume',
-      category: 'Financial',
     },
   },
   (metric: Studio.Metric) => {
