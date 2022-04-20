@@ -61,13 +61,13 @@ export const shareAxesMetrics = (
 export const shareColors = (
   colors: { [metricKey: string]: string },
   metricAlias: MetricAlias,
-): string[] => eachAlias(Object.keys(colors), metricAlias, (key) => colors[key])
+): string[] => eachAlias(Object.keys(colors || {}), metricAlias, (key) => colors[key])
 
 export function shareMetricSettings(
   settings: { [metricKey: string]: any },
   metricAlias: MetricAlias,
 ): (undefined | { [alias: string]: any })[] {
-  return eachAlias(Object.keys(settings), metricAlias, (key) => {
+  return eachAlias(Object.keys(settings || {}), metricAlias, (key) => {
     const value = Object.assign({}, settings[key])
     delete value.getPreTransformValue
     delete value.preTransform

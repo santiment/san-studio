@@ -38,7 +38,7 @@ function nullifyMetricSettings(sharedSettings: (undefined | { [settingKey: strin
 function shareSubwidgets(subwidgets) {
   if (subwidgets.length === 0) return
 
-  return subwidgets.map(({ key, from, to }) => ({
+  return subwidgets.filter(Boolean).map(({ key, from, to }) => ({
     k: key,
     f: from,
     t: to,
@@ -132,5 +132,17 @@ export function parseWidget(shared, ctx: ParseCtx) {
   Object.assign(parsed, parseAxesMetrics(wax, metrics))
   Object.assign(parsed, ctx?.parseSubwidgets(wcsb))
 
+  normalizeWidget(parsed)
+
   return parsed
+}
+
+function normalizeWidgetArray(widget, key) {
+  widget[key] = (widget[key] || []).filter(Boolean)
+}
+
+function normalizeWidget(widget) {
+  normalizeWidgetArray(widget, 'subwidgets')
+  normalizeWidgetArray(widget, 'metrics')
+  normalizeWidgetArray(widget, 'drawings')
 }
