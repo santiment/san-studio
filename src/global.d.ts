@@ -30,6 +30,7 @@ interface Window {
   renderCombineProjectSelector?: () => void
   onHeaderCopyLinkClick?: () => void
   onHeaderShareClick?: () => void
+  onDefaultLayoutAddressSelect?: () => void
   __onLinkClick?: (e: MouseEvent) => void
 
   onLayoutEdit?: () => void

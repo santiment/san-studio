@@ -6,8 +6,8 @@ import { newPrecacher } from './utils'
 const GAS_USED_QUERY = `
   query gasUsed(
     $slug: String
-    $from: DateTime
-    $to: DateTime
+    $from: DateTime!
+    $to: DateTime!
     $interval: interval
   ) {
     gasUsed(slug: $slug, from: $from, to: $to, interval: $interval) {

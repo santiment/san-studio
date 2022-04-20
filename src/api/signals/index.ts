@@ -4,8 +4,8 @@ const SIGNAL_QUERY = `
   query getSignal(
     $signal: String
     $slug: String
-    $from: DateTime
-    $to: DateTime
+    $from: DateTime!
+    $to: DateTime!
     $interval: interval
   ) {
     getSignal(signal: $signal) {

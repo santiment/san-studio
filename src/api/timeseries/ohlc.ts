@@ -3,8 +3,8 @@ import { query } from 'webkit/api'
 const PRICE_OHLC_QUERY = `
   query ohlc(
     $slug: String
-    $from: DateTime
-    $to: DateTime
+    $from: DateTime!
+    $to: DateTime!
     $interval: interval
   ) {
     ohlc(from: $from, to: $to, interval: $interval, slug: $slug) {
