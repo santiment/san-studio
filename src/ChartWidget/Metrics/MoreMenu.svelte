@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { copy } from 'webkit/utils'
   import { withScroll, getHistoryContext } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
@@ -17,6 +19,7 @@
   const { onAnonFavoriteClick = () => {} } = getAdapterController()
 
   export let metric: Studio.Metric
+  export let address: undefined | string
   export let isMenuOpened, isSettingsOpened, isLocked
   export let onLockClick, onSettings
 
@@ -35,6 +38,18 @@
     redo()
     newHistory('Hide signals', () => MetricsSignals.add(metric), redo)
   }
+
+  let copyLabel = 'Copy address'
+  let clearTimeout
+  function onAddressCopy() {
+    clearTimeout?.()
+    copyLabel = 'Copied!'
+    clearTimeout = copy(address, () => (copyLabel = 'Copy address'))
+  }
+
+  onDestroy(() => {
+    clearTimeout?.()
+  })
 </script>
 
 <Tooltip
@@ -83,12 +98,19 @@
       Reapply metric
     </div>
 
+    {#if address}
+      <div class="btn-ghost option" on:click={onAddressCopy}>
+        <Svg id="copy" w="16" class="mrg-s mrg--r" />
+        {copyLabel}
+      </div>
+    {/if}
+
     <div
       class="btn-ghost option"
       class:disabled={isSettingsOpened}
       on:click={() => onSettings(metric)}
     >
-      <Svg id="cog" w="16" h="16" class="mrg-s mrg--r" />
+      <Svg id="cog" w="16" class="mrg-s mrg--r" />
       Settings
     </div>
   </div>

@@ -13,7 +13,10 @@
   import Suggestions from './Suggestions.svelte'
   import Blockchains from './Blockchains.svelte'
   import { handleNavigation } from './navigation'
-  import { addRecent } from './utils'
+  import { addRecent, replaceDefaultMetrics } from './utils'
+  import { getWidgets } from '@/stores/widgets'
+
+  const Widgets = getWidgets()
 
   let closeDialog
   let inputNode
@@ -42,6 +45,8 @@
     if (!item) return
 
     studio.setProject(item)
+    replaceDefaultMetrics(item, $Widgets)
+
     addRecent(item)
     closeDialog()
   }

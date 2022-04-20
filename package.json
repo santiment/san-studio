@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "mathjs": "^9.4.4",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#bc41512",
+    "san-webkit": "https://github.com/santiment/san-webkit.git#a987f32",
     "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#895859f",
@@ -67,7 +67,7 @@
   "peerDependencies": {
     "svelte": "^3.46.3",
     "@santiment-network/chart": "^0.10.12",
-    "san-webkit": "https://github.com/santiment/san-webkit.git#bc41512",
+    "san-webkit": "https://github.com/santiment/san-webkit.git",
     "canvas": "^2.8.0",
     "phoenix": "^1.6.6"
   }

@@ -96,6 +96,7 @@
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
     <MoreMenu
       {metric}
+      {address}
       isLocked={isLocked || address}
       {isSettingsOpened}
       bind:isMenuOpened
