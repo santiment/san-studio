@@ -146,7 +146,6 @@
     padding: 16px;
     background: var(--white);
     border-bottom: 1px solid var(--porcelain);
-    margin-left: 33px;
   }
 
   .widgets {

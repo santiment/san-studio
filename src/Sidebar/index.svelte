@@ -1,10 +1,13 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { getHistoryContext } from 'webkit/ui/history'
   import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import { getAdapterController } from '@/adapter/context'
+  import { showShortcutsDialog } from '@/Shortcuts/Dialog.svelte'
   import { handleItemSelect } from './controller'
   import Sidebar from './Sidebar.svelte'
-  import Modes, { Mode } from './Modes.svelte'
+  import { Mode } from './Modes.svelte'
   import MetricsSidebar from './Metrics/Sidebar.svelte'
   import LayoutsSidebar from './Layouts/Sidebar.svelte'
 
@@ -15,7 +18,7 @@
   export let Widgets, Sidewidget, adjustSelectedMetric
 
   let mode = Mode.Metrics
-  let isLocked = getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
+  let isLocked = true // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
   let isPeeked = false
 
   $: isOpened = isPeeked // || isDraggingMetric
@@ -25,12 +28,17 @@
     if (checkIsMapviewDisabled?.()) return
     handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric)
   }
+
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
+  onDestroy(removeOpenShortcutsDialogHandler)
 </script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
+  <!-- 
   <svelte:fragment slot="left">
     <Modes bind:mode bind:isLocked />
   </svelte:fragment>
+ -->
 
   {#if mode === Mode.Metrics}
     <MetricsSidebar {onItemClick} />
