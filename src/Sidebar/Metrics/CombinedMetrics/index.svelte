@@ -48,6 +48,7 @@
     MetricWidgets = new Map()
 
     metrics = Widgets.get().flatMap((widget) => {
+      if (!widget.metrics) return []
       return widget.metrics.filter((metric) => {
         if (!metric.expression) return
         linkMetricWidget(metric, widget)
