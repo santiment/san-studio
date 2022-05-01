@@ -6,6 +6,7 @@ import {
   getSavedValue,
   deleteSavedValue,
 } from 'webkit/utils/localStorage'
+import { RecentType, addRecent, removeRecent } from 'webkit/utils/recents'
 
 type Widget = { metrics?: Studio.Metric[] }
 
@@ -45,7 +46,7 @@ export function getLayoutMetrics(widgets: Widget[]) {
 
 const RECENT_LAYOUTS = 'RECENT_TEMPLATES'
 
-function removeRecent(id: number | string) {
+function removeRecentLayout(id: number | string) {
   const items = new Set(getSavedRecentLayoutIds())
   items.delete(+id)
   return [...items]
@@ -58,11 +59,13 @@ export function getSavedRecentLayoutIds(): number[] {
 }
 
 export function addRecentLayoutId(id: number | string): number[] {
-  return saveRecentLayoutIds([+id, ...removeRecent(id)])
+  addRecent(RecentType.CHART_LAYOUT, id)
+  return saveRecentLayoutIds([+id, ...removeRecentLayout(id)])
 }
 
 export function removeRecentLayoutId(id: number | string): number[] {
-  return saveRecentLayoutIds(removeRecent(id))
+  removeRecent(RecentType.CHART_LAYOUT, id)
+  return saveRecentLayoutIds(removeRecentLayout(id))
 }
 
 function saveRecentLayoutIds(items: number[]) {
@@ -72,8 +75,9 @@ function saveRecentLayoutIds(items: number[]) {
 }
 
 const SCHEDULED_CHART = 'SCHEDULED_CHART'
-export const saveScheduledLayout = (layout: Omit<SAN.Layout, 'id' | 'project' | 'user'>): void =>
-  saveJson(SCHEDULED_CHART, layout)
+export const saveScheduledLayout = (
+  layout: Omit<SAN.Layout, 'id' | 'project' | 'user'>,
+): Omit<SAN.Layout, 'id' | 'project' | 'user'> => saveJson(SCHEDULED_CHART, layout)
 
 export const getScheduledLayout = () => getSavedJson(SCHEDULED_CHART) as LayoutCreation
 
