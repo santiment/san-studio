@@ -6,12 +6,14 @@
   $: if (hoverNode) hoverNode.setAttribute('style', style)
 
   function getActionsStyles() {
-    const { left, width, height } = node.getBoundingClientRect()
+    if (!node) return
+
+    const { width, height } = node.getBoundingClientRect()
     let top = node.offsetTop
     const parent = node.closest('.sidebar-content')
     if (parent) top -= parent.scrollTop
 
-    return `left:${left - 33}px;top:${top}px;--width:${width - 18}px;height:${height}px`
+    return `left:${node.offsetLeft}px;top:${top}px;--width:${width - 18}px;height:${height}px`
   }
 </script>
 

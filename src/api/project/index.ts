@@ -45,6 +45,7 @@ const ALL_PROJECTS = `
       name
       priceUsd
       infrastructure
+      logoUrl
     }
   }
 `

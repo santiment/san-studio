@@ -13,7 +13,7 @@
   let marketcap = ''
   let projectRank = 0
 
-  $: ({ slug, ticker, name = slug } = $studio)
+  $: ({ slug, ticker, name = slug, logoUrl } = $studio)
   $: queryProject(slug).then(setProject)
   $: queryProjectPriceChange(slug).then(setPriceChange)
   $: isUpChange = change >= 0
@@ -34,7 +34,7 @@
 </svelte:head>
 
 <Selector>
-  <ProjectIcon {slug} size={32} class="mrg-s mrg--r" />
+  <ProjectIcon {slug} {logoUrl} size={32} class="mrg-s mrg--r" />
   {name} ({ticker})
 </Selector>
 

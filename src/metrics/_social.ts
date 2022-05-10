@@ -115,6 +115,7 @@ const newTwitterFollowers = (interval: string) => ({
 const newSocialActiveUsers = (channel: string, label: string, source = channel) => ({
   queryKey: 'social_active_users',
   label: `Active social users (${label})`,
+  noProject: true,
   reqMeta: {
     channel,
     source,

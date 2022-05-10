@@ -9,6 +9,7 @@ import { studio } from '@/stores/studio'
 import { globals } from '@/stores/globals'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
+import { showMasterSelectorDialog } from './MasterSelectorDialog'
 
 startResponsiveController()
 
@@ -21,7 +22,10 @@ window.__onLinkClick = (e) => {
 window.studio = studio
 studio.setProject({ slug: 'bitcoin', ticker: 'BTC', name: 'Bitcoin' })
 
-const defaultMetrics: Studio.Metric[] = [Metric.price_usd]
+const defaultMetrics: Studio.Metric[] = [
+  Metric.price_usd,
+  // Metric.social_volume_total
+]
 const app = new App({
   target: document.getElementById('app') as Element,
   props: {
@@ -29,8 +33,6 @@ const app = new App({
       newWidget(ChartWidget, { metrics: defaultMetrics }),
       // newWidget(ChartWidget, { metrics: [Metric.social_dominance_total] }),
       // newWidget(ChartWidget, { metrics: [Metric.dev_activity] }),
-      // newWidget(ChartWidget, { metrics: defaultMetrics }),
-      // newWidget(ChartWidget, { metrics: defaultMetrics }),
     ],
     InsightsContextStore: newInsightsContextStore(),
   },
@@ -43,5 +45,6 @@ window.toggleNight = () =>
 const History = app.$$.context.get(HISTORY_CONTEXT)
 newGlobalShortcut('CMD+Z', History.undo)
 newGlobalShortcut('CMD+SHIFT+Z', History.redo)
+newGlobalShortcut('CMD+K', showMasterSelectorDialog)
 
 export default app

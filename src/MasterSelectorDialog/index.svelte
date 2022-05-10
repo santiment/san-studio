@@ -1,11 +1,3 @@
-<script context="module" lang="ts">
-  import { dialogs } from 'webkit/ui/Dialog'
-  import MasterSelectorDialog from './index.svelte'
-
-  export const showMasterSelectorDialog = (props?: any): Promise<unknown> =>
-    dialogs.showOnce(MasterSelectorDialog, props)
-</script>
-
 <script lang="ts">
   import Svg from 'webkit/ui/Svg/svelte'
   import Dialog from 'webkit/ui/Dialog'

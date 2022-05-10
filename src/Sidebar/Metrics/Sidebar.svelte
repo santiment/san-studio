@@ -43,6 +43,7 @@
   <Search bind:searchTerm />
   <div class="caption c-waterloo mrg-s mrg--t">Available metrics for asset: {metrics.length}</div>
 </div>
+
 <div class="sidebar-content" on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
   <Favorites {searchTerm} {isFiltering} {onItemClick} />
   <Insights {searchTerm} {isFiltering} />

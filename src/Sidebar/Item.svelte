@@ -52,7 +52,7 @@
   </div>
 {/if}
 
-<style>
+<style lang="scss">
   .item {
     padding: 6px 9px;
     min-height: 32px;
@@ -60,20 +60,22 @@
     background: var(--white);
     z-index: 2;
     word-break: break-word;
-  }
-  .item:hover {
-    background: var(--athens);
-    color: var(--green);
-    --fill: var(--white);
-    --bg: var(--green);
+
+    &:hover {
+      background: var(--athens);
+      color: var(--green);
+      --fill: var(--white);
+      --bg: var(--green);
+    }
   }
 
   .pro {
     color: var(--orange);
-  }
-  .pro:hover {
-    color: var(--orange-hover);
-    --bg: var(--orange);
+
+    &:hover {
+      color: var(--orange-hover);
+      --bg: var(--orange);
+    }
   }
 
   .subitem {
@@ -82,26 +84,26 @@
     display: flex;
     align-items: center;
     z-index: 1;
-  }
 
-  .subitem::before,
-  .subitem::after {
-    content: '';
-    position: absolute;
-    background: var(--porcelain);
-    left: -15px;
-    z-index: -2;
-  }
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      background: var(--porcelain);
+      left: -15px;
+      z-index: -2;
+    }
 
-  .subitem::before {
-    height: 100%;
-    width: 1px;
-    transform: translateY(-50%);
-  }
+    &::before {
+      height: 100%;
+      width: 1px;
+      transform: translateY(-50%);
+    }
 
-  .subitem::after {
-    height: 1px;
-    width: 16px;
+    &::after {
+      height: 1px;
+      width: 16px;
+    }
   }
 
   .active {
@@ -112,15 +114,17 @@
     position: absolute;
     z-index: 3;
     box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
-  }
-  .hovered:hover {
-    --bg: var(--green-light-2);
-    --fill: var(--green);
-    color: var(--green);
-  }
-  .hovered.active {
-    --bg: var(--red-light-1);
-    --fill: var(--red);
-    color: var(--color-active-hover, var(--red));
+
+    &:hover {
+      --bg: var(--green-light-2);
+      --fill: var(--green);
+      color: var(--green);
+    }
+
+    &.active {
+      --bg: var(--red-light-1);
+      --fill: var(--red);
+      color: var(--color-active-hover, var(--red));
+    }
   }
 </style>

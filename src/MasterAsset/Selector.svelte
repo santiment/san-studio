@@ -1,6 +1,6 @@
 <script>
   import Svg from 'webkit/ui/Svg/svelte'
-  import { showMasterSelectorDialog } from '@/MasterSelectorDialog/index.svelte'
+  import { showMasterSelectorDialog } from '@/MasterSelectorDialog'
   import { preloadSuggestions } from '@/MasterSelectorDialog/Suggestions.svelte'
 </script>
 
