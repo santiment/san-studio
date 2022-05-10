@@ -1,7 +1,7 @@
 import type { Metric as BaseMetricType } from './index'
-import { MetricType } from '@/metrics/utils'
+import { MetricType, newProjectMetric } from '@/metrics/utils'
 import { newExpessionMetric } from '@/CombineDialog/utils'
-import { parseMetric } from './metrics'
+import { parseMetric, parseMetricKey } from './metrics'
 
 export type KeyToMetric = {
   [metricKey: string]: BaseMetricType
@@ -35,10 +35,12 @@ export function parseCombinedMetrics(
   KnownMetric: KeyToMetric,
 ): any[] {
   return (metrics || []).map(({ k, exp, l, bm }) => {
-    const metric = newExpessionMetric(bm.map<any>(parseMetric), exp, l)
-    metric.key = k
+    const metric = newExpessionMetric(bm.map<any>(parseMetric), exp, l) as any
 
-    KnownMetric[k] = metric
+    const [_, key, slug, ticker] = (parseMetricKey(k) || []) as any
+    metric.key = (key || k) as any
+
+    KnownMetric[k] = slug ? newProjectMetric({ slug, ticker }, metric) : metric
     return metric
   })
 }

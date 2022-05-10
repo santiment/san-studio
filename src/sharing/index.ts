@@ -2,6 +2,7 @@ export type Metric = {
   key: string
   label: string
   expression?: string
+  base?: any
 }
 export type CombinedMetric = Metric & {
   baseMetrics: Metric[]
@@ -84,10 +85,10 @@ export function getKey(metricKey: string, metricAlias: MetricAlias) {
 export function shareCombinedMetrics(metrics: Metric[]) {
   return metrics
     .filter(({ expression }) => expression)
-    .map(({ key, expression, label, baseMetrics }: CombinedMetric) => ({
+    .map(({ key, expression, label, baseMetrics, base }: CombinedMetric) => ({
       k: key,
       exp: expression,
-      l: label,
+      l: base?.label || label,
       bm: shareMetrics(baseMetrics),
     }))
 }

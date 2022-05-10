@@ -46,14 +46,23 @@
 
   function onWidgetsChange() {
     MetricWidgets = new Map()
+    const linked = new Set()
 
     metrics = Widgets.get().flatMap((widget) => {
       if (!widget.metrics) return []
-      return widget.metrics.filter((metric) => {
-        if (!metric.expression) return
-        linkMetricWidget(metric, widget)
-        return metric
-      })
+      return widget.metrics
+        .filter((metric) => {
+          if (!metric.expression) return
+
+          const { base = metric } = metric
+          if (linked.has(base)) return
+
+          linkMetricWidget(base, widget)
+          linked.add(base)
+
+          return metric
+        })
+        .map((metric) => metric.base || metric)
     })
   }
 
