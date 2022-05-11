@@ -10,6 +10,7 @@ export type StudioSettings = {
   interval: string
   ticker: string
   address?: string
+  logoUrl?: string
 }
 
 const TO = getTodaysEnd()
@@ -48,6 +49,8 @@ export const studio = {
   subscribe,
   get,
   setProject(project) {
+    delete STUDIO.logoUrl
+
     if (project?.address) {
       project.ticker = minifyAddress(project.address)
     } else {
