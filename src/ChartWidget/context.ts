@@ -32,7 +32,7 @@ export type ChartWidget = {
 }
 
 const CONTEXT = 'widget'
-export const setWidget = (widget: ChartWidget): void => setContext(CONTEXT, widget)
+export const setWidget = (widget: ChartWidget) => setContext(CONTEXT, widget)
 export const getWidget = (): ChartWidget => getContext(CONTEXT)
 
 export function initWidget(widget: any) {

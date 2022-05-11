@@ -18,7 +18,7 @@ export type Chart = SanChart & {
 
 const noop = () => {} // eslint-disable-line
 export const CONTEXT = 'chartManager'
-export const setChart = (chart: Chart): void => setContext(CONTEXT, chart)
+export const setChart = (chart: Chart) => setContext(CONTEXT, chart)
 export const getChart = (): Chart => getContext(CONTEXT)
 
 export type Plotter = (chart: any, scale: any, data: any, colors: any, categories: any) => any

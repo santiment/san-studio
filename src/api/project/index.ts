@@ -51,5 +51,5 @@ const ALL_PROJECTS = `
 `
 
 const projectsAccessor = ({ allProjects }) => allProjects
-export const queryAllProjects = (): Promise<string[]> =>
+export const queryAllProjects = (): Promise<any[]> =>
   query<any>(ALL_PROJECTS).then(projectsAccessor)

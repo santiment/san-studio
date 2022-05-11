@@ -8,6 +8,8 @@
   import { addRecent, replaceDefaultMetrics } from './utils'
   import { getWidgets } from '@/stores/widgets'
 
+  export let onItemSelect
+
   const Widgets = getWidgets()
 
   let closeDialog
@@ -36,8 +38,12 @@
   function onSelect(item) {
     if (!item) return
 
-    studio.setProject(item)
-    replaceDefaultMetrics(item, $Widgets)
+    if (onItemSelect) {
+      onItemSelect(item)
+    } else {
+      studio.setProject(item)
+      replaceDefaultMetrics(item, $Widgets)
+    }
 
     addRecent(item)
     closeDialog()
