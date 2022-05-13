@@ -39,7 +39,7 @@
   ]
 
   const SIDEBAR = [
-    newShortcut([CMD, '\\'], 'Collapse the sidebar'),
+    // newShortcut([CMD, '\\'], 'Collapse the sidebar'),
 
     newShortcut([CMD, 'Click'], 'Add a metric to the first chart'),
 
