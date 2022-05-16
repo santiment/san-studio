@@ -9,9 +9,6 @@ export const ContractAddressMetric = each(
     contract_interacting_addresses_count: {
       label: 'Contract Interacting Addresses Count',
     },
-    nft_social_volume: {
-      label: 'NFT Social Volume',
-    },
   },
 
   (metric: Studio.Metric) => {
