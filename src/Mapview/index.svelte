@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import { getHistoryContext, withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedItems } from '@/stores/selector'
@@ -82,6 +84,8 @@
   function adjustMetrics(metrics: Studio.Metric[]) {
     return adjustSelectedMetric ? metrics.map(adjustSelectedMetric) : metrics
   }
+
+  onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()))
 </script>
 
 {#if isMapview}

@@ -4,6 +4,7 @@
   import { getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { newGlobalShortcut } from 'webkit/utils/events'
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
@@ -35,10 +36,6 @@
 
   $: hasSubscription = $globals.isPro || $globals.isProPlus
   $: widget.isSharedAxisEnabled = isSharedAxisEnabled
-  $: $ChartDrawer.isNewDrawing = $globals.isNewDrawing
-  $: if ($globals.isNewDrawing && $ChartDrawer.isNewDrawing === false) {
-    onDrawingEnd()
-  }
 
   function onNewLine() {
     if ($ChartDrawer.isNewDrawing !== 'line') {
@@ -61,10 +58,6 @@
     chart.drawer.deleteDrawing(selectedLine)
   }
 
-  function onDrawingEnd() {
-    $globals.isNewDrawing = false
-  }
-
   const removeDrawerDispatchListener = isFullscreen
     ? undefined
     : ChartDrawer.onDispatch((event) => {
@@ -81,7 +74,10 @@
         }
       })
 
+  const removeDrawingShortcut = newGlobalShortcut('L', onNewLine)
+
   onDestroy(() => {
+    removeDrawingShortcut()
     removeDrawerDispatchListener?.()
   })
 </script>
