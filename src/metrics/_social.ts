@@ -132,6 +132,11 @@ export const SocialMetric = each(
         aggregation: 'AVG',
       },
     },
+    social_dominance_twitter_news: {
+      label: 'Social Dominance Twitter News',
+      formatter: percentFormatter,
+      axisFormatter: axisPercentFormatter,
+    },
 
     social_volume_total: {
       node: Node.BAR,
@@ -145,6 +150,10 @@ export const SocialMetric = each(
     nft_social_volume: {
       node: Node.BAR,
       label: 'NFT Social Volume',
+    },
+
+    social_volume_twitter_news: {
+      label: 'Social Volume Twitter News',
     },
 
     social_active_users_telegram: newSocialActiveUsers('telegram', 'Telegram'),
