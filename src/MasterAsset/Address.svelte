@@ -2,7 +2,7 @@
   import { getAddressInfrastructure } from 'webkit/utils/address'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { studio } from '@/stores/studio'
-  import { queryAddressLabels } from '@/api/address'
+  import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from '@/api/address'
   import AddressIcon from './AddressIcon.svelte'
   import Selector from './Selector.svelte'
 
@@ -10,11 +10,19 @@
   let hidden = []
 
   $: ({ address } = $studio)
-  $: queryAddressLabels(address, getAddressInfrastructure(address)).then(setLabels)
+  $: infrastructure = getAddressInfrastructure(address)
+  $: queryAddressLabels(address, infrastructure).then(setLabels)
 
   function setLabels(data) {
     labels = data.slice(0, 2)
     hidden = data.slice(2)
+
+    if (checkIsNftAddress(data)) {
+      queryNftCollection(address, infrastructure).then((nftLabel) => {
+        labels.unshift(nftLabel)
+        labels = labels
+      })
+    }
   }
 </script>
 

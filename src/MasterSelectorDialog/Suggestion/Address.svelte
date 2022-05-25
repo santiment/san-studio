@@ -5,7 +5,7 @@
 <script>
   import { tick } from 'svelte'
   import AddressIcon from '@/MasterAsset/AddressIcon.svelte'
-  import { queryAddressLabels } from '@/api/address'
+  import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from '@/api/address'
   import Suggestion from './Suggestion.svelte'
 
   export let item
@@ -17,7 +17,12 @@
 
   $: ({ address, infrastructure } = item)
   $: shortAddress = address
-  $: queryAddressLabels(address, infrastructure).then(setLabels)
+  $: queryAddressLabels(address, infrastructure).then(getNftLabel).then(setLabels)
+
+  function getNftLabel(data) {
+    if (!checkIsNftAddress(data)) return data
+    return queryNftCollection(address, infrastructure).then((nftLabel) => [nftLabel].concat(data))
+  }
 
   function setLabels(data) {
     let size = 0

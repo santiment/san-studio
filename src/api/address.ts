@@ -1,5 +1,21 @@
 import { query } from 'webkit/api'
-import { capitalize } from 'webkit/utils/formatting'
+// import { capitalize } from 'webkit/utils/formatting'
+
+const NFT_COLLECTION_QUERY = (address: string, infrastructure: string) => `{
+	getNftCollectionByContract(selector:{address:"${address}",infrastructure:"${infrastructure}"}) {
+    name: nftCollection
+	}
+}`
+
+const nftCollectionAccessor = ({ getNftCollectionByContract }) => getNftCollectionByContract
+export const queryNftCollection = (address: string, infrastructure: string) =>
+  query<any>(NFT_COLLECTION_QUERY(address, infrastructure)).then(nftCollectionAccessor) as Promise<{
+    name: string
+  }>
+export const checkIsNftAddress = (labels: { name: string }[]): boolean =>
+  labels.some(({ name }) => name === 'erc721' || name === 'erc1155')
+
+// -------------------------------------
 
 const ADDRESS_LABELS_QUERY = (address: string, infrastructure: string) => `{
 	blockchainAddress(selector:{address:"${address}",infrastructure:"${infrastructure}"}) {
@@ -25,6 +41,6 @@ function precacher({ getAvailableBlockchains }: Query) {
 const options = { precacher: () => precacher } as any
 */
 
-const accessor = ({ blockchainAddress }: Query) => blockchainAddress.labels
+const labelsAccessor = ({ blockchainAddress }: Query) => blockchainAddress.labels
 export const queryAddressLabels = (address: string, infrastructure: string) =>
-  query<Query>(ADDRESS_LABELS_QUERY(address, infrastructure)).then(accessor)
+  query<Query>(ADDRESS_LABELS_QUERY(address, infrastructure)).then(labelsAccessor)
