@@ -40,6 +40,7 @@ interface Window {
   onAnonComment?: () => void
   onCommentsLoaded?: () => void
   onCommentError?: () => void
+  onCommentSubmitted?: () => void
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode
