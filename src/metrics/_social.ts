@@ -165,6 +165,10 @@ export const SocialMetric = each(
     twitter_followers_24h: newTwitterFollowers('24h'),
     twitter_followers_7d: newTwitterFollowers('7d'),
 
+    trending_words_rank: {
+      label: 'Trending Words Rank',
+    },
+
     ...TotalSentimentMetric,
     ...TwitterSentimentMetric,
     ...TelegramSentimentMetric,

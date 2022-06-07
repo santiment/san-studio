@@ -145,6 +145,13 @@ const LongTermHoldersMetric = each(
     dormant_circulation_365d: {
       label: 'Dormant Circulation (365d)',
     },
+
+    spent_coins_age_band_0d_to_1d: {
+      label: 'Spent Coins Age Band',
+    },
+    realized_cap_hodl_waves_1d_to_7d: {
+      label: 'Realized Market Capitalization Hodl Waves',
+    },
   },
   (metric: Studio.Metric) => (metric.group = 'Long-term holders'),
 )
