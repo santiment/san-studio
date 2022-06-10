@@ -64,7 +64,7 @@
   {user}
   {votes}
   currentUser={$currentUser}
-  editLabel="Edit layout"
+  editLabel={isAuthor ? 'Edit layout' : 'Save as'}
   comments={{
     count: commentsCount,
     active: $Sidewidget === SidewidgetType.LAYOUT_COMMENTS,
