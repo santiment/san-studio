@@ -34,7 +34,17 @@ export const queryProjectMetrics = (
     options,
   ).catch(catchMetrics) as any
 
+// TODO: Ask backend to provide avaiableMetrics for addresses
 const ADDRESS_METRICS = [
+  'nft_collection_min_price',
+  'nft_collection_max_price',
+  'nft_collection_avg_price',
+  'nft_collection_min_price_usd',
+  'nft_collection_max_price_usd',
+  'nft_collection_avg_price_usd',
+
+  'nft_collection_trades_count',
+
   'contract_transactions_count',
   'contract_interacting_addresses_count',
   'nft_social_volume',

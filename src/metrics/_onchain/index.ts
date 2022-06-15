@@ -291,6 +291,10 @@ export const OnChainMetric = each(
         category: 'On-chain',
         checkIsVisible: () => false,
       },
+
+      nft_collection_trades_count: {
+        label: 'Daily Trade Count of NFT Collections',
+      },
     },
 
     ContractAddressMetric,
