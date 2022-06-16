@@ -44,7 +44,7 @@
   function onAddressCopy() {
     clearTimeout?.()
     copyLabel = 'Copied!'
-    clearTimeout = copy(address, () => (copyLabel = 'Copy address'))
+    clearTimeout = copy(address || $studio.address, () => (copyLabel = 'Copy address'))
   }
 
   onDestroy(() => {
@@ -98,7 +98,7 @@
       Reapply metric
     </div>
 
-    {#if address}
+    {#if address || $studio.address}
       <div class="btn-ghost option" on:click={onAddressCopy}>
         <Svg id="copy" w="16" class="mrg-s mrg--r" />
         {copyLabel}

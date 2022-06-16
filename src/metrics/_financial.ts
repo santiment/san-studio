@@ -3,26 +3,31 @@ import { each } from './utils'
 import { usdFormatter, btcFormatter, ethFormatter } from './formatters'
 import { Node } from '@/Chart/nodes'
 
-const NFTPrices = {
-  nft_collection_min_price: {
-    label: 'Minimum Daily Price of NFT Collections in ETH',
+const NFTPrices = each(
+  {
+    nft_collection_min_price: {
+      label: 'Minimum Daily Price of NFT Collections in ETH',
+    },
+    nft_collection_max_price: {
+      label: 'Maximum Daily Price of NFT Collections in ETH',
+    },
+    nft_collection_avg_price: {
+      label: 'Average Daily Price of NFT Collections in ETH',
+    },
+    nft_collection_min_price_usd: {
+      label: 'Minimum Daily Price of NFT Collections in USD',
+    },
+    nft_collection_max_price_usd: {
+      label: 'Maximum Daily Price of NFT Collections in USD',
+    },
+    nft_collection_avg_price_usd: {
+      label: 'Average Daily Price of NFT Collections in USD',
+    },
   },
-  nft_collection_max_price: {
-    label: 'Maximum Daily Price of NFT Collections in ETH',
+  (metric: any) => {
+    metric.isNFTMetric = true
   },
-  nft_collection_avg_price: {
-    label: 'Average Daily Price of NFT Collections in ETH',
-  },
-  nft_collection_min_price_usd: {
-    label: 'Minimum Daily Price of NFT Collections in USD',
-  },
-  nft_collection_max_price_usd: {
-    label: 'Maximum Daily Price of NFT Collections in USD',
-  },
-  nft_collection_avg_price_usd: {
-    label: 'Average Daily Price of NFT Collections in USD',
-  },
-}
+)
 
 export const FinancialMetric = each(
   {

@@ -23,12 +23,14 @@ export const GET_METRIC = `
     $aggregation: Aggregation
     $label_fqn: String
     $address: String
+    $nftAddress: String
     $includeIncompleteData: Boolean = true
   ) {
     getMetric(metric: $metric) {
       timeseriesData(
         selector: {
           slug: $slug
+          address: $nftAddress
           contractAddress: $address
           watchlistSlug: $watchlistSlug
           text: $text

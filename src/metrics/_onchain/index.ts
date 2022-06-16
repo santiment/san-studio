@@ -294,6 +294,7 @@ export const OnChainMetric = each(
 
       nft_collection_trades_count: {
         label: 'Daily Trade Count of NFT Collections',
+        isNFTMetric: true,
       },
     },
 

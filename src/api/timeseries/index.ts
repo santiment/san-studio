@@ -37,7 +37,13 @@ export function getTimeseries(
     )
 
     if (reqMeta?.slug) delete vars.address
-    if (vars.address) delete vars.slug
+    if (vars.address) {
+      delete vars.slug
+      if ((metric as any).isNFTMetric) {
+        vars.nftAddress = vars.address
+        delete vars.address
+      }
+    }
 
     let attempt = 1
     fetchData()
