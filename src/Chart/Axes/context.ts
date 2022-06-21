@@ -57,3 +57,27 @@ export function newChartAxesStore(
     },
   }
 }
+
+export function newPinnedChartAxesStore(defaults?: Set<Studio.Metric>) {
+  const pinned = new Set(defaults)
+  const { subscribe, set } = writable<Set<Studio.Metric>>(pinned)
+
+  return {
+    subscribe,
+    has(metric) {
+      return pinned.has(metric)
+    },
+    toggle(metric) {
+      if (this.has(metric)) this.delete(metric)
+      else this.add(metric)
+    },
+    add(metric) {
+      pinned.add(metric)
+      set(pinned)
+    },
+    delete(metric) {
+      pinned.delete(metric)
+      set(pinned)
+    },
+  }
+}

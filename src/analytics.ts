@@ -43,6 +43,9 @@ export const Event = {
   ShowMetricAxis: 'charts_show_metric_axis',
   HideMetricAxis: 'charts_hide_metric_axis',
 
+  PinMetricAxis: 'charts_pin_metric_axis',
+  UnpinMetricAxis: 'charts_unpin_metric_axis',
+
   NewWidget: 'charts_new_widget',
   Sidewidget: 'charts_sidewidget',
 

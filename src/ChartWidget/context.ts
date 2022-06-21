@@ -6,7 +6,7 @@ import { get, writable } from 'svelte/store'
 import { newMetricSignalsStore, newSignalsTimeseriesStore } from './signals'
 import { newMetricDisplayersStore } from './metricDisplayers'
 import { newChartDrawerStore, setChartDrawer } from '@/Chart/Drawer/context'
-import { newChartAxesStore } from '@/Chart/Axes/context'
+import { newChartAxesStore, newPinnedChartAxesStore } from '@/Chart/Axes/context'
 import { newChartColorsStore } from '@/Chart/colors/context'
 import { newChartOptionsStore } from '@/ChartWidget/Controls/context'
 import { newMetricsStore } from '@/ChartWidget/Metrics/context'
@@ -38,6 +38,8 @@ export const getWidget = (): ChartWidget => getContext(CONTEXT)
 export function initWidget(widget: any) {
   if (!widget.ChartAxes)
     widget.ChartAxes = newChartAxesStore(widget.axesMetrics, widget.disabledAxesMetrics)
+  if (!widget.PinnedChartAxes) widget.PinnedChartAxes = newPinnedChartAxesStore(widget.pinnedAxes)
+
   if (!widget.ChartDrawer) widget.ChartDrawer = newChartDrawerStore(widget.drawings)
   if (!widget.ChartColors) widget.ChartColors = newChartColorsStore(widget.colors)
   if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore(widget)
@@ -67,6 +69,7 @@ export function newOnUpdateStore(widget: any) {
       widget.drawings = (get(widget.ChartDrawer) as any).drawings
       widget.colors = get(widget.ChartColors)
       widget.axesMetrics = get(widget.ChartAxes)
+      widget.pinnedAxes = get(widget.PinnedChartAxes)
       widget.signalMetrics = get(widget.MetricsSignals)
 
       widget.onWidgetUpdate?.()

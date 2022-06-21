@@ -87,3 +87,8 @@ export function parseAxesMetrics(metricIds: undefined | string[], metrics: any[]
   })
   return { axesMetrics, disabledAxesMetrics }
 }
+
+export function parsePinnedAxesMetrics(metricIds: undefined | string[], metrics: any[]) {
+  if (!metrics) return
+  return new Set((metricIds || []).map((id) => metrics[id]))
+}

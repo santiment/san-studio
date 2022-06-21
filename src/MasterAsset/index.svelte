@@ -7,7 +7,7 @@
 
   let timer
   onMount(() => {
-    timer = setTimeout(queryAllProjects, 300)
+    timer = setTimeout(queryAllProjects, 150)
   })
 
   onDestroy(() => {
