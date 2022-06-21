@@ -10,6 +10,7 @@
   import IndicatorSetting from './IndicatorSetting/index.svelte'
   import SmoothingSetting from './SmoothingSetting.svelte'
   import ShowAxisSetting from './ShowAxisSetting.svelte'
+  import PinAxisSetting from './PinAxisSetting.svelte'
   import ExpressionSetting from './ExpressionSetting.svelte'
   import TopHoldersSetting from './TopHoldersSetting.svelte'
   import AxisMaxMinSetting from './AxisMaxMinSetting.svelte'
@@ -51,6 +52,8 @@
         <TopHoldersSetting {metric} />
       {/if}
       <ShowAxisSetting {metric} />
+      <PinAxisSetting {metric} />
+
       <AxisMaxMinSetting {metric} />
       <ExpressionSetting {metric} />
     {/if}

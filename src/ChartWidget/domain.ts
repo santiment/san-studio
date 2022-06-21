@@ -90,12 +90,15 @@ export function groupDomains(metrics: Studio.Metric[], getDomain = getMetricDoma
   return domainGroups.length > 0 ? domainGroups : undefined
 }
 
-function getIndicatorDomainGroup(metric: Studio.Metric) {
+export function getIndicatorDomainGroup(metric: Studio.Metric) {
   const { key, indicator, base, project, domainGroup } = metric
   return indicator ? base.key : project ? key : domainGroup
 }
-export function getIndicatorDomainGroups(metrics: Studio.Metric[]) {
-  return groupDomains(metrics, getIndicatorDomainGroup)
+export function getIndicatorDomainGroups(
+  metrics: Studio.Metric[],
+  getDomain = getIndicatorDomainGroup,
+) {
+  return groupDomains(metrics, getDomain)
 }
 
 export function checkHasDomainGroups(

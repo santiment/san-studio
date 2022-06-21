@@ -16,6 +16,7 @@ import {
   parseMergedMetrics,
   parseMetricGraphValue,
   parseMetrics,
+  parsePinnedAxesMetrics,
 } from './parse'
 
 function nullify(value: any) {
@@ -50,7 +51,7 @@ function shareSignalMetrics(signalMetrics, accessor): string[] {
 }
 
 export function shareWidget(widget) {
-  const { metrics, axesMetrics, colors, metricSettings } = widget
+  const { metrics, axesMetrics, pinnedAxes, colors, metricSettings } = widget
   const { drawings, signalMetrics, subwidgets, holderLabels, ChartAddons } = widget
   const { isSharedAxisEnabled } = widget
 
@@ -63,6 +64,8 @@ export function shareWidget(widget) {
     wm: keys,
     // widget axes
     wax: shareAxesMetrics(axesMetrics, keyAccessor),
+    // widget pinned axes
+    wpax: shareAxesMetrics(pinnedAxes, keyAccessor),
     // widget colors
     wc: shareColors(colors, metricAlias),
     // widget settings
@@ -93,7 +96,8 @@ export function shareWidget(widget) {
 function parseMetricSettings(settings, metrics) {
   const result = {}
   Object.keys(settings || {}).forEach((alias) => {
-    result[metrics[alias].key] = settings[alias]
+    const metric = metrics[alias]
+    if (metric) result[metric.key] = settings[alias]
   })
   return result
 }
@@ -106,7 +110,7 @@ type ParseCtx = {
   parseSubwidgets: (any) => any
 }
 export function parseWidget(shared, ctx: ParseCtx) {
-  const { wm, wax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
+  const { wm, wax, wpax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
 
   const KnownMetric = {}
   parseCombinedMetrics(wcm, KnownMetric)
@@ -123,6 +127,8 @@ export function parseWidget(shared, ctx: ParseCtx) {
     metricSettings: parseMetricSettings(ws, metrics),
     colors: parseMetricGraphValue(wc, metrics),
     drawings: parseDrawings(wd),
+
+    pinnedAxes: parsePinnedAxesMetrics(wpax, metrics),
 
     signalMetrics: parseSignalMetrics(wsm, metrics),
     holderLabels: whl,
