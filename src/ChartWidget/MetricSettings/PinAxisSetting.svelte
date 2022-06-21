@@ -27,10 +27,3 @@
   Pin axis
   <Checkbox class="mrg-s mrg--l" isActive={$PinnedChartAxes.has(metric)} />
 </Setting>
-
-<style>
-  .disabled {
-    background-color: var(--porcelain) !important;
-    border-color: var(--porcelain) !important;
-  }
-</style>
