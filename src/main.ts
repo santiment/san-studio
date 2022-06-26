@@ -3,6 +3,7 @@ import 'webkit/styles/main.css'
 import { startResponsiveController } from 'webkit/responsive'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import { CONTEXT as HISTORY_CONTEXT } from 'webkit/ui/history'
+import FeatureWalkthrough from 'webkit/ui/FeatureWalkthrough/svelte'
 import { Metric } from '@/metrics'
 import { newWidget } from '@/stores/widgets'
 import { studio } from '@/stores/studio'
@@ -46,5 +47,7 @@ const History = app.$$.context.get(HISTORY_CONTEXT)
 newGlobalShortcut('CMD+Z', History.undo)
 newGlobalShortcut('CMD+SHIFT+Z', History.redo)
 newGlobalShortcut('CMD+K', showMasterSelectorDialog)
+
+new FeatureWalkthrough({ target: document.body })
 
 export default app

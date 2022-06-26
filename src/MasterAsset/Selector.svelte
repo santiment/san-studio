@@ -5,6 +5,7 @@
 </script>
 
 <div
+  id="fw-master-selector"
   class="body-1 btn row v-center"
   on:click={() => showMasterSelectorDialog()}
   use:preloadSuggestions
