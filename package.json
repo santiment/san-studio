@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "mathjs": "^9.4.4",
-    "san-webkit": "https://github.com/santiment/san-webkit#b41f352",
+    "san-webkit": "https://github.com/santiment/san-webkit#72335e8",
     "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
