@@ -19,7 +19,7 @@ function replaceModuleAliases(fileContent, srcFilePath) {
     .replace(IMPORT_REGEX, `import '${diff}/`)
     .replace(DYN_IMPORT_REGEX, `import('${diff}/`)
     .replace(/from 'san-chart/g, `from '${modulePrefix}@santiment-network/chart`)
-    .replace(/from 'webkit/g, `from '${modulePrefix}san-webkit/lib`)
+    .replace(/from 'webkit/g, `from 'san-webkit/lib`)
 }
 
 module.exports = {
