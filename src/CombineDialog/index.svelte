@@ -7,7 +7,6 @@
 </script>
 
 <script lang="ts">
-  import type { DialogController } from 'webkit/ui/Dialog/dialogs'
   import { track } from 'webkit/analytics'
   import Dialog from 'webkit/ui/Dialog'
   import { DialogLock } from 'webkit/ui/Dialog/dialogs'
@@ -21,7 +20,7 @@
   // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
   importMath()
 
-  export let DialogPromise: DialogController
+  export let DialogPromise: SAN.DialogController
   export let metric
   export let metrics = metric && metric.baseMetrics.slice()
 

@@ -57,14 +57,14 @@
     "svelte-check": "^1.5.2"
   },
   "dependencies": {
-    "san-webkit": "https://github.com/santiment/san-webkit",
+    "san-webkit": "https://github.com/santiment/san-webkit#93ce025",
     "mathjs": "^9.4.4",
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",
     "turndown": "^7.1.1"
   },
   "peerDependencies": {
-    "svelte": "^3.46.3",
+    "svelte": "^3.49.0",
     "@santiment-network/chart": "^0.10.12",
     "san-webkit": "https://github.com/santiment/san-webkit",
     "canvas": "^2.8.0"
