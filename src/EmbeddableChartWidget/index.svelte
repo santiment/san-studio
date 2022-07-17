@@ -47,7 +47,7 @@
 
     const valueKey = Object.keys(data[0]).find((key) => key !== datetimeKey) as string
     return data.map((item) => ({
-      datetime: +new Date(item[datetimeKey]),
+      datetime: Date.parse(item[datetimeKey]),
       [metricKey]: item[valueKey],
     }))
   }

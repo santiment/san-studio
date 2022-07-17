@@ -8,11 +8,11 @@ export const MetricColor = {
 }
 
 export const COLORS = [
-  '#F47BF7', // PURPLE
   '#FF5B5B', // RED
   '#FFCB47', // YELLOW
   '#5275FF', // BLUE
   '#FF8450', // SALMON
+  '#F47BF7', // PURPLE
   '#785549', // BROWN
   '#D4E763', // YELLOW-GREEN
   '#FFDAC5', // PEACH
