@@ -1,10 +1,15 @@
 const fs = require('fs')
 const path = require('path')
+const { exec } = require('child_process')
 const { forFile, mkdir } = require('san-webkit/scripts/utils')
 const { replaceModuleAliases, LIB } = require('./utils')
 
 async function prepare() {
   fs.rmdirSync(LIB, { recursive: true })
+
+  exec('npm run install', {
+    cwd: require.resolve('san-webkit'),
+  })
 
   forFile(
     ['src/**/*.ts', '!src/**/*.test.ts', '!src/**/*.test.js', '!src/main.ts'],
