@@ -57,7 +57,7 @@
     "svelte-check": "^1.5.2"
   },
   "dependencies": {
-    "san-webkit": "https://github.com/santiment/san-webkit#1590221",
+    "san-webkit": "https://github.com/santiment/san-webkit",
     "mathjs": "^9.4.4",
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",
