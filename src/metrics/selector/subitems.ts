@@ -5,6 +5,7 @@ import {
   RealizedCapTimebounds,
   CirculationTimebounds,
   DormantCirculationTimebounds,
+  MeanDollarInvestedAgeTimebounds,
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
@@ -79,6 +80,7 @@ export const Subitems = {
   [Metric.realized_value_usd.key]: Object.values(RealizedCapTimebounds),
   [Metric.circulation.key]: Object.values(CirculationTimebounds),
   [Metric.dormant_circulation_365d.key]: Object.values(DormantCirculationTimebounds),
+  [Metric.mean_dollar_invested_age.key]: Object.values(MeanDollarInvestedAgeTimebounds),
 
   [Metric.median_fees_usd.key]: [SelectorNode.FeesDistribution],
   [Metric.amount_in_top_holders.key]: [SelectorNode.HoldersDistributionTable],

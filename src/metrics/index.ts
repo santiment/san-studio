@@ -36,6 +36,15 @@ export const DormantCirculationTimebounds = newTimebounds(
   ['90d', '180d', '2y', '3y', '5y'],
   { key: 'dormant_circulation', label: 'Dormant Circulation' },
 )
+export const MeanDollarInvestedAgeTimebounds = newTimebounds(Metric.mean_dollar_invested_age, [
+  '90d',
+  '180d',
+  '365d',
+  '2y',
+  '3y',
+  '5y',
+])
+
 Object.assign(
   Metric,
   MvrvTimebounds,
@@ -43,4 +52,5 @@ Object.assign(
   RealizedCapTimebounds,
   CirculationTimebounds,
   DormantCirculationTimebounds,
+  MeanDollarInvestedAgeTimebounds,
 )
