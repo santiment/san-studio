@@ -15,12 +15,15 @@ type Blockchain = {
 }
 type Query = SAN.API.Query<'getAvailableBlockchains', Blockchain[]>
 
+const VALID_BLOCKCHAINS = new Set(['eth', 'bnb', 'matic', 'avax'])
 function precacher({ getAvailableBlockchains }: Query) {
   getAvailableBlockchains.forEach((data) => {
     data.slug = data.blockchain
     data.blockchain = data.blockchain.split('-').map(capitalize).join(' ')
   })
-  return getAvailableBlockchains
+  return getAvailableBlockchains.filter(({ infrastructure }) =>
+    VALID_BLOCKCHAINS.has(infrastructure.toLowerCase()),
+  )
 }
 const options = { precacher: () => precacher } as any
 export const queryAvailableBlockchains = (): Promise<Blockchain[]> =>
