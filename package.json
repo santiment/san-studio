@@ -54,10 +54,11 @@
     "typescript": "^4.7.4",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
-    "svelte-check": "^1.5.2"
+    "svelte-check": "^1.5.2",
+    "ethers": "^5.4.4"
   },
   "dependencies": {
-    "san-webkit": "https://github.com/santiment/san-webkit#cba8c88",
+    "san-webkit": "https://github.com/santiment/san-webkit#59ddfa1",
     "mathjs": "^9.4.4",
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",

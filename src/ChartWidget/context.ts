@@ -9,7 +9,7 @@ import { newChartDrawerStore, setChartDrawer } from '@/Chart/Drawer/context'
 import { newChartAxesStore, newPinnedChartAxesStore } from '@/Chart/Axes/context'
 import { newChartColorsStore } from '@/Chart/colors/context'
 import { newChartOptionsStore } from '@/ChartWidget/Controls/context'
-import { newMetricsStore } from '@/ChartWidget/Metrics/context'
+import { newMetricsStore, newHiddenMetricsStore } from '@/ChartWidget/Metrics/context'
 import { newMetricSettingsStore } from '@/ChartWidget/MetricSettings/context'
 import { newMetricIndicatorsStore } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { newChartAddonsStore } from '@/ChartWidget/Addons/contex'
@@ -44,9 +44,13 @@ export function initWidget(widget: any) {
   if (!widget.ChartColors) widget.ChartColors = newChartColorsStore(widget.colors)
   if (!widget.ChartOptions) widget.ChartOptions = newChartOptionsStore(widget)
   if (!widget.ChartMetricDisplays) widget.ChartMetricDisplays = newMetricDisplayersStore()
+
   if (!widget.Metrics) widget.Metrics = newMetricsStore(widget.metrics)
+  if (!widget.HiddenMetrics) widget.HiddenMetrics = newHiddenMetricsStore(widget.hiddenMetrics)
+
   if (!widget.MetricsSignals) widget.MetricsSignals = newMetricSignalsStore(widget.signalMetrics)
   if (!widget.SignalsTimeseries) widget.SignalsTimeseries = newSignalsTimeseriesStore()
+
   if (!widget.MetricSettings) widget.MetricSettings = newMetricSettingsStore(widget.metricSettings)
   if (!widget.MetricIndicators)
     widget.MetricIndicators = newMetricIndicatorsStore(widget.metricIndicators)

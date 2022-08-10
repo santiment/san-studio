@@ -33,7 +33,7 @@
 
   let closeDialog
 
-  let { title: layoutTitle = '', description = '', isPublic = true } = layout || {}
+  let { title: layoutTitle = '', description = '', isPublic = false } = layout || {}
 
   function onSubmit({ currentTarget }) {
     const title: string = currentTarget.title.value

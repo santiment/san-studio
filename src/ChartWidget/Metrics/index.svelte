@@ -9,7 +9,7 @@
   import AutoUpdate from './AutoUpdate.svelte'
 
   const { isOnlyChartEmbedded } = getAdapterController()
-  const { Metrics, ChartAddons } = getWidget()
+  const { Metrics, HiddenMetrics, ChartAddons } = getWidget()
   const AutoUpdater = getAutoUpdater()
   const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined
 
@@ -34,6 +34,9 @@
   let hoverTimer
   const clearHover = () => clearTimeout(hoverTimer)
 
+  $: isMultipleMetricsOnChart = metrics.length > 1
+  $: hiddenMetrics = $HiddenMetrics
+
   function hoverMetric(metric?: Studio.Metric) {
     hoveredMetric = metric
     onMetricHover(metric)
@@ -56,7 +59,9 @@
         {dndContext}
         {metric}
         {colors}
+        {isMultipleMetricsOnChart}
         error={MetricError.get(metric)}
+        isHidden={hiddenMetrics.has(metric)}
         isLoading={loadings.has(metric)}
         isSettingsOpened={settingsOpenedMetric === metric}
         onClick={onMetricClick}

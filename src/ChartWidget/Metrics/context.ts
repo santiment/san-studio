@@ -67,3 +67,29 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
     },
   }
 }
+
+export function newHiddenMetricsStore(defaultMetrics = []) {
+  const value = new Set(defaultMetrics)
+  const { subscribe, set } = writable(value)
+
+  return {
+    subscribe,
+    set,
+    hide(metric) {
+      value.add(metric)
+      set(value)
+    },
+    show(metric) {
+      value.delete(metric)
+      set(value)
+    },
+    toggle(metric) {
+      if (value.has(metric)) value.delete(metric)
+      else value.add(metric)
+      set(value)
+    },
+    has(metric) {
+      return value.has(metric)
+    },
+  }
+}

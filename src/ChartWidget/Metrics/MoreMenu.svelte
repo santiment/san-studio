@@ -15,12 +15,12 @@
   const widget = getWidget()
   const newHistory = (name, undo, redo) =>
     History.add(name, withScroll(widget, undo), withScroll(widget, redo))
-  const { Metrics, MetricsSignals } = widget
+  const { Metrics, MetricsSignals, HiddenMetrics } = widget
   const { onAnonFavoriteClick = () => {} } = getAdapterController()
 
   export let metric: Studio.Metric
   export let address: undefined | string
-  export let isMenuOpened, isSettingsOpened, isLocked
+  export let isMenuOpened, isSettingsOpened, isLocked, isHidden, isMultipleMetricsOnChart
   export let onLockClick, onSettings
 
   $: isFavorited = $favoriteMetrics.has(metric.key)
@@ -83,6 +83,13 @@
       <div class="btn-ghost option" class:favorited={isFavorited} on:click={onFavoriteClick}>
         <Svg id="star{isFavorited ? '-filled' : ''}" w="16" class="mrg-s mrg--r" />
         {isFavorited ? 'Unfavorite' : 'Make favorite'}
+      </div>
+    {/if}
+
+    {#if isMultipleMetricsOnChart}
+      <div class="btn-ghost option" on:click={() => HiddenMetrics.toggle(metric)}>
+        <Svg id={isHidden ? 'eye' : 'eye-crossed'} w="16" class="mrg-s mrg--r" />
+        {isHidden ? 'Show' : 'Hide'} metric
       </div>
     {/if}
 

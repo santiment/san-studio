@@ -19,9 +19,10 @@
 
   export let metric: Studio.Metric
   export let colors
-  export let error, isLoading, isSettingsOpened
+  export let error, isLoading, isSettingsOpened, isHidden
   export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
   export let dndContext
+  export let isMultipleMetricsOnChart
 
   let isMenuOpened = false
   let node
@@ -93,12 +94,20 @@
     </div>
   {/if}
 
+  {#if isHidden}
+    <div class="locked row hv-center  expl-tooltip" aria-label="Hidden">
+      <Svg id="eye-crossed" w="11" />
+    </div>
+  {/if}
+
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
     <MoreMenu
       {metric}
       {address}
+      {isHidden}
       isLocked={isLocked || address}
       {isSettingsOpened}
+      {isMultipleMetricsOnChart}
       bind:isMenuOpened
       {onLockClick}
       {onSettings}
