@@ -68,7 +68,7 @@ export function newMetricsStore(defaultMetrics = DEFAULT) {
   }
 }
 
-export function newHiddenMetricsStore(defaultMetrics = []) {
+export function newHiddenMetricsStore(defaultMetrics: any = []) {
   const value = new Set(defaultMetrics)
   const { subscribe, set } = writable(value)
 

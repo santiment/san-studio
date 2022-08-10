@@ -17,12 +17,14 @@
   export let MetricError = new Map()
 
   const { ChartAxes, ChartColors, ChartMetricDisplays, PinnedChartAxes } = widget
-  const { Metrics, MetricSettings, MetricIndicators } = widget
+  const { Metrics, HiddenMetrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals, SignalsTimeseries } = widget
 
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio, ChartMetricDisplays)
   $: metrics = $Metrics
-  $: nodes = getMetricNodes(metrics, $MetricSettings)
+  $: hiddenMetrics = $HiddenMetrics
+  $: visibleMetrics = metrics.filter((metric) => !hiddenMetrics.has(metric))
+  $: nodes = getMetricNodes(visibleMetrics, $MetricSettings)
   $: data = mapClosestValue(rawData, nodes)
   $: MetricsSignals.update(metrics)
   $: SignalsTimeseries.update($MetricsSignals, $studio)
@@ -32,12 +34,12 @@
   $: rawColors = $ChartColors
   $: colors = rawColors
   $: MetricIndicators.update(metrics)
-  $: rawDomainGroups = ($PinnedChartAxes, groupDomains(metrics, getMetricDomain))
+  $: rawDomainGroups = ($PinnedChartAxes, groupDomains(visibleMetrics, getMetricDomain))
   $: alwaysDomainGroups =
-    ($PinnedChartAxes, getIndicatorDomainGroups(metrics, getIndicatorMetricDomain))
+    ($PinnedChartAxes, getIndicatorDomainGroups(visibleMetrics, getIndicatorMetricDomain))
   $: hasDomainGroups = checkHasDomainGroups(rawDomainGroups, alwaysDomainGroups)
   $: domainGroups = isSharedAxisEnabled ? rawDomainGroups : alwaysDomainGroups
-  $: ChartAxes.updateMetrics(metrics, MetricError, domainGroups)
+  $: ChartAxes.updateMetrics(visibleMetrics, MetricError, domainGroups)
 
   function onMetricHover(metric?: Studio.Metric) {
     colors = metric ? newHighlightedColors(rawColors, metric) : rawColors

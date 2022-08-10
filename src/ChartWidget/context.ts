@@ -1,4 +1,4 @@
-import type { CachePolicy } from 'san-webkit/lib/api/cache'
+import type { CachePolicy } from 'webkit/api/cache'
 import type { MetricSettings } from '@/ChartWidget/MetricSettings/context'
 import type { MetricIndicators } from '@/ChartWidget/MetricSettings/IndicatorSetting/context'
 import { setContext, getContext } from 'svelte'
@@ -20,6 +20,7 @@ export type ChartWidget = {
   ChartColors: ReturnType<typeof newChartColorsStore>
   ChartOptions: ReturnType<typeof newChartOptionsStore>
   Metrics: ReturnType<typeof newMetricsStore>
+  HiddenMetrics: ReturnType<typeof newHiddenMetricsStore>
   MetricSettings: ReturnType<typeof newMetricSettingsStore>
   MetricIndicators: ReturnType<typeof newMetricIndicatorsStore>
   axesMetrics?: Set<Studio.Metric>
@@ -68,6 +69,7 @@ export function newOnUpdateStore(widget: any) {
     subscribe,
     emit() {
       widget.metrics = get(widget.Metrics)
+      widget.hiddenMetrics = get(widget.HiddenMetrics)
       widget.metricIndicators = get(widget.MetricIndicators)
       widget.metricSettings = get(widget.MetricSettings)
       widget.drawings = (get(widget.ChartDrawer) as any).drawings
