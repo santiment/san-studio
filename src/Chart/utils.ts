@@ -137,7 +137,7 @@ export function mapClosestValue(data: any[], MetricNodes: MetricNodes): any[] {
     if (leftValueIndex === dataLength) continue
 
     let rightValueIndex = dataLength
-    while (!result[--rightValueIndex][metricKey]) {}
+    while (result[--rightValueIndex][metricKey] === undefined) {}
 
     let lastPointsInterval = 0
     let lastPointIndex = rightValueIndex
