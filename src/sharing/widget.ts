@@ -51,7 +51,7 @@ function shareSignalMetrics(signalMetrics, accessor): string[] {
 }
 
 export function shareWidget(widget) {
-  const { metrics, axesMetrics, pinnedAxes, colors, metricSettings } = widget
+  const { metrics, hiddenMetrics, axesMetrics, pinnedAxes, colors, metricSettings } = widget
   const { drawings, signalMetrics, subwidgets, holderLabels, ChartAddons } = widget
   const { isSharedAxisEnabled } = widget
 
@@ -62,6 +62,8 @@ export function shareWidget(widget) {
   const shared = {
     // widget metrics
     wm: keys,
+    // widget hidden metrics
+    whm: shareMetrics(Array.from(hiddenMetrics)),
     // widget axes
     wax: shareAxesMetrics(axesMetrics, keyAccessor),
     // widget pinned axes
@@ -110,7 +112,7 @@ type ParseCtx = {
   parseSubwidgets: (any) => any
 }
 export function parseWidget(shared, ctx: ParseCtx) {
-  const { wm, wax, wpax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
+  const { wm, whm, wax, wpax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
 
   const KnownMetric = {}
   parseCombinedMetrics(wcm, KnownMetric)
@@ -121,6 +123,7 @@ export function parseWidget(shared, ctx: ParseCtx) {
 
   const parsed = {
     metrics,
+    hiddenMetrics: parseMetrics(whm, KnownMetric),
     metricIndicators,
     mergedMetrics,
 
