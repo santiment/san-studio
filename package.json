@@ -25,6 +25,7 @@
     "validate:errors": "yarn validate --threshold error",
     "lib:prepare": "node scripts/prepare.js && tsc --p ./scripts/tsconfig.json && node scripts/cleanup.js",
     "lib": "npm run lib:prepare && node scripts/lib.js",
+    "lib:publish": "node scripts/publish",
     "postinstall": "patch-package",
     "prepare": "husky install"
   },
