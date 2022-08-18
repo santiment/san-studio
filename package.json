@@ -2,7 +2,6 @@
   "name": "san-studio",
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
-  "private": true,
   "engines": {
     "node": "<=14"
   },
@@ -26,7 +25,6 @@
     "validate:errors": "yarn validate --threshold error",
     "lib:prepare": "node scripts/prepare.js && tsc --p ./scripts/tsconfig.json && node scripts/cleanup.js",
     "lib": "npm run lib:prepare && node scripts/lib.js",
-    "install": "npm run lib",
     "postinstall": "patch-package",
     "prepare": "husky install"
   },
@@ -55,19 +53,20 @@
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
     "svelte-check": "^1.5.2",
-    "ethers": "^5.4.4"
-  },
-  "dependencies": {
-    "san-webkit": "https://github.com/santiment/san-webkit#59ddfa1",
-    "mathjs": "^9.4.4",
+    "ethers": "^5.4.4",
+    "sass": "^1.49.8",
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",
-    "turndown": "^7.1.1"
+    "turndown": "^7.1.1",
+    "mathjs": "^9.4.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "san-webkit": "https://github.com/santiment/san-webkit#a3ccaa5"
   },
   "peerDependencies": {
     "svelte": "^3.49.0",
     "@santiment-network/chart": "^0.10.12",
     "san-webkit": "https://github.com/santiment/san-webkit",
-    "canvas": "^2.8.0"
+    "canvas": "^2.8.0",
+    "mathjs": "^9.4.4"
   }
 }

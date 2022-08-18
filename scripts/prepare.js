@@ -1,8 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const { exec } = require('child_process')
 const { forFile, mkdir } = require('san-webkit/scripts/utils')
-const { replaceModuleAliases, LIB } = require('./utils')
+const { replaceModuleAliases } = require('san-webkit/scripts/imports')
+const { LIB } = require('./utils')
 
 async function prepare() {
   fs.rmdirSync(LIB, { recursive: true })
@@ -21,7 +21,7 @@ async function prepare() {
       const libDirPath = path.dirname(libFilePath)
       mkdir(libDirPath)
 
-      fs.writeFileSync(libFilePath, replaceModuleAliases(file.toString(), absolutePath))
+      fs.writeFileSync(libFilePath, replaceModuleAliases(LIB, absolutePath, file.toString()))
     },
   )
 }

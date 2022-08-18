@@ -11,11 +11,11 @@ async function main() {
     const absolutePath = path.resolve(entry)
     const file = fs.readFileSync(absolutePath)
 
+    const sourceRoot = path.relative(absolutePath, SRC).slice(1)
+
     fs.writeFileSync(
       absolutePath,
-      file
-        .toString()
-        .replace(`"sourceRoot":"../src/"`, `"sourceRoot":"${SRC}/"`),
+      file.toString().replace(`"sourceRoot":"../src/"`, `"sourceRoot":"${sourceRoot}/"`),
     )
   })
 }

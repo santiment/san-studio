@@ -1,24 +1,16 @@
-const svelte = require('svelte/compiler')
-const sveltePreprocess = require('svelte-preprocess')
-const cssModules = require('svelte-preprocess-cssmodules')
 const fs = require('fs')
 const path = require('path')
+const svelte = require('svelte/compiler')
+const cssModules = require('svelte-preprocess-cssmodules')
 const { forFile, mkdir } = require('san-webkit/scripts/utils')
-const { replaceModuleAliases, LIB } = require('./utils')
+const { Preprocess, RoutesPreprocess } = require('san-webkit/scripts/svelte')
+const { LIB } = require('./utils')
 
-const preprocess = sveltePreprocess({
-  typescript: {
-    tsconfigDirectory: path.resolve(__dirname, '../'),
-  },
+const preprocess = Preprocess({
+  typescript: { tsconfigDirectory: path.resolve(__dirname, '../') },
 })
 
-const routesPreprocess = {
-  script: ({ content, filename }) => {
-    return {
-      code: replaceModuleAliases(content, filename),
-    }
-  },
-}
+const routesPreprocess = RoutesPreprocess(LIB)
 
 async function processSvelte() {
   forFile(['src/**/*.svelte'], async (entry) => {
@@ -27,7 +19,7 @@ async function processSvelte() {
 
     const { code } = await svelte.preprocess(
       file.toString(),
-      [cssModules(), preprocess, routesPreprocess],
+      [routesPreprocess, cssModules(), preprocess],
       { filename: absolutePath },
     )
 
@@ -42,6 +34,10 @@ async function processSvelte() {
     const absolutePath = path.resolve(entry)
     const file = fs.readFileSync(absolutePath)
     const libFilePath = path.resolve(LIB, entry.slice('src/'.length))
+
+    const libDirPath = path.dirname(libFilePath)
+    mkdir(libDirPath)
+
     fs.writeFileSync(libFilePath, file)
   })
 }
