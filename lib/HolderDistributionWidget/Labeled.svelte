@@ -1,80 +1,76 @@
-<script lang="ts">
-  import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte'
-  import { initWidget } from './../../lib/ChartWidget/context'
-  import {
-    HolderDistributionMetric,
-    LABELED_HOLDER_DISTRIBUTION_METRICS,
-  } from './../../lib/metrics/_onchain/holderDistributions'
-  import HolderDistributionWidget from './index.svelte'
-  const History = getHistoryContext()
-  export let widget
-  export let isSingleWidget
-  export let deleteWidget
-  if (!widget.metrics) widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
-  initWidget(widget)
-  const { Metrics, MetricSettings } = widget
+<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
+import { initWidget } from './../../lib/ChartWidget/context';
+import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS } from './../../lib/metrics/_onchain/holderDistributions';
+import HolderDistributionWidget from './index.svelte';
+const History = getHistoryContext();
+export let widget;
+export let isSingleWidget;
+export let deleteWidget;
+if (!widget.metrics) widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
+initWidget(widget);
+const {
+  Metrics,
+  MetricSettings
+} = widget;
 
-  const newHistory = (name, undo, redo = undo) =>
-    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
+const newHistory = (name, undo, redo = undo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
 
-  const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
-  const LABELS = ['exchange', 'infrastructure', 'miner', 'whale']
-  let labels = new Set(widget.holderLabels)
+const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
+const LABELS = ['exchange', 'infrastructure', 'miner', 'whale'];
+let labels = new Set(widget.holderLabels);
 
-  $: widget.holderLabels = Array.from(labels)
+$: widget.holderLabels = Array.from(labels);
 
-  $: text = getSelectionText(labels)
+$: text = getSelectionText(labels);
 
-  $: updateSettings($Metrics, labels)
+$: updateSettings($Metrics, labels);
 
-  function updateSettings(metrics, ids) {
-    const settings = ids.size && {
-      labels: getTextLabels(ids),
-    }
-    metrics.forEach(({ key, baseMetrics }) => {
-      if (!HolderDistributionMetric[key] && !baseMetrics) return
-      if (!settings) return MetricSettings.delete(key, 'labels')
-      MetricSettings.set(key, settings)
-    })
+function updateSettings(metrics, ids) {
+  const settings = ids.size && {
+    labels: getTextLabels(ids)
+  };
+  metrics.forEach(({
+    key,
+    baseMetrics
+  }) => {
+    if (!HolderDistributionMetric[key] && !baseMetrics) return;
+    if (!settings) return MetricSettings.delete(key, 'labels');
+    MetricSettings.set(key, settings);
+  });
+}
+
+function getSelectionText(labels) {
+  return getTextLabels(labels).map(label => label[0].toUpperCase() + label.slice(1)).join(', ');
+}
+
+function getTextLabels(labels) {
+  return Array.from(labels).sort().map(id => LABELS[id]);
+}
+
+function onToggle(id) {
+  function update() {
+    labels.has(id) ? labels.delete(id) : labels.add(id);
+    labels = labels;
   }
 
-  function getSelectionText(labels) {
-    return getTextLabels(labels)
-      .map((label) => label[0].toUpperCase() + label.slice(1))
-      .join(', ')
+  update();
+  newHistory('Toggle label', update);
+}
+
+function onReset() {
+  const oldLabels = new Set(labels);
+
+  function redo() {
+    labels.clear();
+    labels = labels;
   }
 
-  function getTextLabels(labels) {
-    return Array.from(labels)
-      .sort()
-      .map((id) => LABELS[id])
-  }
-
-  function onToggle(id) {
-    function update() {
-      labels.has(id) ? labels.delete(id) : labels.add(id)
-      labels = labels
-    }
-
-    update()
-    newHistory('Toggle label', update)
-  }
-
-  function onReset() {
-    const oldLabels = new Set(labels)
-
-    function redo() {
-      labels.clear()
-      labels = labels
-    }
-
-    redo()
-    newHistory('Reset labels', () => (labels = oldLabels), redo)
-  }
-</script>
+  redo();
+  newHistory('Reset labels', () => labels = oldLabels, redo);
+}</script>
 
 <HolderDistributionWidget
   {widget}

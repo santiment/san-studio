@@ -1,1 +1,1 @@
-export declare const DEFAULT_METRICS: string[]
+export declare const DEFAULT_METRICS: string[];

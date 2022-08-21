@@ -1,29 +1,27 @@
-<script context="module" lang="ts">
-  import { dialogs } from 'san-webkit/lib/ui/Dialog'
-  import FullscreenDialog from './FullscreenDialog.svelte'
-  export const showFullscreenChart = (props) => dialogs.show(FullscreenDialog, props)
-</script>
+<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+import FullscreenDialog from './FullscreenDialog.svelte';
+export const showFullscreenChart = props => dialogs.show(FullscreenDialog, props);</script>
 
-<script lang="ts">
-  import { setContext, tick } from 'svelte'
-  import Dialog from 'san-webkit/lib/ui/Dialog'
-  import ChartWidget from './../../../lib/ChartWidget/index.svelte'
-  import { resetAbsoluteCoordinates } from './../../../lib/Chart/Drawer/coordinates'
-  export let widget
-  export let fullscreenMetricsFilter = undefined
-  let closeDialog
+<script lang="ts">import { setContext, tick } from 'svelte';
+import Dialog from 'san-webkit/lib/ui/Dialog';
+import ChartWidget from './../../../lib/ChartWidget/index.svelte';
+import { resetAbsoluteCoordinates } from './../../../lib/Chart/Drawer/coordinates';
+export let widget;
+export let fullscreenMetricsFilter = undefined;
+let closeDialog;
 
-  if (widget.chart.drawer) {
-    resetAbsoluteCoordinates(widget.chart.drawer)
-  }
+if (widget.chart.drawer) {
+  resetAbsoluteCoordinates(widget.chart.drawer);
+}
 
-  setContext('fullscreen', () => closeDialog(false))
+setContext('fullscreen', () => closeDialog(false));
 
-  function onBeforeDialogClose() {
-    const { drawer } = widget.chart
-    if (drawer) resetAbsoluteCoordinates(drawer)
-  }
-</script>
+function onBeforeDialogClose() {
+  const {
+    drawer
+  } = widget.chart;
+  if (drawer) resetAbsoluteCoordinates(drawer);
+}</script>
 
 <Dialog
   {...$$props}

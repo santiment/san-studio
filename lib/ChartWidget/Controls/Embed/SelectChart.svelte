@@ -1,35 +1,36 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { studio } from './../../../../lib/stores/studio'
-  import { getWidgets } from './../../../../lib/stores/widgets'
-  import ChartPreview from './ChartPreview.svelte'
-  import { getChartWidgetLabel } from './utils'
-  const Widgets = getWidgets()
-  const widgets = $Widgets.filter((widget) => !!widget.chart)
-  export let charts
-  let isOpened = false
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { studio } from './../../../../lib/stores/studio';
+import { getWidgets } from './../../../../lib/stores/widgets';
+import ChartPreview from './ChartPreview.svelte';
+import { getChartWidgetLabel } from './utils';
+const Widgets = getWidgets();
+const widgets = $Widgets.filter(widget => !!widget.chart);
+export let charts;
+let isOpened = false;
 
-  $: chart = charts[0]
+$: chart = charts[0];
 
-  $: selected = charts.length === 1 ? chart : null
+$: selected = charts.length === 1 ? chart : null;
 
-  let optionsRef
+let optionsRef;
 
-  $: if (optionsRef) {
-    const activeNode = optionsRef.querySelector('.active')
+$: if (optionsRef) {
+  const activeNode = optionsRef.querySelector('.active');
 
-    if (activeNode) {
-      const { offsetTop, parentNode } = activeNode
-      parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2
-    }
+  if (activeNode) {
+    const {
+      offsetTop,
+      parentNode
+    } = activeNode;
+    parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2;
   }
+}
 
-  function onSelect(widget = widgets) {
-    charts = Array.isArray(widget) ? widget : [widget]
-    isOpened = false
-  }
-</script>
+function onSelect(widget = widgets) {
+  charts = Array.isArray(widget) ? widget : [widget];
+  isOpened = false;
+}</script>
 
 <Tooltip on="click" duration={0} align="left" bind:isOpened>
   <div slot="trigger" class="chart row border btn v-center mrg-l mrg--b">

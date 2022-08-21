@@ -1,30 +1,36 @@
-<script lang="ts">
-  import { fly } from 'svelte/transition'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { selectedItems } from './../../lib/stores/selector'
-  import MetricButton from './../../lib/MetricButton.svelte'
-  import { showCombineDialog } from './../../lib/CombineDialog/index.svelte'
+<script lang="ts">import { fly } from 'svelte/transition';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { selectedItems } from './../../lib/stores/selector';
+import MetricButton from './../../lib/MetricButton.svelte';
+import { showCombineDialog } from './../../lib/CombineDialog/index.svelte';
 
-  const noExpressionMetricsFilter = ({ expression }) => !expression
+const noExpressionMetricsFilter = ({
+  expression
+}) => !expression;
 
-  const expressionMetricsFilter = ({ expression }) => expression
+const expressionMetricsFilter = ({
+  expression
+}) => expression;
 
-  $: ({ metrics, subwidgets, chartAddons } = $selectedItems)
+$: ({
+  metrics,
+  subwidgets,
+  chartAddons
+} = $selectedItems);
 
-  $: items = metrics.concat(subwidgets).concat(chartAddons)
+$: items = metrics.concat(subwidgets).concat(chartAddons);
 
-  $: baseMetrics = metrics.filter(noExpressionMetricsFilter)
+$: baseMetrics = metrics.filter(noExpressionMetricsFilter);
 
-  function onCombineClick() {
-    const expressionMetrics = metrics.filter(expressionMetricsFilter)
-    showCombineDialog({
-      metrics: baseMetrics,
-    }).then((metric) => {
-      if (!metric) return
-      selectedItems.set(expressionMetrics.concat(metric))
-    })
-  }
-</script>
+function onCombineClick() {
+  const expressionMetrics = metrics.filter(expressionMetricsFilter);
+  showCombineDialog({
+    metrics: baseMetrics
+  }).then(metric => {
+    if (!metric) return;
+    selectedItems.set(expressionMetrics.concat(metric));
+  });
+}</script>
 
 <div class="stack row v-center" transition:fly={{ duration: 250, x: -100 }}>
   {#if items.length}

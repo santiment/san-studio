@@ -1,16 +1,14 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { studio } from './../../lib/stores/studio'
-  import Metric from './Metric.svelte'
-  export let metrics
-  export let mergedMetrics
-  export let mergingMetrics
-  export let colors
-  export let Metrics
-  export let isMerging = false
-  export let onMergeClick, onMetricClick, onUnmergeClick
-  let isOpened = true
-</script>
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { studio } from './../../lib/stores/studio';
+import Metric from './Metric.svelte';
+export let metrics;
+export let mergedMetrics;
+export let mergingMetrics;
+export let colors;
+export let Metrics;
+export let isMerging = false;
+export let onMergeClick, onMetricClick, onUnmergeClick;
+let isOpened = true;</script>
 
 <div class="aside column" class:opened={isOpened}>
   <div class="toggle">

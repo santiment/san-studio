@@ -1,51 +1,47 @@
-<script context="module" lang="ts">
-  import { dialogs } from 'san-webkit/lib/ui/Dialog'
-  import LayoutInfoDialog from './LayoutInfoDialog.svelte'
-  export const showLayoutInfoDialog = (props) => dialogs.show(LayoutInfoDialog, props)
-</script>
+<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+import LayoutInfoDialog from './LayoutInfoDialog.svelte';
+export const showLayoutInfoDialog = props => dialogs.show(LayoutInfoDialog, props);</script>
 
-<script lang="ts">
-  import Dialog from 'san-webkit/lib/ui/Dialog'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { selectedLayout } from './../../lib/stores/layout'
-  import { updateUserLayout } from './../../lib/api/layouts/mutate'
-  import LayoutInfo from './LayoutInfo.svelte'
-  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
-  import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
-  export let layout
-  export let isAuthor = false
-  export let closeLoadDialog
-  let closeDialog
+<script lang="ts">import Dialog from 'san-webkit/lib/ui/Dialog';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { selectedLayout } from './../../lib/stores/layout';
+import { updateUserLayout } from './../../lib/api/layouts/mutate';
+import LayoutInfo from './LayoutInfo.svelte';
+import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
+import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
+export let layout;
+export let isAuthor = false;
+export let closeLoadDialog;
+let closeDialog;
 
-  function toggleLayoutPublicity() {
-    const isPublic = !layout.isPublic
-    layout.isPublic = isPublic
-    updateUserLayout(layout.id, {
-      isPublic,
-    })
-  }
+function toggleLayoutPublicity() {
+  const isPublic = !layout.isPublic;
+  layout.isPublic = isPublic;
+  updateUserLayout(layout.id, {
+    isPublic
+  });
+}
 
-  function onUseClick() {
-    selectedLayout.set(layout)
-    closeDialog(false)
-  }
+function onUseClick() {
+  selectedLayout.set(layout);
+  closeDialog(false);
+}
 
-  function onEditClick() {
-    showNewLayoutDialog({
-      layout,
-      title: 'Edit Chart Layout',
-      mode: Mode.Edit,
-    })
-  }
+function onEditClick() {
+  showNewLayoutDialog({
+    layout,
+    title: 'Edit Chart Layout',
+    mode: Mode.Edit
+  });
+}
 
-  function onDeleteClick() {
-    showDeleteLayoutDialog({
-      layout,
-    }).then((wasDeleted) => wasDeleted && closeDialog())
-  }
-</script>
+function onDeleteClick() {
+  showDeleteLayoutDialog({
+    layout
+  }).then(wasDeleted => wasDeleted && closeDialog());
+}</script>
 
 <Dialog
   {...$$props}

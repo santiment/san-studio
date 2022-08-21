@@ -1,12 +1,10 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { SidewidgetType, getSidewidget } from './../../lib/stores/widgets'
-  import LayoutComment from './LayoutComments/index.svelte'
-  import ExplainMetrics from './ExplainMetrics/index.svelte'
-  const Sidewidget = getSidewidget()
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { SidewidgetType, getSidewidget } from './../../lib/stores/widgets';
+import LayoutComment from './LayoutComments/index.svelte';
+import ExplainMetrics from './ExplainMetrics/index.svelte';
+const Sidewidget = getSidewidget();
 
-  const closeSidewidget = () => ($Sidewidget = null)
-</script>
+const closeSidewidget = () => $Sidewidget = null;</script>
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">

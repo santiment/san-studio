@@ -1,39 +1,40 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { MetricCategory } from './../../lib/metrics/graph'
-  import Item from './Item.svelte'
-  let className = ''
-  export { className as class }
-  export let category
-  export let items = []
-  export let HoverItem = undefined
-  export let VisibleGroup = {}
-  export let isFiltering
-  export let isOpened = false
-  export let onItemClick = undefined
-  export let arrowClass = 'mrg-a'
-  let visible =
-    isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { MetricCategory } from './../../lib/metrics/graph';
+import Item from './Item.svelte';
+let className = '';
+export { className as class };
+export let category;
+export let items = [];
+export let HoverItem = undefined;
+export let VisibleGroup = {};
+export let isFiltering;
+export let isOpened = false;
+export let onItemClick = undefined;
+export let arrowClass = 'mrg-a';
+let visible = isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain;
 
-  $: GroupIndex = prepareGroups(items)
+$: GroupIndex = prepareGroups(items);
 
-  function prepareGroups(items) {
-    const GroupIndex = {}
+function prepareGroups(items) {
+  const GroupIndex = {};
 
-    let _group
+  let _group;
 
-    for (let i = 0; i < items.length; i++) {
-      const { group } = items[i]
-      if (_group === group) continue
-      _group = group
-      GroupIndex[i] = true
-    }
-
-    return GroupIndex
+  for (let i = 0; i < items.length; i++) {
+    const {
+      group
+    } = items[i];
+    if (_group === group) continue;
+    _group = group;
+    GroupIndex[i] = true;
   }
 
-  const toggleGroup = ({ group }) => group && (VisibleGroup[group] = !VisibleGroup[group])
-</script>
+  return GroupIndex;
+}
+
+const toggleGroup = ({
+  group
+}) => group && (VisibleGroup[group] = !VisibleGroup[group]);</script>
 
 {#if items.length || $$slots.default}
   <div class="category {className}" on:mouseleave>

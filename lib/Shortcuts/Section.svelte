@@ -1,9 +1,7 @@
-<script lang="ts">
-  let className = ''
-  export { className as class }
-  export let title
-  export let shortcuts
-</script>
+<script lang="ts">let className = '';
+export { className as class };
+export let title;
+export let shortcuts;</script>
 
 <div class="body-2 txt-m">{title}</div>
 <div class={className}>

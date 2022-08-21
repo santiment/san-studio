@@ -1,8 +1,6 @@
-<script>
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { showMasterSelectorDialog } from './../../lib/MasterSelectorDialog'
-  import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions.svelte'
-</script>
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { showMasterSelectorDialog } from './../../lib/MasterSelectorDialog';
+import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions.svelte';</script>
 
 <div
   id="fw-master-selector"

@@ -1,20 +1,18 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { queryAvailableBlockchains } from './../../lib/api/blockchains'
-  export let blockchain = undefined
-  export let inputNode
-  let blockchains = []
-  let isOpened = false
-  queryAvailableBlockchains().then((data) => (blockchains = data))
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import { queryAvailableBlockchains } from './../../lib/api/blockchains';
+export let blockchain = undefined;
+export let inputNode;
+let blockchains = [];
+let isOpened = false;
+queryAvailableBlockchains().then(data => blockchains = data);
 
-  function onBlockchainSelect(selected) {
-    blockchain = selected
-    isOpened = false
-    inputNode.focus()
-  }
-</script>
+function onBlockchainSelect(selected) {
+  blockchain = selected;
+  isOpened = false;
+  inputNode.focus();
+}</script>
 
 <div class="relative mrg-l mrg--r">
   <Tooltip

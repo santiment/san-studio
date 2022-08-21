@@ -1,31 +1,32 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { studio } from './../../lib/stores/studio'
-  import { queryAllProjects } from './../../lib/api/project'
-  import Search from './../../lib/Sidebar/Search.svelte'
-  import Project from './Project.svelte'
-  import VirtualList from './VirtualList.svelte'
-  let className = ''
-  export { className as class }
-  export let project
-  let items = []
-  let searchTerm = ''
-  let isOpened
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { studio } from './../../lib/stores/studio';
+import { queryAllProjects } from './../../lib/api/project';
+import Search from './../../lib/Sidebar/Search.svelte';
+import Project from './Project.svelte';
+import VirtualList from './VirtualList.svelte';
+let className = '';
+export { className as class };
+export let project;
+let items = [];
+let searchTerm = '';
+let isOpened;
 
-  $: filteredItems = searchTerm ? items.filter(projectsFilter) : items
+$: filteredItems = searchTerm ? items.filter(projectsFilter) : items;
 
-  queryAllProjects().then((projects) => (items = projects))
+queryAllProjects().then(projects => items = projects);
 
-  function projectsFilter({ name, ticker }) {
-    return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm)
-  }
+function projectsFilter({
+  name,
+  ticker
+}) {
+  return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm);
+}
 
-  function onProjectSelect(newProject) {
-    isOpened = false
-    project = newProject && newProject.slug !== $studio.slug ? newProject : undefined
-  }
-</script>
+function onProjectSelect(newProject) {
+  isOpened = false;
+  project = newProject && newProject.slug !== $studio.slug ? newProject : undefined;
+}</script>
 
 <Tooltip on="click" duration={0} class="tooltip-v574iC" bind:isOpened>
   <div slot="trigger" class="project border row v-center btn {className}">
@@ -62,7 +63,7 @@
     padding: 8px;
   }
 
-  :global(.items-rx\+9qf) {
+  :global(.items-rx\+9qF) {
     height: 335px;
   }
 </style>

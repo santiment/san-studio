@@ -1,13 +1,16 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte'
-  export let layout
-  export let isAuthor = false
-  export let closeDialog
-  export let onClick
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte';
+export let layout;
+export let isAuthor = false;
+export let closeDialog;
+export let onClick;
 
-  $: ({ title, isPublic = true, project, metrics } = layout)
-</script>
+$: ({
+  title,
+  isPublic = true,
+  project,
+  metrics
+} = layout);</script>
 
 <div class="layout btn-ghost column h-center" on:click={() => onClick(layout)}>
   <div class="body-2 txt-m mrg-xs mrg--b">

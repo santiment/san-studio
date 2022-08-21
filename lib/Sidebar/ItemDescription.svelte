@@ -1,16 +1,14 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { Description, prepareDescription } from './../../lib/metrics/description'
-  import { studio } from './../../lib/stores/studio'
-  let className = ''
-  export { className as class }
-  export let item
-  let trigger
-  let tooltip
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { Description, prepareDescription } from './../../lib/metrics/description';
+import { studio } from './../../lib/stores/studio';
+let className = '';
+export { className as class };
+export let item;
+let trigger;
+let tooltip;
 
-  $: description = item && Description[item.key]
-</script>
+$: description = item && Description[item.key];</script>
 
 {#if description}
   <Tooltip position="right" align="center" openDelay={110}>

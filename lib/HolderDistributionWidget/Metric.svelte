@@ -1,16 +1,14 @@
-<script lang="ts">
-  import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  export let metric
-  export let colors
-  export let isMerging = false
-  export let isActive = false
-  export let onClick
+<script lang="ts">import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+export let metric;
+export let colors;
+export let isMerging = false;
+export let isActive = false;
+export let onClick;
 
-  $: color = colors[metric.key]
+$: color = colors[metric.key];
 
-  $: style = color ? `---fill:${color}` : ''
-</script>
+$: style = color ? `---fill:${color}` : '';</script>
 
 <div
   {style}

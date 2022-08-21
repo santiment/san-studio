@@ -1,12 +1,16 @@
-<script>
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { usdFormatter } from './../../../lib/metrics/formatters'
-  import Suggestion from './Suggestion.svelte'
-  export let item
-  export let cursored = false
+<script>import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import { usdFormatter } from './../../../lib/metrics/formatters';
+import Suggestion from './Suggestion.svelte';
+export let item;
+export let cursored = false;
 
-  $: ({ slug, name, ticker, priceUsd, logoUrl } = item)
-</script>
+$: ({
+  slug,
+  name,
+  ticker,
+  priceUsd,
+  logoUrl
+} = item);</script>
 
 <Suggestion {cursored} on:click>
   <ProjectIcon {slug} {logoUrl} size={32} class="mrg-s mrg--r" />

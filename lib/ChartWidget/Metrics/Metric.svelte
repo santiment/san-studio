@@ -1,71 +1,77 @@
-<script lang="ts">
-  var _a
+<script lang="ts">var _a;
 
-  import { onDestroy } from 'svelte'
-  import { track } from 'san-webkit/lib/analytics'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { Event } from './../../../lib/analytics'
-  import MetricButton from './../../../lib/MetricButton.svelte'
-  import { getWidget } from './../../../lib/ChartWidget/context'
-  import { studio } from './../../../lib/stores/studio'
-  import { globals } from './../../../lib/stores/globals'
-  import { getAdapterController } from './../../../lib/adapter/context'
-  import { SelectorNode } from './../../../lib/metrics/selector'
-  import { convertBaseProjectMetric } from './utils'
-  import MoreMenu from './MoreMenu.svelte'
-  import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte'
-  const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
-  const { Metrics, MetricsSignals } = getWidget()
-  const metricErrorTooltip = getMetricErrorTooltip()
-  export let metric
-  export let colors
-  export let error, isLoading, isSettingsOpened, isHidden
-  export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
-  export let dndContext
-  export let isMultipleMetricsOnChart
-  let isMenuOpened = false
-  let node
+import { onDestroy } from 'svelte';
+import { track } from 'san-webkit/lib/analytics';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { Event } from './../../../lib/analytics';
+import MetricButton from './../../../lib/MetricButton.svelte';
+import { getWidget } from './../../../lib/ChartWidget/context';
+import { studio } from './../../../lib/stores/studio';
+import { globals } from './../../../lib/stores/globals';
+import { getAdapterController } from './../../../lib/adapter/context';
+import { SelectorNode } from './../../../lib/metrics/selector';
+import { convertBaseProjectMetric } from './utils';
+import MoreMenu from './MoreMenu.svelte';
+import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte';
+const {
+  isEmbedded,
+  isWithMetricSettings = true
+} = getAdapterController();
+const {
+  Metrics,
+  MetricsSignals
+} = getWidget();
+const metricErrorTooltip = getMetricErrorTooltip();
+export let metric;
+export let colors;
+export let error, isLoading, isSettingsOpened, isHidden;
+export let onEnter, onLeave, onClick, onDelete, onLock, onSettings;
+export let dndContext;
+export let isMultipleMetricsOnChart;
+let isMenuOpened = false;
+let node;
 
-  $: isLocked = !!metric.project
+$: isLocked = !!metric.project;
 
-  $: ({ isPresenterMode } = $globals)
+$: ({
+  isPresenterMode
+} = $globals);
 
-  $: node && (dndContext === null || dndContext === void 0 ? void 0 : dndContext.addItem(node))
+$: node && (dndContext === null || dndContext === void 0 ? void 0 : dndContext.addItem(node));
 
-  $: node && useErrorTooltip(node, error)
+$: node && useErrorTooltip(node, error);
 
-  $: address = (_a = metric.reqMeta) === null || _a === void 0 ? void 0 : _a.address
+$: address = (_a = metric.reqMeta) === null || _a === void 0 ? void 0 : _a.address;
 
-  const onMouseEnter = () => onEnter(metric)
+const onMouseEnter = () => onEnter(metric);
 
-  const onMouseLeave = onLeave
+const onMouseLeave = onLeave;
 
-  function onLockClick() {
-    if (Metrics.hasConvertedMetric(metric, $studio)) return
+function onLockClick() {
+  if (Metrics.hasConvertedMetric(metric, $studio)) return;
 
-    if (metric.project) {
-      track.event(Event.UnlockMetric, {
-        metric: metric.key,
-      })
-    } else {
-      track.event(Event.LockMetric, {
-        metric: metric.key,
-        asset: $studio.slug,
-      })
-    }
-
-    onLock(metric, convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
+  if (metric.project) {
+    track.event(Event.UnlockMetric, {
+      metric: metric.key
+    });
+  } else {
+    track.event(Event.LockMetric, {
+      metric: metric.key,
+      asset: $studio.slug
+    });
   }
 
-  function useErrorTooltip(node, error) {
-    metricErrorTooltip(node, {
-      error,
-      isEnabled: !!error,
-    })
-  }
+  onLock(metric, convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric));
+}
 
-  onDestroy(onMouseLeave)
-</script>
+function useErrorTooltip(node, error) {
+  metricErrorTooltip(node, {
+    error,
+    isEnabled: !!error
+  });
+}
+
+onDestroy(onMouseLeave);</script>
 
 <MetricButton
   bind:node

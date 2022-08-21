@@ -1,23 +1,19 @@
-<script context="module" lang="ts">
-  import { Infrastructure, getAddressInfrastructure } from 'san-webkit/lib/utils/address'
-  const InfrastructureAsset = {
-    [Infrastructure.ETH]: 'ethereum',
-    [Infrastructure.BTC]: 'bitcoin',
-    [Infrastructure.BCH]: 'bitcoin-cash',
-    [Infrastructure.XRP]: 'ripple',
-    [Infrastructure.LTC]: 'litecoin',
-  }
-</script>
+<script context="module" lang="ts">import { Infrastructure, getAddressInfrastructure } from 'san-webkit/lib/utils/address';
+const InfrastructureAsset = {
+  [Infrastructure.ETH]: 'ethereum',
+  [Infrastructure.BTC]: 'bitcoin',
+  [Infrastructure.BCH]: 'bitcoin-cash',
+  [Infrastructure.XRP]: 'ripple',
+  [Infrastructure.LTC]: 'litecoin'
+};</script>
 
-<script>
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  export let address
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+export let address;
 
-  $: infrastructure = getAddressInfrastructure(address)
+$: infrastructure = getAddressInfrastructure(address);
 
-  $: infrastructureAsset = InfrastructureAsset[infrastructure]
-</script>
+$: infrastructureAsset = InfrastructureAsset[infrastructure];</script>
 
 <div class="relative row hv-center mrg-s mrg--r">
   <Svg id="report" w="16" />
