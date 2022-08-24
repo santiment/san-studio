@@ -29,7 +29,7 @@ function onBeforeDialogClose() {
   noTitle
   animated={false}
   bind:closeDialog
-  class="dialog-GnQEaR"
+  class="dialog-VQ7L3V"
 >
   {#await tick() then _}
     <ChartWidget {widget} isFullscreen isSingleWidget metricsFilter={fullscreenMetricsFilter} />
@@ -37,7 +37,7 @@ function onBeforeDialogClose() {
 </Dialog>
 
 <style>
-  :global(.dialog-GnQEaR) {
+  :global(.dialog-VQ7L3V) {
     width: 96%;
     height: 92%;
     padding: 16px;

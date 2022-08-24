@@ -15,7 +15,7 @@ export let onChange;
 export let theme = themes[0];
 const width = chart.canvasWidth;
 const brush = initBrush(chart, width, BRUSH_HEIGHT, chart.theme.brush);
-brush.canvas.classList.add('brush-yCW3Io');
+brush.canvas.classList.add('brush-wzi70c');
 brush.plotBrushData = plotBrushData;
 brush.redraw = redraw;
 brush.updateWidth = updateWidth;
@@ -55,7 +55,7 @@ function redraw() {
 }</script>
 
 <style>
-  :global(.brush-yCW3Io) {
+  :global(.brush-wzi70c) {
     border: 1px solid var(--porcelain);
     border-radius: 4px;
   }
