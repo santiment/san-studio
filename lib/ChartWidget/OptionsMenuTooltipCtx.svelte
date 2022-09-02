@@ -1,14 +1,18 @@
-<script context="module">import { getContext } from 'svelte';
-const ID = 'OptionsMenuTooltipCtx';
-export const getOptionsMenuTooltip = () => getContext(ID);</script>
+<script context="module">
+  import { getContext } from 'svelte'
+  const ID = 'OptionsMenuTooltipCtx'
+  export const getOptionsMenuTooltip = () => getContext(ID)
+</script>
 
-<script>import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte';
-import OptionsMenu from './Controls/OptionsMenu.svelte';
-const settings = {
-  on: 'click',
-  align: 'end',
-  activeClass: 'active'
-};</script>
+<script>
+  import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte'
+  import OptionsMenu from './Controls/OptionsMenu.svelte'
+  const settings = {
+    on: 'click',
+    align: 'end',
+    activeClass: 'active',
+  }
+</script>
 
 <Context id={ID} {settings}>
   <slot />

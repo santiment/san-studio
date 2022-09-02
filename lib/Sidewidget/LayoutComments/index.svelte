@@ -1,15 +1,18 @@
-<script lang="ts">import { CommentsType } from 'san-webkit/lib/api/comments';
-import Comments from 'san-webkit/lib/ui/Comments/svelte';
-import { selectedLayout } from './../../../lib/stores/layout';
-import { currentUser } from './../../../lib/stores/user';
-import { updateLayoutCommentsCountCache } from './../../../lib/api/layouts/comments';
-export let closeSidewidget;
+<script lang="ts">
+  import { CommentsType } from 'san-webkit/lib/api/comments'
+  import Comments from 'san-webkit/lib/ui/Comments/svelte'
+  import { selectedLayout } from './../../../lib/stores/layout'
+  import { currentUser } from './../../../lib/stores/user'
+  import { updateLayoutCommentsCountCache } from './../../../lib/api/layouts/comments'
+  export let closeSidewidget
 
-$: !$selectedLayout && (closeSidewidget === null || closeSidewidget === void 0 ? void 0 : closeSidewidget());
+  $: !$selectedLayout &&
+    (closeSidewidget === null || closeSidewidget === void 0 ? void 0 : closeSidewidget())
 
-function onNewComment(layout, comments) {
-  updateLayoutCommentsCountCache(layout.id, comments.length);
-}</script>
+  function onNewComment(layout, comments) {
+    updateLayoutCommentsCountCache(layout.id, comments.length)
+  }
+</script>
 
 {#if $selectedLayout}
   <Comments

@@ -1,36 +1,35 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { studio } from './../../../../lib/stores/studio';
-import { getWidgets } from './../../../../lib/stores/widgets';
-import ChartPreview from './ChartPreview.svelte';
-import { getChartWidgetLabel } from './utils';
-const Widgets = getWidgets();
-const widgets = $Widgets.filter(widget => !!widget.chart);
-export let charts;
-let isOpened = false;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { studio } from './../../../../lib/stores/studio'
+  import { getWidgets } from './../../../../lib/stores/widgets'
+  import ChartPreview from './ChartPreview.svelte'
+  import { getChartWidgetLabel } from './utils'
+  const Widgets = getWidgets()
+  const widgets = $Widgets.filter((widget) => !!widget.chart)
+  export let charts
+  let isOpened = false
 
-$: chart = charts[0];
+  $: chart = charts[0]
 
-$: selected = charts.length === 1 ? chart : null;
+  $: selected = charts.length === 1 ? chart : null
 
-let optionsRef;
+  let optionsRef
 
-$: if (optionsRef) {
-  const activeNode = optionsRef.querySelector('.active');
+  $: if (optionsRef) {
+    const activeNode = optionsRef.querySelector('.active')
 
-  if (activeNode) {
-    const {
-      offsetTop,
-      parentNode
-    } = activeNode;
-    parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2;
+    if (activeNode) {
+      const { offsetTop, parentNode } = activeNode
+      parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2
+    }
   }
-}
 
-function onSelect(widget = widgets) {
-  charts = Array.isArray(widget) ? widget : [widget];
-  isOpened = false;
-}</script>
+  function onSelect(widget = widgets) {
+    charts = Array.isArray(widget) ? widget : [widget]
+    isOpened = false
+  }
+</script>
 
 <Tooltip on="click" duration={0} align="left" bind:isOpened>
   <div slot="trigger" class="chart row border btn v-center mrg-l mrg--b">
@@ -42,7 +41,7 @@ function onSelect(widget = widgets) {
       {/if}
     </span>
 
-    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-UYWx2+" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-cZ9sch" />
   </div>
 
   <div slot="tooltip" class="tooltip" bind:this={optionsRef}>
@@ -67,7 +66,7 @@ function onSelect(widget = widgets) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
-  :global(.arrow-UYWx2\+) {
+  :global(.arrow-cZ9sch) {
     transform: rotate(180deg);
   }
 

@@ -1,34 +1,36 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
-import HoverItem from './../../../../lib/Sidebar/HoverItem.svelte';
-import ItemLabel from './../../../../lib/Sidebar/ItemLabel.svelte';
-import { showCombineDialog } from './../../../../lib/CombineDialog/index.svelte';
-import Metric from './../../../../lib/CombineDialog/Metric.svelte';
-import { getContext } from 'svelte';
-import { updateCombinedMetric } from './../../../../lib/CombineDialog/flow';
-const History = getHistoryContext();
-const updateMetrics = getContext('updateCombinedMetrics');
-export let item;
-export let node;
-export let hoverNode;
-let active = false;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { getHistoryContext } from 'san-webkit/lib/ui/history'
+  import HoverItem from './../../../../lib/Sidebar/HoverItem.svelte'
+  import ItemLabel from './../../../../lib/Sidebar/ItemLabel.svelte'
+  import { showCombineDialog } from './../../../../lib/CombineDialog/index.svelte'
+  import Metric from './../../../../lib/CombineDialog/Metric.svelte'
+  import { getContext } from 'svelte'
+  import { updateCombinedMetric } from './../../../../lib/CombineDialog/flow'
+  const History = getHistoryContext()
+  const updateMetrics = getContext('updateCombinedMetrics')
+  export let item
+  export let node
+  export let hoverNode
+  let active = false
 
-function onEditClick() {
-  showCombineDialog({
-    metric: item
-  }).then(updatedMetric => {
-    if (!updatedMetric) return;
-    updateCombinedMetric(item, updatedMetric, {
-      History,
-      onUpdate
-    });
-  });
-}
+  function onEditClick() {
+    showCombineDialog({
+      metric: item,
+    }).then((updatedMetric) => {
+      if (!updatedMetric) return
+      updateCombinedMetric(item, updatedMetric, {
+        History,
+        onUpdate,
+      })
+    })
+  }
 
-function onUpdate() {
-  updateMetrics(item);
-}</script>
+  function onUpdate() {
+    updateMetrics(item)
+  }
+</script>
 
 <HoverItem {node} {hoverNode}>
   <ItemLabel {item} bind:active />

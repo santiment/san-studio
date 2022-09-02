@@ -1,26 +1,25 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-export let isList = true;
-export let onClick = undefined;
-export let isOpened = undefined;
-let optionsNode;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  export let isList = true
+  export let onClick = undefined
+  export let isOpened = undefined
+  let optionsNode
 
-$: if (optionsNode) {
-  const activeNode = optionsNode.querySelector('.active');
+  $: if (optionsNode) {
+    const activeNode = optionsNode.querySelector('.active')
 
-  if (activeNode) {
-    const {
-      offsetTop,
-      parentNode
-    } = activeNode;
-    parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2;
+    if (activeNode) {
+      const { offsetTop, parentNode } = activeNode
+      parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2
+    }
   }
-}</script>
+</script>
 
 <Tooltip on="click" duration={0} align="center" bind:isOpened>
   <div slot="trigger" class="setting row v-center mrg-l mrg--l btn" on:click={onClick}>
     <slot />
-    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-BDqrVL" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-A+dkMa" />
   </div>
 
   <div
@@ -44,7 +43,7 @@ $: if (optionsNode) {
     border-radius: 0;
   }
 
-  :global(.arrow-BDqrVL) {
+  :global(.arrow-A\+dkMa) {
     transform: rotate(180deg);
   }
 

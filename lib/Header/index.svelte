@@ -1,49 +1,49 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../lib/analytics';
-import { mapview, MapviewPhase } from './../../lib/stores/mapview';
-import LayoutActions from './../../lib/Layouts/index.svelte';
-import Layout from './Layout.svelte';
-export let headerPadding = 0;
-let headerNode;
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { Event } from './../../lib/analytics'
+  import { mapview, MapviewPhase } from './../../lib/stores/mapview'
+  import LayoutActions from './../../lib/Layouts/index.svelte'
+  import Layout from './Layout.svelte'
+  export let headerPadding = 0
+  let headerNode
 
-$: isMapview = $mapview !== MapviewPhase.None;
+  $: isMapview = $mapview !== MapviewPhase.None
 
-$: headerNode && changeHeaderPosition(isMapview);
+  $: headerNode && changeHeaderPosition(isMapview)
 
-function changeHeaderPosition(isMapview) {
-  let transform;
+  function changeHeaderPosition(isMapview) {
+    let transform
 
-  if (isMapview) {
-    let {
-      top
-    } = headerNode.getBoundingClientRect();
+    if (isMapview) {
+      let { top } = headerNode.getBoundingClientRect()
 
-    if (window.scrollY < headerPadding) {
-      top -= headerPadding - window.scrollY - 1;
+      if (window.scrollY < headerPadding) {
+        top -= headerPadding - window.scrollY - 1
+      }
+
+      transform = `translateY(-${top}px)`
+    } else {
+      transform = null
     }
 
-    transform = `translateY(-${top}px)`;
-  } else {
-    transform = null;
+    headerNode.style.transform = transform
   }
 
-  headerNode.style.transform = transform;
-}
+  function onShareClick() {
+    var _a
 
-function onShareClick() {
-  var _a;
+    track.event(Event.Share)
+    ;(_a = window.onHeaderShareClick) === null || _a === void 0 ? void 0 : _a.call(window)
+  }
 
-  track.event(Event.Share);
-  (_a = window.onHeaderShareClick) === null || _a === void 0 ? void 0 : _a.call(window);
-}
+  function onCopyLinkClick() {
+    var _a
 
-function onCopyLinkClick() {
-  var _a;
-
-  track.event(Event.CopyLink);
-  (_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window);
-}</script>
+    track.event(Event.CopyLink)
+    ;(_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window)
+  }
+</script>
 
 <div class="border header panel row v-center" bind:this={headerNode}>
   <Layout />

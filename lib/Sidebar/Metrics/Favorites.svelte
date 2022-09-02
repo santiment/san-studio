@@ -1,33 +1,35 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics';
-import { SelectorNode } from './../../../lib/metrics/selector';
-import { checkIsFilterMatch } from './../../../lib/metrics/selector/utils';
-import Category from './../../../lib/Sidebar/Category.svelte';
-import Item from './../../../lib/Sidebar/Item.svelte';
-import HoverItem from './HoverItem.svelte';
-export let searchTerm = '';
-export let isFiltering = false;
-export let onItemClick;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics'
+  import { SelectorNode } from './../../../lib/metrics/selector'
+  import { checkIsFilterMatch } from './../../../lib/metrics/selector/utils'
+  import Category from './../../../lib/Sidebar/Category.svelte'
+  import Item from './../../../lib/Sidebar/Item.svelte'
+  import HoverItem from './HoverItem.svelte'
+  export let searchTerm = ''
+  export let isFiltering = false
+  export let onItemClick
 
-$: favorites = getFavorites($favoriteMetrics, searchTerm);
+  $: favorites = getFavorites($favoriteMetrics, searchTerm)
 
-function getFavorites(favoritesSet, searchTerm) {
-  const favorites = [];
-  let i = 0;
-  favoritesSet.forEach(favoriteKey => {
-    const item = SelectorNode[favoriteKey];
+  function getFavorites(favoritesSet, searchTerm) {
+    const favorites = []
+    let i = 0
+    favoritesSet.forEach((favoriteKey) => {
+      const item = SelectorNode[favoriteKey]
 
-    if (item && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)) {
-      favorites[i++] = item;
-    }
-  });
-  return favorites;
-}</script>
+      if (item && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)) {
+        favorites[i++] = item
+      }
+    })
+    return favorites
+  }
+</script>
 
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened class="favorites">
     <svelte:fragment slot="pre-title">
-      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-ZbvnXL" />
+      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-x0v1Gr" />
     </svelte:fragment>
 
     {#each favorites as item}
@@ -44,7 +46,7 @@ function getFavorites(favoritesSet, searchTerm) {
     padding-left: 8px;
   }
 
-  :global(.star-ZbvnXL) {
+  :global(.star-x0v1Gr) {
     fill: var(--orange);
   }
 </style>

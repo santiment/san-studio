@@ -1,31 +1,30 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
-import { showPaymentDialog } from 'san-webkit/lib/ui/PaymentDialog/index.svelte';
-import { Event } from './../../../lib/analytics';
-import { globals } from './../../../lib/stores/globals';
-import { closeBanners } from './utils';
-export let upgradeClass = '';
-export let restrictions;
-export let isBanner = false;
-export let restrictedMetrics;
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import { showPaymentDialog } from 'san-webkit/lib/ui/PaymentDialog/index.svelte'
+  import { Event } from './../../../lib/analytics'
+  import { globals } from './../../../lib/stores/globals'
+  import { closeBanners } from './utils'
+  export let upgradeClass = ''
+  export let restrictions
+  export let isBanner = false
+  export let restrictedMetrics
 
-function onUpgradeClick(e) {
-  var _a;
+  function onUpgradeClick(e) {
+    var _a
 
-  track.event(Event.IncompleteDataUpgrade, {
-    location: isBanner ? 'banner' : 'tooltip',
-    metrics: Array.from(new Set(restrictedMetrics.map(({
-      key,
-      queryKey = key
-    }) => queryKey)))
-  });
-  closeBanners();
+    track.event(Event.IncompleteDataUpgrade, {
+      location: isBanner ? 'banner' : 'tooltip',
+      metrics: Array.from(new Set(restrictedMetrics.map(({ key, queryKey = key }) => queryKey))),
+    })
+    closeBanners()
 
-  if ($globals.isLoggedIn && window.showPaymentDialog) {
-    return showPaymentDialog();
+    if ($globals.isLoggedIn && window.showPaymentDialog) {
+      return showPaymentDialog()
+    }
+
+    ;(_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e)
   }
-
-  (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
-}</script>
+</script>
 
 Your plan has limited data period for:
 

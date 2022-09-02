@@ -1,1 +1,1 @@
-export declare const mvrvPrecacher: ({ key }: import("./utils").Variables) => (response: any) => any;
+export declare const mvrvPrecacher: ({ key }: import('./utils').Variables) => (response: any) => any

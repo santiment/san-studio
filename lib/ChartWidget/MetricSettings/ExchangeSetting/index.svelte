@@ -1,67 +1,69 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
-import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import { Event } from './../../../../lib/analytics';
-import { studio } from './../../../../lib/stores/studio';
-import { getWidget } from './../../../../lib/ChartWidget/context';
-import { debounced } from './../../../../lib/ChartWidget/utils';
-import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils';
-import Dropdown from '../Dropdown.svelte';
-const History = getHistoryContext();
-const widget = getWidget();
-const {
-  MetricSettings
-} = widget;
-export let metric;
-let loading = true;
-let isDex = false;
-let exchanges = DEFAULT_EXCHANGES;
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history'
+  import { Event } from './../../../../lib/analytics'
+  import { studio } from './../../../../lib/stores/studio'
+  import { getWidget } from './../../../../lib/ChartWidget/context'
+  import { debounced } from './../../../../lib/ChartWidget/utils'
+  import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils'
+  import Dropdown from '../Dropdown.svelte'
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { MetricSettings } = widget
+  export let metric
+  let loading = true
+  let isDex = false
+  let exchanges = DEFAULT_EXCHANGES
 
-$: metricSettings = $MetricSettings[metric.key];
+  $: metricSettings = $MetricSettings[metric.key]
 
-$: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) || DEFAULT_EXCHANGE;
+  $: metricOwner =
+    (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) ||
+    DEFAULT_EXCHANGE
 
-$: getExchanges($studio.slug, isDex);
+  $: getExchanges($studio.slug, isDex)
 
-const getExchanges = debounced((slug, isDex) => {
-  loading = true;
-  queryProjectExchanges(slug, isDex).then(projectExchanges => {
-    loading = false;
-    exchanges = DEFAULT_EXCHANGES.concat(projectExchanges);
-  });
-});
+  const getExchanges = debounced((slug, isDex) => {
+    loading = true
+    queryProjectExchanges(slug, isDex).then((projectExchanges) => {
+      loading = false
+      exchanges = DEFAULT_EXCHANGES.concat(projectExchanges)
+    })
+  })
 
-function onChange(newOwner) {
-  // prettier-ignore
-  track.event(Event.MetricExchange, {
+  function onChange(newOwner) {
+    // prettier-ignore
+    track.event(Event.MetricExchange, {
     metric: metric.key,
     exchange: newOwner
   });
-  const oldOwner = metricOwner;
+    const oldOwner = metricOwner
 
-  const redo = () => setExchange(metric, newOwner);
+    const redo = () => setExchange(metric, newOwner)
 
-  redo();
-  History.add('Exchange change', withScroll(widget, () => setExchange(metric, oldOwner)), withScroll(widget, redo));
-}
+    redo()
+    History.add(
+      'Exchange change',
+      withScroll(widget, () => setExchange(metric, oldOwner)),
+      withScroll(widget, redo),
+    )
+  }
 
-function setExchange(metric, newOwner) {
-  const {
-    key,
-    queryKey = key
-  } = metric;
+  function setExchange(metric, newOwner) {
+    const { key, queryKey = key } = metric
 
-  if (newOwner === DEFAULT_EXCHANGE) {
-    MetricSettings.delete(key, 'queryKey');
-    MetricSettings.delete(key, 'owner');
-    return;
-  } // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
+    if (newOwner === DEFAULT_EXCHANGE) {
+      MetricSettings.delete(key, 'queryKey')
+      MetricSettings.delete(key, 'owner')
+      return
+    } // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
 
-
-  MetricSettings.set(key, {
-    queryKey: queryKey + '_per_exchange',
-    owner: newOwner
-  });
-}</script>
+    MetricSettings.set(key, {
+      queryKey: queryKey + '_per_exchange',
+      owner: newOwner,
+    })
+  }
+</script>
 
 <Dropdown>
   Exchange: {metricOwner}

@@ -1,37 +1,41 @@
-<script lang="ts">import { onDestroy } from 'svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
-import { saveBoolean } from 'san-webkit/lib/utils/localStorage';
-import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { getAdapterController } from './../../lib/adapter/context';
-import { showShortcutsDialog } from './../../lib/Shortcuts/Dialog.svelte';
-import { handleItemSelect } from './controller';
-import Sidebar from './Sidebar.svelte';
-import { Mode } from './Modes.svelte';
-import MetricsSidebar from './Metrics/Sidebar.svelte';
-import LayoutsSidebar from './Layouts/Sidebar.svelte';
-const History = getHistoryContext();
-const {
-  checkIsMapviewDisabled
-} = getAdapterController();
-const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED';
-export let Widgets, Sidewidget, adjustSelectedMetric;
-let mode = Mode.Metrics;
-let isLocked = true; // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { getHistoryContext } from 'san-webkit/lib/ui/history'
+  import { saveBoolean } from 'san-webkit/lib/utils/localStorage'
+  import { newGlobalShortcut } from 'san-webkit/lib/utils/events'
+  import { getAdapterController } from './../../lib/adapter/context'
+  import { showShortcutsDialog } from './../../lib/Shortcuts/Dialog.svelte'
+  import { handleItemSelect } from './controller'
+  import Sidebar from './Sidebar.svelte'
+  import { Mode } from './Modes.svelte'
+  import MetricsSidebar from './Metrics/Sidebar.svelte'
+  import LayoutsSidebar from './Layouts/Sidebar.svelte'
+  const History = getHistoryContext()
+  const { checkIsMapviewDisabled } = getAdapterController()
+  const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
+  export let Widgets, Sidewidget, adjustSelectedMetric
+  let mode = Mode.Metrics
+  let isLocked = true // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
 
-let isPeeked = false;
+  let isPeeked = false
 
-$: isOpened = isPeeked; // || isDraggingMetric
+  $: isOpened = isPeeked // || isDraggingMetric
 
+  $: saveBoolean(LS_IS_SIDEBAR_LOCKED, isLocked)
 
-$: saveBoolean(LS_IS_SIDEBAR_LOCKED, isLocked);
+  function onItemClick(e, item) {
+    if (
+      checkIsMapviewDisabled === null || checkIsMapviewDisabled === void 0
+        ? void 0
+        : checkIsMapviewDisabled()
+    )
+      return
+    handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric)
+  }
 
-function onItemClick(e, item) {
-  if (checkIsMapviewDisabled === null || checkIsMapviewDisabled === void 0 ? void 0 : checkIsMapviewDisabled()) return;
-  handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric);
-}
-
-const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
-onDestroy(removeOpenShortcutsDialogHandler);</script>
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
+  onDestroy(removeOpenShortcutsDialogHandler)
+</script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
   <!-- 

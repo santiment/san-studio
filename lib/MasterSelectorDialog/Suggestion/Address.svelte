@@ -1,56 +1,59 @@
-<script context="module" lang="ts">const CHAR_WIDTH = 8.5;</script>
+<script context="module" lang="ts">
+  const CHAR_WIDTH = 8.5
+</script>
 
-<script>import { tick } from 'svelte';
-import AddressIcon from './../../../lib/MasterAsset/AddressIcon.svelte';
-import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../../../lib/api/address';
-import Suggestion from './Suggestion.svelte';
-export let item;
-export let cursored = false;
-let node;
-let labels = [];
-let maxItems = 0;
+<script>
+  import { tick } from 'svelte'
+  import AddressIcon from './../../../lib/MasterAsset/AddressIcon.svelte'
+  import {
+    checkIsNftAddress,
+    queryAddressLabels,
+    queryNftCollection,
+  } from './../../../lib/api/address'
+  import Suggestion from './Suggestion.svelte'
+  export let item
+  export let cursored = false
+  let node
+  let labels = []
+  let maxItems = 0
 
-$: ({
-  address,
-  infrastructure
-} = item);
+  $: ({ address, infrastructure } = item)
 
-$: shortAddress = address;
+  $: shortAddress = address
 
-$: queryAddressLabels(address, infrastructure).then(getNftLabel).then(setLabels);
+  $: queryAddressLabels(address, infrastructure).then(getNftLabel).then(setLabels)
 
-function getNftLabel(data) {
-  if (!checkIsNftAddress(data)) return data;
-  return queryNftCollection(address, infrastructure).then(nftLabel => [nftLabel].concat(data));
-}
+  function getNftLabel(data) {
+    if (!checkIsNftAddress(data)) return data
+    return queryNftCollection(address, infrastructure).then((nftLabel) => [nftLabel].concat(data))
+  }
 
-function setLabels(data) {
-  let size = 0;
-  let index = 0;
-  data.some(({
-    name
-  }) => {
-    size += name.length;
-    if (size > 39) return true;
-    index++;
-  });
-  labels = data;
-  maxItems = index;
-  tick().then(setShortAddress);
-}
+  function setLabels(data) {
+    let size = 0
+    let index = 0
+    data.some(({ name }) => {
+      size += name.length
+      if (size > 39) return true
+      index++
+    })
+    labels = data
+    maxItems = index
+    tick().then(setShortAddress)
+  }
 
-function setShortAddress() {
-  if (!node) return;
-  shortAddress = getShortAddress(address, node.clientWidth);
-}
+  function setShortAddress() {
+    if (!node) return
+    shortAddress = getShortAddress(address, node.clientWidth)
+  }
 
-function getShortAddress(address, width) {
-  const chars = Math.floor(width / CHAR_WIDTH) - 1;
-  if (chars >= address.length - 5) return address;
-  const start = address.slice(0, 4);
-  const end = address.slice(4 - chars);
-  return start + '...' + end;
-}</script>
+  function getShortAddress(address, width) {
+    const chars = Math.floor(width / CHAR_WIDTH) - 1
+    if (chars >= address.length - 5) return address
+    const start = address.slice(0, 4)
+    const end = address.slice(4 - chars)
+    return start + '...' + end
+  }
+</script>
 
 <Suggestion {cursored} on:click>
   <AddressIcon {address} />

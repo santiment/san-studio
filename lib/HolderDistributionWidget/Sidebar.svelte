@@ -1,14 +1,16 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../../lib/stores/studio';
-import Metric from './Metric.svelte';
-export let metrics;
-export let mergedMetrics;
-export let mergingMetrics;
-export let colors;
-export let Metrics;
-export let isMerging = false;
-export let onMergeClick, onMetricClick, onUnmergeClick;
-let isOpened = true;</script>
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { studio } from './../../lib/stores/studio'
+  import Metric from './Metric.svelte'
+  export let metrics
+  export let mergedMetrics
+  export let mergingMetrics
+  export let colors
+  export let Metrics
+  export let isMerging = false
+  export let onMergeClick, onMetricClick, onUnmergeClick
+  let isOpened = true
+</script>
 
 <div class="aside column" class:opened={isOpened}>
   <div class="toggle">
@@ -16,7 +18,7 @@ let isOpened = true;</script>
       id="sidebar"
       w="12"
       h="10"
-      class="btn icon-jpbGLW"
+      class="btn icon-ogPoEF"
       on:click={() => (isOpened = !isOpened)}
     />
   </div>
@@ -77,7 +79,7 @@ let isOpened = true;</script>
     position: relative;
   }
 
-  :global(.icon-jpbGLW) {
+  :global(.icon-ogPoEF) {
     --fill: var(--casper);
     --fill-hover: var(--green);
     --bg: var(--white);

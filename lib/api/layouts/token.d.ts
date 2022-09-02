@@ -1,1 +1,1 @@
-export declare const queryLayoutToken: (id: number) => Promise<string>;
+export declare const queryLayoutToken: (id: number) => Promise<string>

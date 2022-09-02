@@ -1,38 +1,42 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { showCombineDialog } from './../../../lib/CombineDialog/index.svelte';
-import { updateCombinedMetric } from './../../../lib/CombineDialog/flow';
-import Setting from './Setting.svelte';
-const History = getHistoryContext();
-const widget = getWidget();
-const {
-  Metrics
-} = widget;
-export let metric;
+<script lang="ts">
+  import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { getWidget } from './../../../lib/ChartWidget/context'
+  import { showCombineDialog } from './../../../lib/CombineDialog/index.svelte'
+  import { updateCombinedMetric } from './../../../lib/CombineDialog/flow'
+  import Setting from './Setting.svelte'
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { Metrics } = widget
+  export let metric
 
-function onExpressionClick() {
-  showCombineDialog({
-    metric
-  }).then(updatedMetric => {
-    if (!updatedMetric) return;
-    updateCombinedMetric(metric, updatedMetric, {
-      History,
-      widget,
-      onUpdate: () => Metrics.set(Metrics.getValue())
-    });
-  });
-}
+  function onExpressionClick() {
+    showCombineDialog({
+      metric,
+    }).then((updatedMetric) => {
+      if (!updatedMetric) return
+      updateCombinedMetric(metric, updatedMetric, {
+        History,
+        widget,
+        onUpdate: () => Metrics.set(Metrics.getValue()),
+      })
+    })
+  }
 
-function onCombineClick() {
-  showCombineDialog({
-    metrics: [metric]
-  }).then(combinedMetric => {
-    if (!combinedMetric) return;
-    Metrics.add(combinedMetric);
-    History.add('Combine metrics', withScroll(widget, () => Metrics.delete(combinedMetric)), withScroll(widget, () => Metrics.add(combinedMetric)));
-  });
-}</script>
+  function onCombineClick() {
+    showCombineDialog({
+      metrics: [metric],
+    }).then((combinedMetric) => {
+      if (!combinedMetric) return
+      Metrics.add(combinedMetric)
+      History.add(
+        'Combine metrics',
+        withScroll(widget, () => Metrics.delete(combinedMetric)),
+        withScroll(widget, () => Metrics.add(combinedMetric)),
+      )
+    })
+  }
+</script>
 
 <Setting on:click={metric.expression ? onExpressionClick : onCombineClick}>
   {#if metric.expression}

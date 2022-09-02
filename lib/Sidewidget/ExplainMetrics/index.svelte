@@ -1,76 +1,64 @@
-<script lang="ts">import { onDestroy } from 'svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { getDateFormats, getTimeFormats } from 'san-webkit/lib/utils/dates';
-import { getWidgets } from './../../../lib/stores/widgets';
-import { studio } from './../../../lib/stores/studio';
-import { widgetsListener } from './../../../lib/stores/widgetsListener';
-import { Description, prepareDescription } from './../../../lib/metrics/description';
-import Section from './Section.svelte';
-import { Frequency } from './frequencies';
-import { queryMetricInfo } from './api';
-const Widgets = getWidgets();
-const unsubWidgets = widgetsListener.subscribe(getMetrics);
-let metrics = [];
-getMetrics();
-let metric = metrics[0];
-let isOpened = false;
-let loading = true;
-let availableSince;
-let lastDatetimeComputedAt;
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { getDateFormats, getTimeFormats } from 'san-webkit/lib/utils/dates'
+  import { getWidgets } from './../../../lib/stores/widgets'
+  import { studio } from './../../../lib/stores/studio'
+  import { widgetsListener } from './../../../lib/stores/widgetsListener'
+  import { Description, prepareDescription } from './../../../lib/metrics/description'
+  import Section from './Section.svelte'
+  import { Frequency } from './frequencies'
+  import { queryMetricInfo } from './api'
+  const Widgets = getWidgets()
+  const unsubWidgets = widgetsListener.subscribe(getMetrics)
+  let metrics = []
+  getMetrics()
+  let metric = metrics[0]
+  let isOpened = false
+  let loading = true
+  let availableSince
+  let lastDatetimeComputedAt
 
-$: ({
-  slug,
-  ticker
-} = $studio);
+  $: ({ slug, ticker } = $studio)
 
-$: slug, metric && loadMetricData();
+  $: slug, metric && loadMetricData()
 
-function getMetrics() {
-  const items = [];
+  function getMetrics() {
+    const items = []
 
-  const baseMapper = metric => metric.base || metric.baseMetrics || metric;
+    const baseMapper = (metric) => metric.base || metric.baseMetrics || metric
 
-  $Widgets.forEach(({
-    metrics
-  }) => metrics && items.push(...metrics.map(baseMapper)));
-  metrics = Array.from(new Set(items.flat())).filter(({
-    queryKey
-  }) => !queryKey);
-}
+    $Widgets.forEach(({ metrics }) => metrics && items.push(...metrics.map(baseMapper)))
+    metrics = Array.from(new Set(items.flat())).filter(({ queryKey }) => !queryKey)
+  }
 
-function loadMetricData() {
-  if (!metric) return;
-  loading = true;
-  queryMetricInfo(metric.key, slug).then(data => {
-    loading = false;
-    availableSince = formatMetricData(data.availableSince);
-    lastDatetimeComputedAt = formatMetricData(data.lastDatetimeComputedAt);
-  });
-}
+  function loadMetricData() {
+    if (!metric) return
+    loading = true
+    queryMetricInfo(metric.key, slug).then((data) => {
+      loading = false
+      availableSince = formatMetricData(data.availableSince)
+      lastDatetimeComputedAt = formatMetricData(data.lastDatetimeComputedAt)
+    })
+  }
 
-function formatMetricData(value) {
-  const date = new Date(value);
-  const {
-    HH,
-    mm
-  } = getTimeFormats(date);
-  const {
-    MMMM,
-    DD,
-    YYYY
-  } = getDateFormats(date);
-  return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`;
-}
+  function formatMetricData(value) {
+    const date = new Date(value)
+    const { HH, mm } = getTimeFormats(date)
+    const { MMMM, DD, YYYY } = getDateFormats(date)
+    return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
+  }
 
-function onMetricChange(item) {
-  metric = item;
-  isOpened = false;
-}
+  function onMetricChange(item) {
+    metric = item
+    isOpened = false
+  }
 
-onDestroy(() => {
-  unsubWidgets();
-});</script>
+  onDestroy(() => {
+    unsubWidgets()
+  })
+</script>
 
 <h2 class="txt-m mrg-l mrg--b">Metric Explanations</h2>
 
@@ -78,7 +66,7 @@ onDestroy(() => {
   <Tooltip bind:isOpened duration={0} on="click" align="start">
     <div slot="trigger" class="selection btn-2 btn--s btn--l row v-center">
       {metric.label}
-      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-5+Awwo" />
+      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-_xai4I" />
     </div>
     <div slot="tooltip" class="tooltip">
       {#each metrics as item (item.key)}
@@ -114,7 +102,7 @@ onDestroy(() => {
     padding: 8px;
   }
 
-  :global(.arrow-5\+Awwo) {
+  :global(.arrow-_xai4I) {
     transform: rotate(180deg);
   }
 </style>

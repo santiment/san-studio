@@ -1,1 +1,3 @@
-export declare const showMasterSelectorDialog: (onSelect?: ((item: any) => void) | undefined) => Promise<unknown> | undefined;
+export declare const showMasterSelectorDialog: (
+  onSelect?: ((item: any) => void) | undefined,
+) => Promise<unknown> | undefined

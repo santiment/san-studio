@@ -1,1 +1,1 @@
-export declare const Frequency: {};
+export declare const Frequency: {}

@@ -1,18 +1,20 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { queryAvailableBlockchains } from './../../lib/api/blockchains';
-export let blockchain = undefined;
-export let inputNode;
-let blockchains = [];
-let isOpened = false;
-queryAvailableBlockchains().then(data => blockchains = data);
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
+  import { queryAvailableBlockchains } from './../../lib/api/blockchains'
+  export let blockchain = undefined
+  export let inputNode
+  let blockchains = []
+  let isOpened = false
+  queryAvailableBlockchains().then((data) => (blockchains = data))
 
-function onBlockchainSelect(selected) {
-  blockchain = selected;
-  isOpened = false;
-  inputNode.focus();
-}</script>
+  function onBlockchainSelect(selected) {
+    blockchain = selected
+    isOpened = false
+    inputNode.focus()
+  }
+</script>
 
 <div class="relative mrg-l mrg--r">
   <Tooltip
@@ -20,8 +22,8 @@ function onBlockchainSelect(selected) {
     on="click"
     offsetY={4}
     align="center"
-    class="tooltip-7fm9Hc"
-    activeClass="active-MqIDuN"
+    class="tooltip-JDRPoQ"
+    activeClass="active-PY04DI"
   >
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
@@ -32,7 +34,7 @@ function onBlockchainSelect(selected) {
       {:else}
         All blockchains
       {/if}
-      <Svg id="arrow" w="8" h="5" class="arrow-LC6DEx mrg-s mrg--l" />
+      <Svg id="arrow" w="8" h="5" class="arrow-Bu2d4+ mrg-s mrg--l" />
     </button>
 
     <svelte:fragment slot="tooltip">
@@ -54,15 +56,15 @@ function onBlockchainSelect(selected) {
     fill: var(--waterloo);
   }
 
-  :global(.active-MqIDuN) {
+  :global(.active-PY04DI) {
     --border: var(--green);
   }
 
-  :global(.arrow-LC6DEx) {
+  :global(.arrow-Bu2d4\+) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-7fm9Hc) {
+  :global(.tooltip-JDRPoQ) {
     padding: 8px;
     min-width: 100%;
   }

@@ -1,39 +1,38 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import EmbedDialog from './Dialog.svelte';
-export const showEmbedDialog = props => dialogs.show(EmbedDialog, props);</script>
+<script context="module" lang="ts">
+  import { dialogs } from 'san-webkit/lib/ui/Dialog'
+  import EmbedDialog from './Dialog.svelte'
+  export const showEmbedDialog = (props) => dialogs.show(EmbedDialog, props)
+</script>
 
-<script lang="ts">import Dialog from 'san-webkit/lib/ui/Dialog';
-import { globals } from './../../../../lib/stores/globals';
-import Code from './Code.svelte';
-import SelectChart from './SelectChart.svelte';
-import Setting, { PRO_PLUS } from './Setting.svelte';
-import EmbedSetting from './EmbedSetting.svelte';
-import EmbedPreview from './EmbedPreview.svelte';
-export let widgets;
-const {
-  ChartOptions
-} = widgets[0] || {};
-let width = '100%';
-let height = '300';
-let isNightMode = $globals.isNightMode;
-let isWithMetricSettings = false;
-let isCartesianGrid = true;
-let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false;
-let dataToken = '';
-let code = '';
+<script lang="ts">
+  import Dialog from 'san-webkit/lib/ui/Dialog'
+  import { globals } from './../../../../lib/stores/globals'
+  import Code from './Code.svelte'
+  import SelectChart from './SelectChart.svelte'
+  import Setting, { PRO_PLUS } from './Setting.svelte'
+  import EmbedSetting from './EmbedSetting.svelte'
+  import EmbedPreview from './EmbedPreview.svelte'
+  export let widgets
+  const { ChartOptions } = widgets[0] || {}
+  let width = '100%'
+  let height = '300'
+  let isNightMode = $globals.isNightMode
+  let isWithMetricSettings = false
+  let isCartesianGrid = true
+  let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false
+  let dataToken = ''
+  let code = ''
 
-$: ({
-  isPro,
-  isProPlus
-} = $globals);
+  $: ({ isPro, isProPlus } = $globals)
 
-$: iframe = getIframeSource(code);
+  $: iframe = getIframeSource(code)
 
-function getIframeSource(code) {
-  const html = code.split('\n')[0];
-  const index = html.indexOf('src=') + 5;
-  return html.slice(index, html.indexOf('"', index));
-}</script>
+  function getIframeSource(code) {
+    const html = code.split('\n')[0]
+    const index = html.indexOf('src=') + 5
+    return html.slice(index, html.indexOf('"', index))
+  }
+</script>
 
 <Dialog {...$$props} title="Embed charts">
   <div class="dialog-body row">

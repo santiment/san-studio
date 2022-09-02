@@ -1,11 +1,11 @@
-import { SelectorType } from './../../lib/metrics/selector/types';
+import { SelectorType } from './../../lib/metrics/selector/types'
 export declare const PriceDAADivergenceNode: {
-    selectorType: SelectorType;
+  selectorType: SelectorType
 } & Studio.Metric & {
-    key: string;
-};
+    key: string
+  }
 export declare const AdjustedPriceDAADivergenceNode: {
-    selectorType: SelectorType;
+  selectorType: SelectorType
 } & Studio.Metric & {
-    key: string;
-};
+    key: string
+  }

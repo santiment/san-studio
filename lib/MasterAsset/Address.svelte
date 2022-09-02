@@ -1,31 +1,35 @@
-<script>import { getAddressInfrastructure } from 'san-webkit/lib/utils/address';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { studio } from './../../lib/stores/studio';
-import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../../lib/api/address';
-import AddressIcon from './AddressIcon.svelte';
-import Selector from './Selector.svelte';
-let labels = [];
-let hidden = [];
+<script>
+  import { getAddressInfrastructure } from 'san-webkit/lib/utils/address'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { studio } from './../../lib/stores/studio'
+  import {
+    checkIsNftAddress,
+    queryAddressLabels,
+    queryNftCollection,
+  } from './../../lib/api/address'
+  import AddressIcon from './AddressIcon.svelte'
+  import Selector from './Selector.svelte'
+  let labels = []
+  let hidden = []
 
-$: ({
-  address
-} = $studio);
+  $: ({ address } = $studio)
 
-$: infrastructure = getAddressInfrastructure(address);
+  $: infrastructure = getAddressInfrastructure(address)
 
-$: queryAddressLabels(address, infrastructure).then(setLabels);
+  $: queryAddressLabels(address, infrastructure).then(setLabels)
 
-function setLabels(data) {
-  labels = data.slice(0, 2);
-  hidden = data.slice(2);
+  function setLabels(data) {
+    labels = data.slice(0, 2)
+    hidden = data.slice(2)
 
-  if (checkIsNftAddress(data)) {
-    queryNftCollection(address, infrastructure).then(nftLabel => {
-      labels.unshift(nftLabel);
-      labels = labels;
-    });
+    if (checkIsNftAddress(data)) {
+      queryNftCollection(address, infrastructure).then((nftLabel) => {
+        labels.unshift(nftLabel)
+        labels = labels
+      })
+    }
   }
-}</script>
+</script>
 
 <svelte:head>
   <title>Sanbase: {address}</title>
@@ -42,7 +46,7 @@ function setLabels(data) {
   {/each}
 
   {#if hidden.length}
-    <Tooltip align="end" offsetY={4} class="tooltip-bSitKl row" openDelay={110}>
+    <Tooltip align="end" offsetY={4} class="tooltip-CUp0ca row" openDelay={110}>
       <div slot="trigger" class="label btn mrg-s mrg--l">
         +{hidden.length}
       </div>
@@ -67,7 +71,7 @@ function setLabels(data) {
     --color-hover: var(--green);
   }
 
-  :global(.tooltip-bSitKl) {
+  :global(.tooltip-CUp0ca) {
     padding: 12px;
     z-index: 999 !important;
     max-width: 430px;

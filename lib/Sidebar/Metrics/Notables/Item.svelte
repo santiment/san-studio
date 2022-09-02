@@ -1,7 +1,9 @@
-<script lang="ts">import Item from './../../../../lib/Sidebar/Item.svelte';
-import HoverItem from '../HoverItem.svelte';
-export let notable;
-export let onItemClick, onItemEnter, onLeave;</script>
+<script lang="ts">
+  import Item from './../../../../lib/Sidebar/Item.svelte'
+  import HoverItem from '../HoverItem.svelte'
+  export let notable
+  export let onItemClick, onItemEnter, onLeave
+</script>
 
 <Item
   item={notable.metric}

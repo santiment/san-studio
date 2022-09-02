@@ -1,43 +1,42 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { studio } from './../../lib/stores/studio';
-import { queryAllProjects } from './../../lib/api/project';
-import Search from './../../lib/Sidebar/Search.svelte';
-import Project from './Project.svelte';
-import VirtualList from './VirtualList.svelte';
-let className = '';
-export { className as class };
-export let project;
-let items = [];
-let searchTerm = '';
-let isOpened;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { studio } from './../../lib/stores/studio'
+  import { queryAllProjects } from './../../lib/api/project'
+  import Search from './../../lib/Sidebar/Search.svelte'
+  import Project from './Project.svelte'
+  import VirtualList from './VirtualList.svelte'
+  let className = ''
+  export { className as class }
+  export let project
+  let items = []
+  let searchTerm = ''
+  let isOpened
 
-$: filteredItems = searchTerm ? items.filter(projectsFilter) : items;
+  $: filteredItems = searchTerm ? items.filter(projectsFilter) : items
 
-queryAllProjects().then(projects => items = projects);
+  queryAllProjects().then((projects) => (items = projects))
 
-function projectsFilter({
-  name,
-  ticker
-}) {
-  return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm);
-}
+  function projectsFilter({ name, ticker }) {
+    return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm)
+  }
 
-function onProjectSelect(newProject) {
-  isOpened = false;
-  project = newProject && newProject.slug !== $studio.slug ? newProject : undefined;
-}</script>
+  function onProjectSelect(newProject) {
+    isOpened = false
+    project = newProject && newProject.slug !== $studio.slug ? newProject : undefined
+  }
+</script>
 
-<Tooltip on="click" duration={0} class="tooltip-asMeGh" bind:isOpened>
+<Tooltip on="click" duration={0} class="tooltip-WdML33" bind:isOpened>
   <div slot="trigger" class="project border row v-center btn {className}">
     <Project project={project || $studio} />
-    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-CoBanl" />
+    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-Ylczxz" />
   </div>
 
   <svelte:fragment slot="tooltip">
     <Search class="mrg-s mrg--b" autofocus placeholder="Search assets" bind:searchTerm />
 
-    <VirtualList class="items-z_wh+6" items={filteredItems} let:item key="slug">
+    <VirtualList class="items-FeNT82" items={filteredItems} let:item key="slug">
       <div class="row v-center btn-ghost" on:click={() => onProjectSelect(item)}>
         <Project project={item} />
       </div>
@@ -53,17 +52,17 @@ function onProjectSelect(newProject) {
     --fill-hover: var(--green);
   }
 
-  :global(.arrow-CoBanl) {
+  :global(.arrow-Ylczxz) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-asMeGh) {
+  :global(.tooltip-WdML33) {
     margin-top: -2px;
     width: 239px;
     padding: 8px;
   }
 
-  :global(.items-z_wh\+6) {
+  :global(.items-FeNT82) {
     height: 335px;
   }
 </style>

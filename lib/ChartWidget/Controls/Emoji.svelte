@@ -1,38 +1,42 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { EMOJIS, newEmoji } from './../../../lib/Chart/Drawer/drawings/emoji';
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { Event } from './../../../lib/analytics'
+  import { EMOJIS, newEmoji } from './../../../lib/Chart/Drawer/drawings/emoji'
 
-const random = (max, min) => Math.random() * (max - min) + min;
+  const random = (max, min) => Math.random() * (max - min) + min
 
-export let chart;
-export let ChartDrawer;
-let isOpened;
+  export let chart
+  export let ChartDrawer
+  let isOpened
 
-$: if (isOpened) track.event(Event.ShowEmojis);
+  $: if (isOpened) track.event(Event.ShowEmojis)
 
-function onClick(e) {
-  const img = e.currentTarget;
-  const id = img.alt;
-  const xOffset = random(-0.01, 0.01);
-  const yOffset = random(-0.06, 0.06);
-  chart.drawer.addDrawing(newEmoji({
-    id,
-    ratioCoor: [0.06 + xOffset, 0.3 + yOffset]
-  }));
-  track.event(Event.NewDrawing, {
-    type: 'emoji',
-    id
-  });
-}</script>
+  function onClick(e) {
+    const img = e.currentTarget
+    const id = img.alt
+    const xOffset = random(-0.01, 0.01)
+    const yOffset = random(-0.06, 0.06)
+    chart.drawer.addDrawing(
+      newEmoji({
+        id,
+        ratioCoor: [0.06 + xOffset, 0.3 + yOffset],
+      }),
+    )
+    track.event(Event.NewDrawing, {
+      type: 'emoji',
+      id,
+    })
+  }
+</script>
 
 <Tooltip
   bind:isOpened
   on="click"
   duration={0}
   align="center"
-  class="Tooltip-10_wkt"
+  class="Tooltip-jY_8VM"
   activeClass="active"
 >
   <div slot="trigger" class="btn-3" class:disabled={$ChartDrawer.isHidden}>
@@ -47,7 +51,7 @@ function onClick(e) {
 </Tooltip>
 
 <style>
-  :global(.Tooltip-10_wkt) {
+  :global(.Tooltip-jY_8VM) {
     margin-top: -6px;
   }
 

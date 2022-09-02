@@ -32,6 +32,20 @@ const VALID_BLOCKCHAINS = new Set([
 
 const BLOCKCHAINS_ORDER = [...VALID_BLOCKCHAINS]
 
+export const BLOCKCHAINS_NAMES = {
+  btc: 'Bitcoin',
+  eth: 'Ethereum',
+  bep20: 'BNB Chain',
+  ripple: 'Ripple',
+  cardano: 'Cardano',
+  doge: 'Dogecoin',
+  polygon: 'Polygon',
+  avalanche: 'Avalanche',
+  ltc: 'Litecoin',
+  bch: 'Bitcoin Cash',
+  optimism: 'Optimism',
+}
+
 function precacher({ getAvailableBlockchains }: Query) {
   getAvailableBlockchains.forEach((data) => {
     data.slug = data.blockchain

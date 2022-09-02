@@ -1,27 +1,27 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-let className = 'mrg-s mrg--t';
-export { className as class };
-export let searchTerm = '';
-export let placeholder = 'Search metrics';
-export let autofocus = false;
-let input = '';
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  let className = 'mrg-s mrg--t'
+  export { className as class }
+  export let searchTerm = ''
+  export let placeholder = 'Search metrics'
+  export let autofocus = false
+  let input = ''
 
-$: searchTerm = input.toLowerCase();
+  $: searchTerm = input.toLowerCase()
 
-let timer;
+  let timer
 
-function onInput({
-  target
-}) {
-  window.clearTimeout(timer);
-  timer = window.setTimeout(() => {
-    input = target.value;
-  }, 200);
-}</script>
+  function onInput({ target }) {
+    window.clearTimeout(timer)
+    timer = window.setTimeout(() => {
+      input = target.value
+    }, 200)
+  }
+</script>
 
 <!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center fluid {className}">
-  <Svg id="search" w="12" class="search-V6BXYG" />
+  <Svg id="search" w="12" class="search-V1O5CC" />
   <input type="text" on:input={onInput} {placeholder} {autofocus} />
 </div>
 
@@ -45,7 +45,7 @@ function onInput({
     color: var(--black);
   }
 
-  :global(.search-V6BXYG) {
+  :global(.search-V1O5CC) {
     position: absolute;
     left: 14px;
   }
