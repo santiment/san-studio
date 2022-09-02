@@ -2,7 +2,7 @@
   import Svg from 'san-webkit/lib/ui/Svg/svelte'
   import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
   import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { queryAvailableBlockchains } from './../../lib/api/blockchains'
+  import { BLOCKCHAINS_NAMES, queryAvailableBlockchains } from './../../lib/api/blockchains'
   export let blockchain = undefined
   export let inputNode
   let blockchains = []
@@ -29,7 +29,7 @@
       {#if blockchain}
         <div class="row v-center">
           <ProjectIcon slug={blockchain.slug} size={16} class="mrg-s mrg--r" />
-          {blockchain.blockchain}
+          {BLOCKCHAINS_NAMES[blockchain.infrastructure.toLowerCase()]}
         </div>
       {:else}
         All blockchains
@@ -43,7 +43,7 @@
       {#each blockchains as item (item.slug)}
         <div class="btn-ghost row v-center" on:click={() => onBlockchainSelect(item)}>
           <ProjectIcon slug={item.slug} size={24} class="mrg-s mrg--r" />
-          {item.blockchain}
+          {BLOCKCHAINS_NAMES[item.infrastructure.toLowerCase()]}
         </div>
       {/each}
     </svelte:fragment>
