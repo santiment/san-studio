@@ -1,51 +1,50 @@
-<script lang="ts">
-  import { queryProjectMetrics } from './../../lib/api/metrics'
-  import { studio } from './../../lib/stores/studio'
-  import { globals } from './../../lib/stores/globals'
-  import { getMetricsSelectorGraph } from './../../lib/metrics/selector/utils'
-  import { convertBaseProjectMetric } from './../../lib/ChartWidget/Metrics/utils'
-  import Search from './../../lib/Sidebar/Search.svelte'
-  import VirtualList from './VirtualList.svelte'
-  import ProjectSelector from './ProjectSelector.svelte'
-  export let onMetricSelect
-  let availableMetrics = []
-  let searchTerm = ''
-  let project
+<script lang="ts">import { queryProjectMetrics } from './../../lib/api/metrics';
+import { studio } from './../../lib/stores/studio';
+import { globals } from './../../lib/stores/globals';
+import { getMetricsSelectorGraph } from './../../lib/metrics/selector/utils';
+import { convertBaseProjectMetric } from './../../lib/ChartWidget/Metrics/utils';
+import Search from './../../lib/Sidebar/Search.svelte';
+import VirtualList from './VirtualList.svelte';
+import ProjectSelector from './ProjectSelector.svelte';
+export let onMetricSelect;
+let availableMetrics = [];
+let searchTerm = '';
+let project;
 
-  $: ({ slug } = $studio)
+$: ({
+  slug
+} = $studio);
 
-  $: queryProjectMetrics(
-    (project === null || project === void 0 ? void 0 : project.slug) || slug,
-  ).then((items) => (availableMetrics = items))
+$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then(items => availableMetrics = items);
 
-  $: graph = getMetricsSelectorGraph(
-    availableMetrics,
-    Object.assign({}, $globals, project || $studio),
-  )
+$: graph = getMetricsSelectorGraph(availableMetrics, Object.assign({}, $globals, project || $studio));
 
-  $: items = (searchTerm, getItems(graph))
+$: items = (searchTerm, getItems(graph));
 
-  const selectorTypeFilter = ({ selectorType }) => selectorType === undefined
+const selectorTypeFilter = ({
+  selectorType
+}) => selectorType === undefined;
 
-  const itemsFilter = ({ selectorType, label }) =>
-    selectorType === undefined && label.toLowerCase().includes(searchTerm)
+const itemsFilter = ({
+  selectorType,
+  label
+}) => selectorType === undefined && label.toLowerCase().includes(searchTerm);
 
-  function getItems(graph) {
-    const items = Object.values(graph).flat()
-    return items.filter(searchTerm ? itemsFilter : selectorTypeFilter)
-  }
+function getItems(graph) {
+  const items = Object.values(graph).flat();
+  return items.filter(searchTerm ? itemsFilter : selectorTypeFilter);
+}
 
-  function onSelect(metric) {
-    onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric)
-  }
-</script>
+function onSelect(metric) {
+  onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric);
+}</script>
 
 <div class="sidebar column">
   <ProjectSelector class="mrg-s mrg--b" bind:project />
 
   <Search class="mrg-s mrg--b" autofocus placeholder="Search metrics" bind:searchTerm />
 
-  <VirtualList class="items-MzFYW0" {items} let:item>
+  <VirtualList class="items-9hjDVp" {items} let:item>
     <div class="item btn-ghost" on:click={() => onSelect(item)}>
       {item.label}
     </div>
@@ -60,7 +59,7 @@
     width: 280px;
   }
 
-  :global(.items-MzFYW0) {
+  :global(.items-9hjDVp) {
     overflow-y: auto;
     height: 100%;
   }

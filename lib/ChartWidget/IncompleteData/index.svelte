@@ -1,49 +1,59 @@
-<script lang="ts">
-  var _a
+<script lang="ts">var _a;
 
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { queryRestrictedDates } from './../../../lib/api/metrics/restrictions'
-  import { getWidget } from './../../../lib/ChartWidget/context'
-  import Info from './Info.svelte'
-  import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
-  const { Metrics } = getWidget()
-  const shouldShowBanner = checkShouldShowBanner()
-  export let chart
-  let banner
-  let restrictions
-  let metricRestrictions = null
-  queryRestrictedDates().then((data) => (restrictions = data))
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { queryRestrictedDates } from './../../../lib/api/metrics/restrictions';
+import { getWidget } from './../../../lib/ChartWidget/context';
+import Info from './Info.svelte';
+import { checkShouldShowBanner, closeBanners, formatDate } from './utils';
+const {
+  Metrics
+} = getWidget();
+const shouldShowBanner = checkShouldShowBanner();
+export let chart;
+let banner;
+let restrictions;
+let metricRestrictions = null;
+queryRestrictedDates().then(data => restrictions = data);
 
-  $: restrictedMetrics = restrictions ? filterMetrics($Metrics) : []
+$: restrictedMetrics = restrictions ? filterMetrics($Metrics) : [];
 
-  $: if (banner && chart) {
-    ;(_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner)
-  }
+$: if (banner && chart) {
+  (_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner);
+}
 
-  function metricsFilter({ key, queryKey = key }) {
-    const data = restrictions[queryKey]
-    return data && (data.restrictedFrom || data.restrictedTo)
-  }
+function metricsFilter({
+  key,
+  queryKey = key
+}) {
+  const data = restrictions[queryKey];
+  return data && (data.restrictedFrom || data.restrictedTo);
+}
 
-  function filterMetrics(metrics) {
-    metricRestrictions = null
-    return metrics.filter(metricsFilter)
-  }
+function filterMetrics(metrics) {
+  metricRestrictions = null;
+  return metrics.filter(metricsFilter);
+}
 
-  function formatMetrics() {
-    if (metricRestrictions) return metricRestrictions
-    metricRestrictions = restrictedMetrics.map(({ key, queryKey = key, label }) => {
-      const { restrictedFrom: from, restrictedTo: to } = restrictions[queryKey]
-      const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to)
-      return `${label} (${date})`
-    })
-    return metricRestrictions
-  }
-</script>
+function formatMetrics() {
+  if (metricRestrictions) return metricRestrictions;
+  metricRestrictions = restrictedMetrics.map(({
+    key,
+    queryKey = key,
+    label
+  }) => {
+    const {
+      restrictedFrom: from,
+      restrictedTo: to
+    } = restrictions[queryKey];
+    const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to);
+    return `${label} (${date})`;
+  });
+  return metricRestrictions;
+}</script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-2QdzVt">
+  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-HDhzta">
     <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
       Incomplete data
     </div>
@@ -78,7 +88,7 @@
     --color-hover: var(--orange-hover);
   }
 
-  :global(.tooltip-2QdzVt) {
+  :global(.tooltip-HDhzta) {
     padding: 16px 24px;
     width: 285px;
     z-index: 11 !important;

@@ -1,101 +1,98 @@
 <svelte:options immutable />
 
-<script context="module">
-  import { Preloader } from 'san-webkit/lib/utils/fn'
-  import { queryAllProjects } from './../../lib/api/project'
-  export const preloadSuggestions = Preloader(queryAllProjects)
-</script>
+<script context="module">import { Preloader } from 'san-webkit/lib/utils/fn';
+import { queryAllProjects } from './../../lib/api/project';
+export const preloadSuggestions = Preloader(queryAllProjects);</script>
 
-<script lang="ts">
-  import { tick } from 'svelte'
-  import { getAddressInfrastructure } from 'san-webkit/lib/utils/address'
-  import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte'
-  import Asset from './Suggestion/Asset.svelte'
-  import Address from './Suggestion/Address.svelte'
-  import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils'
-  let filtered = []
-  export let searchTerm = ''
-  export { filtered as items }
-  export let cursor = 0
-  export let blockchain
-  export let onSelect
-  queryAllProjects().then((projects) => (items = projects.map(mapProject)))
-  const recents = getRecents()
-  const AssetSlugRecent = getRecentAssetMap(recents)
-  const DEFAULT_HEADERS = recents.length
-    ? {
-        0: 'Recents',
-        [recents.length]: 'Assets',
-      }
-    : {
-        0: 'Assets',
-      }
-  let node
-  let items = []
-  let renderHeight
-  let headers = DEFAULT_HEADERS
+<script lang="ts">import { tick } from 'svelte';
+import { getAddressInfrastructure } from 'san-webkit/lib/utils/address';
+import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
+import Asset from './Suggestion/Asset.svelte';
+import Address from './Suggestion/Address.svelte';
+import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils';
+let filtered = [];
+export let searchTerm = '';
+export { filtered as items };
+export let cursor = 0;
+export let blockchain;
+export let onSelect;
+queryAllProjects().then(projects => items = projects.map(mapProject));
+const recents = getRecents();
+const AssetSlugRecent = getRecentAssetMap(recents);
+const DEFAULT_HEADERS = recents.length ? {
+  0: 'Recents',
+  [recents.length]: 'Assets'
+} : {
+  0: 'Assets'
+};
+let node;
+let items = [];
+let renderHeight;
+let headers = DEFAULT_HEADERS;
 
-  $: filtered = filter(searchTerm, items, blockchain)
+$: filtered = filter(searchTerm, items, blockchain);
 
-  $: cursor, tick().then(scrollToCursor)
+$: cursor, tick().then(scrollToCursor);
 
-  function mapProject(project) {
-    const { slug, priceUsd } = project
-    project.key = slug
-    if (AssetSlugRecent[slug]) AssetSlugRecent[slug].priceUsd = priceUsd
-    return project
+function mapProject(project) {
+  const {
+    slug,
+    priceUsd
+  } = project;
+  project.key = slug;
+  if (AssetSlugRecent[slug]) AssetSlugRecent[slug].priceUsd = priceUsd;
+  return project;
+}
+
+function filter(searchTerm, items, blockchain) {
+  if (!searchTerm) {
+    headers = DEFAULT_HEADERS;
+    return recents.concat(blockchain ? items.filter(filterBlockchain) : items);
   }
 
-  function filter(searchTerm, items, blockchain) {
-    if (!searchTerm) {
-      headers = DEFAULT_HEADERS
-      return recents.concat(blockchain ? items.filter(filterBlockchain) : items)
-    }
-
-    if (getAddressInfrastructure(searchTerm)) {
-      headers = {
-        0: 'Address',
-      }
-      return [newAddressSuggestion(searchTerm)]
-    }
-
-    let match
-    const filtered = items.filter((item) => {
-      if (!filterBlockchain(item)) return false
-      const name = item.name.toLowerCase()
-      const ticker = item.ticker.toLowerCase()
-
-      if (!match && (name === searchTerm || ticker === searchTerm)) {
-        match = item
-      }
-
-      return name.includes(searchTerm) || ticker.includes(searchTerm)
-    })
-
-    if (match) {
-      const index = filtered.indexOf(match)
-      filtered.splice(index, 1)
-      filtered.splice(0, 0, match)
-    }
-
+  if (getAddressInfrastructure(searchTerm)) {
     headers = {
-      0: 'Assets',
+      0: 'Address'
+    };
+    return [newAddressSuggestion(searchTerm)];
+  }
+
+  let match;
+  const filtered = items.filter(item => {
+    if (!filterBlockchain(item)) return false;
+    const name = item.name.toLowerCase();
+    const ticker = item.ticker.toLowerCase();
+
+    if (!match && (name === searchTerm || ticker === searchTerm)) {
+      match = item;
     }
-    return filtered
+
+    return name.includes(searchTerm) || ticker.includes(searchTerm);
+  });
+
+  if (match) {
+    const index = filtered.indexOf(match);
+    filtered.splice(index, 1);
+    filtered.splice(0, 0, match);
   }
 
-  function filterBlockchain(item) {
-    return blockchain ? blockchain.infrastructure === item.infrastructure : true
-  }
+  headers = {
+    0: 'Assets'
+  };
+  return filtered;
+}
 
-  function scrollToCursor() {
-    node === null || node === void 0 ? void 0 : node.scroll(0, renderHeight * cursor)
-  }
-</script>
+function filterBlockchain(item) {
+  return blockchain ? blockchain.infrastructure === item.infrastructure : true;
+}
+
+function scrollToCursor() {
+  node === null || node === void 0 ? void 0 : node.scroll(0, renderHeight * cursor);
+}</script>
 
 <VirtualList
   hideEmptyResults
-  class="suggestions-i_98iz {!filtered.length ? 'hide' : ''}"
+  class="suggestions-VUuqS3 {!filtered.length ? 'hide' : ''}"
   items={filtered}
   key="key"
   defaultItemHeight={48}
@@ -120,12 +117,10 @@
   {/if}
 </VirtualList>
 
-<style lang="scss">
-  :global(.suggestions-i_98iz) {
-    border-top: 1px solid var(--porcelain);
-  }
+<style lang="scss">:global(.suggestions-VUuqS3) {
+  border-top: 1px solid var(--porcelain);
+}
 
-  :global(.suggestions-i_98iz) :global(.list) {
-    padding: 16px 24px;
-  }
-</style>
+:global(.suggestions-VUuqS3) :global(.list) {
+  padding: 16px 24px;
+}</style>

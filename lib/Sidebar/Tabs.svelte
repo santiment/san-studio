@@ -1,7 +1,5 @@
-<script lang="ts">
-  export let tab
-  export let tabs
-</script>
+<script lang="ts">export let tab;
+export let tabs;</script>
 
 <div class="tabs row txt-m">
   {#each tabs as id}

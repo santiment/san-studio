@@ -1,6 +1,4 @@
-<script lang="ts">
-  export let src
-</script>
+<script lang="ts">export let src;</script>
 
 <div class="chart mrg-l mrg--l">
   <iframe title="Preview" scrolling="no" {src} />

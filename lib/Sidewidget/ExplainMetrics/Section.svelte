@@ -1,7 +1,5 @@
-<script>
-  export let title
-  export let loading = false
-</script>
+<script>export let title;
+export let loading = false;</script>
 
 <h4 class="mrg-xl mrg--t">{title}</h4>
 <p class="mrg-s mrg--t c-waterloo" class:loading>

@@ -1,120 +1,106 @@
-<script lang="ts">
-  import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history'
-  import ChartWidget from './../../lib/ChartWidget/index.svelte'
-  import { initWidget } from './../../lib/ChartWidget/context'
-  import {
-    HolderDistributionMetric,
-    HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
-  } from './../../lib/metrics/_onchain/holderDistributions'
-  import { buildMergedMetric } from './utils'
-  import Sidebar from './Sidebar.svelte'
-  const History = getHistoryContext()
-  export let widget
-  export let metrics = HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
-  export let defaultMetrics
-  export let isSingleWidget
-  export let deleteWidget
-  export let isMerging = false
+<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import ChartWidget from './../../lib/ChartWidget/index.svelte';
+import { initWidget } from './../../lib/ChartWidget/context';
+import { HolderDistributionMetric, HOLDER_DISTRIBUTION_ABSOLUTE_METRICS } from './../../lib/metrics/_onchain/holderDistributions';
+import { buildMergedMetric } from './utils';
+import Sidebar from './Sidebar.svelte';
+const History = getHistoryContext();
+export let widget;
+export let metrics = HOLDER_DISTRIBUTION_ABSOLUTE_METRICS;
+export let defaultMetrics;
+export let isSingleWidget;
+export let deleteWidget;
+export let isMerging = false;
 
-  if (!widget.metrics) {
-    widget.metrics = defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice()
+if (!widget.metrics) {
+  widget.metrics = defaultMetrics || HOLDER_DISTRIBUTION_ABSOLUTE_METRICS.slice();
+}
+
+if (!widget.Metrics) initWidget(widget);
+const {
+  Metrics,
+  ChartColors
+} = widget;
+
+const newHistory = (name, undo, redo = undo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
+
+let mergingMetrics = new Set();
+let mergedMetrics = widget.mergedMetrics || [];
+let mergedMetricsSet = new Set(mergedMetrics);
+let mergedKeysSet = new Set(mergedMetrics.map(({
+  key
+}) => key));
+
+$: colors = $ChartColors;
+
+function metricsFilter(metric) {
+  return !HolderDistributionMetric[metric.key] && !mergedMetricsSet.has(metric);
+}
+
+function checkMetric(metric) {
+  if (mergingMetrics.has(metric)) {
+    mergingMetrics.delete(metric);
+  } else {
+    mergingMetrics.add(metric);
   }
 
-  if (!widget.Metrics) initWidget(widget)
-  const { Metrics, ChartColors } = widget
+  mergingMetrics = mergingMetrics;
+}
 
-  const newHistory = (name, undo, redo = undo) =>
-    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
+function onMetricClick(metric, e) {
+  if (isMerging) return checkMetric(metric);
+  const oldMetrics = $Metrics.slice();
+  const {
+    metaKey,
+    ctrlKey
+  } = e;
 
-  let mergingMetrics = new Set()
-  let mergedMetrics = widget.mergedMetrics || []
-  let mergedMetricsSet = new Set(mergedMetrics)
-  let mergedKeysSet = new Set(mergedMetrics.map(({ key }) => key))
-
-  $: colors = $ChartColors
-
-  function metricsFilter(metric) {
-    return !HolderDistributionMetric[metric.key] && !mergedMetricsSet.has(metric)
+  if (metaKey || ctrlKey) {
+    const newMetrics = [metric];
+    newHistory('Toggle metric', () => Metrics.set(oldMetrics), () => Metrics.set(newMetrics));
+    return Metrics.set(newMetrics);
   }
 
-  function checkMetric(metric) {
-    if (mergingMetrics.has(metric)) {
-      mergingMetrics.delete(metric)
-    } else {
-      mergingMetrics.add(metric)
-    }
+  if ($Metrics.length === 1 && $Metrics.includes(metric)) return;
+  newHistory('Toggle metric', () => Metrics.set(oldMetrics), () => Metrics.toggle(metric));
+  Metrics.toggle(metric);
+}
 
-    mergingMetrics = mergingMetrics
+function onMergeClick() {
+  if (!isMerging) return isMerging = true;
+
+  if (mergingMetrics.size > 1) {
+    const metric = buildMergedMetric(Array.from(mergingMetrics));
+    addMergedMetrics(metric);
+    newHistory('Merge metrics', () => unmergeMetrics(metric), () => addMergedMetrics(metric));
   }
 
-  function onMetricClick(metric, e) {
-    if (isMerging) return checkMetric(metric)
-    const oldMetrics = $Metrics.slice()
-    const { metaKey, ctrlKey } = e
+  mergingMetrics = new Set();
+  isMerging = false;
+}
 
-    if (metaKey || ctrlKey) {
-      const newMetrics = [metric]
-      newHistory(
-        'Toggle metric',
-        () => Metrics.set(oldMetrics),
-        () => Metrics.set(newMetrics),
-      )
-      return Metrics.set(newMetrics)
-    }
+function onUnmergeClick(metric) {
+  unmergeMetrics(metric);
+  newHistory('Unmerge metrics', () => addMergedMetrics(metric), () => unmergeMetrics(metric));
+}
 
-    if ($Metrics.length === 1 && $Metrics.includes(metric)) return
-    newHistory(
-      'Toggle metric',
-      () => Metrics.set(oldMetrics),
-      () => Metrics.toggle(metric),
-    )
-    Metrics.toggle(metric)
-  }
+function addMergedMetrics(metric) {
+  if (mergedKeysSet.has(metric.key)) return;
+  Metrics.add(metric);
+  mergedKeysSet.add(metric.key);
+  mergedMetrics = Array.from(mergedMetricsSet.add(metric));
+}
 
-  function onMergeClick() {
-    if (!isMerging) return (isMerging = true)
+function unmergeMetrics(metric) {
+  mergedMetricsSet.delete(metric);
+  mergedKeysSet.delete(metric.key);
+  mergedMetrics = Array.from(mergedMetricsSet);
+  Metrics.delete(metric);
+}
 
-    if (mergingMetrics.size > 1) {
-      const metric = buildMergedMetric(Array.from(mergingMetrics))
-      addMergedMetrics(metric)
-      newHistory(
-        'Merge metrics',
-        () => unmergeMetrics(metric),
-        () => addMergedMetrics(metric),
-      )
-    }
-
-    mergingMetrics = new Set()
-    isMerging = false
-  }
-
-  function onUnmergeClick(metric) {
-    unmergeMetrics(metric)
-    newHistory(
-      'Unmerge metrics',
-      () => addMergedMetrics(metric),
-      () => unmergeMetrics(metric),
-    )
-  }
-
-  function addMergedMetrics(metric) {
-    if (mergedKeysSet.has(metric.key)) return
-    Metrics.add(metric)
-    mergedKeysSet.add(metric.key)
-    mergedMetrics = Array.from(mergedMetricsSet.add(metric))
-  }
-
-  function unmergeMetrics(metric) {
-    mergedMetricsSet.delete(metric)
-    mergedKeysSet.delete(metric.key)
-    mergedMetrics = Array.from(mergedMetricsSet)
-    Metrics.delete(metric)
-  }
-
-  function onWidgetDelete(isForced = false) {
-    if (isForced) deleteWidget()
-  }
-</script>
+function onWidgetDelete(isForced = false) {
+  if (isForced) deleteWidget();
+}</script>
 
 <div class="widget row">
   <ChartWidget {widget} {metricsFilter} {isSingleWidget} deleteWidget={onWidgetDelete} />

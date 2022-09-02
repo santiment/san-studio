@@ -1,8 +1,6 @@
-<script>
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { showMasterSelectorDialog } from './../../lib/MasterSelectorDialog'
-  import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions.svelte'
-</script>
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { showMasterSelectorDialog } from './../../lib/MasterSelectorDialog';
+import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions.svelte';</script>
 
 <div
   id="fw-master-selector"
@@ -11,7 +9,7 @@
   use:preloadSuggestions
 >
   <slot />
-  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-yIxO9R" />
+  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-DpFad1" />
 </div>
 
 <style>
@@ -21,7 +19,7 @@
     user-select: text;
   }
 
-  :global(.svg-yIxO9R) {
+  :global(.svg-DpFad1) {
     user-select: all;
   }
 </style>

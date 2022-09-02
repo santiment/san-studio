@@ -1,20 +1,18 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { queryAvailableBlockchains } from './../../lib/api/blockchains'
-  export let blockchain = undefined
-  export let inputNode
-  let blockchains = []
-  let isOpened = false
-  queryAvailableBlockchains().then((data) => (blockchains = data))
+<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import { BLOCKCHAINS_NAMES, queryAvailableBlockchains } from './../../lib/api/blockchains';
+export let blockchain = undefined;
+export let inputNode;
+let blockchains = [];
+let isOpened = false;
+queryAvailableBlockchains().then(data => blockchains = data);
 
-  function onBlockchainSelect(selected) {
-    blockchain = selected
-    isOpened = false
-    inputNode.focus()
-  }
-</script>
+function onBlockchainSelect(selected) {
+  blockchain = selected;
+  isOpened = false;
+  inputNode.focus();
+}</script>
 
 <div class="relative mrg-l mrg--r">
   <Tooltip
@@ -22,19 +20,18 @@
     on="click"
     offsetY={4}
     align="center"
-    class="tooltip-JDRPoQ"
-    activeClass="active-PY04DI"
-  >
+    class="tooltip-7fm9Hc"
+    activeClass="active-MqIDuN">
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
         <div class="row v-center">
           <ProjectIcon slug={blockchain.slug} size={16} class="mrg-s mrg--r" />
-          {blockchain.blockchain}
+          {BLOCKCHAINS_NAMES[blockchain.infrastructure.toLowerCase()]}
         </div>
       {:else}
         All blockchains
       {/if}
-      <Svg id="arrow" w="8" h="5" class="arrow-Bu2d4+ mrg-s mrg--l" />
+      <Svg id="arrow" w="8" h="5" class="arrow-LC6DEx mrg-s mrg--l" />
     </button>
 
     <svelte:fragment slot="tooltip">
@@ -43,7 +40,7 @@
       {#each blockchains as item (item.slug)}
         <div class="btn-ghost row v-center" on:click={() => onBlockchainSelect(item)}>
           <ProjectIcon slug={item.slug} size={24} class="mrg-s mrg--r" />
-          {item.blockchain}
+          {BLOCKCHAINS_NAMES[item.infrastructure.toLowerCase()]}
         </div>
       {/each}
     </svelte:fragment>
@@ -56,15 +53,15 @@
     fill: var(--waterloo);
   }
 
-  :global(.active-PY04DI) {
+  :global(.active-MqIDuN) {
     --border: var(--green);
   }
 
-  :global(.arrow-Bu2d4\+) {
+  :global(.arrow-LC6DEx) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-JDRPoQ) {
+  :global(.tooltip-7fm9Hc) {
     padding: 8px;
     min-width: 100%;
   }

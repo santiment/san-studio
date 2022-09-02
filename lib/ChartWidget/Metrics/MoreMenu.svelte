@@ -1,64 +1,69 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import { copy } from 'san-webkit/lib/utils'
-  import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics'
-  import { globals } from './../../../lib/stores/globals'
-  import { studio } from './../../../lib/stores/studio'
-  import { selectedItems } from './../../../lib/stores/selector'
-  import { getWidget } from './../../../lib/ChartWidget/context'
-  import { getAdapterController } from './../../../lib/adapter/context'
-  const History = getHistoryContext()
-  const widget = getWidget()
+<script lang="ts">import { onDestroy } from 'svelte';
+import { copy } from 'san-webkit/lib/utils';
+import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics';
+import { globals } from './../../../lib/stores/globals';
+import { studio } from './../../../lib/stores/studio';
+import { selectedItems } from './../../../lib/stores/selector';
+import { getWidget } from './../../../lib/ChartWidget/context';
+import { getAdapterController } from './../../../lib/adapter/context';
+const History = getHistoryContext();
+const widget = getWidget();
 
-  const newHistory = (name, undo, redo) =>
-    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
+const newHistory = (name, undo, redo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
 
-  const { Metrics, MetricsSignals, HiddenMetrics } = widget
-  const { onAnonFavoriteClick = () => {} } = getAdapterController()
-  export let metric
-  export let address
-  export let isMenuOpened, isSettingsOpened, isLocked, isHidden, isMultipleMetricsOnChart
-  export let onLockClick, onSettings
+const {
+  Metrics,
+  MetricsSignals,
+  HiddenMetrics
+} = widget;
+const {
+  onAnonFavoriteClick = () => {}
+} = getAdapterController();
+export let metric;
+export let address;
+export let isMenuOpened, isSettingsOpened, isLocked, isHidden, isMultipleMetricsOnChart;
+export let onLockClick, onSettings;
 
-  $: isFavorited = $favoriteMetrics.has(metric.key)
+$: isFavorited = $favoriteMetrics.has(metric.key);
 
-  function onFavoriteClick() {
-    if (!$globals.isLoggedIn) return onAnonFavoriteClick()
-    const { key } = metric
-    favoriteMetrics.toggle(key)
-    History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
-  }
+function onFavoriteClick() {
+  if (!$globals.isLoggedIn) return onAnonFavoriteClick();
+  const {
+    key
+  } = metric;
+  favoriteMetrics.toggle(key);
+  History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
+}
 
-  function onHideSignal() {
-    const redo = () => MetricsSignals.delete(metric)
+function onHideSignal() {
+  const redo = () => MetricsSignals.delete(metric);
 
-    redo()
-    newHistory('Hide signals', () => MetricsSignals.add(metric), redo)
-  }
+  redo();
+  newHistory('Hide signals', () => MetricsSignals.add(metric), redo);
+}
 
-  let copyLabel = 'Copy address'
-  let clearTimeout
+let copyLabel = 'Copy address';
+let clearTimeout;
 
-  function onAddressCopy() {
-    clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout()
-    copyLabel = 'Copied!'
-    clearTimeout = copy(address || $studio.address, () => (copyLabel = 'Copy address'))
-  }
+function onAddressCopy() {
+  clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
+  copyLabel = 'Copied!';
+  clearTimeout = copy(address || $studio.address, () => copyLabel = 'Copy address');
+}
 
-  onDestroy(() => {
-    clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout()
-  })
-</script>
+onDestroy(() => {
+  clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
+});</script>
 
 <Tooltip
   bind:isOpened={isMenuOpened}
   on="click"
   duration={0}
   align="center"
-  activeClass="active-rC+67+"
+  activeClass="active-2gspZ3"
 >
   <div slot="trigger" class="btn MetricButton__btn mrg-s mrg--l">
     <Svg id="vert-dots" w="2" h="12" />
@@ -96,7 +101,7 @@
 
     {#if $MetricsSignals.includes(metric)}
       <div class="btn-ghost option" on:click={onHideSignal}>
-        <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-A_k8YX" />
+        <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-D51acl" />
         Hide signals
       </div>
     {/if}
@@ -143,7 +148,7 @@
     fill: var(--orange-hover);
   }
 
-  :global(.active-rC\+67\+) {
+  :global(.active-2gspZ3) {
     --bg: var(--m-color);
     --fill: var(--color) !important;
   }
@@ -153,7 +158,7 @@
     fill: var(--mystic);
   }
 
-  :global(.flash-A_k8YX) {
+  :global(.flash-D51acl) {
     fill: var(--red);
     padding: 0 2px;
   }

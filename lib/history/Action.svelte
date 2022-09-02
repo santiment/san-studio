@@ -1,37 +1,32 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import { fade } from 'svelte/transition'
-  export let HistoryEmitter
-  let action
-  let name
-  let node
+<script lang="ts">import { onDestroy } from 'svelte';
+import { fade } from 'svelte/transition';
+export let HistoryEmitter;
+let action;
+let name;
+let node;
 
-  $: if ($HistoryEmitter) notify()
+$: if ($HistoryEmitter) notify();
 
-  let timer
-  let popTimer
+let timer;
+let popTimer;
 
-  function notify() {
-    action = $HistoryEmitter.action
-    name = $HistoryEmitter.name
-    clearTimeout(timer)
-    timer = setTimeout(() => (action = undefined), 900)
-  }
+function notify() {
+  action = $HistoryEmitter.action;
+  name = $HistoryEmitter.name;
+  clearTimeout(timer);
+  timer = setTimeout(() => action = undefined, 900);
+}
 
-  $: if (node && timer) {
-    clearTimeout(popTimer)
-    node.classList.remove('pop-l4TjFL')
-    node.classList.add('pop-l4TjFL')
-    popTimer = setTimeout(
-      () => (node === null || node === void 0 ? void 0 : node.classList.remove('pop-l4TjFL')),
-      120,
-    )
-  }
+$: if (node && timer) {
+  clearTimeout(popTimer);
+  node.classList.remove('pop-fYt8FW');
+  node.classList.add('pop-fYt8FW');
+  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-fYt8FW'), 120);
+}
 
-  onDestroy(() => {
-    clearTimeout(timer)
-  })
-</script>
+onDestroy(() => {
+  clearTimeout(timer);
+});</script>
 
 {#if action}
   <div bind:this={node} class="box" transition:fade={{ duration: 130 }}>
@@ -53,7 +48,7 @@
     transition: transform 100ms;
   }
 
-  :global(.pop-l4TjFL) {
+  :global(.pop-fYt8FW) {
     transform: translateX(-50%) scale(1.07) !important;
   }
 </style>

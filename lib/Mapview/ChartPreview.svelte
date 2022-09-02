@@ -1,50 +1,51 @@
-<script lang="ts">
-  import { onDestroy, onMount, tick } from 'svelte'
-  import { initChart } from '@santiment-network/chart'
-  import Preview from './Preview.svelte'
-  import MetricButton from './../../lib/MetricButton.svelte'
-  import { clearCtx } from './../../lib/Chart/utils'
-  import { subscribeWidgetDataLoadedEvent } from './../../lib/ChartWidget/context'
-  export let widget
-  export let onClick
-  export let isMetricsPhase
-  export let wasHiddenWidgets = false
-  const { ChartColors, Metrics, IsLoaded, isBlocked } = widget
-  let chart
-  let canvas
-  let unsubscribeWidgetDataLoaded
+<script lang="ts">import { onDestroy, onMount, tick } from 'svelte';
+import { initChart } from '@santiment-network/chart';
+import Preview from './Preview.svelte';
+import MetricButton from './../../lib/MetricButton.svelte';
+import { clearCtx } from './../../lib/Chart/utils';
+import { subscribeWidgetDataLoadedEvent } from './../../lib/ChartWidget/context';
+export let widget;
+export let onClick;
+export let isMetricsPhase;
+export let wasHiddenWidgets = false;
+const {
+  ChartColors,
+  Metrics,
+  IsLoaded,
+  isBlocked
+} = widget;
+let chart;
+let canvas;
+let unsubscribeWidgetDataLoaded;
 
-  $: $IsLoaded, requestAnimationFrame(drawChart)
+$: $IsLoaded, requestAnimationFrame(drawChart);
 
-  if (!widget.chart) {
-    unsubscribeWidgetDataLoaded = subscribeWidgetDataLoadedEvent(({ detail }) => {
-      if (detail !== widget) return
-      tick()
-        .then(tick)
-        .then(() => {
-          drawChart()
-          if (wasHiddenWidgets) widget.hide()
-        })
-    })
-  }
+if (!widget.chart) {
+  unsubscribeWidgetDataLoaded = subscribeWidgetDataLoadedEvent(({
+    detail
+  }) => {
+    if (detail !== widget) return;
+    tick().then(tick).then(() => {
+      drawChart();
+      if (wasHiddenWidgets) widget.hide();
+    });
+  });
+}
 
-  onMount(() => {
-    chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight)
-    drawChart()
-  })
+onMount(() => {
+  chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
+  drawChart();
+});
 
-  function drawChart() {
-    if (!chart || !widget.chart) return
-    clearCtx(chart)
-    chart.ctx.drawImage(widget.chart.canvas, 0, 5, chart.canvasWidth, chart.canvasHeight + 25)
-  }
+function drawChart() {
+  if (!chart || !widget.chart) return;
+  clearCtx(chart);
+  chart.ctx.drawImage(widget.chart.canvas, 0, 5, chart.canvasWidth, chart.canvasHeight + 25);
+}
 
-  onDestroy(() => {
-    unsubscribeWidgetDataLoaded === null || unsubscribeWidgetDataLoaded === void 0
-      ? void 0
-      : unsubscribeWidgetDataLoaded()
-  })
-</script>
+onDestroy(() => {
+  unsubscribeWidgetDataLoaded === null || unsubscribeWidgetDataLoaded === void 0 ? void 0 : unsubscribeWidgetDataLoaded();
+});</script>
 
 <Preview
   {widget}
