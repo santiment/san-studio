@@ -51,7 +51,7 @@ function shareSignalMetrics(signalMetrics, accessor): string[] {
 }
 
 export function shareWidget(widget) {
-  const { metrics, hiddenMetrics, axesMetrics, pinnedAxes, colors, metricSettings } = widget
+  const { metrics, hiddenMetrics = [], axesMetrics, pinnedAxes, colors, metricSettings } = widget
   const { drawings, signalMetrics, subwidgets, holderLabels, ChartAddons } = widget
   const { isSharedAxisEnabled } = widget
 
