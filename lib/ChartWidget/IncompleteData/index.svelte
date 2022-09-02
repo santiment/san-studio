@@ -53,7 +53,7 @@ function formatMetrics() {
 }</script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-HDhzta">
+  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-Y8U0V+">
     <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
       Incomplete data
     </div>
@@ -88,7 +88,7 @@ function formatMetrics() {
     --color-hover: var(--orange-hover);
   }
 
-  :global(.tooltip-HDhzta) {
+  :global(.tooltip-Y8U0V\+) {
     padding: 16px 24px;
     width: 285px;
     z-index: 11 !important;

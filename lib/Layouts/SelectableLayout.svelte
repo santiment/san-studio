@@ -18,9 +18,9 @@ $: ({
   </div>
   <div class="info row v-center">
     {#if isPublic}
-      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-2+zyFx" /> Public
+      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-zbMDOh" /> Public
     {:else}
-      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-2+zyFx" />
+      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-zbMDOh" />
       Private
     {/if}
     ·
@@ -64,7 +64,7 @@ $: ({
     --color-hover: var(--green);
   }
 
-  :global(.eye-2\+zyFx) {
+  :global(.eye-zbMDOh) {
     min-width: 14px;
   }
 
