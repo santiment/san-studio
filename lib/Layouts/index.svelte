@@ -57,6 +57,8 @@ const callIfRegistered = clb => () => {
 };
 
 function onSave() {
+  var _a;
+
   let promise;
 
   if (layout) {
@@ -73,7 +75,7 @@ function onSave() {
       metrics: getAllWidgetsMetricsKeys($Widgets),
       metricsJson: getLayoutMetrics($Widgets),
       options: {
-        widgets: (window$shareLayoutWi = window.shareLayoutWidgets) == null ? void 0 : window$shareLayoutWi.call(window, $Widgets)
+        widgets: (_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, $Widgets)
       }
     };
     promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then(layout => {
@@ -163,9 +165,9 @@ onDestroy(() => {
   <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
-  <Tooltip on="click" duration={0} align="center" class="tooltip-0jwzek">
+  <Tooltip on="click" duration={0} align="center" class="tooltip-zcLt_t">
     <div class="menu btn border" slot="trigger">
-      <Svg id="arrow" w="8" h="5" class="arrow-gBKs0S" />
+      <Svg id="arrow" w="8" h="5" class="arrow-y4+a0+" />
     </div>
 
     <div slot="tooltip">
@@ -227,11 +229,11 @@ onDestroy(() => {
     --color: var(--waterloo);
   }
 
-  :global(.arrow-gBKs0S) {
+  :global(.arrow-y4\+a0\+) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-0jwzek) {
+  :global(.tooltip-zcLt_t) {
     left: 0px !important;
     width: 200px;
     padding: 8px;

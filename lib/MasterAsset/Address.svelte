@@ -42,7 +42,7 @@ function setLabels(data) {
   {/each}
 
   {#if hidden.length}
-    <Tooltip align="end" offsetY={4} class="tooltip-CUp0ca row" openDelay={110}>
+    <Tooltip align="end" offsetY={4} class="tooltip-CnOhUX row" openDelay={110}>
       <div slot="trigger" class="label btn mrg-s mrg--l">
         +{hidden.length}
       </div>
@@ -67,7 +67,7 @@ function setLabels(data) {
     --color-hover: var(--green);
   }
 
-  :global(.tooltip-CUp0ca) {
+  :global(.tooltip-CnOhUX) {
     padding: 12px;
     z-index: 999 !important;
     max-width: 430px;
