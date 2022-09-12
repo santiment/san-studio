@@ -32,7 +32,7 @@ function onClick(e) {
   on="click"
   duration={0}
   align="center"
-  class="Tooltip-Y3IEZc"
+  class="Tooltip-10_wkt"
   activeClass="active"
 >
   <div slot="trigger" class="btn-3" class:disabled={$ChartDrawer.isHidden}>
@@ -47,7 +47,7 @@ function onClick(e) {
 </Tooltip>
 
 <style>
-  :global(.Tooltip-Y3IEZc) {
+  :global(.Tooltip-10_wkt) {
     margin-top: -6px;
   }
 

@@ -47,12 +47,12 @@ function onDeleteClick() {
   {...$$props}
   noBg
   animated={false}
-  class="dialog-yywRGc"
+  class="dialog-bbIZRY"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
   bind:closeDialog
 >
   <div class="title btn" slot="title" on:click={() => closeDialog(true)}>
-    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r arrow-Y7oS95" />
+    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r arrow-GFgnBf" />
     {layout.title}
   </div>
 
@@ -82,12 +82,12 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-yywRGc) {
+  :global(.dialog-bbIZRY) {
     width: 600px;
     height: 480px;
   }
 
-  :global(.arrow-Y7oS95) {
+  :global(.arrow-GFgnBf) {
     transform: rotate(-90deg);
   }
 

@@ -9,7 +9,7 @@ import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions
   use:preloadSuggestions
 >
   <slot />
-  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-YCp2hr" />
+  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-DpFad1" />
 </div>
 
 <style>
@@ -19,7 +19,7 @@ import { preloadSuggestions } from './../../lib/MasterSelectorDialog/Suggestions
     user-select: text;
   }
 
-  :global(.svg-YCp2hr) {
+  :global(.svg-DpFad1) {
     user-select: all;
   }
 </style>

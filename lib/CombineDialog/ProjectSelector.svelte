@@ -28,16 +28,16 @@ function onProjectSelect(newProject) {
   project = newProject && newProject.slug !== $studio.slug ? newProject : undefined;
 }</script>
 
-<Tooltip on="click" duration={0} class="tooltip-v574iC" bind:isOpened>
+<Tooltip on="click" duration={0} class="tooltip-asMeGh" bind:isOpened>
   <div slot="trigger" class="project border row v-center btn {className}">
     <Project project={project || $studio} />
-    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-REbMEB" />
+    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-CoBanl" />
   </div>
 
   <svelte:fragment slot="tooltip">
     <Search class="mrg-s mrg--b" autofocus placeholder="Search assets" bind:searchTerm />
 
-    <VirtualList class="items-rx+9qF" items={filteredItems} let:item key="slug">
+    <VirtualList class="items-z_wh+6" items={filteredItems} let:item key="slug">
       <div class="row v-center btn-ghost" on:click={() => onProjectSelect(item)}>
         <Project project={item} />
       </div>
@@ -53,17 +53,17 @@ function onProjectSelect(newProject) {
     --fill-hover: var(--green);
   }
 
-  :global(.arrow-REbMEB) {
+  :global(.arrow-CoBanl) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-v574iC) {
+  :global(.tooltip-asMeGh) {
     margin-top: -2px;
     width: 239px;
     padding: 8px;
   }
 
-  :global(.items-rx\+9qF) {
+  :global(.items-z_wh\+6) {
     height: 335px;
   }
 </style>

@@ -8,7 +8,7 @@ const settings = {
   align: 'center',
   position: 'top',
   closeTimeout: 0,
-  class: 'caption dark tooltip-swS_U4'
+  class: 'caption dark tooltip-khRyFb'
 };</script>
 
 <Context id={ID} {settings}>
@@ -20,7 +20,7 @@ const settings = {
 </Context>
 
 <style>
-  :global(.tooltip-swS_U4) {
+  :global(.tooltip-khRyFb) {
     max-width: 310px;
     z-index: 24;
   }
