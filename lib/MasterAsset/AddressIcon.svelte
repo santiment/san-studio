@@ -17,7 +17,7 @@ $: infrastructureAsset = InfrastructureAsset[infrastructure];</script>
 
 <div class="relative row hv-center mrg-s mrg--r">
   <Svg id="report" w="16" />
-  <ProjectIcon slug={infrastructureAsset} size={16} class="project-JKeSwi" />
+  <ProjectIcon slug={infrastructureAsset} size={16} class="project-SQQd0g" />
 </div>
 
 <style>
@@ -30,7 +30,7 @@ $: infrastructureAsset = InfrastructureAsset[infrastructure];</script>
     fill: var(--white);
   }
 
-  :global(.project-JKeSwi) {
+  :global(.project-SQQd0g) {
     position: absolute;
     bottom: 0;
     right: 0;

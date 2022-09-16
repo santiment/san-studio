@@ -73,7 +73,7 @@ onDestroy(unsubWidgets);</script>
 {#if !isFiltering || (isFiltering && searchedMetrics.length)}
   <Category category="Combined metrics" isOpened {isFiltering} arrowClass="mrg-l">
     <svelte:fragment slot="pre-title">
-      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-YWOpzU" />
+      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-__l+_A" />
     </svelte:fragment>
 
     <svelte:fragment slot="post-title">
@@ -94,7 +94,7 @@ onDestroy(unsubWidgets);</script>
   </Category>
 {/if}
 
-<style lang="scss">:global(.icon-YWOpzU) {
+<style lang="scss">:global(.icon-__l\+_A) {
   fill: var(--blue) !important;
 }
 

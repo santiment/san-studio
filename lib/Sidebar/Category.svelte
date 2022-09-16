@@ -43,7 +43,7 @@ const toggleGroup = ({
       {category}
 
       <slot name="post-title" />
-      <Svg id="arrow" w="8" h="5" class="arrow-6C2Ggw mrg--l {arrowClass}" />
+      <Svg id="arrow" w="8" h="5" class="arrow-DY5my9 mrg--l {arrowClass}" />
     </h3>
 
     {#if visible || isFiltering}
@@ -59,7 +59,7 @@ const toggleGroup = ({
                 class:hidden={!VisibleGroup[metric.group]}
               >
                 {metric.group}
-                <Svg id="arrow" w="8" h="5" class="arrow-6C2Ggw" />
+                <Svg id="arrow" w="8" h="5" class="arrow-DY5my9" />
               </h4>
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
@@ -87,7 +87,7 @@ const toggleGroup = ({
     font-weight: 600;
     padding: 0 8px;
   }
-  .hidden :global(.arrow-6C2Ggw) {
+  .hidden :global(.arrow-DY5my9) {
     transform: rotate(180deg);
   }
 

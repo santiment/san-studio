@@ -65,7 +65,7 @@ onDestroy(() => {
   unsubscribe === null || unsubscribe === void 0 ? void 0 : unsubscribe();
 });</script>
 
-<Dialog {...$$props} title="Load Chart Layout" class="dialog-j8zsnx" bind:closeDialog>
+<Dialog {...$$props} title="Load Chart Layout" class="dialog-6fOxr9" bind:closeDialog>
   <div class="tabs row">
     <div
       class="tab btn mrg-xl mrg--r active"
@@ -88,7 +88,7 @@ onDestroy(() => {
     items={filteredLayouts}
     key="id"
     defaultItemHeight={72}
-    class="layouts-TlIfqL"
+    class="layouts-5tHmY0"
     let:item
   >
     <SelectableLayout
@@ -101,7 +101,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-j8zsnx) {
+  :global(.dialog-6fOxr9) {
     width: 600px;
     height: 480px;
   }
@@ -131,7 +131,7 @@ onDestroy(() => {
     border-bottom: 1px solid var(--porcelain);
   }
 
-  :global(.layouts-TlIfqL) :global(.list) {
+  :global(.layouts-5tHmY0) :global(.list) {
     padding: 12px;
   }
 </style>
