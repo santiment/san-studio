@@ -117,6 +117,12 @@ const NetworkActivityMetric = each(
     network_growth: {
       label: 'Network Growth',
     },
+    transactions_count: {
+      label: 'Transaction Count',
+    },
+    payments_count: {
+      label: 'Payment Count',
+    },
     transaction_volume: {
       label: 'Transaction Volume',
       node: 'bar',
