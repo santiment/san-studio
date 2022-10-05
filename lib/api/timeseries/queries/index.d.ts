@@ -26,4 +26,5 @@ export declare function getSharedAccessHeaders(sharedAccessToken: any): {
     'X-SharedAccess-Authorization': string;
     'Content-Type': string;
     authorization: null;
+    origin: any;
 } | undefined;
