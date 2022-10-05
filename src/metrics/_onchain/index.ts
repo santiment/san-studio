@@ -98,6 +98,14 @@ const NetworkActivityMetric = each(
       label: 'Active Addresses 24h',
       node: 'bar',
     },
+    active_addresses_7d: {
+      label: 'Active Addresses 7d',
+      node: 'bar',
+    },
+    active_addresses_30d: {
+      label: 'Active Addresses 30d',
+      node: 'bar',
+    },
     circulation: {
       label: 'Circulation',
     },
