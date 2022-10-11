@@ -2,10 +2,11 @@
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
+  import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import { Event } from '@/analytics'
+  import { Blockchain, queryProjectBlockchain } from '@/api/blockchains'
   import MetricButton from '@/MetricButton.svelte'
   import { getWidget } from '@/ChartWidget/context'
-  import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getAdapterController } from '@/adapter/context'
   import { SelectorNode } from '@/metrics/selector'
@@ -18,6 +19,7 @@
   const metricErrorTooltip = getMetricErrorTooltip()
 
   export let metric: Studio.Metric
+  export let project
   export let colors
   export let error, isLoading, isSettingsOpened, isHidden
   export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
@@ -28,6 +30,8 @@
   let node
 
   $: isLocked = !!metric.project
+  $: projectSlug = metric.project?.slug || project.slug
+
   $: ({ isPresenterMode } = $globals)
   $: node && dndContext?.addItem(node)
   $: node && useErrorTooltip(node, error)
@@ -37,15 +41,17 @@
   const onMouseLeave = onLeave
 
   function onLockClick() {
-    if (Metrics.hasConvertedMetric(metric, $studio)) return
+    const settings = Object.assign({}, project)
+
+    if (Metrics.hasConvertedMetric(metric, settings)) return
 
     if (metric.project) {
       track.event(Event.UnlockMetric, { metric: metric.key })
     } else {
-      track.event(Event.LockMetric, { metric: metric.key, asset: $studio.slug })
+      track.event(Event.LockMetric, { metric: metric.key, asset: project.slug })
     }
 
-    onLock(metric, convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric))
+    onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric))
   }
 
   function useErrorTooltip(node: HTMLElement, error?: string) {
@@ -65,7 +71,7 @@
   {error}
   {isLoading}
   onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
-  ticker={$studio.ticker}
+  ticker={project.ticker}
   active={isMenuOpened}
   highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
   on:click={(e) => onClick(metric, e)}
@@ -80,7 +86,7 @@
         </div>
       {/if}
     {:else if !metric.indicator && !address}
-      ({$studio.ticker})
+      ({project.ticker})
     {/if}
   {/if}
 
@@ -99,6 +105,12 @@
       <Svg id="eye-crossed" w="11" />
     </div>
   {/if}
+
+  {#await queryProjectBlockchain(projectSlug) then blockchain}
+    {#if blockchain}
+      <ProjectIcon slug={blockchain} size={16} class="$style.blockchain" />
+    {/if}
+  {/await}
 
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
     <MoreMenu
@@ -137,5 +149,11 @@
   }
   .address::before {
     z-index: 11;
+  }
+
+  .blockchain {
+    position: absolute;
+    right: -6px;
+    top: -6px;
   }
 </style>

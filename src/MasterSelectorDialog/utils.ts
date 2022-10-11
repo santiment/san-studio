@@ -1,7 +1,6 @@
 import { saveJson, getSavedJson } from 'webkit/utils/localStorage'
 import { getAddressInfrastructure } from 'webkit/utils/address'
 import { Metric } from '@/metrics'
-import { ContractAddressMetric } from '@/metrics/_onchain/contractAddress'
 
 export function newAddressSuggestion(address: string): {
   address: string
