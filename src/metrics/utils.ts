@@ -70,7 +70,7 @@ export function newProjectMetric(project: Project, baseMetric: Studio.Metric) {
   const selector = isWatchlist ? 'watchlistSlug' : 'slug'
   const metric = deriveMetric(baseMetric, {
     key,
-    project,
+    project: { ticker, slug },
     base: baseMetric,
     label: `${baseMetric.label} (${ticker})`,
     reqMeta: {

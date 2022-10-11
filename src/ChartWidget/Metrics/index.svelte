@@ -4,6 +4,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { globals } from '@/stores/globals'
   import { getAutoUpdater } from '@/stores/autoUpdater'
+  import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
@@ -34,6 +35,7 @@
   let hoverTimer
   const clearHover = () => clearTimeout(hoverTimer)
 
+  $: project = $studio
   $: isMultipleMetricsOnChart = metrics.length > 1
   $: hiddenMetrics = $HiddenMetrics
 
@@ -59,6 +61,7 @@
         {dndContext}
         {metric}
         {colors}
+        {project}
         {isMultipleMetricsOnChart}
         error={MetricError.get(metric)}
         isHidden={hiddenMetrics.has(metric)}
@@ -75,6 +78,7 @@
     {#each $ChartAddons as metric}
       <Metric
         {metric}
+        {project}
         error={ChartAddonError.get(metric)}
         onClick={onMetricClick}
         onEnter={onMetricEnter}

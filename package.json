@@ -61,7 +61,7 @@
     "turndown": "^7.1.1",
     "mathjs": "^9.4.4",
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
-    "san-webkit": "https://github.com/santiment/san-webkit#2b10ec0"
+    "san-webkit": "https://github.com/santiment/san-webkit#1bfad39"
   },
   "peerDependencies": {
     "svelte": "^3.49.0",
