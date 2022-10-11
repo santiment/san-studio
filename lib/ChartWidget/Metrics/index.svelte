@@ -3,6 +3,7 @@ import { newSortableContext } from 'san-webkit/lib/ui/dnd/sortable';
 import { getAdapterController } from './../../../lib/adapter/context';
 import { globals } from './../../../lib/stores/globals';
 import { getAutoUpdater } from './../../../lib/stores/autoUpdater';
+import { studio } from './../../../lib/stores/studio';
 import { getWidget } from './../../../lib/ChartWidget/context';
 import Metric from './Metric.svelte';
 import AutoUpdate from './AutoUpdate.svelte';
@@ -38,6 +39,8 @@ let hoverTimer;
 
 const clearHover = () => clearTimeout(hoverTimer);
 
+$: project = $studio;
+
 $: isMultipleMetricsOnChart = metrics.length > 1;
 
 $: hiddenMetrics = $HiddenMetrics;
@@ -65,6 +68,7 @@ function onMetricLeave() {
         {dndContext}
         {metric}
         {colors}
+        {project}
         {isMultipleMetricsOnChart}
         error={MetricError.get(metric)}
         isHidden={hiddenMetrics.has(metric)}
@@ -81,6 +85,7 @@ function onMetricLeave() {
     {#each $ChartAddons as metric}
       <Metric
         {metric}
+        {project}
         error={ChartAddonError.get(metric)}
         onClick={onMetricClick}
         onEnter={onMetricEnter}

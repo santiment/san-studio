@@ -1,12 +1,13 @@
-<script lang="ts">var _a;
+<script lang="ts">var _a, _b;
 
 import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
 import { Event } from './../../../lib/analytics';
+import { queryProjectBlockchain } from './../../../lib/api/blockchains';
 import MetricButton from './../../../lib/MetricButton.svelte';
 import { getWidget } from './../../../lib/ChartWidget/context';
-import { studio } from './../../../lib/stores/studio';
 import { globals } from './../../../lib/stores/globals';
 import { getAdapterController } from './../../../lib/adapter/context';
 import { SelectorNode } from './../../../lib/metrics/selector';
@@ -23,6 +24,7 @@ const {
 } = getWidget();
 const metricErrorTooltip = getMetricErrorTooltip();
 export let metric;
+export let project;
 export let colors;
 export let error, isLoading, isSettingsOpened, isHidden;
 export let onEnter, onLeave, onClick, onDelete, onLock, onSettings;
@@ -33,6 +35,8 @@ let node;
 
 $: isLocked = !!metric.project;
 
+$: projectSlug = ((_a = metric.project) === null || _a === void 0 ? void 0 : _a.slug) || project.slug;
+
 $: ({
   isPresenterMode
 } = $globals);
@@ -41,14 +45,15 @@ $: node && (dndContext === null || dndContext === void 0 ? void 0 : dndContext.a
 
 $: node && useErrorTooltip(node, error);
 
-$: address = (_a = metric.reqMeta) === null || _a === void 0 ? void 0 : _a.address;
+$: address = (_b = metric.reqMeta) === null || _b === void 0 ? void 0 : _b.address;
 
 const onMouseEnter = () => onEnter(metric);
 
 const onMouseLeave = onLeave;
 
 function onLockClick() {
-  if (Metrics.hasConvertedMetric(metric, $studio)) return;
+  const settings = Object.assign({}, project);
+  if (Metrics.hasConvertedMetric(metric, settings)) return;
 
   if (metric.project) {
     track.event(Event.UnlockMetric, {
@@ -57,11 +62,11 @@ function onLockClick() {
   } else {
     track.event(Event.LockMetric, {
       metric: metric.key,
-      asset: $studio.slug
+      asset: project.slug
     });
   }
 
-  onLock(metric, convertBaseProjectMetric(metric, $studio), $Metrics.indexOf(metric));
+  onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric));
 }
 
 function useErrorTooltip(node, error) {
@@ -80,7 +85,7 @@ onDestroy(onMouseLeave);</script>
   {error}
   {isLoading}
   onDelete={isPresenterMode || isEmbedded ? undefined : onDelete}
-  ticker={$studio.ticker}
+  ticker={project.ticker}
   active={isMenuOpened}
   highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
   on:click={(e) => onClick(metric, e)}
@@ -95,7 +100,7 @@ onDestroy(onMouseLeave);</script>
         </div>
       {/if}
     {:else if !metric.indicator && !address}
-      ({$studio.ticker})
+      ({project.ticker})
     {/if}
   {/if}
 
@@ -114,6 +119,12 @@ onDestroy(onMouseLeave);</script>
       <Svg id="eye-crossed" w="11" />
     </div>
   {/if}
+
+  {#await queryProjectBlockchain(projectSlug) then blockchain}
+    {#if blockchain}
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-s3lckr" />
+    {/if}
+  {/await}
 
   {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
     <MoreMenu
@@ -152,5 +163,11 @@ onDestroy(onMouseLeave);</script>
   }
   .address::before {
     z-index: 11;
+  }
+
+  :global(.blockchain-s3lckr) {
+    position: absolute;
+    right: -6px;
+    top: -6px;
   }
 </style>
