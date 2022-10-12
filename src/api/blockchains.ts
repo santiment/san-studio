@@ -56,6 +56,11 @@ const ALL_PROJECTS = `{
 function projectBlockchainPrecacher({ allProjects }) {
   const data = {}
   allProjects.forEach(({ slug, infrastructure }) => {
+    if (infrastructure === 'own') {
+      data[slug] = slug
+      return
+    }
+
     const blockchain = Blockchain[infrastructure]
     if (blockchain) data[slug] = blockchain.slug
   })
