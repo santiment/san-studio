@@ -92,7 +92,7 @@ function scrollToCursor() {
 
 <VirtualList
   hideEmptyResults
-  class="suggestions-a771TQ {!filtered.length ? 'hide' : ''}"
+  class="suggestions-i_98iz {!filtered.length ? 'hide' : ''}"
   items={filtered}
   key="key"
   defaultItemHeight={48}
@@ -117,10 +117,10 @@ function scrollToCursor() {
   {/if}
 </VirtualList>
 
-<style lang="scss">:global(.suggestions-a771TQ) {
+<style lang="scss">:global(.suggestions-i_98iz) {
   border-top: 1px solid var(--porcelain);
 }
 
-:global(.suggestions-a771TQ) :global(.list) {
+:global(.suggestions-i_98iz) :global(.list) {
   padding: 16px 24px;
 }</style>
