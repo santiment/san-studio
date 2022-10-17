@@ -49,12 +49,12 @@ function onFavoriteClick(e) {
   <ItemLabel {item} bind:active />
 
   <svelte:fragment slot="right">
-    <ItemDescription {item} class="icon-zlGqjz" />
+    <ItemDescription {item} class="icon-jOOx7y" />
 
     {#if item.selectorType === undefined}
       <Svg
         id="star{isFavorited ? '-filled' : ''}"
-        class="icon-zlGqjz star-Xr38c3 mrg-m mrg--l {isFavorited ? 'favorited-2ENtG+' : ''}"
+        class="icon-jOOx7y star-tLgXqV mrg-m mrg--l {isFavorited ? 'favorited-k5BafU' : ''}"
         on:click={onFavoriteClick}
       />
     {/if}
@@ -62,20 +62,20 @@ function onFavoriteClick(e) {
 </HoverItem>
 
 <style>
-  :global(.icon-zlGqjz) {
+  :global(.icon-jOOx7y) {
     width: 16px;
     height: 16px;
     fill: var(--waterloo);
   }
 
-  :global(.star-Xr38c3:hover) {
+  :global(.star-tLgXqV:hover) {
     fill: var(--orange);
   }
 
-  :global(.favorited-2ENtG\+) {
+  :global(.favorited-k5BafU) {
     fill: var(--orange);
   }
-  :global(.favorited-2ENtG\+:hover) {
+  :global(.favorited-k5BafU:hover) {
     fill: var(--orange-hover);
   }
 </style>
