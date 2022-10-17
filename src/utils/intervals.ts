@@ -3,6 +3,7 @@ import {
   ONE_MINUTE_IN_MS,
   ONE_HOUR_IN_MS,
   ONE_DAY_IN_MS,
+  ONE_SECOND_IN_MS,
 } from 'webkit/utils/dates'
 
 type Interval = { id: string; label: string }
@@ -43,6 +44,7 @@ export const getValidInterval = (
 ): string | undefined => (isAvailableInterval(interval, intervals) ? interval : intervals[0].id)
 
 const FormatToTimestamp = {
+  s: ONE_SECOND_IN_MS,
   m: ONE_MINUTE_IN_MS,
   h: ONE_HOUR_IN_MS,
   d: ONE_DAY_IN_MS,
