@@ -111,7 +111,7 @@ function parseSignalMetrics(signals, metrics) {
 type ParseCtx = {
   parseSubwidgets: (any) => any
 }
-export function parseWidget(shared, ctx: ParseCtx) {
+export function parseWidget(shared, ctx?: ParseCtx) {
   const { wm, whm, wax, wpax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
 
   const KnownMetric = {}
