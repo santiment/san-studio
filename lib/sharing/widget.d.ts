@@ -16,7 +16,7 @@ export declare function shareWidget(widget: any): {
 declare type ParseCtx = {
     parseSubwidgets: (any: any) => any;
 };
-export declare function parseWidget(shared: any, ctx: ParseCtx): {
+export declare function parseWidget(shared: any, ctx?: ParseCtx): {
     metrics: import("./index").Metric[];
     hiddenMetrics: import("./index").Metric[];
     metricIndicators: {
