@@ -89,7 +89,7 @@ export function shareWidget(widget) {
     // connected subwidgets
     wcsb: shareSubwidgets(subwidgets),
 
-    wcsa: isSharedAxisEnabled || undefined,
+    wcsa: isSharedAxisEnabled ? 1 : undefined,
   }
 
   return shared
@@ -113,6 +113,7 @@ type ParseCtx = {
 }
 export function parseWidget(shared, ctx?: ParseCtx) {
   const { wm, whm, wax, wpax, wc, ws, wcm, wd, wsm, whl, wcadon, wcsb } = shared
+  const { wcsa } = shared
 
   const KnownMetric = {}
   parseCombinedMetrics(wcm, KnownMetric)
@@ -135,6 +136,8 @@ export function parseWidget(shared, ctx?: ParseCtx) {
 
     signalMetrics: parseSignalMetrics(wsm, metrics),
     holderLabels: whl,
+
+    isSharedAxisEnabled: !!wcsa,
 
     chartAddons: parseChartAddons(wcadon),
   }
