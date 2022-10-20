@@ -11,7 +11,7 @@ export declare function shareWidget(widget: any): {
     whl: any;
     wcadon: any;
     wcsb: any;
-    wcsa: any;
+    wcsa: number | undefined;
 };
 declare type ParseCtx = {
     parseSubwidgets: (any: any) => any;
@@ -29,6 +29,7 @@ export declare function parseWidget(shared: any, ctx?: ParseCtx): {
     pinnedAxes: Set<any> | undefined;
     signalMetrics: any;
     holderLabels: any;
+    isSharedAxisEnabled: boolean;
     chartAddons: any;
 };
 export {};
