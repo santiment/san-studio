@@ -26,9 +26,10 @@ export const Blockchain = each(
     DOGE: { slug: 'dogecoin', name: 'Dogecoin' },
     Polygon: { slug: 'matic-network', name: 'Polygon' },
     Avalanche: { slug: 'avalanche', name: 'Avalanche' },
+    Arbitrum: { slug: 'arbitrum', name: 'Arbitrum' },
     LTC: { slug: 'litecoin', name: 'Litecoin' },
     BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash' },
-    Optimism: { slug: 'optimism', name: 'Optimism' },
+    Optimism: { slug: 'optimism-ethereum', name: 'Optimism' },
   },
   (blockchain: any, infrastructure) => {
     blockchain.infrastructure = infrastructure
