@@ -8,13 +8,13 @@ const AVAILABLE_BLOCKCHAINS_QUERY = `{
 	}
 }`
 
-type Blockchain = {
+type BlockchainType = {
   infrastructure: string
   slug: string
   name: string
 }
 
-type Query = SAN.API.Query<'getAvailableBlockchains', Blockchain[]>
+type Query = SAN.API.Query<'getAvailableBlockchains', BlockchainType[]>
 
 export const Blockchain = each(
   {
@@ -26,9 +26,16 @@ export const Blockchain = each(
     DOGE: { slug: 'dogecoin', name: 'Dogecoin' },
     Polygon: { slug: 'matic-network', name: 'Polygon' },
     Avalanche: { slug: 'avalanche', name: 'Avalanche' },
+    Arbitrum: {
+      slug: 'arbitrum',
+      name: 'Arbitrum',
+      logoUrl:
+        'https://production-sanbase-images.s3.amazonaws.com/uploads/739263bce011c82000b3e5dc858d8f9f063c6d394acb03646134e6fab62bb58f_1666872817945_logo64_arbitrum.png',
+      // TODO: remove when renamed by backend
+    },
     LTC: { slug: 'litecoin', name: 'Litecoin' },
     BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash' },
-    Optimism: { slug: 'optimism', name: 'Optimism' },
+    Optimism: { slug: 'optimism-ethereum', name: 'Optimism' },
   },
   (blockchain: any, infrastructure) => {
     blockchain.infrastructure = infrastructure
@@ -41,8 +48,8 @@ function precacher() {
 
 const options = { precacher: () => precacher } as any
 
-export const queryAvailableBlockchains = (): Promise<Blockchain[]> =>
-  query<Query>(AVAILABLE_BLOCKCHAINS_QUERY, options) as any as Promise<Blockchain[]>
+export const queryAvailableBlockchains = (): Promise<BlockchainType[]> =>
+  query<Query>(AVAILABLE_BLOCKCHAINS_QUERY, options) as any as Promise<BlockchainType[]>
 
 /// -----------------
 
@@ -62,11 +69,11 @@ function projectBlockchainPrecacher({ allProjects }) {
     }
 
     const blockchain = Blockchain[infrastructure]
-    if (blockchain) data[slug] = blockchain.slug
+    if (blockchain) data[slug] = blockchain
   })
   return data
 }
 
 const projectBlockchainOptions = { precacher: () => projectBlockchainPrecacher } as any
-export const queryProjectBlockchain = (slug: string): Promise<string> =>
+export const queryProjectBlockchain = (slug: string): Promise<BlockchainType> =>
   query<any>(ALL_PROJECTS, projectBlockchainOptions).then((data) => data[slug])

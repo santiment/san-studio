@@ -310,6 +310,10 @@ export const OnChainMetric = each(
         label: 'Daily Trade Count of NFT Collections',
         isNFTMetric: true,
       },
+
+      total_supply: {
+        label: 'Total Supply',
+      },
     },
 
     ContractAddressMetric,
