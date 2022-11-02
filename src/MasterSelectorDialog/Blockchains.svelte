@@ -45,7 +45,7 @@
 
       {#each blockchains as item (item.slug)}
         <div class="btn-ghost row v-center" on:click={() => onBlockchainSelect(item)}>
-          <ProjectIcon slug={item.slug} size={24} class="mrg-s mrg--r" />
+          <ProjectIcon slug={item.slug} logoUrl={item.logoUrl} size={24} class="mrg-s mrg--r" />
           {item.name}
         </div>
       {/each}

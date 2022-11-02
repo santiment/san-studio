@@ -8,6 +8,8 @@ import { newTimebounds } from './timebounds'
 import { each } from './utils'
 import { Node } from '@/Chart/nodes'
 
+// NOTE: https://github.com/santiment/sanbase2/blob/master/lib/sanbase/clickhouse/metric/metric_files/available_v2_metrics.json
+
 export const MetricIndex = {}
 export const Metric = each(
   Object.assign(
