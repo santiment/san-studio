@@ -29,9 +29,6 @@ export const Blockchain = each(
     Arbitrum: {
       slug: 'arbitrum',
       name: 'Arbitrum',
-      logoUrl:
-        'https://production-sanbase-images.s3.amazonaws.com/uploads/739263bce011c82000b3e5dc858d8f9f063c6d394acb03646134e6fab62bb58f_1666872817945_logo64_arbitrum.png',
-      // TODO: remove when renamed by backend
     },
     LTC: { slug: 'litecoin', name: 'Litecoin' },
     BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash' },
@@ -69,11 +66,11 @@ function projectBlockchainPrecacher({ allProjects }) {
     }
 
     const blockchain = Blockchain[infrastructure]
-    if (blockchain) data[slug] = blockchain
+    if (blockchain) data[slug] = blockchain.slug
   })
   return data
 }
 
 const projectBlockchainOptions = { precacher: () => projectBlockchainPrecacher } as any
-export const queryProjectBlockchain = (slug: string): Promise<BlockchainType> =>
+export const queryProjectBlockchain = (slug: string): Promise<string> =>
   query<any>(ALL_PROJECTS, projectBlockchainOptions).then((data) => data[slug])

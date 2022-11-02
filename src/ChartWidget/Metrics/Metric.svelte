@@ -108,7 +108,7 @@
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon {...blockchain} size={16} class="$style.blockchain" />
+      <ProjectIcon slug={blockchain} size={16} class="$style.blockchain" />
     {/if}
   {/await}
 
