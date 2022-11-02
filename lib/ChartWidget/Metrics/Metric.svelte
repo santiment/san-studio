@@ -122,7 +122,7 @@ onDestroy(onMouseLeave);</script>
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon {...blockchain} size={16} class="blockchain-s3lckr" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-s3lckr" />
     {/if}
   {/await}
 

@@ -18,5 +18,5 @@ export declare const Blockchain: {
     Optimism: any;
 };
 export declare const queryAvailableBlockchains: () => Promise<BlockchainType[]>;
-export declare const queryProjectBlockchain: (slug: string) => Promise<BlockchainType>;
+export declare const queryProjectBlockchain: (slug: string) => Promise<string>;
 export {};
