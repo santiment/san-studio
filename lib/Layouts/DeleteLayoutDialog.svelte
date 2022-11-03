@@ -21,7 +21,7 @@ function onDeleteClick() {
   {...$$props}
   title="Do you want to delete this layout?"
   bind:closeDialog
-  class="dialog-I7TAfs"
+  class="dialog-QwfRCU"
 >
   <div class="dialog-body">
     This action cannot be undone
@@ -33,7 +33,7 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-I7TAfs) {
+  :global(.dialog-QwfRCU) {
     width: 320px;
   }
 </style>

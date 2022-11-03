@@ -68,7 +68,7 @@ function closePreview() {
 {#if notables.length}
   <Category category="Notables" {isFiltering} isOpened>
     <svelte:fragment slot="pre-title">
-      <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-tQuzM5" />
+      <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-WpdZc+" />
     </svelte:fragment>
 
     {#each notables as notable}
@@ -96,7 +96,7 @@ function closePreview() {
 {/if}
 
 <style>
-  :global(.flash-tQuzM5) {
+  :global(.flash-WpdZc\+) {
     fill: var(--red);
   }
 
