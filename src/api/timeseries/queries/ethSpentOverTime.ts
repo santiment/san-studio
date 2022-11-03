@@ -5,7 +5,7 @@ import { newPrecacher } from './utils'
 
 const ETH_SPENT_OVER_TIME_QUERY = `
   query ethSpentOverTime(
-    $slug: String
+    $slug: String!
     $from: DateTime!
     $to: DateTime!
     $interval: interval
