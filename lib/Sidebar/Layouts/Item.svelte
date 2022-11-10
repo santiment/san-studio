@@ -10,12 +10,12 @@ function onClick() {
   queryLayout(item.id).then(window.onLayoutSelect);
 }</script>
 
-<Item {item} {HoverItem} active={isActive} on:click={onClick} class="item-n0ZYgU">
+<Item {item} {HoverItem} active={isActive} on:click={onClick} class="item-aDsWPO">
   {item.title}
 </Item>
 
 <style>
-  :global(.item-n0ZYgU) {
+  :global(.item-aDsWPO) {
     --color-active-hover: var(--green) !important;
   }
 </style>

@@ -44,7 +44,7 @@ function onSelect(metric) {
 
   <Search class="mrg-s mrg--b" autofocus placeholder="Search metrics" bind:searchTerm />
 
-  <VirtualList class="items-MzFYW0" {items} let:item>
+  <VirtualList class="items-h4kTCI" {items} let:item>
     <div class="item btn-ghost" on:click={() => onSelect(item)}>
       {item.label}
     </div>
@@ -59,7 +59,7 @@ function onSelect(metric) {
     width: 280px;
   }
 
-  :global(.items-MzFYW0) {
+  :global(.items-h4kTCI) {
     overflow-y: auto;
     height: 100%;
   }
