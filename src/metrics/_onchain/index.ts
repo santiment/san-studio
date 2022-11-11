@@ -1,6 +1,7 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { MakerDaoMetric } from './makerDao'
 import { AaveMetric } from './aave'
+import { CompoundMetric } from './compound'
 import { ExchangesV2Metric } from './exchangesV2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
@@ -322,7 +323,10 @@ export const OnChainMetric = each(
     FeesMetric,
     ExchangesMetric,
     ExchangesV2Metric,
+
     AaveMetric,
+    CompoundMetric,
+
     NFTMetric,
     DefiMetric,
     HolderDistributionMetric,
