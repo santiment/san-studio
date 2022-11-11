@@ -3,6 +3,10 @@ import { usdFormatter } from '../formatters'
 
 export const AaveMetric = each(
   {
+    aave_v2_action_deposits: {
+      label: 'Aave v2 Deposits',
+    },
+
     aave_v2_action_liquidations: {
       label: 'Aave v2 Liquidations',
     },
