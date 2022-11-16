@@ -62,6 +62,7 @@ function onEditClick() {
   {title}
   {user}
   {votes}
+  source="charts"
   currentUser={$currentUser}
   editLabel={isAuthor ? 'Edit layout' : 'Save as'}
   comments={{

@@ -46,7 +46,8 @@ function onClick(indicator) {
         class:active={false}
         on:click={() => onClick(indicator)}
       >
-        Moving Average {indicator.base}
+        {indicator.fullLabel}
+        {indicator.base || ''}
         <Toggle class="mrg-l mrg--l" isActive={metricIndicators.has(indicator)} />
       </div>
     {/each}

@@ -7,5 +7,6 @@ export declare const DerivativesMetric: {
     usdt_bnb_funding_rates: import("./utils").Node<Studio.Metric, "usdt_bnb_funding_rates">;
     busd_bnb_funding_rates: import("./utils").Node<Studio.Metric, "busd_bnb_funding_rates">;
     dydx_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "dydx_perpetual_funding_rate">;
+    deribit_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "deribit_perpetual_funding_rate">;
     ftx_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "ftx_perpetual_funding_rate">;
 };
