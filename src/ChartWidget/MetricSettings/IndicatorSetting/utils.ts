@@ -1,4 +1,5 @@
 import { Node } from '@/Chart/nodes'
+import { FORMATTER } from '@/metrics/formatters'
 import { deriveMetric } from '@/metrics/utils'
 import { newKey, MetricType } from '@/metrics/utils'
 
@@ -6,12 +7,32 @@ const RAW_INDICATORS = {
   MA: {
     type: 'moving_average',
     bases: [7, 30, 50, 200],
+    label: 'Moving Average',
+  },
+
+  ['Z-Score']: {
+    type: 'z_score',
+    formatter: FORMATTER,
+    domainGroup: 'z_score',
   },
 }
 
 export const Indicator = {}
 Object.keys(RAW_INDICATORS).forEach((key) => {
-  const { type, bases } = RAW_INDICATORS[key]
+  const { type, bases, label = key, formatter, domainGroup } = RAW_INDICATORS[key]
+
+  if (!bases) {
+    Indicator[key] = {
+      type,
+      key,
+      label: key,
+      fullLabel: label,
+      formatter,
+      domainGroup,
+    }
+
+    return
+  }
 
   bases.forEach((base) => {
     const indicatorKey = key + base
@@ -20,6 +41,7 @@ Object.keys(RAW_INDICATORS).forEach((key) => {
       type,
       key: indicatorKey,
       label: `${key}(${base})`,
+      fullLabel: label,
     }
   })
 })
@@ -71,6 +93,13 @@ export function buildIndicatorMetric(metric, indicator) {
       },
     },
   } as any)
+
+  if (indicator.domainGroup) {
+    indicatorMetric.domainGroup = indicator.domainGroup
+  }
+  if (indicator.formatter) {
+    indicatorMetric.formatter = indicator.formatter
+  }
 
   return indicatorMetric
 }
