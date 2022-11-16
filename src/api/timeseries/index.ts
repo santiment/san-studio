@@ -4,6 +4,16 @@ import { queryMetric } from './queries'
 import { NO_DATA_MSG, transformMessage } from './errors'
 import { mergeTimeseries } from './utils'
 
+function getMetricSettings(metric: Studio.Metric, MetricSettings) {
+  let metricSettings = MetricSettings[metric.key] || {}
+
+  if (metric.indicator) {
+    metricSettings = Object.assign({}, metricSettings, MetricSettings[metric.base.key])
+  }
+
+  return metricSettings
+}
+
 export const dataAccessor = ({ getMetric }) => getMetric.timeseriesData
 export function getTimeseries(
   metrics: Studio.Metric[],
@@ -22,7 +32,7 @@ export function getTimeseries(
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const { key, reqMeta, fetch, precacher, selector = 'slug' } = metric as any
-    const metricSettings = MetricSettings[key] || {}
+    const metricSettings = getMetricSettings(metric, MetricSettings)
     const { preTransform, fetcher = fetch } = metricSettings
     const queryKey = metricSettings.queryKey || metric.queryKey || key
 

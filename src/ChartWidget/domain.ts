@@ -77,6 +77,7 @@ export function groupDomains(metrics: Studio.Metric[], getDomain = getMetricDoma
     const metric = metrics[i]
     const { key } = metric
     const domainGroup = getDomain(metric) || metric.domainGroup
+
     if (!domainGroup) continue
 
     if (Domain[domainGroup]) {
@@ -92,7 +93,10 @@ export function groupDomains(metrics: Studio.Metric[], getDomain = getMetricDoma
 
 export function getIndicatorDomainGroup(metric: Studio.Metric) {
   const { key, indicator, base, project, domainGroup } = metric
-  return indicator ? base.key : project ? key : domainGroup
+
+  if (indicator) return indicator.domainGroup || base.key
+
+  return project ? key : domainGroup
 }
 export function getIndicatorDomainGroups(
   metrics: Studio.Metric[],
