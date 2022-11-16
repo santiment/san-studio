@@ -1,6 +1,6 @@
 <script lang="ts">import { track } from 'san-webkit/lib/analytics';
 import CreationInfo from 'san-webkit/lib/ui/CreationInfo/svelte';
-import { newVotes } from 'san-webkit/lib/ui/CreationInfo/VoteButton.svelte';
+import { newVotes } from 'san-webkit/lib/ui/LikeButton/index.svelte';
 import { CreationType } from 'san-webkit/lib/ui/Profile/types';
 import { Event } from './../../lib/analytics';
 import { selectedLayout } from './../../lib/stores/layout';
