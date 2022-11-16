@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import CreationInfo from 'webkit/ui/CreationInfo/svelte'
-  import { newVotes } from 'webkit/ui/CreationInfo/VoteButton.svelte'
+  import { newVotes } from 'webkit/ui/LikeButton/index.svelte'
   import { CreationType } from 'webkit/ui/Profile/types'
   import { Event } from '@/analytics'
   import { selectedLayout } from '@/stores/layout'
