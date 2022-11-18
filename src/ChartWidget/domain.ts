@@ -50,10 +50,10 @@ export function newDomainModifier(
     if (node === Node.GREEN_RED_BAR) {
       return prepareDomain(minMax)
     } else if (node === Node.BAR && !NON_BAR_DOMAIN_METRIC.has(metricKey)) {
-      max *= 1.01
+      max *= max > 0 ? 1.01 : 0.99
       min = min < 0 ? min : 0
     } else {
-      max *= 1.01
+      max *= max > 0 ? 1.01 : 0.99
       min *= min > 0 ? 0.99 : 1.01
     }
 
