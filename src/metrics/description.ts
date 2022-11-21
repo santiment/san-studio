@@ -158,7 +158,7 @@ For each coin that moves on-chain, NPL takes the price at which it was last move
     'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap',
 
   [SelectorNode.SPENT_COIN_COST.key]:
-    'It shows at what price the tokens that were transacted today were last moved. More info <a target="_blank" rel="noopener noreferrer" href="https://academy.santiment.net/metrics/spent-coin-cost/">here</a>',
+    'It shows at what price the tokens that were transacted today were last moved. More info <a target="_blank" rel="noopener noreferrer" href="https://academy.santiment.net/metrics/spent-coins-age-band/ ">here</a>',
 
   [Metric.spent_coins_age_band_0d_to_1d
     .key]: `Spent Coins Age Band is a set of metrics that represent the distribution of coins spent on a given day by the age of coins. In addition to absolute values, there is percentage type of this metric, which shows the relative share of coins in a given interval in relation to total amount of coins spent on a given day. Assigning age to coin/tokens is done according to the <a target="_blank" rel="noopener noreferrer" href="https://academy.santiment.net/metrics/details/stack-coin-age-model/">coin-age model.</a>`,
