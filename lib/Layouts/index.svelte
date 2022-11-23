@@ -6,12 +6,14 @@ import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import { Event } from './../../lib/analytics';
+import { Metric } from './../../lib/metrics';
 import { studio } from './../../lib/stores/studio';
-import { getWidgets } from './../../lib/stores/widgets';
+import { getWidgets, newWidget } from './../../lib/stores/widgets';
 import { selectedLayout } from './../../lib/stores/layout';
 import { currentUser } from './../../lib/stores/user';
 import { widgetsListener } from './../../lib/stores/widgetsListener';
 import { updateUserLayout, createUserLayout } from './../../lib/api/layouts/mutate';
+import ChartWidget from './../../lib/ChartWidget/index.svelte';
 import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
 import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte';
 import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
@@ -110,6 +112,15 @@ window.onLayoutEdit = callIfRegistered(onEdit);
 
 const onNew = () => showNewLayoutDialog().then(selectLayout);
 
+function onResetLayout() {
+  const oldWidgets = Widgets.get().slice();
+  const newWidgets = [newWidget(ChartWidget, {
+    metrics: [Metric.price_usd]
+  })];
+  Widgets.set(newWidgets);
+  History.add('Reset layout', () => Widgets.set(oldWidgets), () => Widgets.set(newWidgets));
+}
+
 window.onLayoutCreationOpen = () => {
   onNew();
 };
@@ -165,9 +176,9 @@ onDestroy(() => {
   <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
-  <Tooltip on="click" duration={0} align="center" class="tooltip-0jwzek">
+  <Tooltip on="click" duration={0} align="center" class="tooltip-zcLt_t">
     <div class="menu btn border" slot="trigger">
-      <Svg id="arrow" w="8" h="5" class="arrow-gBKs0S" />
+      <Svg id="arrow" w="8" h="5" class="arrow-y4+a0+" />
     </div>
 
     <div slot="tooltip">
@@ -189,6 +200,7 @@ onDestroy(() => {
 
       <div class="btn-ghost" on:click={showLoadLayoutDialog}>Load</div>
       <div class="btn-ghost" on:click={callIfRegistered(onNew)}>New</div>
+      <div class="btn-ghost" on:click={onResetLayout}>Reset layout</div>
 
       {#if isAuthor}
         <div
@@ -229,11 +241,11 @@ onDestroy(() => {
     --color: var(--waterloo);
   }
 
-  :global(.arrow-gBKs0S) {
+  :global(.arrow-y4\+a0\+) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-0jwzek) {
+  :global(.tooltip-zcLt_t) {
     left: 0px !important;
     width: 200px;
     padding: 8px;

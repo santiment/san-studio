@@ -50,7 +50,7 @@ function onClick() {
 <Tooltip
   bind:isOpened
   dark
-  class="caption tooltip-yhbe5C"
+  class="caption tooltip-Y1gWnr"
   position="top"
   align="end"
   duration={0}
@@ -114,7 +114,7 @@ function onClick() {
     --bg-hover: var(--green-light-2);
   }
 
-  :global(.tooltip-yhbe5C) {
+  :global(.tooltip-Y1gWnr) {
     white-space: nowrap;
   }
 
