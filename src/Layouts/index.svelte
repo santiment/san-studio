@@ -7,12 +7,14 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Event } from '@/analytics'
+  import { Metric } from '@/metrics'
   import { studio } from '@/stores/studio'
-  import { getWidgets } from '@/stores/widgets'
+  import { getWidgets, newWidget } from '@/stores/widgets'
   import { selectedLayout } from '@/stores/layout'
   import { currentUser } from '@/stores/user'
   import { widgetsListener } from '@/stores/widgetsListener'
   import { updateUserLayout, createUserLayout } from '@/api/layouts/mutate'
+  import ChartWidget from '@/ChartWidget/index.svelte'
   import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
   import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
   import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
@@ -99,6 +101,22 @@
 
   const onNew = () => showNewLayoutDialog().then(selectLayout)
 
+  function onResetLayout() {
+    const oldWidgets = Widgets.get().slice()
+    const newWidgets = [
+      newWidget(ChartWidget, {
+        metrics: [Metric.price_usd],
+      }),
+    ]
+
+    Widgets.set(newWidgets)
+    History.add(
+      'Reset layout',
+      () => Widgets.set(oldWidgets),
+      () => Widgets.set(newWidgets),
+    )
+  }
+
   window.onLayoutCreationOpen = () => {
     onNew()
   }
@@ -181,6 +199,7 @@
 
       <div class="btn-ghost" on:click={showLoadLayoutDialog}>Load</div>
       <div class="btn-ghost" on:click={callIfRegistered(onNew)}>New</div>
+      <div class="btn-ghost" on:click={onResetLayout}>Reset layout</div>
 
       {#if isAuthor}
         <div
