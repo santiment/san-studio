@@ -26,8 +26,7 @@
     offsetY={4}
     align="center"
     class="$style.tooltip"
-    activeClass="$style.active"
-  >
+    activeClass="$style.active">
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
         <div class="row v-center">

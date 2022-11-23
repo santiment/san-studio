@@ -3,5 +3,6 @@
 /.vscode/
 .DS_Store
 .log/
-lib/
+.husky
+stories
 /.idea/
