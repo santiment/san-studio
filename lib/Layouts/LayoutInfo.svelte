@@ -34,7 +34,7 @@ const listMetrics = metricKey => {
   Author
 </div>
 
-<Author {user} class="author-tWSFbb" />
+<Author {user} class="author-HPbuWu" />
 
 <style>
   .label {
@@ -44,7 +44,7 @@ const listMetrics = metricKey => {
   }
 
   .value,
-  :global(.author-tWSFbb) {
+  :global(.author-HPbuWu) {
     margin-left: 20px;
   }
 

@@ -122,7 +122,7 @@ onDestroy(onMouseLeave);</script>
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="blockchain-s3lckr" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-0sT+8s" />
     {/if}
   {/await}
 
@@ -165,7 +165,7 @@ onDestroy(onMouseLeave);</script>
     z-index: 11;
   }
 
-  :global(.blockchain-s3lckr) {
+  :global(.blockchain-0sT\+8s) {
     position: absolute;
     right: -6px;
     top: -6px;
