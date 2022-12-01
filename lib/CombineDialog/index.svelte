@@ -77,7 +77,7 @@ track.event(Event.CombineOpened);</script>
   {...$$props}
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
-  class="dialog-dEXroD"
+  class="dialog-tG9zvz"
 >
   <div class="dialog-content row">
     <Sidebar {metrics} {onMetricSelect} />
@@ -129,7 +129,7 @@ track.event(Event.CombineOpened);</script>
 </Dialog>
 
 <style>
-  :global(.dialog-dEXroD) {
+  :global(.dialog-tG9zvz) {
     width: 900px;
     position: relative;
   }

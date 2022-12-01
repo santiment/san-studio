@@ -29,7 +29,7 @@ let shouldRedraw = 1;
 if (SSR_CHART) {
   width = chart.canvasWidth;
   height = chart.canvasHeight;
-  padding = DEFAULT_PADDING;
+  padding = Object.assign({}, DEFAULT_PADDING, chart.padding);
   setupChart(chart);
 
   chart.setPadding = newPadding => {

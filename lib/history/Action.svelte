@@ -19,9 +19,9 @@ function notify() {
 
 $: if (node && timer) {
   clearTimeout(popTimer);
-  node.classList.remove('pop-l4TjFL');
-  node.classList.add('pop-l4TjFL');
-  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-l4TjFL'), 120);
+  node.classList.remove('pop-EWHDCR');
+  node.classList.add('pop-EWHDCR');
+  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-EWHDCR'), 120);
 }
 
 onDestroy(() => {
@@ -48,7 +48,7 @@ onDestroy(() => {
     transition: transform 100ms;
   }
 
-  :global(.pop-l4TjFL) {
+  :global(.pop-EWHDCR) {
     transform: translateX(-50%) scale(1.07) !important;
   }
 </style>

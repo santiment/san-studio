@@ -45,7 +45,7 @@ function startInterval() {
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="widget-WcDNeP" />
+    <ChartWidget {widget} class="widget-HzZXd1" />
   </MetricErrorTooltipCtx>
 
   <div class="row justify txt-m mrg-xs mrg--t">
@@ -77,7 +77,7 @@ function startInterval() {
     --color-hover: var(--green);
   }
 
-  :global(.widget-WcDNeP) {
+  :global(.widget-HzZXd1) {
     height: 0 !important;
   }
 </style>
