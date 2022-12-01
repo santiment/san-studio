@@ -23,10 +23,10 @@ function getLabel(metric, ticker) {
   return metric.getLabel?.(ticker) || `${label} (${ticker})`
 }
 
-function drawLegend(pngChart, metrics, textColor, ticker: string) {
+export function drawLegend(pngChart, metrics, textColor, ticker: string, font = LEGEND_FONT) {
   const { canvasWidth: width, canvasHeight: height, colors } = pngChart
   const pngCtx = pngChart.ctx
-  pngCtx.font = LEGEND_FONT
+  pngCtx.font = font
 
   const textWidth =
     metrics.reduce(
