@@ -29,6 +29,16 @@ const NFTPrices = each(
   },
 )
 
+const PriceVolatilityMetric = each(
+  {
+    price_volatility_1d: { label: 'Price Volatility 1d' },
+    price_volatility_1w: { label: 'Price Volatility 1w' },
+    price_volatility_2w: { label: 'Price Volatility 2w' },
+    price_volatility_4w: { label: 'Price Volatility 4w' },
+  },
+  () => {},
+)
+
 export const FinancialMetric = each(
   {
     price_usd: {
@@ -53,6 +63,7 @@ export const FinancialMetric = each(
       node: Node.BAR,
       label: 'Volume',
     },
+    ...PriceVolatilityMetric,
     ...NFTPrices,
   },
   (metric: Studio.Metric) => {
