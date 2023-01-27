@@ -1,5 +1,7 @@
 import type { Variables } from './queries'
 import type { CachePolicy } from 'webkit/api/cache'
+
+import { Node } from '@/Chart/nodes'
 import { queryMetric } from './queries'
 import { NO_DATA_MSG, transformMessage } from './errors'
 import { mergeTimeseries } from './utils'
@@ -8,7 +10,13 @@ function getMetricSettings(metric: Studio.Metric, MetricSettings) {
   let metricSettings = MetricSettings[metric.key] || {}
 
   if (metric.indicator) {
-    metricSettings = Object.assign({}, metricSettings, MetricSettings[metric.base.key])
+    const { node, ...baseSettings } = MetricSettings[metric.base.key] || {}
+
+    if (node === Node.CANDLES) {
+      delete baseSettings.fetcher
+    }
+
+    metricSettings = Object.assign({}, metricSettings, baseSettings)
   }
 
   return metricSettings
