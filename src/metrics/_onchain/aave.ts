@@ -70,6 +70,16 @@ export const AaveMetric = each(
       label: 'Aave v2 Total Borrowed in USD',
       formatter: usdFormatter,
     },
+
+    aave_v2_supply_apy: {
+      label: 'Aave v2 Supply APY',
+    },
+    aave_v2_stable_borrow_apy: {
+      label: 'Aave v2 Stable Borrow APY',
+    },
+    aave_v2_variable_borrow_apy: {
+      label: 'Aave v2 Variable Borrow APY',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Aave'
