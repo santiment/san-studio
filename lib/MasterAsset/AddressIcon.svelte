@@ -3,7 +3,7 @@ const InfrastructureAsset = {
   [Infrastructure.ETH]: 'ethereum',
   [Infrastructure.BTC]: 'bitcoin',
   [Infrastructure.BCH]: 'bitcoin-cash',
-  [Infrastructure.XRP]: 'ripple',
+  [Infrastructure.XRP]: 'xrp',
   [Infrastructure.LTC]: 'litecoin'
 };</script>
 

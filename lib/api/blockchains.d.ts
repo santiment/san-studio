@@ -7,7 +7,7 @@ export declare const Blockchain: {
     BTC: any;
     ETH: any;
     BEP20: any;
-    Ripple: any;
+    XRP: any;
     Cardano: any;
     DOGE: any;
     Polygon: any;
