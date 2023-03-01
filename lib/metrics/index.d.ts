@@ -9,3 +9,5 @@ export declare const CirculationTimebounds: {};
 export declare const DormantCirculationTimebounds: {};
 export declare const MeanAgeTimebounds: {};
 export declare const MeanDollarInvestedAgeTimebounds: {};
+export declare const Eth2StakersRealizedTimebounds: {};
+export declare const Eth2StakersMvrvTimebounds: {};
