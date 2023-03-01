@@ -7,6 +7,8 @@ import {
   DormantCirculationTimebounds,
   MeanAgeTimebounds,
   MeanDollarInvestedAgeTimebounds,
+  Eth2StakersRealizedTimebounds,
+  Eth2StakersMvrvTimebounds,
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
@@ -83,6 +85,9 @@ export const Subitems = {
   [Metric.dormant_circulation_365d.key]: Object.values(DormantCirculationTimebounds),
   [Metric.mean_age.key]: Object.values(MeanAgeTimebounds),
   [Metric.mean_dollar_invested_age.key]: Object.values(MeanDollarInvestedAgeTimebounds),
+
+  [Metric.eth2_stakers_realized_value_usd_365d.key]: Object.values(Eth2StakersRealizedTimebounds),
+  [Metric.eth2_stakers_mvrv_usd_365d.key]: Object.values(Eth2StakersMvrvTimebounds),
 
   [Metric.median_fees_usd.key]: [SelectorNode.FeesDistribution],
   [Metric.amount_in_top_holders.key]: [SelectorNode.HoldersDistributionTable],
