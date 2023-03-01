@@ -3,6 +3,7 @@ import { MakerDaoMetric } from './makerDao'
 import { AaveMetric } from './aave'
 import { CompoundMetric } from './compound'
 import { ExchangesV2Metric } from './exchangesV2'
+import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
@@ -324,6 +325,7 @@ export const OnChainMetric = each(
     ExchangesMetric,
     ExchangesV2Metric,
 
+    Eth2Metric,
     AaveMetric,
     CompoundMetric,
 

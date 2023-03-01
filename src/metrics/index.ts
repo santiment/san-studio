@@ -46,6 +46,24 @@ export const MeanDollarInvestedAgeTimebounds = newTimebounds(
   MEAN_AGE_TIMEBOUNDS,
 )
 
+const ETH2_STAKERS_TIMEBOUNDS = ['2y', '3y', '5y', '10y']
+export const Eth2StakersRealizedTimebounds = newTimebounds(
+  Metric.eth2_stakers_realized_value_usd_365d,
+  ETH2_STAKERS_TIMEBOUNDS,
+  {
+    key: Metric.eth2_stakers_realized_value_usd_365d.key.slice(0, -5),
+    label: Metric.eth2_stakers_realized_value_usd_365d.label.slice(0, -7),
+  },
+)
+export const Eth2StakersMvrvTimebounds = newTimebounds(
+  Metric.eth2_stakers_mvrv_usd_365d,
+  ETH2_STAKERS_TIMEBOUNDS,
+  {
+    key: Metric.eth2_stakers_mvrv_usd_365d.key.slice(0, -5),
+    label: Metric.eth2_stakers_mvrv_usd_365d.label.slice(0, -7),
+  },
+)
+
 Object.assign(
   Metric,
   MvrvTimebounds,
@@ -55,4 +73,6 @@ Object.assign(
   DormantCirculationTimebounds,
   MeanAgeTimebounds,
   MeanDollarInvestedAgeTimebounds,
+  Eth2StakersRealizedTimebounds,
+  Eth2StakersMvrvTimebounds,
 )
