@@ -79,7 +79,7 @@
       </div>
     {/if}
 
-    {#if !metric.base}
+    {#if !metric.base && !metric.expression}
       <div class="btn-ghost option" class:favorited={isFavorited} on:click={onFavoriteClick}>
         <Svg id="star{isFavorited ? '-filled' : ''}" w="16" class="mrg-s mrg--r" />
         {isFavorited ? 'Unfavorite' : 'Make favorite'}
