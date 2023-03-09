@@ -1,4 +1,5 @@
 import { HolderDistributionMetric } from './holderDistributions'
+import { XrpMetric } from './xrp'
 import { MakerDaoMetric } from './makerDao'
 import { AaveMetric } from './aave'
 import { CompoundMetric } from './compound'
@@ -107,6 +108,14 @@ const NetworkActivityMetric = each(
     },
     active_addresses_30d: {
       label: 'Active Addresses 30d',
+      node: 'bar',
+    },
+    active_addresses_60d: {
+      label: 'Active Addresses 60d',
+      node: 'bar',
+    },
+    active_addresses_90d: {
+      label: 'Active Addresses 90d',
       node: 'bar',
     },
     circulation: {
@@ -318,6 +327,8 @@ export const OnChainMetric = each(
         label: 'Total Supply',
       },
     },
+
+    XrpMetric,
 
     ContractAddressMetric,
 
