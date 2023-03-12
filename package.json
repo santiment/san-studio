@@ -2,9 +2,6 @@
   "name": "san-studio",
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
-  "engines": {
-    "node": "<=14"
-  },
   "types": "lib/types/index.d.ts",
   "lint-staged": {
     "*.{js,ts,svelte,css,md,mdx}": [
