@@ -4,5 +4,7 @@
 import { getChart } from './context';
 const chart = getChart();
 chart.plotManager.set('greenRedBars', (chart, scale, data, colors, categories) => {
-  plotGreenRedBars(chart, data, categories.greenRedBars, scale, colors);
+  categories.greenRedBars.forEach(metricKey => {
+    plotGreenRedBars(chart, data, metricKey, scale, colors);
+  });
 });</script>
