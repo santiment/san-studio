@@ -52,7 +52,10 @@ const ExchangesMetric = each(
       label: 'Active Withdrawals',
     },
   },
-  (metric: Studio.Metric) => (metric.group = 'Exchanges'),
+  (metric: Studio.Metric) => {
+    metric.group = 'Exchanges'
+    metric.checkIsVisible = ({ slug }) => slug !== 'xrp' && slug !== 'ripple'
+  },
 )
 
 export const WhalesMetric = each(
@@ -295,6 +298,7 @@ export const NFTMetric = each(
     metric.noProject = true
     metric.reqMeta = { slug: 'ethereum' }
     metric.getLabel = () => metric.label
+    metric.checkIsVisible = ({ slug }) => slug !== 'xrp' && slug !== 'ripple'
   },
 )
 
