@@ -3,6 +3,7 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
   import { getWidget } from '@/ChartWidget/context'
+  import { studio } from '@/stores/studio'
   import Info from './Info.svelte'
   import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
   const { Metrics } = getWidget()
@@ -16,18 +17,20 @@
 
   queryRestrictedDates().then((data) => (restrictions = data))
 
-  $: restrictedMetrics = restrictions ? filterMetrics($Metrics) : []
+  $: restrictedMetrics = restrictions ? filterMetrics($Metrics, $studio) : []
   $: if (banner && chart) {
     chart.canvas.parentNode?.appendChild(banner)
   }
 
-  function metricsFilter({ key, queryKey = key }) {
+  function metricsFilter({ key, queryKey = key, project }, settings) {
+    if (customRestrictions(queryKey, project || settings)) return
+
     const data = restrictions[queryKey]
     return data && (data.restrictedFrom || data.restrictedTo)
   }
-  function filterMetrics(metrics: any[]) {
+  function filterMetrics(metrics: any[], settings) {
     metricRestrictions = null
-    return metrics.filter(metricsFilter)
+    return metrics.filter((metric) => metricsFilter(metric, settings))
   }
 
   function formatMetrics() {
@@ -39,6 +42,23 @@
       return `${label} (${date})`
     })
     return metricRestrictions
+  }
+
+  function customRestrictions(queryKey: string, { slug } = {}) {
+    if (slug !== 'ripple' && slug !== 'xrp') return
+
+    return (
+      queryKey.includes('active_addresses') ||
+      queryKey.includes('holders_distribution') ||
+      new Set([
+        'daily_assets_issued',
+        'total_assets_issued',
+        'daily_trustlines_count_change',
+        'total_trustlines_count',
+        'daily_dex_volume_in_xrp',
+        'network_growth',
+      ]).has(queryKey)
+    )
   }
 </script>
 
