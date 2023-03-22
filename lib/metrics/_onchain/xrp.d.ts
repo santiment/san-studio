@@ -3,5 +3,6 @@ export declare const XrpMetric: {
     total_assets_issued: import("../utils").Node<Studio.Metric, "total_assets_issued">;
     daily_trustlines_count_change: import("../utils").Node<Studio.Metric, "daily_trustlines_count_change">;
     total_trustlines_count: import("../utils").Node<Studio.Metric, "total_trustlines_count">;
-    daily_dex_volume_in_xrp: import("../utils").Node<Studio.Metric, "daily_dex_volume_in_xrp">;
+    dex_volume_in_xrp_5m: import("../utils").Node<Studio.Metric, "dex_volume_in_xrp_5m">;
+    dex_volume_in_usd_5m: import("../utils").Node<Studio.Metric, "dex_volume_in_usd_5m">;
 };
