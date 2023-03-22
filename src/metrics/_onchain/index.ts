@@ -332,7 +332,7 @@ export const OnChainMetric = each(
       },
 
       holders_distribution_total: {
-        label: 'Amount Of Holders Total',
+        label: 'Total Amount Of Holders',
       },
     },
 
