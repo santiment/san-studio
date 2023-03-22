@@ -330,6 +330,10 @@ export const OnChainMetric = each(
       total_supply: {
         label: 'Total Supply',
       },
+
+      holders_distribution_total: {
+        label: 'Amount Of Holders Total',
+      },
     },
 
     XrpMetric,
