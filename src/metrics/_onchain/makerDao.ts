@@ -39,6 +39,62 @@ export const MakerDaoMetric = each(
     mcd_liquidation: {
       label: 'Makerdao Collateral Liquidation Amounts',
     },
+
+    makerdao_action_deposits: {
+      label: 'MakerDAO deposits',
+    },
+
+    makerdao_action_liquidations: {
+      label: 'MakerDAO Liquidations',
+    },
+    makerdao_action_new_debt: {
+      label: 'MakerDAO New Debt',
+    },
+    makerdao_action_repayments: {
+      label: 'MakerDAO Repayments',
+    },
+    makerdao_action_deposits_usd: {
+      label: 'MakerDAO Deposits in USD',
+    },
+    makerdao_action_liquidations_usd: {
+      label: 'MakerDAO Liquidations in USD',
+    },
+    makerdao_action_new_debt_usd: {
+      label: 'MakerDAO New Debt in USD',
+    },
+    makerdao_action_repayments_usd: {
+      label: 'MakerDAO Repayments in USD',
+    },
+    makerdao_total_deposits_usd: {
+      label: 'MakerDAO Total Deposits in USD',
+    },
+    makerdao_total_liquidations_usd: {
+      label: 'MakerDAO Total Liquidations in USD',
+    },
+    makerdao_total_new_debt_usd: {
+      label: 'MakerDAO Total New Debt in USD',
+    },
+    makerdao_total_repayments_usd: {
+      label: 'MakerDAO Total Repayments in USD',
+    },
+    makerdao_total_supplied: {
+      label: 'MakerDAO Total Supplied',
+    },
+    makerdao_total_supplied_usd: {
+      label: 'MakerDAO Total Supplied in USD',
+    },
+    makerdao_total_borrowed: {
+      label: 'MakerDAO Total Borrowed',
+    },
+    makerdao_total_borrowed_usd: {
+      label: 'MakerDAO Total Borrowed in USD',
+    },
+    makerdao_protocol_total_supplied_usd: {
+      label: 'MakerDAO Protocol Total Supplied in USD',
+    },
+    makerdao_protocol_total_borrowed_usd: {
+      label: 'MakerDAO Protocol Total Borrowed in USD',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Makerdao Stats'
