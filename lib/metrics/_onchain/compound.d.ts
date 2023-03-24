@@ -15,4 +15,6 @@ export declare const CompoundMetric: {
     compound_total_repayments_usd: import("../utils").Node<Studio.Metric, "compound_total_repayments_usd">;
     compound_total_supplied_usd: import("../utils").Node<Studio.Metric, "compound_total_supplied_usd">;
     compound_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_total_borrowed_usd">;
+    compound_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "compound_protocol_total_supplied_usd">;
+    compound_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_protocol_total_borrowed_usd">;
 };
