@@ -18,4 +18,6 @@ export declare const AaveMetric: {
     aave_v2_supply_apy: import("../utils").Node<Studio.Metric, "aave_v2_supply_apy">;
     aave_v2_stable_borrow_apy: import("../utils").Node<Studio.Metric, "aave_v2_stable_borrow_apy">;
     aave_v2_variable_borrow_apy: import("../utils").Node<Studio.Metric, "aave_v2_variable_borrow_apy">;
+    aave_v2_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "aave_v2_protocol_total_supplied_usd">;
+    aave_v2_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "aave_v2_protocol_total_borrowed_usd">;
 };
