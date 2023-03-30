@@ -41,7 +41,7 @@ export const MakerDaoMetric = each(
     },
 
     makerdao_action_deposits: {
-      label: 'MakerDAO deposits',
+      label: 'MakerDAO Deposits',
     },
 
     makerdao_action_liquidations: {
@@ -79,25 +79,31 @@ export const MakerDaoMetric = each(
     },
     makerdao_total_supplied: {
       label: 'MakerDAO Total Supplied',
+      node: Node.LINE,
     },
     makerdao_total_supplied_usd: {
       label: 'MakerDAO Total Supplied in USD',
+      node: Node.LINE,
     },
     makerdao_total_borrowed: {
       label: 'MakerDAO Total Borrowed',
+      node: Node.LINE,
     },
     makerdao_total_borrowed_usd: {
       label: 'MakerDAO Total Borrowed in USD',
+      node: Node.LINE,
     },
     makerdao_protocol_total_supplied_usd: {
       label: 'MakerDAO Protocol Total Supplied in USD',
+      node: Node.LINE,
     },
     makerdao_protocol_total_borrowed_usd: {
       label: 'MakerDAO Protocol Total Borrowed in USD',
+      node: Node.LINE,
     },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Makerdao Stats'
-    metric.node = Node.BAR
+    metric.node = metric.node || Node.BAR
   },
 )

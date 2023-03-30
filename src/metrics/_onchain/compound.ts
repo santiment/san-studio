@@ -70,6 +70,13 @@ export const CompoundMetric = each(
       label: 'Compound Protocol Total Borrowed in USD',
       formatter: usdFormatter,
     },
+
+    compound_supply_apy: {
+      label: 'Compound Supply APY',
+    },
+    compound_borrow_apy: {
+      label: 'Compound Borrow APY',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Compound'

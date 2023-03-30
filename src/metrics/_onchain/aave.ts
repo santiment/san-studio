@@ -80,6 +80,15 @@ export const AaveMetric = each(
     aave_v2_variable_borrow_apy: {
       label: 'Aave v2 Variable Borrow APY',
     },
+
+    aave_v2_protocol_total_supplied_usd: {
+      label: 'Aave v2 Protocol Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    aave_v2_protocol_total_borrowed_usd: {
+      label: 'Aave v2 Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Aave'
