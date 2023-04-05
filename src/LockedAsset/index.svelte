@@ -14,7 +14,7 @@
   function onSelect(asset) {
     if (!asset) return
 
-    if (asset && settings.slug !== asset.slug) {
+    if (settings.slug !== asset.slug) {
       track.event(Event.ChangeLockAsset, { asset: asset.slug })
     }
 
@@ -23,13 +23,15 @@
 </script>
 
 <button class="btn border fluid row v-center" on:click={() => showLockedAssetDialog({ onSelect })}>
-  {#if asset.slug}
-    <ProjectIcon {...asset} size={20} />
+  {#if asset.address}
+    <span class="circle row hv-center">
+      <Svg id="report" w="8" />
+    </span>
   {:else}
-    <Svg id="report" w="8" />
+    <ProjectIcon {...asset} size={20} />
   {/if}
 
-  <span class="single-line">{asset.name || asset.address}</span>
+  <span class="single-line">{asset.address || asset.name}</span>
 
   <Svg id="arrow-down" w="8" h="5" class="mrg-a mrg--l" />
 </button>
@@ -43,5 +45,14 @@
     max-width: 226px;
     gap: 6px;
     fill: var(--waterloo);
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    background: var(--casper);
+    border-radius: 50%;
+    fill: var(--white);
   }
 </style>

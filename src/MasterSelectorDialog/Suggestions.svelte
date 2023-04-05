@@ -99,7 +99,7 @@
   <VirtualList
     class="$style.suggestions {!filtered.length ? 'hide' : ''}"
     items={filtered}
-    itemHeight={48}
+    itemHeight={56}
     maxFluidHeight={381}
     let:item
     let:i
