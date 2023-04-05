@@ -1,11 +1,11 @@
 <script lang="ts">
+  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { studio } from '@/stores/studio'
   import { queryAllProjects } from '@/api/project'
   import Search from '@/Sidebar/Search.svelte'
   import Project from './Project.svelte'
-  import VirtualList from './VirtualList.svelte'
 
   let className = ''
   export { className as class }
@@ -38,10 +38,16 @@
   <svelte:fragment slot="tooltip">
     <Search class="mrg-s mrg--b" autofocus placeholder="Search assets" bind:searchTerm />
 
-    <VirtualList class="$style.items" items={filteredItems} let:item key="slug">
-      <div class="row v-center btn-ghost" on:click={() => onProjectSelect(item)}>
+    <VirtualList
+      itemHeight={32}
+      renderAmount={20}
+      maxFluidHeight={335}
+      items={filteredItems}
+      let:item
+    >
+      <button class="row v-center btn-ghost" on:click={() => onProjectSelect(item)}>
         <Project project={item} />
-      </div>
+      </button>
     </VirtualList>
   </svelte:fragment>
 </Tooltip>
@@ -62,9 +68,5 @@
     margin-top: -2px;
     width: 239px;
     padding: 8px;
-  }
-
-  .items {
-    height: 335px;
   }
 </style>

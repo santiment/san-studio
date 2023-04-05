@@ -1,11 +1,11 @@
 <script lang="ts">
+  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
   import { queryProjectMetrics } from '@/api/metrics'
   import { studio } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import { getMetricsSelectorGraph } from '@/metrics/selector/utils'
   import { convertBaseProjectMetric } from '@/ChartWidget/Metrics/utils'
   import Search from '@/Sidebar/Search.svelte'
-  import VirtualList from './VirtualList.svelte'
   import ProjectSelector from './ProjectSelector.svelte'
 
   export let onMetricSelect
@@ -41,10 +41,10 @@
 
   <Search class="mrg-s mrg--b" autofocus placeholder="Search metrics" bind:searchTerm />
 
-  <VirtualList class="$style.items" {items} let:item>
-    <div class="item btn-ghost" on:click={() => onSelect(item)}>
+  <VirtualList itemHeight={32} renderAmount={20} {items} let:item>
+    <button class="item btn-ghost" on:click={() => onSelect(item)}>
       {item.label}
-    </div>
+    </button>
   </VirtualList>
 </div>
 
@@ -54,10 +54,5 @@
     border-right: 1px solid var(--porcelain);
     align-self: stretch;
     width: 280px;
-  }
-
-  .items {
-    overflow-y: auto;
-    height: 100%;
   }
 </style>
