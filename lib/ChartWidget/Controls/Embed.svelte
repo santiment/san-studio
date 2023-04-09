@@ -1,7 +1,7 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { Event } from './../../analytics';
+import { getWidget } from './../../ChartWidget/context';
 import { showEmbedDialog } from './Embed/Dialog.svelte';
 export let widgets = [getWidget()];
 

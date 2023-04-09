@@ -1,4 +1,4 @@
-<script lang="ts">import { ADDONS } from './addons';
+<script>import { ADDONS } from './addons';
 export let addons = [];
 export let isPro;
 export let slug;</script>

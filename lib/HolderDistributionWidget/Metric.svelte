@@ -1,4 +1,4 @@
-<script lang="ts">import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
+<script>import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 export let metric;
 export let colors;
@@ -19,7 +19,7 @@ $: style = color ? `---fill:${color}` : '';</script>
   {#if isMerging}
     <Checkbox class="mrg-s mrg--r" {isActive} />
   {:else}
-    <Svg id="circle-line" class="line-qtaHVF" w="14" h="10" />
+    <Svg id="circle-line" class="line-6r2boV" w="14" h="10" />
   {/if}
   {metric.label}
   <slot />
@@ -38,7 +38,7 @@ $: style = color ? `---fill:${color}` : '';</script>
     --color: var(--black) !important;
   }
 
-  :global(.line-qtaHVF) {
+  :global(.line-6r2boV) {
     margin-right: 10px;
     min-width: 14px;
   }

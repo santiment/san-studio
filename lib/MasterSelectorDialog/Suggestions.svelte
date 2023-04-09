@@ -1,10 +1,10 @@
 <svelte:options immutable />
 
 <script context="module">import { Preloader } from 'san-webkit/lib/utils/fn';
-import { queryAllProjects } from './../../lib/api/project';
+import { queryAllProjects } from './../api/project';
 export const preloadSuggestions = Preloader(queryAllProjects);</script>
 
-<script lang="ts">import { tick } from 'svelte';
+<script>import { tick } from 'svelte';
 import { getAddressInfrastructure } from 'san-webkit/lib/utils/address';
 import VirtualList, { Controller } from 'san-webkit/lib/ui/VirtualList/index.svelte';
 import Asset from './Suggestion/Asset.svelte';
@@ -93,7 +93,7 @@ function scrollToCursor() {
 
 <section>
   <VirtualList
-    class="suggestions-SX8leW {!filtered.length ? 'hide' : ''}"
+    class="suggestions-tF+DpS {!filtered.length ? 'hide' : ''}"
     items={filtered}
     itemHeight={56}
     maxFluidHeight={381}
@@ -116,11 +116,11 @@ function scrollToCursor() {
   </VirtualList>
 </section>
 
-<style lang="scss">:global(.suggestions-SX8leW) {
+<style >:global(.suggestions-tF\+DpS) {
   border-top: 1px solid var(--porcelain);
 }
 
-:global(.suggestions-SX8leW) :global(.list) {
+:global(.suggestions-tF\+DpS) :global(.list) {
   padding: 16px 24px;
 }
 

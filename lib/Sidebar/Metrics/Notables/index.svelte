@@ -1,8 +1,8 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { queryRawSignal } from './../../../../lib/api/signals';
-import { studio, getLockedAssetStore } from './../../../../lib/stores/studio';
-import { debounced } from './../../../../lib/ChartWidget/utils';
-import Category from './../../../../lib/Sidebar/Category.svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { queryRawSignal } from './../../../api/signals';
+import { studio, getLockedAssetStore } from './../../../stores/studio';
+import { debounced } from './../../../ChartWidget/utils';
+import Category from './../../../Sidebar/Category.svelte';
 import { getSettings, getNotableMetrics } from './utils';
 import Item from './Item.svelte';
 import ChartPreview from './ChartPreview.svelte';
@@ -68,7 +68,7 @@ function closePreview() {
 {#if notables.length}
   <Category category="Notables" {isFiltering} isOpened>
     <svelte:fragment slot="pre-title">
-      <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-tQuzM5" />
+      <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-fXOR49" />
     </svelte:fragment>
 
     {#each notables as notable}
@@ -96,7 +96,7 @@ function closePreview() {
 {/if}
 
 <style>
-  :global(.flash-tQuzM5) {
+  :global(.flash-fXOR49) {
     fill: var(--red);
   }
 

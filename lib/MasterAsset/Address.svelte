@@ -1,7 +1,7 @@
 <script>import { getAddressInfrastructure } from 'san-webkit/lib/utils/address';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { studio } from './../../lib/stores/studio';
-import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../../lib/api/address';
+import { studio } from './../stores/studio';
+import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../api/address';
 import AddressIcon from './AddressIcon.svelte';
 import Selector from './Selector.svelte';
 let labels = [];
@@ -42,7 +42,7 @@ function setLabels(data) {
   {/each}
 
   {#if hidden.length}
-    <Tooltip align="end" offsetY={4} class="tooltip-CnOhUX row" openDelay={110}>
+    <Tooltip align="end" offsetY={4} class="tooltip-4xTPDk row" openDelay={110}>
       <div slot="trigger" class="label btn mrg-s mrg--l">
         +{hidden.length}
       </div>
@@ -67,7 +67,7 @@ function setLabels(data) {
     --color-hover: var(--green);
   }
 
-  :global(.tooltip-CnOhUX) {
+  :global(.tooltip-4xTPDk) {
     padding: 12px;
     z-index: 999 !important;
     max-width: 430px;

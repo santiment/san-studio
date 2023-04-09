@@ -1,10 +1,10 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import { cleanupCandlesSettings, setCandlesSettings } from './../../../lib/ChartWidget/transformers/candles';
-import { studio } from './../../../lib/stores/studio';
-import { Node, NodeAlias } from './../../../lib/Chart/nodes';
-import { Metric } from './../../../lib/metrics';
-import { Event } from './../../../lib/analytics';
+import { cleanupCandlesSettings, setCandlesSettings } from './../../ChartWidget/transformers/candles';
+import { studio } from './../../stores/studio';
+import { Node, NodeAlias } from './../../Chart/nodes';
+import { Metric } from './../../metrics';
+import { Event } from './../../analytics';
 import Dropdown from './Dropdown.svelte';
 import { getWidget } from '../context';
 const History = getHistoryContext();

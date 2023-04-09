@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { plotLines, plotFilledLines, plotGradientLine } from '@santiment-network/chart/lines';
+<script>import { plotLines, plotFilledLines, plotGradientLine } from '@santiment-network/chart/lines';
 import { getChart } from './context';
 const chart = getChart();
 chart.plotManager.set('lines', (chart, scale, data, colors, categories) => {

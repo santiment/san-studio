@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { drawXAxisTicks, drawAxisLine, drawYAxisTicks } from '@santiment-network/chart/axes';
+<script>import { drawXAxisTicks, drawAxisLine, drawYAxisTicks } from '@santiment-network/chart/axes';
 import { drawValueBubbleY } from '@santiment-network/chart/tooltip';
 import { Y_MARGIN, MULTI_AXIS_WIDTH, getPadding, getBubbleTheme, getDomainObject, getMetricAxisFormatter } from './utils';
 import { getChart } from '../context';

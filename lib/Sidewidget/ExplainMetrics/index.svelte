@@ -1,11 +1,11 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import { getDateFormats, getTimeFormats } from 'san-webkit/lib/utils/dates';
-import { getWidgets } from './../../../lib/stores/widgets';
-import { studio } from './../../../lib/stores/studio';
-import { widgetsListener } from './../../../lib/stores/widgetsListener';
-import { Description, prepareDescription } from './../../../lib/metrics/description';
+import { getWidgets } from './../../stores/widgets';
+import { studio } from './../../stores/studio';
+import { widgetsListener } from './../../stores/widgetsListener';
+import { Description, prepareDescription } from './../../metrics/description';
 import Section from './Section.svelte';
 import { Frequency } from './frequencies';
 import { queryMetricInfo } from './api';
@@ -78,7 +78,7 @@ onDestroy(() => {
   <Tooltip bind:isOpened duration={0} on="click" align="start">
     <div slot="trigger" class="selection btn-2 btn--s btn--l row v-center">
       {metric.label}
-      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-9DINPV" />
+      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-M4t_Jp" />
     </div>
     <div slot="tooltip" class="tooltip">
       {#each metrics as item (item.key)}
@@ -114,7 +114,7 @@ onDestroy(() => {
     padding: 8px;
   }
 
-  :global(.arrow-9DINPV) {
+  :global(.arrow-M4t_Jp) {
     transform: rotate(180deg);
   }
 </style>

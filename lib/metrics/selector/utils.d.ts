@@ -1,4 +1,4 @@
-import type { SelectorGraph } from './../../../lib/metrics/graph';
+import type { SelectorGraph } from './../../metrics/graph';
 export declare function getMetricsSelectorGraph(metricKeys: string[], options: {
     [key: string]: string;
 }): SelectorGraph;

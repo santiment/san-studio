@@ -1,16 +1,16 @@
-<script lang="ts">var _a, _b;
+<script>var _a, _b;
 
 import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { Event } from './../../../lib/analytics';
-import { queryProjectBlockchain } from './../../../lib/api/blockchains';
-import MetricButton from './../../../lib/MetricButton.svelte';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { globals } from './../../../lib/stores/globals';
-import { getAdapterController } from './../../../lib/adapter/context';
-import { SelectorNode } from './../../../lib/metrics/selector';
+import { Event } from './../../analytics';
+import { queryProjectBlockchain } from './../../api/blockchains';
+import MetricButton from './../../MetricButton.svelte';
+import { getWidget } from './../../ChartWidget/context';
+import { globals } from './../../stores/globals';
+import { getAdapterController } from './../../adapter/context';
+import { SelectorNode } from './../../metrics/selector';
 import { convertBaseProjectMetric } from './utils';
 import MoreMenu from './MoreMenu.svelte';
 import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte';
@@ -122,7 +122,7 @@ onDestroy(onMouseLeave);</script>
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="blockchain-s3lckr" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-L+x8NO" />
     {/if}
   {/await}
 
@@ -165,7 +165,7 @@ onDestroy(onMouseLeave);</script>
     z-index: 11;
   }
 
-  :global(.blockchain-s3lckr) {
+  :global(.blockchain-L\+x8NO) {
     position: absolute;
     right: -6px;
     top: -6px;

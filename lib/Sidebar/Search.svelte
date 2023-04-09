@@ -1,4 +1,4 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 let className = 'mrg-s mrg--t';
 export { className as class };
 export let searchTerm = '';
@@ -21,7 +21,7 @@ function onInput({
 
 <!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center fluid {className}">
-  <Svg id="search" w="12" class="search-pAhDLK" />
+  <Svg id="search" w="12" class="search-qlhU2a" />
   <input type="text" on:input={onInput} {placeholder} {autofocus} />
 </div>
 
@@ -45,7 +45,7 @@ function onInput({
     color: var(--black);
   }
 
-  :global(.search-pAhDLK) {
+  :global(.search-qlhU2a) {
     position: absolute;
     left: 14px;
   }

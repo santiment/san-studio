@@ -1,5 +1,5 @@
-<script lang="ts">import { studio } from './../../../../lib/stores/studio';
-import { getAutoUpdater } from './../../../../lib/stores/autoUpdater';
+<script>import { studio } from './../../../stores/studio';
+import { getAutoUpdater } from './../../../stores/autoUpdater';
 import { shareEmbeded, getChartWidgetLabel } from './utils';
 const AutoUpdater = getAutoUpdater();
 export let widgets;

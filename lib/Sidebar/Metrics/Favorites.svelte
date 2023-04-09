@@ -1,9 +1,9 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics';
-import { SelectorNode } from './../../../lib/metrics/selector';
-import { checkIsFilterMatch } from './../../../lib/metrics/selector/utils';
-import Category from './../../../lib/Sidebar/Category.svelte';
-import Item from './../../../lib/Sidebar/Item.svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { favoriteMetrics } from './../../stores/favoriteMetrics';
+import { SelectorNode } from './../../metrics/selector';
+import { checkIsFilterMatch } from './../../metrics/selector/utils';
+import Category from './../../Sidebar/Category.svelte';
+import Item from './../../Sidebar/Item.svelte';
 import HoverItem from './HoverItem.svelte';
 export let searchTerm = '';
 export let isFiltering = false;
@@ -27,7 +27,7 @@ function getFavorites(favoritesSet, searchTerm) {
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened class="favorites">
     <svelte:fragment slot="pre-title">
-      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-kenTtJ" />
+      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-CMRDyk" />
     </svelte:fragment>
 
     {#each favorites as item}
@@ -44,7 +44,7 @@ function getFavorites(favoritesSet, searchTerm) {
     padding-left: 8px;
   }
 
-  :global(.star-kenTtJ) {
+  :global(.star-CMRDyk) {
     fill: var(--orange);
   }
 </style>

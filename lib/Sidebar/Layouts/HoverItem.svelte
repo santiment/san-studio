@@ -1,10 +1,10 @@
-<script lang="ts">import { onMount, onDestroy } from 'svelte';
+<script>import { onMount, onDestroy } from 'svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { currentUser } from './../../../lib/stores/user';
-import { queryLayout } from './../../../lib/api/layouts';
-import { createUserLayout } from './../../../lib/api/layouts/mutate';
-import LayoutInfo from './../../../lib/Layouts/LayoutInfo.svelte';
-import { showNewLayoutDialog, Mode } from './../../../lib/Layouts/NewLayoutDialog.svelte';
+import { currentUser } from './../../stores/user';
+import { queryLayout } from './../../api/layouts';
+import { createUserLayout } from './../../api/layouts/mutate';
+import LayoutInfo from './../../Layouts/LayoutInfo.svelte';
+import { showNewLayoutDialog, Mode } from './../../Layouts/NewLayoutDialog.svelte';
 import HoverItem from '../HoverItem.svelte';
 export let item;
 export let node;

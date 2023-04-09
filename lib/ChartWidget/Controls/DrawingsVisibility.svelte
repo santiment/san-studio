@@ -1,8 +1,8 @@
-<script lang="ts">import { getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { recordDrawingVisibility } from './../../../lib/history/drawings';
+import { Event } from './../../analytics';
+import { recordDrawingVisibility } from './../../history/drawings';
 const History = getHistoryContext();
 export let widget;
 export let ChartDrawer;

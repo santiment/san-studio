@@ -1,4 +1,4 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte';
 export let layout;
 export let isAuthor = false;
@@ -18,9 +18,9 @@ $: ({
   </div>
   <div class="info row v-center">
     {#if isPublic}
-      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-zbMDOh" /> Public
+      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-JkFRlA" /> Public
     {:else}
-      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-zbMDOh" />
+      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-JkFRlA" />
       Private
     {/if}
     ·
@@ -64,7 +64,7 @@ $: ({
     --color-hover: var(--green);
   }
 
-  :global(.eye-zbMDOh) {
+  :global(.eye-JkFRlA) {
     min-width: 14px;
   }
 

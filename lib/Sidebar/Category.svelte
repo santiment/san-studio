@@ -1,5 +1,5 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { MetricCategory } from './../../lib/metrics/graph';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { MetricCategory } from './../metrics/graph';
 import Item from './Item.svelte';
 let className = '';
 export { className as class };
@@ -43,7 +43,7 @@ const toggleGroup = ({
       {category}
 
       <slot name="post-title" />
-      <Svg id="arrow" w="8" h="5" class="arrow-DFcs7J mrg--l {arrowClass}" />
+      <Svg id="arrow" w="8" h="5" class="arrow-f5lSfo mrg--l {arrowClass}" />
     </h3>
 
     {#if visible || isFiltering}
@@ -59,7 +59,7 @@ const toggleGroup = ({
                 class:hidden={!VisibleGroup[metric.group]}
               >
                 {metric.group}
-                <Svg id="arrow" w="8" h="5" class="arrow-DFcs7J" />
+                <Svg id="arrow" w="8" h="5" class="arrow-f5lSfo" />
               </h4>
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
@@ -87,7 +87,7 @@ const toggleGroup = ({
     font-weight: 600;
     padding: 0 8px;
   }
-  .hidden :global(.arrow-DFcs7J) {
+  .hidden :global(.arrow-f5lSfo) {
     transform: rotate(180deg);
   }
 

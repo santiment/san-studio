@@ -1,5 +1,5 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../../lib/stores/studio';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { studio } from './../stores/studio';
 export let i;
 export let metric;
 export let onLock, onDelete;

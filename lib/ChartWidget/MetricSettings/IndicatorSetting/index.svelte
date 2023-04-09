@@ -1,6 +1,6 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import { getWidget } from './../../../../lib/ChartWidget/context';
+import { getWidget } from './../../../ChartWidget/context';
 import Dropdown from '../Dropdown.svelte';
 import { INDICATORS, cacheIndicator } from './utils';
 const History = getHistoryContext();

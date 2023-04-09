@@ -1,13 +1,13 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { getMetricMinInterval } from './../../../lib/api/metrics/restrictions';
-import { INTERVALS, getIntervals, getValidInterval } from './../../../lib/utils/intervals';
-import { studio } from './../../../lib/stores/studio';
-import { Node } from './../../../lib/Chart/nodes';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { getCandlesPeriodMinInterval } from './../../../lib/ChartWidget/transformers/candles';
+import { Event } from './../../analytics';
+import { getMetricMinInterval } from './../../api/metrics/restrictions';
+import { INTERVALS, getIntervals, getValidInterval } from './../../utils/intervals';
+import { studio } from './../../stores/studio';
+import { Node } from './../../Chart/nodes';
+import { getWidget } from './../../ChartWidget/context';
+import { getCandlesPeriodMinInterval } from './../../ChartWidget/transformers/candles';
 import Dropdown from './Dropdown.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
@@ -83,7 +83,7 @@ function onAutoClick() {
 }</script>
 
 <Dropdown>
-  <Svg id="interval" w="16" h="12" class="mrg-s mrg--r icon-rCOm6l" />
+  <Svg id="interval" w="16" h="12" class="mrg-s mrg--r icon-4czvXl" />
   Interval:
   {#if metricInterval} {metricInterval} {:else} Auto ({autoInterval}) {/if}
 
@@ -107,7 +107,7 @@ function onAutoClick() {
 </Dropdown>
 
 <style>
-  :global(.icon-rCOm6l) {
+  :global(.icon-4czvXl) {
     fill: var(--waterloo);
   }
 </style>

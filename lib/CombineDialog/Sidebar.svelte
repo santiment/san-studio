@@ -1,10 +1,10 @@
-<script lang="ts">import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
-import { queryProjectMetrics } from './../../lib/api/metrics';
-import { studio } from './../../lib/stores/studio';
-import { globals } from './../../lib/stores/globals';
-import { getMetricsSelectorGraph } from './../../lib/metrics/selector/utils';
-import { convertBaseProjectMetric } from './../../lib/ChartWidget/Metrics/utils';
-import Search from './../../lib/Sidebar/Search.svelte';
+<script>import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
+import { queryProjectMetrics } from './../api/metrics';
+import { studio } from './../stores/studio';
+import { globals } from './../stores/globals';
+import { getMetricsSelectorGraph } from './../metrics/selector/utils';
+import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils';
+import Search from './../Sidebar/Search.svelte';
 import ProjectSelector from './ProjectSelector.svelte';
 export let onMetricSelect;
 let availableMetrics = [];

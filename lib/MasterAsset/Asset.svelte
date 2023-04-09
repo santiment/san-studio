@@ -1,9 +1,9 @@
-<script lang="ts">import { millify } from 'san-webkit/lib/utils/formatting';
+<script>import { millify } from 'san-webkit/lib/utils/formatting';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { studio } from './../../lib/stores/studio';
-import { queryProject, queryProjectPriceChange } from './../../lib/api/project';
-import { usdFormatter } from './../../lib/metrics/formatters';
+import { studio } from './../stores/studio';
+import { queryProject, queryProjectPriceChange } from './../api/project';
+import { usdFormatter } from './../metrics/formatters';
 import Selector from './Selector.svelte';
 let price = '';
 let change = 0;

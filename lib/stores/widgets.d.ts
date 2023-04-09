@@ -1,4 +1,4 @@
-import { SelectorNode } from './../../lib/metrics/selector';
+import { SelectorNode } from './../metrics/selector';
 export declare function newWidget(Widget: any, props?: any): any;
 export declare const setWidgets: (widgets: any) => void;
 export declare const getWidgets: () => any;

@@ -1,13 +1,13 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import LayoutInfoDialog from './LayoutInfoDialog.svelte';
 export const showLayoutInfoDialog = props => dialogs.show(LayoutInfoDialog, props);</script>
 
-<script lang="ts">import Dialog from 'san-webkit/lib/ui/Dialog';
+<script>import Dialog from 'san-webkit/lib/ui/Dialog';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { selectedLayout } from './../../lib/stores/layout';
-import { updateUserLayout } from './../../lib/api/layouts/mutate';
+import { selectedLayout } from './../stores/layout';
+import { updateUserLayout } from './../api/layouts/mutate';
 import LayoutInfo from './LayoutInfo.svelte';
 import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
 import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
@@ -47,12 +47,12 @@ function onDeleteClick() {
   {...$$props}
   noBg
   animated={false}
-  class="dialog-yywRGc"
+  class="dialog-H8ITpG"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
   bind:closeDialog
 >
   <div class="title btn" slot="title" on:click={() => closeDialog(true)}>
-    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r arrow-Y7oS95" />
+    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r arrow-MDSbjX" />
     {layout.title}
   </div>
 
@@ -82,12 +82,12 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-yywRGc) {
+  :global(.dialog-H8ITpG) {
     width: 600px;
     height: 480px;
   }
 
-  :global(.arrow-Y7oS95) {
+  :global(.arrow-MDSbjX) {
     transform: rotate(-90deg);
   }
 

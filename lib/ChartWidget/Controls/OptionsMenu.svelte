@@ -1,7 +1,7 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import { globals } from './../../../lib/stores/globals';
+import { globals } from './../../stores/globals';
 import { download, downloadPng, downloadCsv } from './download';
 const History = getHistoryContext();
 export let isSingleWidget;

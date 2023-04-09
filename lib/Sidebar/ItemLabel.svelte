@@ -1,9 +1,9 @@
-<script lang="ts">var _a;
+<script>var _a;
 
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { selectedItems } from './../../lib/stores/selector';
-import { getSidewidget } from './../../lib/stores/widgets';
-import { getAdapterController } from './../../lib/adapter/context';
+import { selectedItems } from './../stores/selector';
+import { getSidewidget } from './../stores/widgets';
+import { getAdapterController } from './../adapter/context';
 const {
   InsightsContextStore
 } = getAdapterController();
@@ -13,13 +13,13 @@ export let active = false;
 
 $: active = $selectedItems.has(item) || ((_a = item.checkIsActive) === null || _a === void 0 ? void 0 : _a.call(item, $Sidewidget)) || item === $InsightsContextStore.insight;
 
-$: removeClass = active ? 'remove-69Fkg0' : '';</script>
+$: removeClass = active ? 'remove-xKws57' : '';</script>
 
-<Svg id="plus" w="9" class="plus-gyalhz mrg-s mrg--r {removeClass}" />
+<Svg id="plus" w="9" class="plus-ZjVJXV mrg-s mrg--r {removeClass}" />
 {item.label}
 
 <style>
-  :global(.plus-gyalhz) {
+  :global(.plus-ZjVJXV) {
     background: var(--bg, var(--porcelain));
     fill: var(--fill, var(--waterloo));
     padding: 3.5px;
@@ -28,7 +28,7 @@ $: removeClass = active ? 'remove-69Fkg0' : '';</script>
     min-height: 9px;
   }
 
-  :global(.remove-69Fkg0) {
+  :global(.remove-xKws57) {
     transform: rotate(45deg);
   }
 </style>

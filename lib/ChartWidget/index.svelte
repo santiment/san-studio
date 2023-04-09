@@ -1,12 +1,12 @@
-<script lang="ts">import { onDestroy } from 'svelte';
-import { studio } from './../../lib/stores/studio';
-import { getTimeseries, getAllTimeData } from './../../lib/api/timeseries';
-import { setIsTooltipSyncEnabled } from './../../lib/Chart/Tooltip/context';
-import { getAdapterController } from './../../lib/adapter/context';
+<script>import { onDestroy } from 'svelte';
+import { studio } from './../stores/studio';
+import { getTimeseries, getAllTimeData } from './../api/timeseries';
+import { setIsTooltipSyncEnabled } from './../Chart/Tooltip/context';
+import { getAdapterController } from './../adapter/context';
 import Widget from './Widget.svelte';
 import { initWidget, getOnLoadContext } from './context';
 import { debounced } from './utils';
-import { getSharedAccessHeaders } from './../../lib/api/timeseries/queries';
+import { getSharedAccessHeaders } from './../api/timeseries/queries';
 const {
   isOnlyChartEmbedded,
   sharedAccessToken

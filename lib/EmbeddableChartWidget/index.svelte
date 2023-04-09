@@ -1,8 +1,8 @@
-<script lang="ts">import { newHistoryContext } from 'san-webkit/lib/ui/history';
-import { setAdapterController } from './../../lib/adapter/context';
-import { initWidget } from './../../lib/ChartWidget/context';
-import Widget from './../../lib/ChartWidget/Widget.svelte';
-import { mergeTimeseries } from './../../lib/api/timeseries/utils';
+<script>import { newHistoryContext } from 'san-webkit/lib/ui/history';
+import { setAdapterController } from './../adapter/context';
+import { initWidget } from './../ChartWidget/context';
+import Widget from './../ChartWidget/Widget.svelte';
+import { mergeTimeseries } from './../api/timeseries/utils';
 newHistoryContext({
   add: () => {}
 });

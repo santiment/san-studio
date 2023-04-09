@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { drawReferenceDot } from '@santiment-network/chart/references';
+<script>import { drawReferenceDot } from '@santiment-network/chart/references';
 import { getChart } from './context';
 const chart = getChart();
 export let references = [];

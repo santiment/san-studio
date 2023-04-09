@@ -1,12 +1,12 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
-import HoverItem from './../../../../lib/Sidebar/HoverItem.svelte';
-import ItemLabel from './../../../../lib/Sidebar/ItemLabel.svelte';
-import { showCombineDialog } from './../../../../lib/CombineDialog/index.svelte';
-import Metric from './../../../../lib/CombineDialog/Metric.svelte';
+import HoverItem from './../../../Sidebar/HoverItem.svelte';
+import ItemLabel from './../../../Sidebar/ItemLabel.svelte';
+import { showCombineDialog } from './../../../CombineDialog/index.svelte';
+import Metric from './../../../CombineDialog/Metric.svelte';
 import { getContext } from 'svelte';
-import { updateCombinedMetric } from './../../../../lib/CombineDialog/flow';
+import { updateCombinedMetric } from './../../../CombineDialog/flow';
 const History = getHistoryContext();
 const updateMetrics = getContext('updateCombinedMetrics');
 export let item;

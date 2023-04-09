@@ -1,4 +1,4 @@
-<script lang="ts">import { HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS, HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS } from './../../lib/metrics/_onchain/holderDistributions';
+<script>import { HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS, HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS } from './../metrics/_onchain/holderDistributions';
 import HolderDistributionWidget from './index.svelte';
 export let widget;
 export let isSingleWidget;

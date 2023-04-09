@@ -1,12 +1,12 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import FullscreenDialog from './index.svelte';
 export const showCombineDialog = props => dialogs.show(FullscreenDialog, props);</script>
 
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Dialog from 'san-webkit/lib/ui/Dialog';
 import { DialogLock } from 'san-webkit/lib/ui/Dialog/dialogs';
-import { Event } from './../../lib/analytics';
-import { convertBaseProjectMetric } from './../../lib/ChartWidget/Metrics/utils';
+import { Event } from './../analytics';
+import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils';
 import Chart from './Chart.svelte';
 import Metric from './Metric.svelte';
 import { importMath, newExpessionMetric, checkIsExpressionValid } from './utils';
@@ -77,7 +77,7 @@ track.event(Event.CombineOpened);</script>
   {...$$props}
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
-  class="dialog-tG9zvz"
+  class="dialog-VjP_ja"
 >
   <div class="dialog-content row">
     <Sidebar {metrics} {onMetricSelect} />
@@ -129,7 +129,7 @@ track.event(Event.CombineOpened);</script>
 </Dialog>
 
 <style>
-  :global(.dialog-tG9zvz) {
+  :global(.dialog-VjP_ja) {
     width: 900px;
     position: relative;
   }

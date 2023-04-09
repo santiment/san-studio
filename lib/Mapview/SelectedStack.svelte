@@ -1,8 +1,8 @@
-<script lang="ts">import { fly } from 'svelte/transition';
+<script>import { fly } from 'svelte/transition';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { selectedItems } from './../../lib/stores/selector';
-import MetricButton from './../../lib/MetricButton.svelte';
-import { showCombineDialog } from './../../lib/CombineDialog/index.svelte';
+import { selectedItems } from './../stores/selector';
+import MetricButton from './../MetricButton.svelte';
+import { showCombineDialog } from './../CombineDialog/index.svelte';
 
 const noExpressionMetricsFilter = ({
   expression
@@ -39,12 +39,12 @@ function onCombineClick() {
 
       <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>Combine</div>
 
-      <Svg id="cross" w="10" class="delete-WkidaY" on:click={selectedItems.clear} />
+      <Svg id="cross" w="10" class="delete-jDlFnf" on:click={selectedItems.clear} />
 
       <div class="items">
         <div class="metrics row mrg-l mrg--b">
           {#each items as metric (metric.key)}
-            <MetricButton {metric} onDelete={selectedItems.toggle} class="btn-U1boNg" />
+            <MetricButton {metric} onDelete={selectedItems.toggle} class="btn-uDS32x" />
           {/each}
         </div>
       </div>
@@ -103,7 +103,7 @@ function onCombineClick() {
     display: flex;
   }
 
-  :global(.btn-U1boNg) {
+  :global(.btn-uDS32x) {
     white-space: nowrap;
     color: var(--black);
   }
@@ -113,12 +113,12 @@ function onCombineClick() {
     width: 3ch;
   }
 
-  :global(.delete-WkidaY) {
+  :global(.delete-jDlFnf) {
     fill: #fff;
     position: relative;
     z-index: 2;
   }
-  :global(.delete-WkidaY:hover) {
+  :global(.delete-jDlFnf:hover) {
     fill: var(--red);
   }
 

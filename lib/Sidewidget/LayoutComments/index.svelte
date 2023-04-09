@@ -1,8 +1,8 @@
-<script lang="ts">import { CommentsType } from 'san-webkit/lib/api/comments';
+<script>import { CommentsType } from 'san-webkit/lib/api/comments';
 import Comments from 'san-webkit/lib/ui/Comments/svelte';
-import { selectedLayout } from './../../../lib/stores/layout';
-import { currentUser } from './../../../lib/stores/user';
-import { updateLayoutCommentsCountCache } from './../../../lib/api/layouts/comments';
+import { selectedLayout } from './../../stores/layout';
+import { currentUser } from './../../stores/user';
+import { updateLayoutCommentsCountCache } from './../../api/layouts/comments';
 export let closeSidewidget;
 
 $: !$selectedLayout && (closeSidewidget === null || closeSidewidget === void 0 ? void 0 : closeSidewidget());

@@ -1,5 +1,5 @@
 <script>import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { usdFormatter } from './../../../lib/metrics/formatters';
+import { usdFormatter } from './../../metrics/formatters';
 import Suggestion from './Suggestion.svelte';
 export let item;
 export let cursored = false;

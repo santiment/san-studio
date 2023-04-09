@@ -1,4 +1,4 @@
-<script lang="ts">import { mapview } from './../../lib/stores/mapview';
+<script>import { mapview } from './../stores/mapview';
 export let isOpened;
 export let isLocked;
 export let isPeeked;

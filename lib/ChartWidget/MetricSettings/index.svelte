@@ -1,6 +1,6 @@
-<script lang="ts">import { Metric } from './../../../lib/metrics';
-import { SocialMetric } from './../../../lib/metrics/_social';
-import { getAdapterController } from './../../../lib/adapter/context';
+<script>import { Metric } from './../../metrics';
+import { SocialMetric } from './../../metrics/_social';
+import { getAdapterController } from './../../adapter/context';
 import NodeSetting from './NodeSetting.svelte';
 import ColorSetting from './ColorSetting.svelte';
 import IntervalSetting from './IntervalSetting.svelte';

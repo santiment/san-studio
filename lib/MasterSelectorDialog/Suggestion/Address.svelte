@@ -1,8 +1,8 @@
-<script context="module" lang="ts">const CHAR_WIDTH = 8.5;</script>
+<script context="module">const CHAR_WIDTH = 8.5;</script>
 
 <script>import { tick } from 'svelte';
-import AddressIcon from './../../../lib/MasterAsset/AddressIcon.svelte';
-import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../../../lib/api/address';
+import AddressIcon from './../../MasterAsset/AddressIcon.svelte';
+import { checkIsNftAddress, queryAddressLabels, queryNftCollection } from './../../api/address';
 import Suggestion from './Suggestion.svelte';
 export let item;
 export let cursored = false;

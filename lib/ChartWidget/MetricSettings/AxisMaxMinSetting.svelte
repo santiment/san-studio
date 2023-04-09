@@ -1,8 +1,8 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { getSavedValue, saveValue } from 'san-webkit/lib/utils/localStorage';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { Event } from './../../analytics';
+import { getWidget } from './../../ChartWidget/context';
 import Dropdown from './Dropdown.svelte';
 const widget = getWidget();
 const {

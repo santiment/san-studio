@@ -1,11 +1,11 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import { saveBoolean } from 'san-webkit/lib/utils/localStorage';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { getAdapterController } from './../../lib/adapter/context';
-import { showShortcutsDialog } from './../../lib/Shortcuts/Dialog.svelte';
-import { newProjectMetric, newAddressMetric } from './../../lib/metrics/utils';
-import { studio as studio$, getLockedAssetStore } from './../../lib/stores/studio';
+import { getAdapterController } from './../adapter/context';
+import { showShortcutsDialog } from './../Shortcuts/Dialog.svelte';
+import { newProjectMetric, newAddressMetric } from './../metrics/utils';
+import { studio as studio$, getLockedAssetStore } from './../stores/studio';
 import { handleItemSelect } from './controller';
 import Sidebar from './Sidebar.svelte';
 import { Mode } from './Modes.svelte';

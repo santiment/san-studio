@@ -25,8 +25,7 @@
     "lib:prepare": "npm run lib:clean && npm run ts",
     "lib": "npm run lib:prepare && node scripts/lib.js",
     "lib:clean": "node scripts/clean.js",
-    "lib:publish": "node scripts/publish",
-    "prepare": "husky install && patch-package"
+    "lib:publish": "node scripts/publish"
   },
   "devDependencies": {
     "@santiment-network/chart": "^0.10.16",

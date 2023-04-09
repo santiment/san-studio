@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { getChartDrawer } from './context';
 import { newDrawer } from './drawer';
 import { newMouseHoverHandler, getDrawingHoverPainter } from './hovered';

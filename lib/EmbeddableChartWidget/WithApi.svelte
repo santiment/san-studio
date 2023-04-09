@@ -1,11 +1,11 @@
-<script lang="ts">import { newHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { newHistoryContext } from 'san-webkit/lib/ui/history';
 import { ONE_MINUTE_IN_MS } from 'san-webkit/lib/utils/dates';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../../lib/stores/studio';
-import { setAdapterController } from './../../lib/adapter/context';
-import { newAutoUpdaterStore } from './../../lib/stores/autoUpdater';
-import ChartWidget from './../../lib/ChartWidget/index.svelte';
-import MetricErrorTooltipCtx from './../../lib/ChartWidget/Metrics/ErrorTooltipCtx.svelte';
+import { studio } from './../stores/studio';
+import { setAdapterController } from './../adapter/context';
+import { newAutoUpdaterStore } from './../stores/autoUpdater';
+import ChartWidget from './../ChartWidget/index.svelte';
+import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte';
 import { getViewOnSantimentLink } from './utils';
 import sanSvg from './san.svg';
 let className = '';
@@ -45,7 +45,7 @@ function startInterval() {
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="widget-HzZXd1" />
+    <ChartWidget {widget} class="widget-iCr6Ig" />
   </MetricErrorTooltipCtx>
 
   <div class="row justify txt-m mrg-xs mrg--t">
@@ -77,7 +77,7 @@ function startInterval() {
     --color-hover: var(--green);
   }
 
-  :global(.widget-HzZXd1) {
+  :global(.widget-iCr6Ig) {
     height: 0 !important;
   }
 </style>

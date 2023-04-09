@@ -1,11 +1,11 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { getHistoryContext, withScroll } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { mapview, MapviewPhase } from './../../lib/stores/mapview';
-import { getWidgets } from './../../lib/stores/widgets';
-import { selectedItems } from './../../lib/stores/selector';
-import { getAdapterController } from './../../lib/adapter/context';
+import { mapview, MapviewPhase } from './../stores/mapview';
+import { getWidgets } from './../stores/widgets';
+import { selectedItems } from './../stores/selector';
+import { getAdapterController } from './../adapter/context';
 import Preview from './Preview.svelte';
 import ChartPreview from './ChartPreview.svelte';
 import Grid from './Grid.svelte';
@@ -106,7 +106,7 @@ onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));</script>
     {/each}
 
     {#if isMetricsPhase && $selectedItems.metrics.length}
-      <Preview class="column hv-center body-2 txt-m new-pLykj9" on:click={onNewWidgetClick}>
+      <Preview class="column hv-center body-2 txt-m new-aonZ7e" on:click={onNewWidgetClick}>
         <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
         Apply for new chart
       </Preview>
@@ -120,14 +120,14 @@ onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));</script>
     color: var(--waterloo);
   }
 
-  :global(.column.new-pLykj9) {
+  :global(.column.new-aonZ7e) {
     color: var(--waterloo);
     border: 1.5px dashed var(--mystic);
   }
-  :global(.column.new-pLykj9::after) {
+  :global(.column.new-aonZ7e::after) {
     display: none !important;
   }
-  :global(.column.new-pLykj9:hover) {
+  :global(.column.new-aonZ7e:hover) {
     border: 1.5px dashed var(--green);
     box-shadow: 0px 2px 24px rgba(24, 27, 43, 0.04), 1px 3px 7px rgba(47, 53, 77, 0.05);
   }

@@ -1,10 +1,10 @@
-<script lang="ts">import { tick } from 'svelte';
+<script>import { tick } from 'svelte';
 import { newSortableContext } from 'san-webkit/lib/ui/dnd/sortable';
-import { getAdapterController } from './../../../lib/adapter/context';
-import { globals } from './../../../lib/stores/globals';
-import { getAutoUpdater } from './../../../lib/stores/autoUpdater';
-import { studio } from './../../../lib/stores/studio';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { getAdapterController } from './../../adapter/context';
+import { globals } from './../../stores/globals';
+import { getAutoUpdater } from './../../stores/autoUpdater';
+import { studio } from './../../stores/studio';
+import { getWidget } from './../../ChartWidget/context';
 import Metric from './Metric.svelte';
 import AutoUpdate from './AutoUpdate.svelte';
 const {

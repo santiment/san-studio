@@ -1,10 +1,10 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../../../lib/stores/studio';
-import { globals } from './../../../lib/stores/globals';
-import { queryShortLayouts, queryFeaturedShortLayouts, queryCurrentUserShortLayouts, subscribeCurrentUserShortLayoutsCache } from './../../../lib/api/layouts';
-import { filterSelectorGraph } from './../../../lib/metrics/selector/utils';
-import { showNewLayoutDialog } from './../../../lib/Layouts/NewLayoutDialog.svelte';
+import { studio } from './../../stores/studio';
+import { globals } from './../../stores/globals';
+import { queryShortLayouts, queryFeaturedShortLayouts, queryCurrentUserShortLayouts, subscribeCurrentUserShortLayoutsCache } from './../../api/layouts';
+import { filterSelectorGraph } from './../../metrics/selector/utils';
+import { showNewLayoutDialog } from './../../Layouts/NewLayoutDialog.svelte';
 import Item from './Item.svelte';
 import { Tab, TABS, TICKER_LAYOUTS, normalizeCategory, newMyLibaryGraph, newExploreGraph, queryRecentLayouts, checkHasOpenedMyLibrary, saveHasOpenedMyLibrary } from './utils';
 import Tabs from '../Tabs.svelte';

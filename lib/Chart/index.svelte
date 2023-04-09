@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { onMount, getContext } from 'svelte';
+<script>import { onMount, getContext } from 'svelte';
 import { initChart, updateChartState, updateChartDimensions, updateSize } from '@santiment-network/chart';
 import { linearScale } from '@santiment-network/chart/scales';
 import { themes } from './theme';

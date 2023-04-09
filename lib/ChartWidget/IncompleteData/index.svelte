@@ -1,10 +1,10 @@
-<script lang="ts">var _a;
+<script>var _a;
 
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { queryRestrictedDates } from './../../../lib/api/metrics/restrictions';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { studio } from './../../../lib/stores/studio';
+import { queryRestrictedDates } from './../../api/metrics/restrictions';
+import { getWidget } from './../../ChartWidget/context';
+import { studio } from './../../stores/studio';
 import Info from './Info.svelte';
 import { checkShouldShowBanner, closeBanners, formatDate } from './utils';
 const {
@@ -63,7 +63,7 @@ function customRestrictions(queryKey, {
 }</script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-Y8U0V+">
+  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-L1WTvQ">
     <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
       Incomplete data
     </div>
@@ -98,7 +98,7 @@ function customRestrictions(queryKey, {
     --color-hover: var(--orange-hover);
   }
 
-  :global(.tooltip-Y8U0V\+) {
+  :global(.tooltip-L1WTvQ) {
     padding: 16px 24px;
     width: 285px;
     z-index: 11 !important;

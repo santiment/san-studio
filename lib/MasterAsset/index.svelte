@@ -1,7 +1,7 @@
-<script lang="ts">import { onDestroy, onMount } from 'svelte';
+<script>import { onDestroy, onMount } from 'svelte';
 import { FeatureWalkthrough$ } from 'san-webkit/lib/ui/FeatureWalkthrough/context';
-import { queryAllProjects } from './../../lib/api/project';
-import { studio } from './../../lib/stores/studio';
+import { queryAllProjects } from './../api/project';
+import { studio } from './../stores/studio';
 import Asset from './Asset.svelte';
 import Address from './Address.svelte';
 import selectorSrc from './selector.jpg';

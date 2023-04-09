@@ -1,10 +1,10 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import { Event } from './../../lib/analytics';
-import { studio } from './../../lib/stores/studio';
-import { globals } from './../../lib/stores/globals';
-import { getAdapterController } from './../../lib/adapter/context';
-import { ALL_COLORS } from './../../lib/Chart/colors';
+import { Event } from './../analytics';
+import { studio } from './../stores/studio';
+import { globals } from './../stores/globals';
+import { getAdapterController } from './../adapter/context';
+import { ALL_COLORS } from './../Chart/colors';
 import Logic from './Logic.svelte';
 import Chart from './Chart.svelte';
 import Controls from './Controls/index.svelte';

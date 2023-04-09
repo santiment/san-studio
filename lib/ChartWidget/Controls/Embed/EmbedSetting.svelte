@@ -1,8 +1,8 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { selectedLayout } from './../../../../lib/stores/layout';
-import { currentUser } from './../../../../lib/stores/user';
-import { queryLayoutToken } from './../../../../lib/api/layouts/token';
+import { selectedLayout } from './../../../stores/layout';
+import { currentUser } from './../../../stores/user';
+import { queryLayoutToken } from './../../../api/layouts/token';
 import Setting from './Setting.svelte';
 export let isPro = false;
 export let dataToken = '';

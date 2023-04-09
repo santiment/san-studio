@@ -1,4 +1,4 @@
-<script lang="ts">import { Metric } from './../../lib/metrics';
+<script>import { Metric } from './../metrics';
 import PriceDAAWidget from './index.svelte';
 export let widget;
 export let isSingleWidget;

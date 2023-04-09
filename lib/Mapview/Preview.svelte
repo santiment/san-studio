@@ -1,4 +1,4 @@
-<script lang="ts">import { getWidgets } from './../../lib/stores/widgets';
+<script>import { getWidgets } from './../stores/widgets';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { getSortableDndCtx } from './dnd';
 const sortableDndCtx = getSortableDndCtx();

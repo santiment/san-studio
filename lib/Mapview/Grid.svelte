@@ -1,9 +1,9 @@
-<script lang="ts">import { onDestroy, tick } from 'svelte';
+<script>import { onDestroy, tick } from 'svelte';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import { mapview } from './../../lib/stores/mapview';
-import { getWidgets } from './../../lib/stores/widgets';
-import { selectedItems } from './../../lib/stores/selector';
+import { mapview } from './../stores/mapview';
+import { getWidgets } from './../stores/widgets';
+import { selectedItems } from './../stores/selector';
 import { newSortableDndCtx } from './dnd';
 import SelectedStack from './SelectedStack.svelte';
 export let isMetricsPhase;

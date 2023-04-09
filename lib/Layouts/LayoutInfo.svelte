@@ -1,6 +1,6 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Author from 'san-webkit/lib/ui/Profile/svelte';
-import { Metric } from './../../lib/metrics';
+import { Metric } from './../metrics';
 export let layout;
 
 $: ({
@@ -34,7 +34,7 @@ const listMetrics = metricKey => {
   Author
 </div>
 
-<Author {user} class="author-tWSFbb" />
+<Author {user} class="author-Fkc7rk" />
 
 <style>
   .label {
@@ -44,7 +44,7 @@ const listMetrics = metricKey => {
   }
 
   .value,
-  :global(.author-tWSFbb) {
+  :global(.author-Fkc7rk) {
     margin-left: 20px;
   }
 

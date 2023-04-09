@@ -1,7 +1,7 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { showPaymentDialog } from 'san-webkit/lib/ui/PaymentDialog/index.svelte';
-import { Event } from './../../../lib/analytics';
-import { globals } from './../../../lib/stores/globals';
+import { Event } from './../../analytics';
+import { globals } from './../../stores/globals';
 import { closeBanners } from './utils';
 export let upgradeClass = '';
 export let restrictions;

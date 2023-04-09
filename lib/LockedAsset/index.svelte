@@ -1,8 +1,8 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { studio, getLockedAssetStore } from './../../lib/stores/studio';
-import { Event } from './../../lib/analytics';
+import { studio, getLockedAssetStore } from './../stores/studio';
+import { Event } from './../analytics';
 import { showLockedAssetDialog } from './Dialog.svelte';
 const LockedAsset$ = getLockedAssetStore();
 

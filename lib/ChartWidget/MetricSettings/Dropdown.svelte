@@ -1,4 +1,4 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 export let isList = true;
 export let onClick = undefined;
@@ -20,7 +20,7 @@ $: if (optionsNode) {
 <Tooltip on="click" duration={0} align="center" bind:isOpened>
   <div slot="trigger" class="setting row v-center mrg-l mrg--l btn" on:click={onClick}>
     <slot />
-    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-RYrAN8" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-ImeZ+4" />
   </div>
 
   <div
@@ -44,7 +44,7 @@ $: if (optionsNode) {
     border-radius: 0;
   }
 
-  :global(.arrow-RYrAN8) {
+  :global(.arrow-ImeZ\+4) {
     transform: rotate(180deg);
   }
 

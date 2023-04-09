@@ -1,9 +1,9 @@
-<script lang="ts">var _a;
+<script>var _a;
 
 import { getDateFormats } from 'san-webkit/lib/utils/dates';
-import { globals } from './../../../lib/stores/globals';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import Dropdown from './../../../lib/ChartWidget/MetricSettings/Dropdown.svelte';
+import { globals } from './../../stores/globals';
+import { getWidget } from './../../ChartWidget/context';
+import Dropdown from './../../ChartWidget/MetricSettings/Dropdown.svelte';
 import { getCoinCostDate, checkAreSameDay, MAX_DATE, MAX_FREE_DATE } from './utils';
 const widget = getWidget();
 const {

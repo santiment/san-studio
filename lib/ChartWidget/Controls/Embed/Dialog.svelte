@@ -1,9 +1,9 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import EmbedDialog from './Dialog.svelte';
 export const showEmbedDialog = props => dialogs.show(EmbedDialog, props);</script>
 
-<script lang="ts">import Dialog from 'san-webkit/lib/ui/Dialog';
-import { globals } from './../../../../lib/stores/globals';
+<script>import Dialog from 'san-webkit/lib/ui/Dialog';
+import { globals } from './../../../stores/globals';
 import Code from './Code.svelte';
 import SelectChart from './SelectChart.svelte';
 import Setting, { PRO_PLUS } from './Setting.svelte';

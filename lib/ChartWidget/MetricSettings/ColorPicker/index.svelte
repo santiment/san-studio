@@ -1,4 +1,4 @@
-<script lang="ts">import HexInput from './HexInput.svelte'; // TODO: Refactor and move to san-webkit [@vanguard | Jun 16, 2021]
+<script>import HexInput from './HexInput.svelte'; // TODO: Refactor and move to san-webkit [@vanguard | Jun 16, 2021]
 
 import { hsvToHex, hexToHsv } from './utils';
 export let color;

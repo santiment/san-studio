@@ -1,8 +1,8 @@
-<script lang="ts">import { getContext } from 'svelte';
+<script>import { getContext } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { Event } from './../../analytics';
+import { getWidget } from './../../ChartWidget/context';
 import { showFullscreenChart } from './FullscreenDialog.svelte';
 const widget = getWidget();
 const closeFullscreen = getContext('fullscreen');

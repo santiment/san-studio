@@ -1,4 +1,4 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { fade } from 'svelte/transition';
 export let HistoryEmitter;
 let action;
@@ -19,9 +19,9 @@ function notify() {
 
 $: if (node && timer) {
   clearTimeout(popTimer);
-  node.classList.remove('pop-EWHDCR');
-  node.classList.add('pop-EWHDCR');
-  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-EWHDCR'), 120);
+  node.classList.remove('pop-IxpXbn');
+  node.classList.add('pop-IxpXbn');
+  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-IxpXbn'), 120);
 }
 
 onDestroy(() => {
@@ -48,7 +48,7 @@ onDestroy(() => {
     transition: transform 100ms;
   }
 
-  :global(.pop-EWHDCR) {
+  :global(.pop-IxpXbn) {
     transform: translateX(-50%) scale(1.07) !important;
   }
 </style>

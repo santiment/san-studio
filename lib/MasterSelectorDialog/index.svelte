@@ -1,11 +1,11 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Dialog from 'san-webkit/lib/ui/Dialog';
-import { studio } from './../../lib/stores/studio';
+import { studio } from './../stores/studio';
 import Suggestions from './Suggestions.svelte';
 import Blockchains from './Blockchains.svelte';
 import { handleNavigation } from './navigation';
 import { addRecent, replaceDefaultMetrics } from './utils';
-import { getWidgets } from './../../lib/stores/widgets';
+import { getWidgets } from './../stores/widgets';
 export let onItemSelect;
 const Widgets = getWidgets();
 let closeDialog;
@@ -52,9 +52,9 @@ function onEditableEscaped(target, closeDialog) {
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="dialog-TPHyrZ" bind:closeDialog {onEditableEscaped}>
+<Dialog {...$$props} noTitle class="dialog-RwirqW" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
-    <Svg id="search" w="16" class="icon-o_euK_" />
+    <Svg id="search" w="16" class="icon-OYnqjb" />
     <input
       bind:this={inputNode}
       autofocus
@@ -79,7 +79,7 @@ function onEditableEscaped(target, closeDialog) {
   <!-- <div class="tip row v-center caption c-waterloo">PROTIP:</div> -->
 </Dialog>
 
-<style lang="scss">:global(.dialog-TPHyrZ) {
+<style >:global(.dialog-RwirqW) {
   width: 500px;
   max-height: 480px !important;
   border-radius: 10px !important;
@@ -97,7 +97,7 @@ input {
   border-radius: 10px;
 }
 
-:global(.icon-o_euK_) {
+:global(.icon-OYnqjb) {
   position: absolute;
   top: 20px;
   left: 20px;

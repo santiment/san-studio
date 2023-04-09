@@ -1,19 +1,19 @@
-<script lang="ts">import { tick, onDestroy } from 'svelte';
+<script>import { tick, onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import { CMD } from 'san-webkit/lib/utils/os';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { Event } from './../../lib/analytics';
-import { Metric } from './../../lib/metrics';
-import { studio } from './../../lib/stores/studio';
-import { getWidgets, newWidget } from './../../lib/stores/widgets';
-import { selectedLayout } from './../../lib/stores/layout';
-import { currentUser } from './../../lib/stores/user';
-import { widgetsListener } from './../../lib/stores/widgetsListener';
-import { updateUserLayout, createUserLayout } from './../../lib/api/layouts/mutate';
-import ChartWidget from './../../lib/ChartWidget/index.svelte';
+import { Event } from './../analytics';
+import { Metric } from './../metrics';
+import { studio } from './../stores/studio';
+import { getWidgets, newWidget } from './../stores/widgets';
+import { selectedLayout } from './../stores/layout';
+import { currentUser } from './../stores/user';
+import { widgetsListener } from './../stores/widgetsListener';
+import { updateUserLayout, createUserLayout } from './../api/layouts/mutate';
+import ChartWidget from './../ChartWidget/index.svelte';
 import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
 import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte';
 import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
@@ -176,9 +176,9 @@ onDestroy(() => {
   <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
-  <Tooltip on="click" duration={0} align="center" class="tooltip-zcLt_t">
+  <Tooltip on="click" duration={0} align="center" class="tooltip-v52jK9">
     <div class="menu btn border" slot="trigger">
-      <Svg id="arrow" w="8" h="5" class="arrow-y4+a0+" />
+      <Svg id="arrow" w="8" h="5" class="arrow-xAPtGt" />
     </div>
 
     <div slot="tooltip">
@@ -241,11 +241,11 @@ onDestroy(() => {
     --color: var(--waterloo);
   }
 
-  :global(.arrow-y4\+a0\+) {
+  :global(.arrow-xAPtGt) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-zcLt_t) {
+  :global(.tooltip-v52jK9) {
     left: 0px !important;
     width: 200px;
     padding: 8px;

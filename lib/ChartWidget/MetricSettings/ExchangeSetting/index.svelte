@@ -1,9 +1,9 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import { Event } from './../../../../lib/analytics';
-import { studio } from './../../../../lib/stores/studio';
-import { getWidget } from './../../../../lib/ChartWidget/context';
-import { debounced } from './../../../../lib/ChartWidget/utils';
+import { Event } from './../../../analytics';
+import { studio } from './../../../stores/studio';
+import { getWidget } from './../../../ChartWidget/context';
+import { debounced } from './../../../ChartWidget/utils';
 import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils';
 import Dropdown from '../Dropdown.svelte';
 const History = getHistoryContext();

@@ -1,7 +1,7 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import ChartWidget from './../../lib/ChartWidget/index.svelte';
-import { initWidget } from './../../lib/ChartWidget/context';
-import { HolderDistributionMetric, HOLDER_DISTRIBUTION_ABSOLUTE_METRICS } from './../../lib/metrics/_onchain/holderDistributions';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import ChartWidget from './../ChartWidget/index.svelte';
+import { initWidget } from './../ChartWidget/context';
+import { HolderDistributionMetric, HOLDER_DISTRIBUTION_ABSOLUTE_METRICS } from './../metrics/_onchain/holderDistributions';
 import { buildMergedMetric } from './utils';
 import Sidebar from './Sidebar.svelte';
 const History = getHistoryContext();

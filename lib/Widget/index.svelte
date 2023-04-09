@@ -1,4 +1,4 @@
-<script lang="ts" context="module">function handleIntersection({
+<script context="module">function handleIntersection({
   target,
   isIntersecting
 }) {
@@ -16,9 +16,9 @@ export function newWidgetViewportObserver() {
   });
 }</script>
 
-<script lang="ts">import { onMount } from 'svelte';
+<script>import { onMount } from 'svelte';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
-import { getAdapterController } from './../../lib/adapter/context';
+import { getAdapterController } from './../adapter/context';
 import Subwidget from './Subwidget.svelte';
 const History = getHistoryContext();
 const {

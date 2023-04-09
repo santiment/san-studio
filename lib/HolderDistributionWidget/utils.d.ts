@@ -1,6 +1,6 @@
 import type { CachePolicy } from 'san-webkit/lib/api/cache';
-import { percentFormatter } from './../../lib/metrics/formatters';
-import { MetricType } from './../../lib/metrics/utils';
+import { percentFormatter } from './../metrics/formatters';
+import { MetricType } from './../metrics/utils';
 export declare const MERGED_DIVIDER = "__MM__";
 export declare const checkIfWasNotMerged: (newKey: string, mergedMetrics: any[]) => boolean;
 export declare function buildMergedMetric(baseMetrics: any[]): {

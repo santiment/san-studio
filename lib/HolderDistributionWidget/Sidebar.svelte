@@ -1,5 +1,5 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../../lib/stores/studio';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { studio } from './../stores/studio';
 import Metric from './Metric.svelte';
 export let metrics;
 export let mergedMetrics;
@@ -16,7 +16,7 @@ let isOpened = true;</script>
       id="sidebar"
       w="12"
       h="10"
-      class="btn icon-qdNZYk"
+      class="btn icon-5Gin1H"
       on:click={() => (isOpened = !isOpened)}
     />
   </div>
@@ -77,7 +77,7 @@ let isOpened = true;</script>
     position: relative;
   }
 
-  :global(.icon-qdNZYk) {
+  :global(.icon-5Gin1H) {
     --fill: var(--casper);
     --fill-hover: var(--green);
     --bg: var(--white);

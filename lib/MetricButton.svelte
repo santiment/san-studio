@@ -1,4 +1,4 @@
-<script lang="ts">var _a;
+<script>var _a;
 
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 let className = '';

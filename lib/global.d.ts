@@ -19,8 +19,8 @@ interface Window {
   showPaymentDialog?: () => void
 
   shareLayoutWidgets?: (widgets: any[]) => any[]
-  parseLayoutWidgets: (layout: import('./../lib/api/layouts').Layout) => any[]
-  onLayoutSelect: (layout: import('./../lib/api/layouts').Layout) => void
+  parseLayoutWidgets: (layout: import('./api/layouts').Layout) => any[]
+  onLayoutSelect: (layout: import('./api/layouts').Layout) => void
   notifyLayoutSave?: () => void
   notifyLayoutEdit?: () => void
   notifyLayoutCreation?: () => void
@@ -43,18 +43,18 @@ interface Window {
   onCommentSubmitted?: () => void
 }
 
-type ChartNode = import('./../lib/Chart/nodes').ChartNode
+type ChartNode = import('./Chart/nodes').ChartNode
 
 namespace Studio {
   type Project = { slug: string; ticker: string }
 
-  type Settings = import('./../lib/stores/studio').StudioSettings
+  type Settings = import('./stores/studio').StudioSettings
 
   type Metric = {
     key: string
     label: string
     shorthand?: string
-    category: import('./../lib/metrics/graph').MetricCategory
+    category: import('./metrics/graph').MetricCategory
     group?: string
     queryKey?: string
     node: ChartNode[keyof ChartNode]
@@ -67,7 +67,7 @@ namespace Studio {
     base?: any
     project?: Project
     selector?: string
-    selectorType?: import('./../lib/metrics/selector/types').SelectorType
+    selectorType?: import('./metrics/selector/types').SelectorType
     domainGroup?: string
     type?: string
     noProject?: boolean
@@ -85,22 +85,22 @@ namespace Studio {
         category: string
         group?: string
         shorthand?: string
-        selectorType?: import('./../lib/metrics/selector/types').SelectorType
+        selectorType?: import('./metrics/selector/types').SelectorType
         checkIsVisible?: (options: { [key: string]: any }) => boolean
       }
     | Studio.Metric
 
-  type ChartWidget = import('./../lib/ChartWidget/context').ChartWidget
+  type ChartWidget = import('./ChartWidget/context').ChartWidget
 
-  type Chart = import('./../lib/Chart/context').Chart
+  type Chart = import('./Chart/context').Chart
 
   type HolderDistributionMetric = Metric & {
     baseMetrics: any[]
   }
 
-  type MetricSetting = import('./../lib/ChartWidget/MetricSettings/context').MetricSetting
+  type MetricSetting = import('./ChartWidget/MetricSettings/context').MetricSetting
 
-  type MetricSettings = import('./../lib/ChartWidget/MetricSettings/context').MetricSettings
+  type MetricSettings = import('./ChartWidget/MetricSettings/context').MetricSettings
 }
 
 declare module 'mathjs/lib/esm/number' {

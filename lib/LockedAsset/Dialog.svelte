@@ -1,8 +1,8 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import LockedAssetDialog from './Dialog.svelte';
 export const showLockedAssetDialog = props => dialogs.showOnce(LockedAssetDialog, props);</script>
 
-<script lang="ts">import { queryFiatAssets } from 'san-webkit/lib/api/projects';
+<script>import { queryFiatAssets } from 'san-webkit/lib/api/projects';
 import Dialog from 'san-webkit/lib/ui/Dialog';
 import ListOfAssets from 'san-webkit/lib/ui/ListOfAssets/index.svelte';
 import { TABS } from 'san-webkit/lib/ui/ListOfAssets/Tabs.svelte';
@@ -10,7 +10,7 @@ export let onSelect;
 export let DialogCtx;
 const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]];</script>
 
-<Dialog {...$$props} title="Select asset" class="dialog-rSRBbA">
+<Dialog {...$$props} title="Select asset" class="dialog-0_iv1J">
   <main>
     <ListOfAssets
       tabs={LIST_OF_ASSETS}
@@ -24,7 +24,7 @@ const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]];</script>
 </Dialog>
 
 <style>
-  :global(.dialog-rSRBbA) {
+  :global(.dialog-0_iv1J) {
     width: 400px;
     height: 455px;
     max-width: 400px !important;

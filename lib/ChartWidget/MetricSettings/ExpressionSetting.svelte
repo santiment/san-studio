@@ -1,8 +1,8 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { showCombineDialog } from './../../../lib/CombineDialog/index.svelte';
-import { updateCombinedMetric } from './../../../lib/CombineDialog/flow';
+import { getWidget } from './../../ChartWidget/context';
+import { showCombineDialog } from './../../CombineDialog/index.svelte';
+import { updateCombinedMetric } from './../../CombineDialog/flow';
 import Setting from './Setting.svelte';
 const History = getHistoryContext();
 const widget = getWidget();

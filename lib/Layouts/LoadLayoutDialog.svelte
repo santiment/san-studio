@@ -1,15 +1,15 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import LoadLayoutDialog from './LoadLayoutDialog.svelte';
 export const showLoadLayoutDialog = () => dialogs.showOnce(LoadLayoutDialog);</script>
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Dialog from 'san-webkit/lib/ui/Dialog';
 import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
-import { studio } from './../../lib/stores/studio';
-import { globals } from './../../lib/stores/globals';
-import { queryLayouts } from './../../lib/api/layouts';
-import { queryCurrentUserLayouts, subscribeCurrentUserLayoutsCache } from './../../lib/api/layouts/user';
-import Search from './../../lib/Sidebar/Search.svelte';
+import { studio } from './../stores/studio';
+import { globals } from './../stores/globals';
+import { queryLayouts } from './../api/layouts';
+import { queryCurrentUserLayouts, subscribeCurrentUserLayoutsCache } from './../api/layouts/user';
+import Search from './../Sidebar/Search.svelte';
 import SelectableLayout from './SelectableLayout.svelte';
 var Tab;
 
@@ -74,7 +74,7 @@ onDestroy(() => {
 <Dialog
   {...$$props}
   title="Load Chart Layout"
-  class="dialog-jjsIIV"
+  class="dialog-2lWFYA"
   bind:closeDialog
   {onEditableEscaped}
 >
@@ -106,7 +106,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-jjsIIV) {
+  :global(.dialog-2lWFYA) {
     width: 600px;
     height: 480px;
   }
@@ -136,7 +136,7 @@ onDestroy(() => {
     border-bottom: 1px solid var(--porcelain);
   }
 
-  :global(.dialog-jjsIIV) :global(virtual-list-items) {
+  :global(.dialog-2lWFYA) :global(virtual-list-items) {
     padding: 12px;
   }
 </style>

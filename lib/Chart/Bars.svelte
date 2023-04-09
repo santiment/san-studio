@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { plotBars } from '@santiment-network/chart/bars';
+<script>import { plotBars } from '@santiment-network/chart/bars';
 import { getChart } from './context';
 const chart = getChart();
 chart.plotManager.set('bars', (chart, scale, data, colors, categories) => {

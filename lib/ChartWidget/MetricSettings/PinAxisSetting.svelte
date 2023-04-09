@@ -1,8 +1,8 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
-import { Event } from './../../../lib/analytics';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { Event } from './../../analytics';
+import { getWidget } from './../../ChartWidget/context';
 import Setting from './Setting.svelte';
 const History = getHistoryContext();
 const widget = getWidget();

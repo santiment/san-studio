@@ -1,4 +1,4 @@
-import type { LayoutCreation } from './../../lib/api/layouts/mutate';
+import type { LayoutCreation } from './../api/layouts/mutate';
 declare type Widget = {
     metrics?: Studio.Metric[];
 };

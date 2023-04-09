@@ -1,11 +1,11 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import ShortcutsDialog from './Dialog.svelte';
 export const showShortcutsDialog = () => dialogs.showOnce(ShortcutsDialog);</script>
 
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Dialog from 'san-webkit/lib/ui/Dialog';
 import { CMD } from 'san-webkit/lib/utils/os';
-import { Event } from './../../lib/analytics';
+import { Event } from './../analytics';
 import Section from './Section.svelte';
 track.event(Event.Shortcuts);
 

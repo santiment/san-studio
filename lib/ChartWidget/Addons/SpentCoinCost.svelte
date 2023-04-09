@@ -1,10 +1,10 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { linearScale } from '@santiment-network/chart/scales';
 import { millify } from 'san-webkit/lib/utils/formatting';
 import { getDateFormats } from 'san-webkit/lib/utils/dates';
-import { getChart } from './../../../lib/Chart/context';
-import { getWidget } from './../../../lib/ChartWidget/context';
-import { queryPriceHistogram } from './../../../lib/api/metrics/histogram';
+import { getChart } from './../../Chart/context';
+import { getWidget } from './../../ChartWidget/context';
+import { queryPriceHistogram } from './../../api/metrics/histogram';
 import { getCoinCostDate, checkAreSameDay } from './utils';
 const widget = getWidget();
 const chart = getChart();

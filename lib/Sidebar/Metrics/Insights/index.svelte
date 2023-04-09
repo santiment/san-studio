@@ -1,9 +1,9 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio, getLockedAssetStore } from './../../../../lib/stores/studio';
-import { getWidgets } from './../../../../lib/stores/widgets';
-import { getAdapterController } from './../../../../lib/adapter/context';
-import Category from './../../../../lib/Sidebar/Category.svelte';
+import { studio, getLockedAssetStore } from './../../../stores/studio';
+import { getWidgets } from './../../../stores/widgets';
+import { getAdapterController } from './../../../adapter/context';
+import Category from './../../../Sidebar/Category.svelte';
 import { getInsightsGraph } from './utils';
 export let searchTerm = '';
 export let isFiltering = false;
@@ -60,12 +60,12 @@ onDestroy(() => {
   onItemClick={(_, item) => InsightsContextStore.set(item)}
 >
   <svelte:fragment slot="pre-title">
-    <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r icon-R5ejte" />
+    <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r icon-ehSV17" />
   </svelte:fragment>
 </Category>
 
 <style>
-  :global(.icon-R5ejte) {
+  :global(.icon-ehSV17) {
     fill: var(--green) !important;
   }
 </style>

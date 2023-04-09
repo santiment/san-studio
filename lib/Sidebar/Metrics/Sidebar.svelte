@@ -1,8 +1,8 @@
-<script lang="ts">import { studio, getLockedAssetStore } from './../../../lib/stores/studio';
-import { globals } from './../../../lib/stores/globals';
-import LockedAsset from './../../../lib/LockedAsset/index.svelte';
-import { queryAddressMetrics, queryProjectMetrics } from './../../../lib/api/metrics';
-import { filterSelectorGraph, getMetricsSelectorGraph } from './../../../lib/metrics/selector/utils';
+<script>import { studio, getLockedAssetStore } from './../../stores/studio';
+import { globals } from './../../stores/globals';
+import LockedAsset from './../../LockedAsset/index.svelte';
+import { queryAddressMetrics, queryProjectMetrics } from './../../api/metrics';
+import { filterSelectorGraph, getMetricsSelectorGraph } from './../../metrics/selector/utils';
 import { DEFAULT_METRICS } from './defaults';
 import HoverItem from './HoverItem.svelte';
 import Favorites from './Favorites.svelte';

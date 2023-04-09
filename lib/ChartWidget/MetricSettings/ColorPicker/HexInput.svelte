@@ -1,4 +1,4 @@
-<script lang="ts">export let color;
+<script>export let color;
 export let onChange;
 let value = color;
 let error = false;

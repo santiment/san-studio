@@ -1,9 +1,9 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import { debounce } from 'san-webkit/lib/utils/fn';
-import { Event } from './../../../lib/analytics';
-import { getWidget } from './../../../lib/ChartWidget/context';
+import { Event } from './../../analytics';
+import { getWidget } from './../../ChartWidget/context';
 import Dropdown from './Dropdown.svelte';
 import ColorPicker from './ColorPicker/index.svelte';
 const History = getHistoryContext();

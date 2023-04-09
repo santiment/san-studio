@@ -1,4 +1,4 @@
-import type { Metric } from './../../../../lib/sharing';
+import type { Metric } from './../../../sharing';
 export declare function shareEmbeded(widget: any, studio: any, options: any): string;
 export declare function parseQueryString(qs: string): {
     slug: any;

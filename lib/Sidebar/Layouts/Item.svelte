@@ -1,5 +1,5 @@
-<script lang="ts">import { queryLayout } from './../../../lib/api/layouts';
-import { selectedLayout } from './../../../lib/stores/layout';
+<script>import { queryLayout } from './../../api/layouts';
+import { selectedLayout } from './../../stores/layout';
 import HoverItem from './HoverItem.svelte';
 import Item from '../Item.svelte';
 export let item;
@@ -10,12 +10,12 @@ function onClick() {
   queryLayout(item.id).then(window.onLayoutSelect);
 }</script>
 
-<Item {item} {HoverItem} active={isActive} on:click={onClick} class="item-aDsWPO">
+<Item {item} {HoverItem} active={isActive} on:click={onClick} class="item-xdRBHP">
   {item.title}
 </Item>
 
 <style>
-  :global(.item-aDsWPO) {
+  :global(.item-xdRBHP) {
     --color-active-hover: var(--green) !important;
   }
 </style>

@@ -1,8 +1,8 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../lib/analytics';
-import { mapview, MapviewPhase } from './../../lib/stores/mapview';
-import LayoutActions from './../../lib/Layouts/index.svelte';
+import { Event } from './../analytics';
+import { mapview, MapviewPhase } from './../stores/mapview';
+import LayoutActions from './../Layouts/index.svelte';
 import Layout from './Layout.svelte';
 export let headerPadding = 0;
 let headerNode;

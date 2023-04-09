@@ -1,9 +1,9 @@
-<script lang="ts">import { onDestroy, onMount, tick } from 'svelte';
+<script>import { onDestroy, onMount, tick } from 'svelte';
 import { initChart } from '@santiment-network/chart';
 import Preview from './Preview.svelte';
-import MetricButton from './../../lib/MetricButton.svelte';
-import { clearCtx } from './../../lib/Chart/utils';
-import { subscribeWidgetDataLoadedEvent } from './../../lib/ChartWidget/context';
+import MetricButton from './../MetricButton.svelte';
+import { clearCtx } from './../Chart/utils';
+import { subscribeWidgetDataLoadedEvent } from './../ChartWidget/context';
 export let widget;
 export let onClick;
 export let isMetricsPhase;

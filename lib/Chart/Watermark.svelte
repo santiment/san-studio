@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { getChart } from './context';
 const chart = getChart();
 export let isLessVisible = false;

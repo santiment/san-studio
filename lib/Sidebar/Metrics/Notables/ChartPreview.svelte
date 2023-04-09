@@ -1,8 +1,8 @@
-<script lang="ts">import { getTimeseries } from './../../../../lib/api/timeseries';
-import { querySignalTimeseries } from './../../../../lib/api/signals';
-import Chart from './../../../../lib/Chart/index.svelte';
-import Areas from './../../../../lib/Chart/Areas.svelte';
-import ReferenceDots from './../../../../lib/Chart/ReferenceDots.svelte';
+<script>import { getTimeseries } from './../../../api/timeseries';
+import { querySignalTimeseries } from './../../../api/signals';
+import Chart from './../../../Chart/index.svelte';
+import Areas from './../../../Chart/Areas.svelte';
+import ReferenceDots from './../../../Chart/ReferenceDots.svelte';
 export let key;
 export let metric;
 export let settings;

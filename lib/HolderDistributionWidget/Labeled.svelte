@@ -1,9 +1,9 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
-import { initWidget } from './../../lib/ChartWidget/context';
-import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS } from './../../lib/metrics/_onchain/holderDistributions';
+import { initWidget } from './../ChartWidget/context';
+import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS } from './../metrics/_onchain/holderDistributions';
 import HolderDistributionWidget from './index.svelte';
 const History = getHistoryContext();
 export let widget;
@@ -82,10 +82,10 @@ function onReset() {
   <slot>labeled by number of addresses</slot>
 
   <svelte:fragment slot="tabs">
-    <Tooltip on="click" duration={0} align="center" class="tooltip-aRUa5R">
+    <Tooltip on="click" duration={0} align="center" class="tooltip-o_xbZl">
       <div slot="trigger" class="border v-center btn row mrg-l mrg--b" class:text>
         {text || 'Show all labels'}
-        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-dlmYNZ" />
+        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-VhtQ0c" />
       </div>
 
       <svelte:fragment slot="tooltip">
@@ -113,14 +113,14 @@ function onReset() {
   .border:hover {
     border-color: var(--green);
   }
-  :global(.arrow-dlmYNZ) {
+  :global(.arrow-VhtQ0c) {
     transform: rotate(180deg);
   }
   .text {
     --color: var(--black);
   }
 
-  :global(.tooltip-aRUa5R) {
+  :global(.tooltip-o_xbZl) {
     width: calc(100% - 32px);
     padding: 0 8px;
   }

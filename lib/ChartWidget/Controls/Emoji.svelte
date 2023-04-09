@@ -1,8 +1,8 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { EMOJIS, newEmoji } from './../../../lib/Chart/Drawer/drawings/emoji';
+import { Event } from './../../analytics';
+import { EMOJIS, newEmoji } from './../../Chart/Drawer/drawings/emoji';
 
 const random = (max, min) => Math.random() * (max - min) + min;
 
@@ -32,7 +32,7 @@ function onClick(e) {
   on="click"
   duration={0}
   align="center"
-  class="Tooltip-Y3IEZc"
+  class="Tooltip-V9zEkn"
   activeClass="active"
 >
   <div slot="trigger" class="btn-3" class:disabled={$ChartDrawer.isHidden}>
@@ -47,7 +47,7 @@ function onClick(e) {
 </Tooltip>
 
 <style>
-  :global(.Tooltip-Y3IEZc) {
+  :global(.Tooltip-V9zEkn) {
     margin-top: -6px;
   }
 

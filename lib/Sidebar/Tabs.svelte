@@ -1,4 +1,4 @@
-<script lang="ts">export let tab;
+<script>export let tab;
 export let tabs;</script>
 
 <div class="tabs row txt-m">

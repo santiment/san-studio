@@ -1,4 +1,4 @@
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import ItemLabel from './ItemLabel.svelte';
 let className = '';
 export { className as class };
@@ -55,7 +55,7 @@ onDestroy(() => window.__clearHoverItem = null);</script>
   </div>
 {/if}
 
-<style lang="scss">.item {
+<style >.item {
   padding: 6px 9px;
   min-height: 32px;
   position: relative;

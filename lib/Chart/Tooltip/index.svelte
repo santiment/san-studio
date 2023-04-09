@@ -1,10 +1,10 @@
 <svelte:options immutable />
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { initTooltip, drawTooltip, drawHoverLineX, drawHoverLineY, drawValueBubbleX, drawValueBubbleY, getTootlipTotalWidth } from '@santiment-network/chart/tooltip';
 import { handleMove as handlePointEvent } from '@santiment-network/chart/events';
 import { logScale, valueByY, valueByLogY } from '@santiment-network/chart/scales';
-import { NotableSignal } from './../../../lib/metrics/_notables';
+import { NotableSignal } from './../../metrics/_notables';
 import { getTooltipSynchronizer } from './context';
 import { onSelection } from './selection';
 import { clearCtx, getDateDayMonthYear } from '../utils';

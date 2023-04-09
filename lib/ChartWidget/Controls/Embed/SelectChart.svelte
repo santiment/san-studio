@@ -1,7 +1,7 @@
-<script lang="ts">import Svg from 'san-webkit/lib/ui/Svg/svelte';
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { studio } from './../../../../lib/stores/studio';
-import { getWidgets } from './../../../../lib/stores/widgets';
+import { studio } from './../../../stores/studio';
+import { getWidgets } from './../../../stores/widgets';
 import ChartPreview from './ChartPreview.svelte';
 import { getChartWidgetLabel } from './utils';
 const Widgets = getWidgets();
@@ -42,7 +42,7 @@ function onSelect(widget = widgets) {
       {/if}
     </span>
 
-    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-H8W8dJ" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-W4tYRF" />
   </div>
 
   <div slot="tooltip" class="tooltip" bind:this={optionsRef}>
@@ -67,7 +67,7 @@ function onSelect(widget = widgets) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
-  :global(.arrow-H8W8dJ) {
+  :global(.arrow-W4tYRF) {
     transform: rotate(180deg);
   }
 

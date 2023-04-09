@@ -1,7 +1,7 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../../lib/analytics';
-import { newNote } from './../../../lib/Chart/Drawer/drawings/note';
+import { Event } from './../../analytics';
+import { newNote } from './../../Chart/Drawer/drawings/note';
 export let chart;
 export let ChartDrawer;
 

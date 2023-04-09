@@ -1,7 +1,7 @@
-<script lang="ts">import { studio } from './../../lib/stores/studio';
-import { newHighlightedColors } from './../../lib/Chart/colors';
-import { mapClosestValue } from './../../lib/Chart/utils';
-import { getMetricNodes } from './../../lib/Chart/nodes';
+<script>import { studio } from './../stores/studio';
+import { newHighlightedColors } from './../Chart/colors';
+import { mapClosestValue } from './../Chart/utils';
+import { getMetricNodes } from './../Chart/nodes';
 import { newMetricSettingsTransformer } from './transformers';
 import { groupDomains, getIndicatorDomainGroups, checkHasDomainGroups, getIndicatorDomainGroup } from './domain';
 export let widget;

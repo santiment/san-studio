@@ -1,10 +1,10 @@
-<script lang="ts">import { tick } from 'svelte';
+<script>import { tick } from 'svelte';
 import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { favoriteMetrics } from './../../../lib/stores/favoriteMetrics';
-import { globals } from './../../../lib/stores/globals';
-import { getAdapterController } from './../../../lib/adapter/context';
-import HoverItem from './../../../lib/Sidebar/HoverItem.svelte';
+import { favoriteMetrics } from './../../stores/favoriteMetrics';
+import { globals } from './../../stores/globals';
+import { getAdapterController } from './../../adapter/context';
+import HoverItem from './../../Sidebar/HoverItem.svelte';
 import ItemLabel from '../ItemLabel.svelte';
 import ItemDescription from '../ItemDescription.svelte';
 const History = getHistoryContext();
@@ -49,12 +49,12 @@ function onFavoriteClick(e) {
   <ItemLabel {item} bind:active />
 
   <svelte:fragment slot="right">
-    <ItemDescription {item} class="icon-zlGqjz" />
+    <ItemDescription {item} class="icon-k7HJJA" />
 
     {#if item.selectorType === undefined}
       <Svg
         id="star{isFavorited ? '-filled' : ''}"
-        class="icon-zlGqjz star-Xr38c3 mrg-m mrg--l {isFavorited ? 'favorited-2ENtG+' : ''}"
+        class="icon-k7HJJA star-oMiRDR mrg-m mrg--l {isFavorited ? 'favorited-LtbxbS' : ''}"
         on:click={onFavoriteClick}
       />
     {/if}
@@ -62,20 +62,20 @@ function onFavoriteClick(e) {
 </HoverItem>
 
 <style>
-  :global(.icon-zlGqjz) {
+  :global(.icon-k7HJJA) {
     width: 16px;
     height: 16px;
     fill: var(--waterloo);
   }
 
-  :global(.star-Xr38c3:hover) {
+  :global(.star-oMiRDR:hover) {
     fill: var(--orange);
   }
 
-  :global(.favorited-2ENtG\+) {
+  :global(.favorited-LtbxbS) {
     fill: var(--orange);
   }
-  :global(.favorited-2ENtG\+:hover) {
+  :global(.favorited-LtbxbS:hover) {
     fill: var(--orange-hover);
   }
 </style>

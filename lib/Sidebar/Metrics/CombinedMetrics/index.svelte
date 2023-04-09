@@ -1,13 +1,13 @@
-<script lang="ts">import { onDestroy, setContext } from 'svelte';
+<script>import { onDestroy, setContext } from 'svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { getWidgets } from './../../../../lib/stores/widgets';
-import { selectedItems } from './../../../../lib/stores/selector';
-import { widgetsListener } from './../../../../lib/stores/widgetsListener';
-import Category from './../../../../lib/Sidebar/Category.svelte';
-import Item from './../../../../lib/Sidebar/Item.svelte';
-import { showCombineDialog } from './../../../../lib/CombineDialog/index.svelte';
+import { getWidgets } from './../../../stores/widgets';
+import { selectedItems } from './../../../stores/selector';
+import { widgetsListener } from './../../../stores/widgetsListener';
+import Category from './../../../Sidebar/Category.svelte';
+import Item from './../../../Sidebar/Item.svelte';
+import { showCombineDialog } from './../../../CombineDialog/index.svelte';
 import HoverItem from './HoverItem.svelte';
-import { checkIsFilterMatch } from './../../../../lib/metrics/selector/utils';
+import { checkIsFilterMatch } from './../../../metrics/selector/utils';
 const Widgets = getWidgets();
 const unsubWidgets = widgetsListener.subscribe(onWidgetsChange);
 export let searchTerm = '';
@@ -73,7 +73,7 @@ onDestroy(unsubWidgets);</script>
 {#if !isFiltering || (isFiltering && searchedMetrics.length)}
   <Category category="Combined metrics" isOpened {isFiltering} arrowClass="mrg-l">
     <svelte:fragment slot="pre-title">
-      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-+P0Scq" />
+      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-j7g3X8" />
     </svelte:fragment>
 
     <svelte:fragment slot="post-title">
@@ -94,7 +94,7 @@ onDestroy(unsubWidgets);</script>
   </Category>
 {/if}
 
-<style lang="scss">:global(.icon-\+P0Scq) {
+<style >:global(.icon-j7g3X8) {
   fill: var(--blue) !important;
 }
 

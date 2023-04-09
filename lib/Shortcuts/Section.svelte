@@ -1,4 +1,4 @@
-<script lang="ts">let className = '';
+<script>let className = '';
 export { className as class };
 export let title;
 export let shortcuts;</script>

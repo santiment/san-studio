@@ -1,4 +1,4 @@
-<script lang="ts">export let node;
+<script>export let node;
 export let hoverNode;
 
 $: style = node ? getActionsStyles() : '';

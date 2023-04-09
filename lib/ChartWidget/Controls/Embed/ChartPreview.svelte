@@ -1,6 +1,6 @@
-<script lang="ts">import { onMount } from 'svelte';
+<script>import { onMount } from 'svelte';
 import { initChart } from '@santiment-network/chart';
-import { clearCtx } from './../../../../lib/Chart/utils';
+import { clearCtx } from './../../../Chart/utils';
 export let widget;
 let chart;
 let canvas;

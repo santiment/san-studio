@@ -1,5 +1,5 @@
-<script lang="ts">import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
-import { getWidget } from './../../../lib/ChartWidget/context';
+<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getWidget } from './../../ChartWidget/context';
 import Dropdown from './Dropdown.svelte';
 import { setWeightedSocialSmoothing } from '../transformers/weightedSocial';
 const History = getHistoryContext();

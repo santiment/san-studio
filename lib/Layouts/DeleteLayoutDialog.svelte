@@ -1,10 +1,10 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import DeleteLayoutDialog from './DeleteLayoutDialog.svelte';
 import { removeRecentLayoutId } from './utils';
 export const showDeleteLayoutDialog = props => dialogs.show(DeleteLayoutDialog, props);</script>
 
-<script lang="ts">import Dialog from 'san-webkit/lib/ui/Dialog';
-import { deleteUserLayout } from './../../lib/api/layouts/mutate';
+<script>import Dialog from 'san-webkit/lib/ui/Dialog';
+import { deleteUserLayout } from './../api/layouts/mutate';
 export let DialogPromise;
 export let layout;
 let closeDialog;
@@ -21,7 +21,7 @@ function onDeleteClick() {
   {...$$props}
   title="Do you want to delete this layout?"
   bind:closeDialog
-  class="dialog-I7TAfs"
+  class="dialog-8POkxi"
 >
   <div class="dialog-body">
     This action cannot be undone
@@ -33,7 +33,7 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-I7TAfs) {
+  :global(.dialog-8POkxi) {
     width: 320px;
   }
 </style>

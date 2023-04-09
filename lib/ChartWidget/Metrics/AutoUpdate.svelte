@@ -1,7 +1,7 @@
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import { ONE_SECOND_IN_MS, ONE_MINUTE_IN_MS, ONE_HOUR_IN_MS } from 'san-webkit/lib/utils/dates';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { Event } from './../../../lib/analytics';
+import { Event } from './../../analytics';
 export let AutoUpdater;
 export let changeStudioPeriod;
 let interval;
@@ -50,7 +50,7 @@ function onClick() {
 <Tooltip
   bind:isOpened
   dark
-  class="caption tooltip-Y1gWnr"
+  class="caption tooltip-OgnwYL"
   position="top"
   align="end"
   duration={0}
@@ -114,7 +114,7 @@ function onClick() {
     --bg-hover: var(--green-light-2);
   }
 
-  :global(.tooltip-Y1gWnr) {
+  :global(.tooltip-OgnwYL) {
     white-space: nowrap;
   }
 

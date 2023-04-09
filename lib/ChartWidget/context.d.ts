@@ -1,13 +1,13 @@
 import type { CachePolicy } from 'san-webkit/lib/api/cache';
-import type { MetricSettings } from './../../lib/ChartWidget/MetricSettings/context';
-import type { MetricIndicators } from './../../lib/ChartWidget/MetricSettings/IndicatorSetting/context';
-import { newChartDrawerStore } from './../../lib/Chart/Drawer/context';
-import { newChartAxesStore } from './../../lib/Chart/Axes/context';
-import { newChartColorsStore } from './../../lib/Chart/colors/context';
-import { newChartOptionsStore } from './../../lib/ChartWidget/Controls/context';
-import { newMetricsStore, newHiddenMetricsStore } from './../../lib/ChartWidget/Metrics/context';
-import { newMetricSettingsStore } from './../../lib/ChartWidget/MetricSettings/context';
-import { newMetricIndicatorsStore } from './../../lib/ChartWidget/MetricSettings/IndicatorSetting/context';
+import type { MetricSettings } from './../ChartWidget/MetricSettings/context';
+import type { MetricIndicators } from './../ChartWidget/MetricSettings/IndicatorSetting/context';
+import { newChartDrawerStore } from './../Chart/Drawer/context';
+import { newChartAxesStore } from './../Chart/Axes/context';
+import { newChartColorsStore } from './../Chart/colors/context';
+import { newChartOptionsStore } from './../ChartWidget/Controls/context';
+import { newMetricsStore, newHiddenMetricsStore } from './../ChartWidget/Metrics/context';
+import { newMetricSettingsStore } from './../ChartWidget/MetricSettings/context';
+import { newMetricIndicatorsStore } from './../ChartWidget/MetricSettings/IndicatorSetting/context';
 export declare type ChartWidget = {
     ChartAxes: ReturnType<typeof newChartAxesStore>;
     ChartDrawer: ReturnType<typeof newChartDrawerStore>;

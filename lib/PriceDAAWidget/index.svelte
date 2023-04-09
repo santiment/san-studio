@@ -1,6 +1,6 @@
-<script lang="ts">import { Metric } from './../../lib/metrics';
-import ChartWidget from './../../lib/ChartWidget/index.svelte';
-import { studio } from './../../lib/stores/studio';
+<script>import { Metric } from './../metrics';
+import ChartWidget from './../ChartWidget/index.svelte';
+import { studio } from './../stores/studio';
 export let widget;
 export let isSingleWidget;
 export let deleteWidget;

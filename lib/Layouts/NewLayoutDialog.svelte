@@ -1,4 +1,4 @@
-<script context="module" lang="ts">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import NewLayoutDialog from './NewLayoutDialog.svelte';
 export const showNewLayoutDialog = props => dialogs.show(NewLayoutDialog, props);
 export const Mode = {
@@ -7,14 +7,14 @@ export const Mode = {
   Edit: 2
 };</script>
 
-<script lang="ts">import { track } from 'san-webkit/lib/analytics';
+<script>import { track } from 'san-webkit/lib/analytics';
 import Dialog from 'san-webkit/lib/ui/Dialog';
 import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import { Event } from './../../lib/analytics';
-import { studio } from './../../lib/stores/studio';
-import { globals } from './../../lib/stores/globals';
-import { getWidgets } from './../../lib/stores/widgets';
-import { createUserLayout, updateUserLayout } from './../../lib/api/layouts/mutate';
+import { Event } from './../analytics';
+import { studio } from './../stores/studio';
+import { globals } from './../stores/globals';
+import { getWidgets } from './../stores/widgets';
+import { createUserLayout, updateUserLayout } from './../api/layouts/mutate';
 import { saveScheduledLayout, getAllWidgetsMetricsKeys, getLayoutMetrics } from './utils';
 const Widgets = getWidgets();
 export let DialogPromise;

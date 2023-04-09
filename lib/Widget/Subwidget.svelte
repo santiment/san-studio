@@ -1,5 +1,5 @@
-<script lang="ts">import { onMount, onDestroy } from 'svelte';
-import { getAdapterController } from './../../lib/adapter/context';
+<script>import { onMount, onDestroy } from 'svelte';
+import { getAdapterController } from './../adapter/context';
 const {
   onSubwidget
 } = getAdapterController();

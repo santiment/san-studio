@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid';
 import { getChart } from './context';
 const chart = getChart();

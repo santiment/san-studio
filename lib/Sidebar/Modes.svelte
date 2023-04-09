@@ -1,16 +1,16 @@
-<script lang="ts" context="module">export const Mode = {
+<script context="module">export const Mode = {
   Metrics: 'Metrics',
   Layouts: 'Layouts'
 };</script>
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { CMD } from 'san-webkit/lib/utils/os';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../lib/analytics';
-import { SidewidgetType, getSidewidget } from './../../lib/stores/widgets';
-import { showShortcutsDialog } from './../../lib/Shortcuts/Dialog.svelte';
+import { Event } from './../analytics';
+import { SidewidgetType, getSidewidget } from './../stores/widgets';
+import { showShortcutsDialog } from './../Shortcuts/Dialog.svelte';
 export let mode = Mode.Metrics;
 export let isLocked;
 const Sidewidget = getSidewidget();
@@ -44,7 +44,7 @@ onDestroy(() => {
     class="toggle btn row hv-center expl-tooltip"
     on:click={toggleSidebar}
   >
-    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : 'closed-SmqqCf'} />
+    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : 'closed-sMXSTv'} />
   </div>
   {#each MODES as id}
     <div class="btn" class:active={mode === id} on:click={() => onModeCange(id)}>
@@ -70,7 +70,7 @@ onDestroy(() => {
     </div>
     <div class="help btn row v-center" on:click={onHelpClick}>
       Help & Feedback
-      <Svg id="chat" w="14" h="16" class="chat-0y1ne5 mrg-s mrg--t" />
+      <Svg id="chat" w="14" h="16" class="chat-gBO55t mrg-s mrg--t" />
     </div>
   </div>
 </div>
@@ -106,7 +106,7 @@ onDestroy(() => {
     border: none;
     border-bottom: 1px solid var(--porcelain);
   }
-  :global(.closed-SmqqCf) {
+  :global(.closed-sMXSTv) {
     transform: rotate(180deg);
   }
 
@@ -130,7 +130,7 @@ onDestroy(() => {
     --fill: var(--casper);
     padding: 12px 5px;
   }
-  :global(.chat-0y1ne5) {
+  :global(.chat-gBO55t) {
     transform: rotate(90deg);
   }
 
