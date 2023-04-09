@@ -15,9 +15,32 @@
     "strictNullChecks": true,
     "declaration": true,
     "paths": {
-      "san-webkit/lib/*": ["../node_modules/san-webkit/lib/*"]
+      "@/*": [
+        "../src/*"
+      ],
+      "webkit/*": [
+        "../node_modules/san-webkit/lib/*"
+      ],
+      "webkit": [
+        "../node_modules/san-webkit/lib"
+      ],
+      "san-chart/*": [
+        "../node_modules/@santiment-network/chart/*"
+      ],
+      "san-chart": [
+        "../node_modules/@santiment-network/chart"
+      ]
     }
   },
-  "include": ["../lib/**/*.d.ts", "../lib/**/*.ts", "../lib/**/*.js", "../lib/**/*.svelte"],
-  "exclude": ["node_modules/*", "../lib/**/*.test.js"]
+  "include": [
+    "../src/**/*.d.ts",
+    "../src/**/*.ts",
+    "../src/**/*.js",
+    "../src/**/*.svelte"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "../src/**/*.test.js",
+    "../src/main.ts"
+  ]
 }

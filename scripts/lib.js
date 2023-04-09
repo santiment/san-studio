@@ -1,25 +1,15 @@
-const path = require('path')
-const fs = require('fs')
-const { forFile } = require('san-webkit/scripts/utils')
-const { indexTypes } = require('san-webkit/scripts/types')
-const { processSvelte } = require('./svelte')
-const { SRC, LIB } = require('./utils')
+const { forFile, copyFile } = require('san-webkit/scripts/utils')
+const { prepareTypes } = require('san-webkit/scripts/types')
+const { prepareSvelte } = require('san-webkit/scripts/svelte')
+const { prepareImports } = require('san-webkit/scripts/imports')
 
 async function main() {
-  indexTypes(LIB)
+  await forFile(['src/**', '!src/**/*.ts', '!src/**/*.test.ts', '!src/**/*.test.js'], copyFile)
 
-  processSvelte()
+  prepareTypes()
 
-  forFile(['lib/**/*.js.map'], async (entry) => {
-    const absolutePath = path.resolve(entry)
-    const file = fs.readFileSync(absolutePath)
+  await prepareSvelte()
 
-    const sourceRoot = path.relative(absolutePath, SRC).slice(1)
-
-    fs.writeFileSync(
-      absolutePath,
-      file.toString().replace(`"sourceRoot":"../src/"`, `"sourceRoot":"${sourceRoot}/"`),
-    )
-  })
+  prepareImports()
 }
 main()
