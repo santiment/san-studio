@@ -1,8 +1,8 @@
 <script context="module">
-  import { getContext } from 'svelte'
+  import { getAppTooltipCtx } from 'webkit/ui/Tooltip/ctx'
 
   const ID = 'OptionsMenuTooltipCtx'
-  export const getOptionsMenuTooltip = () => getContext(ID)
+  export const getOptionsMenuTooltip = () => getAppTooltipCtx(ID)
 </script>
 
 <script>

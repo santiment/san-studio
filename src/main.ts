@@ -4,6 +4,7 @@ import { startResponsiveController } from 'webkit/responsive'
 import { newGlobalShortcut } from 'webkit/utils/events'
 import { CONTEXT as HISTORY_CONTEXT } from 'webkit/ui/history'
 import FeatureWalkthrough from 'webkit/ui/FeatureWalkthrough/svelte'
+import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
 import { Metric } from '@/metrics'
 import { newWidget } from '@/stores/widgets'
 import { studio } from '@/stores/studio'
@@ -38,16 +39,18 @@ const app = new App({
     InsightsContextStore: newInsightsContextStore(),
   },
 })
+const ROOT_CTX = app.$$.context
 
 // @ts-ignore
 window.toggleNight = () =>
   globals.toggle('isNightMode', document.body.classList.toggle('night-mode'))
 
-const History = app.$$.context.get(HISTORY_CONTEXT)
+const History = ROOT_CTX.get(HISTORY_CONTEXT)
 newGlobalShortcut('CMD+Z', History.undo)
 newGlobalShortcut('CMD+SHIFT+Z', History.redo)
 newGlobalShortcut('CMD+K', showMasterSelectorDialog)
 
-new FeatureWalkthrough({ target: document.body })
+new FeatureWalkthrough({ target: document.body, context: ROOT_CTX })
+new Dialogs({ target: document.body, context: ROOT_CTX })
 
 export default app
