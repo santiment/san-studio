@@ -47,7 +47,8 @@ export function paintEmoji(chart: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
 }
 
 export function loadEmoji(chart: SAN.Charts.Chart, drawing: SAN.Charts.Emoji) {
-  const Image = process.browser ? window.Image : require('canvas').Image
+  // const Image = process.browser ? window.Image : require('canvas').Image
+  const Image = globalThis.Image
   const img = new Image()
   img.onload = () => {
     CachedEmoji.set(drawing.id, img)
