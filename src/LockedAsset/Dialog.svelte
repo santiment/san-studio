@@ -6,20 +6,26 @@
 </script>
 
 <script lang="ts">
+  import { queryFiatAssets } from 'webkit/api/projects'
   import Dialog from 'webkit/ui/Dialog'
   import ListOfAssets from 'webkit/ui/ListOfAssets/index.svelte'
+  import { TABS } from 'webkit/ui/ListOfAssets/Tabs.svelte'
 
   export let onSelect
+  export let DialogCtx
+
+  const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]]
 </script>
 
-<Dialog {...$$props} title="Select asset" class="$style.dialog" let:closeDialog>
+<Dialog {...$$props} title="Select asset" class="$style.dialog">
   <main>
     <ListOfAssets
+      tabs={LIST_OF_ASSETS}
       onSelect={(asset) => {
         onSelect(asset)
-        closeDialog()
+        DialogCtx.close()
       }}
-      onEscape={closeDialog}
+      onEscape={DialogCtx.close}
     />
   </main>
 </Dialog>

@@ -5,6 +5,8 @@
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { getAdapterController } from '@/adapter/context'
   import { showShortcutsDialog } from '@/Shortcuts/Dialog.svelte'
+  import { newProjectMetric, newAddressMetric } from '@/metrics/utils'
+  import { studio as studio$, getLockedAssetStore } from '@/stores/studio'
   import { handleItemSelect } from './controller'
   import Sidebar from './Sidebar.svelte'
   import { Mode } from './Modes.svelte'
@@ -14,8 +16,9 @@
   const History = getHistoryContext()
   const { checkIsMapviewDisabled } = getAdapterController() as any
   const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
+  const LockedAsset$ = getLockedAssetStore() as any
 
-  export let Widgets, Sidewidget, adjustSelectedMetric
+  export let Widgets, Sidewidget //, adjustSelectedMetric
 
   let mode = Mode.Metrics
   let isLocked = true // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
@@ -27,6 +30,22 @@
   function onItemClick(e: MouseEvent, item: any) {
     if (checkIsMapviewDisabled?.()) return
     handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric)
+  }
+
+  function adjustSelectedMetric(node) {
+    if (node.noProject) return node
+
+    const settings = $studio$
+    const lockedAsset = $LockedAsset$
+    const { slug, address } = lockedAsset
+
+    if (address) {
+      if (address === settings.address) return node
+      return newAddressMetric(address, node)
+    }
+
+    if (!settings.address && slug === settings.slug) return node
+    return newProjectMetric(lockedAsset, node)
   }
 
   const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
