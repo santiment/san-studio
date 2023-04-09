@@ -61,11 +61,23 @@ function onLayoutSelect(layout) {
   closeDialog();
 }
 
+function onEditableEscaped(target, closeDialog) {
+  if (!target.value) return closeDialog();
+  searchTerm = '';
+  setTimeout(() => target.value = '');
+}
+
 onDestroy(() => {
   unsubscribe === null || unsubscribe === void 0 ? void 0 : unsubscribe();
 });</script>
 
-<Dialog {...$$props} title="Load Chart Layout" class="dialog-SLuznb" bind:closeDialog>
+<Dialog
+  {...$$props}
+  title="Load Chart Layout"
+  class="dialog-jjsIIV"
+  bind:closeDialog
+  {onEditableEscaped}
+>
   <div class="tabs row">
     <div
       class="tab btn mrg-xl mrg--r active"
@@ -83,14 +95,7 @@ onDestroy(() => {
     <Search bind:searchTerm autofocus placeholder="Search chart layout..." />
   </div>
 
-  <VirtualList
-    hideEmptyResults
-    items={filteredLayouts}
-    key="id"
-    defaultItemHeight={72}
-    class="layouts-WfNt9Q"
-    let:item
-  >
+  <VirtualList items={filteredLayouts} itemHeight={72} class="" let:item>
     <SelectableLayout
       layout={item}
       {closeDialog}
@@ -101,7 +106,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-SLuznb) {
+  :global(.dialog-jjsIIV) {
     width: 600px;
     height: 480px;
   }
@@ -131,7 +136,7 @@ onDestroy(() => {
     border-bottom: 1px solid var(--porcelain);
   }
 
-  :global(.layouts-WfNt9Q) :global(.list) {
+  :global(.dialog-jjsIIV) :global(virtual-list-items) {
     padding: 12px;
   }
 </style>

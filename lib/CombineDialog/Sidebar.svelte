@@ -1,10 +1,10 @@
-<script lang="ts">import { queryProjectMetrics } from './../../lib/api/metrics';
+<script lang="ts">import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
+import { queryProjectMetrics } from './../../lib/api/metrics';
 import { studio } from './../../lib/stores/studio';
 import { globals } from './../../lib/stores/globals';
 import { getMetricsSelectorGraph } from './../../lib/metrics/selector/utils';
 import { convertBaseProjectMetric } from './../../lib/ChartWidget/Metrics/utils';
 import Search from './../../lib/Sidebar/Search.svelte';
-import VirtualList from './VirtualList.svelte';
 import ProjectSelector from './ProjectSelector.svelte';
 export let onMetricSelect;
 let availableMetrics = [];
@@ -44,10 +44,10 @@ function onSelect(metric) {
 
   <Search class="mrg-s mrg--b" autofocus placeholder="Search metrics" bind:searchTerm />
 
-  <VirtualList class="items-h4kTCI" {items} let:item>
-    <div class="item btn-ghost" on:click={() => onSelect(item)}>
+  <VirtualList itemHeight={32} renderAmount={20} {items} let:item>
+    <button class="item btn-ghost" on:click={() => onSelect(item)}>
       {item.label}
-    </div>
+    </button>
   </VirtualList>
 </div>
 
@@ -57,10 +57,5 @@ function onSelect(metric) {
     border-right: 1px solid var(--porcelain);
     align-self: stretch;
     width: 280px;
-  }
-
-  :global(.items-h4kTCI) {
-    overflow-y: auto;
-    height: 100%;
   }
 </style>

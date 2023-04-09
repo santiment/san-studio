@@ -1,6 +1,6 @@
-<script lang="ts">import { getAdapterController } from './../../../lib/adapter/context';
-import { studio, getLockedAssetStore } from './../../../lib/stores/studio';
+<script lang="ts">import { studio, getLockedAssetStore } from './../../../lib/stores/studio';
 import { globals } from './../../../lib/stores/globals';
+import LockedAsset from './../../../lib/LockedAsset/index.svelte';
 import { queryAddressMetrics, queryProjectMetrics } from './../../../lib/api/metrics';
 import { filterSelectorGraph, getMetricsSelectorGraph } from './../../../lib/metrics/selector/utils';
 import { DEFAULT_METRICS } from './defaults';
@@ -11,33 +11,27 @@ import Insights from './Insights/index.svelte';
 import CombinedMetrics from './CombinedMetrics/index.svelte';
 import Search from '../Search.svelte';
 import Category from '../Category.svelte';
-const {
-  onSidebarProjectMount = () => {}
-} = getAdapterController();
-const LockedAsset = getLockedAssetStore();
+const LockedAsset$ = getLockedAssetStore();
 export let onItemClick;
-let projectNode;
 let metrics = DEFAULT_METRICS;
 let searchTerm = '';
 
-$: LockedAsset.set($studio);
+$: LockedAsset$.set($studio);
 
 $: ({
   slug,
   address
-} = $LockedAsset);
+} = $LockedAsset$);
 
 $: isFiltering = !!searchTerm;
 
 $: categories = Object.keys(graph);
 
-$: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset));
+$: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset$));
 
 $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph;
 
 $: getMetrics(slug, address);
-
-$: onSidebarProjectMount(projectNode);
 
 const setMetrics = data => metrics = data;
 
@@ -46,8 +40,10 @@ function getMetrics(slug, address) {
 }</script>
 
 <div class="sidebar-header">
-  <div class="sidebar-project" bind:this={projectNode} />
+  <LockedAsset />
+
   <Search bind:searchTerm />
+
   <div class="caption c-waterloo mrg-s mrg--t">Available metrics for asset: {metrics.length}</div>
 </div>
 

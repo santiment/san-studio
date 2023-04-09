@@ -4,6 +4,8 @@ import { saveBoolean } from 'san-webkit/lib/utils/localStorage';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { getAdapterController } from './../../lib/adapter/context';
 import { showShortcutsDialog } from './../../lib/Shortcuts/Dialog.svelte';
+import { newProjectMetric, newAddressMetric } from './../../lib/metrics/utils';
+import { studio as studio$, getLockedAssetStore } from './../../lib/stores/studio';
 import { handleItemSelect } from './controller';
 import Sidebar from './Sidebar.svelte';
 import { Mode } from './Modes.svelte';
@@ -14,7 +16,9 @@ const {
   checkIsMapviewDisabled
 } = getAdapterController();
 const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED';
-export let Widgets, Sidewidget, adjustSelectedMetric;
+const LockedAsset$ = getLockedAssetStore();
+export let Widgets, Sidewidget; //, adjustSelectedMetric
+
 let mode = Mode.Metrics;
 let isLocked = true; // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
 
@@ -28,6 +32,24 @@ $: saveBoolean(LS_IS_SIDEBAR_LOCKED, isLocked);
 function onItemClick(e, item) {
   if (checkIsMapviewDisabled === null || checkIsMapviewDisabled === void 0 ? void 0 : checkIsMapviewDisabled()) return;
   handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric);
+}
+
+function adjustSelectedMetric(node) {
+  if (node.noProject) return node;
+  const settings = $studio$;
+  const lockedAsset = $LockedAsset$;
+  const {
+    slug,
+    address
+  } = lockedAsset;
+
+  if (address) {
+    if (address === settings.address) return node;
+    return newAddressMetric(address, node);
+  }
+
+  if (!settings.address && slug === settings.slug) return node;
+  return newProjectMetric(lockedAsset, node);
 }
 
 const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
