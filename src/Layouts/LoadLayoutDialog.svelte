@@ -59,12 +59,25 @@
     closeDialog()
   }
 
+  function onEditableEscaped(target: HTMLInputElement, closeDialog: () => void) {
+    if (!target.value) return closeDialog()
+
+    searchTerm = ''
+    setTimeout(() => (target.value = ''))
+  }
+
   onDestroy(() => {
     unsubscribe?.()
   })
 </script>
 
-<Dialog {...$$props} title="Load Chart Layout" class="$style.dialog" bind:closeDialog>
+<Dialog
+  {...$$props}
+  title="Load Chart Layout"
+  class="$style.dialog"
+  bind:closeDialog
+  {onEditableEscaped}
+>
   <div class="tabs row">
     <div
       class="tab btn mrg-xl mrg--r active"
@@ -82,14 +95,7 @@
     <Search bind:searchTerm autofocus placeholder="Search chart layout..." />
   </div>
 
-  <VirtualList
-    hideEmptyResults
-    items={filteredLayouts}
-    key="id"
-    defaultItemHeight={72}
-    class="$style.layouts"
-    let:item
-  >
+  <VirtualList items={filteredLayouts} itemHeight={72} class="$style.layouts" let:item>
     <SelectableLayout
       layout={item}
       {closeDialog}
@@ -130,7 +136,7 @@
     border-bottom: 1px solid var(--porcelain);
   }
 
-  .layouts :global(.list) {
+  .dialog :global(virtual-list-items) {
     padding: 12px;
   }
 </style>

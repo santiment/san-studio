@@ -2,6 +2,7 @@ import { get } from 'svelte/store'
 import { withScroll } from 'webkit/ui/history'
 import { selectedItems } from '@/stores/selector'
 import { SelectorType } from '@/metrics/selector/types'
+import { newProjectMetric, newAddressMetric } from '@/metrics/utils'
 
 const chartWidgetFinder = ({ Metrics, isBlocked }) => !isBlocked && !!Metrics
 const findChartWidget = (widgets: any) => widgets.find(chartWidgetFinder)

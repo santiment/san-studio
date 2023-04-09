@@ -10,7 +10,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { getAddressInfrastructure } from 'webkit/utils/address'
-  import VirtualList from 'webkit/ui/VirtualList/index.svelte'
+  import VirtualList, { Controller } from 'webkit/ui/VirtualList/index.svelte'
   import Asset from './Suggestion/Asset.svelte'
   import Address from './Suggestion/Address.svelte'
   import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils'
@@ -30,9 +30,8 @@
     ? { 0: 'Recents', [recents.length]: 'Assets' }
     : { 0: 'Assets' }
 
-  let node
+  const ListController = Controller()
   let items = [] as any[]
-  let renderHeight
   let headers = DEFAULT_HEADERS
 
   $: filtered = filter(searchTerm, items, blockchain)
@@ -92,42 +91,44 @@
   }
 
   function scrollToCursor() {
-    node?.scroll(0, renderHeight * cursor)
+    ListController.scrollTo?.(cursor)
   }
 </script>
 
-<VirtualList
-  hideEmptyResults
-  class="$style.suggestions {!filtered.length ? 'hide' : ''}"
-  items={filtered}
-  key="key"
-  defaultItemHeight={48}
-  maxHeight={381}
-  bind:viewportNode={node}
-  bind:renderHeight
-  let:item
-  let:i
->
-  {@const cursored = i === cursor}
-  {@const header = headers[i]}
-  {@const onClick = () => onSelect(item)}
+<section>
+  <VirtualList
+    class="$style.suggestions {!filtered.length ? 'hide' : ''}"
+    items={filtered}
+    itemHeight={56}
+    maxFluidHeight={381}
+    let:item
+    let:i
+  >
+    {@const cursored = i === cursor}
+    {@const header = headers[i]}
+    {@const onClick = () => onSelect(item)}
 
-  {#if header}
-    <div class="caption txt-m c-waterloo mrg-m" class:mrg--t={i > 0}>{header}</div>
-  {/if}
+    {#if header}
+      <div class="caption txt-m c-waterloo mrg-m" class:mrg--t={i > 0}>{header}</div>
+    {/if}
 
-  {#if item.slug}
-    <Asset {item} {cursored} on:click={onClick} />
-  {:else if item.address}
-    <Address {item} {cursored} on:click={onClick} />
-  {/if}
-</VirtualList>
+    {#if item.slug}
+      <Asset {item} {cursored} on:click={onClick} />
+    {:else if item.address}
+      <Address {item} {cursored} on:click={onClick} />
+    {/if}
+  </VirtualList>
+</section>
 
 <style lang="scss">
   .suggestions {
     border-top: 1px solid var(--porcelain);
   }
   .suggestions :global(.list) {
+    padding: 16px 24px;
+  }
+
+  section :global(virtual-list-items) {
     padding: 16px 24px;
   }
 </style>

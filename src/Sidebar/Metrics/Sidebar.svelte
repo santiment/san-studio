@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { MetricCategory } from '@/metrics/graph'
-  import { getAdapterController } from '@/adapter/context'
+
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { globals } from '@/stores/globals'
+  import LockedAsset from '@/LockedAsset/index.svelte'
   import { queryAddressMetrics, queryProjectMetrics } from '@/api/metrics'
   import { filterSelectorGraph, getMetricsSelectorGraph } from '@/metrics/selector/utils'
   import { DEFAULT_METRICS } from './defaults'
@@ -14,23 +15,20 @@
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
 
-  const { onSidebarProjectMount = () => {} } = getAdapterController()
-  const LockedAsset = getLockedAssetStore() as any
+  const LockedAsset$ = getLockedAssetStore() as any
 
   export let onItemClick
 
-  let projectNode
   let metrics: string[] = DEFAULT_METRICS
   let searchTerm = ''
 
-  $: LockedAsset.set($studio)
-  $: ({ slug, address } = $LockedAsset)
+  $: LockedAsset$.set($studio)
+  $: ({ slug, address } = $LockedAsset$)
   $: isFiltering = !!searchTerm
   $: categories = Object.keys(graph) as MetricCategory[]
-  $: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset))
+  $: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset$))
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
   $: getMetrics(slug, address)
-  $: onSidebarProjectMount(projectNode)
 
   const setMetrics = (data) => (metrics = data)
   function getMetrics(slug: string, address?: string) {
@@ -39,8 +37,10 @@
 </script>
 
 <div class="sidebar-header">
-  <div class="sidebar-project" bind:this={projectNode} />
+  <LockedAsset />
+
   <Search bind:searchTerm />
+
   <div class="caption c-waterloo mrg-s mrg--t">Available metrics for asset: {metrics.length}</div>
 </div>
 
