@@ -1,6 +1,6 @@
 <script>import { onDestroy } from 'svelte';
 import { newHistoryContext, newHistoryEmitter } from 'san-webkit/lib/ui/history';
-import Dialogs from 'san-webkit/lib/ui/Dialog/Dialogs.svelte';
+import { newAppTooltipsCtx, getAppTooltipsCtx } from 'san-webkit/lib/ui/Tooltip/ctx';
 import HistoryAction from './history/Action.svelte';
 import MasterAsset from './MasterAsset/index.svelte';
 import Header from './Header/index.svelte';
@@ -15,6 +15,8 @@ import { newAutoUpdaterStore } from './stores/autoUpdater';
 import { widgetsListener } from './stores/widgetsListener';
 import { setAdapterController } from './adapter/context';
 import ChartTooltipContexts from './ChartWidget/TooltipContexts.svelte';
+let className = '';
+export { className as class };
 export let widgets;
 export let sidewidget;
 export let defaultSettings = undefined;
@@ -48,6 +50,7 @@ window.shareLayoutWidgets = shareLayoutWidgets || (() => []);
 
 window.parseLayoutWidgets = parseLayoutWidgets || (() => []);
 
+if (!getAppTooltipsCtx()) newAppTooltipsCtx();
 setAdapterController({
   onSubwidget,
   onWidget,
@@ -81,46 +84,44 @@ onDestroy(() => {
   window.parseLayoutWidgets = undefined;
 });</script>
 
-<ChartTooltipContexts>
-  <main class="column">
-    <div class="studio-top">
-      <MasterAsset />
-    </div>
-    <div class="row">
-      <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
-      <div class="content column">
-        {#if !screen}
-          <Header {headerPadding} />
+<main class="column {className}">
+  <div class="studio-top">
+    <MasterAsset />
+  </div>
+  <div class="row">
+    <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
+    <div class="content column">
+      {#if !screen}
+        <Header {headerPadding} />
 
-          <div class="row main" bind:this={screenRef}>
-            <div class="widgets">
-              {#each $Widgets as widget (widget.id)}
-                <Widget
-                  {widget}
-                  {Widgets}
-                  {onWidgetUpdate}
-                  viewportObserver={widgetViewportObserver}
-                />
-              {/each}
-            </div>
-
-            {#if $Sidewidget} <SidewidgetComponent /> {/if}
+        <div class="row main" bind:this={screenRef}>
+          <div class="widgets">
+            {#each $Widgets as widget (widget.id)}
+              <Widget
+                {widget}
+                {Widgets}
+                {onWidgetUpdate}
+                viewportObserver={widgetViewportObserver}
+              />
+            {/each}
           </div>
-        {:else}
-          {#key screen}
-            <div class="main studio-screen" bind:this={screenRef} />
-          {/key}
-        {/if}
 
-        <Mapview />
+          {#if $Sidewidget} <SidewidgetComponent /> {/if}
+        </div>
+      {:else}
+        {#key screen}
+          <div class="main studio-screen" bind:this={screenRef} />
+        {/key}
+      {/if}
 
-        <HistoryAction {HistoryEmitter} />
-      </div>
+      <Mapview />
+
+      <HistoryAction {HistoryEmitter} />
     </div>
-  </main>
+  </div>
+</main>
 
-  <Dialogs />
-</ChartTooltipContexts>
+<ChartTooltipContexts />
 
 <style>
   main {

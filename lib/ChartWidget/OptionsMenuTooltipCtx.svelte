@@ -1,6 +1,6 @@
-<script context="module">import { getContext } from 'svelte';
+<script context="module">import { getAppTooltipCtx } from 'san-webkit/lib/ui/Tooltip/ctx';
 const ID = 'OptionsMenuTooltipCtx';
-export const getOptionsMenuTooltip = () => getContext(ID);</script>
+export const getOptionsMenuTooltip = () => getAppTooltipCtx(ID);</script>
 
 <script>import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte';
 import OptionsMenu from './Controls/OptionsMenu.svelte';

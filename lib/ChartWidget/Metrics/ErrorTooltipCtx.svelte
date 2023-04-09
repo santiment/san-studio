@@ -1,6 +1,6 @@
-<script context="module">import { getContext } from 'svelte';
+<script context="module">import { getAppTooltipCtx } from 'san-webkit/lib/ui/Tooltip/ctx';
 const ID = 'MetricErrorTooltipCtx';
-export const getMetricErrorTooltip = () => getContext(ID);</script>
+export const getMetricErrorTooltip = () => getAppTooltipCtx(ID);</script>
 
 <script>import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte';
 const settings = {
