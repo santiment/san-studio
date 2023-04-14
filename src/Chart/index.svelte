@@ -16,8 +16,12 @@
   }
 
   export let padding: typeof DEFAULT_PADDING
-  export let width: number, height: number
-  export let data, categories, colors, domainGroups
+  export let width = undefined as undefined | number
+  export let height = undefined as undefined | number
+  export let data: any[]
+  export let categories: Record<string, string[]>
+  export let colors: Record<string, string>
+  export let domainGroups = undefined
   export let domainModifier = undefined
   export let scale = linearScale
   export let theme = themes[0]
