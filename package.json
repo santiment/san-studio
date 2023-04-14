@@ -22,8 +22,8 @@
     "validate": "svelte-check",
     "validate:errors": "yarn validate --threshold error",
     "ts": "tsc --outDir ./lib --p ./scripts/tsconfig.json",
-    "lib:prepare": "npm run lib:clean && npm run ts",
     "lib": "npm run lib:prepare && node scripts/lib.js",
+    "lib:prepare": "npm run lib:clean && npm run ts",
     "lib:clean": "node scripts/clean.js",
     "lib:publish": "node scripts/publish",
     "prepare": "husky install && patch-package"
@@ -60,7 +60,7 @@
     "turndown": "^7.1.1",
     "mathjs": "^9.4.4",
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
-    "san-webkit": "https://github.com/santiment/san-webkit#3c2a81c"
+    "san-webkit": "https://github.com/santiment/san-webkit#44fa25d"
   },
   "peerDependencies": {
     "svelte": "^3.56.0",
