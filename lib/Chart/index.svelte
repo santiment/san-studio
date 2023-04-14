@@ -13,8 +13,12 @@ const DEFAULT_PADDING = {
   right: 0
 };
 export let padding;
-export let width, height;
-export let data, categories, colors, domainGroups;
+export let width = undefined;
+export let height = undefined;
+export let data;
+export let categories;
+export let colors;
+export let domainGroups = undefined;
 export let domainModifier = undefined;
 export let scale = linearScale;
 export let theme = themes[0];
