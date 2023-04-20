@@ -14,6 +14,7 @@ export declare type Chart = SanChart & {
         [metricKey: string]: string;
     };
     theme: any;
+    clear?: () => void;
 };
 export declare const CONTEXT = "chartManager";
 export declare const setChart: (chart: Chart) => Chart;

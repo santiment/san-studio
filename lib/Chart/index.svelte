@@ -12,7 +12,7 @@ const DEFAULT_PADDING = {
   bottom: 0,
   right: 0
 };
-export let padding;
+export let padding = DEFAULT_PADDING;
 export let width = undefined;
 export let height = undefined;
 export let data;
