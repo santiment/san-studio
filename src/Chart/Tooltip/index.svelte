@@ -20,10 +20,10 @@
   import { getChart } from '../context'
   import { getMetricAxisFormatter, MULTI_AXIS_WIDTH } from '../Axes/utils'
 
-  export let axesMetricKeys = []
-  export let metricSettings
-  export let onPointClick
-  export let onRangeSelect
+  export let axesMetricKeys = [] as any
+  export let metricSettings: any
+  export let onPointClick = null as any
+  export let onRangeSelect = null as any
   export let isShiftForced = false
 
   const tooltipSynchronizer = getTooltipSynchronizer()

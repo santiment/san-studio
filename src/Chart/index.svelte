@@ -15,7 +15,7 @@
     right: 0,
   }
 
-  export let padding: typeof DEFAULT_PADDING
+  export let padding = DEFAULT_PADDING
   export let width = undefined as undefined | number
   export let height = undefined as undefined | number
   export let data: any[]

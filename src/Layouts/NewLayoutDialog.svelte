@@ -28,7 +28,7 @@
 
   export let DialogPromise: DialogController
   export let title = 'New Chart Layout'
-  export let mode: typeof Mode[keyof typeof Mode] = Mode.New
+  export let mode: (typeof Mode)[keyof typeof Mode] = Mode.New
   export let layout: undefined | SAN.Layout
 
   let closeDialog
@@ -78,7 +78,8 @@
     })
   }
 
-  function toggleLayoutPublicity() {
+  function toggleLayoutPublicity(e) {
+    e.preventDefault()
     isPublic = !isPublic
   }
 </script>

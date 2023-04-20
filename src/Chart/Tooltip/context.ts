@@ -26,6 +26,7 @@ export function newTooltipSynchronizer() {
           if (point && chart.drawTooltip) chart.drawTooltip(point, y)
         } else {
           clearCtx(chart, chart.tooltip.ctx)
+          if (chart.clear) chart.clear()
         }
       })
     },
