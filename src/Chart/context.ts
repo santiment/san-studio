@@ -14,6 +14,7 @@ export type Chart = SanChart & {
   domainGroups?: string[][]
   colors: { [metricKey: string]: string }
   theme: any
+  clear?: () => void
 }
 
 const noop = () => {} // eslint-disable-line
