@@ -2,6 +2,7 @@ import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { ONE_DAY_IN_MS, getTodaysEnd } from 'webkit/utils/dates'
 import { minifyAddress } from '@/metrics/utils'
+import { getStudioContext, setStudioContext } from '@/context'
 
 export type StudioSettings = {
   slug: string
@@ -70,8 +71,8 @@ export const studio = {
 }
 
 export const LOCKED_ASSET_CONTEXT = 'LOCKED_ASSET_CONTEXT'
-export const setLockedAssetStore = (store): void => setContext(LOCKED_ASSET_CONTEXT, store)
-export const getLockedAssetStore = () => getContext(LOCKED_ASSET_CONTEXT)
+export const setLockedAssetStore = (store): void => setStudioContext(LOCKED_ASSET_CONTEXT, store)
+export const getLockedAssetStore = () => getStudioContext(LOCKED_ASSET_CONTEXT)
 export function newLockedAssetStore() {
   const store = writable(STUDIO)
   setLockedAssetStore(store)

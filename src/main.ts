@@ -12,6 +12,7 @@ import { globals } from '@/stores/globals'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import { newInsightsContextStore } from '@/Sidebar/Metrics/Insights/context'
 import { showMasterSelectorDialog } from './MasterSelectorDialog'
+import { CTX } from './context'
 
 startResponsiveController()
 
@@ -30,6 +31,7 @@ const defaultMetrics: Studio.Metric[] = [
 ]
 const app = new App({
   target: document.getElementById('app') as Element,
+  context: new Map([[CTX, new Map()]]),
   props: {
     widgets: [
       newWidget(ChartWidget, { metrics: defaultMetrics }),

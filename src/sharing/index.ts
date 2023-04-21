@@ -1,3 +1,5 @@
+import { normalizeIds } from './utils'
+
 export type Metric = {
   key: string
   label: string
@@ -57,7 +59,7 @@ export function eachAlias<T>(
 export const shareAxesMetrics = (
   axesMetrics: Metric[] | undefined,
   accessor = keyAccessor,
-): string[] => Array.from(axesMetrics || []).map(accessor)
+): string[] => normalizeIds(Array.from(axesMetrics || []).map(accessor))
 
 export const shareColors = (
   colors: { [metricKey: string]: string },

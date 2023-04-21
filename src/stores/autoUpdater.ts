@@ -1,12 +1,12 @@
-import { setContext, getContext } from 'svelte'
 import { get, writable } from 'svelte/store'
 import { CachePolicy } from 'webkit/api/cache'
 import { getTodaysEnd } from 'webkit/utils/dates'
+import { getStudioContext, setStudioContext } from '@/context'
 import { studio } from './studio'
 
 export const CONTEXT = 'AUTO_UPDATER'
-export const setAutoUpdater = (store): void => setContext(CONTEXT, store)
-export const getAutoUpdater = () => getContext(CONTEXT)
+export const setAutoUpdater = (store): void => setStudioContext(CONTEXT, store)
+export const getAutoUpdater = () => getStudioContext(CONTEXT)
 
 export function newAutoUpdaterStore(Widgets: any) {
   const state = { isUpdating: false, lastUpdate: Date.now() }

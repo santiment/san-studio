@@ -1,7 +1,7 @@
-import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { track } from 'webkit/analytics'
 import { Event } from '@/analytics'
+import { getStudioContext, setStudioContext } from '@/context'
 import { SelectorNode } from '@/metrics/selector'
 import ChartWidget from '@/ChartWidget/index.svelte'
 import HolderDistributionWidget from '@/HolderDistributionWidget/index.svelte'
@@ -24,8 +24,8 @@ export function newWidget(Widget: any, props?: any) {
 }
 
 const WIDGETS_CONTEXT = 'widgets'
-export const setWidgets = (widgets): void => setContext(WIDGETS_CONTEXT, widgets)
-export const getWidgets = (): any => getContext(WIDGETS_CONTEXT)
+export const setWidgets = (widgets): void => setStudioContext(WIDGETS_CONTEXT, widgets)
+export const getWidgets = (): any => getStudioContext(WIDGETS_CONTEXT)
 export function initWidgets(defaultWidgets, getExternalWidget, History) {
   let widgets = defaultWidgets.slice()
   const { subscribe, set } = writable(widgets)
@@ -115,8 +115,8 @@ export const SidewidgetType = {
 } as const
 
 const SIDEWIDGET_CONTEXT = 'sidewidget'
-export const setSidewidget = (sidewidget): void => setContext(SIDEWIDGET_CONTEXT, sidewidget)
-export const getSidewidget = () => getContext(SIDEWIDGET_CONTEXT)
+export const setSidewidget = (sidewidget): void => setStudioContext(SIDEWIDGET_CONTEXT, sidewidget)
+export const getSidewidget = () => getStudioContext(SIDEWIDGET_CONTEXT)
 export function initSidewidget(defaultValue) {
   let sidewidget = defaultValue
   const { subscribe, set } = writable(defaultValue)
