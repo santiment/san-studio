@@ -2,6 +2,7 @@ import type { Metric as BaseMetricType } from './index'
 import { MetricType, newProjectMetric } from '@/metrics/utils'
 import { newExpessionMetric } from '@/CombineDialog/utils'
 import { parseMetric, parseMetricKey } from './metrics'
+import { normalizeIds } from './utils'
 
 export type KeyToMetric = {
   [metricKey: string]: BaseMetricType
@@ -78,7 +79,8 @@ export function parseAxesMetrics(metricIds: undefined | string[], metrics: any[]
 
   const disabledAxesMetrics = new Set(metrics)
   const axesMetrics = new Set<Studio.Metric>()
-  ;(metricIds || []).forEach((id) => {
+
+  normalizeIds(metricIds || []).forEach((id) => {
     const metric = metrics[id]
     if (metric) {
       axesMetrics.add(metric)
@@ -90,5 +92,5 @@ export function parseAxesMetrics(metricIds: undefined | string[], metrics: any[]
 
 export function parsePinnedAxesMetrics(metricIds: undefined | string[], metrics: any[]) {
   if (!metrics) return
-  return new Set((metricIds || []).map((id) => metrics[id]))
+  return new Set(normalizeIds(metricIds || []).map((id) => metrics[id]))
 }
