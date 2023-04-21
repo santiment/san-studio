@@ -39,9 +39,9 @@ export function getTimeseries(
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
-    const { key, reqMeta, fetch, precacher, selector = 'slug' } = metric as any
+    const { key, reqMeta, fetch, precacher } = metric as any
     const metricSettings = getMetricSettings(metric, MetricSettings)
-    const { preTransform, fetcher = fetch } = metricSettings
+    const { preTransform, fetcher = fetch, selector = metric.selector || 'slug' } = metricSettings
     const queryKey = metricSettings.queryKey || metric.queryKey || key
 
     // prettier-ignore
