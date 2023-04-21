@@ -78,7 +78,8 @@
     })
   }
 
-  function toggleLayoutPublicity() {
+  function toggleLayoutPublicity(e) {
+    e.preventDefault()
     isPublic = !isPublic
   }
 </script>
