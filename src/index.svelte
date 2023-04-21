@@ -38,10 +38,10 @@
   export let InsightsContextStore = undefined
   export let onSidebarProjectMount = undefined
   export let headerPadding = 65
+  export let HistoryEmitter = newHistoryEmitter()
+  export let History = newHistoryContext(HistoryEmitter.set)
 
   if (defaultSettings) studio.setProject(defaultSettings)
-  const HistoryEmitter = newHistoryEmitter()
-  const History = newHistoryContext(HistoryEmitter.set)
   const Widgets = initWidgets(widgets, getExternalWidget, History)
   const Sidewidget = initSidewidget(sidewidget)
   const onScreen = () => onScreenMount && onScreenMount(screen)
