@@ -18,7 +18,7 @@ export declare const SidewidgetType: {
     readonly EXPLAIN_METRICS: "METRICS_EXPLANATION_PANE";
 };
 export declare const setSidewidget: (sidewidget: any) => void;
-export declare const getSidewidget: () => unknown;
+export declare const getSidewidget: () => any;
 export declare function initSidewidget(defaultValue: any): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: ((value?: any) => void) | undefined) => import("svelte/store").Unsubscriber;
     set(value: any): void;

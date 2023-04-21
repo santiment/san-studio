@@ -17,7 +17,7 @@ export declare const studio: {
 };
 export declare const LOCKED_ASSET_CONTEXT = "LOCKED_ASSET_CONTEXT";
 export declare const setLockedAssetStore: (store: any) => void;
-export declare const getLockedAssetStore: () => unknown;
+export declare const getLockedAssetStore: () => any;
 export declare function newLockedAssetStore(): void;
 declare global {
     const $studio: StudioSettings;

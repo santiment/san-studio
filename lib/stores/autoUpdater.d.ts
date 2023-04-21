@@ -1,6 +1,6 @@
 export declare const CONTEXT = "AUTO_UPDATER";
 export declare const setAutoUpdater: (store: any) => void;
-export declare const getAutoUpdater: () => unknown;
+export declare const getAutoUpdater: () => any;
 export declare function newAutoUpdaterStore(Widgets: any): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<{
         isUpdating: boolean;
