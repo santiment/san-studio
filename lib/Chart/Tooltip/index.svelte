@@ -15,6 +15,7 @@ export let metricSettings;
 export let onPointClick = null;
 export let onRangeSelect = null;
 export let isShiftForced = false;
+export let leftPadding = 0;
 const tooltipSynchronizer = getTooltipSynchronizer();
 const chart = getChart();
 const {
@@ -35,20 +36,18 @@ $: chart.tooltipKey = axesMetricKeys[0];
 
 onSelection(chart, canvas, onPointClick, onRangeSelect);
 
-canvas.onmouseleave = () => {
+canvas.ontouchend = canvas.onmouseleave = () => {
   if (!chart.drawSelection) clearCtx(chart, ctx);
   if (tooltipSynchronizer) tooltipSynchronizer.sync(chart);
 };
 
-canvas.onmousemove = handlePointEvent(chart, (point, e) => {
+canvas.ontouchstart = canvas.ontouchmove = canvas.onmousemove = handlePointEvent(chart, (point, e) => {
   if (!point) return;
   const {
     top,
     bottom
   } = chart;
-  const {
-    offsetY
-  } = e;
+  const offsetY = e instanceof TouchEvent ? e.changedTouches[0].clientY : e.offsetY;
   const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY;
   plotTooltip(chart, point, y, e.shiftKey);
   if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y);
@@ -110,7 +109,7 @@ function plotTooltip(chart, point, y, shiftKey) {
   });
 
   if (xOffset) {
-    if (x > xOffset) xOffset = 0;
+    if (x > xOffset) xOffset = leftPadding;
   } else {
     const tooltipWidth = // prettier-ignore
     getTootlipTotalWidth(ctx, point, metricSettings, theme.tooltip.font, oldPoint) + 10;

@@ -21,3 +21,26 @@ export declare const AaveMetric: {
     aave_v2_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "aave_v2_protocol_total_supplied_usd">;
     aave_v2_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "aave_v2_protocol_total_borrowed_usd">;
 };
+export declare const Aave3Metric: {
+    aave_v3_action_deposits: import("../utils").Node<Studio.Metric, "aave_v3_action_deposits">;
+    aave_v3_action_liquidations: import("../utils").Node<Studio.Metric, "aave_v3_action_liquidations">;
+    aave_v3_action_new_debt: import("../utils").Node<Studio.Metric, "aave_v3_action_new_debt">;
+    aave_v3_action_repayments: import("../utils").Node<Studio.Metric, "aave_v3_action_repayments">;
+    aave_v3_action_deposits_usd: import("../utils").Node<Studio.Metric, "aave_v3_action_deposits_usd">;
+    aave_v3_action_liquidations_usd: import("../utils").Node<Studio.Metric, "aave_v3_action_liquidations_usd">;
+    aave_v3_action_new_debt_usd: import("../utils").Node<Studio.Metric, "aave_v3_action_new_debt_usd">;
+    aave_v3_action_repayments_usd: import("../utils").Node<Studio.Metric, "aave_v3_action_repayments_usd">;
+    aave_v3_total_deposits_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_deposits_usd">;
+    aave_v3_total_liquidations_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_liquidations_usd">;
+    aave_v3_total_new_debt_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_new_debt_usd">;
+    aave_v3_total_repayments_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_repayments_usd">;
+    aave_v3_total_supplied: import("../utils").Node<Studio.Metric, "aave_v3_total_supplied">;
+    aave_v3_total_supplied_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_supplied_usd">;
+    aave_v3_total_borrowed: import("../utils").Node<Studio.Metric, "aave_v3_total_borrowed">;
+    aave_v3_total_borrowed_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_borrowed_usd">;
+    aave_v3_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "aave_v3_protocol_total_supplied_usd">;
+    aave_v3_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "aave_v3_protocol_total_borrowed_usd">;
+    aave_v3_supply_apy: import("../utils").Node<Studio.Metric, "aave_v3_supply_apy">;
+    aave_v3_stable_borrow_apy: import("../utils").Node<Studio.Metric, "aave_v3_stable_borrow_apy">;
+    aave_v3_variable_borrow_apy: import("../utils").Node<Studio.Metric, "aave_v3_variable_borrow_apy">;
+};
