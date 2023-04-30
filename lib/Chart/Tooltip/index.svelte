@@ -39,10 +39,16 @@ onSelection(chart, canvas, onPointClick, onRangeSelect);
 canvas.ontouchend = canvas.onmouseleave = () => {
   if (!chart.drawSelection) clearCtx(chart, ctx);
   if (tooltipSynchronizer) tooltipSynchronizer.sync(chart);
+  document.body.classList.remove('hovering-19ixgY');
 };
 
 canvas.ontouchstart = canvas.ontouchmove = canvas.onmousemove = handlePointEvent(chart, (point, e) => {
   if (!point) return;
+
+  if (document.body.classList.contains('hovering-19ixgY') === false) {
+    document.body.classList.add('hovering-19ixgY');
+  }
+
   const {
     top,
     bottom
@@ -121,4 +127,14 @@ function plotTooltip(chart, point, y, shiftKey) {
 
 onDestroy(() => {
   if (tooltipSynchronizer) tooltipSynchronizer.delete(chart);
+
+  if (process.browser) {
+    document.body.classList.remove('hovering-19ixgY');
+  }
 });</script>
+
+<style>
+  :global(.hovering-19ixgY) {
+    overflow: hidden !important;
+  }
+</style>
