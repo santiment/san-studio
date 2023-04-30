@@ -44,6 +44,8 @@
   canvas.ontouchend = canvas.onmouseleave = () => {
     if (!chart.drawSelection) clearCtx(chart, ctx)
     if (tooltipSynchronizer) tooltipSynchronizer.sync(chart)
+
+    document.body.classList.remove('$style.hovering')
   }
 
   canvas.ontouchstart =
@@ -51,6 +53,10 @@
     canvas.onmousemove =
       handlePointEvent(chart, (point, e) => {
         if (!point) return
+
+        if (document.body.classList.contains('$style.hovering') === false) {
+          document.body.classList.add('$style.hovering')
+        }
 
         const { top, bottom } = chart
         const offsetY = e instanceof TouchEvent ? e.changedTouches[0].clientY : e.offsetY
@@ -131,5 +137,14 @@
 
   onDestroy(() => {
     if (tooltipSynchronizer) tooltipSynchronizer.delete(chart)
+    if (process.browser) {
+      document.body.classList.remove('$style.hovering')
+    }
   })
 </script>
+
+<style>
+  .hovering {
+    overflow: hidden !important;
+  }
+</style>
