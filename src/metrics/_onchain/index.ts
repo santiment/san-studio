@@ -1,14 +1,14 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { XrpMetric } from './xrp'
 import { MakerDaoMetric } from './makerDao'
-import { AaveMetric } from './aave'
+import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric } from './compound'
 import { ExchangesV2Metric } from './exchangesV2'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
-import { mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
+import { usdFormatter, mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
 import { mvrvPrecacher } from '@/api/timeseries/queries/mvrv'
 import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
@@ -250,6 +250,21 @@ export const DefiMetric = each(
   (metric: Studio.Metric) => (metric.group = 'Defi'),
 )
 
+export const BeaconMetric = each(
+  {
+    eth_beacon_deposits: {
+      label: 'Beacon Chain Ether Deposits',
+    },
+    eth_beacon_validator_withdrawals: {
+      label: 'Beacon Chain Validator Withdrawals - 32 ETH',
+    },
+    eth_beacon_reward_withdrawals: {
+      label: 'Beacon Chain Validator Rewards Withdrawals',
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = 'Beacon'),
+)
+
 export const FeesMetric = each(
   {
     average_fees_usd: {
@@ -261,6 +276,13 @@ export const FeesMetric = each(
       node: 'area',
       label: 'Median Fees (USD)',
       checkIsVisible: ({ slug }) => slug === 'ethereum',
+    },
+    fees_burnt_5m: {
+      label: 'Etheruem Fees Burnt',
+    },
+    fees_burnt_usd_5m: {
+      label: 'Etheruem Fees Burnt in USD',
+      formatter: usdFormatter,
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Fees'),
@@ -346,7 +368,9 @@ export const OnChainMetric = each(
 
     Eth2Metric,
     AaveMetric,
+    Aave3Metric,
     CompoundMetric,
+    BeaconMetric,
 
     NFTMetric,
     DefiMetric,

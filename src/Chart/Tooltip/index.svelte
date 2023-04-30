@@ -25,6 +25,7 @@
   export let onPointClick = null as any
   export let onRangeSelect = null as any
   export let isShiftForced = false
+  export let leftPadding = 0
 
   const tooltipSynchronizer = getTooltipSynchronizer()
   const chart = getChart()
@@ -40,21 +41,24 @@
   $: chart.tooltipKey = axesMetricKeys[0]
 
   onSelection(chart, canvas, onPointClick, onRangeSelect)
-  canvas.onmouseleave = () => {
+  canvas.ontouchend = canvas.onmouseleave = () => {
     if (!chart.drawSelection) clearCtx(chart, ctx)
     if (tooltipSynchronizer) tooltipSynchronizer.sync(chart)
   }
 
-  canvas.onmousemove = handlePointEvent(chart, (point, e) => {
-    if (!point) return
+  canvas.ontouchstart =
+    canvas.ontouchmove =
+    canvas.onmousemove =
+      handlePointEvent(chart, (point, e) => {
+        if (!point) return
 
-    const { top, bottom } = chart
-    const { offsetY } = e
-    const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
+        const { top, bottom } = chart
+        const offsetY = e instanceof TouchEvent ? e.changedTouches[0].clientY : e.offsetY
+        const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
 
-    plotTooltip(chart, point, y, e.shiftKey)
-    if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y)
-  })
+        plotTooltip(chart, point, y, e.shiftKey)
+        if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y)
+      })
 
   function marker(ctx, key, _, x, y) {
     const { colors } = chart
@@ -103,7 +107,7 @@
     })
 
     if (xOffset) {
-      if (x > xOffset) xOffset = 0
+      if (x > xOffset) xOffset = leftPadding
     } else {
       const tooltipWidth =
         // prettier-ignore

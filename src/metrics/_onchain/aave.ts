@@ -91,6 +91,89 @@ export const AaveMetric = each(
     },
   },
   (metric: Studio.Metric) => {
-    metric.group = 'Aave'
+    metric.group = 'Aave v2'
+  },
+)
+
+export const Aave3Metric = each(
+  {
+    aave_v3_action_deposits: {
+      label: 'Aave v3 Deposits',
+    },
+    aave_v3_action_liquidations: {
+      label: 'Aave v3 Liquidations',
+    },
+    aave_v3_action_new_debt: {
+      label: 'Aave v3 New Debt',
+    },
+    aave_v3_action_repayments: {
+      label: 'Aave v3 Repayments',
+    },
+    aave_v3_action_deposits_usd: {
+      label: 'Aave v3 Deposits in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_action_liquidations_usd: {
+      label: 'Aave v3 Liquidations in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_action_new_debt_usd: {
+      label: 'Aave v3 New Debt in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_action_repayments_usd: {
+      label: 'Aave v3 Repayments in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_deposits_usd: {
+      label: 'Aave v3 Total Deposits in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_liquidations_usd: {
+      label: 'Aave v3 Total Liquidations in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_new_debt_usd: {
+      label: 'Aave v3 Total New Debt in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_repayments_usd: {
+      label: 'Aave v3 Total Repayments in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_supplied: {
+      label: 'Aave v3 Total Supplied',
+    },
+    aave_v3_total_supplied_usd: {
+      label: 'Aave v3 Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_total_borrowed: {
+      label: 'Aave v3 Total Borrowed',
+    },
+    aave_v3_total_borrowed_usd: {
+      label: 'Aave v3 Total Borrowed in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_protocol_total_supplied_usd: {
+      label: 'Aave v3 Protocol Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_protocol_total_borrowed_usd: {
+      label: 'Aave v3 Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
+    },
+    aave_v3_supply_apy: {
+      label: 'Aave v3 Supply APY',
+    },
+    aave_v3_stable_borrow_apy: {
+      label: 'Aave v3 Stable Borrow APY',
+    },
+    aave_v3_variable_borrow_apy: {
+      label: 'Aave v3 Variable Borrow APY',
+    },
+  },
+  (metric: Studio.Metric) => {
+    metric.group = 'Aave v3'
   },
 )
