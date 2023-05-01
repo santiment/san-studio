@@ -29,7 +29,7 @@
     "prepare": "husky install && patch-package"
   },
   "devDependencies": {
-    "@santiment-network/chart": "^0.10.17",
+    "@santiment-network/chart": "^0.10.18",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.13",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
@@ -64,7 +64,7 @@
   },
   "peerDependencies": {
     "svelte": "^3.56.0",
-    "@santiment-network/chart": "^0.10.16",
+    "@santiment-network/chart": "^0.10.18",
     "san-webkit": "https://github.com/santiment/san-webkit",
     "canvas": "^2.8.0",
     "mathjs": "^9.4.4"
