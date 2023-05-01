@@ -53,7 +53,7 @@ canvas.ontouchstart = canvas.ontouchmove = canvas.onmousemove = handlePointEvent
     top,
     bottom
   } = chart;
-  const offsetY = e instanceof TouchEvent ? e.changedTouches[0].clientY : e.offsetY;
+  const offsetY = e instanceof MouseEvent ? e.offsetY : e.changedTouches[0].clientY;
   const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY;
   plotTooltip(chart, point, y, e.shiftKey);
   if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y);
