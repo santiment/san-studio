@@ -16,7 +16,7 @@ export const LABELS = [
 
 const checkIsVisible = ({ slug }) => slug === 'bitcoin'
 const ExchangesV2Metric = {
-  labelled_historical_balance: {} as Studio.Metric,
+  labelled_historical_balance: { label: '' } as Studio.Metric,
 }
 
 const eachLabel = (clb: (label: string, label_fqn: string) => void) =>

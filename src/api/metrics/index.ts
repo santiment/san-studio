@@ -1,4 +1,5 @@
 import { query } from 'webkit/api'
+import { MetricIndex } from '@/metrics'
 import { NO_PROJECT_METRICS } from '@/metrics/withoutProject'
 
 const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
@@ -14,11 +15,12 @@ type ProjectMetrics = SAN.API.Query<
   { availableMetrics: string[]; availableQueries: string[] }
 >
 
+export const indexSorter = (a: string, b: string) => (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
 function precacher() {
   return ({ projectBySlug }) => {
     const { availableMetrics, availableQueries } = projectBySlug
     const metricsSet = new Set(NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries))
-    return Array.from(metricsSet)
+    return Array.from(metricsSet).sort(indexSorter)
   }
 }
 const options = { precacher }
