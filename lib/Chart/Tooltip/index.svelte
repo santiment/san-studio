@@ -44,16 +44,19 @@ canvas.ontouchend = canvas.onmouseleave = () => {
 
 canvas.ontouchstart = canvas.ontouchmove = canvas.onmousemove = handlePointEvent(chart, (point, e) => {
   if (!point) return;
+  const isMouveEvent = e instanceof MouseEvent;
 
-  if (document.body.classList.contains('hovering-19ixgY') === false) {
-    document.body.classList.add('hovering-19ixgY');
+  if (isMouveEvent === false) {
+    if (document.body.classList.contains('hovering-19ixgY') === false) {
+      document.body.classList.add('hovering-19ixgY');
+    }
   }
 
   const {
     top,
     bottom
   } = chart;
-  const offsetY = e instanceof MouseEvent ? e.offsetY : e.changedTouches[0].clientY;
+  const offsetY = isMouveEvent ? e.offsetY : e.changedTouches[0].clientY;
   const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY;
   plotTooltip(chart, point, y, e.shiftKey);
   if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y);
