@@ -53,13 +53,16 @@
     canvas.onmousemove =
       handlePointEvent(chart, (point, e) => {
         if (!point) return
+        const isMouveEvent = e instanceof MouseEvent
 
-        if (document.body.classList.contains('$style.hovering') === false) {
-          document.body.classList.add('$style.hovering')
+        if (isMouveEvent === false) {
+          if (document.body.classList.contains('$style.hovering') === false) {
+            document.body.classList.add('$style.hovering')
+          }
         }
 
         const { top, bottom } = chart
-        const offsetY = e instanceof MouseEvent ? e.offsetY : e.changedTouches[0].clientY
+        const offsetY = isMouveEvent ? e.offsetY : e.changedTouches[0].clientY
         const y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
 
         plotTooltip(chart, point, y, e.shiftKey)
