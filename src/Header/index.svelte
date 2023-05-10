@@ -8,6 +8,7 @@
   import Layout from './Layout.svelte'
   import { studio as settings$ } from '@/stores/studio'
   import { getDateFormats } from 'san-webkit/lib/utils/dates'
+  import { debounce$$ } from 'san-webkit/lib/utils/fn'
 
   export let headerPadding = 0
 
@@ -18,6 +19,10 @@
 
   $: ({ from, to } = $settings$)
   $: dates = [new Date(from), new Date(to)]
+
+  let copyLabel = 'Copy link'
+
+  const resetCopyLabel$ = debounce$$(1000, () => (copyLabel = 'Copy link'))
 
   function formatDate(date: Date) {
     const { DD, MM, YY } = getDateFormats(date)
@@ -54,6 +59,9 @@
   }
 
   function onCopyLinkClick() {
+    copyLabel = 'Copied!'
+    $resetCopyLabel$()
+
     track.event(Event.CopyLink)
     window.onHeaderCopyLinkClick?.()
   }
@@ -66,9 +74,9 @@
 
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
     <button class="share action btn" on:click={onShareClick}>Share</button>
-    <button class="link action btn expl-tooltip" aria-label="Copy link" on:click={onCopyLinkClick}
-      ><Svg id="link" w="16" /></button
-    >
+    <button class="link action btn expl-tooltip" aria-label={copyLabel} on:click={onCopyLinkClick}>
+      <Svg id="link" w="16" />
+    </button>
   </div>
 
   <PresetCalendar
