@@ -1,15 +1,46 @@
 <script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { PresetCalendar } from 'san-webkit/lib/ui/Calendar';
 import { Event } from './../analytics';
 import { mapview, MapviewPhase } from './../stores/mapview';
 import LayoutActions from './../Layouts/index.svelte';
 import Layout from './Layout.svelte';
+import { studio as settings$ } from './../stores/studio';
+import { getDateFormats } from 'san-webkit/lib/utils/dates';
+import { debounce$$ } from 'san-webkit/lib/utils/fn';
 export let headerPadding = 0;
 let headerNode;
 
 $: isMapview = $mapview !== MapviewPhase.None;
 
 $: headerNode && changeHeaderPosition(isMapview);
+
+$: ({
+  from,
+  to
+} = $settings$);
+
+$: dates = [new Date(from), new Date(to)];
+
+let copyLabel = 'Copy link';
+const resetCopyLabel$ = debounce$$(1000, () => copyLabel = 'Copy link');
+
+function formatDate(date) {
+  const {
+    DD,
+    MM,
+    YY
+  } = getDateFormats(date);
+  return `${DD}/${MM}/${YY}`;
+}
+
+function formatDates([from, to]) {
+  return `${formatDate(from)} - ${formatDate(to)}`;
+}
+
+function onDateSelect([from, to]) {
+  if (to) settings$.setPeriod(from, to);
+}
 
 function changeHeaderPosition(isMapview) {
   let transform;
@@ -41,6 +72,8 @@ function onShareClick() {
 function onCopyLinkClick() {
   var _a;
 
+  copyLabel = 'Copied!';
+  $resetCopyLabel$();
   track.event(Event.CopyLink);
   (_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window);
 }</script>
@@ -52,12 +85,17 @@ function onCopyLinkClick() {
 
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
     <button class="share action btn" on:click={onShareClick}>Share</button>
-    <button class="link action btn expl-tooltip" aria-label="Copy link" on:click={onCopyLinkClick}
-      ><Svg id="link" w="16" /></button
-    >
+    <button class="link action btn expl-tooltip" aria-label={copyLabel} on:click={onCopyLinkClick}>
+      <Svg id="link" w="16" />
+    </button>
   </div>
 
-  <div class="studio-calendar" />
+  <PresetCalendar
+    date={dates}
+    label={formatDates(dates)}
+    class="calendar-euZ8e6 mrg-s mrg--r"
+    {onDateSelect}
+  />
 
   <div
     class="mapview btn-2"
@@ -71,6 +109,10 @@ function onCopyLinkClick() {
 <style>
   .panel {
     padding: 14px 16px;
+  }
+
+  :global(.calendar-euZ8e6) {
+    gap: 8px;
   }
 
   .header {

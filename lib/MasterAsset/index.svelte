@@ -1,4 +1,5 @@
 <script>import { onDestroy, onMount } from 'svelte';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { FeatureWalkthrough$ } from 'san-webkit/lib/ui/FeatureWalkthrough/context';
 import { queryAllProjects } from './../api/project';
 import { studio } from './../stores/studio';
@@ -26,5 +27,20 @@ onDestroy(() => {
     <Asset />
   {/if}
 
-  <div class="project-actions mrg-a mrg--l row v-center" />
+  <section class="project-actions mrg-a mrg--l row v-center">
+    <button class="btn-1 btn--s row v-center" on:click={window.onWatchClick}>
+      <Svg id="add-list" w="16" h="14" />
+      Watch
+    </button>
+    <button class="btn-2 btn--s row v-center mrg-s mrg--l" on:click={window.onAddAlertClick}>
+      <Svg id="alert" w="16" />
+      Add alert</button
+    >
+  </section>
 </div>
+
+<style>
+  button {
+    gap: 8px;
+  }
+</style>
