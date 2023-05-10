@@ -24,6 +24,7 @@ export default defineConfig({
       },
       { find: 'webkit', replacement: __dirname + '/node_modules/san-webkit/lib/' },
       { find: 'san-webkit', replacement: __dirname + '/node_modules/san-webkit/' },
+      { find: 'air-datepicker', replacement: __dirname + '/node_modules/air-datepicker/' },
     ],
   },
   define: {
