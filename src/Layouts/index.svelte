@@ -48,7 +48,12 @@
   }
 
   function checkIsChanged() {
-    changed = isAuthor ? widgetsHash !== getWidgetsHash() : false
+    const newHash = getWidgetsHash()
+    const isUpdated = widgetsHash !== newHash
+
+    if (isUpdated) window.onChartHashChange?.(newHash)
+
+    changed = isAuthor ? isUpdated : false
   }
 
   const unsubWidgets = widgetsListener.subscribe(checkIsChanged)
