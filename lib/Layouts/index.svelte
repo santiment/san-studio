@@ -45,7 +45,12 @@ function hashWidgets() {
 }
 
 function checkIsChanged() {
-  changed = isAuthor ? widgetsHash !== getWidgetsHash() : false;
+  var _a;
+
+  const newHash = getWidgetsHash();
+  const isUpdated = widgetsHash !== newHash;
+  if (isUpdated) (_a = window.onChartHashChange) === null || _a === void 0 ? void 0 : _a.call(window, newHash);
+  changed = isAuthor ? isUpdated : false;
 }
 
 const unsubWidgets = widgetsListener.subscribe(checkIsChanged);
