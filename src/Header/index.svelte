@@ -1,10 +1,14 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { PresetCalendar } from 'webkit/ui/Calendar'
   import { Event } from '@/analytics'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import LayoutActions from '@/Layouts/index.svelte'
   import Layout from './Layout.svelte'
+  import { studio as settings$ } from '@/stores/studio'
+  import { getDateFormats } from 'san-webkit/lib/utils/dates'
+  import { debounce$$ } from 'san-webkit/lib/utils/fn'
 
   export let headerPadding = 0
 
@@ -12,6 +16,26 @@
 
   $: isMapview = $mapview !== MapviewPhase.None
   $: headerNode && changeHeaderPosition(isMapview)
+
+  $: ({ from, to } = $settings$)
+  $: dates = [new Date(from), new Date(to)]
+
+  let copyLabel = 'Copy link'
+
+  const resetCopyLabel$ = debounce$$(1000, () => (copyLabel = 'Copy link'))
+
+  function formatDate(date: Date) {
+    const { DD, MM, YY } = getDateFormats(date)
+    return `${DD}/${MM}/${YY}`
+  }
+
+  function formatDates([from, to]: Date[]) {
+    return `${formatDate(from)} - ${formatDate(to)}`
+  }
+
+  function onDateSelect([from, to]: Date[]) {
+    if (to) settings$.setPeriod(from, to)
+  }
 
   function changeHeaderPosition(isMapview: boolean) {
     let transform
@@ -35,6 +59,9 @@
   }
 
   function onCopyLinkClick() {
+    copyLabel = 'Copied!'
+    $resetCopyLabel$()
+
     track.event(Event.CopyLink)
     window.onHeaderCopyLinkClick?.()
   }
@@ -47,12 +74,17 @@
 
   <div class="copy row v-center btn--green mrg-s mrg--l mrg--r">
     <button class="share action btn" on:click={onShareClick}>Share</button>
-    <button class="link action btn expl-tooltip" aria-label="Copy link" on:click={onCopyLinkClick}
-      ><Svg id="link" w="16" /></button
-    >
+    <button class="link action btn expl-tooltip" aria-label={copyLabel} on:click={onCopyLinkClick}>
+      <Svg id="link" w="16" />
+    </button>
   </div>
 
-  <div class="studio-calendar" />
+  <PresetCalendar
+    date={dates}
+    label={formatDates(dates)}
+    class="$style.calendar mrg-s mrg--r"
+    {onDateSelect}
+  />
 
   <div
     class="mapview btn-2"
@@ -66,6 +98,10 @@
 <style>
   .panel {
     padding: 14px 16px;
+  }
+
+  .calendar {
+    gap: 8px;
   }
 
   .header {

@@ -15,7 +15,7 @@
     "test"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "build": "vite build",
     "serve": "vite preview",
     "test": "jest",
@@ -28,44 +28,46 @@
     "lib:publish": "node scripts/publish"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
     "@santiment-network/chart": "^0.10.18",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.13",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
+    "air-datepicker": "^3.3.5",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-svelte3": "^4.0.0",
     "eslint-svelte3-preprocess": "0.0.5",
+    "ethers": "^5.4.4",
     "husky": "^7.0.4",
     "jest": "^26.6.3",
     "lint-staged": "^12.3.7",
+    "marked": "^4.0.12",
+    "mathjs": "^9.4.4",
+    "medium-editor": "^5.23.3",
     "node-fetch": "^2.6.1",
     "patch-package": "^6.4.7",
     "prettier": "^2.8.4",
     "prettier-plugin-svelte": "^2.9.0",
+    "san-webkit": "https://github.com/santiment/san-webkit#2286f09",
+    "sass": "^1.49.8",
     "svelte": "^3.58.0",
-    "ts-jest": "^26.5.6",
-    "vite": "^2.5.1",
-    "vite-plugin-ts-checker": "^0.1.5",
-    "typescript": "^4.7.4",
+    "svelte-check": "^1.5.2",
     "svelte-preprocess": "^4.7.4",
     "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#3b24f22",
-    "svelte-check": "^1.5.2",
-    "ethers": "^5.4.4",
-    "sass": "^1.49.8",
-    "marked": "^4.0.12",
-    "medium-editor": "^5.23.3",
+    "ts-jest": "^26.5.6",
     "turndown": "^7.1.1",
-    "mathjs": "^9.4.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
-    "san-webkit": "https://github.com/santiment/san-webkit#44fa25d"
+    "typescript": "^4.7.4",
+    "vite": "^4.3.5",
+    "vite-plugin-ts-checker": "^0.1.5"
   },
   "peerDependencies": {
     "svelte": "^3.56.0",
     "@santiment-network/chart": "^0.10.18",
     "san-webkit": "https://github.com/santiment/san-webkit",
     "canvas": "^2.8.0",
-    "mathjs": "^9.4.4"
+    "mathjs": "^9.4.4",
+    "air-datepicker": "^3.3.5"
   }
 }
