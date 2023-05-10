@@ -87,6 +87,8 @@
   })
 </script>
 
+<slot />
+
 <main class="column {className}">
   <div class="studio-top">
     <MasterAsset />
