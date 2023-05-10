@@ -22,7 +22,8 @@ export default defineConfig({
         find: 'san-chart',
         replacement: '/node_modules/@santiment-network/chart/',
       },
-      { find: 'webkit', replacement: '/node_modules/san-webkit/lib/' },
+      { find: 'webkit', replacement: __dirname + '/node_modules/san-webkit/lib/' },
+      { find: 'san-webkit', replacement: __dirname + '/node_modules/san-webkit/' },
     ],
   },
   define: {
