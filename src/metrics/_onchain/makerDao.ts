@@ -101,6 +101,9 @@ export const MakerDaoMetric = each(
       label: 'MakerDAO Protocol Total Borrowed in USD',
       node: Node.LINE,
     },
+    makerdao_active_addresses: {
+      label: 'MakerDAO Active Addresses',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Makerdao Stats'
