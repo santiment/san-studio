@@ -19,4 +19,5 @@ export declare const CompoundMetric: {
     compound_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_protocol_total_borrowed_usd">;
     compound_supply_apy: import("../utils").Node<Studio.Metric, "compound_supply_apy">;
     compound_borrow_apy: import("../utils").Node<Studio.Metric, "compound_borrow_apy">;
+    compound_active_addresses: import("../utils").Node<Studio.Metric, "compound_active_addresses">;
 };

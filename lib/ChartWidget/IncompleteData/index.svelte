@@ -3,21 +3,18 @@
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { queryRestrictedDates } from './../../api/metrics/restrictions';
-import { getWidget } from './../../ChartWidget/context';
-import { studio } from './../../stores/studio';
 import Info from './Info.svelte';
 import { checkShouldShowBanner, closeBanners, formatDate } from './utils';
-const {
-  Metrics
-} = getWidget();
 const shouldShowBanner = checkShouldShowBanner();
-export let chart;
+export let chart = null;
+export let metrics;
+export let settings;
 let banner;
 let restrictions;
 let metricRestrictions = null;
 queryRestrictedDates().then(data => restrictions = data);
 
-$: restrictedMetrics = restrictions ? filterMetrics($Metrics, $studio) : [];
+$: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : [];
 
 $: if (banner && chart) {
   (_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner);
