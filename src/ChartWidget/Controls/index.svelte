@@ -8,6 +8,7 @@
   import { Event } from '@/analytics'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
+  import { studio } from '@/stores/studio'
   import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from '@/history/drawings'
   import { getAdapterController } from '@/adapter/context'
   import sanrSrc from './sanr.svg'
@@ -22,7 +23,7 @@
 
   const History = getHistoryContext()
   const widget = getWidget()
-  const { ChartDrawer } = widget
+  const { Metrics, ChartDrawer } = widget
   const { noWidgetControls } = getAdapterController()
   const optionsTooltip = getOptionsMenuTooltip()
 
@@ -120,7 +121,7 @@
   <div class="mrg-a mrg--l" />
 
   {#if !hasSubscription}
-    <IncompleteData {chart} />
+    <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
   {:else if $globals.isTrial}
     <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
       <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />Upgrade</a
