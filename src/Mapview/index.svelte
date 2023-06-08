@@ -6,13 +6,13 @@
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedItems } from '@/stores/selector'
-  import { getAdapterController } from '@/adapter/context'
+  // import { getAdapterController } from '@/adapter/context'
   import Preview from './Preview.svelte'
   import ChartPreview from './ChartPreview.svelte'
   import Grid from './Grid.svelte'
 
   const Widgets = getWidgets()
-  const { adjustSelectedMetric } = getAdapterController()
+  // const { adjustSelectedMetric } = getAdapterController()
   const History = getHistoryContext()
 
   $: widgets = $Widgets
@@ -82,7 +82,7 @@
   }
 
   function adjustMetrics(metrics: Studio.Metric[]) {
-    return adjustSelectedMetric ? metrics.map(adjustSelectedMetric) : metrics
+    return window.adjustSelectedMetric ? metrics.map(window.adjustSelectedMetric) : metrics
   }
 
   onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()))
