@@ -4,15 +4,13 @@ import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { mapview, MapviewPhase } from './../stores/mapview';
 import { getWidgets } from './../stores/widgets';
-import { selectedItems } from './../stores/selector';
-import { getAdapterController } from './../adapter/context';
+import { selectedItems } from './../stores/selector'; // import { getAdapterController } from './../adapter/context'
+
 import Preview from './Preview.svelte';
 import ChartPreview from './ChartPreview.svelte';
 import Grid from './Grid.svelte';
-const Widgets = getWidgets();
-const {
-  adjustSelectedMetric
-} = getAdapterController();
+const Widgets = getWidgets(); // const { adjustSelectedMetric } = getAdapterController()
+
 const History = getHistoryContext();
 
 $: widgets = $Widgets;
@@ -76,7 +74,7 @@ function onNewWidgetClick({
 }
 
 function adjustMetrics(metrics) {
-  return adjustSelectedMetric ? metrics.map(adjustSelectedMetric) : metrics;
+  return window.adjustSelectedMetric ? metrics.map(window.adjustSelectedMetric) : metrics;
 }
 
 onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));</script>

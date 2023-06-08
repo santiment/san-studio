@@ -34,6 +34,8 @@ function onItemClick(e, item) {
   handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric);
 }
 
+window.adjustSelectedMetric = adjustSelectedMetric;
+
 function adjustSelectedMetric(node) {
   if (node.noProject) return node;
   const settings = $studio$;
@@ -53,7 +55,10 @@ function adjustSelectedMetric(node) {
 }
 
 const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
-onDestroy(removeOpenShortcutsDialogHandler);</script>
+onDestroy(() => {
+  removeOpenShortcutsDialogHandler();
+  delete window.adjustSelectedMetric;
+});</script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
   <!-- 
