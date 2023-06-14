@@ -35,6 +35,12 @@ const ExchangesMetric = each(
     exchange_outflow: {
       label: 'Exchange Outflow',
     },
+    exchange_open_interest: {
+      label: 'Exchange Open Interest',
+    },
+    total_open_interest: {
+      label: 'Total Open Interest',
+    },
     percent_of_total_supply_on_exchanges: {
       label: 'Supply on Exchanges (as % of total supply)',
     },
