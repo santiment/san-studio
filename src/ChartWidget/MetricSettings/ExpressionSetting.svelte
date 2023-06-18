@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { getHistoryContext } from '@/history/ctx'
   import { getWidget } from '@/ChartWidget/context'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'
   import { updateCombinedMetric } from '@/CombineDialog/flow'

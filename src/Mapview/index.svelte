@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { getHistoryContext, withScroll } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import { newGlobalShortcut } from 'webkit/utils/events'
+  import { getHistoryContext } from '@/history/ctx'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'
   import { selectedItems } from '@/stores/selector'

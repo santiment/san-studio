@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { copy } from 'webkit/utils'
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
+  import { getHistoryContext } from '@/history/ctx'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'

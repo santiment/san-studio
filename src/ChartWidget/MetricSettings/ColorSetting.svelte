@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import { debounce } from 'webkit/utils/fn'
   import { Event } from '@/analytics'
+  import { getHistoryContext } from '@/history/ctx'
   import { getWidget } from '@/ChartWidget/context'
   import Dropdown from './Dropdown.svelte'
   import ColorPicker from './ColorPicker/index.svelte'

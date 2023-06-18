@@ -51,6 +51,7 @@ const History = ROOT_CTX.get(HISTORY_CONTEXT)
 newGlobalShortcut('CMD+Z', History.undo)
 newGlobalShortcut('CMD+SHIFT+Z', History.redo)
 newGlobalShortcut('CMD+K', showMasterSelectorDialog)
+ROOT_CTX.get(CTX).set(HISTORY_CONTEXT, History)
 
 new FeatureWalkthrough({ target: document.body, context: ROOT_CTX })
 new Dialogs({ target: document.body, context: ROOT_CTX })

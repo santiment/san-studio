@@ -1,6 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import Svg from 'webkit/ui/Svg/svelte'
   import { favoriteMetrics } from '@/stores/favoriteMetrics'
   import { globals } from '@/stores/globals'

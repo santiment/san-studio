@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { track } from 'webkit/analytics'
-  import { getHistoryContext } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { Event } from '@/analytics'
+  import { getHistoryContext } from '@/history/ctx'
   import { getWidget } from '@/ChartWidget/context'
   import { globals } from '@/stores/globals'
   import { studio } from '@/stores/studio'
