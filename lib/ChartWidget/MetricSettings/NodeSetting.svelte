@@ -1,6 +1,7 @@
 <script>import { track } from 'san-webkit/lib/analytics';
-import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import { withScroll } from 'san-webkit/lib/ui/history';
 import { cleanupCandlesSettings, setCandlesSettings } from './../../ChartWidget/transformers/candles';
+import { getHistoryContext } from './../../history/ctx';
 import { studio } from './../../stores/studio';
 import { Node, NodeAlias } from './../../Chart/nodes';
 import { Metric } from './../../metrics';

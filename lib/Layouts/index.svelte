@@ -2,7 +2,7 @@
 import { track } from 'san-webkit/lib/analytics';
 import { CMD } from 'san-webkit/lib/utils/os';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../history/ctx';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import { Event } from './../analytics';

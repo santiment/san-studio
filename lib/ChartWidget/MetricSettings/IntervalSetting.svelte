@@ -1,7 +1,8 @@
 <script>import { track } from 'san-webkit/lib/analytics';
-import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import { withScroll } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { Event } from './../../analytics';
+import { getHistoryContext } from './../../history/ctx';
 import { getMetricMinInterval } from './../../api/metrics/restrictions';
 import { INTERVALS, getIntervals, getValidInterval } from './../../utils/intervals';
 import { studio } from './../../stores/studio';

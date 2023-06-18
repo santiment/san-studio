@@ -1,5 +1,5 @@
 <script>import { tick } from 'svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../../history/ctx';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { favoriteMetrics } from './../../stores/favoriteMetrics';
 import { globals } from './../../stores/globals';

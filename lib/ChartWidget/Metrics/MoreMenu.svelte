@@ -1,8 +1,9 @@
 <script>import { onDestroy } from 'svelte';
 import { copy } from 'san-webkit/lib/utils';
-import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+import { withScroll } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { getHistoryContext } from './../../history/ctx';
 import { favoriteMetrics } from './../../stores/favoriteMetrics';
 import { globals } from './../../stores/globals';
 import { studio } from './../../stores/studio';

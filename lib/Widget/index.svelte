@@ -17,7 +17,7 @@ export function newWidgetViewportObserver() {
 }</script>
 
 <script>import { onMount } from 'svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../history/ctx';
 import { getAdapterController } from './../adapter/context';
 import Subwidget from './Subwidget.svelte';
 const History = getHistoryContext();

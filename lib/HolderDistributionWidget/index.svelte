@@ -1,4 +1,5 @@
-<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../history/ctx';
 import ChartWidget from './../ChartWidget/index.svelte';
 import { initWidget } from './../ChartWidget/context';
 import { HolderDistributionMetric, HOLDER_DISTRIBUTION_ABSOLUTE_METRICS } from './../metrics/_onchain/holderDistributions';

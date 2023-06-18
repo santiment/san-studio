@@ -1,6 +1,6 @@
 <script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../../../history/ctx';
 import HoverItem from './../../../Sidebar/HoverItem.svelte';
 import ItemLabel from './../../../Sidebar/ItemLabel.svelte';
 import { showCombineDialog } from './../../../CombineDialog/index.svelte';

@@ -1,5 +1,5 @@
 <script>import { onDestroy, tick } from 'svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../history/ctx';
 import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import { mapview } from './../stores/mapview';
 import { getWidgets } from './../stores/widgets';

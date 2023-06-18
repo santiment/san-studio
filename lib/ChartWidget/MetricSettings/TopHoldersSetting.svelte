@@ -1,4 +1,5 @@
-<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../../history/ctx';
 import { getWidget } from './../../ChartWidget/context';
 import Setting from './Setting.svelte';
 const History = getHistoryContext();

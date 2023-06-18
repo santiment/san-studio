@@ -1,5 +1,5 @@
 <script>import { onDestroy } from 'svelte';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
+import { getHistoryContext } from './../history/ctx';
 import { saveBoolean } from 'san-webkit/lib/utils/localStorage';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { getAdapterController } from './../adapter/context';

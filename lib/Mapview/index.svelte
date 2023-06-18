@@ -1,7 +1,8 @@
 <script>import { onDestroy } from 'svelte';
-import { getHistoryContext, withScroll } from 'san-webkit/lib/ui/history';
+import { withScroll } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
+import { getHistoryContext } from './../history/ctx';
 import { mapview, MapviewPhase } from './../stores/mapview';
 import { getWidgets } from './../stores/widgets';
 import { selectedItems } from './../stores/selector'; // import { getAdapterController } from './../adapter/context'

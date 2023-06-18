@@ -1,10 +1,10 @@
 <script>import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
-import { getHistoryContext } from 'san-webkit/lib/ui/history';
 import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { Event } from './../../analytics';
+import { getHistoryContext } from './../../history/ctx';
 import { getWidget } from './../../ChartWidget/context';
 import { globals } from './../../stores/globals';
 import { studio } from './../../stores/studio';

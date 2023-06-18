@@ -1,7 +1,8 @@
-<script>import { withScroll, getHistoryContext } from 'san-webkit/lib/ui/history';
+<script>import { withScroll } from 'san-webkit/lib/ui/history';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
+import { getHistoryContext } from './../history/ctx';
 import { initWidget } from './../ChartWidget/context';
 import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS } from './../metrics/_onchain/holderDistributions';
 import HolderDistributionWidget from './index.svelte';
