@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { getAdapterController } from '@/adapter/context'

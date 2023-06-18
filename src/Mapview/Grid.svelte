@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, tick } from 'svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import { dialogs } from 'webkit/ui/Dialog'
   import { mapview } from '@/stores/mapview'
   import { getWidgets } from '@/stores/widgets'

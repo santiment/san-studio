@@ -16,7 +16,7 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import { getAdapterController } from '@/adapter/context'
   import Subwidget from './Subwidget.svelte'
 

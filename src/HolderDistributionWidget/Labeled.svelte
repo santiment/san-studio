@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Checkbox from 'webkit/ui/Checkbox.svelte'
+  import { getHistoryContext } from '@/history/ctx'
   import { initWidget } from '@/ChartWidget/context'
   import {
     HolderDistributionMetric,

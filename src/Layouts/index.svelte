@@ -3,7 +3,7 @@
   import { track } from 'webkit/analytics'
   import { CMD } from 'webkit/utils/os'
   import { newGlobalShortcut } from 'webkit/utils/events'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Event } from '@/analytics'

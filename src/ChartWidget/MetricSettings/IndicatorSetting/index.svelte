@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Toggle from 'webkit/ui/Toggle.svelte'
+  import { getHistoryContext } from '@/history/ctx'
   import { getWidget } from '@/ChartWidget/context'
   import Dropdown from '../Dropdown.svelte'
   import { INDICATORS, cacheIndicator } from './utils'

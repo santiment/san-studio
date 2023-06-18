@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { withScroll, getHistoryContext } from 'webkit/ui/history'
+  import { withScroll } from 'webkit/ui/history'
   import Svg from 'webkit/ui/Svg/svelte'
   import Toggle from 'webkit/ui/Toggle.svelte'
   import { globals } from '@/stores/globals'
+  import { getHistoryContext } from '@/history/ctx'
   import { download, downloadPng, downloadCsv } from './download'
 
   const History = getHistoryContext()
