@@ -88,4 +88,12 @@ export function getTupleData(args: string[], cursor = { i: 0 }): TupleData[] {
   return data
 }
 
+export function getMetricKeyData(key: string) {
+  if (key[0] !== '[') {
+    return [MetricType.Basic, key]
+  }
+
+  return parseMetricKey(key)
+}
+
 // parseTuple('[2;[1;price_usd;bitcoin;BTC];MA30]')

@@ -72,7 +72,9 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   const mathPromise = importMath()
   const { key, baseMetrics, expression } = metric
 
-  const minIntervalPromise = Promise.all<string>(baseMetrics.map(getMetricMinInterval))
+  const minIntervalPromise = Promise.all<string>(
+    baseMetrics.flatMap((metric: any) => metric.baseMetrics || metric).map(getMetricMinInterval),
+  )
     .then(getCommonMinInterval)
     .then((minInterval) => (metric.minInterval = minInterval))
 
