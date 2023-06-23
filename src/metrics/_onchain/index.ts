@@ -287,10 +287,10 @@ export const FeesMetric = each(
       checkIsVisible: ({ slug }) => slug === 'ethereum',
     },
     fees_burnt_5m: {
-      label: 'Etheruem Fees Burnt',
+      label: 'Ethereum Fees Burnt',
     },
     fees_burnt_usd_5m: {
-      label: 'Etheruem Fees Burnt in USD',
+      label: 'Ethereum Fees Burnt in USD',
       formatter: usdFormatter,
     },
   },
