@@ -86,7 +86,7 @@ onDestroy(unsubWidgets);</script>
       </button>
     </svelte:fragment>
 
-    {#each searchedMetrics as item (item.key)}
+    {#each searchedMetrics as item}
       <Item {item} {HoverItem} on:click={(e) => onItemClick(e, item)} />
     {:else}
       <div class="mrg-s mrg--l c-waterloo">Create brand new metric composites</div>
