@@ -1,6 +1,6 @@
 <script>import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { PresetCalendar } from 'san-webkit/lib/ui/Calendar';
+import { InputCalendar as PresetCalendar } from 'san-webkit/lib/ui/Calendar';
 import { Event } from './../analytics';
 import { mapview, MapviewPhase } from './../stores/mapview';
 import LayoutActions from './../Layouts/index.svelte';
