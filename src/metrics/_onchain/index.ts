@@ -36,13 +36,16 @@ const ExchangesMetric = each(
       label: 'Exchange Outflow',
     },
     exchange_open_interest: {
-      label: 'Exchange Open Interest',
+      label: 'Open Interest in USD per Exchange',
+      formatter: usdFormatter,
     },
     open_interest_per_settlement_currency: {
-      label: 'Open Interest Per Settlement Currency',
+      label: 'Open Interest in USD per Settlement Currency',
+      formatter: usdFormatter,
     },
     total_open_interest: {
-      label: 'Total Open Interest',
+      label: 'Total Open Interest in USD',
+      formatter: usdFormatter,
     },
     percent_of_total_supply_on_exchanges: {
       label: 'Supply on Exchanges (as % of total supply)',
