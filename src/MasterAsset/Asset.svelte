@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { ProjectPriceChange } from '@/api/project'
   import { millify } from 'webkit/utils/formatting'
-  import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
   import { studio } from '@/stores/studio'
   import { queryProject, queryProjectPriceChange } from '@/api/project'
   import { usdFormatter } from '@/metrics/formatters'
   import Selector from './Selector.svelte'
+  import Change from 'webkit/ui/Change.svelte'
 
   let price = ''
   let change = 0
@@ -42,11 +42,8 @@
   <span class="c-waterloo">Price</span>
   <span class="body-1 mrg-s mrg--l mrg--r">{price}</span>
 
-  <div class="change txt-m row v-center expl-tooltip" class:up={isUpChange} aria-label="24h change">
-    <span class="direction row hv-center mrg-xs mrg--r">
-      <Svg id="triangle" w="6" h="4" />
-    </span>
-    {change}%
+  <div class="change txt-m expl-tooltip" aria-label="24h change">
+    <Change {change} />
   </div>
 </div>
 
@@ -58,27 +55,8 @@
 <div class="rank mrg-xxl mrg--l">Rank #{projectRank}</div>
 
 <style>
-  .change {
-    position: relative;
-    color: var(--red);
-    --color: var(--red);
-    --bg: var(--red-light-1);
-  }
-  .up {
-    color: #26c953;
-    --color: #26c953;
-    --bg: #d6f6d6;
-  }
   .change::before {
     z-index: 999;
-  }
-
-  .direction {
-    border-radius: 50%;
-    width: 12px;
-    height: 12px;
-    fill: var(--color);
-    background: var(--bg);
   }
 
   .rank {
