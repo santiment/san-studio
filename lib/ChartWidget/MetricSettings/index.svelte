@@ -5,6 +5,7 @@ import NodeSetting from './NodeSetting.svelte';
 import ColorSetting from './ColorSetting.svelte';
 import IntervalSetting from './IntervalSetting.svelte';
 import ExchangeSetting from './ExchangeSetting/index.svelte';
+import SettlementCurrencySetting from './SettlementCurrency.svelte';
 import { isExchangeModifiable } from './ExchangeSetting/utils';
 import IndicatorSetting from './IndicatorSetting/index.svelte';
 import SmoothingSetting from './SmoothingSetting.svelte';
@@ -34,9 +35,15 @@ const getBase = metric => metric.base || metric;</script>
         <NodeSetting {metric} />
       {/if}
       <ColorSetting {metric} />
+
       {#if isExchangeModifiable(metric)}
         <ExchangeSetting {metric} />
       {/if}
+
+      {#if metric === Metric.open_interest_per_settlement_currency}
+        <SettlementCurrencySetting {metric} />
+      {/if}
+
       {#if isNotIndicator && !isEmbedded}
         <IntervalSetting {metric} />
         {#if getBase(metric) !== Metric.dev_activity && !metric.baseMetrics}

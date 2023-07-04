@@ -59,7 +59,7 @@ function setExchange(metric, newOwner) {
 
 
   MetricSettings.set(key, {
-    queryKey: queryKey + '_per_exchange',
+    queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
     owner: newOwner
   });
 }</script>
