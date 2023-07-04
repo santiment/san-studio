@@ -20,6 +20,7 @@ export function isExchangeModifiable(metric: Studio.Metric) {
   return (
     base === Metric.exchange_outflow ||
     base === Metric.exchange_inflow ||
-    base === Metric.exchange_balance
+    base === Metric.exchange_balance ||
+    base === Metric.exchange_open_interest
   )
 }

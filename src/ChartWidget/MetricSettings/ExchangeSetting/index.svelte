@@ -56,7 +56,7 @@
 
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
     MetricSettings.set(key, {
-      queryKey: queryKey + '_per_exchange',
+      queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
       owner: newOwner,
     })
   }
