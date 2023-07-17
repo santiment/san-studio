@@ -64,6 +64,10 @@ const ExchangesMetric = each(
     active_withdrawals_5m: {
       label: 'Active Withdrawals',
     },
+    daily_trading_volume_usd: {
+      label: 'Daily Trading USD Volume',
+      formatter: usdFormatter,
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Exchanges'
