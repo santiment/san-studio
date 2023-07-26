@@ -8,53 +8,43 @@ import { currentUser } from './../stores/user';
 import { SidewidgetType, getSidewidget } from './../stores/widgets';
 import LayoutInfo from './../Layouts/LayoutInfo.svelte';
 import { queryLayoutVotes } from './../api/layouts/votes';
-import { queryLayoutCommentsCount, subscribeLayoutCommentsCountCache } from './../api/layouts/comments';
+import { queryLayoutCommentsCount, subscribeLayoutCommentsCountCache, } from './../api/layouts/comments';
 const Sidewidget = getSidewidget();
 let votes = newVotes();
 let commentsCount = 0;
 let unsubscribe;
-
 $: layout = $selectedLayout;
-
-$: ({
-  id,
-  title,
-  user
-} = layout || {});
-
+$: ({ id, title, user } = layout || {});
 $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id;
-
 $: if (process.browser && id) {
-  getVotes(id);
-  getCommentsCount(id);
+    getVotes(id);
+    getCommentsCount(id);
 }
-
-const setCount = count => commentsCount = count;
-
+const setCount = (count) => (commentsCount = count);
 function getCommentsCount(id) {
-  queryLayoutCommentsCount(id).then(setCount);
-  unsubscribe === null || unsubscribe === void 0 ? void 0 : unsubscribe();
-  unsubscribe = subscribeLayoutCommentsCountCache(id, setCount);
+    queryLayoutCommentsCount(id).then(setCount);
+    unsubscribe === null || unsubscribe === void 0 ? void 0 : unsubscribe();
+    unsubscribe = subscribeLayoutCommentsCountCache(id, setCount);
 }
-
-const setVotes = data => votes = data;
-
+const setVotes = (data) => (votes = data);
 function getVotes(id) {
-  votes = newVotes();
-  queryLayoutVotes(id).then(setVotes);
+    votes = newVotes();
+    queryLayoutVotes(id).then(setVotes);
 }
-
 function onVote() {
-  track.event(Event.LikeLayout, {
-    id
-  });
+    track.event(Event.LikeLayout, { id });
 }
-
 function onEditClick() {
-  if (!$currentUser) return;
-  const handler = layout ? isAuthor ? window.onLayoutEdit : window.saveAsNewLayout : window.saveLayout;
-  return handler === null || handler === void 0 ? void 0 : handler();
-}</script>
+    if (!$currentUser)
+        return;
+    const handler = layout
+        ? isAuthor
+            ? window.onLayoutEdit
+            : window.saveAsNewLayout
+        : window.saveLayout;
+    return handler === null || handler === void 0 ? void 0 : handler();
+}
+</script>
 
 <CreationInfo
   type={CreationType.Layout}

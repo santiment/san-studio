@@ -27,7 +27,7 @@ export let onSubwidget = undefined;
 export let onChartPointClick = undefined;
 export let onAnonFavoriteClick = undefined;
 export let onModRangeSelect = undefined;
-export let onScreenMount = screen => {};
+export let onScreenMount = (screen) => { };
 export let getExternalWidget = undefined;
 export let adjustSelectedMetric = undefined;
 export let checkIsMapviewDisabled = undefined;
@@ -38,51 +38,45 @@ export let onSidebarProjectMount = undefined;
 export let headerPadding = 65;
 export let HistoryEmitter = newHistoryEmitter();
 export let History = newHistoryContext(HistoryEmitter.set);
-if (defaultSettings) studio.setProject(defaultSettings);
+if (defaultSettings)
+    studio.setProject(defaultSettings);
 const Widgets = initWidgets(widgets, getExternalWidget, History);
 const Sidewidget = initSidewidget(sidewidget);
-
 const onScreen = () => onScreenMount && onScreenMount(screen);
-
-window.showLoginPrompt = onAnonFavoriteClick || (() => {});
-
+window.showLoginPrompt = onAnonFavoriteClick || (() => { });
 window.shareLayoutWidgets = shareLayoutWidgets || (() => []);
-
 window.parseLayoutWidgets = parseLayoutWidgets || (() => []);
-
-if (!getAppTooltipsCtx()) newAppTooltipsCtx();
+if (!getAppTooltipsCtx())
+    newAppTooltipsCtx();
 setAdapterController({
-  onSubwidget,
-  onWidget,
-  onWidgetInit,
-  onChartPointClick,
-  onAnonFavoriteClick,
-  onModRangeSelect,
-  onSidebarProjectMount,
-  checkIsMapviewDisabled,
-  InsightsContextStore,
-  adjustSelectedMetric
+    onSubwidget,
+    onWidget,
+    onWidgetInit,
+    onChartPointClick,
+    onAnonFavoriteClick,
+    onModRangeSelect,
+    onSidebarProjectMount,
+    checkIsMapviewDisabled,
+    InsightsContextStore,
+    adjustSelectedMetric,
 });
 newTooltipSynchronizer();
 newLockedAssetStore();
 const AutoUpdater = newAutoUpdaterStore(Widgets);
 let screenRef;
-
 $: screenRef && onScreen();
-
 $: AutoUpdater.check($studio);
-
 function onWidgetUpdate() {
-  widgetsListener.update();
+    widgetsListener.update();
 }
-
 const widgetViewportObserver = newWidgetViewportObserver();
 onDestroy(() => {
-  window.showLoginPrompt = undefined;
-  window.shareLayoutWidgets = undefined; // @ts-ignore
-
-  window.parseLayoutWidgets = undefined;
-});</script>
+    window.showLoginPrompt = undefined;
+    window.shareLayoutWidgets = undefined;
+    // @ts-ignore
+    window.parseLayoutWidgets = undefined;
+});
+</script>
 
 <slot />
 

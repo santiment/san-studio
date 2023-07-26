@@ -5,80 +5,67 @@ import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { getHistoryContext } from './../history/ctx';
 import { mapview, MapviewPhase } from './../stores/mapview';
 import { getWidgets } from './../stores/widgets';
-import { selectedItems } from './../stores/selector'; // import { getAdapterController } from './../adapter/context'
-
+import { selectedItems } from './../stores/selector';
+// import { getAdapterController } from './../adapter/context'
 import Preview from './Preview.svelte';
 import ChartPreview from './ChartPreview.svelte';
 import Grid from './Grid.svelte';
-const Widgets = getWidgets(); // const { adjustSelectedMetric } = getAdapterController()
-
+const Widgets = getWidgets();
+// const { adjustSelectedMetric } = getAdapterController()
 const History = getHistoryContext();
-
 $: widgets = $Widgets;
-
-$: mapview.checkActiveMetrics($selectedItems.metrics.length > 0 || $selectedItems.subwidgets.length > 0 || $selectedItems.chartAddons.length > 0);
-
+$: mapview.checkActiveMetrics($selectedItems.metrics.length > 0 ||
+    $selectedItems.subwidgets.length > 0 ||
+    $selectedItems.chartAddons.length > 0);
 $: isMapview = $mapview !== MapviewPhase.None;
-
 $: isMetricsPhase = $mapview === MapviewPhase.Metrics;
-
 function onWidgetClick(widget, e) {
-  if ($mapview === MapviewPhase.Overview || widget.isBlocked) {
-    widget.scrollIntoView();
-    mapview.exit();
-    return;
-  }
-
-  if ($selectedItems.subwidgets.length) {
-    Widgets.addSubwidgets(widget, $selectedItems.subwidgets);
-  }
-
-  if ($selectedItems.chartAddons.length) {
-    widget.ChartAddons.concat($selectedItems.chartAddons);
-  }
-
-  if (widget.Metrics) {
-    const metrics = adjustMetrics($selectedItems.metrics);
-    const notables = $selectedItems.notables.slice();
-
-    const redo = () => {
-      widget.Metrics.concat(metrics);
-      widget.MetricsSignals.concat(notables);
-    };
-
-    redo();
-    History.add('Add metrics', withScroll(widget, () => {
-      widget.Metrics.deleteEach(metrics);
-      widget.MetricsSignals.deleteEach(metrics);
-    }), withScroll(widget, redo));
-    if ((e === null || e === void 0 ? void 0 : e.ctrlKey) || (e === null || e === void 0 ? void 0 : e.metaKey)) return;
+    if ($mapview === MapviewPhase.Overview || widget.isBlocked) {
+        widget.scrollIntoView();
+        mapview.exit();
+        return;
+    }
+    if ($selectedItems.subwidgets.length) {
+        Widgets.addSubwidgets(widget, $selectedItems.subwidgets);
+    }
+    if ($selectedItems.chartAddons.length) {
+        widget.ChartAddons.concat($selectedItems.chartAddons);
+    }
+    if (widget.Metrics) {
+        const metrics = adjustMetrics($selectedItems.metrics);
+        const notables = $selectedItems.notables.slice();
+        const redo = () => {
+            widget.Metrics.concat(metrics);
+            widget.MetricsSignals.concat(notables);
+        };
+        redo();
+        History.add('Add metrics', withScroll(widget, () => {
+            widget.Metrics.deleteEach(metrics);
+            widget.MetricsSignals.deleteEach(metrics);
+        }), withScroll(widget, redo));
+        if ((e === null || e === void 0 ? void 0 : e.ctrlKey) || (e === null || e === void 0 ? void 0 : e.metaKey))
+            return;
+        selectedItems.clear();
+    }
+}
+function onNewWidgetClick({ ctrlKey, metaKey }) {
+    const widget = Widgets.add(adjustMetrics($selectedItems.metrics));
+    if ($selectedItems.chartAddons.length) {
+        widget.chartAddons = $selectedItems.chartAddons;
+    }
+    History.add('New widget', () => widget === null || widget === void 0 ? void 0 : widget.delete(), () => {
+        widget.scrollOnMount = true;
+        Widgets.push(widget);
+    });
+    if (ctrlKey || metaKey)
+        return;
     selectedItems.clear();
-  }
 }
-
-function onNewWidgetClick({
-  ctrlKey,
-  metaKey
-}) {
-  const widget = Widgets.add(adjustMetrics($selectedItems.metrics));
-
-  if ($selectedItems.chartAddons.length) {
-    widget.chartAddons = $selectedItems.chartAddons;
-  }
-
-  History.add('New widget', () => widget === null || widget === void 0 ? void 0 : widget.delete(), () => {
-    widget.scrollOnMount = true;
-    Widgets.push(widget);
-  });
-  if (ctrlKey || metaKey) return;
-  selectedItems.clear();
-}
-
 function adjustMetrics(metrics) {
-  return window.adjustSelectedMetric ? metrics.map(window.adjustSelectedMetric) : metrics;
+    return window.adjustSelectedMetric ? metrics.map(window.adjustSelectedMetric) : metrics;
 }
-
-onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));</script>
+onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));
+</script>
 
 {#if isMapview}
   <Grid {isMetricsPhase} {widgets} let:hiddenWidgets>

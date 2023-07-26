@@ -1,12 +1,8 @@
 <script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
 export let project;
 let error = false;
-
-$: ({
-  name,
-  ticker,
-  slug
-} = project);</script>
+$: ({ name, ticker, slug } = project);
+</script>
 
 <div class="img row hv-center mrg-s mrg--r" class:error>
   {#if error}

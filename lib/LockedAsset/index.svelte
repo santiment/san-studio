@@ -5,22 +5,17 @@ import { studio, getLockedAssetStore } from './../stores/studio';
 import { Event } from './../analytics';
 import { showLockedAssetDialog } from './Dialog.svelte';
 const LockedAsset$ = getLockedAssetStore();
-
 $: settings = $studio;
-
 $: asset = $LockedAsset$;
-
 function onSelect(asset) {
-  if (!asset) return;
-
-  if (settings.slug !== asset.slug) {
-    track.event(Event.ChangeLockAsset, {
-      asset: asset.slug
-    });
-  }
-
-  LockedAsset$.set(asset);
-}</script>
+    if (!asset)
+        return;
+    if (settings.slug !== asset.slug) {
+        track.event(Event.ChangeLockAsset, { asset: asset.slug });
+    }
+    LockedAsset$.set(asset);
+}
+</script>
 
 <button class="btn border fluid row v-center" on:click={() => showLockedAssetDialog({ onSelect })}>
   {#if asset.address}

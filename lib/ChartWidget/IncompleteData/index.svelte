@@ -1,5 +1,4 @@
 <script>var _a;
-
 import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { queryRestrictedDates } from './../../api/metrics/restrictions';
@@ -12,52 +11,47 @@ export let settings;
 let banner;
 let restrictions;
 let metricRestrictions = null;
-queryRestrictedDates().then(data => restrictions = data);
-
+queryRestrictedDates().then((data) => (restrictions = data));
 $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : [];
-
 $: if (banner && chart) {
-  (_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner);
+    (_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner);
 }
-
-function metricsFilter({
-  key,
-  queryKey = key,
-  project
-}, settings) {
-  if (customRestrictions(queryKey, project || settings)) return;
-  const data = restrictions[queryKey];
-  return data && (data.restrictedFrom || data.restrictedTo);
+function metricsFilter({ key, queryKey = key, project }, settings) {
+    if (customRestrictions(queryKey, project || settings))
+        return;
+    const data = restrictions[queryKey];
+    return data && (data.restrictedFrom || data.restrictedTo);
 }
-
 function filterMetrics(metrics, settings) {
-  metricRestrictions = null;
-  return metrics.filter(metric => metricsFilter(metric, settings));
+    metricRestrictions = null;
+    return metrics.filter((metric) => metricsFilter(metric, settings));
 }
-
 function formatMetrics() {
-  if (metricRestrictions) return metricRestrictions;
-  metricRestrictions = restrictedMetrics.map(({
-    key,
-    queryKey = key,
-    label
-  }) => {
-    const {
-      restrictedFrom: from,
-      restrictedTo: to
-    } = restrictions[queryKey];
-    const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to);
-    return `${label} (${date})`;
-  });
-  return metricRestrictions;
+    if (metricRestrictions)
+        return metricRestrictions;
+    metricRestrictions = restrictedMetrics.map(({ key, queryKey = key, label }) => {
+        const { restrictedFrom: from, restrictedTo: to } = restrictions[queryKey];
+        const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to);
+        return `${label} (${date})`;
+    });
+    return metricRestrictions;
 }
-
-function customRestrictions(queryKey, {
-  slug
-} = {}) {
-  if (slug !== 'ripple' && slug !== 'xrp') return;
-  return queryKey.includes('active_addresses') || queryKey.includes('holders_distribution') || new Set(['daily_assets_issued', 'total_assets_issued', 'daily_trustlines_count_change', 'total_trustlines_count', 'daily_dex_volume_in_xrp', 'network_growth']).has(queryKey);
-}</script>
+function customRestrictions(queryKey, { slug } = {}) {
+    if (slug !== 'ripple' && slug !== 'xrp')
+        return;
+    return (queryKey.includes('active_addresses') ||
+        queryKey.includes('holders_distribution') ||
+        queryKey.includes('dex_volume_in') ||
+        new Set([
+            'daily_assets_issued',
+            'total_assets_issued',
+            'daily_trustlines_count_change',
+            'total_trustlines_count',
+            'daily_dex_volume_in_xrp',
+            'network_growth',
+        ]).has(queryKey));
+}
+</script>
 
 {#if restrictedMetrics.length}
   <Tooltip duration={0} openDelay={110} align="center" class="tooltip-L1WTvQ">

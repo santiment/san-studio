@@ -8,21 +8,19 @@ import HoverItem from './HoverItem.svelte';
 export let searchTerm = '';
 export let isFiltering = false;
 export let onItemClick;
-
 $: favorites = getFavorites($favoriteMetrics, searchTerm);
-
 function getFavorites(favoritesSet, searchTerm) {
-  const favorites = [];
-  let i = 0;
-  favoritesSet.forEach(favoriteKey => {
-    const item = SelectorNode[favoriteKey];
-
-    if (item && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)) {
-      favorites[i++] = item;
-    }
-  });
-  return favorites;
-}</script>
+    const favorites = [];
+    let i = 0;
+    favoritesSet.forEach((favoriteKey) => {
+        const item = SelectorNode[favoriteKey];
+        if (item && (searchTerm ? checkIsFilterMatch(searchTerm, item) : true)) {
+            favorites[i++] = item;
+        }
+    });
+    return favorites;
+}
+</script>
 
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened class="favorites">

@@ -1,5 +1,7 @@
-<script>import OptionsMenuTooltipCtx from './../ChartWidget/OptionsMenuTooltipCtx.svelte';
-import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte';</script>
+<script>
+  import OptionsMenuTooltipCtx from './../ChartWidget/OptionsMenuTooltipCtx.svelte'
+  import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte'
+</script>
 
 <MetricErrorTooltipCtx>
   <OptionsMenuTooltipCtx>

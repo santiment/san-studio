@@ -13,48 +13,46 @@ let inputNode;
 let searchTerm = '';
 let suggestions = [];
 let context = {
-  cursor: 0,
-  items: [],
-  onSelect
+    cursor: 0,
+    items: [],
+    onSelect,
 };
 let blockchain = undefined;
-
 $: updateSuggestions(suggestions);
-
 function updateSuggestions(suggestions) {
-  context.items = suggestions;
-  context.cursor = 0;
+    context.items = suggestions;
+    context.cursor = 0;
 }
-
 function onKeyDown(e) {
-  if (handleNavigation(e, context)) return;
-  context = context;
+    if (handleNavigation(e, context))
+        return;
+    context = context;
 }
-
 function onSelect(item) {
-  if (!item) return;
-
-  if (onItemSelect) {
-    onItemSelect(item);
-  } else {
-    studio.setProject(item);
-    replaceDefaultMetrics(item, $Widgets);
-  }
-
-  addRecent(item);
-  closeDialog();
+    if (!item)
+        return;
+    if (onItemSelect) {
+        onItemSelect(item);
+    }
+    else {
+        studio.setProject(item);
+        replaceDefaultMetrics(item, $Widgets);
+    }
+    addRecent(item);
+    closeDialog();
 }
-
 function onEditableEscaped(target, closeDialog) {
-  if (!target.value) return closeDialog();
-  searchTerm = '';
-}</script>
+    if (!target.value)
+        return closeDialog();
+    searchTerm = '';
+}
+</script>
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="dialog-RwirqW" bind:closeDialog {onEditableEscaped}>
+<Dialog {...$$props} noTitle class="dialog-BpTTAX" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
-    <Svg id="search" w="16" class="icon-OYnqjb" />
+    <Svg id="search" w="16" class="icon-HHHC1o" />
     <input
       bind:this={inputNode}
       autofocus
@@ -79,7 +77,21 @@ function onEditableEscaped(target, closeDialog) {
   <!-- <div class="tip row v-center caption c-waterloo">PROTIP:</div> -->
 </Dialog>
 
-<style >:global(.dialog-RwirqW) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.dialog-BpTTAX) {
   width: 500px;
   max-height: 480px !important;
   border-radius: 10px !important;
@@ -97,7 +109,7 @@ input {
   border-radius: 10px;
 }
 
-:global(.icon-OYnqjb) {
+:global(.icon-HHHC1o) {
   position: absolute;
   top: 20px;
   left: 20px;

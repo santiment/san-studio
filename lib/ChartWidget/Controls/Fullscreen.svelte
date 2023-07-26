@@ -8,15 +8,15 @@ const widget = getWidget();
 const closeFullscreen = getContext('fullscreen');
 export let fullscreenMetricsFilter = undefined;
 export let isFullscreened;
-
 function onFullscreen() {
-  isFullscreened = true;
-  showFullscreenChart({
-    widget,
-    fullscreenMetricsFilter
-  }).then(() => isFullscreened = false);
-  track.event(Event.Fullscreen);
-}</script>
+    isFullscreened = true;
+    showFullscreenChart({
+        widget,
+        fullscreenMetricsFilter,
+    }).then(() => (isFullscreened = false));
+    track.event(Event.Fullscreen);
+}
+</script>
 
 <div class="btn-3 mrg-s mrg--l" on:click={closeFullscreen || onFullscreen}>
   <Svg id={closeFullscreen ? 'close' : 'fullscreen'} w="14" />

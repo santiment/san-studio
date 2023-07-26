@@ -7,20 +7,17 @@ import Setting from './Setting.svelte';
 export let isPro = false;
 export let dataToken = '';
 let isActive = false;
-
 $: layout = $selectedLayout;
-
 $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id;
-
 $: disabled = !isAuthor || !isPro;
-
-const setToken = token => dataToken = token;
-
+const setToken = (token) => (dataToken = token);
 $: if (!disabled && isActive) {
-  queryLayoutToken(layout.id).then(setToken);
-} else {
-  dataToken = '';
-}</script>
+    queryLayoutToken(layout.id).then(setToken);
+}
+else {
+    dataToken = '';
+}
+</script>
 
 <Setting bind:isActive {disabled} disabledToggle={isPro}>
   <div class="row v-center">

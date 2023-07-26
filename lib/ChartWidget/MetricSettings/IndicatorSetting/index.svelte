@@ -6,36 +6,28 @@ import Dropdown from '../Dropdown.svelte';
 import { INDICATORS, cacheIndicator } from './utils';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  Metrics,
-  MetricIndicators
-} = widget;
+const { Metrics, MetricIndicators } = widget;
 export let metric;
-
 $: metricIndicators = metric && $MetricIndicators && MetricIndicators.get(metric.key);
-
 function getActiveLabels(metricIndicators) {
-  let label = '';
-
-  for (let i = 0; i < INDICATORS.length; i++) {
-    const indicator = INDICATORS[i];
-    if (metricIndicators.has(indicator)) label += ', ' + indicator.label;
-  }
-
-  return label.slice(2);
+    let label = '';
+    for (let i = 0; i < INDICATORS.length; i++) {
+        const indicator = INDICATORS[i];
+        if (metricIndicators.has(indicator))
+            label += ', ' + indicator.label;
+    }
+    return label.slice(2);
 }
-
 function onClick(indicator) {
-  const indicatorMetric = cacheIndicator(metric, indicator);
-
-  function toggle() {
-    Metrics.toggle(indicatorMetric);
-    MetricIndicators.toggle(metric.key, indicator);
-  }
-
-  toggle();
-  History.add('Toggle indicator', withScroll(widget, toggle));
-}</script>
+    const indicatorMetric = cacheIndicator(metric, indicator);
+    function toggle() {
+        Metrics.toggle(indicatorMetric);
+        MetricIndicators.toggle(metric.key, indicator);
+    }
+    toggle();
+    History.add('Toggle indicator', withScroll(widget, toggle));
+}
+</script>
 
 <Dropdown>
   Indicators: {getActiveLabels(metricIndicators)}

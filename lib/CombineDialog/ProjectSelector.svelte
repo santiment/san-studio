@@ -11,22 +11,16 @@ export let project;
 let items = [];
 let searchTerm = '';
 let isOpened;
-
 $: filteredItems = searchTerm ? items.filter(projectsFilter) : items;
-
-queryAllProjects().then(projects => items = projects);
-
-function projectsFilter({
-  name,
-  ticker
-}) {
-  return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm);
+queryAllProjects().then((projects) => (items = projects));
+function projectsFilter({ name, ticker }) {
+    return name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm);
 }
-
 function onProjectSelect(newProject) {
-  isOpened = false;
-  project = newProject && newProject.slug !== $studio.slug ? newProject : undefined;
-}</script>
+    isOpened = false;
+    project = newProject && newProject.slug !== $studio.slug ? newProject : undefined;
+}
+</script>
 
 <Tooltip on="click" duration={0} class="tooltip-7P0U2Q" bind:isOpened>
   <div slot="trigger" class="project border row v-center btn {className}">

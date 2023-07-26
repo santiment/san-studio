@@ -12,29 +12,21 @@ export let isOpened = false;
 export let onItemClick = undefined;
 export let arrowClass = 'mrg-a';
 let visible = isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain;
-
 $: GroupIndex = prepareGroups(items);
-
 function prepareGroups(items) {
-  const GroupIndex = {};
-
-  let _group;
-
-  for (let i = 0; i < items.length; i++) {
-    const {
-      group
-    } = items[i];
-    if (_group === group) continue;
-    _group = group;
-    GroupIndex[i] = true;
-  }
-
-  return GroupIndex;
+    const GroupIndex = {};
+    let _group;
+    for (let i = 0; i < items.length; i++) {
+        const { group } = items[i];
+        if (_group === group)
+            continue;
+        _group = group;
+        GroupIndex[i] = true;
+    }
+    return GroupIndex;
 }
-
-const toggleGroup = ({
-  group
-}) => group && (VisibleGroup[group] = !VisibleGroup[group]);</script>
+const toggleGroup = ({ group }) => group && (VisibleGroup[group] = !VisibleGroup[group]);
+</script>
 
 {#if items.length || $$slots.default}
   <div class="category {className}" on:mouseleave>

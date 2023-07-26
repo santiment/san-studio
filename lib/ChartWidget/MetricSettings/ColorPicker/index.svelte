@@ -1,65 +1,71 @@
-<script>import HexInput from './HexInput.svelte'; // TODO: Refactor and move to san-webkit [@vanguard | Jun 16, 2021]
-
+<script>import HexInput from './HexInput.svelte';
+// TODO: Refactor and move to san-webkit [@vanguard | Jun 16, 2021]
 import { hsvToHex, hexToHsv } from './utils';
 export let color;
-export let suggestions = ['#26C953', '#FFAD4D', '#8358FF', '#5275FF', '#68DBF4', '#FF5B5B', '#FFCB47', '#D4E763', '#F47BF6', '#FF5BAA', '#AC948C', '#37D7BA', '#FF8450', '#FFDAC5'];
+export let suggestions = [
+    '#26C953',
+    '#FFAD4D',
+    '#8358FF',
+    '#5275FF',
+    '#68DBF4',
+    '#FF5B5B',
+    '#FFCB47',
+    '#D4E763',
+    '#F47BF6',
+    '#FF5BAA',
+    '#AC948C',
+    '#37D7BA',
+    '#FF8450',
+    '#FFDAC5',
+];
 export let onChange;
-
 $: uppercaseColor = color.toUpperCase();
-
 $: [hue, saturation, brightness] = hexToHsv(color);
-
 $: parseHSV(hue, saturation, brightness);
-
 function parseHSV(hue, saturation, brightness) {
-  const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100);
-  if (uppercaseColor !== newColor.toUpperCase()) onChange(newColor);
+    const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100);
+    if (uppercaseColor !== newColor.toUpperCase())
+        onChange(newColor);
 }
-
 function newMouseHandler(moveHandler) {
-  return e => {
-    var _a;
-
-    const clientRect = (_a = e.currentTarget) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect();
-
-    const onMouseMove = e => moveHandler(e, clientRect);
-
-    onMouseMove(e);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-
-    function onMouseUp() {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    }
-  };
+    return (e) => {
+        var _a;
+        const clientRect = (_a = e.currentTarget) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect();
+        const onMouseMove = (e) => moveHandler(e, clientRect);
+        onMouseMove(e);
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+        function onMouseUp() {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+        }
+    };
 }
-
-const onSaturationMouseDown = newMouseHandler(({
-  clientX,
-  clientY
-}, clientRect) => {
-  const {
-    left,
-    right,
-    top,
-    bottom,
-    width,
-    height
-  } = clientRect;
-  if (clientX < left) saturation = 0;else if (clientX > right) saturation = 100;else saturation = (clientX - left) / width * 100;
-  if (clientY < top) brightness = 100;else if (clientY > bottom) brightness = 0;else brightness = 100 - (clientY - top) / height * 100;
+const onSaturationMouseDown = newMouseHandler(({ clientX, clientY }, clientRect) => {
+    const { left, right, top, bottom, width, height } = clientRect;
+    if (clientX < left)
+        saturation = 0;
+    else if (clientX > right)
+        saturation = 100;
+    else
+        saturation = ((clientX - left) / width) * 100;
+    if (clientY < top)
+        brightness = 100;
+    else if (clientY > bottom)
+        brightness = 0;
+    else
+        brightness = 100 - ((clientY - top) / height) * 100;
 });
-const onHueMouseDown = newMouseHandler(({
-  clientX
-}, clientRect) => {
-  const {
-    left,
-    right,
-    width
-  } = clientRect;
-  if (clientX < left) hue = 0;else if (clientX > right) hue = 360;else hue = (clientX - left) / width * 360;
-});</script>
+const onHueMouseDown = newMouseHandler(({ clientX }, clientRect) => {
+    const { left, right, width } = clientRect;
+    if (clientX < left)
+        hue = 0;
+    else if (clientX > right)
+        hue = 360;
+    else
+        hue = ((clientX - left) / width) * 360;
+});
+</script>
 
 <div class="picker border">
   <div class="wbc" on:mousedown={onSaturationMouseDown}>

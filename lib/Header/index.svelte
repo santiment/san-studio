@@ -10,73 +10,50 @@ import { getDateFormats } from 'san-webkit/lib/utils/dates';
 import { debounce$$ } from 'san-webkit/lib/utils/fn';
 export let headerPadding = 0;
 let headerNode;
-
 $: isMapview = $mapview !== MapviewPhase.None;
-
 $: headerNode && changeHeaderPosition(isMapview);
-
-$: ({
-  from,
-  to
-} = $settings$);
-
+$: ({ from, to } = $settings$);
 $: dates = [new Date(from), new Date(to)];
-
 let copyLabel = 'Copy link';
-const resetCopyLabel$ = debounce$$(1000, () => copyLabel = 'Copy link');
-
+const resetCopyLabel$ = debounce$$(1000, () => (copyLabel = 'Copy link'));
 function formatDate(date) {
-  const {
-    DD,
-    MM,
-    YY
-  } = getDateFormats(date);
-  return `${DD}/${MM}/${YY}`;
+    const { DD, MM, YY } = getDateFormats(date);
+    return `${DD}/${MM}/${YY}`;
 }
-
 function formatDates([from, to]) {
-  return `${formatDate(from)} - ${formatDate(to)}`;
+    return `${formatDate(from)} - ${formatDate(to)}`;
 }
-
 function onDateSelect([from, to]) {
-  if (to) settings$.setPeriod(from, to);
+    if (to)
+        settings$.setPeriod(from, to);
 }
-
 function changeHeaderPosition(isMapview) {
-  let transform;
-
-  if (isMapview) {
-    let {
-      top
-    } = headerNode.getBoundingClientRect();
-
-    if (window.scrollY < headerPadding) {
-      top -= headerPadding - window.scrollY - 1;
+    let transform;
+    if (isMapview) {
+        let { top } = headerNode.getBoundingClientRect();
+        if (window.scrollY < headerPadding) {
+            top -= headerPadding - window.scrollY - 1;
+        }
+        transform = `translateY(-${top}px)`;
     }
-
-    transform = `translateY(-${top}px)`;
-  } else {
-    transform = null;
-  }
-
-  headerNode.style.transform = transform;
+    else {
+        transform = null;
+    }
+    headerNode.style.transform = transform;
 }
-
 function onShareClick() {
-  var _a;
-
-  track.event(Event.Share);
-  (_a = window.onHeaderShareClick) === null || _a === void 0 ? void 0 : _a.call(window);
+    var _a;
+    track.event(Event.Share);
+    (_a = window.onHeaderShareClick) === null || _a === void 0 ? void 0 : _a.call(window);
 }
-
 function onCopyLinkClick() {
-  var _a;
-
-  copyLabel = 'Copied!';
-  $resetCopyLabel$();
-  track.event(Event.CopyLink);
-  (_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window);
-}</script>
+    var _a;
+    copyLabel = 'Copied!';
+    $resetCopyLabel$();
+    track.event(Event.CopyLink);
+    (_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window);
+}
+</script>
 
 <div class="border header panel row v-center" bind:this={headerNode}>
   <Layout />

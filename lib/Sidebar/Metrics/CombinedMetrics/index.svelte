@@ -15,65 +15,60 @@ export let isFiltering = false;
 export let onItemClick;
 let metrics = [];
 let MetricWidgets = new Map();
-
 $: searchedMetrics = searchTerm ? searchMetrics() : metrics;
-
 function searchMetrics() {
-  return metrics.filter(metric => checkIsFilterMatch(searchTerm, metric));
+    return metrics.filter((metric) => checkIsFilterMatch(searchTerm, metric));
 }
-
 setContext('updateCombinedMetrics', updateMetrics);
-
 function updateMetrics(metric) {
-  var _a;
-
-  metrics = metrics;
-  (_a = MetricWidgets.get(metric)) === null || _a === void 0 ? void 0 : _a.forEach(({
-    Metrics
-  }) => {
-    Metrics.set(Metrics.getValue());
-  });
+    var _a;
+    metrics = metrics;
+    (_a = MetricWidgets.get(metric)) === null || _a === void 0 ? void 0 : _a.forEach(({ Metrics }) => {
+        Metrics.set(Metrics.getValue());
+    });
 }
-
 function onAdd() {
-  showCombineDialog({
-    metrics: []
-  }).then(metric => {
-    if (!metric) return;
-    selectedItems.toggle(metric);
-  });
+    showCombineDialog({
+        metrics: [],
+    }).then((metric) => {
+        if (!metric)
+            return;
+        selectedItems.toggle(metric);
+    });
 }
-
 function onWidgetsChange() {
-  MetricWidgets = new Map();
-  const linked = new Set();
-  metrics = Widgets.get().flatMap(widget => {
-    if (!widget.metrics) return [];
-    return widget.metrics.filter(metric => {
-      if (!metric.expression) return;
-      const {
-        base = metric
-      } = metric;
-      if (linked.has(base)) return;
-      linkMetricWidget(base, widget);
-      linked.add(base);
-      return metric;
-    }).map(metric => metric.base || metric);
-  });
+    MetricWidgets = new Map();
+    const linked = new Set();
+    metrics = Widgets.get().flatMap((widget) => {
+        if (!widget.metrics)
+            return [];
+        return widget.metrics
+            .filter((metric) => {
+            if (!metric.expression)
+                return;
+            const { base = metric } = metric;
+            if (linked.has(base))
+                return;
+            linkMetricWidget(base, widget);
+            linked.add(base);
+            return metric;
+        })
+            .map((metric) => metric.base || metric);
+    });
 }
-
 function linkMetricWidget(metric, widget) {
-  let widgets = MetricWidgets.get(metric);
-  if (!widgets) MetricWidgets.set(metric, widgets = []);
-  widgets.push(widget);
+    let widgets = MetricWidgets.get(metric);
+    if (!widgets)
+        MetricWidgets.set(metric, (widgets = []));
+    widgets.push(widget);
 }
-
-onDestroy(unsubWidgets);</script>
+onDestroy(unsubWidgets);
+</script>
 
 {#if !isFiltering || (isFiltering && searchedMetrics.length)}
   <Category category="Combined metrics" isOpened {isFiltering} arrowClass="mrg-l">
     <svelte:fragment slot="pre-title">
-      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-j7g3X8" />
+      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-c6WwtI" />
     </svelte:fragment>
 
     <svelte:fragment slot="post-title">
@@ -94,7 +89,21 @@ onDestroy(unsubWidgets);</script>
   </Category>
 {/if}
 
-<style >:global(.icon-j7g3X8) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.icon-c6WwtI) {
   fill: var(--blue) !important;
 }
 

@@ -8,33 +8,23 @@ const History = getHistoryContext();
 export let isSingleWidget;
 export let deleteWidget;
 export let widget;
-
-$: ({
-  ChartOptions
-} = widget);
-
-$: ({
-  isPro,
-  isProPlus
-} = $globals);
-
+$: ({ ChartOptions } = widget);
+$: ({ isPro, isProPlus } = $globals);
 $: ChartOptions.getProDefaults(isPro, isProPlus);
-
 function onDelete() {
-  deleteWidget(true);
+    deleteWidget(true);
 }
-
 function onDownload(downloader) {
-  download(widget, downloader);
+    download(widget, downloader);
 }
-
 function newHistoryToggle(name, toggle) {
-  const command = withScroll(widget, toggle);
-  return () => {
-    command();
-    History.add(name, command);
-  };
-}</script>
+    const command = withScroll(widget, toggle);
+    return () => {
+        command();
+        History.add(name, command);
+    };
+}
+</script>
 
 <div class="menu">
   <div class="btn" on:click={newHistoryToggle('Toggle "Log scale"', ChartOptions.toggleScale)}>

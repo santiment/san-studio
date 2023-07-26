@@ -1,5 +1,6 @@
 <script>import { track } from 'san-webkit/lib/analytics';
 import { withScroll } from 'san-webkit/lib/ui/history';
+import Search from 'san-webkit/lib/ui/Search.svelte';
 import { Event } from './../../../analytics';
 import { getHistoryContext } from './../../../history/ctx';
 import { studio } from './../../../stores/studio';
@@ -9,62 +10,54 @@ import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './ut
 import Dropdown from '../Dropdown.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  MetricSettings
-} = widget;
+const { MetricSettings } = widget;
 export let metric;
 let loading = true;
 let isDex = false;
 let exchanges = DEFAULT_EXCHANGES;
-
+let searchTerm = '';
 $: metricSettings = $MetricSettings[metric.key];
-
 $: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) || DEFAULT_EXCHANGE;
-
 $: getExchanges($studio.slug, isDex);
-
+$: searchedExchanges = searchTerm ? filter(exchanges) : exchanges;
 const getExchanges = debounced((slug, isDex) => {
-  loading = true;
-  queryProjectExchanges(slug, isDex).then(projectExchanges => {
-    loading = false;
-    exchanges = DEFAULT_EXCHANGES.concat(projectExchanges);
-  });
+    loading = true;
+    queryProjectExchanges(slug, isDex).then((projectExchanges) => {
+        loading = false;
+        exchanges = DEFAULT_EXCHANGES.concat(projectExchanges);
+    });
 });
-
 function onChange(newOwner) {
-  // prettier-ignore
-  track.event(Event.MetricExchange, {
-    metric: metric.key,
-    exchange: newOwner
-  });
-  const oldOwner = metricOwner;
-
-  const redo = () => setExchange(metric, newOwner);
-
-  redo();
-  History.add('Exchange change', withScroll(widget, () => setExchange(metric, oldOwner)), withScroll(widget, redo));
+    // prettier-ignore
+    track.event(Event.MetricExchange, { metric: metric.key, exchange: newOwner });
+    const oldOwner = metricOwner;
+    const redo = () => setExchange(metric, newOwner);
+    redo();
+    History.add('Exchange change', withScroll(widget, () => setExchange(metric, oldOwner)), withScroll(widget, redo));
 }
-
 function setExchange(metric, newOwner) {
-  const {
-    key,
-    queryKey = key
-  } = metric;
+    const { key, queryKey = key } = metric;
+    if (newOwner === DEFAULT_EXCHANGE) {
+        MetricSettings.delete(key, 'queryKey');
+        MetricSettings.delete(key, 'owner');
+        return;
+    }
+    // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
+    MetricSettings.set(key, {
+        queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
+        owner: newOwner,
+    });
+}
+function onSearch(e) {
+    const inputNode = e.currentTarget;
+    searchTerm = inputNode.value.trim().toLowerCase();
+}
+function filter(exchanges) {
+    return exchanges.filter((item) => item.toLowerCase().includes(searchTerm));
+}
+</script>
 
-  if (newOwner === DEFAULT_EXCHANGE) {
-    MetricSettings.delete(key, 'queryKey');
-    MetricSettings.delete(key, 'owner');
-    return;
-  } // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
-
-
-  MetricSettings.set(key, {
-    queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
-    owner: newOwner
-  });
-}</script>
-
-<Dropdown>
+<Dropdown class="dropdown-Wyh6LV">
   Exchange: {metricOwner}
 
   <svelte:fragment slot="dropdown">
@@ -73,12 +66,19 @@ function setExchange(metric, newOwner) {
       <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>
     </div>
 
+    <Search
+      class="search-mwWeJD mrg-s mrg--b"
+      autofocus
+      placeholder="Type to search"
+      on:input={onSearch}
+    />
+
     {#if loading}
       <div class="loading" />
     {/if}
 
     <div class="options">
-      {#each exchanges as exchange}
+      {#each searchedExchanges as exchange}
         <div
           class="btn btn-ghost"
           class:active={metricOwner === exchange}
@@ -117,5 +117,13 @@ function setExchange(metric, newOwner) {
   .options {
     overflow: auto;
     min-width: 165px;
+  }
+
+  :global(.search-mwWeJD) {
+    max-width: 170px;
+  }
+
+  :global(.dropdown-Wyh6LV) {
+    --max-height: 230px;
   }
 </style>

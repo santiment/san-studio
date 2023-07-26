@@ -22,37 +22,33 @@ brush.updateWidth = updateWidth;
 brush.onChangeEnd = onChange;
 chart.brush = brush;
 let shouldRedraw = 1;
-
 $: shouldRedraw && (theme || data || categories || colors) && drawBrush();
-
-$: if (setViewedIndicis(brush, data, from, to)) shouldRedraw += 1;
-
+$: if (setViewedIndicis(brush, data, from, to))
+    shouldRedraw += 1;
 $: chart.setPadding(Object.assign(chart.padding, {
-  bottom: 70
+    bottom: 70,
 }));
-
 function drawBrush() {
-  brush.paintConfig = theme.brush;
-  brush.bgColor = theme.bg;
-  clearCtx(brush);
-  redraw();
+    brush.paintConfig = theme.brush;
+    brush.bgColor = theme.bg;
+    clearCtx(brush);
+    redraw();
 }
-
 function plotBrushData() {
-  getBrushPlotItems(chart.plotManager).forEach(plot => {
-    plot(brush, chart.scale, data, colors, categories);
-  });
+    getBrushPlotItems(chart.plotManager).forEach((plot) => {
+        plot(brush, chart.scale, data, colors, categories);
+    });
 }
-
 function updateWidth(width) {
-  updateBrushDimensions(brush, width, BRUSH_HEIGHT);
-  redraw();
+    updateBrushDimensions(brush, width, BRUSH_HEIGHT);
+    redraw();
 }
-
 function redraw() {
-  if (data.length === 0) return;
-  updateBrushState(brush, data, categories.joinedCategories);
-}</script>
+    if (data.length === 0)
+        return;
+    updateBrushState(brush, data, categories.joinedCategories);
+}
+</script>
 
 <style>
   :global(.brush-cYSEnb) {

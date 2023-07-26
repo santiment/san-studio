@@ -1,29 +1,24 @@
-<script context="module">function handleIntersection({
-  target,
-  isIntersecting
-}) {
-  const {
-    widget
-  } = target;
-  if (isIntersecting) widget.show();else widget.hide();
+<script context="module">function handleIntersection({ target, isIntersecting }) {
+    const { widget } = target;
+    if (isIntersecting)
+        widget.show();
+    else
+        widget.hide();
 }
-
-const intersectionHandler = entries => entries.forEach(handleIntersection);
-
+const intersectionHandler = (entries) => entries.forEach(handleIntersection);
 export function newWidgetViewportObserver() {
-  return new IntersectionObserver(intersectionHandler, {
-    rootMargin: '150px 0px 150px'
-  });
-}</script>
+    return new IntersectionObserver(intersectionHandler, {
+        rootMargin: '150px 0px 150px',
+    });
+}
+</script>
 
 <script>import { onMount } from 'svelte';
 import { getHistoryContext } from './../history/ctx';
 import { getAdapterController } from './../adapter/context';
 import Subwidget from './Subwidget.svelte';
 const History = getHistoryContext();
-const {
-  onWidget
-} = getAdapterController();
+const { onWidget } = getAdapterController();
 export let widget;
 export let Widgets;
 export let onWidgetUpdate;
@@ -32,48 +27,38 @@ const isNative = !widget.isExternal;
 widget.delete = deleteWidget;
 widget.deleteWithHistory = deleteWidgetWithHistory;
 widget.onWidgetUpdate = onWidgetUpdate;
-
-widget.hide = () => isVisible = false;
-
-widget.show = () => isVisible = true;
-
+widget.hide = () => (isVisible = false);
+widget.show = () => (isVisible = true);
 let isVisible = false;
 let target;
-
 $: isSingleWidget = $Widgets.length < 2;
-
 $: widget.isHidden = !isVisible;
-
 function deleteWidget() {
-  Widgets.delete(widget);
-  viewportObserver.unobserve(target);
-  delete widget.chart;
+    Widgets.delete(widget);
+    viewportObserver.unobserve(target);
+    delete widget.chart;
 }
-
 function deleteWidgetWithHistory() {
-  deleteWidget();
-  History.add('Delete widget', () => {
-    widget.scrollOnMount = true;
-    Widgets.push(widget);
-  }, deleteWidget);
+    deleteWidget();
+    History.add('Delete widget', () => {
+        widget.scrollOnMount = true;
+        Widgets.push(widget);
+    }, deleteWidget);
 }
-
 onMount(() => {
-  widget.container = target;
-  target.widget = widget;
-  viewportObserver.observe(target);
-  if (onWidget) onWidget(widget);
-  const options = {
-    block: widget.scrollAlign || 'center'
-  };
-
-  widget.scrollIntoView = () => target === null || target === void 0 ? void 0 : target.scrollIntoView(options);
-
-  if (widget.scrollOnMount) {
-    widget.scrollIntoView();
-    delete widget.scrollOnMount;
-  }
-});</script>
+    widget.container = target;
+    target.widget = widget;
+    viewportObserver.observe(target);
+    if (onWidget)
+        onWidget(widget);
+    const options = { block: widget.scrollAlign || 'center' };
+    widget.scrollIntoView = () => target === null || target === void 0 ? void 0 : target.scrollIntoView(options);
+    if (widget.scrollOnMount) {
+        widget.scrollIntoView();
+        delete widget.scrollOnMount;
+    }
+});
+</script>
 
 <div class="widget border" bind:this={target}>
   {#if isNative && isVisible}

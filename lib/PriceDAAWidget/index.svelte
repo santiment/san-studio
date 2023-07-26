@@ -8,10 +8,9 @@ export let metrics = [Metric.price_usd, Metric.price_daa_divergence];
 export let prefix = '';
 widget.metrics = metrics;
 widget.isBlocked = true;
-
 const metricsFilter = () => false;
-
-const fullscreenMetricsFilter = metricsFilter;</script>
+const fullscreenMetricsFilter = metricsFilter;
+</script>
 
 <ChartWidget {widget} {metricsFilter} {isSingleWidget} {deleteWidget} {fullscreenMetricsFilter}>
   <div class="row">

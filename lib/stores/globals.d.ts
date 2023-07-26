@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 declare const GLOBALS: {
     isPro: boolean;
     isProPlus: boolean;
@@ -16,7 +17,7 @@ export declare const globals: {
         isLoggedIn: boolean;
         isBeta: boolean;
         isPresenterMode: boolean;
-    }>, invalidate?: ((value?: {
+    }>, invalidate?: import("svelte/store").Invalidator<{
         isPro: boolean;
         isProPlus: boolean;
         isTrial: boolean;
@@ -24,7 +25,7 @@ export declare const globals: {
         isLoggedIn: boolean;
         isBeta: boolean;
         isPresenterMode: boolean;
-    } | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    }> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: {
         isPro: boolean;
         isProPlus: boolean;

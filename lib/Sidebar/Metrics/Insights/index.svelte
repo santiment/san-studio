@@ -7,51 +7,29 @@ import Category from './../../../Sidebar/Category.svelte';
 import { getInsightsGraph } from './utils';
 export let searchTerm = '';
 export let isFiltering = false;
-const {
-  InsightsContextStore
-} = getAdapterController();
+const { InsightsContextStore } = getAdapterController();
 const Widgets = getWidgets();
 const LockedAsset = getLockedAssetStore();
-
-$: ({
-  from,
-  to
-} = $studio);
-
-$: ({
-  ticker
-} = $LockedAsset);
-
-$: ({
-  insight,
-  hasMyInsights,
-  hasFollowings
-} = $InsightsContextStore);
-
-$: ({
-  insights,
-  projectInsight
-} = getInsightsGraph(ticker, hasMyInsights, hasFollowings, searchTerm));
-
+$: ({ from, to } = $studio);
+$: ({ ticker } = $LockedAsset);
+$: ({ insight, hasMyInsights, hasFollowings } = $InsightsContextStore);
+$: ({ insights, projectInsight } = getInsightsGraph(ticker, hasMyInsights, hasFollowings, searchTerm));
 $: ticker && updateInsightProject();
-
 $: updateInsightPeriod(from, to);
-
 function updateInsightProject() {
-  if (insight && insight.type === 'project') {
-    InsightsContextStore.set(projectInsight, from, to);
-  }
+    if (insight && insight.type === 'project') {
+        InsightsContextStore.set(projectInsight, from, to);
+    }
 }
-
 function updateInsightPeriod(from, to) {
-  if (insight) {
-    InsightsContextStore.changePeriod(from, to);
-  }
+    if (insight) {
+        InsightsContextStore.changePeriod(from, to);
+    }
 }
-
 onDestroy(() => {
-  InsightsContextStore.set();
-});</script>
+    InsightsContextStore.set();
+});
+</script>
 
 <Category
   category="Insights"

@@ -8,42 +8,32 @@ import HoverItem from './../../Sidebar/HoverItem.svelte';
 import ItemLabel from '../ItemLabel.svelte';
 import ItemDescription from '../ItemDescription.svelte';
 const History = getHistoryContext();
-const {
-  onAnonFavoriteClick
-} = getAdapterController();
+const { onAnonFavoriteClick } = getAdapterController();
 export let item;
 export let node;
 export let hoverNode;
 let active = false;
-
 $: isFavorited = item && $favoriteMetrics.has(item.key);
-
 function onFavoriteClick(e) {
-  e.stopImmediatePropagation();
-
-  if ($globals.isLoggedIn) {
-    const {
-      key
-    } = item;
-    favoriteMetrics.toggle(key);
-    History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
-    const {
-      offsetTop
-    } = node;
-    const category = node.closest('.category');
-    return tick().then(() => {
-      var _a;
-
-      const container = category.parentNode;
-
-      if (container.scrollTop < ((_a = container.firstElementChild) === null || _a === void 0 ? void 0 : _a.offsetHeight)) {
-        container.scrollTop += node.offsetTop - offsetTop;
-      }
-    });
-  }
-
-  if (onAnonFavoriteClick) onAnonFavoriteClick();
-}</script>
+    e.stopImmediatePropagation();
+    if ($globals.isLoggedIn) {
+        const { key } = item;
+        favoriteMetrics.toggle(key);
+        History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
+        const { offsetTop } = node;
+        const category = node.closest('.category');
+        return tick().then(() => {
+            var _a;
+            const container = category.parentNode;
+            if (container.scrollTop < ((_a = container.firstElementChild) === null || _a === void 0 ? void 0 : _a.offsetHeight)) {
+                container.scrollTop += node.offsetTop - offsetTop;
+            }
+        });
+    }
+    if (onAnonFavoriteClick)
+        onAnonFavoriteClick();
+}
+</script>
 
 <HoverItem {node} {hoverNode}>
   <ItemLabel {item} bind:active />

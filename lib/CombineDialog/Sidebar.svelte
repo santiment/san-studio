@@ -10,34 +10,20 @@ export let onMetricSelect;
 let availableMetrics = [];
 let searchTerm = '';
 let project;
-
-$: ({
-  slug
-} = $studio);
-
-$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then(items => availableMetrics = items);
-
+$: ({ slug } = $studio);
+$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then((items) => (availableMetrics = items));
 $: graph = getMetricsSelectorGraph(availableMetrics, Object.assign({}, $globals, project || $studio));
-
 $: items = (searchTerm, getItems(graph));
-
-const selectorTypeFilter = ({
-  selectorType
-}) => selectorType === undefined;
-
-const itemsFilter = ({
-  selectorType,
-  label
-}) => selectorType === undefined && label.toLowerCase().includes(searchTerm);
-
+const selectorTypeFilter = ({ selectorType }) => selectorType === undefined;
+const itemsFilter = ({ selectorType, label }) => selectorType === undefined && label.toLowerCase().includes(searchTerm);
 function getItems(graph) {
-  const items = Object.values(graph).flat();
-  return items.filter(searchTerm ? itemsFilter : selectorTypeFilter);
+    const items = Object.values(graph).flat();
+    return items.filter(searchTerm ? itemsFilter : selectorTypeFilter);
 }
-
 function onSelect(metric) {
-  onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric);
-}</script>
+    onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric);
+}
+</script>
 
 <div class="sidebar column">
   <ProjectSelector class="mrg-s mrg--b" bind:project />

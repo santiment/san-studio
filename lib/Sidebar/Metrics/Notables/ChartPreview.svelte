@@ -7,48 +7,30 @@ export let key;
 export let metric;
 export let settings;
 export let signals = [];
-
-const onData = newData => data = newData;
-
-const padding = {
-  top: 10,
-  left: 10,
-  bottom: 10,
-  right: 10
-};
+const onData = (newData) => (data = newData);
+const padding = { top: 10, left: 10, bottom: 10, right: 10 };
 let data = [];
 let loading = false;
-
 $: metrics = [metric];
-
-$: getTimeseries(metrics, settings, onData, () => {});
-
+$: getTimeseries(metrics, settings, onData, () => { });
 $: getSignals(key, settings);
-
-$: colors = {
-  [metric.key]: '#D2D6E7'
-};
-
-$: references = [{
-  metric: metric.key,
-  data: signals
-}];
-
+$: colors = { [metric.key]: '#D2D6E7' };
+$: references = [{ metric: metric.key, data: signals }];
 $: categories = {
-  joinedCategories: [metric.key],
-  areas: [metric.key]
+    joinedCategories: [metric.key],
+    areas: [metric.key],
 };
-
 function getSignals(key, settings) {
-  loading = true;
-  querySignalTimeseries(key, settings).then(data => onSignalsData(key, data));
+    loading = true;
+    querySignalTimeseries(key, settings).then((data) => onSignalsData(key, data));
 }
-
 function onSignalsData(fetchedKey, signals) {
-  if (fetchedKey !== key) return;
-  loading = false;
-  references[0].data = signals;
-}</script>
+    if (fetchedKey !== key)
+        return;
+    loading = false;
+    references[0].data = signals;
+}
+</script>
 
 <Chart {data} {categories} {colors} {padding}>
   <Areas />

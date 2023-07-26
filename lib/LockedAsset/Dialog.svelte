@@ -1,6 +1,7 @@
 <script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import LockedAssetDialog from './Dialog.svelte';
-export const showLockedAssetDialog = props => dialogs.showOnce(LockedAssetDialog, props);</script>
+export const showLockedAssetDialog = (props) => dialogs.showOnce(LockedAssetDialog, props);
+</script>
 
 <script>import { queryFiatAssets } from 'san-webkit/lib/api/projects';
 import Dialog from 'san-webkit/lib/ui/Dialog';
@@ -8,7 +9,8 @@ import ListOfAssets from 'san-webkit/lib/ui/ListOfAssets/index.svelte';
 import { TABS } from 'san-webkit/lib/ui/ListOfAssets/Tabs.svelte';
 export let onSelect;
 export let DialogCtx;
-const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]];</script>
+const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]];
+</script>
 
 <Dialog {...$$props} title="Select asset" class="dialog-0_iv1J">
   <main>

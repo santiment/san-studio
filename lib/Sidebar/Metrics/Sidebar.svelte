@@ -15,29 +15,18 @@ const LockedAsset$ = getLockedAssetStore();
 export let onItemClick;
 let metrics = DEFAULT_METRICS;
 let searchTerm = '';
-
 $: LockedAsset$.set($studio);
-
-$: ({
-  slug,
-  address
-} = $LockedAsset$);
-
+$: ({ slug, address } = $LockedAsset$);
 $: isFiltering = !!searchTerm;
-
 $: categories = Object.keys(graph);
-
 $: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset$));
-
 $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph;
-
 $: getMetrics(slug, address);
-
-const setMetrics = data => metrics = data;
-
+const setMetrics = (data) => (metrics = data);
 function getMetrics(slug, address) {
-  return (address ? queryAddressMetrics(address) : queryProjectMetrics(slug)).then(setMetrics);
-}</script>
+    return (address ? queryAddressMetrics(address) : queryProjectMetrics(slug)).then(setMetrics);
+}
+</script>
 
 <div class="sidebar-header">
   <LockedAsset />

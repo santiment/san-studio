@@ -7,24 +7,20 @@ import { getWidget } from './../../ChartWidget/context';
 import Setting from './Setting.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  ChartAxes
-} = widget;
+const { ChartAxes } = widget;
 export let metric;
-
 $: isDisabled = $ChartAxes.size < 2 && $ChartAxes.has(metric);
-
 function onClick() {
-  if (isDisabled) return;
-  track.event($ChartAxes.has(metric) ? Event.HideMetricAxis : Event.ShowMetricAxis, {
-    metric: metric.key
-  });
-
-  const toggle = () => ChartAxes.toggle(metric);
-
-  toggle();
-  History.add('Toggle axis', withScroll(widget, toggle));
-}</script>
+    if (isDisabled)
+        return;
+    track.event($ChartAxes.has(metric) ? Event.HideMetricAxis : Event.ShowMetricAxis, {
+        metric: metric.key,
+    });
+    const toggle = () => ChartAxes.toggle(metric);
+    toggle();
+    History.add('Toggle axis', withScroll(widget, toggle));
+}
+</script>
 
 <Setting on:click={onClick}>
   Show axis

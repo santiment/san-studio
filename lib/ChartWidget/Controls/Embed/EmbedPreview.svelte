@@ -1,4 +1,5 @@
-<script>export let src;</script>
+<script>export let src;
+</script>
 
 <div class="chart mrg-l mrg--l">
   <iframe title="Preview" scrolling="no" {src} />

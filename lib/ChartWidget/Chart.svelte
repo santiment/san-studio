@@ -23,21 +23,9 @@ import { getAdapterController } from './../adapter/context';
 import { newDomainModifier } from './domain';
 import { getWidget } from './context';
 const widget = getWidget();
-const {
-  isEmbedded,
-  onChartPointClick,
-  onModRangeSelect = () => {}
-} = getAdapterController();
-const {
-  ChartAxes,
-  ChartOptions,
-  ChartAddons
-} = widget;
-const {
-  MetricSettings,
-  ChartMetricDisplays,
-  SignalsTimeseries
-} = widget;
+const { isEmbedded, onChartPointClick, onModRangeSelect = () => { } } = getAdapterController();
+const { ChartAxes, ChartOptions, ChartAddons } = widget;
+const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget;
 export let metrics;
 export let data = [];
 export let allTimeData;
@@ -48,98 +36,61 @@ export let from, to;
 export let isFullscreened;
 export let onChart, changeStudioPeriod;
 let chartWidth;
-
-const getKey = ({
-  key
-}) => key;
-
-$: ({
-  ticker
-} = $studio);
-
+const getKey = ({ key }) => key;
+$: ({ ticker } = $studio);
 $: references = $SignalsTimeseries;
-
 $: axesMetricKeys = Array.from($ChartAxes).map(getKey);
-
 $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays);
-
 $: theme = themes[+$globals.isNightMode];
-
 $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget);
-
-$: drawingKey = axesMetricKeys[0] || metrics[0] && metrics[0].key;
-
-const labelGetter = (ticker, {
-  base,
-  label
-}) => base ? label : label + ` (${ticker})`;
-
+$: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key);
+const labelGetter = (ticker, { base, label }) => base ? label : label + ` (${ticker})`;
 function getTooltipSettings(metrics, references, ticker, MetricDisplays) {
-  const metricSettings = getDefaultTooltipSettings();
-  metrics.forEach(metric => {
-    const {
-      key,
-      formatter = FORMATTER,
-      getLabel,
-      axisFormatter
-    } = metric;
-    const metricLabel = (getLabel || labelGetter)(ticker, metric);
-    metricSettings[key] = Object.assign({
-      label: metricLabel,
-      formatter,
-      axisFormatter
-    }, MetricDisplays[key]);
-  });
-  references.forEach(({
-    key,
-    label,
-    formatter
-  }) => {
-    metricSettings[key] = {
-      label,
-      formatter
-    };
-  });
-  return metricSettings;
+    const metricSettings = getDefaultTooltipSettings();
+    metrics.forEach((metric) => {
+        const { key, formatter = FORMATTER, getLabel, axisFormatter } = metric;
+        const metricLabel = (getLabel || labelGetter)(ticker, metric);
+        metricSettings[key] = Object.assign({
+            label: metricLabel,
+            formatter,
+            axisFormatter,
+        }, MetricDisplays[key]);
+    });
+    references.forEach(({ key, label, formatter }) => {
+        metricSettings[key] = {
+            label,
+            formatter,
+        };
+    });
+    return metricSettings;
 }
-
 function onBrushChange(startIndex, endIndex) {
-  const start = allTimeData[startIndex];
-  const end = allTimeData[endIndex];
-
-  if (start && end) {
-    changeStudioPeriod(start.datetime, endIndex === allTimeData.length - 1 ? getTodaysEnd() : end.datetime);
-  }
-}
-
-function onPointClick(point, e) {
-  if (onChartPointClick) onChartPointClick(point, e);
-}
-
-const RANGE_SELECT_SENSITIVITY = 7;
-
-function onRangeSelect(start, end, e) {
-  if (start && end) {
-    const shouldSwap = start.value > end.value;
-
-    let _start = shouldSwap ? end : start;
-
-    let _end = shouldSwap ? start : end;
-
-    const {
-      ctrlKey,
-      metaKey,
-      shiftKey
-    } = e;
-
-    if (ctrlKey || metaKey || shiftKey) {
-      return onModRangeSelect(_start, _end, e);
+    const start = allTimeData[startIndex];
+    const end = allTimeData[endIndex];
+    if (start && end) {
+        changeStudioPeriod(start.datetime, endIndex === allTimeData.length - 1 ? getTodaysEnd() : end.datetime);
     }
-
-    if (Math.abs(_start.x - _end.x) < RANGE_SELECT_SENSITIVITY) return;
-    changeStudioPeriod(_start.value, _end.value);
-  }
-}</script>
+}
+function onPointClick(point, e) {
+    if (onChartPointClick)
+        onChartPointClick(point, e);
+}
+const RANGE_SELECT_SENSITIVITY = 7;
+function onRangeSelect(start, end, e) {
+    if (start && end) {
+        const shouldSwap = start.value > end.value;
+        let _start = shouldSwap ? end : start;
+        let _end = shouldSwap ? start : end;
+        const { ctrlKey, metaKey, shiftKey } = e;
+        if (ctrlKey || metaKey || shiftKey) {
+            return onModRangeSelect(_start, _end, e);
+        }
+        if (Math.abs(_start.x - _end.x) < RANGE_SELECT_SENSITIVITY)
+            return;
+        changeStudioPeriod(_start.value, _end.value);
+    }
+}
+</script>
 
 <Chart
   {data}

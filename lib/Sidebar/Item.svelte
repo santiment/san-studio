@@ -10,23 +10,15 @@ export let onItemEnter = undefined;
 export let onLeave = undefined;
 let hovered = null;
 let hoverNode;
-
-$: if (hoverNode) window.__clearHoverItem = clear;
-
-const clear = () => (hovered = null, onLeave === null || onLeave === void 0 ? void 0 : onLeave());
-
-function onMouseEnter({
-  currentTarget
-}) {
-  hovered = currentTarget;
-  setTimeout(() => {
-    var _a;
-
-    return ((_a = currentTarget.nextElementSibling) === null || _a === void 0 ? void 0 : _a.matches(':hover')) || clear();
-  }, 15);
+$: if (hoverNode)
+    window.__clearHoverItem = clear;
+const clear = () => ((hovered = null), onLeave === null || onLeave === void 0 ? void 0 : onLeave());
+function onMouseEnter({ currentTarget }) {
+    hovered = currentTarget;
+    setTimeout(() => { var _a; return ((_a = currentTarget.nextElementSibling) === null || _a === void 0 ? void 0 : _a.matches(':hover')) || clear(); }, 15);
 }
-
-onDestroy(() => window.__clearHoverItem = null);</script>
+onDestroy(() => (window.__clearHoverItem = null));
+</script>
 
 <div
   class="item btn row v-center {className}"
@@ -55,7 +47,21 @@ onDestroy(() => window.__clearHoverItem = null);</script>
   </div>
 {/if}
 
-<style >.item {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.item {
   padding: 6px 9px;
   min-height: 32px;
   position: relative;

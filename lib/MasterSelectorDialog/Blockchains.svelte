@@ -6,13 +6,13 @@ export let blockchain = undefined;
 export let inputNode;
 let blockchains = [];
 let isOpened = false;
-queryAvailableBlockchains().then(data => blockchains = data);
-
+queryAvailableBlockchains().then((data) => (blockchains = data));
 function onBlockchainSelect(selected) {
-  blockchain = selected;
-  isOpened = false;
-  inputNode.focus();
-}</script>
+    blockchain = selected;
+    isOpened = false;
+    inputNode.focus();
+}
+</script>
 
 <div class="relative mrg-l mrg--r">
   <Tooltip

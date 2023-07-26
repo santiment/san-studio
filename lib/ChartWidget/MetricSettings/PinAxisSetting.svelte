@@ -7,21 +7,17 @@ import { getWidget } from './../../ChartWidget/context';
 import Setting from './Setting.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  PinnedChartAxes
-} = widget;
+const { PinnedChartAxes } = widget;
 export let metric;
-
 function onClick() {
-  track.event($PinnedChartAxes.has(metric) ? Event.UnpinMetricAxis : Event.PinMetricAxis, {
-    metric: metric.key
-  });
-
-  const toggle = () => PinnedChartAxes.toggle(metric);
-
-  toggle();
-  History.add('Pin axis', withScroll(widget, toggle));
-}</script>
+    track.event($PinnedChartAxes.has(metric) ? Event.UnpinMetricAxis : Event.PinMetricAxis, {
+        metric: metric.key,
+    });
+    const toggle = () => PinnedChartAxes.toggle(metric);
+    toggle();
+    History.add('Pin axis', withScroll(widget, toggle));
+}
+</script>
 
 <Setting on:click={onClick}>
   Pin axis

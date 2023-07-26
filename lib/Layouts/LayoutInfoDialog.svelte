@@ -1,6 +1,7 @@
 <script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import LayoutInfoDialog from './LayoutInfoDialog.svelte';
-export const showLayoutInfoDialog = props => dialogs.show(LayoutInfoDialog, props);</script>
+export const showLayoutInfoDialog = (props) => dialogs.show(LayoutInfoDialog, props);
+</script>
 
 <script>import Dialog from 'san-webkit/lib/ui/Dialog';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
@@ -15,33 +16,26 @@ export let layout;
 export let isAuthor = false;
 export let closeLoadDialog;
 let closeDialog;
-
 function toggleLayoutPublicity() {
-  const isPublic = !layout.isPublic;
-  layout.isPublic = isPublic;
-  updateUserLayout(layout.id, {
-    isPublic
-  });
+    const isPublic = !layout.isPublic;
+    layout.isPublic = isPublic;
+    updateUserLayout(layout.id, { isPublic });
 }
-
 function onUseClick() {
-  selectedLayout.set(layout);
-  closeDialog(false);
+    selectedLayout.set(layout);
+    closeDialog(false);
 }
-
 function onEditClick() {
-  showNewLayoutDialog({
-    layout,
-    title: 'Edit Chart Layout',
-    mode: Mode.Edit
-  });
+    showNewLayoutDialog({
+        layout,
+        title: 'Edit Chart Layout',
+        mode: Mode.Edit,
+    });
 }
-
 function onDeleteClick() {
-  showDeleteLayoutDialog({
-    layout
-  }).then(wasDeleted => wasDeleted && closeDialog());
-}</script>
+    showDeleteLayoutDialog({ layout }).then((wasDeleted) => wasDeleted && closeDialog());
+}
+</script>
 
 <Dialog
   {...$$props}

@@ -14,56 +14,44 @@ let signals = [];
 let hoveredNode;
 let hoveredNotable;
 let style;
-
 $: settings = getSettings($LockedAsset, $studio);
-
 $: getRawSignals(settings);
-
 $: notables = getNotableMetrics(signals, searchTerm);
-
 $: style = hoveredNode && getPreviewStyles(hoveredNode);
-
-const getRawSignals = debounced(({
-  slug
-}) => {
-  queryRawSignal(slug, 'utc_now-2d', 'utc_now').then(res => signals = res);
+const getRawSignals = debounced(({ slug }) => {
+    queryRawSignal(slug, 'utc_now-2d', 'utc_now').then((res) => (signals = res));
 });
 let timer;
-
 function onItemEnter(node, notable) {
-  window.clearTimeout(timer);
-  if (style) return setHovered(node, notable);
-  timer = window.setTimeout(() => setHovered(node, notable), 150);
+    window.clearTimeout(timer);
+    if (style)
+        return setHovered(node, notable);
+    timer = window.setTimeout(() => setHovered(node, notable), 150);
 }
-
 function setHovered(node, notable) {
-  window.clearTimeout(closeTimer);
-  hoveredNode = node;
-  hoveredNotable = notable;
+    window.clearTimeout(closeTimer);
+    hoveredNode = node;
+    hoveredNotable = notable;
 }
-
 function getPreviewStyles(node) {
-  const {
-    top,
-    right
-  } = node.getBoundingClientRect();
-  return `left:${right - 33}px;top:${top}px`;
+    const { top, right } = node.getBoundingClientRect();
+    return `left:${right - 33}px;top:${top}px`;
 }
-
 let closeTimer;
-
 function onItemLeave() {
-  window.clearTimeout(closeTimer);
-  if (!style) return closePreview();
-  closeTimer = window.setTimeout(closePreview, 50);
+    window.clearTimeout(closeTimer);
+    if (!style)
+        return closePreview();
+    closeTimer = window.setTimeout(closePreview, 50);
 }
-
 function closePreview() {
-  window.clearTimeout(timer);
-  if (!hoveredNotable) return;
-  hoveredNotable = null;
-  hoveredNode = null;
-}</script>
+    window.clearTimeout(timer);
+    if (!hoveredNotable)
+        return;
+    hoveredNotable = null;
+    hoveredNode = null;
+}
+</script>
 
 {#if notables.length}
   <Category category="Notables" {isFiltering} isOpened>

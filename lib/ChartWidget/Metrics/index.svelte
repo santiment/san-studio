@@ -7,59 +7,46 @@ import { studio } from './../../stores/studio';
 import { getWidget } from './../../ChartWidget/context';
 import Metric from './Metric.svelte';
 import AutoUpdate from './AutoUpdate.svelte';
-const {
-  isOnlyChartEmbedded
-} = getAdapterController();
-const {
-  Metrics,
-  HiddenMetrics,
-  ChartAddons
-} = getWidget();
+const { isOnlyChartEmbedded } = getAdapterController();
+const { Metrics, HiddenMetrics, ChartAddons } = getWidget();
 const AutoUpdater = getAutoUpdater();
-const dndContext = $globals.isBeta ? newSortableContext({
-  onDragEnd
-}) : undefined;
+const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined;
 export let metrics, colors, loadings, settingsOpenedMetric;
 export let MetricError, ChartAddonError;
 export let isSingleWidget;
 export let changeStudioPeriod;
 export let onMetricClick, onMetricHover, onMetricDelete, onMetricLock, onMetricSettings;
-
 function onDragEnd(oldIndex, newIndex) {
-  if (oldIndex === newIndex) return;
-  const newMetrics = metrics.slice();
-  const metric = newMetrics.splice(oldIndex, 1)[0];
-  newMetrics.splice(newIndex, 0, metric);
-  Metrics.set(newMetrics);
-  tick().then(dndContext.ctx.recalcGrid);
+    if (oldIndex === newIndex)
+        return;
+    const newMetrics = metrics.slice();
+    const metric = newMetrics.splice(oldIndex, 1)[0];
+    newMetrics.splice(newIndex, 0, metric);
+    Metrics.set(newMetrics);
+    tick().then(dndContext.ctx.recalcGrid);
 }
-
 let hoveredMetric;
 let hoverTimer;
-
 const clearHover = () => clearTimeout(hoverTimer);
-
 $: project = $studio;
-
 $: isMultipleMetricsOnChart = metrics.length > 1;
-
 $: hiddenMetrics = $HiddenMetrics;
-
 function hoverMetric(metric) {
-  hoveredMetric = metric;
-  onMetricHover(metric);
+    hoveredMetric = metric;
+    onMetricHover(metric);
 }
-
 function onMetricEnter(metric) {
-  clearHover();
-  if (hoveredMetric) return hoverMetric(metric);
-  hoverTimer = window.setTimeout(() => hoverMetric(metric), 120);
+    clearHover();
+    if (hoveredMetric)
+        return hoverMetric(metric);
+    hoverTimer = window.setTimeout(() => hoverMetric(metric), 120);
 }
-
 function onMetricLeave() {
-  clearHover();
-  if (hoveredMetric) hoverTimer = window.setTimeout(() => hoverMetric(), 100);
-}</script>
+    clearHover();
+    if (hoveredMetric)
+        hoverTimer = window.setTimeout(() => hoverMetric(), 100);
+}
+</script>
 
 <div class="row">
   <div class="metrics row">

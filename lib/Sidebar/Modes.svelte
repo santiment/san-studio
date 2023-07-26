@@ -1,7 +1,8 @@
 <script context="module">export const Mode = {
-  Metrics: 'Metrics',
-  Layouts: 'Layouts'
-};</script>
+    Metrics: 'Metrics',
+    Layouts: 'Layouts',
+};
+</script>
 
 <script>import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
@@ -15,28 +16,19 @@ export let mode = Mode.Metrics;
 export let isLocked;
 const Sidewidget = getSidewidget();
 const MODES = [Mode.Metrics, Mode.Layouts];
-
 function onModeCange(id) {
-  mode = id;
-  track.event(Event.Sidebar, {
-    mode: id.toLowerCase()
-  });
+    mode = id;
+    track.event(Event.Sidebar, { mode: id.toLowerCase() });
 }
-
-const onHelpClick = () => {
-  var _a;
-
-  return track.event(Event.HelpFeedback), (_a = window.Intercom) === null || _a === void 0 ? void 0 : _a.call(window, 'show');
-};
-
-const toggleSidebar = () => isLocked = !isLocked;
-
+const onHelpClick = () => { var _a; return (track.event(Event.HelpFeedback), (_a = window.Intercom) === null || _a === void 0 ? void 0 : _a.call(window, 'show')); };
+const toggleSidebar = () => (isLocked = !isLocked);
 const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
 const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar);
 onDestroy(() => {
-  removeOpenShortcutsDialogHandler();
-  removeToggleSidebarHandler();
-});</script>
+    removeOpenShortcutsDialogHandler();
+    removeToggleSidebarHandler();
+});
+</script>
 
 <div class="nav row">
   <div

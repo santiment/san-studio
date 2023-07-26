@@ -2,18 +2,9 @@
 import Author from 'san-webkit/lib/ui/Profile/svelte';
 import { Metric } from './../metrics';
 export let layout;
-
-$: ({
-  project,
-  user,
-  metrics
-} = layout);
-
-const listMetrics = metricKey => {
-  var _a;
-
-  return (_a = Metric[metricKey]) === null || _a === void 0 ? void 0 : _a.label;
-};</script>
+$: ({ project, user, metrics } = layout);
+const listMetrics = (metricKey) => { var _a; return (_a = Metric[metricKey]) === null || _a === void 0 ? void 0 : _a.label; };
+</script>
 
 <div class="label txt-m row v-center">
   <Svg id="asset-small" w="12" class="mrg-s mrg--r" />

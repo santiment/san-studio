@@ -3,34 +3,22 @@ import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { selectedItems } from './../stores/selector';
 import MetricButton from './../MetricButton.svelte';
 import { showCombineDialog } from './../CombineDialog/index.svelte';
-
-const noExpressionMetricsFilter = ({
-  expression
-}) => !expression;
-
-const expressionMetricsFilter = ({
-  expression
-}) => expression;
-
-$: ({
-  metrics,
-  subwidgets,
-  chartAddons
-} = $selectedItems);
-
+const noExpressionMetricsFilter = ({ expression }) => !expression;
+const expressionMetricsFilter = ({ expression }) => expression;
+$: ({ metrics, subwidgets, chartAddons } = $selectedItems);
 $: items = metrics.concat(subwidgets).concat(chartAddons);
-
 $: baseMetrics = metrics.filter(noExpressionMetricsFilter);
-
 function onCombineClick() {
-  const expressionMetrics = metrics.filter(expressionMetricsFilter);
-  showCombineDialog({
-    metrics: baseMetrics
-  }).then(metric => {
-    if (!metric) return;
-    selectedItems.set(expressionMetrics.concat(metric));
-  });
-}</script>
+    const expressionMetrics = metrics.filter(expressionMetricsFilter);
+    showCombineDialog({
+        metrics: baseMetrics,
+    }).then((metric) => {
+        if (!metric)
+            return;
+        selectedItems.set(expressionMetrics.concat(metric));
+    });
+}
+</script>
 
 <div class="stack row v-center" transition:fly={{ duration: 250, x: -100 }}>
   {#if items.length}

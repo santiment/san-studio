@@ -4,12 +4,11 @@ import { selectedLayout } from './../../stores/layout';
 import { currentUser } from './../../stores/user';
 import { updateLayoutCommentsCountCache } from './../../api/layouts/comments';
 export let closeSidewidget;
-
 $: !$selectedLayout && (closeSidewidget === null || closeSidewidget === void 0 ? void 0 : closeSidewidget());
-
 function onNewComment(layout, comments) {
-  updateLayoutCommentsCountCache(layout.id, comments.length);
-}</script>
+    updateLayoutCommentsCountCache(layout.id, comments.length);
+}
+</script>
 
 {#if $selectedLayout}
   <Comments

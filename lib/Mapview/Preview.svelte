@@ -9,13 +9,12 @@ export let widget;
 export let isBlocked = false;
 export let isMetricsPhase = false;
 let node;
-
 $: node && sortableDndCtx.addItem(node);
-
 function onDeleteClick(e) {
-  e.stopImmediatePropagation();
-  widget.delete();
-}</script>
+    e.stopImmediatePropagation();
+    widget.delete();
+}
+</script>
 
 <div
   bind:this={node}

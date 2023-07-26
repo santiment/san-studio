@@ -1,6 +1,7 @@
+/// <reference types="svelte" />
 export declare type MetricsStore = ReturnType<typeof newMetricsStore>;
 export declare function newMetricsStore(defaultMetrics?: Studio.Metric[]): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<Studio.Metric[]>, invalidate?: ((value?: Studio.Metric[] | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<Studio.Metric[]>, invalidate?: import("svelte/store").Invalidator<Studio.Metric[]> | undefined) => import("svelte/store").Unsubscriber;
     getValue(): Studio.Metric[];
     set(newMetrics: Studio.Metric[]): void;
     add(metric: Studio.Metric): void;
@@ -12,7 +13,7 @@ export declare function newMetricsStore(defaultMetrics?: Studio.Metric[]): {
     hasConvertedMetric(metric: Studio.Metric, project: Studio.Project): boolean;
 };
 export declare function newHiddenMetricsStore(defaultMetrics?: any): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<Set<unknown>>, invalidate?: ((value?: Set<unknown> | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<Set<unknown>>, invalidate?: import("svelte/store").Invalidator<Set<unknown>> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: Set<unknown>) => void;
     hide(metric: any): void;
     show(metric: any): void;

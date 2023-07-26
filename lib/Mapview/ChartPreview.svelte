@@ -8,44 +8,38 @@ export let widget;
 export let onClick;
 export let isMetricsPhase;
 export let wasHiddenWidgets = false;
-const {
-  ChartColors,
-  Metrics,
-  IsLoaded,
-  isBlocked
-} = widget;
+const { ChartColors, Metrics, IsLoaded, isBlocked } = widget;
 let chart;
 let canvas;
 let unsubscribeWidgetDataLoaded;
-
 $: $IsLoaded, requestAnimationFrame(drawChart);
-
 if (!widget.chart) {
-  unsubscribeWidgetDataLoaded = subscribeWidgetDataLoadedEvent(({
-    detail
-  }) => {
-    if (detail !== widget) return;
-    tick().then(tick).then(() => {
-      drawChart();
-      if (wasHiddenWidgets) widget.hide();
+    unsubscribeWidgetDataLoaded = subscribeWidgetDataLoadedEvent(({ detail }) => {
+        if (detail !== widget)
+            return;
+        tick()
+            .then(tick)
+            .then(() => {
+            drawChart();
+            if (wasHiddenWidgets)
+                widget.hide();
+        });
     });
-  });
 }
-
 onMount(() => {
-  chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
-  drawChart();
+    chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
+    drawChart();
 });
-
 function drawChart() {
-  if (!chart || !widget.chart) return;
-  clearCtx(chart);
-  chart.ctx.drawImage(widget.chart.canvas, 0, 5, chart.canvasWidth, chart.canvasHeight + 25);
+    if (!chart || !widget.chart)
+        return;
+    clearCtx(chart);
+    chart.ctx.drawImage(widget.chart.canvas, 0, 5, chart.canvasWidth, chart.canvasHeight + 25);
 }
-
 onDestroy(() => {
-  unsubscribeWidgetDataLoaded === null || unsubscribeWidgetDataLoaded === void 0 ? void 0 : unsubscribeWidgetDataLoaded();
-});</script>
+    unsubscribeWidgetDataLoaded === null || unsubscribeWidgetDataLoaded === void 0 ? void 0 : unsubscribeWidgetDataLoaded();
+});
+</script>
 
 <Preview
   {widget}

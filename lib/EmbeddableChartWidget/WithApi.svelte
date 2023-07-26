@@ -15,33 +15,27 @@ export let isWithMetricSettings = false;
 export let sharedAccessToken;
 const queryString = getViewOnSantimentLink($studio, widget);
 const AutoUpdater = newAutoUpdaterStore([widget]);
-newHistoryContext({
-  add: () => {}
-});
+newHistoryContext({ add: () => { } });
 setAdapterController({
-  sharedAccessToken,
-  isWithMetricSettings,
-  noWidgetControls: true,
-  isOnlyChartEmbedded: true,
-  isEmbedded: true
+    sharedAccessToken,
+    isWithMetricSettings,
+    noWidgetControls: true,
+    isOnlyChartEmbedded: true,
+    isEmbedded: true,
 });
 let interval;
-
-$: ({
-  lastUpdate
-} = $AutoUpdater); // @ts-ignore
-
-
+$: ({ lastUpdate } = $AutoUpdater);
+// @ts-ignore
 $: updated = (lastUpdate, startInterval());
-
 function startInterval() {
-  window.clearInterval(interval);
-  interval = window.setInterval(() => {
-    const diff = Date.now() - lastUpdate;
-    updated = Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
-  }, 60000);
-  return 'less than a minute';
-}</script>
+    window.clearInterval(interval);
+    interval = window.setInterval(() => {
+        const diff = Date.now() - lastUpdate;
+        updated = Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
+    }, 60000);
+    return 'less than a minute';
+}
+</script>
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>

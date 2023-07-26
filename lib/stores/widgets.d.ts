@@ -1,9 +1,10 @@
+/// <reference types="svelte" />
 import { SelectorNode } from './../metrics/selector';
 export declare function newWidget(Widget: any, props?: any): any;
 export declare const setWidgets: (widgets: any) => void;
 export declare const getWidgets: () => any;
 export declare function initWidgets(defaultWidgets: any, getExternalWidget: any, History: any): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: ((value?: any) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: import("svelte/store").Invalidator<any> | undefined) => import("svelte/store").Unsubscriber;
     get(): any;
     set(newWidgets: any): void;
     add(metrics: Studio.Metric[], signalMetrics: Studio.Metric[], addToStart?: boolean): any;
@@ -20,6 +21,6 @@ export declare const SidewidgetType: {
 export declare const setSidewidget: (sidewidget: any) => void;
 export declare const getSidewidget: () => any;
 export declare function initSidewidget(defaultValue: any): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: ((value?: any) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: import("svelte/store").Invalidator<any> | undefined) => import("svelte/store").Unsubscriber;
     set(value: any): void;
 };

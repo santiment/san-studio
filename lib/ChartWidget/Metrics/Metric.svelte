@@ -1,5 +1,4 @@
 <script>var _a, _b;
-
 import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
@@ -14,14 +13,8 @@ import { SelectorNode } from './../../metrics/selector';
 import { convertBaseProjectMetric } from './utils';
 import MoreMenu from './MoreMenu.svelte';
 import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte';
-const {
-  isEmbedded,
-  isWithMetricSettings = true
-} = getAdapterController();
-const {
-  Metrics,
-  MetricsSignals
-} = getWidget();
+const { isEmbedded, isWithMetricSettings = true } = getAdapterController();
+const { Metrics, MetricsSignals } = getWidget();
 const metricErrorTooltip = getMetricErrorTooltip();
 export let metric;
 export let project;
@@ -32,51 +25,34 @@ export let dndContext;
 export let isMultipleMetricsOnChart;
 let isMenuOpened = false;
 let node;
-
 $: isLocked = !!metric.project;
-
 $: projectSlug = ((_a = metric.project) === null || _a === void 0 ? void 0 : _a.slug) || project.slug;
-
-$: ({
-  isPresenterMode
-} = $globals);
-
+$: ({ isPresenterMode } = $globals);
 $: node && (dndContext === null || dndContext === void 0 ? void 0 : dndContext.addItem(node));
-
 $: node && useErrorTooltip(node, error);
-
 $: address = (_b = metric.reqMeta) === null || _b === void 0 ? void 0 : _b.address;
-
 const onMouseEnter = () => onEnter(metric);
-
 const onMouseLeave = onLeave;
-
 function onLockClick() {
-  const settings = Object.assign({}, project);
-  if (Metrics.hasConvertedMetric(metric, settings)) return;
-
-  if (metric.project) {
-    track.event(Event.UnlockMetric, {
-      metric: metric.key
-    });
-  } else {
-    track.event(Event.LockMetric, {
-      metric: metric.key,
-      asset: project.slug
-    });
-  }
-
-  onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric));
+    const settings = Object.assign({}, project);
+    if (Metrics.hasConvertedMetric(metric, settings))
+        return;
+    if (metric.project) {
+        track.event(Event.UnlockMetric, { metric: metric.key });
+    }
+    else {
+        track.event(Event.LockMetric, { metric: metric.key, asset: project.slug });
+    }
+    onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric));
 }
-
 function useErrorTooltip(node, error) {
-  metricErrorTooltip(node, {
-    error,
-    isEnabled: !!error
-  });
+    metricErrorTooltip(node, {
+        error,
+        isEnabled: !!error,
+    });
 }
-
-onDestroy(onMouseLeave);</script>
+onDestroy(onMouseLeave);
+</script>
 
 <MetricButton
   bind:node

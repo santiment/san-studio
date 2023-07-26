@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import { linearScale } from '@santiment-network/chart/scales';
 declare const OPTIONS: {
     scale: typeof linearScale;
@@ -14,13 +15,13 @@ export declare function newChartOptionsStore({ isCartesianGrid, isWatermarkHidde
         cartesianGrid: boolean;
         watermark: boolean;
         isWatermarkLessVisible: boolean;
-    }>, invalidate?: ((value?: {
+    }>, invalidate?: import("svelte/store").Invalidator<{
         scale: typeof linearScale;
         isLogScale: boolean;
         cartesianGrid: boolean;
         watermark: boolean;
         isWatermarkLessVisible: boolean;
-    } | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    }> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: {
         scale: typeof linearScale;
         isLogScale: boolean;

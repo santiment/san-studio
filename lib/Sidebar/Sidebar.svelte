@@ -3,17 +3,16 @@ export let isOpened;
 export let isLocked;
 export let isPeeked;
 let leaving;
-
 function onEnter() {
-  isPeeked = true;
-  window.clearTimeout(leaving);
-  leaving = undefined;
+    isPeeked = true;
+    window.clearTimeout(leaving);
+    leaving = undefined;
 }
-
 function onLeave() {
-  isPeeked = false;
-  leaving = window.setTimeout(() => leaving = undefined, 200);
-}</script>
+    isPeeked = false;
+    leaving = window.setTimeout(() => (leaving = undefined), 200);
+}
+</script>
 
 {#if !(isLocked || $mapview)}
   <div class="filler" />

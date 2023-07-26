@@ -1,14 +1,20 @@
-<script context="module">import { getAppTooltipCtx } from 'san-webkit/lib/ui/Tooltip/ctx';
-const ID = 'OptionsMenuTooltipCtx';
-export const getOptionsMenuTooltip = () => getAppTooltipCtx(ID);</script>
+<script context="module">
+  import { getAppTooltipCtx } from 'san-webkit/lib/ui/Tooltip/ctx'
 
-<script>import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte';
-import OptionsMenu from './Controls/OptionsMenu.svelte';
-const settings = {
-  on: 'click',
-  align: 'end',
-  activeClass: 'active'
-};</script>
+  const ID = 'OptionsMenuTooltipCtx'
+  export const getOptionsMenuTooltip = () => getAppTooltipCtx(ID)
+</script>
+
+<script>
+  import Context from 'san-webkit/lib/ui/Tooltip/Context.svelte'
+  import OptionsMenu from './Controls/OptionsMenu.svelte'
+
+  const settings = {
+    on: 'click',
+    align: 'end',
+    activeClass: 'active',
+  }
+</script>
 
 <Context id={ID} {settings}>
   <slot />

@@ -1,5 +1,4 @@
 <script>var _a;
-
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 let className = '';
 export { className as class };
@@ -12,23 +11,17 @@ export let colors = undefined;
 export let isLoading = false;
 export let onDelete = undefined;
 export let node = undefined;
-
 $: color = colors && getColor(metric, colors, highlight);
-
-$: label = ticker && ((_a = metric.getLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker)) || metric.label;
-
-function getColor({
-  key
-}, colors, highlight = false) {
-  const color = colors[key];
-  let style = `--b-color:${color};--m-color:${color}22`;
-
-  if (highlight && color.length < 8) {
-    style += `;--h-color:${color}11;---border:${color}55`;
-  }
-
-  return style;
-}</script>
+$: label = (ticker && ((_a = metric.getLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker))) || metric.label;
+function getColor({ key }, colors, highlight = false) {
+    const color = colors[key];
+    let style = `--b-color:${color};--m-color:${color}22`;
+    if (highlight && color.length < 8) {
+        style += `;--h-color:${color}11;---border:${color}55`;
+    }
+    return style;
+}
+</script>
 
 <div
   bind:this={node}

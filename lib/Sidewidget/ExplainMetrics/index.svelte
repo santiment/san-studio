@@ -18,59 +18,38 @@ let isOpened = false;
 let loading = true;
 let availableSince;
 let lastDatetimeComputedAt;
-
-$: ({
-  slug,
-  ticker
-} = $studio);
-
+$: ({ slug, ticker } = $studio);
 $: slug, metric && loadMetricData();
-
 function getMetrics() {
-  const items = [];
-
-  const baseMapper = metric => metric.base || metric.baseMetrics || metric;
-
-  $Widgets.forEach(({
-    metrics
-  }) => metrics && items.push(...metrics.map(baseMapper)));
-  metrics = Array.from(new Set(items.flat())).filter(({
-    queryKey
-  }) => !queryKey);
+    const items = [];
+    const baseMapper = (metric) => metric.base || metric.baseMetrics || metric;
+    $Widgets.forEach(({ metrics }) => metrics && items.push(...metrics.map(baseMapper)));
+    metrics = Array.from(new Set(items.flat())).filter(({ queryKey }) => !queryKey);
 }
-
 function loadMetricData() {
-  if (!metric) return;
-  loading = true;
-  queryMetricInfo(metric.key, slug).then(data => {
-    loading = false;
-    availableSince = formatMetricData(data.availableSince);
-    lastDatetimeComputedAt = formatMetricData(data.lastDatetimeComputedAt);
-  });
+    if (!metric)
+        return;
+    loading = true;
+    queryMetricInfo(metric.key, slug).then((data) => {
+        loading = false;
+        availableSince = formatMetricData(data.availableSince);
+        lastDatetimeComputedAt = formatMetricData(data.lastDatetimeComputedAt);
+    });
 }
-
 function formatMetricData(value) {
-  const date = new Date(value);
-  const {
-    HH,
-    mm
-  } = getTimeFormats(date);
-  const {
-    MMMM,
-    DD,
-    YYYY
-  } = getDateFormats(date);
-  return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`;
+    const date = new Date(value);
+    const { HH, mm } = getTimeFormats(date);
+    const { MMMM, DD, YYYY } = getDateFormats(date);
+    return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`;
 }
-
 function onMetricChange(item) {
-  metric = item;
-  isOpened = false;
+    metric = item;
+    isOpened = false;
 }
-
 onDestroy(() => {
-  unsubWidgets();
-});</script>
+    unsubWidgets();
+});
+</script>
 
 <h2 class="txt-m mrg-l mrg--b">Metric Explanations</h2>
 

@@ -11,39 +11,28 @@ TO.setDate(TO.getDate() - 30);
 const FROM = new Date(TO);
 FROM.setDate(TO.getDate() - 30);
 const SETTINGS = {
-  interval: '1d',
-  from: FROM.toISOString(),
-  to: TO.toISOString()
+    interval: '1d',
+    from: FROM.toISOString(),
+    to: TO.toISOString(),
 };
 const metricSettings = {};
 export let metrics;
 export let colors;
 let data = [];
-
-$: ({
-  slug
-} = $studio);
-
-$: settings = Object.assign({
-  slug
-}, SETTINGS);
-
+$: ({ slug } = $studio);
+$: settings = Object.assign({ slug }, SETTINGS);
 $: fetchData(metrics, settings);
-
 $: theme = themes[+$globals.isNightMode];
-
 $: nodes = getMetricNodes(metrics, {});
-
 let abortFetch;
-
-const onData = newData => data = newData;
-
-const onError = () => {};
-
+const onData = (newData) => (data = newData);
+const onError = () => { };
 function fetchData(metrics, settings) {
-  if (abortFetch) abortFetch();
-  abortFetch = getTimeseries(metrics, settings, onData, onError);
-}</script>
+    if (abortFetch)
+        abortFetch();
+    abortFetch = getTimeseries(metrics, settings, onData, onError);
+}
+</script>
 
 <Chart {data} {colors} {theme} {metricSettings} categories={nodes}>
   <Areas />

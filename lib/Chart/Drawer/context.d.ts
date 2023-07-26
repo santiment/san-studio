@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export declare type Drawer = {
     isDrawing: boolean;
     isNewDrawing: SAN.Charts.NewDrawingType;
@@ -6,7 +7,7 @@ export declare type Drawer = {
 };
 export declare type ChartDrawerStore = ReturnType<typeof newChartDrawerStore>;
 export declare const setChartDrawer: (chart: ChartDrawerStore) => {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: ((value?: any) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: import("svelte/store").Invalidator<any> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: any) => void;
     redrawDrawers: () => void;
     addDrawer(drawer: any): () => boolean;
@@ -21,7 +22,7 @@ export declare const setChartDrawer: (chart: ChartDrawerStore) => {
 };
 export declare const getChartDrawer: () => ChartDrawerStore;
 export declare function newChartDrawerStore(defaultValue?: SAN.Charts.Drawing[]): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: ((value?: any) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: import("svelte/store").Invalidator<any> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: any) => void;
     redrawDrawers: () => void;
     addDrawer(drawer: any): () => boolean;

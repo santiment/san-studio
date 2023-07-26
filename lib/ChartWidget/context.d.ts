@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import type { CachePolicy } from 'san-webkit/lib/api/cache';
 import type { MetricSettings } from './../ChartWidget/MetricSettings/context';
 import type { MetricIndicators } from './../ChartWidget/MetricSettings/IndicatorSetting/context';
@@ -29,7 +30,7 @@ export declare const setWidget: (widget: ChartWidget) => ChartWidget;
 export declare const getWidget: () => ChartWidget;
 export declare function initWidget(widget: any): void;
 export declare function newOnUpdateStore(widget: any): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<number>, invalidate?: ((value?: number | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<number>, invalidate?: import("svelte/store").Invalidator<number> | undefined) => import("svelte/store").Unsubscriber;
     emit(): void;
 };
 export declare function initWidgetContext(widget: any): void;

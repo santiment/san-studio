@@ -12,76 +12,51 @@ import { getCandlesPeriodMinInterval } from './../../ChartWidget/transformers/ca
 import Dropdown from './Dropdown.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  MetricSettings
-} = widget;
+const { MetricSettings } = widget;
 export let metric;
 let intervals = INTERVALS;
-
-$: ({
-  from,
-  to,
-  interval
-} = $studio);
-
+$: ({ from, to, interval } = $studio);
 $: metricSettings = $MetricSettings[metric.key];
-
 $: metricInterval = metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.interval;
-
 $: metricNode = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.node) || metric.node;
-
 $: isCandleNode = metricNode === Node.CANDLES;
-
 $: getMinInterval(metric, isCandleNode, from, to);
-
 $: autoInterval = getValidInterval(interval, intervals);
-
 function getMinInterval(metric, isCandleNode, from, to) {
-  let promise;
-
-  if (isCandleNode) {
-    promise = Promise.resolve(getCandlesPeriodMinInterval(new Date(from), new Date(to)));
-  } else {
-    promise = metric.minInterval ? Promise.resolve(metric.minInterval) : getMetricMinInterval(metric);
-  }
-
-  promise.then(getIntervals).then(metricIntervals => {
-    intervals = metricIntervals;
-  });
+    let promise;
+    if (isCandleNode) {
+        promise = Promise.resolve(getCandlesPeriodMinInterval(new Date(from), new Date(to)));
+    }
+    else {
+        promise = metric.minInterval
+            ? Promise.resolve(metric.minInterval)
+            : getMetricMinInterval(metric);
+    }
+    promise.then(getIntervals).then((metricIntervals) => {
+        intervals = metricIntervals;
+    });
 }
-
 function setInterval(metricKey, newInterval) {
-  if (!newInterval) return MetricSettings.delete(metricKey, 'interval');
-  MetricSettings.set(metricKey, {
-    interval: newInterval
-  });
+    if (!newInterval)
+        return MetricSettings.delete(metricKey, 'interval');
+    MetricSettings.set(metricKey, { interval: newInterval });
 }
-
 function updateInterval(metricKey, newInterval) {
-  const oldInterval = metricInterval;
-
-  const redo = () => setInterval(metricKey, newInterval);
-
-  redo();
-  History.add('Interval change', withScroll(widget, () => setInterval(metricKey, oldInterval)), withScroll(widget, redo));
+    const oldInterval = metricInterval;
+    const redo = () => setInterval(metricKey, newInterval);
+    redo();
+    History.add('Interval change', withScroll(widget, () => setInterval(metricKey, oldInterval)), withScroll(widget, redo));
 }
-
 function onClick(interval) {
-  // prettier-ignore
-  track.event(Event.MetricInterval, {
-    metric: metric.key,
-    interval: interval.id
-  });
-  updateInterval(metric.key, interval.id);
+    // prettier-ignore
+    track.event(Event.MetricInterval, { metric: metric.key, interval: interval.id });
+    updateInterval(metric.key, interval.id);
 }
-
 function onAutoClick() {
-  track.event(Event.MetricInterval, {
-    metric: metric.key,
-    interval: 'auto'
-  });
-  updateInterval(metric.key);
-}</script>
+    track.event(Event.MetricInterval, { metric: metric.key, interval: 'auto' });
+    updateInterval(metric.key);
+}
+</script>
 
 <Dropdown>
   <Svg id="interval" w="16" h="12" class="mrg-s mrg--r icon-4czvXl" />

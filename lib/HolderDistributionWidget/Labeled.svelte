@@ -4,74 +4,61 @@ import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
 import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
 import { getHistoryContext } from './../history/ctx';
 import { initWidget } from './../ChartWidget/context';
-import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS } from './../metrics/_onchain/holderDistributions';
+import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS, } from './../metrics/_onchain/holderDistributions';
 import HolderDistributionWidget from './index.svelte';
 const History = getHistoryContext();
 export let widget;
 export let isSingleWidget;
 export let deleteWidget;
-if (!widget.metrics) widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
+if (!widget.metrics)
+    widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
 initWidget(widget);
-const {
-  Metrics,
-  MetricSettings
-} = widget;
-
+const { Metrics, MetricSettings } = widget;
 const newHistory = (name, undo, redo = undo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
-
 const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
 const LABELS = ['exchange', 'infrastructure', 'miner', 'whale'];
 let labels = new Set(widget.holderLabels);
-
 $: widget.holderLabels = Array.from(labels);
-
 $: text = getSelectionText(labels);
-
 $: updateSettings($Metrics, labels);
-
 function updateSettings(metrics, ids) {
-  const settings = ids.size && {
-    labels: getTextLabels(ids)
-  };
-  metrics.forEach(({
-    key,
-    baseMetrics
-  }) => {
-    if (!HolderDistributionMetric[key] && !baseMetrics) return;
-    if (!settings) return MetricSettings.delete(key, 'labels');
-    MetricSettings.set(key, settings);
-  });
+    const settings = ids.size && { labels: getTextLabels(ids) };
+    metrics.forEach(({ key, baseMetrics }) => {
+        if (!HolderDistributionMetric[key] && !baseMetrics)
+            return;
+        if (!settings)
+            return MetricSettings.delete(key, 'labels');
+        MetricSettings.set(key, settings);
+    });
 }
-
 function getSelectionText(labels) {
-  return getTextLabels(labels).map(label => label[0].toUpperCase() + label.slice(1)).join(', ');
+    return getTextLabels(labels)
+        .map((label) => label[0].toUpperCase() + label.slice(1))
+        .join(', ');
 }
-
 function getTextLabels(labels) {
-  return Array.from(labels).sort().map(id => LABELS[id]);
+    return Array.from(labels)
+        .sort()
+        .map((id) => LABELS[id]);
 }
-
 function onToggle(id) {
-  function update() {
-    labels.has(id) ? labels.delete(id) : labels.add(id);
-    labels = labels;
-  }
-
-  update();
-  newHistory('Toggle label', update);
+    function update() {
+        labels.has(id) ? labels.delete(id) : labels.add(id);
+        labels = labels;
+    }
+    update();
+    newHistory('Toggle label', update);
 }
-
 function onReset() {
-  const oldLabels = new Set(labels);
-
-  function redo() {
-    labels.clear();
-    labels = labels;
-  }
-
-  redo();
-  newHistory('Reset labels', () => labels = oldLabels, redo);
-}</script>
+    const oldLabels = new Set(labels);
+    function redo() {
+        labels.clear();
+        labels = labels;
+    }
+    redo();
+    newHistory('Reset labels', () => (labels = oldLabels), redo);
+}
+</script>
 
 <HolderDistributionWidget
   {widget}

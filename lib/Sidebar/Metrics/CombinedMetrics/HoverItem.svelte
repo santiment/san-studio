@@ -13,22 +13,20 @@ export let item;
 export let node;
 export let hoverNode;
 let active = false;
-
 function onEditClick() {
-  showCombineDialog({
-    metric: item
-  }).then(updatedMetric => {
-    if (!updatedMetric) return;
-    updateCombinedMetric(item, updatedMetric, {
-      History,
-      onUpdate
+    showCombineDialog({ metric: item }).then((updatedMetric) => {
+        if (!updatedMetric)
+            return;
+        updateCombinedMetric(item, updatedMetric, {
+            History,
+            onUpdate,
+        });
     });
-  });
 }
-
 function onUpdate() {
-  updateMetrics(item);
-}</script>
+    updateMetrics(item);
+}
+</script>
 
 <HoverItem {node} {hoverNode}>
   <ItemLabel {item} bind:active />

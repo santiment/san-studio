@@ -9,35 +9,20 @@ let price = '';
 let change = 0;
 let marketcap = '';
 let projectRank = 0;
-
-$: ({
-  slug,
-  ticker,
-  name = slug,
-  logoUrl
-} = $studio);
-
+$: ({ slug, ticker, name = slug, logoUrl } = $studio);
 $: queryProject(slug).then(setProject);
-
 $: queryProjectPriceChange(slug).then(setPriceChange);
-
 $: isUpChange = change >= 0;
-
 function setProject(project) {
-  studio.setProject(project);
+    studio.setProject(project);
 }
-
-function setPriceChange({
-  priceUsd,
-  percentChange24h,
-  marketcapUsd,
-  rank
-}) {
-  price = usdFormatter(priceUsd);
-  marketcap = millify(marketcapUsd);
-  change = +(+percentChange24h).toFixed(2);
-  projectRank = rank;
-}</script>
+function setPriceChange({ priceUsd, percentChange24h, marketcapUsd, rank }) {
+    price = usdFormatter(priceUsd);
+    marketcap = millify(marketcapUsd);
+    change = +(+percentChange24h).toFixed(2);
+    projectRank = rank;
+}
+</script>
 
 <svelte:head>
   <title>{ticker} {price} {isUpChange ? '▲ +' : '▼ '}{change}%</title>

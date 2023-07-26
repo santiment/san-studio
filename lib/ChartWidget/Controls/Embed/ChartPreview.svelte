@@ -5,15 +5,16 @@ export let widget;
 let chart;
 let canvas;
 onMount(() => {
-  chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
-  drawChart();
+    chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
+    drawChart();
 });
-
 function drawChart() {
-  if (!chart || !widget.chart) return;
-  clearCtx(chart);
-  chart.ctx.drawImage(widget.chart.canvas, 0, 10, chart.canvasWidth, chart.canvasHeight + 10);
-}</script>
+    if (!chart || !widget.chart)
+        return;
+    clearCtx(chart);
+    chart.ctx.drawImage(widget.chart.canvas, 0, 10, chart.canvasWidth, chart.canvasHeight + 10);
+}
+</script>
 
 <canvas bind:this={canvas} />
 

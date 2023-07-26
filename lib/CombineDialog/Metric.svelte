@@ -3,12 +3,9 @@ import { studio } from './../stores/studio';
 export let i;
 export let metric;
 export let onLock, onDelete;
-
-$: ({
-  ticker
-} = $studio);
-
-$: isLocked = !!metric.project;</script>
+$: ({ ticker } = $studio);
+$: isLocked = !!metric.project;
+</script>
 
 <div class="border metric row v-center">
   <span class="var mrg-s mrg--r">x{i + 1}</span>

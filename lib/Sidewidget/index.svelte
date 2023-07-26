@@ -3,8 +3,8 @@ import { SidewidgetType, getSidewidget } from './../stores/widgets';
 import LayoutComment from './LayoutComments/index.svelte';
 import ExplainMetrics from './ExplainMetrics/index.svelte';
 const Sidewidget = getSidewidget();
-
-const closeSidewidget = () => $Sidewidget = null;</script>
+const closeSidewidget = () => ($Sidewidget = null);
+</script>
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">

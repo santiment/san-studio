@@ -12,52 +12,37 @@ import { getWidget } from './../../ChartWidget/context';
 import { getAdapterController } from './../../adapter/context';
 const History = getHistoryContext();
 const widget = getWidget();
-
 const newHistory = (name, undo, redo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
-
-const {
-  Metrics,
-  MetricsSignals,
-  HiddenMetrics
-} = widget;
-const {
-  onAnonFavoriteClick = () => {}
-} = getAdapterController();
+const { Metrics, MetricsSignals, HiddenMetrics } = widget;
+const { onAnonFavoriteClick = () => { } } = getAdapterController();
 export let metric;
 export let address;
 export let isMenuOpened, isSettingsOpened, isLocked, isHidden, isMultipleMetricsOnChart;
 export let onLockClick, onSettings;
-
 $: isFavorited = $favoriteMetrics.has(metric.key);
-
 function onFavoriteClick() {
-  if (!$globals.isLoggedIn) return onAnonFavoriteClick();
-  const {
-    key
-  } = metric;
-  favoriteMetrics.toggle(key);
-  History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
+    if (!$globals.isLoggedIn)
+        return onAnonFavoriteClick();
+    const { key } = metric;
+    favoriteMetrics.toggle(key);
+    History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
 }
-
 function onHideSignal() {
-  const redo = () => MetricsSignals.delete(metric);
-
-  redo();
-  newHistory('Hide signals', () => MetricsSignals.add(metric), redo);
+    const redo = () => MetricsSignals.delete(metric);
+    redo();
+    newHistory('Hide signals', () => MetricsSignals.add(metric), redo);
 }
-
 let copyLabel = 'Copy address';
 let clearTimeout;
-
 function onAddressCopy() {
-  clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
-  copyLabel = 'Copied!';
-  clearTimeout = copy(address || $studio.address, () => copyLabel = 'Copy address');
+    clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
+    copyLabel = 'Copied!';
+    clearTimeout = copy(address || $studio.address, () => (copyLabel = 'Copy address'));
 }
-
 onDestroy(() => {
-  clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
-});</script>
+    clearTimeout === null || clearTimeout === void 0 ? void 0 : clearTimeout();
+});
+</script>
 
 <Tooltip
   bind:isOpened={isMenuOpened}

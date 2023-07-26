@@ -1,7 +1,8 @@
 <script>import { ADDONS } from './addons';
 export let addons = [];
 export let isPro;
-export let slug;</script>
+export let slug;
+</script>
 
 {#each addons as addon (addon.key)}
   {#if ADDONS[addon.key]}

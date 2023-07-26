@@ -6,17 +6,14 @@ import { getHistoryContext } from './../../history/ctx';
 const History = getHistoryContext();
 export let widget;
 export let ChartDrawer;
-
 $: isActive = $ChartDrawer.isHidden;
-
 function onClick() {
-  const newValue = !isActive;
-  ChartDrawer.toggleVisibility(newValue);
-  recordDrawingVisibility(History, widget, newValue);
-  track.event(Event.DrawingsVisibility, {
-    value: isActive
-  });
-}</script>
+    const newValue = !isActive;
+    ChartDrawer.toggleVisibility(newValue);
+    recordDrawingVisibility(History, widget, newValue);
+    track.event(Event.DrawingsVisibility, { value: isActive });
+}
+</script>
 
 <div
   class="btn-3 expl-tooltip"

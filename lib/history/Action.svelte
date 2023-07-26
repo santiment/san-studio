@@ -4,29 +4,26 @@ export let HistoryEmitter;
 let action;
 let name;
 let node;
-
-$: if ($HistoryEmitter) notify();
-
+$: if ($HistoryEmitter)
+    notify();
 let timer;
 let popTimer;
-
 function notify() {
-  action = $HistoryEmitter.action;
-  name = $HistoryEmitter.name;
-  clearTimeout(timer);
-  timer = setTimeout(() => action = undefined, 900);
+    action = $HistoryEmitter.action;
+    name = $HistoryEmitter.name;
+    clearTimeout(timer);
+    timer = setTimeout(() => (action = undefined), 900);
 }
-
 $: if (node && timer) {
-  clearTimeout(popTimer);
-  node.classList.remove('pop-IxpXbn');
-  node.classList.add('pop-IxpXbn');
-  popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-IxpXbn'), 120);
+    clearTimeout(popTimer);
+    node.classList.remove('pop-IxpXbn');
+    node.classList.add('pop-IxpXbn');
+    popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-IxpXbn'), 120);
 }
-
 onDestroy(() => {
-  clearTimeout(timer);
-});</script>
+    clearTimeout(timer);
+});
+</script>
 
 {#if action}
   <div bind:this={node} class="box" transition:fade={{ duration: 130 }}>

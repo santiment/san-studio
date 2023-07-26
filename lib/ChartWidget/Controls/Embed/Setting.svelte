@@ -1,11 +1,14 @@
-<script context="module">export const PRO = 'PRO';
-export const PRO_PLUS = 'PRO+';</script>
+<script context="module">
+  export const PRO = 'PRO'
+  export const PRO_PLUS = 'PRO+'
+</script>
 
 <script>import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
 export let isActive = false;
 export let disabled = false;
 export let access = PRO;
-export let disabledToggle = false;</script>
+export let disabledToggle = false;
+</script>
 
 <div class="row btn mrg-m mrg--b justify" class:disabled on:click={() => (isActive = !isActive)}>
   <slot />

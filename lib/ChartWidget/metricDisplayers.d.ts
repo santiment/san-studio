@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import type { addCandlesTooltipPrintable } from '@santiment-network/chart/candles';
 export declare type ChartMetricDisplayStore = ReturnType<typeof newMetricDisplayersStore>;
 export declare type MetricDisplayer = {
@@ -9,7 +10,7 @@ export declare type MetricDisplayers = {
     [metricKey: string]: MetricDisplayer | undefined;
 };
 export declare function newMetricDisplayersStore(): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<{}>, invalidate?: ((value?: {} | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<{}>, invalidate?: import("svelte/store").Invalidator<{}> | undefined) => import("svelte/store").Unsubscriber;
     get(metricKey: string): any;
     set(metricKey: string, displays: MetricDisplayer): void;
     delete(metricKey: string, displayKey: string): void;

@@ -8,7 +8,8 @@ export let colors;
 export let Metrics;
 export let isMerging = false;
 export let onMergeClick, onMetricClick, onUnmergeClick;
-let isOpened = true;</script>
+let isOpened = true;
+</script>
 
 <div class="aside column" class:opened={isOpened}>
   <div class="toggle">

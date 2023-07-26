@@ -7,8 +7,8 @@ export { className as class };
 export let item;
 let trigger;
 let tooltip;
-
-$: description = item && Description[item.key];</script>
+$: description = item && Description[item.key];
+</script>
 
 {#if description}
   <Tooltip position="right" align="center" openDelay={110}>

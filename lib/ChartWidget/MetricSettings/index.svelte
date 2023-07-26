@@ -17,14 +17,11 @@ import AxisMaxMinSetting from './AxisMaxMinSetting.svelte';
 import { TOP_HOLDERS } from './settings';
 import AddonSettings from '../Addons/Settings.svelte';
 import { ADDONS } from '../Addons/addons';
-const {
-  isEmbedded
-} = getAdapterController();
+const { isEmbedded } = getAdapterController();
 export let metric;
-
 $: isNotIndicator = !metric.indicator;
-
-const getBase = metric => metric.base || metric;</script>
+const getBase = (metric) => metric.base || metric;
+</script>
 
 {#key metric.key}
   <div class="row mrg-xs mrg--b caption txt-m v-center">

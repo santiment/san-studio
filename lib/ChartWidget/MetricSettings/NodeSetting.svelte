@@ -10,64 +10,51 @@ import Dropdown from './Dropdown.svelte';
 import { getWidget } from '../context';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  MetricSettings,
-  ChartMetricDisplays
-} = widget;
+const { MetricSettings, ChartMetricDisplays } = widget;
 export let metric;
-
 $: metricSettings = $MetricSettings[metric.key];
-
 $: metricNode = getMetricNode(metric, metricSettings);
-
 const NodeToLabel = {};
 const IdToNode = {};
-
 function buildNode(id, label) {
-  const node = {
-    id,
-    label
-  };
-  NodeToLabel[id] = label;
-  IdToNode[id] = node;
-  return node;
+    const node = { id, label };
+    NodeToLabel[id] = label;
+    IdToNode[id] = node;
+    return node;
 }
-
 const CANDLES_NODE = buildNode(Node.CANDLES, 'Candles');
 const PN_BARS_NODE = buildNode(Node.GREEN_RED_BAR, 'P/N Bars');
-const NODES = [buildNode(Node.AREA, 'Area'), buildNode(Node.LINE, 'Line'), buildNode(Node.FILLED_LINE, 'Filled area'), buildNode(Node.GRADIENT_LINE, 'Gradient line'), buildNode(Node.BAR, 'Bars')];
-
+const NODES = [
+    buildNode(Node.AREA, 'Area'),
+    buildNode(Node.LINE, 'Line'),
+    buildNode(Node.FILLED_LINE, 'Filled area'),
+    buildNode(Node.GRADIENT_LINE, 'Gradient line'),
+    buildNode(Node.BAR, 'Bars'),
+];
 function onClick(metric, metricSettings, oldNode, newNode) {
-  setMetricNode(metric, metricSettings, oldNode, newNode);
-  track.event(Event.MetricNode, {
-    metric: metric.key,
-    type: newNode.label
-  });
-  History.add('Style change', withScroll(widget, () => setMetricNode(metric, metricSettings, newNode.id, IdToNode[oldNode])), withScroll(widget, () => setMetricNode(metric, metricSettings, oldNode, newNode)));
+    setMetricNode(metric, metricSettings, oldNode, newNode);
+    track.event(Event.MetricNode, { metric: metric.key, type: newNode.label });
+    History.add('Style change', withScroll(widget, () => setMetricNode(metric, metricSettings, newNode.id, IdToNode[oldNode])), withScroll(widget, () => setMetricNode(metric, metricSettings, oldNode, newNode)));
 }
-
 function setMetricNode(metric, metricSettings, oldNode, newNode) {
-  if (oldNode === Node.CANDLES && newNode.id !== Node.CANDLES) {
-    cleanupCandlesSettings(metric, metricSettings, ChartMetricDisplays);
-  }
-
-  if (newNode.id === metric.node) {
-    return MetricSettings.delete(metric.key, 'node');
-  }
-
-  if (newNode.id === Node.CANDLES) {
-    setCandlesSettings(metric, metricSettings, $studio, ChartMetricDisplays);
-  }
-
-  MetricSettings.set(metric.key, {
-    node: newNode.id
-  });
+    if (oldNode === Node.CANDLES && newNode.id !== Node.CANDLES) {
+        cleanupCandlesSettings(metric, metricSettings, ChartMetricDisplays);
+    }
+    if (newNode.id === metric.node) {
+        return MetricSettings.delete(metric.key, 'node');
+    }
+    if (newNode.id === Node.CANDLES) {
+        setCandlesSettings(metric, metricSettings, $studio, ChartMetricDisplays);
+    }
+    MetricSettings.set(metric.key, {
+        node: newNode.id,
+    });
 }
-
 function getMetricNode(metric, metricSettings) {
-  const node = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.node) || metric.node;
-  return NodeAlias[node] || node;
-}</script>
+    const node = ((metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.node) || metric.node);
+    return NodeAlias[node] || node;
+}
+</script>
 
 <Dropdown>
   {#key metric}

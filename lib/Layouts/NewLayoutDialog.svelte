@@ -1,11 +1,12 @@
 <script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import NewLayoutDialog from './NewLayoutDialog.svelte';
-export const showNewLayoutDialog = props => dialogs.show(NewLayoutDialog, props);
+export const showNewLayoutDialog = (props) => dialogs.show(NewLayoutDialog, props);
 export const Mode = {
-  New: 0,
-  Save: 1,
-  Edit: 2
-};</script>
+    New: 0,
+    Save: 1,
+    Edit: 2,
+};
+</script>
 
 <script>import { track } from 'san-webkit/lib/analytics';
 import Dialog from 'san-webkit/lib/ui/Dialog';
@@ -22,66 +23,52 @@ export let title = 'New Chart Layout';
 export let mode = Mode.New;
 export let layout;
 let closeDialog;
-let {
-  title: layoutTitle = '',
-  description = '',
-  isPublic = false
-} = layout || {};
-
-function onSubmit({
-  currentTarget
-}) {
-  var _a, _b;
-
-  const title = currentTarget.title.value;
-  const description = currentTarget.description.value;
-  const {
-    id,
-    metrics,
-    project,
-    options
-  } = layout || {};
-  const isEditMode = mode === Mode.Edit;
-  const settings = {
-    title,
-    description,
-    isPublic,
-    metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
-    metricsJson: getLayoutMetrics($Widgets),
-    projectId: (project === null || project === void 0 ? void 0 : project.projectId) || $studio.projectId,
-    options: options || {
-      widgets: (_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, $Widgets)
-    }
-  };
-
-  if (!$globals.isLoggedIn) {
-    saveScheduledLayout(settings);
-    closeDialog();
-    return (_b = window.notifyLayoutAnonCreation) === null || _b === void 0 ? void 0 : _b.call(window);
-  }
-
-  const mutation = isEditMode ? updateUserLayout(id, settings) : createUserLayout(settings);
-  mutation.then(layout => {
+let { title: layoutTitle = '', description = '', isPublic = false } = layout || {};
+function onSubmit({ currentTarget }) {
     var _a, _b;
-
-    track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
-      id: layout.id
-    });
-    DialogPromise.resolve(layout);
-    closeDialog();
-
-    if (isEditMode) {
-      (_a = window.notifyLayoutEdit) === null || _a === void 0 ? void 0 : _a.call(window);
-    } else {
-      (_b = window.notifyLayoutCreation) === null || _b === void 0 ? void 0 : _b.call(window);
+    const title = currentTarget.title.value;
+    const description = currentTarget.description.value;
+    const { id, metrics, project, options } = layout || {};
+    const isEditMode = mode === Mode.Edit;
+    const settings = {
+        title,
+        description,
+        isPublic,
+        metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
+        metricsJson: getLayoutMetrics($Widgets),
+        projectId: (project === null || project === void 0 ? void 0 : project.projectId) || $studio.projectId,
+        options: options || {
+            widgets: (_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, $Widgets),
+        },
+    };
+    if (!$globals.isLoggedIn) {
+        saveScheduledLayout(settings);
+        closeDialog();
+        return (_b = window.notifyLayoutAnonCreation) === null || _b === void 0 ? void 0 : _b.call(window);
     }
-  });
+    const mutation = isEditMode
+        ? updateUserLayout(id, settings)
+        : createUserLayout(settings);
+    mutation.then((layout) => {
+        var _a, _b;
+        track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
+            id: layout.id,
+        });
+        DialogPromise.resolve(layout);
+        closeDialog();
+        if (isEditMode) {
+            (_a = window.notifyLayoutEdit) === null || _a === void 0 ? void 0 : _a.call(window);
+        }
+        else {
+            (_b = window.notifyLayoutCreation) === null || _b === void 0 ? void 0 : _b.call(window);
+        }
+    });
 }
-
 function toggleLayoutPublicity(e) {
-  e.preventDefault();
-  isPublic = !isPublic;
-}</script>
+    e.preventDefault();
+    isPublic = !isPublic;
+}
+</script>
 
 <Dialog {...$$props} {title} bind:closeDialog>
   <form class="dialog-body column" on:submit|preventDefault={onSubmit}>

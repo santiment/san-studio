@@ -1,6 +1,7 @@
 <script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import EmbedDialog from './Dialog.svelte';
-export const showEmbedDialog = props => dialogs.show(EmbedDialog, props);</script>
+export const showEmbedDialog = (props) => dialogs.show(EmbedDialog, props);
+</script>
 
 <script>import Dialog from 'san-webkit/lib/ui/Dialog';
 import { globals } from './../../../stores/globals';
@@ -10,9 +11,7 @@ import Setting, { PRO_PLUS } from './Setting.svelte';
 import EmbedSetting from './EmbedSetting.svelte';
 import EmbedPreview from './EmbedPreview.svelte';
 export let widgets;
-const {
-  ChartOptions
-} = widgets[0] || {};
+const { ChartOptions } = widgets[0] || {};
 let width = '100%';
 let height = '300';
 let isNightMode = $globals.isNightMode;
@@ -21,19 +20,14 @@ let isCartesianGrid = true;
 let isWatermarkHidden = ChartOptions ? !$ChartOptions.watermark : false;
 let dataToken = '';
 let code = '';
-
-$: ({
-  isPro,
-  isProPlus
-} = $globals);
-
+$: ({ isPro, isProPlus } = $globals);
 $: iframe = getIframeSource(code);
-
 function getIframeSource(code) {
-  const html = code.split('\n')[0];
-  const index = html.indexOf('src=') + 5;
-  return html.slice(index, html.indexOf('"', index));
-}</script>
+    const html = code.split('\n')[0];
+    const index = html.indexOf('src=') + 5;
+    return html.slice(index, html.indexOf('"', index));
+}
+</script>
 
 <Dialog {...$$props} title="Embed charts">
   <div class="dialog-body row">

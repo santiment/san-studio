@@ -12,53 +12,42 @@ import { Mode } from './Modes.svelte';
 import MetricsSidebar from './Metrics/Sidebar.svelte';
 import LayoutsSidebar from './Layouts/Sidebar.svelte';
 const History = getHistoryContext();
-const {
-  checkIsMapviewDisabled
-} = getAdapterController();
+const { checkIsMapviewDisabled } = getAdapterController();
 const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED';
 const LockedAsset$ = getLockedAssetStore();
 export let Widgets, Sidewidget; //, adjustSelectedMetric
-
 let mode = Mode.Metrics;
 let isLocked = true; // getSavedBoolean(LS_IS_SIDEBAR_LOCKED, true)
-
 let isPeeked = false;
-
 $: isOpened = isPeeked; // || isDraggingMetric
-
-
 $: saveBoolean(LS_IS_SIDEBAR_LOCKED, isLocked);
-
 function onItemClick(e, item) {
-  if (checkIsMapviewDisabled === null || checkIsMapviewDisabled === void 0 ? void 0 : checkIsMapviewDisabled()) return;
-  handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric);
+    if (checkIsMapviewDisabled === null || checkIsMapviewDisabled === void 0 ? void 0 : checkIsMapviewDisabled())
+        return;
+    handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric);
 }
-
 window.adjustSelectedMetric = adjustSelectedMetric;
-
 function adjustSelectedMetric(node) {
-  if (node.noProject) return node;
-  const settings = $studio$;
-  const lockedAsset = $LockedAsset$;
-  const {
-    slug,
-    address
-  } = lockedAsset;
-
-  if (address) {
-    if (address === settings.address) return node;
-    return newAddressMetric(address, node);
-  }
-
-  if (!settings.address && slug === settings.slug) return node;
-  return newProjectMetric(lockedAsset, node);
+    if (node.noProject)
+        return node;
+    const settings = $studio$;
+    const lockedAsset = $LockedAsset$;
+    const { slug, address } = lockedAsset;
+    if (address) {
+        if (address === settings.address)
+            return node;
+        return newAddressMetric(address, node);
+    }
+    if (!settings.address && slug === settings.slug)
+        return node;
+    return newProjectMetric(lockedAsset, node);
 }
-
 const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
 onDestroy(() => {
-  removeOpenShortcutsDialogHandler();
-  delete window.adjustSelectedMetric;
-});</script>
+    removeOpenShortcutsDialogHandler();
+    delete window.adjustSelectedMetric;
+});
+</script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
   <!-- 

@@ -5,32 +5,24 @@ import { getWidgets } from './../../../stores/widgets';
 import ChartPreview from './ChartPreview.svelte';
 import { getChartWidgetLabel } from './utils';
 const Widgets = getWidgets();
-const widgets = $Widgets.filter(widget => !!widget.chart);
+const widgets = $Widgets.filter((widget) => !!widget.chart);
 export let charts;
 let isOpened = false;
-
 $: chart = charts[0];
-
 $: selected = charts.length === 1 ? chart : null;
-
 let optionsRef;
-
 $: if (optionsRef) {
-  const activeNode = optionsRef.querySelector('.active');
-
-  if (activeNode) {
-    const {
-      offsetTop,
-      parentNode
-    } = activeNode;
-    parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2;
-  }
+    const activeNode = optionsRef.querySelector('.active');
+    if (activeNode) {
+        const { offsetTop, parentNode } = activeNode;
+        parentNode.scrollTop = offsetTop - parentNode.clientHeight / 2;
+    }
 }
-
 function onSelect(widget = widgets) {
-  charts = Array.isArray(widget) ? widget : [widget];
-  isOpened = false;
-}</script>
+    charts = Array.isArray(widget) ? widget : [widget];
+    isOpened = false;
+}
+</script>
 
 <Tooltip on="click" duration={0} align="left" bind:isOpened>
   <div slot="trigger" class="chart row border btn v-center mrg-l mrg--b">

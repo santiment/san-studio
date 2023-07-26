@@ -4,5 +4,6 @@
 import { getChart } from './context';
 const chart = getChart();
 chart.plotManager.set('candles', (chart, scale, data, colors, categories) => {
-  plotCandles(chart, data, categories.candles, scale, colors);
-});</script>
+    plotCandles(chart, data, categories.candles, scale, colors);
+});
+</script>

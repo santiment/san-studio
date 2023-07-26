@@ -1,9 +1,10 @@
+/// <reference types="svelte" />
 export declare type Indicators = Set<{
     key: string;
 }>;
 export declare type Signals = Studio.Metric[];
 export declare function newMetricSignalsStore(defaultValue?: Signals): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<Signals>, invalidate?: ((value?: Signals | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<Signals>, invalidate?: import("svelte/store").Invalidator<Signals> | undefined) => import("svelte/store").Unsubscriber;
     set(newMetrics: Studio.Metric[]): void;
     add(metric: Studio.Metric): void;
     delete(metric: Studio.Metric): void;
@@ -13,7 +14,7 @@ export declare function newMetricSignalsStore(defaultValue?: Signals): {
     update(metrics: Studio.Metric[]): void;
 };
 export declare function newSignalsTimeseriesStore(): {
-    subscribe: (this: void, run: import("svelte/store").Subscriber<any[]>, invalidate?: ((value?: any[] | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+    subscribe: (this: void, run: import("svelte/store").Subscriber<any[]>, invalidate?: import("svelte/store").Invalidator<any[]> | undefined) => import("svelte/store").Unsubscriber;
     update(metrics: Studio.Metric[], { slug, ticker, from, to, interval }: {
         slug: any;
         ticker: any;

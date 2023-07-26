@@ -6,46 +6,39 @@ export let AutoUpdater;
 export let changeStudioPeriod;
 let interval;
 let isOpened = false;
-
 $: updated = isOpened ? startInterval() : stopInterval();
-
 function getDiffTime() {
-  const diff = Date.now() - $AutoUpdater.lastUpdate;
-
-  if (diff < ONE_MINUTE_IN_MS) {
-    return Math.floor(diff / ONE_SECOND_IN_MS) + 's';
-  }
-
-  if (diff < ONE_HOUR_IN_MS) {
-    return Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
-  }
-
-  return Math.floor(diff / ONE_HOUR_IN_MS) + 'h';
+    const diff = Date.now() - $AutoUpdater.lastUpdate;
+    if (diff < ONE_MINUTE_IN_MS) {
+        return Math.floor(diff / ONE_SECOND_IN_MS) + 's';
+    }
+    if (diff < ONE_HOUR_IN_MS) {
+        return Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
+    }
+    return Math.floor(diff / ONE_HOUR_IN_MS) + 'h';
 }
-
 function startInterval() {
-  const newDiff = getDiffTime();
-  const timeout = newDiff.endsWith('s') ? 1000 : 60000;
-  interval = window.setInterval(() => {
-    updated = getDiffTime();
-  }, timeout);
-  return newDiff;
+    const newDiff = getDiffTime();
+    const timeout = newDiff.endsWith('s') ? 1000 : 60000;
+    interval = window.setInterval(() => {
+        updated = getDiffTime();
+    }, timeout);
+    return newDiff;
 }
-
 function stopInterval() {
-  window.clearInterval(interval);
-  return updated;
+    window.clearInterval(interval);
+    return updated;
 }
-
 function onClick() {
-  if ($AutoUpdater.isUpdating) {
-    AutoUpdater.update(true);
-  } else {
-    AutoUpdater.enable(changeStudioPeriod);
-  }
-
-  track.event(Event.AutoUpdate);
-}</script>
+    if ($AutoUpdater.isUpdating) {
+        AutoUpdater.update(true);
+    }
+    else {
+        AutoUpdater.enable(changeStudioPeriod);
+    }
+    track.event(Event.AutoUpdate);
+}
+</script>
 
 <Tooltip
   bind:isOpened

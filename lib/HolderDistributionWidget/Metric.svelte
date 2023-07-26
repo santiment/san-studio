@@ -5,10 +5,9 @@ export let colors;
 export let isMerging = false;
 export let isActive = false;
 export let onClick;
-
 $: color = colors[metric.key];
-
-$: style = color ? `---fill:${color}` : '';</script>
+$: style = color ? `---fill:${color}` : '';
+</script>
 
 <div
   {style}

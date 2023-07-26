@@ -7,25 +7,19 @@ export let upgradeClass = '';
 export let restrictions;
 export let isBanner = false;
 export let restrictedMetrics;
-
 function onUpgradeClick(e) {
-  var _a;
-
-  track.event(Event.IncompleteDataUpgrade, {
-    location: isBanner ? 'banner' : 'tooltip',
-    metrics: Array.from(new Set(restrictedMetrics.map(({
-      key,
-      queryKey = key
-    }) => queryKey)))
-  });
-  closeBanners();
-
-  if ($globals.isLoggedIn && window.showPaymentDialog) {
-    return showPaymentDialog();
-  }
-
-  (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
-}</script>
+    var _a;
+    track.event(Event.IncompleteDataUpgrade, {
+        location: isBanner ? 'banner' : 'tooltip',
+        metrics: Array.from(new Set(restrictedMetrics.map(({ key, queryKey = key }) => queryKey))),
+    });
+    closeBanners();
+    if ($globals.isLoggedIn && window.showPaymentDialog) {
+        return showPaymentDialog();
+    }
+    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
+}
+</script>
 
 Your plan has limited data period for:
 

@@ -1,6 +1,7 @@
 <script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
 import FullscreenDialog from './index.svelte';
-export const showCombineDialog = props => dialogs.show(FullscreenDialog, props);</script>
+export const showCombineDialog = (props) => dialogs.show(FullscreenDialog, props);
+</script>
 
 <script>import { track } from 'san-webkit/lib/analytics';
 import Dialog from 'san-webkit/lib/ui/Dialog';
@@ -10,8 +11,8 @@ import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils';
 import Chart from './Chart.svelte';
 import Metric from './Metric.svelte';
 import { importMath, newExpessionMetric, checkIsExpressionValid } from './utils';
-import Sidebar from './Sidebar.svelte'; // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
-
+import Sidebar from './Sidebar.svelte';
+// TODO: Show dialog on load [@vanguard | Aug 18, 2021]
 importMath();
 export let DialogPromise;
 export let metric;
@@ -22,56 +23,40 @@ let isValidExpression = true;
 let isLabelInputDirty = false;
 let isExpressionDirty = false;
 let closeDialog;
-
 $: checkExpression(metrics, expression);
-
 $: expressionMetric = metrics.length ? newExpessionMetric(metrics, expression, label) : undefined;
-
 $: isValid = isValidExpression && label;
-
-$: colors = expressionMetric && {
-  [expressionMetric.key]: '#14c393'
-};
-
+$: colors = expressionMetric && { [expressionMetric.key]: '#14c393' };
 $: chartMetrics = expressionMetric ? [expressionMetric] : [];
-
 $: if (isLabelInputDirty || isExpressionDirty) {
-  DialogPromise.locking = DialogLock.WARN;
+    DialogPromise.locking = DialogLock.WARN;
 }
-
 let checkExpressionTimer;
-
 function checkExpression(metrics, expression) {
-  clearTimeout(checkExpressionTimer);
-  checkExpressionTimer = setTimeout(() => {
-    isValidExpression = checkIsExpressionValid(metrics, expression);
-  }, 150);
+    clearTimeout(checkExpressionTimer);
+    checkExpressionTimer = setTimeout(() => {
+        isValidExpression = checkIsExpressionValid(metrics, expression);
+    }, 150);
 }
-
 function onCombineClick() {
-  DialogPromise.resolve(expressionMetric);
-  closeDialog();
-  track.event(Event.CombineMetrics, {
-    metrics: metrics.map(({
-      key
-    }) => key)
-  });
+    DialogPromise.resolve(expressionMetric);
+    closeDialog();
+    track.event(Event.CombineMetrics, {
+        metrics: metrics.map(({ key }) => key),
+    });
 }
-
 function onMetricDelete(i) {
-  metrics.splice(i, 1);
-  metrics = metrics.slice();
+    metrics.splice(i, 1);
+    metrics = metrics.slice();
 }
-
 function onMetricSelect(metric) {
-  metrics = metrics.concat(metric);
+    metrics = metrics.concat(metric);
 }
-
 function onMetricLock(metric, i, project) {
-  metrics[i] = convertBaseProjectMetric(metric, Object.assign({}, project));
+    metrics[i] = convertBaseProjectMetric(metric, Object.assign({}, project));
 }
-
-track.event(Event.CombineOpened);</script>
+track.event(Event.CombineOpened);
+</script>
 
 <Dialog
   {...$$props}

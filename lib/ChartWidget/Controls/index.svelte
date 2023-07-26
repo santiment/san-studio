@@ -21,13 +21,8 @@ import IncompleteData from '../IncompleteData/index.svelte';
 import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
-const {
-  Metrics,
-  ChartDrawer
-} = widget;
-const {
-  noWidgetControls
-} = getAdapterController();
+const { Metrics, ChartDrawer } = widget;
+const { noWidgetControls } = getAdapterController();
 const optionsTooltip = getOptionsMenuTooltip();
 export let chart;
 export let hasDomainGroups;
@@ -36,64 +31,48 @@ export let isSingleWidget;
 export let deleteWidget;
 export let fullscreenMetricsFilter;
 export let isFullscreen; // Is in fullscreen dialog
-
 export let isFullscreened; // Was fullscreen triggered?
-
 $: hasSubscription = $globals.isPro || $globals.isProPlus;
-
 $: widget.isSharedAxisEnabled = isSharedAxisEnabled;
-
 function onNewLine() {
-  if ($ChartDrawer.isNewDrawing !== 'line') {
-    track.event(Event.NewDrawing, {
-      type: 'line'
-    });
-  }
-
-  ChartDrawer.toggleNewDrawing('line');
+    if ($ChartDrawer.isNewDrawing !== 'line') {
+        track.event(Event.NewDrawing, { type: 'line' });
+    }
+    ChartDrawer.toggleNewDrawing('line');
 }
-
 function onNewHorizontalRay() {
-  if ($ChartDrawer.isNewDrawing !== 'hray') {
-    track.event(Event.NewDrawing, {
-      type: 'hray'
-    });
-  }
-
-  ChartDrawer.toggleNewDrawing('hray');
+    if ($ChartDrawer.isNewDrawing !== 'hray') {
+        track.event(Event.NewDrawing, { type: 'hray' });
+    }
+    ChartDrawer.toggleNewDrawing('hray');
 }
-
 function onLineDelete() {
-  const {
-    selectedLine
-  } = $ChartDrawer;
-  chart.drawer.deleteDrawing(selectedLine);
+    const { selectedLine } = $ChartDrawer;
+    chart.drawer.deleteDrawing(selectedLine);
 }
-
-const removeDrawerDispatchListener = isFullscreen ? undefined : ChartDrawer.onDispatch(event => {
-  if (!event) return;
-  const {
-    type,
-    data
-  } = event;
-
-  if (type === 'new line') {
-    recordNewDrawing(History, ChartDrawer, widget, data);
-  } else if (type === 'delete') {
-    recordDeleteDrawing(History, ChartDrawer, widget, data);
-  } else if (type === 'modified') {
-    const {
-      drawing,
-      oldRatioCoor
-    } = data;
-    recordDrawingModified(History, widget, drawing, oldRatioCoor, data.data);
-  }
-});
+const removeDrawerDispatchListener = isFullscreen
+    ? undefined
+    : ChartDrawer.onDispatch((event) => {
+        if (!event)
+            return;
+        const { type, data } = event;
+        if (type === 'new line') {
+            recordNewDrawing(History, ChartDrawer, widget, data);
+        }
+        else if (type === 'delete') {
+            recordDeleteDrawing(History, ChartDrawer, widget, data);
+        }
+        else if (type === 'modified') {
+            const { drawing, oldRatioCoor } = data;
+            recordDrawingModified(History, widget, drawing, oldRatioCoor, data.data);
+        }
+    });
 const removeDrawingShortcut = newGlobalShortcut('L', onNewLine);
 onDestroy(() => {
-  removeDrawingShortcut();
-  removeDrawerDispatchListener === null || removeDrawerDispatchListener === void 0 ? void 0 : removeDrawerDispatchListener();
-});</script>
+    removeDrawingShortcut();
+    removeDrawerDispatchListener === null || removeDrawerDispatchListener === void 0 ? void 0 : removeDrawerDispatchListener();
+});
+</script>
 
 <div class="row controls v-center mrg-s mrg--b">
   <div

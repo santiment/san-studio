@@ -1,7 +1,8 @@
 <script>import Item from './../../../Sidebar/Item.svelte';
 import HoverItem from '../HoverItem.svelte';
 export let notable;
-export let onItemClick, onItemEnter, onLeave;</script>
+export let onItemClick, onItemEnter, onLeave;
+</script>
 
 <Item
   item={notable.metric}
