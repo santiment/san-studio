@@ -78,11 +78,11 @@ export const MakerDaoMetric = each(
       label: 'MakerDAO Total Repayments in USD',
     },
     makerdao_total_supplied: {
-      label: 'MakerDAO Total Supplied',
+      label: 'MakerDAO Collateral Total Supplied',
       node: Node.LINE,
     },
     makerdao_total_supplied_usd: {
-      label: 'MakerDAO Total Supplied in USD',
+      label: 'MakerDAO Collateral Total Supplied in USD',
       node: Node.LINE,
     },
     makerdao_total_borrowed: {
