@@ -1,1 +1,1 @@
-require('san-webkit/scripts/clean')
+import 'san-webkit/scripts/clean.js'
