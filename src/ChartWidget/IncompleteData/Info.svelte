@@ -17,8 +17,11 @@
     })
     closeBanners()
 
-    if ($globals.isLoggedIn && window.showPaymentDialog) {
-      return showPaymentDialog()
+    if ($globals.isLoggedIn) {
+      e.preventDefault()
+      return showPaymentDialog({
+        source: 'charts_incomplete_data_upgrade',
+      })
     }
 
     window.__onLinkClick?.(e)
@@ -38,7 +41,7 @@ To unlock the full potential of Santiment metrics you need to upgrade your accou
 <a
   href="/pricing"
   class="btn-1 btn--orange row h-center fluid body-3 mrg-l mrg--t {upgradeClass}"
-  on:click|preventDefault={onUpgradeClick}>Upgrade</a
+  on:click={onUpgradeClick}>Upgrade</a
 >
 
 <style>
