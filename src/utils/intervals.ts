@@ -50,7 +50,7 @@ const FormatToTimestamp = {
   d: ONE_DAY_IN_MS,
 }
 export function getIntervalMilliseconds(interval: string) {
-  const { amount, format } = parseIntervalString(interval)
+  const { amount, format } = parseIntervalString(interval || '1d')
   return amount * FormatToTimestamp[format]
 }
 

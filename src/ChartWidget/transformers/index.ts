@@ -9,7 +9,7 @@ const IntervalFormatDividend = {
   m: 60 * 24,
 }
 export function calculateMovingAverageFromInterval(interval) {
-  const { amount, format } = parseIntervalString(interval)
+  const { amount, format } = parseIntervalString(interval || '24h')
   const dividend = IntervalFormatDividend[format] || 1
   return (dividend / amount) * 7
 }
