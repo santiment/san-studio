@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
   "types": "lib/types/index.d.ts",
+  "type": "module",
   "lint-staged": {
     "*.{js,ts,svelte,css,md,mdx}": [
       "prettier --write"
