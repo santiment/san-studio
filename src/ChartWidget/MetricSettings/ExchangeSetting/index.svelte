@@ -1,6 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import { withScroll } from 'webkit/ui/history'
+  import Search from 'webkit/ui/Search.svelte'
   import { Event } from '@/analytics'
   import { getHistoryContext } from '@/history/ctx'
   import { studio } from '@/stores/studio'
@@ -18,10 +19,12 @@
   let loading = true
   let isDex = false
   let exchanges = DEFAULT_EXCHANGES
+  let searchTerm = ''
 
   $: metricSettings = $MetricSettings[metric.key]
   $: metricOwner = metricSettings?.owner || DEFAULT_EXCHANGE
   $: getExchanges($studio.slug, isDex)
+  $: searchedExchanges = searchTerm ? filter(exchanges) : exchanges
 
   const getExchanges = debounced((slug: string, isDex: boolean) => {
     loading = true
@@ -60,9 +63,18 @@
       owner: newOwner,
     })
   }
+
+  function onSearch(e: InputEvent) {
+    const inputNode = e.currentTarget as HTMLInputElement
+    searchTerm = inputNode.value.trim().toLowerCase()
+  }
+
+  function filter(exchanges) {
+    return exchanges.filter((item) => item.toLowerCase().includes(searchTerm))
+  }
 </script>
 
-<Dropdown>
+<Dropdown class="$style.dropdown">
   Exchange: {metricOwner}
 
   <svelte:fragment slot="dropdown">
@@ -71,12 +83,19 @@
       <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>
     </div>
 
+    <Search
+      class="$style.search mrg-s mrg--b"
+      autofocus
+      placeholder="Type to search"
+      on:input={onSearch}
+    />
+
     {#if loading}
       <div class="loading" />
     {/if}
 
     <div class="options">
-      {#each exchanges as exchange}
+      {#each searchedExchanges as exchange}
         <div
           class="btn btn-ghost"
           class:active={metricOwner === exchange}
@@ -115,5 +134,13 @@
   .options {
     overflow: auto;
     min-width: 165px;
+  }
+
+  .search {
+    max-width: 170px;
+  }
+
+  .dropdown {
+    --max-height: 230px;
   }
 </style>
