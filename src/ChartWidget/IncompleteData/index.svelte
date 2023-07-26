@@ -50,6 +50,7 @@
     return (
       queryKey.includes('active_addresses') ||
       queryKey.includes('holders_distribution') ||
+      queryKey.includes('dex_volume_in') ||
       new Set([
         'daily_assets_issued',
         'total_assets_issued',
