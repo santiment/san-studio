@@ -9,9 +9,6 @@ export const MakerDaoMetric = each(
     scd_locked_token: {
       label: 'WETH Locked in Single-Collateral CDPs',
     },
-    mcd_supply: {
-      label: 'Multi-Collateral DAI Total Supply',
-    },
     mcd_collat_ratio: {
       label: 'Collateralization Ratio for BAT and USDC in Multi-Collateral CDPs',
     },
@@ -38,6 +35,9 @@ export const MakerDaoMetric = each(
     },
     mcd_liquidation: {
       label: 'Makerdao Collateral Liquidation Amounts',
+    },
+    total_dai_created: {
+      label: 'Total Multi-Collateral DAI Created',
     },
 
     makerdao_action_deposits: {
