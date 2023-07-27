@@ -67,7 +67,6 @@ const METRICS = [
 
       Metric.mcd_locked_token,
       Metric.scd_locked_token,
-      Metric.mcd_supply,
       Metric.mcd_collat_ratio,
       Metric.mcd_collat_ratio_weth,
       Metric.mcd_collat_ratio_sai,
