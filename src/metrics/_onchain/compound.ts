@@ -77,6 +77,10 @@ export const CompoundMetric = each(
     compound_borrow_apy: {
       label: 'Compound Borrow APY',
     },
+
+    compound_active_addresses: {
+      label: 'Compound Active Addresses',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Compound'

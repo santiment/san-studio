@@ -1,8 +1,7 @@
-const sveltePreprocess = require('svelte-preprocess')
-const cssModules = require('svelte-preprocess-cssmodules')
+import webkitConfig from 'san-webkit/svelte.config.js'
 
-module.exports = {
-  // Consult https://github.com/sveltejs/svelte-preprocess
-  // for more information about preprocessors
-  preprocess: [cssModules(), sveltePreprocess()],
+const config = {
+  ...webkitConfig,
 }
+
+export default config

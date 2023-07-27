@@ -35,6 +35,19 @@ const ExchangesMetric = each(
     exchange_outflow: {
       label: 'Exchange Outflow',
     },
+    exchange_open_interest: {
+      label: 'Open Interest in USD per Exchange',
+      formatter: usdFormatter,
+      isRootExchangeKey: true,
+    },
+    open_interest_per_settlement_currency: {
+      label: 'Open Interest in USD per Settlement Currency',
+      formatter: usdFormatter,
+    },
+    total_open_interest: {
+      label: 'Total Open Interest in USD',
+      formatter: usdFormatter,
+    },
     percent_of_total_supply_on_exchanges: {
       label: 'Supply on Exchanges (as % of total supply)',
     },
@@ -50,6 +63,10 @@ const ExchangesMetric = each(
     },
     active_withdrawals_5m: {
       label: 'Active Withdrawals',
+    },
+    daily_trading_volume_usd: {
+      label: 'Daily Trading USD Volume',
+      formatter: usdFormatter,
     },
   },
   (metric: Studio.Metric) => {
@@ -278,10 +295,10 @@ export const FeesMetric = each(
       checkIsVisible: ({ slug }) => slug === 'ethereum',
     },
     fees_burnt_5m: {
-      label: 'Etheruem Fees Burnt',
+      label: 'Ethereum Fees Burnt',
     },
     fees_burnt_usd_5m: {
-      label: 'Etheruem Fees Burnt in USD',
+      label: 'Ethereum Fees Burnt in USD',
       formatter: usdFormatter,
     },
   },

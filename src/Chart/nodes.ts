@@ -51,7 +51,7 @@ export function getMetricNodes(
     const { key, node } = metrics[i]
     joinedCategories[i] = key
     const metricNode = MetricSettings[key]?.node || node
-    MetricNodes[(NodeAlias[metricNode] || metricNode) + 's'].push(key)
+    MetricNodes[(NodeAlias[metricNode] || metricNode) + 's']?.push(key)
   }
   return MetricNodes
 }

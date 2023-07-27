@@ -2,14 +2,14 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
-  import { getWidget } from '@/ChartWidget/context'
-  import { studio } from '@/stores/studio'
   import Info from './Info.svelte'
   import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
-  const { Metrics } = getWidget()
+
   const shouldShowBanner = checkShouldShowBanner()
 
-  export let chart: SAN.Charts.Chart
+  export let chart = null as null | SAN.Charts.Chart
+  export let metrics: any[]
+  export let settings: any
 
   let banner
   let restrictions
@@ -17,7 +17,7 @@
 
   queryRestrictedDates().then((data) => (restrictions = data))
 
-  $: restrictedMetrics = restrictions ? filterMetrics($Metrics, $studio) : []
+  $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : []
   $: if (banner && chart) {
     chart.canvas.parentNode?.appendChild(banner)
   }
@@ -50,6 +50,7 @@
     return (
       queryKey.includes('active_addresses') ||
       queryKey.includes('holders_distribution') ||
+      queryKey.includes('dex_volume_in') ||
       new Set([
         'daily_assets_issued',
         'total_assets_issued',

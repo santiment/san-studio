@@ -1,7 +1,7 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import HoverItem from '@/Sidebar/HoverItem.svelte'
   import ItemLabel from '@/Sidebar/ItemLabel.svelte'
   import { showCombineDialog } from '@/CombineDialog/index.svelte'

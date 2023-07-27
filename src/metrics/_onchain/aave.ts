@@ -89,6 +89,10 @@ export const AaveMetric = each(
       label: 'Aave v2 Protocol Total Borrowed in USD',
       formatter: usdFormatter,
     },
+
+    aave_v2_active_addresses: {
+      label: 'Aave v2 Active Addresses',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Aave v2'
@@ -171,6 +175,9 @@ export const Aave3Metric = each(
     },
     aave_v3_variable_borrow_apy: {
       label: 'Aave v3 Variable Borrow APY',
+    },
+    aave_v3_active_addresses: {
+      label: 'Aave v3 Active Addresses',
     },
   },
   (metric: Studio.Metric) => {

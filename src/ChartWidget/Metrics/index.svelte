@@ -99,5 +99,6 @@
     margin-left: -8px;
     flex-wrap: wrap;
     flex: 1;
+    --tooltip-z-index: 30;
   }
 </style>

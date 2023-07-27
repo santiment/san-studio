@@ -1,7 +1,7 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
-  import { PresetCalendar } from 'webkit/ui/Calendar'
+  import { InputCalendar as PresetCalendar } from 'webkit/ui/Calendar'
   import { Event } from '@/analytics'
   import { mapview, MapviewPhase } from '@/stores/mapview'
   import LayoutActions from '@/Layouts/index.svelte'

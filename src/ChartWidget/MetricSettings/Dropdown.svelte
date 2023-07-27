@@ -2,6 +2,9 @@
   import Svg from 'webkit/ui/Svg/svelte'
   import Tooltip from 'webkit/ui/Tooltip/svelte'
 
+  let className = ''
+  export { className as class }
+
   export let isList = true
   export let onClick = undefined
   export let isOpened = undefined
@@ -24,7 +27,7 @@
 
   <div
     slot="tooltip"
-    class="body-3 column"
+    class="body-3 column {className}"
     class:dropdown={isList}
     class:scroll={$$slots.options}
     bind:this={optionsNode}
@@ -49,7 +52,7 @@
 
   .dropdown {
     padding: 8px;
-    max-height: 195px;
+    max-height: var(--max-height, 195px);
     font-weight: 400;
   }
 

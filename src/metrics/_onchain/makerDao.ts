@@ -78,11 +78,11 @@ export const MakerDaoMetric = each(
       label: 'MakerDAO Total Repayments in USD',
     },
     makerdao_total_supplied: {
-      label: 'MakerDAO Total Supplied',
+      label: 'MakerDAO Collateral Total Supplied',
       node: Node.LINE,
     },
     makerdao_total_supplied_usd: {
-      label: 'MakerDAO Total Supplied in USD',
+      label: 'MakerDAO Collateral Total Supplied in USD',
       node: Node.LINE,
     },
     makerdao_total_borrowed: {
@@ -100,6 +100,9 @@ export const MakerDaoMetric = each(
     makerdao_protocol_total_borrowed_usd: {
       label: 'MakerDAO Protocol Total Borrowed in USD',
       node: Node.LINE,
+    },
+    makerdao_active_addresses: {
+      label: 'MakerDAO Active Addresses',
     },
   },
   (metric: Studio.Metric) => {

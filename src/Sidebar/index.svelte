@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { getHistoryContext } from 'webkit/ui/history'
+  import { getHistoryContext } from '@/history/ctx'
   import { saveBoolean, getSavedBoolean } from 'webkit/utils/localStorage'
   import { newGlobalShortcut } from 'webkit/utils/events'
   import { getAdapterController } from '@/adapter/context'
@@ -32,6 +32,7 @@
     handleItemSelect(item, e, Widgets, Sidewidget, History, adjustSelectedMetric)
   }
 
+  window.adjustSelectedMetric = adjustSelectedMetric
   function adjustSelectedMetric(node) {
     if (node.noProject) return node
 
@@ -49,7 +50,10 @@
   }
 
   const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
-  onDestroy(removeOpenShortcutsDialogHandler)
+  onDestroy(() => {
+    removeOpenShortcutsDialogHandler()
+    delete window.adjustSelectedMetric
+  })
 </script>
 
 <Sidebar bind:isOpened bind:isLocked bind:isPeeked>
