@@ -48,6 +48,7 @@
     if (slug !== 'ripple' && slug !== 'xrp') return
 
     return (
+      queryKey.includes('transactions_count') ||
       queryKey.includes('active_addresses') ||
       queryKey.includes('holders_distribution') ||
       queryKey.includes('dex_volume_in') ||
