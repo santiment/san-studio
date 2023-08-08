@@ -60,7 +60,12 @@ export function newDomainModifier(
     if (metricSettings) {
       const { axisMax, axisMin } = metricSettings
       max = applyCustomDomain(max, axisMax)
-      min = applyCustomDomain(min, axisMin, true)
+
+      if (node === Node.BAR) {
+        minMax.userMin = applyCustomDomain(min, axisMin, true)
+      } else {
+        min = applyCustomDomain(min, axisMin, true)
+      }
     }
 
     minMax.max = max
