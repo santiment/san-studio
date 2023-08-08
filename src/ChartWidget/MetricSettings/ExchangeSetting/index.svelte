@@ -7,7 +7,9 @@
   import { studio } from '@/stores/studio'
   import { getWidget } from '@/ChartWidget/context'
   import { debounced } from '@/ChartWidget/utils'
+  import { Metric } from '@/metrics'
   import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils'
+  import { queryLabelBasedMetricOwners } from './api'
   import Dropdown from '../Dropdown.svelte'
 
   const History = getHistoryContext()
@@ -21,6 +23,7 @@
   let exchanges = DEFAULT_EXCHANGES
   let searchTerm = ''
 
+  $: isOpenInterestMetric = metric === Metric.exchange_open_interest
   $: metricSettings = $MetricSettings[metric.key]
   $: metricOwner = metricSettings?.owner || DEFAULT_EXCHANGE
   $: getExchanges($studio.slug, isDex)
@@ -28,7 +31,12 @@
 
   const getExchanges = debounced((slug: string, isDex: boolean) => {
     loading = true
-    queryProjectExchanges(slug, isDex).then((projectExchanges) => {
+
+    const promise = isOpenInterestMetric
+      ? queryLabelBasedMetricOwners()
+      : queryProjectExchanges(slug, isDex)
+
+    promise.then((projectExchanges) => {
       loading = false
       exchanges = DEFAULT_EXCHANGES.concat(projectExchanges)
     })
@@ -79,8 +87,10 @@
 
   <svelte:fragment slot="dropdown">
     <div slot="header" class="tabs row txt-m mrg-s mrg--b">
-      <div class:tab-active={!isDex} class="tab btn" on:click={() => (isDex = false)}>CEX</div>
-      <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>
+      {#if !isOpenInterestMetric}
+        <div class:tab-active={!isDex} class="tab btn" on:click={() => (isDex = false)}>CEX</div>
+        <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>
+      {/if}
     </div>
 
     <Search
