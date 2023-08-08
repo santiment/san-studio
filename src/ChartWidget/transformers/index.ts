@@ -39,7 +39,7 @@ export function transformMetricSettings(
 
   if (key === Metric.dev_activity.key) return transformDevActivity(metricSettings, studioSettings)
 
-  if (MirroredMetric[metric.key]) return transformMirroredMetric(metric, metricSettings, metrics)
+  // if (MirroredMetric[metric.key]) return transformMirroredMetric(metric, metricSettings, metrics)
 
   return metricSettings
 }
