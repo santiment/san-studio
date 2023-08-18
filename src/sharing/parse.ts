@@ -20,7 +20,20 @@ export function parse(queryString: string) {
   return result
 }
 
-export const parseArray = (value?: string) => value?.split(';') || []
+export function parseArray(value?: string, isArrayOfObjects = false) {
+  if (!value) return []
+
+  if (isArrayOfObjects) {
+    if (value.includes('};{')) {
+      const DELIMITER = '_;;_'
+      return value.replace(/\};\{/g, `}${DELIMITER}{`).split(DELIMITER)
+    } else {
+      return [value]
+    }
+  }
+
+  return value.split(';')
+}
 
 export function parseMetrics(metricKeys: undefined | string[], KnownMetric: KeyToMetric) {
   return (metricKeys || [])

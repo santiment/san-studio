@@ -87,7 +87,7 @@ export function parseQueryString(qs: string) {
   const { wm, wax, wc, ws, wcm, wd } = shared
 
   const KnownMetric = {}
-  parseCombinedMetrics(parseArray(wcm).map(parseJSON), KnownMetric)
+  parseCombinedMetrics(parseArray(wcm, true).map(parseJSON), KnownMetric)
 
   const metrics = parseMetrics(getArrayValues(wm), KnownMetric)
   const metricIndicators = parseIndicators(metrics)
