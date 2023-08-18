@@ -3,7 +3,7 @@ export declare type KeyToMetric = {
     [metricKey: string]: BaseMetricType;
 };
 export declare function parse(queryString: string): {};
-export declare const parseArray: (value?: string) => string[];
+export declare function parseArray(value?: string, isArrayOfObjects?: boolean): string[];
 export declare function parseMetrics(metricKeys: undefined | string[], KnownMetric: KeyToMetric): BaseMetricType[];
 export declare function parseCombinedMetrics(metrics: undefined | {
     k: string;
