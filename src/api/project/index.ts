@@ -38,7 +38,7 @@ const projectAccessor = ({ projectBySlug }) => projectBySlug
 export const queryProject = (slug: string): Promise<string> =>
   query<any>(PROJECT_NAME_QUERY(slug)).then(projectAccessor)
 
-const ALL_PROJECTS = `
+let ALL_PROJECTS = `
   {
     allProjects(minVolume:0){
       slug
@@ -50,6 +50,9 @@ const ALL_PROJECTS = `
     }
   }
 `
+export const APPEND_ALL_PROJECTS_QUERY = (scheme: string) => {
+  ALL_PROJECTS = ALL_PROJECTS.replace('logoUrl', 'logoUrl ' + scheme)
+}
 
 const projectsAccessor = ({ allProjects }) => allProjects
 export const queryAllProjects = (): Promise<any[]> =>
