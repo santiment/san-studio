@@ -40,5 +40,9 @@ export declare const Compound3Metric: {
     compound_v3_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_v3_total_borrowed_usd">;
     compound_v3_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "compound_v3_protocol_total_supplied_usd">;
     compound_v3_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_v3_protocol_total_borrowed_usd">;
+    compound_v3_eth_market_supply_apy: import("../utils").Node<Studio.Metric, "compound_v3_eth_market_supply_apy">;
+    compound_v3_eth_market_borrow_apy: import("../utils").Node<Studio.Metric, "compound_v3_eth_market_borrow_apy">;
+    compound_v3_usdc_market_supply_apy: import("../utils").Node<Studio.Metric, "compound_v3_usdc_market_supply_apy">;
+    compound_v3_usdc_market_borrow_apy: import("../utils").Node<Studio.Metric, "compound_v3_usdc_market_borrow_apy">;
     compound_v3_active_addresses: import("../utils").Node<Studio.Metric, "compound_v3_active_addresses">;
 };
