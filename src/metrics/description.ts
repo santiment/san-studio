@@ -157,7 +157,7 @@ For each coin that moves on-chain, NPL takes the price at which it was last move
   [Metric.mvrv_usd_z_score.key]:
     'Shows the ratio between the difference of market cap and realized cap, and the standard deviation of market cap',
 
-  [SelectorNode.SPENT_COIN_COST.key]:
+  [SelectorNode?.SPENT_COIN_COST?.key]:
     'It shows at what price the tokens that were transacted today were last moved. More info <a target="_blank" rel="noopener noreferrer" href="https://academy.santiment.net/metrics/spent-coins-age-band/ ">here</a>',
 
   [Metric.spent_coins_age_band_0d_to_1d
