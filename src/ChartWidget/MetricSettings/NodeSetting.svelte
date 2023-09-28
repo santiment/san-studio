@@ -104,7 +104,7 @@
         </div>
       {/each}
 
-      {#if metric === Metric.bitmex_perpetual_funding_rate}
+      {#if metric.key.includes('funding_rate')}
         <div
           class="btn-ghost"
           class:active={metricNode === PN_BARS_NODE.id}
