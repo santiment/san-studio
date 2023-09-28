@@ -84,7 +84,7 @@
 
   <svelte:fragment slot="options">
     {#key metric}
-      {#if !metric.indicator && (metric.base || metric) === Metric.price_usd}
+      {#if !metric.indicator}
         <div
           class="btn-ghost"
           class:active={metricNode === CANDLES_NODE.id}
