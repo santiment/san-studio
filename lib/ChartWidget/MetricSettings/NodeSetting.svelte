@@ -4,7 +4,7 @@ import { cleanupCandlesSettings, setCandlesSettings } from './../../ChartWidget/
 import { getHistoryContext } from './../../history/ctx';
 import { studio } from './../../stores/studio';
 import { Node, NodeAlias } from './../../Chart/nodes';
-import { Metric } from './../../metrics';
+import './../../metrics';
 import { Event } from './../../analytics';
 import Dropdown from './Dropdown.svelte';
 import { getWidget } from '../context';
@@ -63,7 +63,7 @@ function getMetricNode(metric, metricSettings) {
 
   <svelte:fragment slot="options">
     {#key metric}
-      {#if !metric.indicator && (metric.base || metric) === Metric.price_usd}
+      {#if !metric.indicator}
         <div
           class="btn-ghost"
           class:active={metricNode === CANDLES_NODE.id}
@@ -83,7 +83,7 @@ function getMetricNode(metric, metricSettings) {
         </div>
       {/each}
 
-      {#if metric === Metric.bitmex_perpetual_funding_rate}
+      {#if metric.key.includes('funding_rate')}
         <div
           class="btn-ghost"
           class:active={metricNode === PN_BARS_NODE.id}
