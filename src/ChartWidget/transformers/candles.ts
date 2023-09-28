@@ -22,7 +22,8 @@ export function cleanupCandlesSettings(
   metricSettings: Studio.MetricSetting,
   ChartMetricDisplays: any,
 ) {
-  if (metricSettings.fetcher === queryOHLC) {
+  // if (metricSettings.fetcher === queryOHLC) {
+  if (metricSettings.node === Node.CANDLES) {
     delete metricSettings.fetcher
     ChartMetricDisplays.delete(metric.key, 'metricPrintablePusher')
   }

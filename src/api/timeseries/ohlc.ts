@@ -1,4 +1,5 @@
 import { query } from 'webkit/api'
+import { GET_METRIC } from './queries'
 
 const PRICE_OHLC_QUERY = `
   query ohlc(
@@ -27,13 +28,15 @@ type Variables = {
 
 const precacher =
   ({ key }: Variables) =>
-  ({ ohlc }) => {
+  ({ getMetric }) => {
+    const ohlc = getMetric.timeseriesData
     const data = new Array(ohlc.length)
 
     for (let i = ohlc.length - 1; i > -1; i--) {
-      const { d, o, h, l, c } = ohlc[i]
+      const { d, v } = ohlc[i]
+      const { o, h, l, c } = v
       data[i] = {
-        datetime: +new Date(d),
+        datetime: Date.parse(d),
         [key as any]: {
           open: o,
           high: h,
@@ -50,9 +53,20 @@ const precacher =
 
 const accessor = ({ ohlc }) => ohlc
 export function queryOHLC(variables: Variables): Promise<any> {
-  return query<any>(PRICE_OHLC_QUERY, {
-    precacher,
-    cacheTime: 600,
-    variables,
-  }).then(accessor)
+  return query<any>(
+    GET_METRIC.replace(
+      'v: value',
+      `v: valueOhlc{
+        o:open
+        h:high
+        c:close
+        l:low
+      }`,
+    ),
+    {
+      precacher,
+      cacheTime: 600,
+      variables: { ...variables, aggregation: 'OHLC' },
+    },
+  ).then(accessor)
 }
