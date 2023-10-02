@@ -14,7 +14,6 @@ export const LABELS = [
   'Bitstamp',
 ] as const
 
-const checkIsVisible = ({ slug }) => slug === 'bitcoin'
 const ExchangesV2Metric = {
   labelled_historical_balance: { label: '' } as Studio.Metric,
 }
@@ -24,7 +23,6 @@ const eachLabel = (clb: (label: string, label_fqn: string) => void) =>
 
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhb_' + label] = {
-    checkIsVisible,
     queryKey: 'labelled_historical_balance',
     label: `${label} Historical Balance`,
     reqMeta: { label_fqn },
@@ -33,7 +31,6 @@ eachLabel((label, label_fqn) => {
 
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhbc_' + label] = {
-    checkIsVisible,
     queryKey: 'labelled_historical_balance_changes',
     label: `${label} Historical Balance Changes`,
     reqMeta: { label_fqn },
