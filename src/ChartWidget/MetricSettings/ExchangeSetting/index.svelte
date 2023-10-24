@@ -60,8 +60,9 @@
     const { key, queryKey = key } = metric
 
     if (newOwner === DEFAULT_EXCHANGE) {
-      MetricSettings.delete(key, 'queryKey')
-      MetricSettings.delete(key, 'owner')
+      // MetricSettings.delete(key, 'queryKey')
+      // MetricSettings.delete(key, 'owner')
+      MetricSettings.set(key, { owner: 'binance' })
       return
     }
 

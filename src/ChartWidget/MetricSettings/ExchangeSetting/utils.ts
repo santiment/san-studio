@@ -1,7 +1,7 @@
 import { query } from 'webkit/api'
 import { Metric } from '@/metrics'
 
-export const DEFAULT_EXCHANGE = 'Auto (Default)'
+export const DEFAULT_EXCHANGE = 'Auto (Binance)'
 export const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 
 const EXCHANGES_QUERY = (slug: string, isDex: boolean) => `

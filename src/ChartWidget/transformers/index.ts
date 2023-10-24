@@ -3,6 +3,7 @@ import { Metric } from '@/metrics'
 import { MirroredMetric, transformMirroredMetric } from './mirroredMetrics'
 import { transformCandles } from './candles'
 import { transformWeightedSocialMetrics } from './weightedSocial'
+import { transformExchangeSettings } from './exchange'
 
 const IntervalFormatDividend = {
   h: 24,
@@ -36,6 +37,7 @@ export function transformMetricSettings(
 
   transformCandles(metric, metricSettings, studioSettings, ChartMetricDisplays)
   transformWeightedSocialMetrics(metric, metricSettings, studioSettings)
+  transformExchangeSettings(metric, metricSettings)
 
   if (key === Metric.dev_activity.key) return transformDevActivity(metricSettings, studioSettings)
 
