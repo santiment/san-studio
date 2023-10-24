@@ -44,8 +44,9 @@ function onChange(newOwner) {
 function setExchange(metric, newOwner) {
     const { key, queryKey = key } = metric;
     if (newOwner === DEFAULT_EXCHANGE) {
-        MetricSettings.delete(key, 'queryKey');
-        MetricSettings.delete(key, 'owner');
+        // MetricSettings.delete(key, 'queryKey')
+        // MetricSettings.delete(key, 'owner')
+        MetricSettings.set(key, { owner: 'binance' });
         return;
     }
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
