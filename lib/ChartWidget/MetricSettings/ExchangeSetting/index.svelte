@@ -7,7 +7,7 @@ import { studio } from './../../../stores/studio';
 import { getWidget } from './../../../ChartWidget/context';
 import { debounced } from './../../../ChartWidget/utils';
 import { Metric } from './../../../metrics';
-import { DEFAULT_EXCHANGE, DEFAULT_EXCHANGES, queryProjectExchanges } from './utils';
+import { ExchangeMetricsDefaults, OpenInterestMetricsDefaults, queryProjectExchanges, } from './utils';
 import { queryLabelBasedMetricOwners } from './api';
 import Dropdown from '../Dropdown.svelte';
 const History = getHistoryContext();
@@ -16,11 +16,13 @@ const { MetricSettings } = widget;
 export let metric;
 let loading = true;
 let isDex = false;
-let exchanges = DEFAULT_EXCHANGES;
 let searchTerm = '';
 $: isOpenInterestMetric = metric === Metric.exchange_open_interest;
+$: metricDefaults = isOpenInterestMetric ? OpenInterestMetricsDefaults : ExchangeMetricsDefaults;
+$: exchanges = metricDefaults.owners;
+$: defaultExchange = metricDefaults.label;
 $: metricSettings = $MetricSettings[metric.key];
-$: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) || DEFAULT_EXCHANGE;
+$: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) || defaultExchange;
 $: getExchanges($studio.slug, isDex);
 $: searchedExchanges = searchTerm ? filter(exchanges) : exchanges;
 const getExchanges = debounced((slug, isDex) => {
@@ -30,7 +32,7 @@ const getExchanges = debounced((slug, isDex) => {
         : queryProjectExchanges(slug, isDex);
     promise.then((projectExchanges) => {
         loading = false;
-        exchanges = DEFAULT_EXCHANGES.concat(projectExchanges);
+        exchanges = metricDefaults.owners.concat(projectExchanges);
     });
 });
 function onChange(newOwner) {
@@ -43,10 +45,8 @@ function onChange(newOwner) {
 }
 function setExchange(metric, newOwner) {
     const { key, queryKey = key } = metric;
-    if (newOwner === DEFAULT_EXCHANGE) {
-        // MetricSettings.delete(key, 'queryKey')
-        // MetricSettings.delete(key, 'owner')
-        MetricSettings.set(key, { owner: 'binance' });
+    if (newOwner === defaultExchange) {
+        metricDefaults.onDefault(MetricSettings, key);
         return;
     }
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
