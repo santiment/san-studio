@@ -1,8 +1,24 @@
 import { query } from 'webkit/api'
 import { Metric } from '@/metrics'
 
-export const DEFAULT_EXCHANGE = 'Auto (Binance)'
-export const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
+const DEFAULT_EXCHANGE = 'Auto (CEX+DEX)'
+const DEFAULT_EXCHANGE_OPEN_INTEREST = 'Auto (Binance)'
+
+export const ExchangeMetricsDefaults = {
+  label: DEFAULT_EXCHANGE,
+  owners: [DEFAULT_EXCHANGE],
+  onDefault: (MetricSettings: any, key: string) => {
+    MetricSettings.delete(key, 'queryKey')
+    MetricSettings.delete(key, 'owner')
+  },
+}
+export const OpenInterestMetricsDefaults = {
+  label: DEFAULT_EXCHANGE_OPEN_INTEREST,
+  owners: [DEFAULT_EXCHANGE_OPEN_INTEREST],
+  onDefault: (MetricSettings: any, key: string) => {
+    MetricSettings.set(key, { owner: 'binance' })
+  },
+}
 
 const EXCHANGES_QUERY = (slug: string, isDex: boolean) => `
   {

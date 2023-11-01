@@ -1,3 +1,4 @@
+import { Metric } from '@/metrics'
 import { isExchangeModifiable } from '../MetricSettings/ExchangeSetting/utils'
 
 export function transformExchangeSettings(
@@ -5,6 +6,9 @@ export function transformExchangeSettings(
   metricSettings: Studio.MetricSetting,
 ) {
   if (!isExchangeModifiable(metric)) return
+  if ((metric.base || metric).key !== Metric.exchange_open_interest.key) {
+    return
+  }
 
   if (metricSettings.owner) return
 
