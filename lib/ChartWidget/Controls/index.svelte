@@ -130,6 +130,8 @@ onDestroy(() => {
       rel="noopener noreferrer"
       href="https://sanr.app/?utm_source=santiment&utm_medium=charts"
       class="btn-2 btn--s row v-center mrg-s mrg--r"
+      data-type="create_sanr_forecast"
+      data-source="charts"
     >
       <img src={sanrSrc} alt="sanr" class="mrg-s mrg--r" />
       Create forecast
