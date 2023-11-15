@@ -6,7 +6,7 @@ import { Event } from '@/analytics'
 let favoritesSet = new Set<string>()
 const { update, subscribe, set } = writable(favoritesSet)
 
-queryFavoriteMetrics().then((value) => set((favoritesSet = new Set(value))))
+if (process.browser) queryFavoriteMetrics().then((value) => set((favoritesSet = new Set(value))))
 
 export const favoriteMetrics = {
   subscribe,
