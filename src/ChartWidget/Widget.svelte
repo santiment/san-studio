@@ -180,7 +180,9 @@
       {onMetricDelete}
       {onMetricLock}
       {onMetricSettings}
-    />
+    >
+      <slot name="metrics-right" />
+    </MetricsRow>
 
     {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />

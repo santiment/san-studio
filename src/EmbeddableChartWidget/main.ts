@@ -22,6 +22,11 @@ const app = new App({
     isWithMetricSettings,
     widget: newWidget(null, widgetProps),
   },
+
+  context: new Map([
+    ['STUDIO', new Map()],
+    ['APP_TOOLTIPS_CTX', new Map()],
+  ]),
 })
 
 export default app

@@ -2,6 +2,7 @@
   import { newHistoryContext } from 'webkit/ui/history'
   import { ONE_MINUTE_IN_MS } from 'webkit/utils/dates'
   import Svg from 'webkit/ui/Svg/svelte'
+  import { InputCalendar as PresetCalendar } from 'webkit/ui/Calendar'
   import { studio } from '@/stores/studio'
   import { setAdapterController } from '@/adapter/context'
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
@@ -9,12 +10,16 @@
   import MetricErrorTooltipCtx from '@/ChartWidget/Metrics/ErrorTooltipCtx.svelte'
   import { getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
+  import Calendar from '@/Header/Calendar.svelte'
 
   let className = ''
   export { className as class }
   export let widget = {}
   export let isWithMetricSettings = false
   export let sharedAccessToken: string | undefined
+
+  export let isCalendarEnabled = true
+  export let isMinimapEmbedded = true
 
   const queryString = getViewOnSantimentLink($studio, widget)
   const AutoUpdater = newAutoUpdaterStore([widget])
@@ -24,6 +29,8 @@
     isWithMetricSettings,
     noWidgetControls: true,
     isOnlyChartEmbedded: true,
+    isMinimapEmbedded,
+    isCalendarEnabled,
     isEmbedded: true,
   })
 
@@ -32,6 +39,7 @@
   $: ({ lastUpdate } = $AutoUpdater)
   // @ts-ignore
   $: updated = (lastUpdate, startInterval())
+  $: ({ from, to } = $studio)
 
   function startInterval() {
     window.clearInterval(interval)
@@ -47,7 +55,11 @@
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="$style.widget" />
+    <ChartWidget {widget} class="$style.widget">
+      {#if isCalendarEnabled}
+        <Calendar dates={[new Date(from), new Date(to)]} />
+      {/if}
+    </ChartWidget>
   </MetricErrorTooltipCtx>
 
   <div class="row justify txt-m mrg-xs mrg--t">
@@ -81,5 +93,9 @@
 
   .widget {
     height: 0 !important;
+  }
+
+  Calendar {
+    margin-top: -4px;
   }
 </style>
