@@ -18,8 +18,14 @@
     getOnLoadContext,
     dispatchWidgetDataLoaded,
   } from './context'
+  import { DatesMessage } from '@/EmbeddableChartWidget/utils'
 
-  const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded } = getAdapterController()
+  const {
+    onWidgetInit,
+    isWithMetricSettings = true,
+    isOnlyChartEmbedded,
+    isMinimapEmbedded = false,
+  } = getAdapterController()
   const History = getHistoryContext()
 
   let className = ''
@@ -71,6 +77,13 @@
   }
 
   function changeStudioPeriod(startDatetime: number | string, endDatetime: number | string) {
+    if (isMinimapEmbedded) {
+      const from = new Date(startDatetime)
+      const to = new Date(endDatetime)
+      studio.setPeriod(from, to)
+      DatesMessage.send({ from: from.toISOString(), to: to.toISOString() })
+      return
+    }
     if (isOnlyChartEmbedded) return
 
     const { from, to } = $studio
