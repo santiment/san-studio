@@ -102,7 +102,7 @@ export function getTimeseries(
   return () => (isAborted = true)
 }
 
-export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
+export const CRYPTO_ERA_START_DATE = '2009-01-05T01:00:00.000Z'
 export function getAllTimeData(
   metrics: Studio.Metric[],
   selector: { [key: string]: string },
