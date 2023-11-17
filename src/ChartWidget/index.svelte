@@ -9,7 +9,7 @@
   import { debounced } from './utils'
   import { getSharedAccessHeaders } from '@/api/timeseries/queries'
 
-  const { isOnlyChartEmbedded, sharedAccessToken } = getAdapterController()
+  const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController()
 
   let className = ''
   export { className as class }
@@ -39,7 +39,8 @@
   $: visibleMetrics = metrics.filter((metric) => !hiddenMetrics.has(metric))
   $: ({ slug, address } = $studio)
   $: fetchData(visibleMetrics, $studio, $MetricSettings)
-  $: isOnlyChartEmbedded !== true && fetchAllData(visibleMetrics, slug, address)
+  $: (isMinimapEmbedded || isOnlyChartEmbedded !== true) &&
+    fetchAllData(visibleMetrics, slug, address)
 
   widget.fetchData = (cachePolicy) =>
     fetchData(visibleMetrics, $studio, $MetricSettings, cachePolicy)
@@ -97,4 +98,6 @@
   {fullscreenMetricsFilter}
   {onLoad}
   class={className}
-/>
+>
+  <slot slot="metrics-right" />
+</Widget>
