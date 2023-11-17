@@ -11,6 +11,7 @@
   import { getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
   import Calendar from '@/Header/Calendar.svelte'
+  import { DatesMessage, AssetMessage } from './utils'
 
   let className = ''
   export { className as class }
@@ -51,13 +52,21 @@
 
     return 'less than a minute'
   }
+
+  function onDateSelect(from: Date, to: Date) {
+    DatesMessage.send({ from: from.toISOString(), to: to.toISOString() })
+  }
+
+  DatesMessage.listen(({ from, to }) => {
+    studio.setPeriod(new Date(from), new Date(to))
+  })
 </script>
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
     <ChartWidget {widget} class="$style.widget">
       {#if isCalendarEnabled}
-        <Calendar dates={[new Date(from), new Date(to)]} />
+        <Calendar dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
       {/if}
     </ChartWidget>
   </MetricErrorTooltipCtx>
