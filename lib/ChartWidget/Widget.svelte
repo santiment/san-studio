@@ -12,7 +12,8 @@ import Controls from './Controls/index.svelte';
 import MetricsRow from './Metrics/index.svelte';
 import MetricSettingsRow from './MetricSettings/index.svelte';
 import { initWidget, initWidgetContext, getOnLoadContext, dispatchWidgetDataLoaded, } from './context';
-const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded } = getAdapterController();
+import { DatesMessage } from './../EmbeddableChartWidget/utils';
+const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded, isMinimapEmbedded = false, } = getAdapterController();
 const History = getHistoryContext();
 let className = '';
 export { className as class };
@@ -58,6 +59,13 @@ widget.deleteChartAddonError = (addon) => {
     ChartAddonError = ChartAddonError;
 };
 function changeStudioPeriod(startDatetime, endDatetime) {
+    if (isMinimapEmbedded) {
+        const from = new Date(startDatetime);
+        const to = new Date(endDatetime);
+        studio.setPeriod(from, to);
+        DatesMessage.send({ from: from.toISOString(), to: to.toISOString() });
+        return;
+    }
     if (isOnlyChartEmbedded)
         return;
     const { from, to } = $studio;
@@ -154,7 +162,9 @@ function onChart(newChart) {
       {onMetricDelete}
       {onMetricLock}
       {onMetricSettings}
-    />
+    >
+      <slot name="metrics-right" />
+    </MetricsRow>
 
     {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />

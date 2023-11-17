@@ -1,6 +1,7 @@
 <script>import { newHistoryContext } from 'san-webkit/lib/ui/history';
 import { ONE_MINUTE_IN_MS } from 'san-webkit/lib/utils/dates';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import 'san-webkit/lib/ui/Calendar';
 import { studio } from './../stores/studio';
 import { setAdapterController } from './../adapter/context';
 import { newAutoUpdaterStore } from './../stores/autoUpdater';
@@ -8,11 +9,15 @@ import ChartWidget from './../ChartWidget/index.svelte';
 import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte';
 import { getViewOnSantimentLink } from './utils';
 import sanSvg from './san.svg';
+import Calendar from './../Header/Calendar.svelte';
+import { DatesMessage } from './utils';
 let className = '';
 export { className as class };
 export let widget = {};
 export let isWithMetricSettings = false;
 export let sharedAccessToken;
+export let isCalendarEnabled = true;
+export let isMinimapEmbedded = true;
 const queryString = getViewOnSantimentLink($studio, widget);
 const AutoUpdater = newAutoUpdaterStore([widget]);
 newHistoryContext({ add: () => { } });
@@ -21,12 +26,15 @@ setAdapterController({
     isWithMetricSettings,
     noWidgetControls: true,
     isOnlyChartEmbedded: true,
+    isMinimapEmbedded,
+    isCalendarEnabled,
     isEmbedded: true,
 });
 let interval;
 $: ({ lastUpdate } = $AutoUpdater);
 // @ts-ignore
 $: updated = (lastUpdate, startInterval());
+$: ({ from, to } = $studio);
 function startInterval() {
     window.clearInterval(interval);
     interval = window.setInterval(() => {
@@ -35,11 +43,21 @@ function startInterval() {
     }, 60000);
     return 'less than a minute';
 }
+function onDateSelect(from, to) {
+    DatesMessage.send({ from: from.toISOString(), to: to.toISOString() });
+}
+DatesMessage.listen(({ from, to }) => {
+    studio.setPeriod(new Date(from), new Date(to));
+});
 </script>
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="widget-iCr6Ig" />
+    <ChartWidget {widget} class="widget-wZMNif">
+      {#if isCalendarEnabled}
+        <Calendar class="s-onsr22" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+      {/if}
+    </ChartWidget>
   </MetricErrorTooltipCtx>
 
   <div class="row justify txt-m mrg-xs mrg--t">
@@ -71,7 +89,11 @@ function startInterval() {
     --color-hover: var(--green);
   }
 
-  :global(.widget-iCr6Ig) {
+  :global(.widget-wZMNif) {
     height: 0 !important;
+  }
+
+  :global(.s-onsr22) {
+    margin-top: -4px;
   }
 </style>

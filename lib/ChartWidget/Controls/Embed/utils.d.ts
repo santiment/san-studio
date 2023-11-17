@@ -12,6 +12,8 @@ export declare function parseQueryString(qs: string): {
     isWithMetricSettings: boolean;
     isWatermarkHidden: boolean;
     isSharedAxisEnabled: boolean;
+    isMinimapEmbedded: boolean;
+    isCalendarEnabled: boolean;
     metrics: Metric[];
     metricIndicators: {
         [metricKey: string]: Set<string>;

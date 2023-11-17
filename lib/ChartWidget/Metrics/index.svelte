@@ -83,6 +83,8 @@ function onMetricLeave() {
     {/each}
   </div>
 
+  <slot />
+
   {#if !isOnlyChartEmbedded && $globals.isPresenterMode === false && AutoUpdater}
     <AutoUpdate {AutoUpdater} {changeStudioPeriod} />
   {/if}

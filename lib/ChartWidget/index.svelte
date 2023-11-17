@@ -7,7 +7,7 @@ import Widget from './Widget.svelte';
 import { initWidget, getOnLoadContext } from './context';
 import { debounced } from './utils';
 import { getSharedAccessHeaders } from './../api/timeseries/queries';
-const { isOnlyChartEmbedded, sharedAccessToken } = getAdapterController();
+const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController();
 let className = '';
 export { className as class };
 export let widget;
@@ -32,7 +32,8 @@ $: hiddenMetrics = $HiddenMetrics;
 $: visibleMetrics = metrics.filter((metric) => !hiddenMetrics.has(metric));
 $: ({ slug, address } = $studio);
 $: fetchData(visibleMetrics, $studio, $MetricSettings);
-$: isOnlyChartEmbedded !== true && fetchAllData(visibleMetrics, slug, address);
+$: (isMinimapEmbedded || isOnlyChartEmbedded !== true) &&
+    fetchAllData(visibleMetrics, slug, address);
 widget.fetchData = (cachePolicy) => fetchData(visibleMetrics, $studio, $MetricSettings, cachePolicy);
 let abortFetch;
 const fetchData = debounced((metrics, settings, MetricSettings, cachePolicy) => {
@@ -72,4 +73,6 @@ onDestroy(() => {
   {fullscreenMetricsFilter}
   {onLoad}
   class={className}
-/>
+>
+  <slot slot="metrics-right" />
+</Widget>
