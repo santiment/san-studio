@@ -37,6 +37,7 @@ export function isExchangeModifiable(metric: Studio.Metric) {
     base === Metric.exchange_outflow ||
     base === Metric.exchange_inflow ||
     base === Metric.exchange_balance ||
-    base === Metric.exchange_open_interest
+    base === Metric.exchange_open_interest ||
+    base === Metric.funding_rates_aggregated_by_exchange
   )
 }

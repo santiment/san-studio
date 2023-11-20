@@ -42,7 +42,7 @@
         <ExchangeSetting {metric} />
       {/if}
 
-      {#if metric === Metric.open_interest_per_settlement_currency}
+      {#if metric === Metric.open_interest_per_settlement_currency || metric === Metric.funding_rates_aggregated_by_settlement_currency}
         <SettlementCurrencySetting {metric} />
       {/if}
 

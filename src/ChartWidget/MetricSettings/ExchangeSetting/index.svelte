@@ -26,7 +26,9 @@
   let isDex = false
   let searchTerm = ''
 
-  $: isOpenInterestMetric = metric === Metric.exchange_open_interest
+  $: isOpenInterestMetric =
+    metric === Metric.exchange_open_interest ||
+    metric === Metric.funding_rates_aggregated_by_exchange
   $: metricDefaults = isOpenInterestMetric ? OpenInterestMetricsDefaults : ExchangeMetricsDefaults
   $: exchanges = metricDefaults.owners
   $: defaultExchange = metricDefaults.label
