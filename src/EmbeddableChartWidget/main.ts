@@ -4,7 +4,6 @@ import { studio } from '@/stores/studio'
 import { globals } from '@/stores/globals'
 import { newWidget } from '@/stores/widgets'
 import { parseQueryString } from '@/ChartWidget/Controls/Embed/utils'
-import { AssetMessage, ThemeMessage } from './utils'
 
 const {
   from,
@@ -25,15 +24,6 @@ studio.setProject({ from, to, slug, ticker })
 
 globals.toggle('isNightMode', isNightMode)
 document.body.classList.toggle('night-mode', isNightMode)
-
-AssetMessage.listen((asset) => {
-  studio.setProject(asset)
-})
-
-ThemeMessage.listen((theme) => {
-  globals.toggle('isNightMode', theme.dark)
-  document.body.classList.toggle('night-mode', theme.dark)
-})
 
 const app = new App({
   target: document.querySelector('body') as Element,
