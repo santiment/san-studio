@@ -20,8 +20,8 @@
   export let isWithMetricSettings = false
   export let sharedAccessToken: string | undefined
 
-  export let isCalendarEnabled = true
-  export let isMinimapEmbedded = true
+  export let isCalendarEnabled = false
+  export let isMinimapEmbedded = false
 
   const queryString = getViewOnSantimentLink($studio, widget)
   const AutoUpdater = newAutoUpdaterStore([widget])
