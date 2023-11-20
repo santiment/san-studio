@@ -10,7 +10,8 @@ import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svel
 import { getViewOnSantimentLink } from './utils';
 import sanSvg from './san.svg';
 import Calendar from './../Header/Calendar.svelte';
-import { DatesMessage } from './utils';
+import { DatesMessage, AssetMessage, ThemeMessage } from './utils';
+import { globals } from './../stores/globals';
 let className = '';
 export { className as class };
 export let widget = {};
@@ -48,6 +49,13 @@ function onDateSelect(from, to) {
 }
 DatesMessage.listen(({ from, to }) => {
     studio.setPeriod(new Date(from), new Date(to));
+});
+AssetMessage.listen((asset) => {
+    studio.setProject(asset);
+});
+ThemeMessage.listen((theme) => {
+    globals.toggle('isNightMode', theme.dark);
+    document.body.classList.toggle('night-mode', theme.dark);
 });
 </script>
 
