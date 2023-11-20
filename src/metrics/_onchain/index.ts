@@ -68,6 +68,17 @@ const ExchangesMetric = each(
       label: 'Daily Trading USD Volume',
       formatter: usdFormatter,
     },
+
+    funding_rates_aggregated_by_exchange: {
+      label: 'Funding Rates Aggregated by Exchange',
+      isRootExchangeKey: true,
+    },
+    funding_rates_aggregated_by_settlement_currency: {
+      label: 'Funding Rates Aggregated by Settlement Currency',
+    },
+    total_funding_rates_aggregated_per_asset: {
+      label: 'Total Funding Rates Aggregated by Asset',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Exchanges'

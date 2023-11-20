@@ -6,7 +6,12 @@ export function transformExchangeSettings(
   metricSettings: Studio.MetricSetting,
 ) {
   if (!isExchangeModifiable(metric)) return
-  if ((metric.base || metric).key !== Metric.exchange_open_interest.key) {
+
+  const baseKey = (metric.base || metric).key
+  if (
+    baseKey !== Metric.exchange_open_interest.key &&
+    baseKey !== Metric.funding_rates_aggregated_by_exchange
+  ) {
     return
   }
 

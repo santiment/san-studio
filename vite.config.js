@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import TsChecker from 'vite-plugin-ts-checker'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 process.env.GQL_SERVER_URL = 'https://api-stage.santiment.net/graphql'
@@ -10,7 +9,7 @@ process.env.ICONS_PATH = '/node_modules/san-webkit/lib/icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [TsChecker(), svelte()],
+  plugins: [svelte()],
   resolve: {
     alias: [
       {
