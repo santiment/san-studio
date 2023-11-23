@@ -4,6 +4,7 @@ export declare function parseQueryString(qs: string): {
     slug: any;
     ticker: any;
     address: any;
+    isUTC: boolean;
     from: any;
     to: any;
     sharedAccessToken: any;
