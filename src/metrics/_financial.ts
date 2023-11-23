@@ -39,6 +39,15 @@ const PriceVolatilityMetric = each(
   () => {},
 )
 
+const RSIMetric = each(
+  {
+    rsi_4h: { label: 'RSI 4h' },
+    rsi_1d: { label: 'RSI 1d' },
+    rsi_7d: { label: 'RSI 7d' },
+  },
+  () => {},
+)
+
 export const FinancialMetric = each(
   {
     price_usd: {
@@ -64,6 +73,7 @@ export const FinancialMetric = each(
       label: 'Volume',
     },
     ...PriceVolatilityMetric,
+    ...RSIMetric,
     ...NFTPrices,
   },
   (metric: Studio.Metric) => {
