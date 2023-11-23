@@ -41,6 +41,8 @@ interface Window {
   onCommentsLoaded?: () => void
   onCommentError?: () => void
   onCommentSubmitted?: () => void
+
+  isUTC?: boolean
 }
 
 type ChartNode = import('@/Chart/nodes').ChartNode
