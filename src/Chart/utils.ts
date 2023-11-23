@@ -10,12 +10,12 @@ export function clearCtx(chart, ctx = chart.ctx): void {
 }
 
 export function getDateDayMonthYear(date: number | Date): string {
-  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  const { DD, MMM, YY } = getDateFormats(new Date(date), { utc: window.isUTC })
   return `${DD} ${MMM} ${YY}`
 }
 
 export function getDateHoursMinutes(date: number | Date): string {
-  const { HH, mm } = getTimeFormats(new Date(date))
+  const { HH, mm } = getTimeFormats(new Date(date), { utc: window.isUTC })
   return `${HH}:${mm}`
 }
 
@@ -39,10 +39,11 @@ export function getDefaultTooltipSettings() {
   return {
     datetime: {
       formatter: (value: number) => {
+        const options = { utc: window.isUTC }
         const date = new Date(value)
-        const { HH, mm } = getTimeFormats(date)
-        const { MMMM, DD, YYYY } = getDateFormats(date)
-        return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
+        const { HH, mm } = getTimeFormats(date, options)
+        const { MMMM, DD, YYYY } = getDateFormats(date, options)
+        return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}` + (options.utc ? ' (UTC)' : '')
       },
     },
 

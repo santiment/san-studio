@@ -8,7 +8,12 @@ import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
-import { usdFormatter, mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
+import {
+  usdFormatter,
+  mvrvFormatter,
+  ratioPercentAxisFormatter,
+  ratioPercentForamtter,
+} from '@/metrics/formatters'
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
 import { mvrvPrecacher } from '@/api/timeseries/queries/mvrv'
 import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
@@ -70,14 +75,24 @@ const ExchangesMetric = each(
     },
 
     funding_rates_aggregated_by_exchange: {
+      node: 'greenRedBar',
       label: 'Funding Rates Aggregated by Exchange',
       isRootExchangeKey: true,
+
+      formatter: ratioPercentForamtter,
+      axisFormatter: ratioPercentAxisFormatter,
     },
     funding_rates_aggregated_by_settlement_currency: {
+      node: 'greenRedBar',
       label: 'Funding Rates Aggregated by Settlement Currency',
+      formatter: ratioPercentForamtter,
+      axisFormatter: ratioPercentAxisFormatter,
     },
     total_funding_rates_aggregated_per_asset: {
+      node: 'greenRedBar',
       label: 'Total Funding Rates Aggregated by Asset',
+      formatter: ratioPercentForamtter,
+      axisFormatter: ratioPercentAxisFormatter,
     },
   },
   (metric: Studio.Metric) => {

@@ -83,7 +83,7 @@ const parseJSON = (value: any) => value && JSON.parse(value)
 export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
   const { ps, pt, addr } = shared
-  const { sat, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
+  const { sat, utc, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
   const { emmmc, emcal } = shared
   const { wm, wax, wc, ws, wcm, wd } = shared
 
@@ -98,6 +98,8 @@ export function parseQueryString(qs: string) {
     slug: ps,
     ticker: pt,
     address: addr,
+
+    isUTC: utc ? true : false,
 
     from: df,
     to: dt || getTodaysEnd().toISOString(),
