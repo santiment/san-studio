@@ -21,7 +21,11 @@ export const INTERVALS = [
   makeInterval('8h', '8 hours'),
   makeInterval('12h', '12 hours'),
   makeInterval('1d', '1 day'),
+  makeInterval('2d', '2 days'),
+  makeInterval('3d', '3 days'),
+  makeInterval('4d', '4 days'),
   makeInterval('5d', '5 days'),
+  makeInterval('6d', '6 days'),
   makeInterval('7d', '7 days'),
 ] as Interval[]
 
