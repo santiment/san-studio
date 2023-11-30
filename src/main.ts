@@ -33,6 +33,9 @@ const app = new App({
   target: document.getElementById('app') as Element,
   context: new Map([[CTX, new Map()]]),
   props: {
+    title: 'XRP Social Dominance',
+    description:
+      'Track the on-chain activity on 18 decentralized exchanges, their daily volumes, number of trades and the usage rate of individual DEXes over time. This data is from the main decentralized exchanges namely Balancer, Bancor, Curve, dYdX, Etherdelta, Gnosis, IDEX, Kyber, Oasis, 0x, Tokenstore, Uniswap, AirSwap, DEX.Top and DDEX.',
     widgets: [
       newWidget(ChartWidget, { metrics: defaultMetrics }),
       // newWidget(ChartWidget, { metrics: [Metric.social_dominance_total] }),
