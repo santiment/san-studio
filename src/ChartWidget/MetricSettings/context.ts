@@ -13,6 +13,8 @@ export type MetricSetting = {
   owner?: string
   preTransform?: (...args: any[]) => any
   getPreTransformValue?: (...args: any[]) => any
+
+  __appliedInterval?: boolean
 }
 export type MetricSettings = {
   [metricKey: string]: MetricSetting | undefined
