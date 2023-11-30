@@ -41,9 +41,9 @@ const PriceVolatilityMetric = each(
 
 const RSIMetric = each(
   {
-    rsi_4h: { label: 'RSI 4h' },
-    rsi_1d: { label: 'RSI 1d' },
-    rsi_7d: { label: 'RSI 7d' },
+    rsi_4h: { label: 'RSI 4h', defaultInterval: '4h' },
+    rsi_1d: { label: 'RSI 1d', defaultInterval: '1d' },
+    rsi_7d: { label: 'RSI 7d', defaultInterval: '7d' },
   },
   () => {},
 )
