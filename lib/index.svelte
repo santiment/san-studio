@@ -38,6 +38,8 @@ export let onSidebarProjectMount = undefined;
 export let headerPadding = 65;
 export let HistoryEmitter = newHistoryEmitter();
 export let History = newHistoryContext(HistoryEmitter.set);
+export let title = '';
+export let description = '';
 if (defaultSettings)
     studio.setProject(defaultSettings);
 const Widgets = initWidgets(widgets, getExternalWidget, History);
@@ -84,11 +86,19 @@ onDestroy(() => {
   <div class="studio-top">
     <MasterAsset />
   </div>
+
   <div class="row">
     <Sidebar {Widgets} {Sidewidget} {adjustSelectedMetric} />
     <div class="content column">
       {#if !screen}
         <Header {headerPadding} />
+
+        {#if title && description}
+          <article class="border mrg-m mrg--b">
+            <h1 class="body-1 txt-m mrg-s mrg--b">{title}</h1>
+            <p class="c-fiord">{description}</p>
+          </article>
+        {/if}
 
         <div class="row main" bind:this={screenRef}>
           <div class="widgets">
@@ -150,5 +160,13 @@ onDestroy(() => {
 
   .main {
     flex: 1;
+  }
+
+  article {
+    padding: 16px 24px;
+  }
+
+  p {
+    max-width: 905px;
   }
 </style>
