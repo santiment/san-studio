@@ -20,7 +20,7 @@
   let unsubscribe: ReturnType<typeof subscribeLayoutCommentsCountCache>
 
   $: layout = $selectedLayout
-  $: ({ id, title, user } = layout || {})
+  $: ({ id, title, description, user } = layout || {})
   $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
   $: if (process.browser && id) {
     getVotes(id)
@@ -60,7 +60,7 @@
 <CreationInfo
   type={CreationType.Layout}
   {id}
-  {title}
+  title={description ? '' : title}
   {user}
   {votes}
   source="charts"
@@ -74,7 +74,9 @@
   {onEditClick}
   {onVote}
 >
-  <svelte:fragment slot="info">
+  <!--
+  <svelte:fragment slot="info"> 
     <LayoutInfo {layout} />
   </svelte:fragment>
+-->
 </CreationInfo>

@@ -52,7 +52,7 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.8.4",
     "prettier-plugin-svelte": "^2.9.0",
-    "san-webkit": "https://github.com/santiment/san-webkit#479a45b",
+    "san-webkit": "https://github.com/santiment/san-webkit#2447629",
     "sass": "^1.49.8",
     "svelte": "^4.1.1",
     "svelte-check": "^1.5.2",
