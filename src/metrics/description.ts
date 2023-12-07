@@ -135,7 +135,10 @@ This an oscillating indicator, which reaches extreme negative values at the bott
     .key]: `Shows how many coins/tokens that have not been moved for more than 365 days were transacted during a day. This is useful for spotting when really old Bitcoins move.`,
   [Metric.stock_to_flow
     .key]: `Stock To Flow ratio model is a measure of scarcity/abundance of particular resource. It shows how much supply enters yearly relative to the total supply of the resource. We measure Stock To Flow ratio for a given asset as the ratio between <a href='https://academy.santiment.net/metrics/circulation/'>Total Circulation</a> of the asset and the daily minted coins multiplied by days in one year`,
-
+  [Metric.total_supply_in_profit
+    .key]: `Total Supply in profit shows the amount of tokens that were ever bought at lower price then the current price of a token.`,
+  [Metric.percent_of_total_supply_in_profit
+    .key]: `Percent of Total Supply in profit is a measure of market hype or depression. We measure Percent of Total Supply in profit for a given asset as the ratio between <a href='https://academy.santiment.net/metrics/supply-in-profit/'>Total Supply in profit</a> and <a href='https://academy.santiment.net/metrics/circulation/'>Total Circulation</a>  of the asset `,
   [Metric.defi_total_value_locked_usd.key]:
     'Shows total value locked in DeFi projects, available in USD.',
   [Metric.price_daa_divergence.key]:

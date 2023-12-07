@@ -63,6 +63,8 @@ const METRICS = [
 
       Metric.dormant_circulation_365d,
       Metric.stock_to_flow,
+      Metric.total_supply_in_profit,
+      Metric.percent_of_total_supply_in_profit,
       Metric.active_addresses_24h,
 
       Metric.mcd_locked_token,
