@@ -280,10 +280,10 @@ const NetworkValueMetric = each(
       label: 'Stock to Flow ratio',
     },
     total_supply_in_profit: {
-      label: 'Total Supply in profit',
+      label: 'Total Supply in Profit',
     },
     percent_of_total_supply_in_profit: {
-      label: 'Percent of Total Supply in profit',
+      label: 'Percent of Total Supply in Profit',
     },
   },
   (metric: Studio.Metric) => (metric.group = 'Network Value'),
