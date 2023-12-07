@@ -6,7 +6,7 @@ import { Event } from './../analytics';
 import { selectedLayout } from './../stores/layout';
 import { currentUser } from './../stores/user';
 import { SidewidgetType, getSidewidget } from './../stores/widgets';
-import LayoutInfo from './../Layouts/LayoutInfo.svelte';
+import './../Layouts/LayoutInfo.svelte';
 import { queryLayoutVotes } from './../api/layouts/votes';
 import { queryLayoutCommentsCount, subscribeLayoutCommentsCountCache, } from './../api/layouts/comments';
 const Sidewidget = getSidewidget();
@@ -14,7 +14,7 @@ let votes = newVotes();
 let commentsCount = 0;
 let unsubscribe;
 $: layout = $selectedLayout;
-$: ({ id, title, user } = layout || {});
+$: ({ id, title, description, user } = layout || {});
 $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id;
 $: if (process.browser && id) {
     getVotes(id);
@@ -49,7 +49,7 @@ function onEditClick() {
 <CreationInfo
   type={CreationType.Layout}
   {id}
-  {title}
+  title={description ? '' : title}
   {user}
   {votes}
   source="charts"
@@ -63,7 +63,9 @@ function onEditClick() {
   {onEditClick}
   {onVote}
 >
-  <svelte:fragment slot="info">
+  <!--
+  <svelte:fragment slot="info"> 
     <LayoutInfo {layout} />
   </svelte:fragment>
+-->
 </CreationInfo>
