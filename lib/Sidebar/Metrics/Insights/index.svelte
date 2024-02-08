@@ -38,12 +38,12 @@ onDestroy(() => {
   onItemClick={(_, item) => InsightsContextStore.set(item)}
 >
   <svelte:fragment slot="pre-title">
-    <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r icon-ehSV17" />
+    <Svg id="lightbulb" w="12" h="18" class="mrg-s mrg--r icon-73L2Pf" />
   </svelte:fragment>
 </Category>
 
 <style>
-  :global(.icon-ehSV17) {
+  :global(.icon-73L2Pf) {
     fill: var(--green) !important;
   }
 </style>

@@ -66,7 +66,7 @@ function filter(exchanges) {
 }
 </script>
 
-<Dropdown class="dropdown-Wyh6LV">
+<Dropdown class="dropdown-eIN_2d">
   Exchange: {metricOwner}
 
   <svelte:fragment slot="dropdown">
@@ -78,7 +78,7 @@ function filter(exchanges) {
     </div>
 
     <Search
-      class="search-mwWeJD mrg-s mrg--b"
+      class="search-kX8f4k mrg-s mrg--b"
       autofocus
       placeholder="Type to search"
       on:input={onSearch}
@@ -130,11 +130,11 @@ function filter(exchanges) {
     min-width: 165px;
   }
 
-  :global(.search-mwWeJD) {
+  :global(.search-kX8f4k) {
     max-width: 170px;
   }
 
-  :global(.dropdown-Wyh6LV) {
+  :global(.dropdown-eIN_2d) {
     --max-height: 230px;
   }
 </style>
