@@ -14,6 +14,10 @@ export const LABELS = [
   'Bitstamp',
 ] as const
 
+export const DISPLAY_LABELS: Partial<Record<(typeof LABELS)[number], string>> = {
+  OKEx: 'OKX',
+}
+
 const ExchangesV2Metric = {
   labelled_historical_balance: { label: '' } as Studio.Metric,
 }
@@ -24,7 +28,7 @@ const eachLabel = (clb: (label: string, label_fqn: string) => void) =>
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhb_' + label] = {
     queryKey: 'labelled_historical_balance',
-    label: `${label} Historical Balance`,
+    label: `${DISPLAY_LABELS[label] ?? label} Historical Balance`,
     reqMeta: { label_fqn },
   }
 })
@@ -32,7 +36,7 @@ eachLabel((label, label_fqn) => {
 eachLabel((label, label_fqn) => {
   ExchangesV2Metric['lhbc_' + label] = {
     queryKey: 'labelled_historical_balance_changes',
-    label: `${label} Historical Balance Changes`,
+    label: `${DISPLAY_LABELS[label] ?? label} Historical Balance Changes`,
     reqMeta: { label_fqn },
   }
 })
