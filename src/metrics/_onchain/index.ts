@@ -405,6 +405,14 @@ export const OnChainMetric = each(
       holders_distribution_total: {
         label: 'Total Amount Of Holders',
       },
+
+      annual_inflation_rate: {
+        label: 'Annual Inflation Rate',
+      },
+
+      gini_index: {
+        label: 'Gini Index',
+      },
     },
 
     XrpMetric,
