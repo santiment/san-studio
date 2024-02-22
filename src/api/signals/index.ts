@@ -2,7 +2,7 @@ import { query } from 'webkit/api'
 
 const SIGNAL_QUERY = `
   query getSignal(
-    $signal: String
+    $signal: String!
     $slug: String
     $from: DateTime!
     $to: DateTime!
