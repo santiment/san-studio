@@ -29,12 +29,17 @@ const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
-): Promise<string[]> =>
-  query<any>(
+): Promise<string[]> => {
+  if (slug.includes('yahoo')) {
+    return Promise.resolve(['transaction_volume'])
+  }
+
+  return query<any>(
     // TODO: Remove stablecoins check when backend is ready [@vanguard | Jun  9, 2021]
     PROJECT_AVAILABLE_METRIC_QUERY(slug === 'stablecoins' ? 'tether' : slug),
     options,
   ).catch(catchMetrics) as any
+}
 
 // TODO: Ask backend to provide avaiableMetrics for addresses
 const ADDRESS_METRICS = [

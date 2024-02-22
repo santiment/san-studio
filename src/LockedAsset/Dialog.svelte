@@ -14,7 +14,23 @@
   export let onSelect
   export let DialogCtx
 
-  const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]]
+  const LIST_OF_ASSETS = [
+    ...TABS,
+    [
+      'Fiat',
+      () =>
+        queryFiatAssets().then((data) => {
+          return data.concat([
+            { slug: 'GBTC_yahoo_finance', name: 'Yahoo Finance GBTC', ticker: 'GBTC' },
+            { slug: 'IBIT_yahoo_finance', name: 'Yahoo Finance IBIT', ticker: 'IBIT' },
+            { slug: 'FBTC_yahoo_finance', name: 'Yahoo Finance FBTC', ticker: 'FBTC' },
+            { slug: 'ARKB_yahoo_finance', name: 'Yahoo Finance ARKB', ticker: 'ARKB' },
+            { slug: 'BTCO_yahoo_finance', name: 'Yahoo Finance BTCO', ticker: 'BTCO' },
+            { slug: 'BITB_yahoo_finance', name: 'Yahoo Finance BITB', ticker: 'BITB' },
+          ])
+        }),
+    ],
+  ]
 </script>
 
 <Dialog {...$$props} title="Select asset" class="$style.dialog">
