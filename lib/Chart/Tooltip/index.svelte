@@ -32,7 +32,7 @@ canvas.ontouchend = canvas.onmouseleave = () => {
         clearCtx(chart, ctx);
     if (tooltipSynchronizer)
         tooltipSynchronizer.sync(chart);
-    document.body.classList.remove('hovering-ZlBaIk');
+    document.body.classList.remove('hovering-19ixgY');
 };
 canvas.ontouchstart =
     canvas.ontouchmove =
@@ -42,8 +42,8 @@ canvas.ontouchstart =
                     return;
                 const isMouveEvent = e instanceof MouseEvent;
                 if (isMouveEvent === false) {
-                    if (document.body.classList.contains('hovering-ZlBaIk') === false) {
-                        document.body.classList.add('hovering-ZlBaIk');
+                    if (document.body.classList.contains('hovering-19ixgY') === false) {
+                        document.body.classList.add('hovering-19ixgY');
                     }
                 }
                 const { top, bottom } = chart;
@@ -108,13 +108,13 @@ onDestroy(() => {
     if (tooltipSynchronizer)
         tooltipSynchronizer.delete(chart);
     if (process.browser) {
-        document.body.classList.remove('hovering-ZlBaIk');
+        document.body.classList.remove('hovering-19ixgY');
     }
 });
 </script>
 
 <style>
-  :global(.hovering-ZlBaIk) {
+  :global(.hovering-19ixgY) {
     overflow: hidden !important;
   }
 </style>

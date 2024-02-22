@@ -55,7 +55,7 @@ function customRestrictions(queryKey, { slug } = {}) {
 </script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-LJmWfF">
+  <Tooltip duration={0} openDelay={110} align="center" class="tooltip-L1WTvQ">
     <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
       Incomplete data
     </div>
@@ -90,7 +90,7 @@ function customRestrictions(queryKey, { slug } = {}) {
     --color-hover: var(--orange-hover);
   }
 
-  :global(.tooltip-LJmWfF) {
+  :global(.tooltip-L1WTvQ) {
     padding: 16px 24px;
     width: 285px;
     z-index: 11 !important;
