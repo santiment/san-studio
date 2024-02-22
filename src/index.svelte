@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { newHistoryContext, newHistoryEmitter } from 'webkit/ui/history'
   import { newAppTooltipsCtx, getAppTooltipsCtx } from 'webkit/ui/Tooltip/ctx'
   import HistoryAction from '@/history/Action.svelte'
@@ -42,6 +43,8 @@
   export let History = newHistoryContext(HistoryEmitter.set)
   export let title = ''
   export let description = ''
+  export let projectName = ''
+  export let metricsList = ''
 
   if (defaultSettings) studio.setProject(defaultSettings)
   const Widgets = initWidgets(widgets, getExternalWidget, History)
@@ -103,9 +106,20 @@
         <Header {headerPadding} />
 
         {#if title && description}
-          <article class="border mrg-m mrg--b">
-            <h1 class="body-1 txt-m mrg-s mrg--b">{title}</h1>
+          <article class="border mrg-m mrg--b column gap-s">
+            <h1 class="body-1 txt-m">{title}</h1>
             <p class="c-fiord">{description}</p>
+            <div class="row mrg-m mrg--t">
+              <asset class="row v-center gap-s">
+                <Svg id="asset-small" w="12" />
+                {projectName || 'Bitcoin'}
+              </asset>
+
+              <metrics class="row v-center gap-s">
+                <Svg id="bars" w="12" class="mrg-s mrg--r" />
+                {metricsList}
+              </metrics>
+            </div>
           </article>
         {/if}
 
@@ -177,5 +191,20 @@
 
   p {
     max-width: 905px;
+  }
+
+  asset,
+  metrics {
+    fill: var(--waterloo);
+  }
+
+  asset::after {
+    display: block;
+    content: '';
+    height: 4px;
+    width: 4px;
+    border-radius: 50%;
+    background: var(--mystic);
+    margin: 0 12px 0 4px;
   }
 </style>

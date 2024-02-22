@@ -24,7 +24,7 @@
     ctx.globalCompositeOperation = 'destination-over'
     ctx.translate((right - left) / 2 - 200, (bottom - top) / 2 - 60)
     ctx.scale(0.5, 0.5)
-    ctx.fillStyle = theme.axes + (isLessVisible ? '60' : 'F0')
+    ctx.fillStyle = theme.axes + (isLessVisible ? '90' : 'FA')
     ctx.fill(path)
     ctx.restore()
   }

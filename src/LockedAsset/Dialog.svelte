@@ -10,11 +10,21 @@
   import Dialog from 'webkit/ui/Dialog'
   import ListOfAssets from 'webkit/ui/ListOfAssets/index.svelte'
   import { TABS } from 'webkit/ui/ListOfAssets/Tabs.svelte'
+  import { FIAT_FUND_ASSETS } from '../api/metrics'
 
   export let onSelect
   export let DialogCtx
 
-  const LIST_OF_ASSETS = [...TABS, ['Fiat', queryFiatAssets]]
+  const LIST_OF_ASSETS = [
+    ...TABS,
+    [
+      'Fiat',
+      () =>
+        queryFiatAssets().then((data) => {
+          return data.concat(FIAT_FUND_ASSETS)
+        }),
+    ],
+  ]
 </script>
 
 <Dialog {...$$props} title="Select asset" class="$style.dialog">

@@ -25,16 +25,32 @@ function precacher() {
 }
 const options = { precacher }
 
+export const FIAT_FUND_ASSETS = [
+  { slug: 'gbtc', name: 'GBTC', ticker: 'GBTC' },
+  { slug: 'ibit', name: 'IBIT', ticker: 'IBIT' },
+  { slug: 'fbtc', name: 'FBTC', ticker: 'FBTC' },
+  { slug: 'arkb', name: 'ARKB', ticker: 'ARKB' },
+  { slug: 'btco', name: 'BTCO', ticker: 'BTCO' },
+  { slug: 'bitb', name: 'BITB', ticker: 'BITB' },
+]
+
 const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
-): Promise<string[]> =>
-  query<any>(
+): Promise<string[]> => {
+  const fundSet = new Set(FIAT_FUND_ASSETS.map((v) => v.slug))
+
+  if (fundSet.has(slug)) {
+    return Promise.resolve(['volume_usd'])
+  }
+
+  return query<any>(
     // TODO: Remove stablecoins check when backend is ready [@vanguard | Jun  9, 2021]
     PROJECT_AVAILABLE_METRIC_QUERY(slug === 'stablecoins' ? 'tether' : slug),
     options,
   ).catch(catchMetrics) as any
+}
 
 // TODO: Ask backend to provide avaiableMetrics for addresses
 const ADDRESS_METRICS = [
