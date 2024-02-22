@@ -31,6 +31,7 @@ export const Metric = each(
 
 export const MvrvTimebounds = newTimebounds(Metric.mvrv_usd)
 export const MvrvUsdIntradayTimebounds = newTimebounds(Metric.mvrv_usd_intraday)
+export const RealizedCapHodlWavesTimebounds = newTimebounds(Metric.realized_cap_hodl_waves)
 export const RealizedCapTimebounds = newTimebounds(Metric.realized_value_usd)
 export const CirculationTimebounds = newTimebounds(Metric.circulation)
 export const DormantCirculationTimebounds = newTimebounds(
@@ -69,6 +70,7 @@ Object.assign(
   MvrvTimebounds,
   MvrvUsdIntradayTimebounds,
   RealizedCapTimebounds,
+  RealizedCapHodlWavesTimebounds,
   CirculationTimebounds,
   DormantCirculationTimebounds,
   MeanAgeTimebounds,

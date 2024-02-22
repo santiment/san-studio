@@ -276,6 +276,9 @@ const NetworkValueMetric = each(
     realized_value_usd: {
       label: 'Realized Cap',
     },
+    realized_cap_hodl_waves: {
+      label: 'Realized Cap HODL Waves',
+    },
     stock_to_flow: {
       label: 'Stock to Flow ratio',
     },

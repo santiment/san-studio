@@ -64,6 +64,9 @@ export const Description = {
   [Metric.realized_value_usd.key]:
     'Shows the total amount that all [Project Ticker] holders spent to purchase their tokens (i.e. the total acquisition cost). Realized cap is calculated by multiplying the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain',
 
+  [Metric.realized_cap_hodl_waves.key]:
+    'Shows the percentage of [Project Ticker] realized cap for a given timebound interval in total realized cap value. Realized cap HODL waves is calculated by dividing the [Project Ticker] realized cap in given period by [Project Ticker] total realized cap',
+
   [Metric.gasUsed.key]:
     'Shows the amount of Gas accrued on the Ethereum network daily. Gas is a unit that measures the amount of computational effort it will take to successfully conduct a transaction or execute a contract on the Ethereum blockchain',
 
