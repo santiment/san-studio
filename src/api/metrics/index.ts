@@ -25,13 +25,24 @@ function precacher() {
 }
 const options = { precacher }
 
+export const FIAT_FUND_ASSETS = [
+  { slug: 'gbtc', name: 'GBTC', ticker: 'GBTC' },
+  { slug: 'ibit', name: 'IBIT', ticker: 'IBIT' },
+  { slug: 'fbtc', name: 'FBTC', ticker: 'FBTC' },
+  { slug: 'arkb', name: 'ARKB', ticker: 'ARKB' },
+  { slug: 'btco', name: 'BTCO', ticker: 'BTCO' },
+  { slug: 'bitb', name: 'BITB', ticker: 'BITB' },
+]
+
 const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
 ): Promise<string[]> => {
-  if (slug.includes('yahoo')) {
-    return Promise.resolve(['transaction_volume'])
+  const fundSet = new Set(FIAT_FUND_ASSETS.map((v) => v.slug))
+
+  if (fundSet.has(slug)) {
+    return Promise.resolve(['volume_usd'])
   }
 
   return query<any>(

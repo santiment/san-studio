@@ -10,6 +10,7 @@
   import Dialog from 'webkit/ui/Dialog'
   import ListOfAssets from 'webkit/ui/ListOfAssets/index.svelte'
   import { TABS } from 'webkit/ui/ListOfAssets/Tabs.svelte'
+  import { FIAT_FUND_ASSETS } from '../api/metrics'
 
   export let onSelect
   export let DialogCtx
@@ -20,14 +21,7 @@
       'Fiat',
       () =>
         queryFiatAssets().then((data) => {
-          return data.concat([
-            { slug: 'GBTC_yahoo_finance', name: 'Yahoo Finance GBTC', ticker: 'GBTC' },
-            { slug: 'IBIT_yahoo_finance', name: 'Yahoo Finance IBIT', ticker: 'IBIT' },
-            { slug: 'FBTC_yahoo_finance', name: 'Yahoo Finance FBTC', ticker: 'FBTC' },
-            { slug: 'ARKB_yahoo_finance', name: 'Yahoo Finance ARKB', ticker: 'ARKB' },
-            { slug: 'BTCO_yahoo_finance', name: 'Yahoo Finance BTCO', ticker: 'BTCO' },
-            { slug: 'BITB_yahoo_finance', name: 'Yahoo Finance BITB', ticker: 'BITB' },
-          ])
+          return data.concat(FIAT_FUND_ASSETS)
         }),
     ],
   ]
