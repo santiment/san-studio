@@ -115,10 +115,12 @@
                 {projectName || 'Bitcoin'}
               </asset>
 
-              <metrics class="row v-center gap-s">
-                <Svg id="bars" w="12" class="mrg-s mrg--r" />
-                {metricsList}
-              </metrics>
+              {#if metricsList}
+                <metrics class="row v-center gap-s">
+                  <Svg id="bars" w="12" class="mrg-s mrg--r" />
+                  {metricsList}
+                </metrics>
+              {/if}
             </div>
           </article>
         {/if}
@@ -158,7 +160,8 @@
     position: relative;
   }
 
-  .column {
+  main,
+  .content {
     flex: 1 1;
     min-width: 0;
   }
@@ -198,7 +201,7 @@
     fill: var(--waterloo);
   }
 
-  asset::after {
+  metrics::before {
     display: block;
     content: '';
     height: 4px;
