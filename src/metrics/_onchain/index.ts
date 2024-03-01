@@ -3,6 +3,7 @@ import { XrpMetric } from './xrp'
 import { MakerDaoMetric } from './makerDao'
 import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
+import { LiquityMetric } from './liquity'
 import { ExchangesV2Metric } from './exchangesV2'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
@@ -371,6 +372,7 @@ export const OnChainMetric = each(
     Aave3Metric,
     CompoundMetric,
     Compound3Metric,
+    LiquityMetric,
     BeaconMetric,
 
     NFTMetric,
