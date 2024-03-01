@@ -4,6 +4,7 @@ export declare const Metric: {
 };
 export declare const MvrvTimebounds: {};
 export declare const MvrvUsdIntradayTimebounds: {};
+export declare const RealizedCapHodlWavesTimebounds: {};
 export declare const RealizedCapTimebounds: {};
 export declare const CirculationTimebounds: {};
 export declare const DormantCirculationTimebounds: {};

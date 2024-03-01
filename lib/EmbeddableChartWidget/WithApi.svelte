@@ -61,9 +61,9 @@ ThemeMessage.listen((theme) => {
 
 <div class="column {className}">
   <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="widget-wZMNif">
+    <ChartWidget {widget} class="widget-Z3Kj4I">
       {#if isCalendarEnabled}
-        <Calendar class="s-onsr22" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+        <Calendar class="s-18wdmz8" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
       {/if}
     </ChartWidget>
   </MetricErrorTooltipCtx>
@@ -97,11 +97,11 @@ ThemeMessage.listen((theme) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-wZMNif) {
+  :global(.widget-Z3Kj4I) {
     height: 0 !important;
   }
 
-  :global(.s-onsr22) {
+  :global(.s-18wdmz8) {
     margin-top: -4px;
   }
 </style>

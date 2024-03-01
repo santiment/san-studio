@@ -59,7 +59,7 @@ function onAutoClick() {
 </script>
 
 <Dropdown>
-  <Svg id="interval" w="16" h="12" class="mrg-s mrg--r icon-4czvXl" />
+  <Svg id="interval" w="16" h="12" class="mrg-s mrg--r icon-ENCe3w" />
   Interval:
   {#if metricInterval} {metricInterval} {:else} Auto ({autoInterval}) {/if}
 
@@ -83,7 +83,7 @@ function onAutoClick() {
 </Dropdown>
 
 <style>
-  :global(.icon-4czvXl) {
+  :global(.icon-ENCe3w) {
     fill: var(--waterloo);
   }
 </style>

@@ -98,7 +98,7 @@ onDestroy(onMouseLeave);
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="blockchain-L+x8NO" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-kouERE" />
     {/if}
   {/await}
 
@@ -141,7 +141,7 @@ onDestroy(onMouseLeave);
     z-index: 11;
   }
 
-  :global(.blockchain-L\+x8NO) {
+  :global(.blockchain-kouERE) {
     position: absolute;
     right: -6px;
     top: -6px;

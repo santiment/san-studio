@@ -1,12 +1,3 @@
-export declare const WhalesMetric: {
-    topHoldersPercentOfTotalSupply: import("./../../metrics/utils").Node<Studio.Metric, "topHoldersPercentOfTotalSupply">;
-    amount_in_exchange_top_holders: import("./../../metrics/utils").Node<Studio.Metric, "amount_in_exchange_top_holders">;
-    amount_in_non_exchange_top_holders: import("./../../metrics/utils").Node<Studio.Metric, "amount_in_non_exchange_top_holders">;
-    amount_in_top_holders: import("./../../metrics/utils").Node<Studio.Metric, "amount_in_top_holders">;
-    whale_transaction_count_100k_usd_to_inf: import("./../../metrics/utils").Node<Studio.Metric, "whale_transaction_count_100k_usd_to_inf">;
-    whale_transaction_count_1m_usd_to_inf: import("./../../metrics/utils").Node<Studio.Metric, "whale_transaction_count_1m_usd_to_inf">;
-    percent_of_whale_stablecoin_total_supply: import("./../../metrics/utils").Node<Studio.Metric, "percent_of_whale_stablecoin_total_supply">;
-};
 export declare const DefiMetric: {
     defi_total_value_locked_usd: import("./../../metrics/utils").Node<Studio.Metric, "defi_total_value_locked_usd">;
 };
