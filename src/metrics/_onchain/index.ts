@@ -164,9 +164,6 @@ const LongTermHoldersMetric = each(
     spent_coins_age_band_0d_to_1d: {
       label: 'Spent Coins Age Band',
     },
-    realized_cap_hodl_waves_1d_to_7d: {
-      label: 'Realized Market Capitalization Hodl Waves',
-    },
   },
   (metric: Studio.Metric) => (metric.group = 'Long-term holders'),
 )
@@ -218,6 +215,9 @@ const NetworkValueMetric = each(
     },
     realized_value_usd: {
       label: 'Realized Cap',
+    },
+    realized_cap_hodl_waves_0d_to_1d: {
+      label: 'Realized Cap HODL Waves (0d to 1d)',
     },
     stock_to_flow: {
       label: 'Stock to Flow ratio',

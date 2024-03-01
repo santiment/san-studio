@@ -33,6 +33,29 @@ export const Metric = each(
 
 export const MvrvTimebounds = newTimebounds(Metric.mvrv_usd)
 export const MvrvUsdIntradayTimebounds = newTimebounds(Metric.mvrv_usd_intraday)
+
+const REALIZED_CAP_HODL_WAVES_TIMEBOUNDS = [
+  '1d_to_7d',
+  '7d_to_30d',
+  '30d_to_60d',
+  '60d_to_90d',
+  '90d_to_180d',
+  '180d_to_365d',
+  '365d_to_2y',
+  '2y_to_3y',
+  '3y_to_5y',
+  '5y_to_10y',
+  '10y_to_20y',
+]
+export const RealizedCapHodlWavesTimebounds = newTimebounds(
+  Metric.realized_cap_hodl_waves_0d_to_1d,
+  REALIZED_CAP_HODL_WAVES_TIMEBOUNDS,
+  {
+    key: 'realized_cap_hodl_waves',
+    label: 'Realized Cap HODL Waves',
+  },
+)
+
 export const RealizedCapTimebounds = newTimebounds(Metric.realized_value_usd)
 export const CirculationTimebounds = newTimebounds(Metric.circulation)
 export const DormantCirculationTimebounds = newTimebounds(
@@ -71,6 +94,7 @@ Object.assign(
   MvrvTimebounds,
   MvrvUsdIntradayTimebounds,
   RealizedCapTimebounds,
+  RealizedCapHodlWavesTimebounds,
   CirculationTimebounds,
   DormantCirculationTimebounds,
   MeanAgeTimebounds,
