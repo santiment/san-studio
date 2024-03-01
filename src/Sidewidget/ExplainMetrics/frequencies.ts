@@ -59,6 +59,7 @@ const METRICS = [
       Metric.supply_outside_exchanges,
       Metric.percent_of_total_supply_on_exchanges,
       Metric.realized_value_usd,
+      Metric.realized_cap_hodl_waves_0d_to_1d,
       Metric.velocity,
 
       Metric.dormant_circulation_365d,

@@ -5,6 +5,7 @@ export enum MetricCategory {
   Derivatives = 'Derivatives',
   Indicators = 'Indicators',
   OnChain = 'On-chain',
+  OnChainLabels = 'On-chain Labels',
 }
 
 export enum MetricGroup {
@@ -16,6 +17,10 @@ export enum MetricGroup {
 
   // On-chain groups
   SupplyDistribution = 'Supply distribution',
+
+  //On-chain Labels groups
+  Exchanges = 'Exchanges',
+  TopHolders = 'Top Holders',
 }
 
 export type SelectorNode =

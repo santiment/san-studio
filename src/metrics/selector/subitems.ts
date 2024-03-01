@@ -9,10 +9,12 @@ import {
   MeanDollarInvestedAgeTimebounds,
   Eth2StakersRealizedTimebounds,
   Eth2StakersMvrvTimebounds,
+  RealizedCapHodlWavesTimebounds,
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
 import { NotableSignal, getNotableItem } from '../_notables'
+import { MetricGroup } from '../graph'
 
 SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
@@ -39,7 +41,7 @@ SelectorNode.FeesDistribution = {
 SelectorNode.HoldersDistributionTable = {
   key: 'HoldersDistributionTable',
   label: 'Top Holders Table',
-  group: 'Whales',
+  group: MetricGroup.TopHolders,
   selectorType: SelectorType.Widget,
 }
 
@@ -54,7 +56,7 @@ SelectorNode.TopTransactionsTable = {
 SelectorNode.TopExchangesTable = {
   key: 'TopExchangesTable',
   label: 'Holdings on the top exchanges',
-  group: 'Whales',
+  group: MetricGroup.Exchanges,
   shorthand: 'hte',
   selectorType: SelectorType.Widget,
 }
@@ -81,6 +83,7 @@ export const Subitems = {
   [Metric.mvrv_usd.key]: Object.values(MvrvTimebounds),
   [Metric.mvrv_usd_intraday.key]: Object.values(MvrvUsdIntradayTimebounds),
   [Metric.realized_value_usd.key]: Object.values(RealizedCapTimebounds),
+  [Metric.realized_cap_hodl_waves_0d_to_1d.key]: Object.values(RealizedCapHodlWavesTimebounds),
   [Metric.circulation.key]: Object.values(CirculationTimebounds),
   [Metric.dormant_circulation_365d.key]: Object.values(DormantCirculationTimebounds),
   [Metric.mean_age.key]: Object.values(MeanAgeTimebounds),

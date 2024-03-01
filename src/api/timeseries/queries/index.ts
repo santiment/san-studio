@@ -25,6 +25,7 @@ export const GET_METRIC = `
     $address: String
     $nftAddress: String
     $includeIncompleteData: Boolean = true
+    $ecosystems: [String]
   ) {
     getMetric(metric: $metric) {
       timeseriesData(
@@ -43,6 +44,7 @@ export const GET_METRIC = `
           owner: $owner
           label: $label
           labelFqn: $label_fqn
+          ecosystems: $ecosystems
         }
         from: $from
         to: $to

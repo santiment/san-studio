@@ -3,6 +3,7 @@ import { XrpMetric } from './xrp'
 import { MakerDaoMetric } from './makerDao'
 import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
+import { LiquityMetric } from './liquity'
 import { ExchangesV2Metric } from './exchangesV2'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
@@ -17,7 +18,6 @@ import {
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
 import { mvrvPrecacher } from '@/api/timeseries/queries/mvrv'
 import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
-import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
 
 const ExchangesMetric = each(
   {
@@ -29,16 +29,6 @@ const ExchangesMetric = each(
     deposit_transactions: {
       label: 'Deposit Transactions',
       queryKey: 'deposit_transactions_5m',
-    },
-    exchange_balance: {
-      label: 'Exchange Flow Balance',
-      shorthand: 'efb',
-    },
-    exchange_inflow: {
-      label: 'Exchange Inflow',
-    },
-    exchange_outflow: {
-      label: 'Exchange Outflow',
     },
     exchange_open_interest: {
       label: 'Open Interest in USD per Exchange',
@@ -52,15 +42,6 @@ const ExchangesMetric = each(
     total_open_interest: {
       label: 'Total Open Interest in USD',
       formatter: usdFormatter,
-    },
-    percent_of_total_supply_on_exchanges: {
-      label: 'Supply on Exchanges (as % of total supply)',
-    },
-    supply_on_exchanges: {
-      label: 'Supply on Exchanges',
-    },
-    supply_outside_exchanges: {
-      label: 'Supply outside of Exchanges',
     },
     withdrawal_transactions: {
       label: 'Withdrawal Transactions',
@@ -99,43 +80,6 @@ const ExchangesMetric = each(
     metric.group = 'Exchanges'
     metric.checkIsVisible = ({ slug }) => slug !== 'xrp' && slug !== 'ripple'
   },
-)
-
-export const WhalesMetric = each(
-  {
-    topHoldersPercentOfTotalSupply: {
-      label: 'Supply held by top addresses (as % of total supply)',
-      shorthand: 'ahta',
-      fetch: queryTopHoldersPercentOfTatalSupply,
-    },
-    amount_in_exchange_top_holders: {
-      label: 'Supply held by top exchange addresses',
-    },
-    amount_in_non_exchange_top_holders: {
-      label: 'Supply held by top non-exchange addresses',
-    },
-    amount_in_top_holders: {
-      label: 'Supply held by top addresses',
-    },
-    whale_transaction_count_100k_usd_to_inf: {
-      label: 'Whale Transaction Count (>100k USD)',
-      node: 'bar',
-    },
-    whale_transaction_count_1m_usd_to_inf: {
-      label: 'Whale Transaction Count (>1m USD)',
-      node: 'bar',
-    },
-    percent_of_whale_stablecoin_total_supply: {
-      label: 'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
-      getLabel: () =>
-        'Percent of Stablecoin Total Supply held by Whales with more than 5 million USD',
-      noProject: true,
-      reqMeta: {
-        slug: 'ethereum',
-      },
-    },
-  },
-  (metric: Studio.Metric) => (metric.group = 'Whales'),
 )
 
 const NetworkActivityMetric = each(
@@ -221,9 +165,6 @@ const LongTermHoldersMetric = each(
     spent_coins_age_band_0d_to_1d: {
       label: 'Spent Coins Age Band',
     },
-    realized_cap_hodl_waves_1d_to_7d: {
-      label: 'Realized Market Capitalization Hodl Waves',
-    },
   },
   (metric: Studio.Metric) => (metric.group = 'Long-term holders'),
 )
@@ -275,6 +216,9 @@ const NetworkValueMetric = each(
     },
     realized_value_usd: {
       label: 'Realized Cap',
+    },
+    realized_cap_hodl_waves_0d_to_1d: {
+      label: 'Realized Cap HODL Waves (0d to 1d)',
     },
     stock_to_flow: {
       label: 'Stock to Flow ratio',
@@ -428,12 +372,12 @@ export const OnChainMetric = each(
     Aave3Metric,
     CompoundMetric,
     Compound3Metric,
+    LiquityMetric,
     BeaconMetric,
 
     NFTMetric,
     DefiMetric,
     HolderDistributionMetric,
-    WhalesMetric,
     LongTermHoldersMetric,
     NetworkActivityMetric,
     NetworkValueMetric,
