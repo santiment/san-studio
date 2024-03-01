@@ -13,6 +13,7 @@ import {
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
 import { NotableSignal, getNotableItem } from '../_notables'
+import { MetricGroup } from '../graph'
 
 SelectorNode.SPENT_COIN_COST = {
   key: 'SPENT_COIN_COST',
@@ -39,7 +40,7 @@ SelectorNode.FeesDistribution = {
 SelectorNode.HoldersDistributionTable = {
   key: 'HoldersDistributionTable',
   label: 'Top Holders Table',
-  group: 'Whales',
+  group: MetricGroup.TopHolders,
   selectorType: SelectorType.Widget,
 }
 
@@ -54,7 +55,7 @@ SelectorNode.TopTransactionsTable = {
 SelectorNode.TopExchangesTable = {
   key: 'TopExchangesTable',
   label: 'Holdings on the top exchanges',
-  group: 'Whales',
+  group: MetricGroup.Exchanges,
   shorthand: 'hte',
   selectorType: SelectorType.Widget,
 }
