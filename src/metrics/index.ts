@@ -3,6 +3,7 @@ import { SocialMetric } from './_social'
 import { DevelopmentMetric } from './_development'
 import { DerivativesMetric } from './_derivatives'
 import { OnChainMetric } from './_onchain'
+import { OnChainLabelsMetrics } from './_onchain_labels'
 import { IndicatorsMetric } from './_indicators'
 import { newTimebounds } from './timebounds'
 import { each } from './utils'
@@ -20,6 +21,7 @@ export const Metric = each(
     DerivativesMetric,
     IndicatorsMetric,
     OnChainMetric,
+    OnChainLabelsMetrics,
   ),
   (metric: Studio.Metric, key, i) => {
     metric.key = key

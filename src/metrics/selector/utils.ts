@@ -1,5 +1,4 @@
 import type { SelectorGraph } from '@/metrics/graph'
-import { MetricIndex } from '@/metrics'
 import { MetricCategory } from '@/metrics/graph'
 import { SelectorNode } from './index'
 import { Subitems, IsSubitem } from './subitems'
@@ -31,6 +30,7 @@ export function getMetricsSelectorGraph(
     [MetricCategory.Derivatives]: [],
     [MetricCategory.Indicators]: [],
     [MetricCategory.OnChain]: [],
+    [MetricCategory.OnChainLabels]: [],
   }
 
   const filter = ({ checkIsVisible }: any) => (checkIsVisible ? checkIsVisible(options) : true)

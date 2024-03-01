@@ -1,5 +1,6 @@
-import { NFTMetric, WhalesMetric } from './_onchain/index'
+import { NFTMetric } from './_onchain/index'
+import { TopHoldersMetrics } from './_onchain_labels'
 
 export const NO_PROJECT_METRICS = Object.keys(NFTMetric).concat(
-  WhalesMetric.percent_of_whale_stablecoin_total_supply.key,
+  TopHoldersMetrics.percent_of_whale_stablecoin_total_supply.key,
 )
