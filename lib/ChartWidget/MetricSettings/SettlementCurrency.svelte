@@ -53,7 +53,7 @@ onMount(() => {
   Settlement Currency: {metricOwner || autoTicker}
 
   <svelte:fragment slot="dropdown">
-    <Search class="search-T+YBcq mrg-s mrg--b" placeholder="Search for asset" on:input={onInput} />
+    <Search class="search-UBK4L9 mrg-s mrg--b" placeholder="Search for asset" on:input={onInput} />
 
     <div class="column">
       <VirtualList itemHeight={32} renderAmount={20} maxFluidHeight={150} items={filtered} let:item>
@@ -64,7 +64,7 @@ onMount(() => {
 </Dropdown>
 
 <style>
-  :global(.search-T\+YBcq) {
+  :global(.search-UBK4L9) {
     width: 160px;
   }
 
