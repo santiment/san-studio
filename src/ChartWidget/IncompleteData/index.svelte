@@ -80,7 +80,7 @@
     on:click={() => showPaywallDialog(restrictionsInfo)}
   >
     <Svg id="crown" w="12" />
-    Get full access
+    Upgrade for full data
   </button>
 
   {#if shouldShowBanner && chart}
