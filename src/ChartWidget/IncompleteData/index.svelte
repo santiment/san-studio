@@ -113,7 +113,7 @@
     bottom: 0;
     right: 0;
     z-index: 10;
-    background: #000000bf;
+    background: #2f354dcc;
     padding: 24px;
     width: 350px;
     text-align: center;
