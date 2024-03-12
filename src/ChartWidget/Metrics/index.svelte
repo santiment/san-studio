@@ -1,6 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { newSortableContext } from 'webkit/ui/dnd/sortable'
+  import { queryRestrictedDates } from '@/api/metrics/restrictions'
   import { getAdapterController } from '@/adapter/context'
   import { globals } from '@/stores/globals'
   import { getAutoUpdater } from '@/stores/autoUpdater'
@@ -33,11 +34,14 @@
 
   let hoveredMetric
   let hoverTimer
+  let restrictions
   const clearHover = () => clearTimeout(hoverTimer)
 
   $: project = $studio
   $: isMultipleMetricsOnChart = metrics.length > 1
   $: hiddenMetrics = $HiddenMetrics
+
+  $: queryRestrictedDates().then((data) => (restrictions = data))
 
   function hoverMetric(metric?: Studio.Metric) {
     hoveredMetric = metric
@@ -52,17 +56,27 @@
     clearHover()
     if (hoveredMetric) hoverTimer = window.setTimeout(() => hoverMetric(), 100)
   }
+
+  function isMetricRestricted(metric: Studio.Metric, restrictions) {
+    if (!restrictions) return false
+
+    const data = restrictions[metric.queryKey ?? metric.key]
+    return !!data?.restrictedFrom || !!data?.restrictedTo
+  }
 </script>
 
 <div class="row">
   <div class="metrics row">
     {#each metrics as metric, i (i)}
+      {@const restricted = isMetricRestricted(metric, restrictions)}
+
       <Metric
         {dndContext}
         {metric}
         {colors}
         {project}
         {isMultipleMetricsOnChart}
+        {restricted}
         error={MetricError.get(metric)}
         isHidden={hiddenMetrics.has(metric)}
         isLoading={loadings.has(metric)}
@@ -76,9 +90,12 @@
       />
     {/each}
     {#each $ChartAddons as metric}
+      {@const restricted = isMetricRestricted(metric, restrictions)}
+
       <Metric
         {metric}
         {project}
+        {restricted}
         error={ChartAddonError.get(metric)}
         onClick={onMetricClick}
         onEnter={onMetricEnter}
