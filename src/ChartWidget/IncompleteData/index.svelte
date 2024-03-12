@@ -89,7 +89,7 @@
         <Svg id="close" w="14" />
       </button>
 
-      <h2 class="h4 txt-m mrg-xl mrg--b">Incomplete data</h2>
+      <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
 
       <Info
         {restrictedMetrics}
