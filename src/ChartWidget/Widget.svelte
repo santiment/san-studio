@@ -180,6 +180,7 @@
     <slot />
 
     <MetricsRow
+      {chart}
       metrics={displayedMetrics}
       {settingsOpenedMetric}
       {loadings}

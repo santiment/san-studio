@@ -108,6 +108,8 @@
     --bg-hover: var(--orange-light-1);
 
     gap: 10px;
+    align-self: flex-end;
+    margin-bottom: 8px;
   }
 
   .tooltip {

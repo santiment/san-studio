@@ -1,6 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { newSortableContext } from 'webkit/ui/dnd/sortable'
+  import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
   import { getAdapterController } from '@/adapter/context'
   import { globals } from '@/stores/globals'
@@ -9,12 +10,14 @@
   import { getWidget } from '@/ChartWidget/context'
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
+  import IncompleteData from '../IncompleteData/index.svelte'
 
   const { isOnlyChartEmbedded } = getAdapterController()
   const { Metrics, HiddenMetrics, ChartAddons } = getWidget()
   const AutoUpdater = getAutoUpdater()
   const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined
 
+  export let chart
   export let metrics, colors, loadings, settingsOpenedMetric
   export let MetricError, ChartAddonError
   export let isSingleWidget
@@ -37,6 +40,7 @@
   let restrictions
   const clearHover = () => clearTimeout(hoverTimer)
 
+  $: hasSubscription = $globals.isPro || $globals.isProPlus
   $: project = $studio
   $: isMultipleMetricsOnChart = metrics.length > 1
   $: hiddenMetrics = $HiddenMetrics
@@ -107,6 +111,15 @@
   </div>
 
   <slot />
+
+  {#if !hasSubscription}
+    <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
+  {:else if $globals.isTrial}
+    <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
+      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />
+      Upgrade
+    </a>
+  {/if}
 
   {#if !isOnlyChartEmbedded && $globals.isPresenterMode === false && AutoUpdater}
     <AutoUpdate {AutoUpdater} {changeStudioPeriod} />
