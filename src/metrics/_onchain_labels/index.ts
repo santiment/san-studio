@@ -1,6 +1,7 @@
 import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
-import { MetricCategory, MetricGroup } from './graph'
-import { each } from './utils'
+import { MetricCategory, MetricGroup } from '../graph'
+import { each } from '../utils'
+import { ExchangesV2Metric } from './exchangesV2'
 
 const ExchangesMetrics = each(
   {
@@ -64,10 +65,83 @@ export const TopHoldersMetrics = each(
   (metric: Studio.Metric) => (metric.group = MetricGroup.TopHolders),
 )
 
+const ExchangeUsersMetrics = each(
+  {
+    active_deposits: {
+      label: 'Active Deposits',
+      node: 'bar',
+      queryKey: 'active_deposits_5m',
+    },
+    deposit_transactions: {
+      label: 'Deposit Transactions',
+      queryKey: 'deposit_transactions_5m',
+    },
+    withdrawal_transactions: {
+      label: 'Withdrawal Transactions',
+      queryKey: 'withdrawal_transactions_5m',
+    },
+    active_withdrawals_5m: {
+      label: 'Active Withdrawals',
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.ExchangeUsers),
+)
+
+const FundsMetrics = each(
+  {
+    amount_in_funds: {
+      label: 'Supply held by Funds',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/fund:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.Funds),
+)
+
+const DeFiMetrics = each(
+  {
+    amount_in_bridges: {
+      label: 'Supply held by Bridges',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/bridge:v1',
+      },
+    },
+    amount_in_lendings: {
+      label: 'Supply held by Lendings',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/lending:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.DeFi),
+)
+
+const MinersMetrics = each(
+  {
+    amount_in_miners: {
+      label: 'Supply held by Miners',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/miner:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.Miners),
+)
+
 export const OnChainLabelsMetrics = each(
   {
     ...ExchangesMetrics,
     ...TopHoldersMetrics,
+    ...ExchangeUsersMetrics,
+    ...ExchangesV2Metric,
+    ...FundsMetrics,
+    ...DeFiMetrics,
+    ...MinersMetrics,
   },
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChainLabels),
 )

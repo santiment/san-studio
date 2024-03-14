@@ -4,83 +4,14 @@ import { MakerDaoMetric } from './makerDao'
 import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
 import { LiquityMetric } from './liquity'
-import { ExchangesV2Metric } from './exchangesV2'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
 import { each } from '@/metrics/utils'
-import {
-  usdFormatter,
-  mvrvFormatter,
-  ratioPercentAxisFormatter,
-  ratioPercentForamtter,
-} from '@/metrics/formatters'
+import { usdFormatter, mvrvFormatter, ratioPercentAxisFormatter } from '@/metrics/formatters'
 import { queryGasUsed } from '@/api/timeseries/queries/gasUsed'
 import { mvrvPrecacher } from '@/api/timeseries/queries/mvrv'
 import { queryEthSpentOverTime } from '@/api/timeseries/queries/ethSpentOverTime'
-
-const ExchangesMetric = each(
-  {
-    active_deposits: {
-      label: 'Active Deposits',
-      node: 'bar',
-      queryKey: 'active_deposits_5m',
-    },
-    deposit_transactions: {
-      label: 'Deposit Transactions',
-      queryKey: 'deposit_transactions_5m',
-    },
-    exchange_open_interest: {
-      label: 'Open Interest in USD per Exchange',
-      formatter: usdFormatter,
-      isRootExchangeKey: true,
-    },
-    open_interest_per_settlement_currency: {
-      label: 'Open Interest in USD per Settlement Currency',
-      formatter: usdFormatter,
-    },
-    total_open_interest: {
-      label: 'Total Open Interest in USD',
-      formatter: usdFormatter,
-    },
-    withdrawal_transactions: {
-      label: 'Withdrawal Transactions',
-      queryKey: 'withdrawal_transactions_5m',
-    },
-    active_withdrawals_5m: {
-      label: 'Active Withdrawals',
-    },
-    daily_trading_volume_usd: {
-      label: 'Daily Trading USD Volume',
-      formatter: usdFormatter,
-    },
-
-    funding_rates_aggregated_by_exchange: {
-      node: 'greenRedBar',
-      label: 'Funding Rates Aggregated by Exchange',
-      isRootExchangeKey: true,
-
-      formatter: ratioPercentForamtter,
-      axisFormatter: ratioPercentAxisFormatter,
-    },
-    funding_rates_aggregated_by_settlement_currency: {
-      node: 'greenRedBar',
-      label: 'Funding Rates Aggregated by Settlement Currency',
-      formatter: ratioPercentForamtter,
-      axisFormatter: ratioPercentAxisFormatter,
-    },
-    total_funding_rates_aggregated_per_asset: {
-      node: 'greenRedBar',
-      label: 'Total Funding Rates Aggregated by Asset',
-      formatter: ratioPercentForamtter,
-      axisFormatter: ratioPercentAxisFormatter,
-    },
-  },
-  (metric: Studio.Metric) => {
-    metric.group = 'Exchanges'
-    metric.checkIsVisible = ({ slug }) => slug !== 'xrp' && slug !== 'ripple'
-  },
-)
 
 const NetworkActivityMetric = each(
   {
@@ -364,8 +295,6 @@ export const OnChainMetric = each(
     ContractAddressMetric,
 
     FeesMetric,
-    ExchangesMetric,
-    ExchangesV2Metric,
 
     Eth2Metric,
     AaveMetric,
