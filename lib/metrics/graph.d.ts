@@ -14,7 +14,11 @@ export declare enum MetricGroup {
     TwitterSentiment = "Twitter sentiment",
     SupplyDistribution = "Supply distribution",
     Exchanges = "Exchanges",
-    TopHolders = "Top Holders"
+    TopHolders = "Top Holders",
+    ExchangeUsers = "Exchange Users",
+    Funds = "Funds",
+    DeFi = "DeFi",
+    Miners = "Miners"
 }
 export declare type SelectorNode = {
     key: string;

@@ -1,0 +1,32 @@
+export declare const TopHoldersMetrics: {
+    amount_in_top_holders: import("../utils").Node<Studio.Metric, "amount_in_top_holders">;
+    amount_in_non_exchange_top_holders: import("../utils").Node<Studio.Metric, "amount_in_non_exchange_top_holders">;
+    topHoldersPercentOfTotalSupply: import("../utils").Node<Studio.Metric, "topHoldersPercentOfTotalSupply">;
+    whale_transaction_count_100k_usd_to_inf: import("../utils").Node<Studio.Metric, "whale_transaction_count_100k_usd_to_inf">;
+    whale_transaction_count_1m_usd_to_inf: import("../utils").Node<Studio.Metric, "whale_transaction_count_1m_usd_to_inf">;
+    percent_of_whale_stablecoin_total_supply: import("../utils").Node<Studio.Metric, "percent_of_whale_stablecoin_total_supply">;
+};
+export declare const OnChainLabelsMetrics: {
+    amount_in_miners: import("../utils").Node<Studio.Metric, "amount_in_miners">;
+    amount_in_bridges: import("../utils").Node<Studio.Metric, "amount_in_bridges">;
+    amount_in_lendings: import("../utils").Node<Studio.Metric, "amount_in_lendings">;
+    amount_in_funds: import("../utils").Node<Studio.Metric, "amount_in_funds">;
+    labelled_historical_balance: import("../utils").Node<Studio.Metric, "labelled_historical_balance">;
+    active_deposits: import("../utils").Node<Studio.Metric, "active_deposits">;
+    deposit_transactions: import("../utils").Node<Studio.Metric, "deposit_transactions">;
+    withdrawal_transactions: import("../utils").Node<Studio.Metric, "withdrawal_transactions">;
+    active_withdrawals_5m: import("../utils").Node<Studio.Metric, "active_withdrawals_5m">;
+    amount_in_top_holders: import("../utils").Node<Studio.Metric, "amount_in_top_holders">;
+    amount_in_non_exchange_top_holders: import("../utils").Node<Studio.Metric, "amount_in_non_exchange_top_holders">;
+    topHoldersPercentOfTotalSupply: import("../utils").Node<Studio.Metric, "topHoldersPercentOfTotalSupply">;
+    whale_transaction_count_100k_usd_to_inf: import("../utils").Node<Studio.Metric, "whale_transaction_count_100k_usd_to_inf">;
+    whale_transaction_count_1m_usd_to_inf: import("../utils").Node<Studio.Metric, "whale_transaction_count_1m_usd_to_inf">;
+    percent_of_whale_stablecoin_total_supply: import("../utils").Node<Studio.Metric, "percent_of_whale_stablecoin_total_supply">;
+    exchange_inflow: import("../utils").Node<Studio.Metric, "exchange_inflow">;
+    exchange_outflow: import("../utils").Node<Studio.Metric, "exchange_outflow">;
+    exchange_balance: import("../utils").Node<Studio.Metric, "exchange_balance">;
+    supply_on_exchanges: import("../utils").Node<Studio.Metric, "supply_on_exchanges">;
+    supply_outside_exchanges: import("../utils").Node<Studio.Metric, "supply_outside_exchanges">;
+    percent_of_total_supply_on_exchanges: import("../utils").Node<Studio.Metric, "percent_of_total_supply_on_exchanges">;
+    amount_in_exchange_top_holders: import("../utils").Node<Studio.Metric, "amount_in_exchange_top_holders">;
+};

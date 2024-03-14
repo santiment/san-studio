@@ -9,4 +9,10 @@ export declare const DerivativesMetric: {
     dydx_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "dydx_perpetual_funding_rate">;
     deribit_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "deribit_perpetual_funding_rate">;
     ftx_perpetual_funding_rate: import("./utils").Node<Studio.Metric, "ftx_perpetual_funding_rate">;
+    exchange_open_interest: import("./utils").Node<Studio.Metric, "exchange_open_interest">;
+    open_interest_per_settlement_currency: import("./utils").Node<Studio.Metric, "open_interest_per_settlement_currency">;
+    total_open_interest: import("./utils").Node<Studio.Metric, "total_open_interest">;
+    funding_rates_aggregated_by_exchange: import("./utils").Node<Studio.Metric, "funding_rates_aggregated_by_exchange">;
+    funding_rates_aggregated_by_settlement_currency: import("./utils").Node<Studio.Metric, "funding_rates_aggregated_by_settlement_currency">;
+    total_funding_rates_aggregated_per_asset: import("./utils").Node<Studio.Metric, "total_funding_rates_aggregated_per_asset">;
 };
