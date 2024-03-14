@@ -1,7 +1,7 @@
 import type { Selector } from './index'
 import { Metric } from '@/metrics'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
-import { ExchangesV2Metric } from '@/metrics/_onchain/exchangesV2'
+import { ExchangesV2Metric } from '@/metrics/_onchain_labels/exchangesV2'
 import { PriceDAADivergenceNode, AdjustedPriceDAADivergenceNode } from '@/PriceDAAWidget/nodes'
 import { SupplyDistributionNode } from './supplyDistribution'
 

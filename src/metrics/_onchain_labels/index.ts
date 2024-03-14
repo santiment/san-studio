@@ -1,6 +1,7 @@
 import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
 import { MetricCategory, MetricGroup } from '../graph'
 import { each } from '../utils'
+import { ExchangesV2Metric } from './exchangesV2'
 
 const ExchangesMetrics = each(
   {
@@ -91,6 +92,7 @@ export const OnChainLabelsMetrics = each(
     ...ExchangesMetrics,
     ...TopHoldersMetrics,
     ...ExchangeUsersMetrics,
+    ...ExchangesV2Metric,
   },
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChainLabels),
 )
