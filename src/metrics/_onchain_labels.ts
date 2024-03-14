@@ -64,10 +64,33 @@ export const TopHoldersMetrics = each(
   (metric: Studio.Metric) => (metric.group = MetricGroup.TopHolders),
 )
 
+export const ExchangeUsersMetrics = each(
+  {
+    active_deposits: {
+      label: 'Active Deposits',
+      node: 'bar',
+      queryKey: 'active_deposits_5m',
+    },
+    deposit_transactions: {
+      label: 'Deposit Transactions',
+      queryKey: 'deposit_transactions_5m',
+    },
+    withdrawal_transactions: {
+      label: 'Withdrawal Transactions',
+      queryKey: 'withdrawal_transactions_5m',
+    },
+    active_withdrawals_5m: {
+      label: 'Active Withdrawals',
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.ExchangeUsers),
+)
+
 export const OnChainLabelsMetrics = each(
   {
     ...ExchangesMetrics,
     ...TopHoldersMetrics,
+    ...ExchangeUsersMetrics,
   },
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChainLabels),
 )

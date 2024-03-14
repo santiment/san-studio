@@ -21,6 +21,7 @@ export enum MetricGroup {
   //On-chain Labels groups
   Exchanges = 'Exchanges',
   TopHolders = 'Top Holders',
+  ExchangeUsers = 'Exchange Users',
 }
 
 export type SelectorNode =
