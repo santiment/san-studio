@@ -1,6 +1,6 @@
 import { queryTopHoldersPercentOfTatalSupply } from '@/api/timeseries/queries/topHoldersPercentOfTotalSupply'
-import { MetricCategory, MetricGroup } from './graph'
-import { each } from './utils'
+import { MetricCategory, MetricGroup } from '../graph'
+import { each } from '../utils'
 
 const ExchangesMetrics = each(
   {
@@ -64,7 +64,7 @@ export const TopHoldersMetrics = each(
   (metric: Studio.Metric) => (metric.group = MetricGroup.TopHolders),
 )
 
-export const ExchangeUsersMetrics = each(
+const ExchangeUsersMetrics = each(
   {
     active_deposits: {
       label: 'Active Deposits',
