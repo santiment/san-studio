@@ -87,12 +87,61 @@ const ExchangeUsersMetrics = each(
   (metric: Studio.Metric) => (metric.group = MetricGroup.ExchangeUsers),
 )
 
+const FundsMetrics = each(
+  {
+    amount_in_funds: {
+      label: 'Supply held by Funds',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/fund:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.Funds),
+)
+
+const DeFiMetrics = each(
+  {
+    amount_in_bridges: {
+      label: 'Supply held by Bridges',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/bridge:v1',
+      },
+    },
+    amount_in_lendings: {
+      label: 'Supply held by Lendings',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/lending:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.DeFi),
+)
+
+const MinersMetrics = each(
+  {
+    amount_in_miners: {
+      label: 'Supply held by Miners',
+      queryKey: 'labelled_historical_balance',
+      reqMeta: {
+        label_fqn: 'santiment/miner:v1',
+      },
+    },
+  },
+  (metric: Studio.Metric) => (metric.group = MetricGroup.Miners),
+)
+
 export const OnChainLabelsMetrics = each(
   {
     ...ExchangesMetrics,
     ...TopHoldersMetrics,
     ...ExchangeUsersMetrics,
     ...ExchangesV2Metric,
+    ...FundsMetrics,
+    ...DeFiMetrics,
+    ...MinersMetrics,
   },
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChainLabels),
 )

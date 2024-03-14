@@ -22,6 +22,9 @@ export enum MetricGroup {
   Exchanges = 'Exchanges',
   TopHolders = 'Top Holders',
   ExchangeUsers = 'Exchange Users',
+  Funds = 'Funds',
+  DeFi = 'DeFi',
+  Miners = 'Miners',
 }
 
 export type SelectorNode =
