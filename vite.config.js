@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 process.env.GQL_SERVER_URL = 'https://api-stage.santiment.net/graphql'
 process.env.IS_DEV_MODE = process.env.NODE_ENV !== 'production'
@@ -9,7 +10,7 @@ process.env.ICONS_PATH = '/node_modules/san-webkit/lib/icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [process.env.IS_DEV_MODE && process.argv.includes('--https') && basicSsl(), svelte()],
   resolve: {
     alias: [
       {

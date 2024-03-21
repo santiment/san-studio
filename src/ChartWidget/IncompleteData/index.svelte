@@ -1,9 +1,12 @@
 <script lang="ts">
+  import type { RestrictionInfo } from 'utils'
+
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
   import Info from './Info.svelte'
   import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
+  import { showPaywallDialog } from './PaywallDialog.svelte'
 
   const shouldShowBanner = checkShouldShowBanner()
 
@@ -18,6 +21,7 @@
   queryRestrictedDates().then((data) => (restrictions = data))
 
   $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : []
+  $: restrictionsInfo = getRestrictionsInfo(restrictedMetrics)
   $: if (banner && chart) {
     chart.canvas.parentNode?.appendChild(banner)
   }
@@ -28,20 +32,26 @@
     const data = restrictions[queryKey]
     return data && (data.restrictedFrom || data.restrictedTo)
   }
+
   function filterMetrics(metrics: any[], settings) {
     metricRestrictions = null
-    return metrics.filter((metric) => metricsFilter(metric, settings))
+    return metrics?.filter((metric) => metricsFilter(metric, settings)) ?? []
   }
 
-  function formatMetrics() {
-    if (metricRestrictions) return metricRestrictions
-
-    metricRestrictions = restrictedMetrics.map(({ key, queryKey = key, label }) => {
+  function getRestrictionsInfo(restrictedMetrics) {
+    return restrictedMetrics.map(({ key, queryKey = key, label }) => {
       const { restrictedFrom: from, restrictedTo: to } = restrictions[queryKey]
       const date = from && to ? `${formatDate(from)} - ${formatDate(to)}` : formatDate(from || to)
-      return `${label} (${date})`
+
+      return {
+        metric: label,
+        date,
+      }
     })
-    return metricRestrictions
+  }
+
+  function formatMetrics(restrictionsInfo: RestrictionInfo) {
+    return restrictionsInfo.map(({ metric, date }) => `${metric} (${date})`)
   }
 
   function customRestrictions(queryKey: string, { slug } = {}) {
@@ -65,39 +75,41 @@
 </script>
 
 {#if restrictedMetrics.length}
-  <Tooltip duration={0} openDelay={110} align="center" class="$style.tooltip">
-    <div slot="trigger" class="studio-why-gaps mrg-m mrg--r btn-2 btn-1 btn--s btn--orange">
-      Incomplete data
-    </div>
-
-    <div slot="tooltip" class="caption c-waterloo">
-      <h2 class="txt-m c-black mrg-m mrg--b">Why is some data hidden?</h2>
-      <Info restrictions={formatMetrics()} {restrictedMetrics} />
-    </div>
-  </Tooltip>
+  <button
+    class="studio-why-gaps mrg-m mrg--r btn-1 btn--s btn--orange row v-center"
+    on:click={() => showPaywallDialog(restrictionsInfo)}
+  >
+    <Svg id="crown" w="12" />
+    Upgrade for full data
+  </button>
 
   {#if shouldShowBanner && chart}
     <div class="limit-banner column body-3 hv-center" bind:this={banner}>
-      <div class="close btn" on:click={closeBanners}>
+      <button class="close btn" on:click={closeBanners}>
         <Svg id="close" w="14" />
-      </div>
+      </button>
 
-      <h2 class="h4 txt-m mrg-xl mrg--b">Incomplete data</h2>
+      <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
 
       <Info
         {restrictedMetrics}
-        restrictions={formatMetrics().slice(0, 4).concat('and many others')}
+        restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
         upgradeClass="btn--l"
-        isBanner
       />
     </div>
   {/if}
 {/if}
 
 <style>
-  .btn-2 {
-    --color: var(--orange);
+  .btn-1 {
+    --color: var(--orange-hover);
     --color-hover: var(--orange-hover);
+    --bg: var(--orange-pale);
+    --bg-hover: var(--orange-light-1);
+
+    gap: 10px;
+    align-self: flex-end;
+    margin-bottom: 8px;
   }
 
   .tooltip {
@@ -113,7 +125,7 @@
     bottom: 0;
     right: 0;
     z-index: 10;
-    background: #000000bf;
+    background: #2f354dcc;
     padding: 24px;
     width: 350px;
     text-align: center;

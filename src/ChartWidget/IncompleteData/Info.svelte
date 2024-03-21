@@ -1,30 +1,19 @@
 <script lang="ts">
   import { track } from 'webkit/analytics'
-  import { showPaymentDialog } from 'webkit/ui/PaymentDialog/index.svelte'
-  import { Event } from '@/analytics'
   import { globals } from '@/stores/globals'
-  import { closeBanners } from './utils'
+  import { trackUpgrade } from './utils'
 
   export let upgradeClass = ''
   export let restrictions: string[]
-  export let isBanner = false
   export let restrictedMetrics: Studio.Metric[]
 
   function onUpgradeClick(e) {
-    track.event(Event.IncompleteDataUpgrade, {
-      location: isBanner ? 'banner' : 'tooltip',
-      metrics: Array.from(new Set(restrictedMetrics.map(({ key, queryKey = key }) => queryKey))),
+    trackUpgrade({
+      e,
+      restrictedMetrics,
+      isLoggedIn: $globals.isLoggedIn,
+      location: 'banner',
     })
-    closeBanners()
-
-    if ($globals.isLoggedIn) {
-      e.preventDefault()
-      return showPaymentDialog({
-        source: 'charts_incomplete_data_upgrade',
-      })
-    }
-
-    window.__onLinkClick?.(e)
   }
 </script>
 
