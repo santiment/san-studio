@@ -118,7 +118,8 @@
 
   function getSettingsOpenedMetric(metrics: Studio.Metric[]) {
     if (!settingsOpenedMetric || metrics.indexOf(settingsOpenedMetric) === -1) {
-      return metrics[0]
+      const metric = metrics[0]
+      return metric?.node !== Node.REFERENCE ? metric : null
     }
     return settingsOpenedMetric
   }
