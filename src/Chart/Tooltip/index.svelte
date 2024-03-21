@@ -69,9 +69,13 @@
         if (tooltipSynchronizer) tooltipSynchronizer.sync(chart, point.value, y)
       })
 
-  function marker(ctx, key, _, x, y) {
+  function marker(ctx, key, value, x, y) {
     const { colors } = chart
     const RADIUS = 4
+
+    if (metricSettings[key]?.marker) {
+      return metricSettings[key].marker(ctx, key, value, x, y)
+    }
 
     if (NotableSignal[key]) {
       ctx.beginPath()

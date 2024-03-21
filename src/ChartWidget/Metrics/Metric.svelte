@@ -3,6 +3,7 @@
   import { track } from 'webkit/analytics'
   import Svg from 'webkit/ui/Svg/svelte'
   import ProjectIcon from 'webkit/ui/ProjectIcon.svelte'
+  import Tooltip from 'webkit/ui/Tooltip'
   import { Event } from '@/analytics'
   import { Blockchain, queryProjectBlockchain } from '@/api/blockchains'
   import MetricButton from '@/MetricButton.svelte'
@@ -25,6 +26,7 @@
   export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
   export let dndContext
   export let isMultipleMetricsOnChart
+  export let restricted
 
   let isMenuOpened = false
   let node
@@ -90,6 +92,16 @@
     {/if}
   {/if}
 
+  {#if restricted}
+    <Tooltip let:trigger position="bottom">
+      <button use:trigger>
+        <Svg id="error" class="$style.error mrg-s mrg--l" w="16" />
+      </button>
+
+      <tooltip slot="tooltip" class="caption night-mode c-black">Restricted: PRO required</tooltip>
+    </Tooltip>
+  {/if}
+
   {#if $MetricsSignals.includes(metric)}
     <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
   {/if}
@@ -139,6 +151,10 @@
     height: 16px;
   }
 
+  .error {
+    fill: var(--red);
+  }
+
   .signaled {
     background: var(--red);
   }
@@ -155,5 +171,11 @@
     position: absolute;
     right: -6px;
     top: -6px;
+  }
+
+  tooltip {
+    padding: 6px 13px;
+    background-color: var(--casper);
+    border-radius: 4px;
   }
 </style>

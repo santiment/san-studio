@@ -1,5 +1,8 @@
-import { getDateFormats, ONE_DAY_IN_MS } from 'san-webkit/lib/utils/dates'
-import { getSavedValue, saveValue } from 'san-webkit/lib/utils/localStorage'
+import { getDateFormats, ONE_DAY_IN_MS } from 'webkit/utils/dates'
+import { getSavedValue, saveValue } from 'webkit/utils/localStorage'
+import { track } from 'webkit/analytics'
+import { showPaymentDialog } from 'webkit/ui/PaymentDialog/index.svelte'
+import { Event } from '@/analytics'
 
 export function formatDate(date: string): string {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
@@ -21,4 +24,33 @@ export function saveBannerCloseDate(): void {
 export function checkShouldShowBanner(): boolean {
   const value = getSavedValue(INCOMPLETE_DATA_BANNER_CLOSE_DATE)
   return !value || +value < Date.now()
+}
+
+export type TrackUpgrageProps = {
+  e: MouseEvent
+  restrictedMetrics: any[]
+  isLoggedIn: boolean
+  location: string
+}
+
+export function trackUpgrade({ e, restrictedMetrics, isLoggedIn, location }: TrackUpgrageProps) {
+  track.event(Event.IncompleteDataUpgrade, {
+    location,
+    metrics: Array.from(new Set(restrictedMetrics.map(({ key, queryKey = key }) => queryKey))),
+  })
+  closeBanners()
+
+  if (isLoggedIn) {
+    e.preventDefault()
+    return showPaymentDialog({
+      source: 'charts_incomplete_data_upgrade',
+    })
+  }
+
+  window.__onLinkClick?.(e)
+}
+
+export type RestrictionInfo = {
+  metric: string
+  date: string
 }

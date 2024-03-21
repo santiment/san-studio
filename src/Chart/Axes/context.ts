@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import { Node } from '../nodes'
 
 export type ChartAxesStore = ReturnType<typeof newChartAxesStore>
 export function newChartAxesStore(
@@ -47,6 +48,8 @@ export function newChartAxesStore(
       const { length } = metrics
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
+        if (metric.node === Node.REFERENCE) continue
+
         MetricPosition[metric.key] = i
         // prettier-ignore
         if (disabled.has(metric) || exceptionsMap.has(metric) || shared.has(metric.key)) continue

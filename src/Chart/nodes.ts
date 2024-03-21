@@ -10,7 +10,11 @@ const BarNode = {
   GREEN_RED_BAR: 'greenRedBar',
 } as const
 
-export const Node = Object.assign({ CANDLES: 'candle' } as const, LineNode, BarNode)
+export const Node = Object.assign(
+  { CANDLES: 'candle', REFERENCE: 'reference' } as const,
+  LineNode,
+  BarNode,
+)
 export const LINES = new Set(Object.values(LineNode))
 export const BARS = new Set(Object.values(BarNode))
 
@@ -46,6 +50,7 @@ export function getMetricNodes(
     filledLines: [],
     gradientLines: [],
     greenRedBars: [],
+    references: [],
   }
   for (let i = 0; i < metrics.length; i++) {
     const { key, node } = metrics[i]

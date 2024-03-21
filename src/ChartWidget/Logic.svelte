@@ -10,6 +10,7 @@
     checkHasDomainGroups,
     getIndicatorDomainGroup,
   } from './domain'
+  import { setContext } from 'svelte'
 
   export let widget: Studio.ChartWidget
   export let rawData = []
@@ -20,6 +21,9 @@
   const { Metrics, HiddenMetrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals, SignalsTimeseries } = widget
 
+  const dataCtx = setContext('dataCtx', { rawData: [] })
+
+  $: dataCtx.rawData = rawData
   $: metricSettingsTransformer = newMetricSettingsTransformer($studio, ChartMetricDisplays)
   $: metrics = $Metrics
   $: hiddenMetrics = $HiddenMetrics
