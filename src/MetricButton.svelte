@@ -19,7 +19,10 @@
   $: label = (ticker && metric.getLabel?.(ticker)) || metric.label
 
   function getColor({ key }: Studio.Metric, colors, highlight = false) {
-    const color = colors[key]
+    const color = colors[key] || ''
+
+    if (!color) return ''
+
     let style = `--b-color:${color || 'var(--porcelain)'};--m-color:${color}22`
 
     if (highlight && color.length < 8) {
@@ -77,7 +80,7 @@
     top: 0;
     height: 100%;
     width: 4px;
-    background: var(--b-color);
+    background: var(--b-color, var(--porcelain));
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
     overflow: hidden;

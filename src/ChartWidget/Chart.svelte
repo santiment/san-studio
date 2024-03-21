@@ -68,7 +68,8 @@
     const metricSettings = getDefaultTooltipSettings()
     metrics.forEach((metric) => {
       const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric
-      const metricLabel = (getLabel || labelGetter)(ticker, metric)
+      const metricLabel =
+        metric.tooltipLabel?.(ticker, metric) ?? (getLabel || labelGetter)(ticker, metric)
 
       metricSettings[key] = Object.assign(
         {

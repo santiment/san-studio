@@ -167,6 +167,7 @@ export const SocialMetric = each(
 
     trending_words_rank: {
       label: 'Trending Social Rank',
+      tooltipLabel: (ticker, { project }) => `Soc Ranking (${project?.ticker ?? ticker})`,
       node: Node.REFERENCE,
       references: 'price_usd',
       formatter: (value: number) => `${ordinalFormat(value)} place in Social trends`,
@@ -209,8 +210,9 @@ function getTrendingColor(value: number) {
 }
 
 function ordinalFormat(value: number) {
-  const last = +value.toString().slice(0, -1) ?? value
-  switch (last) {
+  const last = value.toString().slice(0, -1)
+
+  switch (last === '' ? value : +last) {
     case 1:
       return value + 'st'
     case 2:
