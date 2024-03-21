@@ -95,7 +95,8 @@ function onMetricDelete(metric) {
 }
 function getSettingsOpenedMetric(metrics) {
     if (!settingsOpenedMetric || metrics.indexOf(settingsOpenedMetric) === -1) {
-        return metrics[0];
+        const metric = metrics[0];
+        return (metric === null || metric === void 0 ? void 0 : metric.node) !== Node.REFERENCE ? metric : null;
     }
     return settingsOpenedMetric;
 }

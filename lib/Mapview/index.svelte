@@ -10,6 +10,8 @@ import { selectedItems } from './../stores/selector';
 import Preview from './Preview.svelte';
 import ChartPreview from './ChartPreview.svelte';
 import Grid from './Grid.svelte';
+import { Metric } from './../metrics';
+import { newProjectMetric } from './../metrics/utils';
 const Widgets = getWidgets();
 // const { adjustSelectedMetric } = getAdapterController()
 const History = getHistoryContext();
@@ -32,7 +34,7 @@ function onWidgetClick(widget, e) {
         widget.ChartAddons.concat($selectedItems.chartAddons);
     }
     if (widget.Metrics) {
-        const metrics = adjustMetrics($selectedItems.metrics);
+        const metrics = fillReferences(new Set(adjustMetrics($selectedItems.metrics)));
         const notables = $selectedItems.notables.slice();
         const redo = () => {
             widget.Metrics.concat(metrics);
@@ -48,8 +50,21 @@ function onWidgetClick(widget, e) {
         selectedItems.clear();
     }
 }
+function fillReferences(metricsSet) {
+    metricsSet.forEach((metric) => {
+        const { base = metric, project, references } = metric;
+        if (references) {
+            const referenceMetric = Metric[base.references];
+            if (referenceMetric) {
+                metricsSet.add(project ? newProjectMetric(project, referenceMetric) : referenceMetric);
+            }
+        }
+    });
+    return Array.from(metricsSet);
+}
 function onNewWidgetClick({ ctrlKey, metaKey }) {
-    const widget = Widgets.add(adjustMetrics($selectedItems.metrics));
+    const metrics = fillReferences(new Set(adjustMetrics($selectedItems.metrics)));
+    const widget = Widgets.add(metrics);
     if ($selectedItems.chartAddons.length) {
         widget.chartAddons = $selectedItems.chartAddons;
     }
