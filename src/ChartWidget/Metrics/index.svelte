@@ -11,6 +11,7 @@
   import Metric from './Metric.svelte'
   import AutoUpdate from './AutoUpdate.svelte'
   import IncompleteData from '../IncompleteData/index.svelte'
+  import { Node } from '@/Chart/nodes'
 
   const { isOnlyChartEmbedded } = getAdapterController()
   const { Metrics, HiddenMetrics, ChartAddons } = getWidget()
@@ -52,6 +53,8 @@
     onMetricHover(metric)
   }
   function onMetricEnter(metric: Studio.Metric) {
+    if (metric.node === Node.REFERENCE) return
+
     clearHover()
     if (hoveredMetric) return hoverMetric(metric)
     hoverTimer = window.setTimeout(() => hoverMetric(metric), 120)

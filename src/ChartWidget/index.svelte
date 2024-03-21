@@ -8,6 +8,7 @@
   import { initWidget, getOnLoadContext } from './context'
   import { debounced } from './utils'
   import { getSharedAccessHeaders } from '@/api/timeseries/queries'
+  import { Node } from '@/Chart/nodes'
 
   const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController()
 
@@ -71,7 +72,12 @@
     },
   )
   const fetchAllData = debounced((metrics: Studio.Metric[], slug: string, address?: string) =>
-    getAllTimeData(metrics, address ? { address } : { slug }, onAllTimeData, noop),
+    getAllTimeData(
+      metrics.filter((metric) => metric.node !== Node.REFERENCE),
+      address ? { address } : { slug },
+      onAllTimeData,
+      noop,
+    ),
   )
 
   function onDataError(Error, newLoadings, newData?: any) {

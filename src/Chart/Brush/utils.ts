@@ -9,6 +9,7 @@ export function getBrushPlotItems({ items }) {
   brushItems.delete('candles')
   brushItems.delete('referenceDots')
   brushItems.delete('spent_coin_cost')
+  brushItems.delete('trendingDots')
 
   return brushItems
 }

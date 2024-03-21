@@ -3,6 +3,8 @@ import { withScroll } from 'webkit/ui/history'
 import { selectedItems } from '@/stores/selector'
 import { SelectorType } from '@/metrics/selector/types'
 import { newProjectMetric, newAddressMetric } from '@/metrics/utils'
+import { Node } from '@/Chart/nodes'
+import { Metric as M } from '@/metrics'
 
 const chartWidgetFinder = ({ Metrics, isBlocked }) => !isBlocked && !!Metrics
 const findChartWidget = (widgets: any) => widgets.find(chartWidgetFinder)
@@ -39,6 +41,16 @@ export function handleItemSelect(
   const isNotable = selectorType === SelectorType.Notable
   let metric = item.metric || item
   metric = adjustSelectedMetric?.(metric) || metric
+
+  if (metric.node === Node.REFERENCE) {
+    const { Metrics } = widget
+    const { base = metric, project } = metric
+    const referenceMetric = M[base.references]
+
+    Metrics.add(project ? newProjectMetric(project, referenceMetric) : referenceMetric)
+    Metrics.add(metric)
+    return
+  }
 
   const metrics = [metric]
   if (e.shiftKey) {

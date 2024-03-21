@@ -19,6 +19,7 @@
     dispatchWidgetDataLoaded,
   } from './context'
   import { DatesMessage } from '@/EmbeddableChartWidget/utils'
+  import { Node } from '@/Chart/nodes'
 
   const {
     onWidgetInit,
@@ -97,6 +98,8 @@
   const onMetricSettings = (metric) => (settingsOpenedMetric = metric)
 
   function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
+    if (metric.node === Node.REFERENCE) return
+
     if (e.target === e.currentTarget) {
       track.event(Event.MetricSettings, { metric: metric.key })
       settingsOpenedMetric = metric
