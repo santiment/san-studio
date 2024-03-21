@@ -7,6 +7,7 @@
   import Info from './Info.svelte'
   import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
   import { showPaywallDialog } from './PaywallDialog.svelte'
+  import { track } from 'san-webkit/lib/analytics'
 
   const shouldShowBanner = checkShouldShowBanner()
 
@@ -72,12 +73,17 @@
       ]).has(queryKey)
     )
   }
+
+  function onUpgradeClick() {
+    track.event('charts_upgrade_for_full_data_click')
+    showPaywallDialog(restrictionsInfo, restrictedMetrics)
+  }
 </script>
 
 {#if restrictedMetrics.length}
   <button
     class="studio-why-gaps mrg-m mrg--r btn-1 btn--s btn--orange row v-center"
-    on:click={() => showPaywallDialog(restrictionsInfo)}
+    on:click={onUpgradeClick}
   >
     <Svg id="crown" w="12" />
     Upgrade for full data
