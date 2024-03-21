@@ -21,7 +21,7 @@
         ? metric.key.replace(metric.base.key, metric.references)
         : metric.references
 
-      const alpha = colors[target].length < 8 ? '' : '22'
+      const alpha = colors[target]?.length < 8 ? '' : '22'
 
       for (let i = 0; i < data.length - 1; i++) {
         const item = data[i]
