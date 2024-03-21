@@ -33,15 +33,13 @@ export function newChartColorsStore(defaultValue?: ChartColors) {
         colors,
       )
 
-      referenceMetrics.forEach((metric) => {
+      referenceMetrics.forEach((metric: any) => {
         const { key } = metric
-        let referencesKey = metric.references
+        const target = metric.project
+          ? metric.key.replace(metric.base.key, metric.references)
+          : metric.references
 
-        if (metric.project) {
-          referencesKey = newProjectMetricKey(metric.project, { key: referencesKey })
-        }
-
-        _colors[key] = _colors[referencesKey]
+        _colors[key] = _colors[target]
       })
 
       set(_colors)
