@@ -6,8 +6,8 @@ import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
 import { Event } from './../../analytics';
 import { getHistoryContext } from './../../history/ctx';
 import { getWidget } from './../../ChartWidget/context';
-import { globals } from './../../stores/globals';
-import { studio } from './../../stores/studio';
+import './../../stores/globals';
+import './../../stores/studio';
 import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from './../../history/drawings';
 import { getAdapterController } from './../../adapter/context';
 import sanrSrc from './sanr.svg';
@@ -17,7 +17,7 @@ import DrawingsVisibility from './DrawingsVisibility.svelte';
 import Fullscreen from './Fullscreen.svelte';
 import Embed from './Embed.svelte';
 import { download, downloadPng } from './download';
-import IncompleteData from '../IncompleteData/index.svelte';
+import '../IncompleteData/index.svelte';
 import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte';
 const History = getHistoryContext();
 const widget = getWidget();
@@ -32,7 +32,6 @@ export let deleteWidget;
 export let fullscreenMetricsFilter;
 export let isFullscreen; // Is in fullscreen dialog
 export let isFullscreened; // Was fullscreen triggered?
-$: hasSubscription = $globals.isPro || $globals.isProPlus;
 $: widget.isSharedAxisEnabled = isSharedAxisEnabled;
 function onNewLine() {
     if ($ChartDrawer.isNewDrawing !== 'line') {
@@ -109,14 +108,6 @@ onDestroy(() => {
   {/if}
 
   <div class="mrg-a mrg--l" />
-
-  {#if !hasSubscription}
-    <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
-  {:else if $globals.isTrial}
-    <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
-      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />Upgrade</a
-    >
-  {/if}
 
   {#if hasDomainGroups}
     <button class="row v-center" on:click={() => (isSharedAxisEnabled = !isSharedAxisEnabled)}>

@@ -10,6 +10,7 @@ import { studio } from './../../stores/studio';
 import { selectedItems } from './../../stores/selector';
 import { getWidget } from './../../ChartWidget/context';
 import { getAdapterController } from './../../adapter/context';
+import { Node } from './../../Chart/nodes';
 const History = getHistoryContext();
 const widget = getWidget();
 const newHistory = (name, undo, redo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
@@ -104,14 +105,16 @@ onDestroy(() => {
       </div>
     {/if}
 
-    <div
-      class="btn-ghost option"
-      class:disabled={isSettingsOpened}
-      on:click={() => onSettings(metric)}
-    >
-      <Svg id="cog" w="16" class="mrg-s mrg--r" />
-      Settings
-    </div>
+    {#if metric.node !== Node.REFERENCE}
+      <div
+        class="btn-ghost option"
+        class:disabled={isSettingsOpened}
+        on:click={() => onSettings(metric)}
+      >
+        <Svg id="cog" w="16" class="mrg-s mrg--r" />
+        Settings
+      </div>
+    {/if}
   </div>
 </Tooltip>
 

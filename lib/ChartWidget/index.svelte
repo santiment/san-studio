@@ -7,6 +7,7 @@ import Widget from './Widget.svelte';
 import { initWidget, getOnLoadContext } from './context';
 import { debounced } from './utils';
 import { getSharedAccessHeaders } from './../api/timeseries/queries';
+import { Node } from './../Chart/nodes';
 const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController();
 let className = '';
 export { className as class };
@@ -48,7 +49,7 @@ const fetchData = debounced((metrics, settings, MetricSettings, cachePolicy) => 
     // prettier-ignore
     abortFetch = getTimeseries(metrics, settings, onData, onDataError, MetricSettings, cachePolicy, requestOptions);
 });
-const fetchAllData = debounced((metrics, slug, address) => getAllTimeData(metrics, address ? { address } : { slug }, onAllTimeData, noop));
+const fetchAllData = debounced((metrics, slug, address) => getAllTimeData(metrics.filter((metric) => metric.node !== Node.REFERENCE), address ? { address } : { slug }, onAllTimeData, noop));
 function onDataError(Error, newLoadings, newData) {
     MetricError = Error;
     loadings = newLoadings;

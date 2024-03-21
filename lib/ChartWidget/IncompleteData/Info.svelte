@@ -1,26 +1,16 @@
-<script>import { track } from 'san-webkit/lib/analytics';
-import { showPaymentDialog } from 'san-webkit/lib/ui/PaymentDialog/index.svelte';
-import { Event } from './../../analytics';
+<script>import 'san-webkit/lib/analytics';
 import { globals } from './../../stores/globals';
-import { closeBanners } from './utils';
+import { trackUpgrade } from './utils';
 export let upgradeClass = '';
 export let restrictions;
-export let isBanner = false;
 export let restrictedMetrics;
 function onUpgradeClick(e) {
-    var _a;
-    track.event(Event.IncompleteDataUpgrade, {
-        location: isBanner ? 'banner' : 'tooltip',
-        metrics: Array.from(new Set(restrictedMetrics.map(({ key, queryKey = key }) => queryKey))),
+    trackUpgrade({
+        e,
+        restrictedMetrics,
+        isLoggedIn: $globals.isLoggedIn,
+        location: 'banner',
     });
-    closeBanners();
-    if ($globals.isLoggedIn) {
-        e.preventDefault();
-        return showPaymentDialog({
-            source: 'charts_incomplete_data_upgrade',
-        });
-    }
-    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
 }
 </script>
 

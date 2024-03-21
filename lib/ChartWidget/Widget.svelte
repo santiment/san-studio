@@ -13,6 +13,7 @@ import MetricsRow from './Metrics/index.svelte';
 import MetricSettingsRow from './MetricSettings/index.svelte';
 import { initWidget, initWidgetContext, getOnLoadContext, dispatchWidgetDataLoaded, } from './context';
 import { DatesMessage } from './../EmbeddableChartWidget/utils';
+import { Node } from './../Chart/nodes';
 const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded, isMinimapEmbedded = false, } = getAdapterController();
 const History = getHistoryContext();
 let className = '';
@@ -76,6 +77,8 @@ function changeStudioPeriod(startDatetime, endDatetime) {
 }
 const onMetricSettings = (metric) => (settingsOpenedMetric = metric);
 function onMetricClick(metric, e) {
+    if (metric.node === Node.REFERENCE)
+        return;
     if (e.target === e.currentTarget) {
         track.event(Event.MetricSettings, { metric: metric.key });
         settingsOpenedMetric = metric;
@@ -149,6 +152,7 @@ function onChart(newChart) {
     <slot />
 
     <MetricsRow
+      {chart}
       metrics={displayedMetrics}
       {settingsOpenedMetric}
       {loadings}

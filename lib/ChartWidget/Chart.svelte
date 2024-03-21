@@ -18,10 +18,12 @@ import Brush from './../Chart/Brush/index.svelte';
 import Drawer from './../Chart/Drawer/index.svelte';
 import Watermark from './../Chart/Watermark.svelte';
 import ReferenceDots from './../Chart/ReferenceDots.svelte';
+import TrendingDots from './../Chart/TrendingDots.svelte';
 import { globals } from './../stores/globals';
 import { getAdapterController } from './../adapter/context';
 import { newDomainModifier } from './domain';
 import { getWidget } from './context';
+import { Node } from './../Chart/nodes';
 const widget = getWidget();
 const { isEmbedded, onChartPointClick, onModRangeSelect = () => { } } = getAdapterController();
 const { ChartAxes, ChartOptions, ChartAddons } = widget;
@@ -37,6 +39,7 @@ export let isFullscreened;
 export let onChart, changeStudioPeriod;
 let chartWidth;
 const getKey = ({ key }) => key;
+$: trendingReferences = metrics.filter((metric) => metric.node === Node.REFERENCE);
 $: ({ ticker } = $studio);
 $: references = $SignalsTimeseries;
 $: axesMetricKeys = Array.from($ChartAxes).map(getKey);
@@ -44,16 +47,19 @@ $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetric
 $: theme = themes[+$globals.isNightMode];
 $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget);
 $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key);
+$: console.log({ references });
 const labelGetter = (ticker, { base, label }) => base ? label : label + ` (${ticker})`;
 function getTooltipSettings(metrics, references, ticker, MetricDisplays) {
     const metricSettings = getDefaultTooltipSettings();
     metrics.forEach((metric) => {
-        const { key, formatter = FORMATTER, getLabel, axisFormatter } = metric;
-        const metricLabel = (getLabel || labelGetter)(ticker, metric);
+        var _a, _b;
+        const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric;
+        const metricLabel = (_b = (_a = metric.tooltipLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker, metric)) !== null && _b !== void 0 ? _b : (getLabel || labelGetter)(ticker, metric);
         metricSettings[key] = Object.assign({
             label: metricLabel,
             formatter,
             axisFormatter,
+            marker,
         }, MetricDisplays[key]);
     });
     references.forEach(({ key, label, formatter }) => {
@@ -112,6 +118,7 @@ function onRangeSelect(start, end, e) {
   <Lines />
 
   <ReferenceDots {references} />
+  <TrendingDots references={trendingReferences} />
 
   {#if $ChartOptions.cartesianGrid} <CartesianGrid /> {/if}
   <Axes

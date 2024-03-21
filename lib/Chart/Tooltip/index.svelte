@@ -53,9 +53,13 @@ canvas.ontouchstart =
                 if (tooltipSynchronizer)
                     tooltipSynchronizer.sync(chart, point.value, y);
             });
-function marker(ctx, key, _, x, y) {
+function marker(ctx, key, value, x, y) {
+    var _a;
     const { colors } = chart;
     const RADIUS = 4;
+    if ((_a = metricSettings[key]) === null || _a === void 0 ? void 0 : _a.marker) {
+        return metricSettings[key].marker(ctx, key, value, x, y);
+    }
     if (NotableSignal[key]) {
         ctx.beginPath();
         ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI);

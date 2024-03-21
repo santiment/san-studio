@@ -1,5 +1,7 @@
 <script>var _a;
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { Node } from './Chart/nodes';
+import './Chart/ReferenceDots.svelte';
 let className = '';
 export { className as class };
 export let metric;
@@ -14,8 +16,10 @@ export let node = undefined;
 $: color = colors && getColor(metric, colors, highlight);
 $: label = (ticker && ((_a = metric.getLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker))) || metric.label;
 function getColor({ key }, colors, highlight = false) {
-    const color = colors[key];
-    let style = `--b-color:${color};--m-color:${color}22`;
+    const color = colors[key] || '';
+    if (!color)
+        return '';
+    let style = `--b-color:${color || 'var(--porcelain)'};--m-color:${color}22`;
     if (highlight && color.length < 8) {
         style += `;--h-color:${color}11;---border:${color}55`;
     }
@@ -34,7 +38,11 @@ function getColor({ key }, colors, highlight = false) {
   on:mouseenter
   on:mouseleave
 >
-  <div class="color" class:loader={isLoading} />
+  <div
+    class:reference={metric.node === Node.REFERENCE}
+    class="color"
+    class:loader={isLoading && metric.node !== Node.REFERENCE}
+  />
 
   {label}
 
@@ -66,7 +74,7 @@ function getColor({ key }, colors, highlight = false) {
     top: 0;
     height: 100%;
     width: 4px;
-    background: var(--b-color);
+    background: var(--b-color, var(--porcelain));
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
     overflow: hidden;
@@ -83,7 +91,7 @@ function getColor({ key }, colors, highlight = false) {
 
   .active,
   .metric:hover {
-    ---border: var(--b-color) !important;
+    ---border: var(--b-color, var(--porcelain)) !important;
   }
 
   :global(.MetricButton__btn) {
@@ -116,5 +124,14 @@ function getColor({ key }, colors, highlight = false) {
     100% {
       transform: translateY(100%);
     }
+  }
+
+  .reference {
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    padding: 0;
+    position: static;
   }
 </style>

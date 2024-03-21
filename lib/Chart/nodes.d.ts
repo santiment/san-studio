@@ -1,5 +1,6 @@
 export declare const Node: {
     readonly CANDLES: "candle";
+    readonly REFERENCE: "reference";
 } & {
     readonly LINE: "line";
     readonly FILLED_LINE: "filledLine";

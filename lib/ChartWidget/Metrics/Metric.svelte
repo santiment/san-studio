@@ -3,6 +3,7 @@ import { onDestroy } from 'svelte';
 import { track } from 'san-webkit/lib/analytics';
 import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip';
 import { Event } from './../../analytics';
 import { queryProjectBlockchain } from './../../api/blockchains';
 import MetricButton from './../../MetricButton.svelte';
@@ -23,6 +24,7 @@ export let error, isLoading, isSettingsOpened, isHidden;
 export let onEnter, onLeave, onClick, onDelete, onLock, onSettings;
 export let dndContext;
 export let isMultipleMetricsOnChart;
+export let restricted;
 let isMenuOpened = false;
 let node;
 $: isLocked = !!metric.project;
@@ -80,6 +82,16 @@ onDestroy(onMouseLeave);
     {/if}
   {/if}
 
+  {#if restricted}
+    <Tooltip let:trigger position="bottom">
+      <button use:trigger>
+        <Svg id="error" class="error-3zOexx mrg-s mrg--l" w="16" />
+      </button>
+
+      <tooltip slot="tooltip" class="caption night-mode c-black">Restricted: PRO required</tooltip>
+    </Tooltip>
+  {/if}
+
   {#if $MetricsSignals.includes(metric)}
     <div class="locked signaled row hv-center"><Svg id="flash" w="8" /></div>
   {/if}
@@ -98,7 +110,7 @@ onDestroy(onMouseLeave);
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="blockchain-L+x8NO" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-Uc_GFB" />
     {/if}
   {/await}
 
@@ -129,6 +141,10 @@ onDestroy(onMouseLeave);
     height: 16px;
   }
 
+  :global(.error-3zOexx) {
+    fill: var(--red);
+  }
+
   .signaled {
     background: var(--red);
   }
@@ -141,9 +157,15 @@ onDestroy(onMouseLeave);
     z-index: 11;
   }
 
-  :global(.blockchain-L\+x8NO) {
+  :global(.blockchain-Uc_GFB) {
     position: absolute;
     right: -6px;
     top: -6px;
+  }
+
+  tooltip {
+    padding: 6px 13px;
+    background-color: var(--casper);
+    border-radius: 4px;
   }
 </style>
