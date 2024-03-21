@@ -166,7 +166,22 @@ export const SocialMetric = each(
     twitter_followers_7d: newTwitterFollowers('7d'),
 
     trending_words_rank: {
-      label: 'Trending Words Rank',
+      label: 'Trending Social Rank',
+      node: Node.REFERENCE,
+      references: 'price_usd',
+      precacher: (metric) => (data) => {
+        const result = data.getMetric.timeseriesData
+          // .slice()
+          // .filter((item) => item.v <= 10)
+          .map((item) => ({
+            datetime: Date.parse(item.d),
+            [metric.key]: item.v <= 10 ? item.v : null,
+          }))
+
+        data.getMetric.timeseriesData = result
+
+        return data
+      },
     },
 
     ...TotalSentimentMetric,

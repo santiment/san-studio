@@ -1,5 +1,7 @@
 <script lang="ts">
   import Svg from 'webkit/ui/Svg/svelte'
+  import { Node } from './Chart/nodes'
+  import ReferenceDots from './Chart/ReferenceDots.svelte'
 
   let className = ''
   export { className as class }
@@ -18,7 +20,7 @@
 
   function getColor({ key }: Studio.Metric, colors, highlight = false) {
     const color = colors[key]
-    let style = `--b-color:${color};--m-color:${color}22`
+    let style = `--b-color:${color || 'var(--porcelain)'};--m-color:${color}22`
 
     if (highlight && color.length < 8) {
       style += `;--h-color:${color}11;---border:${color}55`
@@ -39,7 +41,11 @@
   on:mouseenter
   on:mouseleave
 >
-  <div class="color" class:loader={isLoading} />
+  <div
+    class:reference={metric.node === Node.REFERENCE}
+    class="color"
+    class:loader={isLoading && metric.node !== Node.REFERENCE}
+  />
 
   {label}
 
@@ -88,7 +94,7 @@
 
   .active,
   .metric:hover {
-    ---border: var(--b-color) !important;
+    ---border: var(--b-color, var(--porcelain)) !important;
   }
 
   :global(.MetricButton__btn) {
@@ -121,5 +127,14 @@
     100% {
       transform: translateY(100%);
     }
+  }
+
+  .reference {
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    padding: 0;
+    position: static;
   }
 </style>

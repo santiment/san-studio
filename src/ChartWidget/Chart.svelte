@@ -23,6 +23,7 @@
   import { getAdapterController } from '@/adapter/context'
   import { newDomainModifier } from './domain'
   import { getWidget } from './context'
+  import { Node } from '@/Chart/nodes'
 
   const widget = getWidget()
   const { isEmbedded, onChartPointClick, onModRangeSelect = () => {} } = getAdapterController()
@@ -43,13 +44,18 @@
   let chartWidth
 
   const getKey = ({ key }) => key
+  $: referenceMetrics = metrics
+    .filter((metric) => metric.node === Node.REFERENCE)
+    .map((metric) => ({ key: metric.key, mtric: metric.references, data: [] }))
   $: ({ ticker } = $studio)
-  $: references = $SignalsTimeseries
+  $: references = referenceMetrics.concat($SignalsTimeseries)
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
   $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays)
   $: theme = themes[+$globals.isNightMode]
   $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
+
+  $: console.log({ references })
 
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
     base ? label : label + ` (${ticker})`
