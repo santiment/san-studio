@@ -30,7 +30,9 @@ function precacher() {
 
 const options = { precacher }
 export const queryMinInterval = (): Promise<MetricMinInterval> =>
-  query<MinIntervalQuery>(MIN_INTERVAL_QUERY, options as any) as any as Promise<MetricMinInterval>
+  query<MinIntervalQuery>(MIN_INTERVAL_QUERY, options as any).catch(
+    () => ({}),
+  ) as any as Promise<MetricMinInterval>
 
 export const getMetricKeyMinInterval = (metricKey: string) =>
   queryMinInterval().then((MetricMinInterval) => MetricMinInterval[metricKey]?.minInterval)

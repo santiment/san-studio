@@ -169,13 +169,21 @@ export const SocialMetric = each(
       label: 'Trending Social Rank',
       node: Node.REFERENCE,
       references: 'price_usd',
+      formatter: (value: number) => `${ordinalFormat(value)} place in Social trends`,
+      getColor: getTrendingColor,
+      marker(ctx, _key, value, x, y) {
+        ctx.beginPath()
+        ctx.arc(x + 4, y + 1.5, 3, 0, 2 * Math.PI)
+        ctx.fillStyle = getTrendingColor(value)
+        ctx.fill()
+      },
       precacher: (metric) => (data) => {
         const result = data.getMetric.timeseriesData
           // .slice()
           // .filter((item) => item.v <= 10)
           .map((item) => ({
             datetime: Date.parse(item.d),
-            [metric.key]: item.v <= 10 ? item.v : null,
+            [metric.key]: item.v <= 10 ? item.v : 0,
           }))
 
         data.getMetric.timeseriesData = result
@@ -193,3 +201,24 @@ export const SocialMetric = each(
     metric.category = MetricCategory.Social
   },
 )
+
+function getTrendingColor(value: number) {
+  if (value > 3) return '#5C9DFF'
+  if (value > 1) return '#FFDB00'
+  return '#2FFF50'
+}
+
+function ordinalFormat(value: number) {
+  const last = +value.toString().slice(0, -1) ?? value
+  switch (last) {
+    case 1:
+      return value + 'st'
+    case 2:
+      return value + 'nd'
+    case 3:
+      return value + 'rd'
+
+    default:
+      return value + 'th'
+  }
+}

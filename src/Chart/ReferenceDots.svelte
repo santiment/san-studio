@@ -12,7 +12,6 @@
   chart.plotManager.set('referenceDots', (chart, _, __, colors) => {
     references.forEach(({ key, metric, data, color = '#FF5B5B' }) => {
       const metricColor = colors[metric]
-      console.log({ key, metric, data })
       if (!metricColor) return
 
       const refColor = metricColor.length < 8 ? color : color + '22'
