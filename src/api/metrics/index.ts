@@ -42,7 +42,7 @@ export const queryProjectMetrics = (
   const fundSet = new Set(FIAT_FUND_ASSETS.map((v) => v.slug))
 
   if (fundSet.has(slug)) {
-    return Promise.resolve(['volume_usd'])
+    return Promise.resolve(['etf_volume_usd_5m'])
   }
 
   return query<any>(
