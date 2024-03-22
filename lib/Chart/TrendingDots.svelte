@@ -26,7 +26,7 @@ chart.plotManager.set('trendingDots', (chart, _, data, colors) => {
                 continue;
             if ((_b = dataCtx.rawData[i]) === null || _b === void 0 ? void 0 : _b[key]) {
                 ctx.beginPath();
-                ctx.arc(point.x, targetPoint.y - 1.5, 3, 0, Math.PI * 2);
+                ctx.arc(point.x, targetPoint.y - 2, 4, 0, Math.PI * 2);
                 ctx.fillStyle = metric.getColor(value) + alpha;
                 ctx.fill();
                 ctx.lineWidth = 1;
