@@ -35,7 +35,7 @@
 
         if (dataCtx.rawData[i]?.[key]) {
           ctx.beginPath()
-          ctx.arc(point.x, targetPoint.y - 1.5, 3, 0, Math.PI * 2)
+          ctx.arc(point.x, targetPoint.y - 2, 4, 0, Math.PI * 2)
           ctx.fillStyle = metric.getColor(value) + alpha
           ctx.fill()
 

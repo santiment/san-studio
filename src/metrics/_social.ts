@@ -206,7 +206,7 @@ export const SocialMetric = each(
 function getTrendingColor(value: number) {
   if (value > 3) return '#5C9DFF'
   if (value > 1) return '#FFDB00'
-  return '#2FFF50'
+  return '#FF6363'
 }
 
 function ordinalFormat(value: number) {
