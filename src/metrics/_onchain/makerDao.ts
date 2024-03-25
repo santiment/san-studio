@@ -126,13 +126,13 @@ export const MakerDaoMetric = each(
 export const MakerDaoDsrMetric = each(
   {
     makerdao_dsr_deposits: {
-      label: 'MakerDAO DSR Deposits',
+      label: 'MakerDAO DSR (DAI Savings Rate) Deposits',
     },
     makerdao_dsr_withdrawals: {
-      label: 'MakerDAO DSR Withdrawals',
+      label: 'MakerDAO DSR (DAI Savings Rate) Withdrawals',
     },
     makerdao_dsr_total_supplied: {
-      label: 'MakerDAO DSR Total Supplied',
+      label: 'MakerDAO DSR (DAI Savings Rate) Total Supplied',
     },
   },
   (metric: Studio.Metric) => {
