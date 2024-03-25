@@ -14,6 +14,7 @@ import MetricSettingsRow from './MetricSettings/index.svelte';
 import { initWidget, initWidgetContext, getOnLoadContext, dispatchWidgetDataLoaded, } from './context';
 import { DatesMessage } from './../EmbeddableChartWidget/utils';
 import { Node } from './../Chart/nodes';
+import { minimized$ } from './../EmbeddableChartWidget/store';
 const { onWidgetInit, isWithMetricSettings = true, isOnlyChartEmbedded, isMinimapEmbedded = false, } = getAdapterController();
 const History = getHistoryContext();
 let className = '';
@@ -137,7 +138,7 @@ function onChart(newChart) {
   let:onMetricHover
 >
   <div class="widget column {className}">
-    {#if isOnlyChartEmbedded !== true}
+    {#if isOnlyChartEmbedded !== true && $minimized$.minimized === false}
       <Controls
         {chart}
         {isSingleWidget}
@@ -152,26 +153,28 @@ function onChart(newChart) {
 
     <slot />
 
-    <MetricsRow
-      {chart}
-      metrics={displayedMetrics}
-      {settingsOpenedMetric}
-      {loadings}
-      {colors}
-      {MetricError}
-      {ChartAddonError}
-      {isSingleWidget}
-      {changeStudioPeriod}
-      {onMetricClick}
-      {onMetricHover}
-      {onMetricDelete}
-      {onMetricLock}
-      {onMetricSettings}
-    >
-      <slot name="metrics-right" />
-    </MetricsRow>
+    {#if $minimized$.minimized === false}
+      <MetricsRow
+        {chart}
+        metrics={displayedMetrics}
+        {settingsOpenedMetric}
+        {loadings}
+        {colors}
+        {MetricError}
+        {ChartAddonError}
+        {isSingleWidget}
+        {changeStudioPeriod}
+        {onMetricClick}
+        {onMetricHover}
+        {onMetricDelete}
+        {onMetricLock}
+        {onMetricSettings}
+      >
+        <slot name="metrics-right" />
+      </MetricsRow>
+    {/if}
 
-    {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false}
+    {#if isWithMetricSettings && settingsOpenedMetric && $globals.isPresenterMode === false && $minimized$.minimized === false}
       <MetricSettingsRow metric={settingsOpenedMetric} />
     {/if}
 

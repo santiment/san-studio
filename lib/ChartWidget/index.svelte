@@ -8,6 +8,7 @@ import { initWidget, getOnLoadContext } from './context';
 import { debounced } from './utils';
 import { getSharedAccessHeaders } from './../api/timeseries/queries';
 import { Node } from './../Chart/nodes';
+import { minimized$ } from './../EmbeddableChartWidget/store';
 const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController();
 let className = '';
 export { className as class };
@@ -34,6 +35,7 @@ $: visibleMetrics = metrics.filter((metric) => !hiddenMetrics.has(metric));
 $: ({ slug, address } = $studio);
 $: fetchData(visibleMetrics, $studio, $MetricSettings);
 $: (isMinimapEmbedded || isOnlyChartEmbedded !== true) &&
+    $minimized$.minimized === false &&
     fetchAllData(visibleMetrics, slug, address);
 widget.fetchData = (cachePolicy) => fetchData(visibleMetrics, $studio, $MetricSettings, cachePolicy);
 let abortFetch;

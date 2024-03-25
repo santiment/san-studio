@@ -15,6 +15,7 @@ export declare function parseQueryString(qs: string): {
     isSharedAxisEnabled: boolean;
     isMinimapEmbedded: boolean;
     isCalendarEnabled: boolean;
+    isAdaptiveLayoutMinimized: boolean | undefined;
     metrics: Metric[];
     metricIndicators: {
         [metricKey: string]: Set<string>;

@@ -82,7 +82,7 @@ onDestroy(onMouseLeave);
     {/if}
   {/if}
 
-  {#if restricted}
+  {#if restricted && !isEmbedded}
     <Tooltip let:trigger position="bottom">
       <button use:trigger>
         <Svg id="error" class="error-3zOexx mrg-s mrg--l" w="16" />

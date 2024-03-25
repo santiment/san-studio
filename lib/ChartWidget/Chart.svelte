@@ -47,7 +47,6 @@ $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetric
 $: theme = themes[+$globals.isNightMode];
 $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget);
 $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key);
-$: console.log({ references });
 const labelGetter = (ticker, { base, label }) => base ? label : label + ` (${ticker})`;
 function getTooltipSettings(metrics, references, ticker, MetricDisplays) {
     const metricSettings = getDefaultTooltipSettings();

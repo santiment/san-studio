@@ -7,11 +7,12 @@ import { setAdapterController } from './../adapter/context';
 import { newAutoUpdaterStore } from './../stores/autoUpdater';
 import ChartWidget from './../ChartWidget/index.svelte';
 import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte';
-import { getViewOnSantimentLink } from './utils';
+import { AdaptiveLayoutMessage, getViewOnSantimentLink } from './utils';
 import sanSvg from './san.svg';
 import Calendar from './../Header/Calendar.svelte';
 import { DatesMessage, AssetMessage, ThemeMessage } from './utils';
 import { globals } from './../stores/globals';
+import { minimized$ } from './store';
 let className = '';
 export { className as class };
 export let widget = {};
@@ -57,22 +58,45 @@ ThemeMessage.listen((theme) => {
     globals.toggle('isNightMode', theme.dark);
     document.body.classList.toggle('night-mode', theme.dark);
 });
+AdaptiveLayoutMessage.listen((settings) => {
+    minimized$.update((state) => {
+        var _a, _b;
+        const value = Object.assign({}, state);
+        value.minimized = (_a = settings.minimized) !== null && _a !== void 0 ? _a : value.minimized;
+        value.controls = (_b = settings.controls) !== null && _b !== void 0 ? _b : value.controls;
+        return value;
+    });
+});
 </script>
 
 <div class="column {className}">
-  <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="widget-wZMNif">
-      {#if isCalendarEnabled}
-        <Calendar class="s-onsr22" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
-      {/if}
-    </ChartWidget>
-  </MetricErrorTooltipCtx>
+  {#key $minimized$}
+    <MetricErrorTooltipCtx>
+      <ChartWidget {widget} class="widget-K4FuzN">
+        {#if isCalendarEnabled}
+          <Calendar class="s-onsr22" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+        {/if}
+      </ChartWidget>
+    </MetricErrorTooltipCtx>
+  {/key}
 
-  <div class="row justify txt-m mrg-xs mrg--t">
+  <div class="bottom row justify txt-m">
     <div class="update btn" on:click={AutoUpdater.update}>
       <Svg id="refresh" w="12" class="mrg-s mrg--r" />
-      Updated {updated} ago
+      Updated {updated || 1} ago
     </div>
+
+    {#if $minimized$.controls}
+      <button
+        class="tiny btn gap-xs row v-center"
+        on:click={minimized$.toggle}
+        class:minimized={$minimized$.minimized}
+      >
+        {$minimized$.minimized ? 'Expand' : 'Minimize'}
+
+        <Svg class="arrow-xdjXLq" id="arrow" w="7" />
+      </button>
+    {/if}
 
     <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
@@ -97,11 +121,23 @@ ThemeMessage.listen((theme) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-wZMNif) {
+  :global(.widget-K4FuzN) {
     height: 0 !important;
   }
 
   :global(.s-onsr22) {
     margin-top: -4px;
+  }
+
+  .bottom {
+    margin-top: 2px;
+  }
+
+  :global(.arrow-xdjXLq) {
+    transform: rotate(var(--rotated, 180deg));
+  }
+
+  .minimized {
+    --rotated: 0;
   }
 </style>

@@ -31,3 +31,13 @@ export declare const ThemeMessage: {
         dark: boolean;
     }): void;
 };
+export declare const AdaptiveLayoutMessage: {
+    listen<T extends (data: {
+        minimized?: boolean | undefined;
+        controls?: boolean | undefined;
+    }) => void>(clb: T): void;
+    send(data: {
+        minimized?: boolean | undefined;
+        controls?: boolean | undefined;
+    }): void;
+};

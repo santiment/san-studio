@@ -57,7 +57,10 @@ const getBase = (metric) => metric.base || metric;
       <PinAxisSetting {metric} />
 
       <AxisMaxMinSetting {metric} />
-      <ExpressionSetting {metric} />
+
+      {#if !isEmbedded}
+        <ExpressionSetting {metric} />
+      {/if}
     {/if}
   </div>
 {/key}

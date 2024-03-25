@@ -108,13 +108,15 @@ function isMetricRestricted(metric, restrictions) {
 
   <slot />
 
-  {#if !hasSubscription}
-    <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
-  {:else if $globals.isTrial}
-    <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
-      <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />
-      Upgrade
-    </a>
+  {#if !isOnlyChartEmbedded}
+    {#if !hasSubscription}
+      <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
+    {:else if $globals.isTrial}
+      <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
+        <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />
+        Upgrade
+      </a>
+    {/if}
   {/if}
 
   {#if !isOnlyChartEmbedded && $globals.isPresenterMode === false && AutoUpdater}
