@@ -55,8 +55,6 @@
   $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
 
-  $: console.log({ references })
-
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
     base ? label : label + ` (${ticker})`
   function getTooltipSettings(

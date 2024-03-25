@@ -62,7 +62,10 @@
       <PinAxisSetting {metric} />
 
       <AxisMaxMinSetting {metric} />
-      <ExpressionSetting {metric} />
+
+      {#if !isEmbedded}
+        <ExpressionSetting {metric} />
+      {/if}
     {/if}
   </div>
 {/key}

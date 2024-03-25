@@ -13,6 +13,7 @@
   import Calendar from '@/Header/Calendar.svelte'
   import { DatesMessage, AssetMessage, ThemeMessage } from './utils'
   import { globals } from '@/stores/globals'
+  import { minimized$ } from './store'
 
   let className = ''
   export { className as class }
@@ -73,19 +74,35 @@
 </script>
 
 <div class="column {className}">
-  <MetricErrorTooltipCtx>
-    <ChartWidget {widget} class="$style.widget">
-      {#if isCalendarEnabled}
-        <Calendar dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
-      {/if}
-    </ChartWidget>
-  </MetricErrorTooltipCtx>
+  {#key $minimized$}
+    <MetricErrorTooltipCtx>
+      <ChartWidget {widget} class="$style.widget">
+        {#if isCalendarEnabled}
+          <Calendar dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+        {/if}
+      </ChartWidget>
+    </MetricErrorTooltipCtx>
+  {/key}
 
-  <div class="row justify txt-m mrg-xs mrg--t">
+  <div class="bottom row justify txt-m">
     <div class="update btn" on:click={AutoUpdater.update}>
       <Svg id="refresh" w="12" class="mrg-s mrg--r" />
-      Updated {updated} ago
+      Updated {updated || 1} ago
     </div>
+
+    <button
+      class="tiny btn gap-xs row v-center"
+      on:click={minimized$.toggle}
+      class:minimized={$minimized$.minimized}
+    >
+      {#if $minimized$.minimized}
+        Expand
+      {:else}
+        Minimize
+      {/if}
+
+      <Svg class="$style.arrow" id="arrow" w="7" />
+    </button>
 
     <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
@@ -116,5 +133,17 @@
 
   Calendar {
     margin-top: -4px;
+  }
+
+  .bottom {
+    margin-top: 2px;
+  }
+
+  .arrow {
+    transform: rotate(var(--rotated, 180deg));
+  }
+
+  .minimized {
+    --rotated: 0;
   }
 </style>
