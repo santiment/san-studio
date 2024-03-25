@@ -4,6 +4,7 @@ import { studio } from '@/stores/studio'
 import { globals } from '@/stores/globals'
 import { newWidget } from '@/stores/widgets'
 import { parseQueryString } from '@/ChartWidget/Controls/Embed/utils'
+import { minimized$ } from './store'
 
 const {
   from,
@@ -15,6 +16,7 @@ const {
   isWithMetricSettings,
   isMinimapEmbedded,
   isCalendarEnabled,
+  isAdaptiveLayoutMinimized,
   ...widgetProps
 } = parseQueryString(
   window.location.search ||
@@ -27,6 +29,13 @@ studio.setProject({ from, to, slug, ticker })
 
 globals.toggle('isNightMode', isNightMode)
 document.body.classList.toggle('night-mode', isNightMode)
+
+if (isAdaptiveLayoutMinimized !== undefined) {
+  minimized$.set({
+    minimized: isAdaptiveLayoutMinimized,
+    controls: true,
+  })
+}
 
 const app = new App({
   target: document.querySelector('body') as Element,

@@ -43,3 +43,7 @@ export const AssetMessage = IframeMessage<{ slug: string; ticker: string }>('cha
 export const DatesMessage = IframeMessage<{ from: string; to: string }>('chart_dates')
 
 export const ThemeMessage = IframeMessage<{ dark: boolean }>('chart_theme')
+
+export const AdaptiveLayoutMessage = IframeMessage<{ minimized?: boolean; controls?: boolean }>(
+  'adaptive_layout',
+)
