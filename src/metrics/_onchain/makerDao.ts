@@ -1,5 +1,6 @@
 import { Node } from '@/Chart/nodes'
 import { each } from '../utils'
+import { usdFormatter } from '../formatters'
 
 export const MakerDaoMetric = each(
   {
@@ -43,7 +44,6 @@ export const MakerDaoMetric = each(
     makerdao_action_deposits: {
       label: 'MakerDAO Deposits',
     },
-
     makerdao_action_liquidations: {
       label: 'MakerDAO Liquidations',
     },
@@ -55,27 +55,35 @@ export const MakerDaoMetric = each(
     },
     makerdao_action_deposits_usd: {
       label: 'MakerDAO Deposits in USD',
+      formatter: usdFormatter,
     },
     makerdao_action_liquidations_usd: {
       label: 'MakerDAO Liquidations in USD',
+      formatter: usdFormatter,
     },
     makerdao_action_new_debt_usd: {
       label: 'MakerDAO New Debt in USD',
+      formatter: usdFormatter,
     },
     makerdao_action_repayments_usd: {
       label: 'MakerDAO Repayments in USD',
+      formatter: usdFormatter,
     },
     makerdao_total_deposits_usd: {
       label: 'MakerDAO Total Deposits in USD',
+      formatter: usdFormatter,
     },
     makerdao_total_liquidations_usd: {
       label: 'MakerDAO Total Liquidations in USD',
+      formatter: usdFormatter,
     },
     makerdao_total_new_debt_usd: {
       label: 'MakerDAO Total New Debt in USD',
+      formatter: usdFormatter,
     },
     makerdao_total_repayments_usd: {
       label: 'MakerDAO Total Repayments in USD',
+      formatter: usdFormatter,
     },
     makerdao_total_supplied: {
       label: 'MakerDAO Collateral Total Supplied',
@@ -83,6 +91,7 @@ export const MakerDaoMetric = each(
     },
     makerdao_total_supplied_usd: {
       label: 'MakerDAO Collateral Total Supplied in USD',
+      formatter: usdFormatter,
       node: Node.LINE,
     },
     makerdao_total_borrowed: {
@@ -91,14 +100,17 @@ export const MakerDaoMetric = each(
     },
     makerdao_total_borrowed_usd: {
       label: 'MakerDAO Total Borrowed in USD',
+      formatter: usdFormatter,
       node: Node.LINE,
     },
     makerdao_protocol_total_supplied_usd: {
       label: 'MakerDAO Protocol Total Supplied in USD',
+      formatter: usdFormatter,
       node: Node.LINE,
     },
     makerdao_protocol_total_borrowed_usd: {
       label: 'MakerDAO Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
       node: Node.LINE,
     },
     makerdao_active_addresses: {
@@ -108,5 +120,22 @@ export const MakerDaoMetric = each(
   (metric: Studio.Metric) => {
     metric.group = 'Makerdao Stats'
     metric.node = metric.node || Node.BAR
+  },
+)
+
+export const MakerDaoDsrMetric = each(
+  {
+    makerdao_dsr_deposits: {
+      label: 'MakerDAO DSR Deposits',
+    },
+    makerdao_dsr_withdrawals: {
+      label: 'MakerDAO DSR Withdrawals',
+    },
+    makerdao_dsr_total_supplied: {
+      label: 'MakerDAO DSR Total Supplied',
+    },
+  },
+  (metric: Studio.Metric) => {
+    metric.group = 'MakerDAO DSR'
   },
 )

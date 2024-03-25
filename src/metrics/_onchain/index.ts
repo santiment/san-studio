@@ -1,6 +1,6 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { XrpMetric } from './xrp'
-import { MakerDaoMetric } from './makerDao'
+import { MakerDaoMetric, MakerDaoDsrMetric } from './makerDao'
 import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
 import { LiquityMetric } from './liquity'
@@ -301,6 +301,8 @@ export const OnChainMetric = each(
     Aave3Metric,
     CompoundMetric,
     Compound3Metric,
+    MakerDaoMetric,
+    MakerDaoDsrMetric,
     LiquityMetric,
     BeaconMetric,
 
@@ -310,7 +312,6 @@ export const OnChainMetric = each(
     LongTermHoldersMetric,
     NetworkActivityMetric,
     NetworkValueMetric,
-    MakerDaoMetric,
   ),
   (metric: Studio.Metric) => (metric.category = MetricCategory.OnChain),
 )
