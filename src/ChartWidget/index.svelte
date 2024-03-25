@@ -9,6 +9,7 @@
   import { debounced } from './utils'
   import { getSharedAccessHeaders } from '@/api/timeseries/queries'
   import { Node } from '@/Chart/nodes'
+  import { minimized$ } from '@/EmbeddableChartWidget/store'
 
   const { isOnlyChartEmbedded, isMinimapEmbedded, sharedAccessToken } = getAdapterController()
 
@@ -41,6 +42,7 @@
   $: ({ slug, address } = $studio)
   $: fetchData(visibleMetrics, $studio, $MetricSettings)
   $: (isMinimapEmbedded || isOnlyChartEmbedded !== true) &&
+    $minimized$.minimized === false &&
     fetchAllData(visibleMetrics, slug, address)
 
   widget.fetchData = (cachePolicy) =>

@@ -84,7 +84,7 @@ export function parseQueryString(qs: string) {
   const shared = parse(qs) as any
   const { ps, pt, addr } = shared
   const { sat, utc, df, dt, emnm, emcg, emms, emhwm, emsax } = shared
-  const { emmmc, emcal } = shared
+  const { emmmc, emcal, emalm } = shared
   const { wm, wax, wc, ws, wcm, wd } = shared
 
   const KnownMetric = {}
@@ -115,6 +115,7 @@ export function parseQueryString(qs: string) {
     // Custom API
     isMinimapEmbedded: emmmc ? true : false,
     isCalendarEnabled: emcal ? true : false,
+    isAdaptiveLayoutMinimized: emalm === undefined ? undefined : !!+emalm,
 
     metrics,
     metricIndicators,
