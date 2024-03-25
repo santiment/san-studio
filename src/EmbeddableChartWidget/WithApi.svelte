@@ -8,7 +8,7 @@
   import { newAutoUpdaterStore } from '@/stores/autoUpdater'
   import ChartWidget from '@/ChartWidget/index.svelte'
   import MetricErrorTooltipCtx from '@/ChartWidget/Metrics/ErrorTooltipCtx.svelte'
-  import { getViewOnSantimentLink } from './utils'
+  import { AdaptiveLayoutMessage, getViewOnSantimentLink } from './utils'
   import sanSvg from './san.svg'
   import Calendar from '@/Header/Calendar.svelte'
   import { DatesMessage, AssetMessage, ThemeMessage } from './utils'
@@ -71,6 +71,17 @@
     globals.toggle('isNightMode', theme.dark)
     document.body.classList.toggle('night-mode', theme.dark)
   })
+
+  AdaptiveLayoutMessage.listen((settings) => {
+    minimized$.update((state) => {
+      const value = { ...state }
+
+      value.minimized = settings.minimized ?? value.minimized
+      value.controls = settings.controls ?? value.controls
+
+      return value
+    })
+  })
 </script>
 
 <div class="column {className}">
@@ -90,19 +101,17 @@
       Updated {updated || 1} ago
     </div>
 
-    <button
-      class="tiny btn gap-xs row v-center"
-      on:click={minimized$.toggle}
-      class:minimized={$minimized$.minimized}
-    >
-      {#if $minimized$.minimized}
-        Expand
-      {:else}
-        Minimize
-      {/if}
+    {#if $minimized$.controls}
+      <button
+        class="tiny btn gap-xs row v-center"
+        on:click={minimized$.toggle}
+        class:minimized={$minimized$.minimized}
+      >
+        {$minimized$.minimized ? 'Expand' : 'Minimize'}
 
-      <Svg class="$style.arrow" id="arrow" w="7" />
-    </button>
+        <Svg class="$style.arrow" id="arrow" w="7" />
+      </button>
+    {/if}
 
     <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
