@@ -31,3 +31,8 @@ export declare const MakerDaoMetric: {
     makerdao_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "makerdao_protocol_total_borrowed_usd">;
     makerdao_active_addresses: import("../utils").Node<Studio.Metric, "makerdao_active_addresses">;
 };
+export declare const MakerDaoDsrMetric: {
+    makerdao_dsr_deposits: import("../utils").Node<Studio.Metric, "makerdao_dsr_deposits">;
+    makerdao_dsr_withdrawals: import("../utils").Node<Studio.Metric, "makerdao_dsr_withdrawals">;
+    makerdao_dsr_total_supplied: import("../utils").Node<Studio.Metric, "makerdao_dsr_total_supplied">;
+};
