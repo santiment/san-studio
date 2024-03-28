@@ -99,7 +99,7 @@ onDestroy(() => {
         {#if title && description}
           <article class="border mrg-m mrg--b column gap-s">
             <h1 class="body-1 txt-m">{title}</h1>
-            <p class="c-fiord">{description}</p>
+            <p class="description c-fiord">{description}</p>
             <div class="row mrg-m mrg--t">
               <asset class="row v-center gap-s">
                 <Svg id="asset-small" w="12" />
@@ -200,5 +200,9 @@ onDestroy(() => {
     border-radius: 50%;
     background: var(--mystic);
     margin: 0 12px 0 4px;
+  }
+
+  .description {
+    white-space: pre-line;
   }
 </style>
