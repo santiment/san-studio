@@ -63,6 +63,8 @@ function plotAxes(chart) {
     });
 }
 function plotAxis(chart, point, color, formatter, offset, valueOffset, isWithLine = false) {
+    if (!color)
+        return;
     const { ctx, theme, top, bottom } = chart;
     if (isWithLine)
         drawAxisLine(ctx, color, offset, top, offset, bottom);

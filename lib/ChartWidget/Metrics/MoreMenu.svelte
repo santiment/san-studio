@@ -50,7 +50,7 @@ onDestroy(() => {
   on="click"
   duration={0}
   align="center"
-  activeClass="active-SGsnAG"
+  activeClass="active-ic7Bnm"
 >
   <div slot="trigger" class="btn MetricButton__btn mrg-s mrg--l">
     <Svg id="vert-dots" w="2" h="12" />
@@ -88,7 +88,7 @@ onDestroy(() => {
 
     {#if $MetricsSignals.includes(metric)}
       <div class="btn-ghost option" on:click={onHideSignal}>
-        <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-wzTZbT" />
+        <Svg id="flash" w="12" h="16" class="mrg-s mrg--r flash-Q2VU7A" />
         Hide signals
       </div>
     {/if}
@@ -137,7 +137,7 @@ onDestroy(() => {
     fill: var(--orange-hover);
   }
 
-  :global(.active-SGsnAG) {
+  :global(.active-ic7Bnm) {
     --bg: var(--m-color);
     --fill: var(--color) !important;
   }
@@ -147,7 +147,7 @@ onDestroy(() => {
     fill: var(--mystic);
   }
 
-  :global(.flash-wzTZbT) {
+  :global(.flash-Q2VU7A) {
     fill: var(--red);
     padding: 0 2px;
   }

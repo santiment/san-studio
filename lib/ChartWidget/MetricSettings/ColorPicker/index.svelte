@@ -23,9 +23,14 @@ $: uppercaseColor = color.toUpperCase();
 $: [hue, saturation, brightness] = hexToHsv(color);
 $: parseHSV(hue, saturation, brightness);
 function parseHSV(hue, saturation, brightness) {
-    const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100);
-    if (uppercaseColor !== newColor.toUpperCase())
-        onChange(newColor);
+    try {
+        const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100);
+        if (uppercaseColor !== newColor.toUpperCase())
+            onChange(newColor);
+    }
+    catch (e) {
+        console.error(e);
+    }
 }
 function newMouseHandler(moveHandler) {
     return (e) => {
