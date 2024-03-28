@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store'
 import { newChartColors } from '@/Chart/colors'
 import { Node } from '../nodes'
-import { newProjectMetricKey } from '@/metrics/utils'
 
 export type ChartColorsStore = ReturnType<typeof newChartColorsStore>
 export type ChartColors = {
@@ -42,7 +41,7 @@ export function newChartColorsStore(defaultValue?: ChartColors) {
         _colors[key] = _colors[target]
       })
 
-      set(_colors)
+      set((colors = _colors))
     },
     replace(oldMetricKey: string, newMetricKey: string) {
       colors[newMetricKey] = colors[oldMetricKey]
