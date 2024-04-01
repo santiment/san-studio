@@ -13,7 +13,7 @@ $: description = item && Description[item.key];
 {#if description}
   <Tooltip position="right" align="center" openDelay={110}>
     <div slot="trigger" bind:this={trigger}>
-      <Svg id="info" class="{className} info-Xlib72" />
+      <Svg id="info" class="{className} info-80Y+EM" />
     </div>
     <div slot="tooltip" class="description" bind:this={tooltip}>
       <div class="title txt-m mrg-s mrg--b">
@@ -25,7 +25,7 @@ $: description = item && Description[item.key];
 {/if}
 
 <style>
-  :global(.info-Xlib72:hover) {
+  :global(.info-80Y\+EM:hover) {
     fill: var(--black);
   }
 

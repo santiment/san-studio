@@ -62,7 +62,7 @@ onDestroy(() => {
 <Dialog
   {...$$props}
   title="Load Chart Layout"
-  class="dialog-2lWFYA"
+  class="dialog-hye1cz"
   bind:closeDialog
   {onEditableEscaped}
 >
@@ -94,7 +94,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-2lWFYA) {
+  :global(.dialog-hye1cz) {
     width: 600px;
     height: 480px;
   }
@@ -124,7 +124,7 @@ onDestroy(() => {
     border-bottom: 1px solid var(--porcelain);
   }
 
-  :global(.dialog-2lWFYA) :global(virtual-list-items) {
+  :global(.dialog-hye1cz) :global(virtual-list-items) {
     padding: 12px;
   }
 </style>
