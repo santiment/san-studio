@@ -35,9 +35,6 @@ const METRICS = [
       Metric.marketcap_usd,
       Metric.social_dominance_total,
       Metric.social_volume_total,
-      Metric.transaction_volume,
-      Metric.dai_created,
-      Metric.dai_repaid,
     ],
   ],
 
@@ -60,24 +57,6 @@ const METRICS = [
       Metric.realized_value_usd,
       Metric.realized_cap_hodl_waves_0d_to_1d,
       Metric.velocity,
-
-      Metric.dormant_circulation_365d,
-      Metric.stock_to_flow,
-      Metric.total_supply_in_profit,
-      Metric.percent_of_total_supply_in_profit,
-      Metric.active_addresses_24h,
-
-      Metric.mcd_locked_token,
-      Metric.scd_locked_token,
-      Metric.mcd_collat_ratio,
-      Metric.mcd_collat_ratio_weth,
-      Metric.mcd_collat_ratio_sai,
-      Metric.scd_collat_ratio,
-      Metric.mcd_dsr,
-      Metric.mcd_stability_fee,
-
-      Metric.whale_transaction_count_100k_usd_to_inf,
-      Metric.whale_transaction_count_1m_usd_to_inf,
     ],
   ],
 
