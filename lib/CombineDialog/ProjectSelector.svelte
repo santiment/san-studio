@@ -22,10 +22,10 @@ function onProjectSelect(newProject) {
 }
 </script>
 
-<Tooltip on="click" duration={0} class="tooltip-rQ4m04" bind:isOpened>
+<Tooltip on="click" duration={0} class="tooltip-7P0U2Q" bind:isOpened>
   <div slot="trigger" class="project border row v-center btn {className}">
     <Project project={project || $studio} />
-    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-TCykxs" />
+    <Svg id="arrow" w="8" h="5" class="mrg-a mrg--l arrow-qA8_cD" />
   </div>
 
   <svelte:fragment slot="tooltip">
@@ -53,11 +53,11 @@ function onProjectSelect(newProject) {
     --fill-hover: var(--green);
   }
 
-  :global(.arrow-TCykxs) {
+  :global(.arrow-qA8_cD) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-rQ4m04) {
+  :global(.tooltip-7P0U2Q) {
     margin-top: -2px;
     width: 239px;
     padding: 8px;

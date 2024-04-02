@@ -85,7 +85,7 @@ onDestroy(onMouseLeave);
   {#if restricted && !isEmbedded}
     <Tooltip let:trigger position="bottom">
       <button use:trigger>
-        <Svg id="error" class="error-X8sNI9 mrg-s mrg--l" w="16" />
+        <Svg id="error" class="error-3zOexx mrg-s mrg--l" w="16" />
       </button>
 
       <tooltip slot="tooltip" class="caption night-mode c-black">Restricted: PRO required</tooltip>
@@ -110,7 +110,7 @@ onDestroy(onMouseLeave);
 
   {#await queryProjectBlockchain(projectSlug) then blockchain}
     {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="blockchain-5npHIh" />
+      <ProjectIcon slug={blockchain} size={16} class="blockchain-Uc_GFB" />
     {/if}
   {/await}
 
@@ -141,7 +141,7 @@ onDestroy(onMouseLeave);
     height: 16px;
   }
 
-  :global(.error-X8sNI9) {
+  :global(.error-3zOexx) {
     fill: var(--red);
   }
 
@@ -157,7 +157,7 @@ onDestroy(onMouseLeave);
     z-index: 11;
   }
 
-  :global(.blockchain-5npHIh) {
+  :global(.blockchain-Uc_GFB) {
     position: absolute;
     right: -6px;
     top: -6px;
