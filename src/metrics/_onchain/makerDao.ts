@@ -4,43 +4,6 @@ import { usdFormatter } from '../formatters'
 
 export const MakerDaoMetric = each(
   {
-    mcd_locked_token: {
-      label: 'Token Locked in Multi-Collateral CDPs',
-    },
-    scd_locked_token: {
-      label: 'WETH Locked in Single-Collateral CDPs',
-    },
-    mcd_collat_ratio: {
-      label: 'MakerDAO Collateralization Ratio',
-    },
-    mcd_collat_ratio_weth: {
-      label: 'Collateralization Ratio for WETH in Multi-Collateral CDPs',
-    },
-    mcd_collat_ratio_sai: {
-      label: 'Collateralization Ratio for SAI in Multi-Collateral CDPs',
-    },
-    scd_collat_ratio: {
-      label: 'Collateralization Ratio for Single-Collateral CDPs',
-    },
-    mcd_dsr: {
-      label: 'MakerDAO DSR Rate',
-    },
-    mcd_stability_fee: {
-      label: 'MakerDAO Stability Fee',
-    },
-    dai_created: {
-      label: 'MakerDAO Total DAI Created Backed by Collateral',
-    },
-    dai_repaid: {
-      label: 'MakerDAO DAI Repaid Backed by Collateral',
-    },
-    mcd_liquidation: {
-      label: 'Makerdao Collateral Liquidation Amounts',
-    },
-    total_dai_created: {
-      label: 'MakerDAO DAI Created Backed by Collateral',
-    },
-
     makerdao_action_deposits: {
       label: 'MakerDAO Deposits',
     },
@@ -50,9 +13,19 @@ export const MakerDaoMetric = each(
     makerdao_action_new_debt: {
       label: 'MakerDAO New Debt',
     },
+    dai_created: {
+      label: 'MakerDAO New Debt Against Collateral',
+    },
     makerdao_action_repayments: {
       label: 'MakerDAO Repayments',
     },
+    dai_repaid: {
+      label: 'MakerDAO Repayments Against Collateral',
+    },
+    total_dai_created: {
+      label: 'MakerDAO Total DAI Created Against Collateral',
+    },
+
     makerdao_action_deposits_usd: {
       label: 'MakerDAO Deposits in USD',
       formatter: usdFormatter,
@@ -113,6 +86,17 @@ export const MakerDaoMetric = each(
       formatter: usdFormatter,
       node: Node.LINE,
     },
+
+    mcd_collat_ratio: {
+      label: 'MakerDAO Collateralization Ratio',
+    },
+    mcd_stability_fee: {
+      label: 'MakerDAO Stability Fee',
+    },
+    mcd_dsr: {
+      label: 'MakerDAO DSR Rate',
+    },
+
     makerdao_active_addresses: {
       label: 'MakerDAO Active Addresses',
     },
