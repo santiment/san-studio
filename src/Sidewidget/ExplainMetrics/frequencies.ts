@@ -38,7 +38,6 @@ const METRICS = [
       Metric.transaction_volume,
       Metric.dai_created,
       Metric.dai_repaid,
-      Metric.mcd_liquidation,
     ],
   ],
 
