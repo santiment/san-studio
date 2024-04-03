@@ -7,11 +7,23 @@ export const MakerDaoMetric = each(
     makerdao_action_deposits: {
       label: 'MakerDAO Deposits',
     },
+    makerdao_action_deposits_usd: {
+      label: 'MakerDAO Deposits in USD',
+      formatter: usdFormatter,
+    },
     makerdao_action_liquidations: {
       label: 'MakerDAO Liquidations',
     },
+    makerdao_action_liquidations_usd: {
+      label: 'MakerDAO Liquidations in USD',
+      formatter: usdFormatter,
+    },
     makerdao_action_new_debt: {
       label: 'MakerDAO New Debt',
+    },
+    makerdao_action_new_debt_usd: {
+      label: 'MakerDAO New Debt in USD',
+      formatter: usdFormatter,
     },
     dai_created: {
       label: 'MakerDAO New Debt Against Collateral',
@@ -19,44 +31,16 @@ export const MakerDaoMetric = each(
     makerdao_action_repayments: {
       label: 'MakerDAO Repayments',
     },
+    makerdao_action_repayments_usd: {
+      label: 'MakerDAO Repayments in USD',
+      formatter: usdFormatter,
+    },
     dai_repaid: {
       label: 'MakerDAO Repayments Against Collateral',
     },
     total_dai_created: {
       label: 'MakerDAO Total DAI Created Against Collateral',
-    },
-
-    makerdao_action_deposits_usd: {
-      label: 'MakerDAO Deposits in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_action_liquidations_usd: {
-      label: 'MakerDAO Liquidations in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_action_new_debt_usd: {
-      label: 'MakerDAO New Debt in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_action_repayments_usd: {
-      label: 'MakerDAO Repayments in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_total_deposits_usd: {
-      label: 'MakerDAO Total Deposits in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_total_liquidations_usd: {
-      label: 'MakerDAO Total Liquidations in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_total_new_debt_usd: {
-      label: 'MakerDAO Total New Debt in USD',
-      formatter: usdFormatter,
-    },
-    makerdao_total_repayments_usd: {
-      label: 'MakerDAO Total Repayments in USD',
-      formatter: usdFormatter,
+      node: Node.LINE,
     },
     makerdao_total_supplied: {
       label: 'MakerDAO Collateral Total Supplied',
@@ -76,6 +60,29 @@ export const MakerDaoMetric = each(
       formatter: usdFormatter,
       node: Node.LINE,
     },
+    mcd_collat_ratio: {
+      label: 'MakerDAO Collateralization Ratio',
+    },
+    mcd_stability_fee: {
+      label: 'MakerDAO Stability Fee',
+    },
+
+    makerdao_total_deposits_usd: {
+      label: 'MakerDAO Protocol Total Deposits in USD',
+      formatter: usdFormatter,
+    },
+    makerdao_total_liquidations_usd: {
+      label: 'MakerDAO Protocol Total Liquidations in USD',
+      formatter: usdFormatter,
+    },
+    makerdao_total_new_debt_usd: {
+      label: 'MakerDAO Protocol Total New Debt in USD',
+      formatter: usdFormatter,
+    },
+    makerdao_total_repayments_usd: {
+      label: 'MakerDAO Protocol Total Repayments in USD',
+      formatter: usdFormatter,
+    },
     makerdao_protocol_total_supplied_usd: {
       label: 'MakerDAO Protocol Total Supplied in USD',
       formatter: usdFormatter,
@@ -86,19 +93,8 @@ export const MakerDaoMetric = each(
       formatter: usdFormatter,
       node: Node.LINE,
     },
-
-    mcd_collat_ratio: {
-      label: 'MakerDAO Collateralization Ratio',
-    },
-    mcd_stability_fee: {
-      label: 'MakerDAO Stability Fee',
-    },
-    mcd_dsr: {
-      label: 'MakerDAO DSR Rate',
-    },
-
     makerdao_active_addresses: {
-      label: 'MakerDAO Active Addresses',
+      label: 'MakerDAO Protocol Active Addresses',
     },
   },
   (metric: Studio.Metric) => {
@@ -117,6 +113,9 @@ export const MakerDaoDsrMetric = each(
     },
     makerdao_dsr_total_supplied: {
       label: 'MakerDAO DSR (DAI Savings Rate) Total Supplied',
+    },
+    mcd_dsr: {
+      label: 'MakerDAO DSR Rate',
     },
   },
   (metric: Studio.Metric) => {
