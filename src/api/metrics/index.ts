@@ -20,6 +20,15 @@ function precacher() {
   return ({ projectBySlug }) => {
     const { availableMetrics, availableQueries } = projectBySlug
     const metricsSet = new Set(NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries))
+
+    // TODO: Remove after Backend add supports for checking label_fqn in supported metrics
+    if (metricsSet.has('labelled_historical_balance')) {
+      metricsSet.add('amount_in_funds')
+      metricsSet.add('amount_in_bridges')
+      metricsSet.add('amount_in_lendings')
+      metricsSet.add('amount_in_miners')
+    }
+
     return Array.from(metricsSet).sort(indexSorter)
   }
 }
