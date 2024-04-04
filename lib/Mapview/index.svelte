@@ -107,7 +107,7 @@ onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));
     {/each}
 
     {#if isMetricsPhase && $selectedItems.metrics.length}
-      <Preview class="column hv-center body-2 txt-m new-aonZ7e" on:click={onNewWidgetClick}>
+      <Preview class="column hv-center body-2 txt-m new-b8JkdF" on:click={onNewWidgetClick}>
         <Svg illus id="plus" w="45" h="48" class="mrg-l mrg--b" />
         Apply for new chart
       </Preview>
@@ -121,14 +121,14 @@ onDestroy(newGlobalShortcut('CMD+M', () => mapview.overview()));
     color: var(--waterloo);
   }
 
-  :global(.column.new-aonZ7e) {
+  :global(.column.new-b8JkdF) {
     color: var(--waterloo);
     border: 1.5px dashed var(--mystic);
   }
-  :global(.column.new-aonZ7e::after) {
+  :global(.column.new-b8JkdF::after) {
     display: none !important;
   }
-  :global(.column.new-aonZ7e:hover) {
+  :global(.column.new-b8JkdF:hover) {
     border: 1.5px dashed var(--green);
     box-shadow: 0px 2px 24px rgba(24, 27, 43, 0.04), 1px 3px 7px rgba(47, 53, 77, 0.05);
   }

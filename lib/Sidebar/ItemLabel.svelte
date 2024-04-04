@@ -11,14 +11,14 @@ $: active =
     $selectedItems.has(item) ||
         ((_a = item.checkIsActive) === null || _a === void 0 ? void 0 : _a.call(item, $Sidewidget)) ||
         item === $InsightsContextStore.insight;
-$: removeClass = active ? 'remove-xKws57' : '';
+$: removeClass = active ? 'remove-mx_RoW' : '';
 </script>
 
-<Svg id="plus" w="9" class="plus-ZjVJXV mrg-s mrg--r {removeClass}" />
+<Svg id="plus" w="9" class="plus-6E9Bnk mrg-s mrg--r {removeClass}" />
 {item.label}
 
 <style>
-  :global(.plus-ZjVJXV) {
+  :global(.plus-6E9Bnk) {
     background: var(--bg, var(--porcelain));
     fill: var(--fill, var(--waterloo));
     padding: 3.5px;
@@ -27,7 +27,7 @@ $: removeClass = active ? 'remove-xKws57' : '';
     min-height: 9px;
   }
 
-  :global(.remove-xKws57) {
+  :global(.remove-mx_RoW) {
     transform: rotate(45deg);
   }
 </style>
