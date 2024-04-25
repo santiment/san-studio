@@ -50,6 +50,8 @@
     class:loader={isLoading && metric.node !== Node.REFERENCE}
   />
 
+  <slot name="before" />
+
   {label}
 
   <slot />

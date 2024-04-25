@@ -4,6 +4,7 @@ import type { SupplyDistributionNode } from './supplyDistribution'
 import { Metric } from '@/metrics'
 import { each } from '@/metrics/utils'
 import { lookupReplacement } from './replacements'
+import { SelectorType } from './types'
 
 type Extend<T, U> = T & U extends never ? T | U : never
 type MetricKeys = keyof typeof Metric
@@ -19,7 +20,15 @@ export type Selector = SidebarNodeKeys extends never
   : { [K in SidebarNodeKeys]: SelectorNodeType }
 
 // export const SelectorNode = {} as Selector
-export const SelectorNode = {} as any
+export const SelectorNode = {
+  btc_halving: {
+    key: 'btc_halving',
+    label: 'Bitcoin Halving',
+    selectorType: SelectorType.ChartAddon,
+    type: 'addon',
+    noProject: true,
+  },
+} as any
 each(Metric, (metric: Studio.Metric, key) => {
   if (lookupReplacement(SelectorNode as any, key)) return
 

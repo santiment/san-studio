@@ -14,6 +14,7 @@
   import { convertBaseProjectMetric } from './utils'
   import MoreMenu from './MoreMenu.svelte'
   import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte'
+  import BtcHalvingPic from '../Addons/BitcoinHalving/Pic.svelte'
 
   const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
   const { Metrics, MetricsSignals } = getWidget()
@@ -76,10 +77,16 @@
   ticker={project.ticker}
   active={isMenuOpened}
   highlight={isSettingsOpened && !(isPresenterMode || !isWithMetricSettings)}
-  on:click={(e) => onClick(metric, e)}
+  on:click={(e) => metric.key !== 'btc_halving' && onClick(metric, e)}
   on:mouseenter={onMouseEnter}
   on:mouseleave={onMouseLeave}
 >
+  <svelte:fragment slot="before">
+    {#if metric.key === 'btc_halving'}
+      <BtcHalvingPic class="mrg-s mrg--r" />
+    {/if}
+  </svelte:fragment>
+
   {#if !metric.noProject}
     {#if isLocked}
       {#if !isEmbedded}
@@ -118,13 +125,15 @@
     </div>
   {/if}
 
-  {#await queryProjectBlockchain(projectSlug) then blockchain}
-    {#if blockchain}
-      <ProjectIcon slug={blockchain} size={16} class="$style.blockchain" />
-    {/if}
-  {/await}
+  {#if metric.type !== 'addon'}
+    {#await queryProjectBlockchain(projectSlug) then blockchain}
+      {#if blockchain}
+        <ProjectIcon slug={blockchain} size={16} class="$style.blockchain" />
+      {/if}
+    {/await}
+  {/if}
 
-  {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST}
+  {#if !(isPresenterMode || isEmbedded) && metric !== SelectorNode.SPENT_COIN_COST && metric.type !== 'addon'}
     <MoreMenu
       {metric}
       {address}
