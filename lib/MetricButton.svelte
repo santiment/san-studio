@@ -44,6 +44,8 @@ function getColor({ key }, colors, highlight = false) {
     class:loader={isLoading && metric.node !== Node.REFERENCE}
   />
 
+  <slot name="before" />
+
   {label}
 
   <slot />

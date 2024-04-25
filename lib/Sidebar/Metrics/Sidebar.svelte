@@ -8,6 +8,7 @@ import HoverItem from './HoverItem.svelte';
 import Favorites from './Favorites.svelte';
 import Notables from './Notables/index.svelte';
 import Insights from './Insights/index.svelte';
+import KeyEvents from './KeyEvents/index.svelte';
 import CombinedMetrics from './CombinedMetrics/index.svelte';
 import Search from '../Search.svelte';
 import Category from '../Category.svelte';
@@ -46,6 +47,7 @@ function getMetrics(slug, address) {
 
 <div class="sidebar-content" on:scroll={() => window.__clearHoverItem && window.__clearHoverItem()}>
   <Favorites {searchTerm} {isFiltering} {onItemClick} />
+  <KeyEvents {searchTerm} {isFiltering} {onItemClick} />
   <Insights {searchTerm} {isFiltering} />
   <CombinedMetrics {searchTerm} {isFiltering} {onItemClick} />
 
