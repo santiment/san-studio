@@ -31,7 +31,7 @@ export function createDynamicLabelFqnMetric(slug: string, labelFqn: string, disp
   const metric = {
     key,
     queryKey: 'labelled_historical_balance',
-    label: `Label: ${label}`,
+    label: `Label Balance: ${label}`,
     node: Node.LINE,
     category: MetricCategory.OnChainLabels,
     reqMeta: {
