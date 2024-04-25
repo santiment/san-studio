@@ -55,6 +55,11 @@ export function getTimeseries(
     )
 
     if (reqMeta?.slug) delete vars.address
+
+    if (typeof vars.label_fqn === 'function') {
+      vars.label_fqn = vars.label_fqn({ slug: vars.slug })
+    }
+
     if (vars.address) {
       delete vars.slug
       if ((metric as any).isNFTMetric) {
