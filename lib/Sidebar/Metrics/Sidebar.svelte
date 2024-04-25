@@ -11,10 +11,12 @@ import Insights from './Insights/index.svelte';
 import CombinedMetrics from './CombinedMetrics/index.svelte';
 import Search from '../Search.svelte';
 import Category from '../Category.svelte';
+import { setContext } from 'svelte';
 const LockedAsset$ = getLockedAssetStore();
 export let onItemClick;
 let metrics = DEFAULT_METRICS;
 let searchTerm = '';
+let documentation = setContext('documentation', { metrics: {} });
 $: LockedAsset$.set($studio);
 $: ({ slug, address } = $LockedAsset$);
 $: isFiltering = !!searchTerm;
@@ -24,7 +26,13 @@ $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph;
 $: getMetrics(slug, address);
 const setMetrics = (data) => (metrics = data);
 function getMetrics(slug, address) {
-    return (address ? queryAddressMetrics(address) : queryProjectMetrics(slug)).then(setMetrics);
+    const promise = address
+        ? queryAddressMetrics(address)
+        : queryProjectMetrics(slug).then((data) => {
+            documentation.metrics = data.docs;
+            return data.metrics;
+        });
+    return promise.then(setMetrics);
 }
 </script>
 

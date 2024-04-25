@@ -4,5 +4,8 @@ export declare const FIAT_FUND_ASSETS: {
     name: string;
     ticker: string;
 }[];
-export declare const queryProjectMetrics: (slug: string) => Promise<string[]>;
+export declare const queryProjectMetrics: (slug: string) => Promise<{
+    metrics: string[];
+    docs: Record<string, null | string>;
+}>;
 export declare const queryAddressMetrics: (_address: string) => Promise<string[]>;

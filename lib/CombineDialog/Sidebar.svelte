@@ -11,7 +11,7 @@ let availableMetrics = [];
 let searchTerm = '';
 let project;
 $: ({ slug } = $studio);
-$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then((items) => (availableMetrics = items));
+$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then((data) => (availableMetrics = data.metrics));
 $: graph = getMetricsSelectorGraph(availableMetrics, Object.assign({}, $globals, project || $studio));
 $: items = (searchTerm, getItems(graph));
 const selectorTypeFilter = ({ selectorType }) => selectorType === undefined;
