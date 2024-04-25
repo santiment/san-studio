@@ -14,6 +14,7 @@
   import CombinedMetrics from './CombinedMetrics/index.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
+  import { setContext } from 'svelte'
 
   const LockedAsset$ = getLockedAssetStore() as any
 
@@ -21,6 +22,7 @@
 
   let metrics: string[] = DEFAULT_METRICS
   let searchTerm = ''
+  let documentation = setContext('documentation', { metrics: {} })
 
   $: LockedAsset$.set($studio)
   $: ({ slug, address } = $LockedAsset$)
@@ -32,7 +34,14 @@
 
   const setMetrics = (data) => (metrics = data)
   function getMetrics(slug: string, address?: string) {
-    return (address ? queryAddressMetrics(address) : queryProjectMetrics(slug)).then(setMetrics)
+    const promise = address
+      ? queryAddressMetrics(address)
+      : queryProjectMetrics(slug).then((data) => {
+          documentation.metrics = data.docs
+          return data.metrics
+        })
+
+    return promise.then(setMetrics)
   }
 </script>
 

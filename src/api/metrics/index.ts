@@ -7,6 +7,10 @@ const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
     projectBySlug(slug: "${slug}") {
       availableMetrics
       availableQueries
+      availableMetricsExtended {
+        metric
+        docs { link }
+      }
     }
   }
 `
@@ -16,9 +20,10 @@ type ProjectMetrics = SAN.API.Query<
 >
 
 export const indexSorter = (a: string, b: string) => (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
+
 function precacher() {
   return ({ projectBySlug }) => {
-    const { availableMetrics, availableQueries } = projectBySlug
+    const { availableMetrics, availableQueries, availableMetricsExtended } = projectBySlug
     const metricsSet = new Set(NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries))
 
     // TODO: Remove after Backend add supports for checking label_fqn in supported metrics
@@ -29,7 +34,18 @@ function precacher() {
       metricsSet.add('amount_in_miners')
     }
 
-    return Array.from(metricsSet).sort(indexSorter)
+    const MetricDocs = availableMetricsExtended.reduce((acc, item) => {
+      if (!item.docs) return acc
+
+      const doc = item.docs.find((doc) => !!doc.link)
+      if (!doc) return acc
+
+      acc[item.metric] = `Academy <a target="_blank" href="${doc.link}">article</a>`
+
+      return acc
+    }, {})
+
+    return { metrics: Array.from(metricsSet).sort(indexSorter), docs: MetricDocs }
   }
 }
 const options = { precacher }
@@ -47,7 +63,7 @@ const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
-): Promise<string[]> => {
+): Promise<{ metrics: string[]; docs: Record<string, null | string> }> => {
   const fundSet = new Set(FIAT_FUND_ASSETS.map((v) => v.slug))
 
   if (fundSet.has(slug)) {
