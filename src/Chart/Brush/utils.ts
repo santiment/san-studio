@@ -10,6 +10,7 @@ export function getBrushPlotItems({ items }) {
   brushItems.delete('referenceDots')
   brushItems.delete('spent_coin_cost')
   brushItems.delete('trendingDots')
+  brushItems.delete('btc_halving')
 
   return brushItems
 }
