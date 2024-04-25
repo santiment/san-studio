@@ -4,7 +4,7 @@ import { SelectorNode } from '../selector'
 import { Node } from '@/Chart/nodes'
 import { MetricCategory } from '../graph'
 
-const LABEL_ASSET_SLUG = `(LABEL_ASSET_SLUG)`
+export const LABEL_ASSET_SLUG = `LABEL_ASSET_SLUG`
 
 export function humanifyLabelMetricName(displayName: string) {
   return displayName.split('_').map(capitalize).join(' ')
@@ -12,7 +12,7 @@ export function humanifyLabelMetricName(displayName: string) {
 export const getAssetFreeLabelKey = (slug: string, labelFqn: string) =>
   labelFqn.replace(`(${slug})`, '')
 export const getDynamicAssetLabelKey = (slug: string, labelFqn: string) =>
-  labelFqn.replace(`(${slug})`, LABEL_ASSET_SLUG)
+  labelFqn.replace(`(${slug})`, `(${LABEL_ASSET_SLUG})`)
 
 export function createDynamicLabelFqnMetric(slug: string, labelFqn: string, displayName?: string) {
   const key = getDynamicAssetLabelKey(slug, labelFqn)
@@ -35,8 +35,7 @@ export function createDynamicLabelFqnMetric(slug: string, labelFqn: string, disp
     node: Node.LINE,
     category: MetricCategory.OnChainLabels,
     reqMeta: {
-      label_fqn: (vars?: any) =>
-        vars?.slug ? key.replace(LABEL_ASSET_SLUG, `(${vars.slug})`) : '',
+      label_fqn: (vars?: any) => (vars?.slug ? key.replace(LABEL_ASSET_SLUG, `${vars.slug}`) : ''),
     },
   }
 
