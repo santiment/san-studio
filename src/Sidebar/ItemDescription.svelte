@@ -3,14 +3,22 @@
   import Tooltip from 'webkit/ui/Tooltip/svelte'
   import { Description, prepareDescription } from '@/metrics/description'
   import { studio } from '@/stores/studio'
+  import { getContext } from 'svelte'
 
   let className = ''
   export { className as class }
   export let item
 
+  const documentation = getContext('documentation') || { metrics: {} }
+
   let trigger
   let tooltip
-  $: description = item && Description[item.key]
+
+  $: staticDescription = Description[item.key]
+  $: docs = documentation.metrics[item.key]
+  $: _description =
+    staticDescription && docs ? `${staticDescription} <br /> ${docs}` : staticDescription
+  $: description = item && (_description || docs)
 </script>
 
 {#if description}

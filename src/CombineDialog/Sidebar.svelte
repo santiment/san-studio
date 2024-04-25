@@ -15,7 +15,7 @@
   let project
 
   $: ({ slug } = $studio)
-  $: queryProjectMetrics(project?.slug || slug).then((items) => (availableMetrics = items))
+  $: queryProjectMetrics(project?.slug || slug).then((data) => (availableMetrics = data.metrics))
   $: graph = getMetricsSelectorGraph(
     availableMetrics,
     Object.assign({}, $globals, project || $studio),

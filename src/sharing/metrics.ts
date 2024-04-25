@@ -3,6 +3,7 @@ import { buildMergedMetric } from '@/HolderDistributionWidget/utils'
 import { Metric } from '@/metrics'
 import { MetricType, newAddressMetric, newProjectMetric } from '@/metrics/utils'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
+import { createDynamicLabelFqnMetric, LABEL_ASSET_SLUG } from '@/metrics/_onchain_labels/labelFqn'
 
 export function shareMetrics(metrics: Studio.Metric[]): string[] {
   return metrics.map(({ key }) => key)
@@ -42,6 +43,10 @@ export function parseMetric(key: string | TupleData[]): any | undefined {
   let data = key
   if (typeof key === 'string') {
     if (key[0] !== '[') {
+      if (key.includes(LABEL_ASSET_SLUG)) {
+        return createDynamicLabelFqnMetric(LABEL_ASSET_SLUG, key)
+      }
+
       return Metric[key]
     }
 

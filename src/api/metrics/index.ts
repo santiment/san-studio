@@ -1,12 +1,21 @@
 import { query } from 'webkit/api'
 import { MetricIndex } from '@/metrics'
 import { NO_PROJECT_METRICS } from '@/metrics/withoutProject'
+import { createDynamicLabelFqnMetric } from '@/metrics/_onchain_labels/labelFqn'
 
 const PROJECT_AVAILABLE_METRIC_QUERY = (slug: string): string => `
   {
     projectBySlug(slug: "${slug}") {
       availableMetrics
       availableQueries
+      availableMetricsExtended {
+        metric
+        docs { link }
+      }
+      availableLabelFqns {
+        displayName
+        labelFqn
+      }
     }
   }
 `
@@ -16,9 +25,11 @@ type ProjectMetrics = SAN.API.Query<
 >
 
 export const indexSorter = (a: string, b: string) => (MetricIndex[a] || -1) - (MetricIndex[b] || -1)
-function precacher() {
+
+function precacher({ slug } = { slug: 'bitcoin' }) {
   return ({ projectBySlug }) => {
-    const { availableMetrics, availableQueries } = projectBySlug
+    const { availableMetrics, availableQueries, availableMetricsExtended, availableLabelFqns } =
+      projectBySlug
     const metricsSet = new Set(NO_PROJECT_METRICS.concat(availableMetrics).concat(availableQueries))
 
     // TODO: Remove after Backend add supports for checking label_fqn in supported metrics
@@ -29,10 +40,28 @@ function precacher() {
       metricsSet.add('amount_in_miners')
     }
 
-    return Array.from(metricsSet).sort(indexSorter)
+    if (availableLabelFqns.length) {
+      availableLabelFqns.forEach((item) => {
+        const metric = createDynamicLabelFqnMetric(slug, item.labelFqn, item.displayName)
+
+        metricsSet.add(metric.key)
+      })
+    }
+
+    const MetricDocs = availableMetricsExtended.reduce((acc, item) => {
+      if (!item.docs) return acc
+
+      const doc = item.docs.find((doc) => !!doc.link)
+      if (!doc) return acc
+
+      acc[item.metric] = `Academy <a target="_blank" href="${doc.link}">article</a>`
+
+      return acc
+    }, {})
+
+    return { metrics: Array.from(metricsSet).sort(indexSorter), docs: MetricDocs }
   }
 }
-const options = { precacher }
 
 export const FIAT_FUND_ASSETS = [
   { slug: 'gbtc', name: 'GBTC', ticker: 'GBTC' },
@@ -47,17 +76,17 @@ const catchMetrics = () => ['price_usd']
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
-): Promise<string[]> => {
+): Promise<{ metrics: string[]; docs: Record<string, null | string> }> => {
   const fundSet = new Set(FIAT_FUND_ASSETS.map((v) => v.slug))
 
   if (fundSet.has(slug)) {
-    return Promise.resolve(['etf_volume_usd_5m'])
+    return Promise.resolve({ metrics: ['etf_volume_usd_5m'], docs: {} })
   }
 
   return query<any>(
     // TODO: Remove stablecoins check when backend is ready [@vanguard | Jun  9, 2021]
     PROJECT_AVAILABLE_METRIC_QUERY(slug === 'stablecoins' ? 'tether' : slug),
-    options,
+    { precacher, variables: { slug } },
   ).catch(catchMetrics) as any
 }
 
