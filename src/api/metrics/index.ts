@@ -40,7 +40,7 @@ function precacher({ slug } = { slug: 'bitcoin' }) {
       metricsSet.add('amount_in_miners')
     }
 
-    if (availableLabelFqns.length) {
+    if (false && availableLabelFqns.length) {
       availableLabelFqns.forEach((item) => {
         const metric = createDynamicLabelFqnMetric(slug, item.labelFqn, item.displayName)
 
