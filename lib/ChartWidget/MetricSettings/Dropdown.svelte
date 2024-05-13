@@ -18,7 +18,7 @@ $: if (optionsNode) {
 <Tooltip on="click" duration={0} align="center" bind:isOpened>
   <div slot="trigger" class="setting row v-center mrg-l mrg--l btn" on:click={onClick}>
     <slot />
-    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-Gfo_tP" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-s mrg--l arrow-M_Ojp7" />
   </div>
 
   <div
@@ -42,7 +42,7 @@ $: if (optionsNode) {
     border-radius: 0;
   }
 
-  :global(.arrow-Gfo_tP) {
+  :global(.arrow-M_Ojp7) {
     transform: rotate(180deg);
   }
 

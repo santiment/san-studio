@@ -13,9 +13,9 @@ $: ({ title, isPublic = true, project, metrics } = layout);
   </div>
   <div class="info row v-center">
     {#if isPublic}
-      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-JkFRlA" /> Public
+      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-8uoljs" /> Public
     {:else}
-      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-JkFRlA" />
+      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-8uoljs" />
       Private
     {/if}
     ·
@@ -59,7 +59,7 @@ $: ({ title, isPublic = true, project, metrics } = layout);
     --color-hover: var(--green);
   }
 
-  :global(.eye-JkFRlA) {
+  :global(.eye-8uoljs) {
     min-width: 14px;
   }
 
