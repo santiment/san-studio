@@ -55,13 +55,14 @@ export const AaveMetric = each(
     aave_v2_variable_borrow_apy: {
       label: 'Aave v2 Variable Borrow APY',
     },
-
     aave_v2_revenue: {
       label: 'Aave v2 Revenue',
+      node: 'bar',
     },
     aave_v2_revenue_usd: {
       label: 'Aave v2 Revenue in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
 
     aave_v2_total_deposits_usd: {
@@ -94,6 +95,7 @@ export const AaveMetric = each(
     aave_v2_total_revenue_usd: {
       label: 'Aave v2 Protocol Total Revenue in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_total_cumulative_revenue_usd: {
       label: 'Aave v2 Protocol Total Cumulative Revenue in USD',
