@@ -20,8 +20,8 @@ function onBlockchainSelect(selected) {
     on="click"
     offsetY={4}
     align="center"
-    class="tooltip-xFBxNK"
-    activeClass="active-7pSU2I">
+    class="tooltip-q5hlG_"
+    activeClass="active-Vnc+sA">
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
         <div class="row v-center">
@@ -31,7 +31,7 @@ function onBlockchainSelect(selected) {
       {:else}
         All blockchains
       {/if}
-      <Svg id="arrow" w="8" h="5" class="arrow-tna8_6 mrg-s mrg--l" />
+      <Svg id="arrow" w="8" h="5" class="arrow-8lHcg_ mrg-s mrg--l" />
     </button>
 
     <svelte:fragment slot="tooltip">
@@ -53,15 +53,15 @@ function onBlockchainSelect(selected) {
     fill: var(--waterloo);
   }
 
-  :global(.active-7pSU2I) {
+  :global(.active-Vnc\+sA) {
     --border: var(--green);
   }
 
-  :global(.arrow-tna8_6) {
+  :global(.arrow-8lHcg_) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-xFBxNK) {
+  :global(.tooltip-q5hlG_) {
     padding: 8px;
     min-width: 100%;
   }

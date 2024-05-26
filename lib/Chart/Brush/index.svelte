@@ -15,7 +15,7 @@ export let onChange;
 export let theme = themes[0];
 const width = chart.canvasWidth;
 const brush = initBrush(chart, width, BRUSH_HEIGHT, chart.theme.brush);
-brush.canvas.classList.add('brush-VtCIKB');
+brush.canvas.classList.add('brush-cYSEnb');
 brush.plotBrushData = plotBrushData;
 brush.redraw = redraw;
 brush.updateWidth = updateWidth;
@@ -51,7 +51,7 @@ function redraw() {
 </script>
 
 <style>
-  :global(.brush-VtCIKB) {
+  :global(.brush-cYSEnb) {
     border: 1px solid var(--porcelain);
     border-radius: 4px;
   }

@@ -17,7 +17,7 @@ let isOpened = true;
       id="sidebar"
       w="12"
       h="10"
-      class="btn icon-rZUgpY"
+      class="btn icon-5Gin1H"
       on:click={() => (isOpened = !isOpened)}
     />
   </div>
@@ -78,7 +78,7 @@ let isOpened = true;
     position: relative;
   }
 
-  :global(.icon-rZUgpY) {
+  :global(.icon-5Gin1H) {
     --fill: var(--casper);
     --fill-hover: var(--green);
     --bg: var(--white);

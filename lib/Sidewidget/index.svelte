@@ -8,7 +8,7 @@ const closeSidewidget = () => ($Sidewidget = null);
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">
-    <Svg id="sidebar" w="12" h="10" class="btn icon-XOf9mN" on:click={closeSidewidget} />
+    <Svg id="sidebar" w="12" h="10" class="btn icon-8qigu4" on:click={closeSidewidget} />
   </div>
 
   {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
@@ -41,7 +41,7 @@ const closeSidewidget = () => ($Sidewidget = null);
     border-bottom-left-radius: 4px;
   }
 
-  :global(.icon-XOf9mN) {
+  :global(.icon-8qigu4) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
     --bg: var(--white);
