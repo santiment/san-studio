@@ -48,7 +48,7 @@
   initWidgetContext(widget)
   if (onWidgetInit) onWidgetInit(widget)
 
-  const { ChartAxes, ChartColors, ChartDrawer, ChartOptions, ChartAddons } = widget
+  const { ChartAxes, ChartColors, ChartDrawer, ChartOptions, ChartAddons, HiddenMetrics } = widget
   const { Metrics, MetricSettings, MetricIndicators } = widget
   const { MetricsSignals } = widget
   const { IsLoaded, OnUpdate } = widget
@@ -100,6 +100,11 @@
 
   function onMetricClick(metric: Studio.Metric, e: MouseEvent) {
     if (metric.node === Node.REFERENCE) return
+
+    if (e.altKey) {
+      HiddenMetrics.toggle(metric)
+      return
+    }
 
     if (e.target === e.currentTarget) {
       track.event(Event.MetricSettings, { metric: metric.key })
