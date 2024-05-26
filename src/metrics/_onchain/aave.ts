@@ -56,6 +56,14 @@ export const AaveMetric = each(
       label: 'Aave v2 Variable Borrow APY',
     },
 
+    aave_v2_revenue: {
+      label: 'Aave v2 Revenue',
+    },
+    aave_v2_revenue_usd: {
+      label: 'Aave v2 Revenue in USD',
+      formatter: usdFormatter,
+    },
+
     aave_v2_total_deposits_usd: {
       label: 'Aave v2 Protocol Total Deposits in USD',
       formatter: usdFormatter,
@@ -82,6 +90,14 @@ export const AaveMetric = each(
     },
     aave_v2_active_addresses: {
       label: 'Aave v2 Protocol Active Addresses',
+    },
+    aave_v2_total_revenue_usd: {
+      label: 'Aave v2 Protocol Total Revenue in USD',
+      formatter: usdFormatter,
+    },
+    aave_v2_total_cumulative_revenue_usd: {
+      label: 'Aave v2 Protocol Total Cumulative Revenue in USD',
+      formatter: usdFormatter,
     },
   },
   (metric: Studio.Metric) => {
