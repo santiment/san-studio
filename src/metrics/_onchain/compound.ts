@@ -88,12 +88,12 @@ export const CompoundMetric = each(
     compound_active_addresses: {
       label: 'Compound Protocol Active Addresses',
     },
-    compound_total_revenue_usd: {
+    compound_total_protocol_revenue_usd: {
       label: 'Compound Protocol Total Revenue in USD',
       formatter: usdFormatter,
       node: 'bar',
     },
-    compound_total_cumulative_revenue_usd: {
+    compound_total_protocol_cumulative_revenue_usd: {
       label: 'Compound Protocol Total Cumulative Revenue in USD',
       formatter: usdFormatter,
     },
