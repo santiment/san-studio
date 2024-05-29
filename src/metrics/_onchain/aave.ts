@@ -55,13 +55,14 @@ export const AaveMetric = each(
     aave_v2_variable_borrow_apy: {
       label: 'Aave v2 Variable Borrow APY',
     },
-
     aave_v2_revenue: {
       label: 'Aave v2 Revenue',
+      node: 'bar',
     },
     aave_v2_revenue_usd: {
       label: 'Aave v2 Revenue in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
 
     aave_v2_total_deposits_usd: {
@@ -91,11 +92,12 @@ export const AaveMetric = each(
     aave_v2_active_addresses: {
       label: 'Aave v2 Protocol Active Addresses',
     },
-    aave_v2_total_revenue_usd: {
+    aave_v2_total_protocol_revenue_usd: {
       label: 'Aave v2 Protocol Total Revenue in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
-    aave_v2_total_cumulative_revenue_usd: {
+    aave_v2_total_protocol_cumulative_revenue_usd: {
       label: 'Aave v2 Protocol Total Cumulative Revenue in USD',
       formatter: usdFormatter,
     },
@@ -155,6 +157,15 @@ export const Aave3Metric = each(
     aave_v3_variable_borrow_apy: {
       label: 'Aave v3 Variable Borrow APY',
     },
+    aave_v3_revenue: {
+      label: 'Aave v3 Revenue',
+      node: 'bar',
+    },
+    aave_v3_revenue_usd: {
+      label: 'Aave v3 Revenue in USD',
+      formatter: usdFormatter,
+      node: 'bar',
+    },
 
     aave_v3_total_deposits_usd: {
       label: 'Aave v3 Protocol Total Deposits in USD',
@@ -182,6 +193,15 @@ export const Aave3Metric = each(
     },
     aave_v3_active_addresses: {
       label: 'Aave v3 Protocol Active Addresses',
+    },
+    aave_v3_total_protocol_revenue_usd: {
+      label: 'Aave v3 Protocol Total Revenue in USD',
+      formatter: usdFormatter,
+      node: 'bar',
+    },
+    aave_v3_total_protocol_cumulative_revenue_usd: {
+      label: 'Aave v3 Protocol Total Cumulative Revenue in USD',
+      formatter: usdFormatter,
     },
   },
   (metric: Studio.Metric) => {
