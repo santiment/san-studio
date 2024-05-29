@@ -2,6 +2,7 @@ export declare const MetricIndex: {};
 export declare const Metric: {
     [x: string]: import("./utils").Node<Studio.Metric, string>;
 };
+export declare const MetricAliases: Record<string, Studio.Metric>;
 export declare const MvrvTimebounds: {};
 export declare const MvrvUsdIntradayTimebounds: {};
 export declare const RealizedCapHodlWavesTimebounds: {};
