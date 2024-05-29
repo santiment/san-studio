@@ -31,6 +31,11 @@ export const Metric = each(
   },
 )
 
+export const MetricAliases: Record<string, Studio.Metric> = {
+  aave_v2_total_revenue_usd: Metric.aave_v2_total_protocol_revenue_usd,
+  aave_v2_total_cumulative_revenue_usd: Metric.aave_v2_total_protocol_cumulative_revenue_usd,
+}
+
 export const MvrvTimebounds = newTimebounds(Metric.mvrv_usd)
 export const MvrvUsdIntradayTimebounds = newTimebounds(Metric.mvrv_usd_intraday)
 

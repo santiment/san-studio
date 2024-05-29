@@ -1,6 +1,6 @@
 import { cacheIndicator, Indicator } from '@/ChartWidget/MetricSettings/IndicatorSetting/utils'
 import { buildMergedMetric } from '@/HolderDistributionWidget/utils'
-import { Metric } from '@/metrics'
+import { Metric, MetricAliases } from '@/metrics'
 import { MetricType, newAddressMetric, newProjectMetric } from '@/metrics/utils'
 import { HolderDistributionMetric } from '@/metrics/_onchain/holderDistributions'
 import { createDynamicLabelFqnMetric, LABEL_ASSET_SLUG } from '@/metrics/_onchain_labels/labelFqn'
@@ -47,7 +47,7 @@ export function parseMetric(key: string | TupleData[]): any | undefined {
         return createDynamicLabelFqnMetric(LABEL_ASSET_SLUG, key)
       }
 
-      return Metric[key]
+      return Metric[key] || MetricAliases[key]
     }
 
     data = parseMetricKey(key)
