@@ -27,12 +27,12 @@ function onCombineClick() {
 
       <div class="btn border mrg-l mrg--r combine" on:click={onCombineClick}>Combine</div>
 
-      <Svg id="cross" w="10" class="delete-jDlFnf" on:click={selectedItems.clear} />
+      <Svg id="cross" w="10" class="delete-8+7+6a" on:click={selectedItems.clear} />
 
       <div class="items">
         <div class="metrics row mrg-l mrg--b">
           {#each items as metric (metric.key)}
-            <MetricButton {metric} onDelete={selectedItems.toggle} class="btn-uDS32x" />
+            <MetricButton {metric} onDelete={selectedItems.toggle} class="btn-LzAmUP" />
           {/each}
         </div>
       </div>
@@ -91,7 +91,7 @@ function onCombineClick() {
     display: flex;
   }
 
-  :global(.btn-uDS32x) {
+  :global(.btn-LzAmUP) {
     white-space: nowrap;
     color: var(--black);
   }
@@ -101,12 +101,12 @@ function onCombineClick() {
     width: 3ch;
   }
 
-  :global(.delete-jDlFnf) {
+  :global(.delete-8\+7\+6a) {
     fill: #fff;
     position: relative;
     z-index: 2;
   }
-  :global(.delete-jDlFnf:hover) {
+  :global(.delete-8\+7\+6a:hover) {
     fill: var(--red);
   }
 

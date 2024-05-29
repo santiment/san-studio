@@ -13,6 +13,8 @@ export declare const CompoundMetric: {
     compound_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_total_borrowed_usd">;
     compound_supply_apy: import("../utils").Node<Studio.Metric, "compound_supply_apy">;
     compound_borrow_apy: import("../utils").Node<Studio.Metric, "compound_borrow_apy">;
+    compound_revenue: import("../utils").Node<Studio.Metric, "compound_revenue">;
+    compound_revenue_usd: import("../utils").Node<Studio.Metric, "compound_revenue_usd">;
     compound_total_deposits_usd: import("../utils").Node<Studio.Metric, "compound_total_deposits_usd">;
     compound_total_liquidations_usd: import("../utils").Node<Studio.Metric, "compound_total_liquidations_usd">;
     compound_total_new_debt_usd: import("../utils").Node<Studio.Metric, "compound_total_new_debt_usd">;
@@ -20,6 +22,8 @@ export declare const CompoundMetric: {
     compound_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "compound_protocol_total_supplied_usd">;
     compound_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "compound_protocol_total_borrowed_usd">;
     compound_active_addresses: import("../utils").Node<Studio.Metric, "compound_active_addresses">;
+    compound_total_protocol_revenue_usd: import("../utils").Node<Studio.Metric, "compound_total_protocol_revenue_usd">;
+    compound_total_protocol_cumulative_revenue_usd: import("../utils").Node<Studio.Metric, "compound_total_protocol_cumulative_revenue_usd">;
 };
 export declare const Compound3Metric: {
     compound_v3_action_deposits: import("../utils").Node<Studio.Metric, "compound_v3_action_deposits">;
