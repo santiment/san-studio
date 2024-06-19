@@ -4,6 +4,7 @@ import { MakerDaoMetric, MakerDaoDsrMetric } from './makerDao'
 import { AaveMetric, Aave3Metric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
 import { LiquityMetric } from './liquity'
+import { FraxlendMetric } from './fraxlend'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
@@ -304,6 +305,7 @@ export const OnChainMetric = each(
     MakerDaoMetric,
     MakerDaoDsrMetric,
     LiquityMetric,
+    FraxlendMetric,
     BeaconMetric,
 
     NFTMetric,
