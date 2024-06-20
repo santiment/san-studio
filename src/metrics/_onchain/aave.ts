@@ -5,31 +5,39 @@ export const AaveMetric = each(
   {
     aave_v2_action_deposits: {
       label: 'Aave v2 Deposits',
+      node: 'bar',
     },
     aave_v2_action_deposits_usd: {
       label: 'Aave v2 Deposits in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_action_liquidations: {
       label: 'Aave v2 Liquidations',
+      node: 'bar',
     },
     aave_v2_action_liquidations_usd: {
       label: 'Aave v2 Liquidations in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_action_new_debt: {
       label: 'Aave v2 New Debt',
+      node: 'bar',
     },
     aave_v2_action_new_debt_usd: {
       label: 'Aave v2 New Debt in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_action_repayments: {
       label: 'Aave v2 Repayments',
+      node: 'bar',
     },
     aave_v2_action_repayments_usd: {
       label: 'Aave v2 Repayments in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_total_supplied: {
       label: 'Aave v2 Total Supplied',
@@ -68,18 +76,22 @@ export const AaveMetric = each(
     aave_v2_total_deposits_usd: {
       label: 'Aave v2 Protocol Total Deposits in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_total_liquidations_usd: {
       label: 'Aave v2 Protocol Total Liquidations in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_total_new_debt_usd: {
       label: 'Aave v2 Protocol Total New Debt in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_total_repayments_usd: {
       label: 'Aave v2 Protocol Total Repayments in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v2_protocol_total_supplied_usd: {
       label: 'Aave v2 Protocol Total Supplied in USD',
@@ -91,6 +103,7 @@ export const AaveMetric = each(
     },
     aave_v2_active_addresses: {
       label: 'Aave v2 Protocol Active Addresses',
+      node: 'bar',
     },
     aave_v2_total_protocol_revenue_usd: {
       label: 'Aave v2 Protocol Total Revenue in USD',
@@ -111,31 +124,39 @@ export const Aave3Metric = each(
   {
     aave_v3_action_deposits: {
       label: 'Aave v3 Deposits',
+      node: 'bar',
     },
     aave_v3_action_deposits_usd: {
       label: 'Aave v3 Deposits in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_action_liquidations: {
       label: 'Aave v3 Liquidations',
+      node: 'bar',
     },
     aave_v3_action_liquidations_usd: {
       label: 'Aave v3 Liquidations in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_action_new_debt: {
       label: 'Aave v3 New Debt',
+      node: 'bar',
     },
     aave_v3_action_new_debt_usd: {
       label: 'Aave v3 New Debt in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_action_repayments: {
       label: 'Aave v3 Repayments',
+      node: 'bar',
     },
     aave_v3_action_repayments_usd: {
       label: 'Aave v3 Repayments in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_total_supplied: {
       label: 'Aave v3 Total Supplied',
@@ -170,18 +191,22 @@ export const Aave3Metric = each(
     aave_v3_total_deposits_usd: {
       label: 'Aave v3 Protocol Total Deposits in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_total_liquidations_usd: {
       label: 'Aave v3 Protocol Total Liquidations in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_total_new_debt_usd: {
       label: 'Aave v3 Protocol Total New Debt in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_total_repayments_usd: {
       label: 'Aave v3 Protocol Total Repayments in USD',
       formatter: usdFormatter,
+      node: 'bar',
     },
     aave_v3_protocol_total_supplied_usd: {
       label: 'Aave v3 Protocol Total Supplied in USD',
@@ -193,6 +218,7 @@ export const Aave3Metric = each(
     },
     aave_v3_active_addresses: {
       label: 'Aave v3 Protocol Active Addresses',
+      node: 'bar',
     },
     aave_v3_total_protocol_revenue_usd: {
       label: 'Aave v3 Protocol Total Revenue in USD',
