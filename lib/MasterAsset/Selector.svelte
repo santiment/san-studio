@@ -11,7 +11,7 @@
   use:preloadSuggestions
 >
   <slot />
-  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-y80Po3" />
+  <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l svg-L8tfyp" />
 </div>
 
 <style>
@@ -21,7 +21,7 @@
     user-select: text;
   }
 
-  :global(.svg-y80Po3) {
+  :global(.svg-L8tfyp) {
     user-select: all;
   }
 </style>

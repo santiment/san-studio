@@ -1,73 +1,87 @@
-<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import NewLayoutDialog from './NewLayoutDialog.svelte';
-export const showNewLayoutDialog = (props) => dialogs.show(NewLayoutDialog, props);
-export const Mode = {
+<script context="module" lang="ts">
+  import { dialogs } from 'san-webkit/lib/ui/Dialog'
+  import NewLayoutDialog from './NewLayoutDialog.svelte'
+
+  export const showNewLayoutDialog = (props?: any) =>
+    dialogs.show<SAN.Layout>(NewLayoutDialog, props)
+
+  export const Mode = {
     New: 0,
     Save: 1,
     Edit: 2,
-};
+  } as const
 </script>
 
-<script>import { track } from 'san-webkit/lib/analytics';
-import Dialog from 'san-webkit/lib/ui/Dialog';
-import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import { Event } from './../analytics';
-import { studio } from './../stores/studio';
-import { globals } from './../stores/globals';
-import { getWidgets } from './../stores/widgets';
-import { createUserLayout, updateUserLayout } from './../api/layouts/mutate';
-import { saveScheduledLayout, getAllWidgetsMetricsKeys, getLayoutMetrics } from './utils';
-const Widgets = getWidgets();
-export let DialogPromise;
-export let title = 'New Chart Layout';
-export let mode = Mode.New;
-export let layout;
-let closeDialog;
-let { title: layoutTitle = '', description = '', isPublic = false } = layout || {};
-function onSubmit({ currentTarget }) {
-    var _a, _b;
-    const title = currentTarget.title.value;
-    const description = currentTarget.description.value;
-    const { id, metrics, project, options } = layout || {};
-    const isEditMode = mode === Mode.Edit;
+<script lang="ts">
+  import type { DialogController } from 'san-webkit/lib/ui/Dialog/dialogs'
+  import { track } from 'san-webkit/lib/analytics'
+  import Dialog from 'san-webkit/lib/ui/Dialog'
+  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
+  import { Event } from './../analytics'
+  import { studio } from './../stores/studio'
+  import { globals } from './../stores/globals'
+  import { getWidgets } from './../stores/widgets'
+  import { createUserLayout, updateUserLayout } from './../api/layouts/mutate'
+  import { saveScheduledLayout, getAllWidgetsMetricsKeys, getLayoutMetrics } from './utils'
+
+  const Widgets = getWidgets()
+
+  export let DialogPromise: DialogController
+  export let title = 'New Chart Layout'
+  export let mode: (typeof Mode)[keyof typeof Mode] = Mode.New
+  export let layout: undefined | SAN.Layout
+
+  let closeDialog
+
+  let { title: layoutTitle = '', description = '', isPublic = false } = layout || {}
+
+  function onSubmit({ currentTarget }) {
+    const title: string = currentTarget.title.value
+    const description: string = currentTarget.description.value
+    const { id, metrics, project, options } = layout || {}
+
+    const isEditMode = mode === Mode.Edit
     const settings = {
-        title,
-        description,
-        isPublic,
-        metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
-        metricsJson: getLayoutMetrics($Widgets),
-        projectId: (project === null || project === void 0 ? void 0 : project.projectId) || $studio.projectId,
-        options: options || {
-            widgets: (_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, $Widgets),
-        },
-    };
-    if (!$globals.isLoggedIn) {
-        saveScheduledLayout(settings);
-        closeDialog();
-        return (_b = window.notifyLayoutAnonCreation) === null || _b === void 0 ? void 0 : _b.call(window);
+      title,
+      description,
+      isPublic,
+      metrics: metrics || getAllWidgetsMetricsKeys($Widgets),
+      metricsJson: getLayoutMetrics($Widgets),
+      projectId: project?.projectId || $studio.projectId,
+      options: options || {
+        widgets: window.shareLayoutWidgets?.($Widgets),
+      },
     }
+
+    if (!$globals.isLoggedIn) {
+      saveScheduledLayout(settings)
+      closeDialog()
+      return window.notifyLayoutAnonCreation?.()
+    }
+
     const mutation = isEditMode
-        ? updateUserLayout(id, settings)
-        : createUserLayout(settings);
+      ? updateUserLayout(id as number, settings)
+      : createUserLayout(settings)
+
     mutation.then((layout) => {
-        var _a, _b;
-        track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
-            id: layout.id,
-        });
-        DialogPromise.resolve(layout);
-        closeDialog();
-        if (isEditMode) {
-            (_a = window.notifyLayoutEdit) === null || _a === void 0 ? void 0 : _a.call(window);
-        }
-        else {
-            (_b = window.notifyLayoutCreation) === null || _b === void 0 ? void 0 : _b.call(window);
-        }
-    });
-}
-function toggleLayoutPublicity(e) {
-    e.preventDefault();
-    isPublic = !isPublic;
-}
+      track.event(mode === Mode.New ? Event.NewLayout : Event.SaveLayout, {
+        id: layout.id,
+      })
+      DialogPromise.resolve(layout)
+      closeDialog()
+
+      if (isEditMode) {
+        window.notifyLayoutEdit?.()
+      } else {
+        window.notifyLayoutCreation?.()
+      }
+    })
+  }
+
+  function toggleLayoutPublicity(e) {
+    e.preventDefault()
+    isPublic = !isPublic
+  }
 </script>
 
 <Dialog {...$$props} {title} bind:closeDialog>

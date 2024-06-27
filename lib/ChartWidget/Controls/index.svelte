@@ -1,76 +1,86 @@
-<script>import { onDestroy } from 'svelte';
-import { track } from 'san-webkit/lib/analytics';
-import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { Event } from './../../analytics';
-import { getHistoryContext } from './../../history/ctx';
-import { getWidget } from './../../ChartWidget/context';
-import './../../stores/globals';
-import './../../stores/studio';
-import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from './../../history/drawings';
-import { getAdapterController } from './../../adapter/context';
-import sanrSrc from './sanr.svg';
-import Emoji from './Emoji.svelte';
-import Note from './Note.svelte';
-import DrawingsVisibility from './DrawingsVisibility.svelte';
-import Fullscreen from './Fullscreen.svelte';
-import Embed from './Embed.svelte';
-import { download, downloadPng } from './download';
-import '../IncompleteData/index.svelte';
-import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte';
-const History = getHistoryContext();
-const widget = getWidget();
-const { Metrics, ChartDrawer } = widget;
-const { noWidgetControls } = getAdapterController();
-const optionsTooltip = getOptionsMenuTooltip();
-export let chart;
-export let hasDomainGroups;
-export let isSharedAxisEnabled;
-export let isSingleWidget;
-export let deleteWidget;
-export let fullscreenMetricsFilter;
-export let isFullscreen; // Is in fullscreen dialog
-export let isFullscreened; // Was fullscreen triggered?
-$: widget.isSharedAxisEnabled = isSharedAxisEnabled;
-function onNewLine() {
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { track } from 'san-webkit/lib/analytics'
+  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { newGlobalShortcut } from 'san-webkit/lib/utils/events'
+  import { Event } from './../../analytics'
+  import { getHistoryContext } from './../../history/ctx'
+  import { getWidget } from './../../ChartWidget/context'
+  import { globals } from './../../stores/globals'
+  import { studio } from './../../stores/studio'
+  import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from './../../history/drawings'
+  import { getAdapterController } from './../../adapter/context'
+  import sanrSrc from './sanr.svg'
+  import Emoji from './Emoji.svelte'
+  import Note from './Note.svelte'
+  import DrawingsVisibility from './DrawingsVisibility.svelte'
+  import Fullscreen from './Fullscreen.svelte'
+  import Embed from './Embed.svelte'
+  import { download, downloadPng } from './download'
+  import IncompleteData from '../IncompleteData/index.svelte'
+  import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte'
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { Metrics, ChartDrawer } = widget
+  const { noWidgetControls } = getAdapterController()
+  const optionsTooltip = getOptionsMenuTooltip()
+
+  export let chart
+  export let hasDomainGroups
+  export let isSharedAxisEnabled
+  export let isSingleWidget: boolean
+  export let deleteWidget
+  export let fullscreenMetricsFilter
+  export let isFullscreen: boolean // Is in fullscreen dialog
+  export let isFullscreened: boolean // Was fullscreen triggered?
+
+  $: widget.isSharedAxisEnabled = isSharedAxisEnabled
+
+  function onNewLine() {
     if ($ChartDrawer.isNewDrawing !== 'line') {
-        track.event(Event.NewDrawing, { type: 'line' });
+      track.event(Event.NewDrawing, { type: 'line' })
     }
-    ChartDrawer.toggleNewDrawing('line');
-}
-function onNewHorizontalRay() {
+
+    ChartDrawer.toggleNewDrawing('line')
+  }
+
+  function onNewHorizontalRay() {
     if ($ChartDrawer.isNewDrawing !== 'hray') {
-        track.event(Event.NewDrawing, { type: 'hray' });
+      track.event(Event.NewDrawing, { type: 'hray' })
     }
-    ChartDrawer.toggleNewDrawing('hray');
-}
-function onLineDelete() {
-    const { selectedLine } = $ChartDrawer;
-    chart.drawer.deleteDrawing(selectedLine);
-}
-const removeDrawerDispatchListener = isFullscreen
+
+    ChartDrawer.toggleNewDrawing('hray')
+  }
+
+  function onLineDelete() {
+    const { selectedLine } = $ChartDrawer
+    chart.drawer.deleteDrawing(selectedLine)
+  }
+
+  const removeDrawerDispatchListener = isFullscreen
     ? undefined
     : ChartDrawer.onDispatch((event) => {
-        if (!event)
-            return;
-        const { type, data } = event;
+        if (!event) return
+        const { type, data } = event
+
         if (type === 'new line') {
-            recordNewDrawing(History, ChartDrawer, widget, data);
+          recordNewDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'delete') {
+          recordDeleteDrawing(History, ChartDrawer, widget, data)
+        } else if (type === 'modified') {
+          const { drawing, oldRatioCoor } = data
+          recordDrawingModified(History, widget, drawing, oldRatioCoor, data.data)
         }
-        else if (type === 'delete') {
-            recordDeleteDrawing(History, ChartDrawer, widget, data);
-        }
-        else if (type === 'modified') {
-            const { drawing, oldRatioCoor } = data;
-            recordDrawingModified(History, widget, drawing, oldRatioCoor, data.data);
-        }
-    });
-const removeDrawingShortcut = newGlobalShortcut('L', onNewLine);
-onDestroy(() => {
-    removeDrawingShortcut();
-    removeDrawerDispatchListener === null || removeDrawerDispatchListener === void 0 ? void 0 : removeDrawerDispatchListener();
-});
+      })
+
+  const removeDrawingShortcut = newGlobalShortcut('L', onNewLine)
+
+  onDestroy(() => {
+    removeDrawingShortcut()
+    removeDrawerDispatchListener?.()
+  })
 </script>
 
 <div class="row controls v-center mrg-s mrg--b">

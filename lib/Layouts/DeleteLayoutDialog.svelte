@@ -1,28 +1,36 @@
-<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import DeleteLayoutDialog from './DeleteLayoutDialog.svelte';
-import { removeRecentLayoutId } from './utils';
-export const showDeleteLayoutDialog = (props) => dialogs.show(DeleteLayoutDialog, props);
+<script context="module" lang="ts">
+  import { dialogs } from 'san-webkit/lib/ui/Dialog'
+  import DeleteLayoutDialog from './DeleteLayoutDialog.svelte'
+  import { removeRecentLayoutId } from './utils'
+
+  export const showDeleteLayoutDialog = (props?: any) =>
+    dialogs.show<boolean>(DeleteLayoutDialog, props)
 </script>
 
-<script>import Dialog from 'san-webkit/lib/ui/Dialog';
-import { deleteUserLayout } from './../api/layouts/mutate';
-export let DialogPromise;
-export let layout;
-let closeDialog;
-function onDeleteClick() {
+<script lang="ts">
+  import type { DialogController } from 'san-webkit/lib/ui/Dialog/dialogs'
+  import Dialog from 'san-webkit/lib/ui/Dialog'
+  import { deleteUserLayout } from './../api/layouts/mutate'
+
+  export let DialogPromise: DialogController
+  export let layout: { id: number }
+
+  let closeDialog
+
+  function onDeleteClick() {
     deleteUserLayout(layout.id).then(() => {
-        removeRecentLayoutId(layout.id);
-        DialogPromise.resolve(true);
-        closeDialog();
-    });
-}
+      removeRecentLayoutId(layout.id)
+      DialogPromise.resolve(true)
+      closeDialog()
+    })
+  }
 </script>
 
 <Dialog
   {...$$props}
   title="Do you want to delete this layout?"
   bind:closeDialog
-  class="dialog-Xbm5bp"
+  class="$style.dialog"
 >
   <div class="dialog-body">
     This action cannot be undone
@@ -34,7 +42,7 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-Xbm5bp) {
+  .dialog {
     width: 320px;
   }
 </style>

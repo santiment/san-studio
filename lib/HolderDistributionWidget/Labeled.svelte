@@ -1,63 +1,77 @@
-<script>import { withScroll } from 'san-webkit/lib/ui/history';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte';
-import { getHistoryContext } from './../history/ctx';
-import { initWidget } from './../ChartWidget/context';
-import { HolderDistributionMetric, LABELED_HOLDER_DISTRIBUTION_METRICS, } from './../metrics/_onchain/holderDistributions';
-import HolderDistributionWidget from './index.svelte';
-const History = getHistoryContext();
-export let widget;
-export let isSingleWidget;
-export let deleteWidget;
-if (!widget.metrics)
-    widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
-initWidget(widget);
-const { Metrics, MetricSettings } = widget;
-const newHistory = (name, undo, redo = undo) => History.add(name, withScroll(widget, undo), withScroll(widget, redo));
-const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice();
-const LABELS = ['exchange', 'infrastructure', 'miner', 'whale'];
-let labels = new Set(widget.holderLabels);
-$: widget.holderLabels = Array.from(labels);
-$: text = getSelectionText(labels);
-$: updateSettings($Metrics, labels);
-function updateSettings(metrics, ids) {
-    const settings = ids.size && { labels: getTextLabels(ids) };
+<script lang="ts">
+  import { withScroll } from 'san-webkit/lib/ui/history'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import Checkbox from 'san-webkit/lib/ui/Checkbox.svelte'
+  import { getHistoryContext } from './../history/ctx'
+  import { initWidget } from './../ChartWidget/context'
+  import {
+    HolderDistributionMetric,
+    LABELED_HOLDER_DISTRIBUTION_METRICS,
+  } from './../metrics/_onchain/holderDistributions'
+  import HolderDistributionWidget from './index.svelte'
+
+  const History = getHistoryContext()
+
+  export let widget
+  export let isSingleWidget: boolean
+  export let deleteWidget
+
+  if (!widget.metrics) widget.metrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
+  initWidget(widget)
+  const { Metrics, MetricSettings } = widget
+  const newHistory = (name, undo, redo = undo) =>
+    History.add(name, withScroll(widget, undo), withScroll(widget, redo))
+
+  const defaultMetrics = LABELED_HOLDER_DISTRIBUTION_METRICS.slice()
+  const LABELS = ['exchange', 'infrastructure', 'miner', 'whale']
+
+  let labels = new Set<number>(widget.holderLabels)
+  $: widget.holderLabels = Array.from(labels)
+  $: text = getSelectionText(labels)
+  $: updateSettings($Metrics, labels)
+
+  function updateSettings(metrics, ids: Set<number>) {
+    const settings = ids.size && { labels: getTextLabels(ids) }
+
     metrics.forEach(({ key, baseMetrics }) => {
-        if (!HolderDistributionMetric[key] && !baseMetrics)
-            return;
-        if (!settings)
-            return MetricSettings.delete(key, 'labels');
-        MetricSettings.set(key, settings);
-    });
-}
-function getSelectionText(labels) {
+      if (!HolderDistributionMetric[key] && !baseMetrics) return
+      if (!settings) return MetricSettings.delete(key, 'labels')
+
+      MetricSettings.set(key, settings)
+    })
+  }
+
+  function getSelectionText(labels: Set<number>) {
     return getTextLabels(labels)
-        .map((label) => label[0].toUpperCase() + label.slice(1))
-        .join(', ');
-}
-function getTextLabels(labels) {
+      .map((label) => label[0].toUpperCase() + label.slice(1))
+      .join(', ')
+  }
+
+  function getTextLabels(labels: Set<number>) {
     return Array.from(labels)
-        .sort()
-        .map((id) => LABELS[id]);
-}
-function onToggle(id) {
+      .sort()
+      .map((id) => LABELS[id])
+  }
+
+  function onToggle(id: number) {
     function update() {
-        labels.has(id) ? labels.delete(id) : labels.add(id);
-        labels = labels;
+      labels.has(id) ? labels.delete(id) : labels.add(id)
+      labels = labels
     }
-    update();
-    newHistory('Toggle label', update);
-}
-function onReset() {
-    const oldLabels = new Set(labels);
+    update()
+    newHistory('Toggle label', update)
+  }
+
+  function onReset() {
+    const oldLabels = new Set(labels)
     function redo() {
-        labels.clear();
-        labels = labels;
+      labels.clear()
+      labels = labels
     }
-    redo();
-    newHistory('Reset labels', () => (labels = oldLabels), redo);
-}
+    redo()
+    newHistory('Reset labels', () => (labels = oldLabels), redo)
+  }
 </script>
 
 <HolderDistributionWidget
@@ -70,10 +84,10 @@ function onReset() {
   <slot>labeled by number of addresses</slot>
 
   <svelte:fragment slot="tabs">
-    <Tooltip on="click" duration={0} align="center" class="tooltip-d_JxuQ">
+    <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
       <div slot="trigger" class="border v-center btn row mrg-l mrg--b" class:text>
         {text || 'Show all labels'}
-        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-6dBPSt" />
+        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l $style.arrow" />
       </div>
 
       <svelte:fragment slot="tooltip">
@@ -101,14 +115,14 @@ function onReset() {
   .border:hover {
     border-color: var(--green);
   }
-  :global(.arrow-6dBPSt) {
+  .arrow {
     transform: rotate(180deg);
   }
   .text {
     --color: var(--black);
   }
 
-  :global(.tooltip-d_JxuQ) {
+  .tooltip {
     width: calc(100% - 32px);
     padding: 0 8px;
   }

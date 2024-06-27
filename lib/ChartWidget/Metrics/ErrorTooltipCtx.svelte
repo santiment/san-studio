@@ -13,7 +13,7 @@
     align: 'center',
     position: 'top',
     closeTimeout: 0,
-    class: 'caption dark tooltip-1akeDj',
+    class: 'caption dark tooltip-GWSU+c',
   }
 </script>
 
@@ -26,7 +26,7 @@
 </Context>
 
 <style>
-  :global(.tooltip-1akeDj) {
+  :global(.tooltip-GWSU\+c) {
     max-width: 310px;
     z-index: 24;
   }

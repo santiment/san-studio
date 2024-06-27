@@ -7,76 +7,97 @@
   export const preloadSuggestions = Preloader(queryAllProjects)
 </script>
 
-<script>import { tick } from 'svelte';
-import { getAddressInfrastructure } from 'san-webkit/lib/utils/address';
-import VirtualList, { Controller } from 'san-webkit/lib/ui/VirtualList/index.svelte';
-import Asset from './Suggestion/Asset.svelte';
-import Address from './Suggestion/Address.svelte';
-import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils';
-let filtered = [];
-export let searchTerm = '';
-export { filtered as items };
-export let cursor = 0;
-export let blockchain;
-export let onSelect;
-queryAllProjects().then((projects) => (items = projects.map(mapProject)));
-const recents = getRecents();
-const AssetSlugRecent = getRecentAssetMap(recents);
-const DEFAULT_HEADERS = recents.length
+<script lang="ts">
+  import { tick } from 'svelte'
+  import { getAddressInfrastructure } from 'san-webkit/lib/utils/address'
+  import VirtualList, { Controller } from 'san-webkit/lib/ui/VirtualList/index.svelte'
+  import Asset from './Suggestion/Asset.svelte'
+  import Address from './Suggestion/Address.svelte'
+  import { getRecentAssetMap, getRecents, newAddressSuggestion } from './utils'
+
+  let filtered = [] as any[]
+  export let searchTerm = ''
+  export { filtered as items }
+  export let cursor = 0
+  export let blockchain
+  export let onSelect
+
+  queryAllProjects().then((projects) => (items = projects.map(mapProject)))
+
+  const recents = getRecents()
+  const AssetSlugRecent = getRecentAssetMap(recents)
+  const DEFAULT_HEADERS = recents.length
     ? { 0: 'Recents', [recents.length]: 'Assets' }
-    : { 0: 'Assets' };
-const ListController = Controller();
-let items = [];
-let headers = DEFAULT_HEADERS;
-$: filtered = filter(searchTerm, items, blockchain);
-$: cursor, tick().then(scrollToCursor);
-function mapProject(project) {
-    const { slug, priceUsd } = project;
-    project.key = slug;
-    if (AssetSlugRecent[slug])
-        AssetSlugRecent[slug].priceUsd = priceUsd;
-    return project;
-}
-function filter(searchTerm, items, blockchain) {
+    : { 0: 'Assets' }
+
+  const ListController = Controller()
+  let items = [] as any[]
+  let headers = DEFAULT_HEADERS
+
+  $: filtered = filter(searchTerm, items, blockchain)
+  $: cursor, tick().then(scrollToCursor)
+
+  function mapProject(project) {
+    const { slug, priceUsd } = project
+
+    project.key = slug
+    if (AssetSlugRecent[slug]) AssetSlugRecent[slug].priceUsd = priceUsd
+
+    return project
+  }
+
+  function filter(
+    searchTerm: string,
+    items: any[],
+    blockchain?: { infrastructure: string },
+  ): any[] {
     if (!searchTerm) {
-        headers = DEFAULT_HEADERS;
-        return recents.concat(blockchain ? items.filter(filterBlockchain) : items);
+      headers = DEFAULT_HEADERS
+      return recents.concat(blockchain ? items.filter(filterBlockchain) : items)
     }
+
     if (getAddressInfrastructure(searchTerm)) {
-        headers = { 0: 'Address' };
-        return [newAddressSuggestion(searchTerm)];
+      headers = { 0: 'Address' }
+      return [newAddressSuggestion(searchTerm)]
     }
-    let match;
+
+    let match
+
     const filtered = items.filter((item) => {
-        if (!filterBlockchain(item))
-            return false;
-        const name = item.name.toLowerCase();
-        const ticker = item.ticker.toLowerCase();
-        if (!match && (name === searchTerm || ticker === searchTerm)) {
-            match = item;
-        }
-        return name.includes(searchTerm) || ticker.includes(searchTerm);
-    });
+      if (!filterBlockchain(item)) return false
+
+      const name = item.name.toLowerCase()
+      const ticker = item.ticker.toLowerCase()
+
+      if (!match && (name === searchTerm || ticker === searchTerm)) {
+        match = item
+      }
+
+      return name.includes(searchTerm) || ticker.includes(searchTerm)
+    })
+
     if (match) {
-        const index = filtered.indexOf(match);
-        filtered.splice(index, 1);
-        filtered.splice(0, 0, match);
+      const index = filtered.indexOf(match)
+      filtered.splice(index, 1)
+      filtered.splice(0, 0, match)
     }
-    headers = { 0: 'Assets' };
-    return filtered;
-}
-function filterBlockchain(item) {
-    return blockchain ? blockchain.infrastructure === item.infrastructure : true;
-}
-function scrollToCursor() {
-    var _a;
-    (_a = ListController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(ListController, cursor);
-}
+
+    headers = { 0: 'Assets' }
+    return filtered
+  }
+
+  function filterBlockchain(item) {
+    return blockchain ? blockchain.infrastructure === item.infrastructure : true
+  }
+
+  function scrollToCursor() {
+    ListController.scrollTo?.(cursor)
+  }
 </script>
 
 <section>
   <VirtualList
-    class="suggestions-cS40Sj {!filtered.length ? 'hide' : ''}"
+    class="$style.suggestions {!filtered.length ? 'hide' : ''}"
     items={filtered}
     itemHeight={56}
     maxFluidHeight={381}
@@ -99,28 +120,15 @@ function scrollToCursor() {
   </VirtualList>
 </section>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .suggestions {
+    border-top: 1px solid var(--porcelain);
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+  .suggestions :global(.list) {
+    padding: 16px 24px;
   }
-}
-*/
-:global(.suggestions-cS40Sj) {
-  border-top: 1px solid var(--porcelain);
-}
 
-:global(.suggestions-cS40Sj) :global(.list) {
-  padding: 16px 24px;
-}
-
-section :global(virtual-list-items) {
-  padding: 16px 24px;
-}</style>
+  section :global(virtual-list-items) {
+    padding: 16px 24px;
+  }
+</style>

@@ -1,33 +1,41 @@
-<script>import { track } from 'san-webkit/lib/analytics';
-import { getSavedValue, saveValue } from 'san-webkit/lib/utils/localStorage';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../analytics';
-import { getWidget } from './../../ChartWidget/context';
-import Dropdown from './Dropdown.svelte';
-const widget = getWidget();
-const { MetricSettings } = widget;
-const DEFAULT_MIN_MAX = { min: '', max: '' };
-const TIP = 'AXIS_MAX_MIN_TIP';
-export let metric;
-let isOpened;
-let isTipVisible = !getSavedValue(TIP);
-$: metricSettings = MetricSettings.getMetricSettings(metric.key);
-$: minMaxes = (isOpened && widget.defaultMinMaxes[metric.key]) || DEFAULT_MIN_MAX;
-$: userMinMaxes = metricSettings || {};
-$: ({ axisMin = '', axisMax = '' } = userMinMaxes);
-const getLabel = (value) => value.toString() || 'Auto';
-let timer;
-function onChange({ target: { name, value } }) {
-    window.clearTimeout(timer);
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import { getSavedValue, saveValue } from 'san-webkit/lib/utils/localStorage'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { Event } from './../../analytics'
+  import { getWidget } from './../../ChartWidget/context'
+  import Dropdown from './Dropdown.svelte'
+
+  const widget = getWidget()
+  const { MetricSettings } = widget
+  const DEFAULT_MIN_MAX = { min: '', max: '' }
+  const TIP = 'AXIS_MAX_MIN_TIP'
+
+  export let metric: Studio.Metric
+
+  let isOpened
+  let isTipVisible = !getSavedValue(TIP)
+
+  $: metricSettings = MetricSettings.getMetricSettings(metric.key)
+  $: minMaxes = (isOpened && widget.defaultMinMaxes[metric.key]) || DEFAULT_MIN_MAX
+  $: userMinMaxes = metricSettings || {}
+  $: ({ axisMin = '', axisMax = '' } = userMinMaxes)
+
+  const getLabel = (value: string | number) => value.toString() || 'Auto'
+
+  let timer
+  function onChange({ target: { name, value } }) {
+    window.clearTimeout(timer)
     timer = window.setTimeout(() => {
-        const metricKey = metric.key;
-        userMinMaxes[name] = value;
-        if (!value)
-            return MetricSettings.delete(metricKey, name);
-        track.event(Event.MetricAxisMaxMin, { metric: metricKey, type: name });
-        MetricSettings.set(metricKey, { [name]: value });
-    }, 300);
-}
+      const metricKey = metric.key
+
+      userMinMaxes[name] = value
+      if (!value) return MetricSettings.delete(metricKey, name)
+
+      track.event(Event.MetricAxisMaxMin, { metric: metricKey, type: name })
+      MetricSettings.set(metricKey, { [name]: value })
+    }, 300)
+  }
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->

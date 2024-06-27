@@ -1,148 +1,188 @@
-<script>import { tick, onDestroy } from 'svelte';
-import { track } from 'san-webkit/lib/analytics';
-import { CMD } from 'san-webkit/lib/utils/os';
-import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { getHistoryContext } from './../history/ctx';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { Event } from './../analytics';
-import { Metric } from './../metrics';
-import { studio } from './../stores/studio';
-import { getWidgets, newWidget } from './../stores/widgets';
-import { selectedLayout } from './../stores/layout';
-import { currentUser } from './../stores/user';
-import { widgetsListener } from './../stores/widgetsListener';
-import { updateUserLayout, createUserLayout } from './../api/layouts/mutate';
-import ChartWidget from './../ChartWidget/index.svelte';
-import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
-import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte';
-import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
-import { getScheduledLayout, deleteScheduledLayout, getAllWidgetsMetricsKeys, getLayoutMetrics, } from './utils';
-const Widgets = getWidgets();
-const History = getHistoryContext();
-let widgetsHash = '';
-let changed = false;
-$: layout = $selectedLayout;
-$: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id;
-// @ts-ignore
-$: layout, isAuthor, hashWidgets();
-const getWidgetsHash = (widgets = Widgets.get()) => { var _a; return JSON.stringify((_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, widgets)); };
-function hashWidgets() {
-    if (!layout || !isAuthor)
-        return (widgetsHash = '');
+<script lang="ts">
+  import { tick, onDestroy } from 'svelte'
+  import { track } from 'san-webkit/lib/analytics'
+  import { CMD } from 'san-webkit/lib/utils/os'
+  import { newGlobalShortcut } from 'san-webkit/lib/utils/events'
+  import { getHistoryContext } from './../history/ctx'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { Event } from './../analytics'
+  import { Metric } from './../metrics'
+  import { studio } from './../stores/studio'
+  import { getWidgets, newWidget } from './../stores/widgets'
+  import { selectedLayout } from './../stores/layout'
+  import { currentUser } from './../stores/user'
+  import { widgetsListener } from './../stores/widgetsListener'
+  import { updateUserLayout, createUserLayout } from './../api/layouts/mutate'
+  import ChartWidget from './../ChartWidget/index.svelte'
+  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
+  import { showLoadLayoutDialog } from './LoadLayoutDialog.svelte'
+  import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
+  import {
+    getScheduledLayout,
+    deleteScheduledLayout,
+    getAllWidgetsMetricsKeys,
+    getLayoutMetrics,
+  } from './utils'
+
+  const Widgets = getWidgets()
+  const History = getHistoryContext()
+
+  let widgetsHash = ''
+  let changed = false
+
+  $: layout = $selectedLayout
+  $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
+  // @ts-ignore
+  $: layout, isAuthor, hashWidgets()
+
+  const getWidgetsHash = (widgets = Widgets.get()) =>
+    JSON.stringify(window.shareLayoutWidgets?.(widgets))
+  function hashWidgets() {
+    if (!layout || !isAuthor) return (widgetsHash = '')
+
     tick().then(() => {
-        widgetsHash = getWidgetsHash(window.parseLayoutWidgets(layout));
-        checkIsChanged();
-    });
-}
-function checkIsChanged() {
-    var _a;
-    const newHash = getWidgetsHash();
-    const isUpdated = widgetsHash !== newHash;
-    if (isUpdated)
-        (_a = window.onChartHashChange) === null || _a === void 0 ? void 0 : _a.call(window, newHash);
-    changed = isAuthor ? isUpdated : false;
-}
-const unsubWidgets = widgetsListener.subscribe(checkIsChanged);
-const selectLayout = (layout) => layout && selectedLayout.set(layout);
-const callIfRegistered = (clb) => () => { var _a; return (_a = ($currentUser ? clb : window.showLoginPrompt)) === null || _a === void 0 ? void 0 : _a(); };
-function onSave() {
-    var _a;
-    let promise;
+      widgetsHash = getWidgetsHash(window.parseLayoutWidgets(layout))
+      checkIsChanged()
+    })
+  }
+
+  function checkIsChanged() {
+    const newHash = getWidgetsHash()
+    const isUpdated = widgetsHash !== newHash
+
+    if (isUpdated) window.onChartHashChange?.(newHash)
+
+    changed = isAuthor ? isUpdated : false
+  }
+
+  const unsubWidgets = widgetsListener.subscribe(checkIsChanged)
+
+  const selectLayout = (layout) => layout && selectedLayout.set(layout as any)
+  const callIfRegistered = (clb: () => any) => () =>
+    ($currentUser ? clb : window.showLoginPrompt)?.()
+
+  function onSave() {
+    let promise: Promise<any>
+
     if (layout) {
-        const projectId = +$studio.projectId;
-        const { id, title, description } = layout;
-        const settings = {
-            title,
-            description,
-            projectId,
-            metrics: getAllWidgetsMetricsKeys($Widgets),
-            metricsJson: getLayoutMetrics($Widgets),
-            options: { widgets: (_a = window.shareLayoutWidgets) === null || _a === void 0 ? void 0 : _a.call(window, $Widgets) },
-        };
-        promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then((layout) => {
-            var _a;
-            (_a = window.notifyLayoutSave) === null || _a === void 0 ? void 0 : _a.call(window);
-            return layout;
-        });
+      const projectId = +$studio.projectId
+      const { id, title, description } = layout
+      const settings = {
+        title,
+        description,
+        projectId,
+        metrics: getAllWidgetsMetricsKeys($Widgets),
+        metricsJson: getLayoutMetrics($Widgets),
+        options: { widgets: window.shareLayoutWidgets?.($Widgets) },
+      }
+
+      promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then(
+        (layout) => {
+          window.notifyLayoutSave?.()
+          return layout
+        },
+      )
+    } else {
+      promise = showNewLayoutDialog()
     }
-    else {
-        promise = showNewLayoutDialog();
-    }
-    promise.then(selectLayout);
-}
-window.saveLayout = callIfRegistered(onSave);
-const onSaveAsNew = () => layout && showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(selectLayout);
-window.saveAsNewLayout = callIfRegistered(onSaveAsNew);
-const onEdit = () => layout &&
+
+    promise.then(selectLayout)
+  }
+  window.saveLayout = callIfRegistered(onSave)
+
+  const onSaveAsNew = () =>
+    layout && showNewLayoutDialog({ layout, title: 'Save Chart Layout as ...' }).then(selectLayout)
+  window.saveAsNewLayout = callIfRegistered(onSaveAsNew)
+
+  const onEdit = () =>
+    layout &&
     showNewLayoutDialog({
-        layout,
-        title: 'Edit Chart Layout',
-        mode: Mode.Edit,
-    }).then(selectLayout);
-window.onLayoutEdit = callIfRegistered(onEdit);
-const onNew = () => showNewLayoutDialog().then(selectLayout);
-function onResetLayout() {
-    const oldWidgets = Widgets.get().slice();
+      layout,
+      title: 'Edit Chart Layout',
+      mode: Mode.Edit,
+    }).then(selectLayout)
+  window.onLayoutEdit = callIfRegistered(onEdit)
+
+  const onNew = () => showNewLayoutDialog().then(selectLayout)
+
+  function onResetLayout() {
+    const oldWidgets = Widgets.get().slice()
     const newWidgets = [
-        newWidget(ChartWidget, {
-            metrics: [Metric.price_usd],
-        }),
-    ];
-    Widgets.set(newWidgets);
-    History.add('Reset layout', () => Widgets.set(oldWidgets), () => Widgets.set(newWidgets));
-}
-window.onLayoutCreationOpen = () => {
-    onNew();
-};
-window.onLayoutSelect = (layout) => {
-    if ($selectedLayout && +layout.id === +$selectedLayout.id)
-        return;
-    const newWidgets = window.parseLayoutWidgets(layout);
-    const oldWidgets = $Widgets;
-    const oldLayout = $selectedLayout;
-    const redo = () => (Widgets.set(newWidgets), selectedLayout.set(layout));
-    History.add('Apply layout', () => (Widgets.set(oldWidgets), selectedLayout.set(oldLayout)), redo);
-    redo();
-    track.event(Event.LoadLayout, { id: layout.id });
-};
-window.onChartsLayoutMount = () => {
-    const settings = getScheduledLayout();
+      newWidget(ChartWidget, {
+        metrics: [Metric.price_usd],
+      }),
+    ]
+
+    Widgets.set(newWidgets)
+    History.add(
+      'Reset layout',
+      () => Widgets.set(oldWidgets),
+      () => Widgets.set(newWidgets),
+    )
+  }
+
+  window.onLayoutCreationOpen = () => {
+    onNew()
+  }
+
+  window.onLayoutSelect = (layout: SAN.Layout) => {
+    if ($selectedLayout && +layout.id === +$selectedLayout.id) return
+
+    const newWidgets = window.parseLayoutWidgets(layout)
+    const oldWidgets = $Widgets
+    const oldLayout = $selectedLayout
+
+    const redo = () => (Widgets.set(newWidgets), selectedLayout.set(layout))
+    History.add(
+      'Apply layout',
+      () => (Widgets.set(oldWidgets), selectedLayout.set(oldLayout)),
+      redo,
+    )
+    redo()
+
+    track.event(Event.LoadLayout, { id: layout.id })
+  }
+
+  window.onChartsLayoutMount = () => {
+    const settings = getScheduledLayout()
+
     if (settings) {
-        createUserLayout(settings).then((layout) => {
-            var _a;
-            track.event(Event.NewLayout, {
-                id: layout.id,
-            });
-            window.onLayoutSelect(layout);
-            deleteScheduledLayout();
-            (_a = window.notifyLayoutCreation) === null || _a === void 0 ? void 0 : _a.call(window);
-        });
+      createUserLayout(settings).then((layout) => {
+        track.event(Event.NewLayout, {
+          id: layout.id,
+        })
+
+        window.onLayoutSelect(layout)
+        deleteScheduledLayout()
+        window.notifyLayoutCreation?.()
+      })
     }
-};
-const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave));
-const unsubLoad = newGlobalShortcut('CMD+L', showLoadLayoutDialog);
-onDestroy(() => {
+  }
+
+  const unsubSave = newGlobalShortcut('CMD+S', callIfRegistered(onSave))
+  const unsubLoad = newGlobalShortcut('CMD+L', showLoadLayoutDialog)
+  onDestroy(() => {
     // @ts-ignore
-    delete window.onLayoutSelect;
-    delete window.onLayoutCreationOpen;
-    delete window.onChartsLayoutMount;
-    delete window.onLayoutEdit;
-    delete window.saveLayout;
-    delete window.saveAsNewLayout;
-    unsubSave();
-    unsubLoad();
-    unsubWidgets();
-});
+    delete window.onLayoutSelect
+    delete window.onLayoutCreationOpen
+    delete window.onChartsLayoutMount
+    delete window.onLayoutEdit
+    delete window.saveLayout
+    delete window.saveAsNewLayout
+    unsubSave()
+    unsubLoad()
+    unsubWidgets()
+  })
 </script>
 
 <div class="layout btn row mrg-a mrg--l">
   <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
-  <Tooltip on="click" duration={0} align="center" class="tooltip-YFg2wA">
+  <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
     <div class="menu btn border" slot="trigger">
-      <Svg id="arrow" w="8" h="5" class="arrow-mVGjuP" />
+      <Svg id="arrow" w="8" h="5" class="$style.arrow" />
     </div>
 
     <div slot="tooltip">
@@ -205,11 +245,11 @@ onDestroy(() => {
     --color: var(--waterloo);
   }
 
-  :global(.arrow-mVGjuP) {
+  .arrow {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-YFg2wA) {
+  .tooltip {
     left: 0px !important;
     width: 200px;
     padding: 8px;

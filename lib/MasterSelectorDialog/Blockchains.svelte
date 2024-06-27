@@ -1,17 +1,22 @@
-<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { queryAvailableBlockchains } from './../api/blockchains';
-export let blockchain = undefined;
-export let inputNode;
-let blockchains = [];
-let isOpened = false;
-queryAvailableBlockchains().then((data) => (blockchains = data));
-function onBlockchainSelect(selected) {
-    blockchain = selected;
-    isOpened = false;
-    inputNode.focus();
-}
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
+  import { queryAvailableBlockchains } from './../api/blockchains'
+
+  export let blockchain = undefined
+  export let inputNode: HTMLInputElement
+
+  let blockchains = []
+  let isOpened = false
+
+  queryAvailableBlockchains().then((data) => (blockchains = data))
+
+  function onBlockchainSelect(selected) {
+    blockchain = selected
+    isOpened = false
+    inputNode.focus()
+  }
 </script>
 
 <div class="relative mrg-l mrg--r">
@@ -20,8 +25,8 @@ function onBlockchainSelect(selected) {
     on="click"
     offsetY={4}
     align="center"
-    class="tooltip-xFBxNK"
-    activeClass="active-7pSU2I">
+    class="$style.tooltip"
+    activeClass="$style.active">
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
         <div class="row v-center">
@@ -31,7 +36,7 @@ function onBlockchainSelect(selected) {
       {:else}
         All blockchains
       {/if}
-      <Svg id="arrow" w="8" h="5" class="arrow-tna8_6 mrg-s mrg--l" />
+      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg-s mrg--l" />
     </button>
 
     <svelte:fragment slot="tooltip">
@@ -53,15 +58,15 @@ function onBlockchainSelect(selected) {
     fill: var(--waterloo);
   }
 
-  :global(.active-7pSU2I) {
+  .active {
     --border: var(--green);
   }
 
-  :global(.arrow-tna8_6) {
+  .arrow {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-xFBxNK) {
+  .tooltip {
     padding: 8px;
     min-width: 100%;
   }
