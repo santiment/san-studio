@@ -39,7 +39,7 @@
 
 {#if items.length || $$slots.default}
   <div class="category {className}" on:mouseleave>
-    <h3 on:click={() => (visible = !visible)} class="row v-center" class:hidden={!visible}>
+    <h3 on:click={() => (visible = !visible)} class="row v-center" class:collapsed={!visible}>
       <slot name="pre-title" />
       {category}
 
@@ -57,7 +57,7 @@
               <h4
                 on:click={() => toggleGroup(metric)}
                 class="row justify v-center"
-                class:hidden={!VisibleGroup[metric.group]}
+                class:collapsed={!VisibleGroup[metric.group]}
               >
                 {metric.group}
                 <Svg id="arrow" w="8" h="5" class="$style.arrow" />
@@ -88,7 +88,7 @@
     font-weight: 600;
     padding: 0 8px;
   }
-  .hidden .arrow {
+  .collapsed .arrow {
     transform: rotate(180deg);
   }
 
