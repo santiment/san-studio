@@ -1,25 +1,20 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { studio, getLockedAssetStore } from './../stores/studio'
-  import { Event } from './../analytics'
-  import { showLockedAssetDialog } from './Dialog.svelte'
-
-  const LockedAsset$ = getLockedAssetStore() as any
-
-  $: settings = $studio
-  $: asset = $LockedAsset$
-
-  function onSelect(asset) {
-    if (!asset) return
-
+<script>import { track } from 'san-webkit/lib/analytics';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import { studio, getLockedAssetStore } from './../stores/studio';
+import { Event } from './../analytics';
+import { showLockedAssetDialog } from './Dialog.svelte';
+const LockedAsset$ = getLockedAssetStore();
+$: settings = $studio;
+$: asset = $LockedAsset$;
+function onSelect(asset) {
+    if (!asset)
+        return;
     if (settings.slug !== asset.slug) {
-      track.event(Event.ChangeLockAsset, { asset: asset.slug })
+        track.event(Event.ChangeLockAsset, { asset: asset.slug });
     }
-
-    LockedAsset$.set(asset)
-  }
+    LockedAsset$.set(asset);
+}
 </script>
 
 <button class="btn border fluid row v-center" on:click={() => showLockedAssetDialog({ onSelect })}>

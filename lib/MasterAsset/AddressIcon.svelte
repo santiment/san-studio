@@ -1,13 +1,11 @@
-<script context="module" lang="ts">
-  import { Infrastructure, getAddressInfrastructure } from 'san-webkit/lib/utils/address'
-
-  const InfrastructureAsset = {
+<script context="module">import { Infrastructure, getAddressInfrastructure } from 'san-webkit/lib/utils/address';
+const InfrastructureAsset = {
     [Infrastructure.ETH]: 'ethereum',
     [Infrastructure.BTC]: 'bitcoin',
     [Infrastructure.BCH]: 'bitcoin-cash',
     [Infrastructure.XRP]: 'xrp',
     [Infrastructure.LTC]: 'litecoin',
-  }
+};
 </script>
 
 <script>
@@ -22,7 +20,7 @@
 
 <div class="relative row hv-center mrg-s mrg--r">
   <Svg id="report" w="16" />
-  <ProjectIcon slug={infrastructureAsset} size={16} class="$style.project" />
+  <ProjectIcon slug={infrastructureAsset} size={16} class="project-OdwX2o" />
 </div>
 
 <style>
@@ -35,7 +33,7 @@
     fill: var(--white);
   }
 
-  .project {
+  :global(.project-OdwX2o) {
     position: absolute;
     bottom: 0;
     right: 0;

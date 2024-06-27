@@ -1,31 +1,26 @@
-<script lang="ts">
-  import { Metric } from './../../metrics'
-  import { SocialMetric } from './../../metrics/_social'
-  import { getAdapterController } from './../../adapter/context'
-  import NodeSetting from './NodeSetting.svelte'
-  import ColorSetting from './ColorSetting.svelte'
-  import IntervalSetting from './IntervalSetting.svelte'
-  import ExchangeSetting from './ExchangeSetting/index.svelte'
-  import SettlementCurrencySetting from './SettlementCurrency.svelte'
-  import { isExchangeModifiable } from './ExchangeSetting/utils'
-  import IndicatorSetting from './IndicatorSetting/index.svelte'
-  import SmoothingSetting from './SmoothingSetting.svelte'
-  import ShowAxisSetting from './ShowAxisSetting.svelte'
-  import PinAxisSetting from './PinAxisSetting.svelte'
-  import ExpressionSetting from './ExpressionSetting.svelte'
-  import TopHoldersSetting from './TopHoldersSetting.svelte'
-  import AxisMaxMinSetting from './AxisMaxMinSetting.svelte'
-  import { TOP_HOLDERS } from './settings'
-  import AddonSettings from '../Addons/Settings.svelte'
-  import { ADDONS } from '../Addons/addons'
-
-  const { isEmbedded } = getAdapterController()
-
-  export let metric: Studio.Metric
-
-  $: isNotIndicator = !metric.indicator
-
-  const getBase = (metric: Studio.Metric) => metric.base || metric
+<script>import { Metric } from './../../metrics';
+import { SocialMetric } from './../../metrics/_social';
+import { getAdapterController } from './../../adapter/context';
+import NodeSetting from './NodeSetting.svelte';
+import ColorSetting from './ColorSetting.svelte';
+import IntervalSetting from './IntervalSetting.svelte';
+import ExchangeSetting from './ExchangeSetting/index.svelte';
+import SettlementCurrencySetting from './SettlementCurrency.svelte';
+import { isExchangeModifiable } from './ExchangeSetting/utils';
+import IndicatorSetting from './IndicatorSetting/index.svelte';
+import SmoothingSetting from './SmoothingSetting.svelte';
+import ShowAxisSetting from './ShowAxisSetting.svelte';
+import PinAxisSetting from './PinAxisSetting.svelte';
+import ExpressionSetting from './ExpressionSetting.svelte';
+import TopHoldersSetting from './TopHoldersSetting.svelte';
+import AxisMaxMinSetting from './AxisMaxMinSetting.svelte';
+import { TOP_HOLDERS } from './settings';
+import AddonSettings from '../Addons/Settings.svelte';
+import { ADDONS } from '../Addons/addons';
+const { isEmbedded } = getAdapterController();
+export let metric;
+$: isNotIndicator = !metric.indicator;
+const getBase = (metric) => metric.base || metric;
 </script>
 
 {#key metric.key}

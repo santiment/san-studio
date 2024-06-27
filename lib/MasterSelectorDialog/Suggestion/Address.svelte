@@ -1,5 +1,4 @@
-<script context="module" lang="ts">
-  const CHAR_WIDTH = 8.5
+<script context="module">const CHAR_WIDTH = 8.5;
 </script>
 
 <script>

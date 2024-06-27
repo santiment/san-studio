@@ -1,56 +1,46 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { Event } from './../analytics'
-  import { mapview, MapviewPhase } from './../stores/mapview'
-  import LayoutActions from './../Layouts/index.svelte'
-  import Layout from './Layout.svelte'
-  import { studio as settings$ } from './../stores/studio'
-  import { debounce$$ } from 'san-webkit/lib/utils/fn'
-  import Calendar from './Calendar.svelte'
-
-  export let headerPadding = 0
-
-  let headerNode: HTMLDivElement
-
-  $: isMapview = $mapview !== MapviewPhase.None
-  $: headerNode && changeHeaderPosition(isMapview)
-
-  $: ({ from, to } = $settings$)
-  $: dates = [new Date(from), new Date(to)]
-
-  let copyLabel = 'Copy link'
-
-  const resetCopyLabel$ = debounce$$(1000, () => (copyLabel = 'Copy link'))
-
-  function changeHeaderPosition(isMapview: boolean) {
-    let transform
+<script>import { track } from 'san-webkit/lib/analytics';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { Event } from './../analytics';
+import { mapview, MapviewPhase } from './../stores/mapview';
+import LayoutActions from './../Layouts/index.svelte';
+import Layout from './Layout.svelte';
+import { studio as settings$ } from './../stores/studio';
+import { debounce$$ } from 'san-webkit/lib/utils/fn';
+import Calendar from './Calendar.svelte';
+export let headerPadding = 0;
+let headerNode;
+$: isMapview = $mapview !== MapviewPhase.None;
+$: headerNode && changeHeaderPosition(isMapview);
+$: ({ from, to } = $settings$);
+$: dates = [new Date(from), new Date(to)];
+let copyLabel = 'Copy link';
+const resetCopyLabel$ = debounce$$(1000, () => (copyLabel = 'Copy link'));
+function changeHeaderPosition(isMapview) {
+    let transform;
     if (isMapview) {
-      let { top } = headerNode.getBoundingClientRect()
-
-      if (window.scrollY < headerPadding) {
-        top -= headerPadding - window.scrollY - 1
-      }
-
-      transform = `translateY(-${top}px)`
-    } else {
-      transform = null
+        let { top } = headerNode.getBoundingClientRect();
+        if (window.scrollY < headerPadding) {
+            top -= headerPadding - window.scrollY - 1;
+        }
+        transform = `translateY(-${top}px)`;
     }
-    headerNode.style.transform = transform
-  }
-
-  function onShareClick() {
-    track.event(Event.Share)
-    window.onHeaderShareClick?.()
-  }
-
-  function onCopyLinkClick() {
-    copyLabel = 'Copied!'
-    $resetCopyLabel$()
-
-    track.event(Event.CopyLink)
-    window.onHeaderCopyLinkClick?.()
-  }
+    else {
+        transform = null;
+    }
+    headerNode.style.transform = transform;
+}
+function onShareClick() {
+    var _a;
+    track.event(Event.Share);
+    (_a = window.onHeaderShareClick) === null || _a === void 0 ? void 0 : _a.call(window);
+}
+function onCopyLinkClick() {
+    var _a;
+    copyLabel = 'Copied!';
+    $resetCopyLabel$();
+    track.event(Event.CopyLink);
+    (_a = window.onHeaderCopyLinkClick) === null || _a === void 0 ? void 0 : _a.call(window);
+}
 </script>
 
 <div class="border header panel row v-center" bind:this={headerNode}>

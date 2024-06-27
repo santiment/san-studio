@@ -1,5 +1,4 @@
-<script lang="ts">
-  export let src: string
+<script>export let src;
 </script>
 
 <div class="chart mrg-l mrg--l">

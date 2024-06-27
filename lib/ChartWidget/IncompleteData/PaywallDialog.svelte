@@ -1,26 +1,16 @@
-<script lang="ts" context="module">
-  import type { RestrictionInfo } from './utils'
-
-  import { dialogs } from 'san-webkit/lib/ui/Dialog'
-  import Component from './PaywallDialog.svelte'
-  import { trackUpgrade } from './utils'
-
-  export const showPaywallDialog = (
-    restrictionsInfo: RestrictionInfo[],
-    restrictedMetrics: Studio.Metric[],
-  ) => dialogs.show(Component, { restrictionsInfo, restrictedMetrics })
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+import Component from './PaywallDialog.svelte';
+import { trackUpgrade } from './utils';
+export const showPaywallDialog = (restrictionsInfo, restrictedMetrics) => dialogs.show(Component, { restrictionsInfo, restrictedMetrics });
 </script>
 
-<script lang="ts">
-  import Dialog from 'san-webkit/lib/ui/Dialog'
-  import { globals } from './../../stores/globals'
-
-  export let restrictionsInfo: RestrictionInfo[]
-  export let restrictedMetrics: Studio.Metric[]
-
-  function onUpgradeClick(e) {
-    trackUpgrade({ e, restrictedMetrics, isLoggedIn: $globals.isLoggedIn, location: 'dialog' })
-  }
+<script>import Dialog from 'san-webkit/lib/ui/Dialog';
+import { globals } from './../../stores/globals';
+export let restrictionsInfo;
+export let restrictedMetrics;
+function onUpgradeClick(e) {
+    trackUpgrade({ e, restrictedMetrics, isLoggedIn: $globals.isLoggedIn, location: 'dialog' });
+}
 </script>
 
 <Dialog {...$$props} title="Incomplete data">

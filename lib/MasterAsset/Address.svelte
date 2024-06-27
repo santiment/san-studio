@@ -41,7 +41,7 @@
   {/each}
 
   {#if hidden.length}
-    <Tooltip align="end" offsetY={4} class="tooltip-cVuZWs row" openDelay={110}>
+    <Tooltip align="end" offsetY={4} class="tooltip-4xTPDk row" openDelay={110}>
       <div slot="trigger" class="label btn mrg-s mrg--l">
         +{hidden.length}
       </div>
@@ -66,7 +66,7 @@
     --color-hover: var(--green);
   }
 
-  :global(.tooltip-cVuZWs) {
+  :global(.tooltip-4xTPDk) {
     padding: 12px;
     z-index: 999 !important;
     max-width: 430px;

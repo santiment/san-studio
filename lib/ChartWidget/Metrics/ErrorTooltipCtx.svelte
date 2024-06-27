@@ -13,7 +13,7 @@
     align: 'center',
     position: 'top',
     closeTimeout: 0,
-    class: 'caption dark tooltip-GWSU+c',
+    class: 'caption dark tooltip-_UAYFp',
   }
 </script>
 
@@ -26,7 +26,7 @@
 </Context>
 
 <style>
-  :global(.tooltip-GWSU\+c) {
+  :global(.tooltip-_UAYFp) {
     max-width: 310px;
     z-index: 24;
   }
