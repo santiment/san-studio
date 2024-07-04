@@ -50,9 +50,9 @@ function onEditableEscaped(target, closeDialog) {
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="dialog-BpTTAX" bind:closeDialog {onEditableEscaped}>
+<Dialog {...$$props} noTitle class="dialog-BF2Npz" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
-    <Svg id="search" w="16" class="icon-HHHC1o" />
+    <Svg id="search" w="16" class="icon-sOajOO" />
     <input
       bind:this={inputNode}
       autofocus
@@ -91,7 +91,7 @@ function onEditableEscaped(target, closeDialog) {
   }
 }
 */
-:global(.dialog-BpTTAX) {
+:global(.dialog-BF2Npz) {
   width: 500px;
   max-height: 480px !important;
   border-radius: 10px !important;
@@ -109,7 +109,7 @@ input {
   border-radius: 10px;
 }
 
-:global(.icon-HHHC1o) {
+:global(.icon-sOajOO) {
   position: absolute;
   top: 20px;
   left: 20px;

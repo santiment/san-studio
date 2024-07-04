@@ -76,7 +76,7 @@ function scrollToCursor() {
 
 <section>
   <VirtualList
-    class="suggestions-Sa8eZL {!filtered.length ? 'hide' : ''}"
+    class="suggestions-cS40Sj {!filtered.length ? 'hide' : ''}"
     items={filtered}
     itemHeight={56}
     maxFluidHeight={381}
@@ -113,11 +113,11 @@ function scrollToCursor() {
   }
 }
 */
-:global(.suggestions-Sa8eZL) {
+:global(.suggestions-cS40Sj) {
   border-top: 1px solid var(--porcelain);
 }
 
-:global(.suggestions-Sa8eZL) :global(.list) {
+:global(.suggestions-cS40Sj) :global(.list) {
   padding: 16px 24px;
 }
 
