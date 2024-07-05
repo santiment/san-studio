@@ -181,7 +181,7 @@
     {layout ? 'Save' : 'Save as'}
   </div>
   <Tooltip on="click" duration={0} align="center" class="$style.tooltip">
-    <div class="menu btn border" slot="trigger">
+    <div class="menu btn border row v-center" slot="trigger">
       <Svg id="arrow" w="8" h="5" class="$style.arrow" />
     </div>
 
