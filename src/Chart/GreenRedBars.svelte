@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { plotGreenRedBars } from 'san-chart/bars/greenRedBars'
   import { getChart } from './context'

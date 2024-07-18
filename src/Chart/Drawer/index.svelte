@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import type { Drawing } from './drawer'
   import { onDestroy } from 'svelte'

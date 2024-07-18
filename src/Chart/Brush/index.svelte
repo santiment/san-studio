@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { initBrush, updateBrushState, updateBrushDimensions } from 'san-chart/brush'
   import { getChart } from '../context'
