@@ -75,6 +75,8 @@ export const FIAT_FUND_ASSETS = [
   { slug: 'bitb', name: 'BITB', ticker: 'BITB' },
 ]
 
+export const FIAT_MONEY_SUPPLY_ASSETS = [{ slug: 'm2-money', name: 'M2 Money', ticker: 'M2M' }]
+
 const catchMetrics = () => ({ metrics: ['price_usd'], docs: {} })
 export const queryProjectMetrics = (
   slug: string,
@@ -84,6 +86,11 @@ export const queryProjectMetrics = (
 
   if (fundSet.has(slug)) {
     return Promise.resolve({ metrics: ['etf_volume_usd_5m'], docs: {} })
+  }
+
+  const moneySet = new Set(FIAT_MONEY_SUPPLY_ASSETS.map((v) => v.slug))
+  if (moneySet.has(slug)) {
+    return Promise.resolve({ metrics: ['money_supply'], docs: {} })
   }
 
   return query<any>(

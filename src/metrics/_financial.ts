@@ -76,6 +76,9 @@ export const FinancialMetric = each(
       node: Node.BAR,
       label: 'ETF Volume',
     },
+    money_supply: {
+      label: 'Money Supply',
+    },
     ...PriceVolatilityMetric,
     ...RSIMetric,
     ...NFTPrices,
