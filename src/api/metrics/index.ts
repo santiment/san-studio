@@ -75,7 +75,7 @@ export const FIAT_FUND_ASSETS = [
   { slug: 'bitb', name: 'BITB', ticker: 'BITB' },
 ]
 
-const catchMetrics = () => ['price_usd']
+const catchMetrics = () => ({ metrics: ['price_usd'], docs: {} })
 export const queryProjectMetrics = (
   slug: string,
   // ): Promise<QueryRecord<ProjectMetrics>> =>
