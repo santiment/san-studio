@@ -10,7 +10,7 @@
   import Dialog from 'webkit/ui/Dialog'
   import ListOfAssets from 'webkit/ui/ListOfAssets/index.svelte'
   import { TABS } from 'webkit/ui/ListOfAssets/Tabs.svelte'
-  import { FIAT_FUND_ASSETS } from '../api/metrics'
+  import { FIAT_FUND_ASSETS, FIAT_MONEY_SUPPLY_ASSETS } from '../api/metrics'
 
   export let onSelect
   export let DialogCtx
@@ -21,7 +21,7 @@
       'Fiat',
       () =>
         queryFiatAssets().then((data) => {
-          return data.concat(FIAT_FUND_ASSETS)
+          return data.concat(FIAT_MONEY_SUPPLY_ASSETS).concat(FIAT_FUND_ASSETS)
         }),
     ],
   ]

@@ -33,12 +33,12 @@
   $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph
   $: getMetrics(slug, address)
 
-  const setMetrics = (data) => (metrics = data)
+  const setMetrics = (data) => (metrics = data || [])
   function getMetrics(slug: string, address?: string) {
     const promise = address
       ? queryAddressMetrics(address)
       : queryProjectMetrics(slug).then((data) => {
-          documentation.metrics = data.docs
+          documentation.metrics = data.docs || {}
           return data.metrics
         })
 
