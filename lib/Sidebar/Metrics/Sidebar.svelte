@@ -25,12 +25,12 @@ $: categories = Object.keys(graph);
 $: graph = getMetricsSelectorGraph(metrics, Object.assign({}, $globals, $LockedAsset$));
 $: filteredGraph = searchTerm ? filterSelectorGraph(graph, searchTerm) : graph;
 $: getMetrics(slug, address);
-const setMetrics = (data) => (metrics = data);
+const setMetrics = (data) => (metrics = data || []);
 function getMetrics(slug, address) {
     const promise = address
         ? queryAddressMetrics(address)
         : queryProjectMetrics(slug).then((data) => {
-            documentation.metrics = data.docs;
+            documentation.metrics = data.docs || {};
             return data.metrics;
         });
     return promise.then(setMetrics);

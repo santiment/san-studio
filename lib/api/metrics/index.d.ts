@@ -4,6 +4,11 @@ export declare const FIAT_FUND_ASSETS: {
     name: string;
     ticker: string;
 }[];
+export declare const FIAT_MONEY_SUPPLY_ASSETS: {
+    slug: string;
+    name: string;
+    ticker: string;
+}[];
 export declare const queryProjectMetrics: (slug: string) => Promise<{
     metrics: string[];
     docs: Record<string, null | string>;

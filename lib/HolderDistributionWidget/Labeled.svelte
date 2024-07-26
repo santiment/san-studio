@@ -70,10 +70,10 @@ function onReset() {
   <slot>labeled by number of addresses</slot>
 
   <svelte:fragment slot="tabs">
-    <Tooltip on="click" duration={0} align="center" class="tooltip-d_JxuQ">
+    <Tooltip on="click" duration={0} align="center" class="tooltip-o_xbZl">
       <div slot="trigger" class="border v-center btn row mrg-l mrg--b" class:text>
         {text || 'Show all labels'}
-        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-6dBPSt" />
+        <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-VhtQ0c" />
       </div>
 
       <svelte:fragment slot="tooltip">
@@ -101,14 +101,14 @@ function onReset() {
   .border:hover {
     border-color: var(--green);
   }
-  :global(.arrow-6dBPSt) {
+  :global(.arrow-VhtQ0c) {
     transform: rotate(180deg);
   }
   .text {
     --color: var(--black);
   }
 
-  :global(.tooltip-d_JxuQ) {
+  :global(.tooltip-o_xbZl) {
     width: calc(100% - 32px);
     padding: 0 8px;
   }

@@ -18,4 +18,5 @@ export declare const FinancialMetric: {
     marketcap_usd: import("./utils").Node<Studio.Metric, "marketcap_usd">;
     volume_usd: import("./utils").Node<Studio.Metric, "volume_usd">;
     etf_volume_usd_5m: import("./utils").Node<Studio.Metric, "etf_volume_usd_5m">;
+    money_supply: import("./utils").Node<Studio.Metric, "money_supply">;
 };

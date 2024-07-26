@@ -140,9 +140,9 @@ onDestroy(() => {
   <div class="action btn border" class:changed on:click={callIfRegistered(onSave)}>
     {layout ? 'Save' : 'Save as'}
   </div>
-  <Tooltip on="click" duration={0} align="center" class="tooltip-YFg2wA">
+  <Tooltip on="click" duration={0} align="center" class="tooltip-v52jK9">
     <div class="menu btn border row v-center" slot="trigger">
-      <Svg id="arrow" w="8" h="5" class="arrow-mVGjuP" />
+      <Svg id="arrow" w="8" h="5" class="arrow-xAPtGt" />
     </div>
 
     <div slot="tooltip">
@@ -205,11 +205,11 @@ onDestroy(() => {
     --color: var(--waterloo);
   }
 
-  :global(.arrow-mVGjuP) {
+  :global(.arrow-xAPtGt) {
     transform: rotate(180deg);
   }
 
-  :global(.tooltip-YFg2wA) {
+  :global(.tooltip-v52jK9) {
     left: 0px !important;
     width: 200px;
     padding: 8px;

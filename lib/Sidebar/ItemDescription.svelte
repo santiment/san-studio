@@ -19,7 +19,7 @@ $: description = item && (_description || docs);
 {#if description}
   <Tooltip position="right" align="center" openDelay={110}>
     <div slot="trigger" bind:this={trigger}>
-      <Svg id="info" class="{className} info-80Y+EM" />
+      <Svg id="info" class="{className} info-Xlib72" />
     </div>
     <div slot="tooltip" class="description" bind:this={tooltip}>
       <div class="title txt-m mrg-s mrg--b">
@@ -31,7 +31,7 @@ $: description = item && (_description || docs);
 {/if}
 
 <style>
-  :global(.info-80Y\+EM:hover) {
+  :global(.info-Xlib72:hover) {
     fill: var(--black);
   }
 
