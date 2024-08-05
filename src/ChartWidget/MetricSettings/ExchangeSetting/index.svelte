@@ -94,7 +94,7 @@
   Exchange: {metricOwner}
 
   <svelte:fragment slot="dropdown">
-    <div slot="header" class="tabs row txt-m mrg-s mrg--b">
+    <div class="tabs row txt-m mrg-s mrg--b">
       {#if !isOpenInterestMetric}
         <div class:tab-active={!isDex} class="tab btn" on:click={() => (isDex = false)}>CEX</div>
         <div class:tab-active={isDex} class="tab btn" on:click={() => (isDex = true)}>DEX</div>

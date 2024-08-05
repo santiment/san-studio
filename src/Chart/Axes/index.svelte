@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { drawXAxisTicks, drawAxisLine, drawYAxisTicks } from 'san-chart/axes'
   import { drawValueBubbleY } from 'san-chart/tooltip'

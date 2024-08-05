@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { drawReferenceDot } from 'san-chart/references'
   import { getChart } from './context'
