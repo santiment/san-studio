@@ -1,25 +1,22 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { selectedLayout } from './../../../stores/layout'
-  import { currentUser } from './../../../stores/user'
-  import { queryLayoutToken } from './../../../api/layouts/token'
-  import Setting from './Setting.svelte'
-
-  export let isPro = false
-  export let dataToken = ''
-  let isActive = false
-
-  $: layout = $selectedLayout
-  $: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id
-  $: disabled = !isAuthor || !isPro
-
-  const setToken = (token) => (dataToken = token)
-  $: if (!disabled && isActive) {
-    queryLayoutToken(layout.id).then(setToken)
-  } else {
-    dataToken = ''
-  }
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { selectedLayout } from './../../../stores/layout';
+import { currentUser } from './../../../stores/user';
+import { queryLayoutToken } from './../../../api/layouts/token';
+import Setting from './Setting.svelte';
+export let isPro = false;
+export let dataToken = '';
+let isActive = false;
+$: layout = $selectedLayout;
+$: isAuthor = $currentUser && layout && +layout.user.id === +$currentUser.id;
+$: disabled = !isAuthor || !isPro;
+const setToken = (token) => (dataToken = token);
+$: if (!disabled && isActive) {
+    queryLayoutToken(layout.id).then(setToken);
+}
+else {
+    dataToken = '';
+}
 </script>
 
 <Setting bind:isActive {disabled} disabledToggle={isPro}>

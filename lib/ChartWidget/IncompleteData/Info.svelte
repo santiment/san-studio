@@ -1,20 +1,17 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import { globals } from './../../stores/globals'
-  import { trackUpgrade } from './utils'
-
-  export let upgradeClass = ''
-  export let restrictions: string[]
-  export let restrictedMetrics: Studio.Metric[]
-
-  function onUpgradeClick(e) {
+<script>import 'san-webkit/lib/analytics';
+import { globals } from './../../stores/globals';
+import { trackUpgrade } from './utils';
+export let upgradeClass = '';
+export let restrictions;
+export let restrictedMetrics;
+function onUpgradeClick(e) {
     trackUpgrade({
-      e,
-      restrictedMetrics,
-      isLoggedIn: $globals.isLoggedIn,
-      location: 'banner',
-    })
-  }
+        e,
+        restrictedMetrics,
+        isLoggedIn: $globals.isLoggedIn,
+        location: 'banner',
+    });
+}
 </script>
 
 Your plan has limited data period for:

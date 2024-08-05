@@ -12,4 +12,4 @@ export declare function createDynamicLabelFqnMetric(slug: string, labelFqn: stri
     reqMeta: {
         label_fqn: (vars?: any) => string;
     };
-};
+} | null;

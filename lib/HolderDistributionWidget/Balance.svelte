@@ -1,22 +1,14 @@
-<script lang="ts">
-  import {
-    HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS,
-    HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS,
-  } from './../metrics/_onchain/holderDistributions'
-  import HolderDistributionWidget from './index.svelte'
-
-  export let widget
-  export let isSingleWidget: boolean
-  export let deleteWidget
-
-  const defaultMetrics = HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS.slice()
-
-  let isPercentsMetrics = true
-  let isMerging = false
-
-  $: metrics = isPercentsMetrics
+<script>import { HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS, HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS, } from './../metrics/_onchain/holderDistributions';
+import HolderDistributionWidget from './index.svelte';
+export let widget;
+export let isSingleWidget;
+export let deleteWidget;
+const defaultMetrics = HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS.slice();
+let isPercentsMetrics = true;
+let isMerging = false;
+$: metrics = isPercentsMetrics
     ? HOLDER_DISTRIBUTION_BALANCE_PERCENT_METRICS
-    : HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS
+    : HOLDER_DISTRIBUTION_BALANCE_ABSOLUTE_METRICS;
 </script>
 
 <HolderDistributionWidget

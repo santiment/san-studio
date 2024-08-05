@@ -1,40 +1,31 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { MetricCategory } from './../metrics/graph'
-  import Item from './Item.svelte'
-
-  let className = ''
-  export { className as class }
-  export let category: MetricCategory
-  export let items: Studio.SelectorNode[] = []
-  export let HoverItem = undefined
-  export let VisibleGroup: { [index: string]: boolean } = {}
-  export let isFiltering: boolean
-  export let isOpened = false
-  export let onItemClick = undefined
-  export let arrowClass = 'mrg-a'
-
-  let visible =
-    isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain
-
-  $: GroupIndex = prepareGroups(items)
-
-  function prepareGroups(items: Studio.SelectorNode[]) {
-    const GroupIndex = {}
-    let _group: string | undefined
-
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { MetricCategory } from './../metrics/graph';
+import Item from './Item.svelte';
+let className = '';
+export { className as class };
+export let category;
+export let items = [];
+export let HoverItem = undefined;
+export let VisibleGroup = {};
+export let isFiltering;
+export let isOpened = false;
+export let onItemClick = undefined;
+export let arrowClass = 'mrg-a';
+let visible = isOpened || category === MetricCategory.Financial || category === MetricCategory.OnChain;
+$: GroupIndex = prepareGroups(items);
+function prepareGroups(items) {
+    const GroupIndex = {};
+    let _group;
     for (let i = 0; i < items.length; i++) {
-      const { group } = items[i]
-      if (_group === group) continue
-      _group = group
-      GroupIndex[i] = true
+        const { group } = items[i];
+        if (_group === group)
+            continue;
+        _group = group;
+        GroupIndex[i] = true;
     }
-
-    return GroupIndex
-  }
-
-  const toggleGroup = ({ group }: Studio.SelectorNode) =>
-    group && (VisibleGroup[group] = !VisibleGroup[group])
+    return GroupIndex;
+}
+const toggleGroup = ({ group }) => group && (VisibleGroup[group] = !VisibleGroup[group]);
 </script>
 
 {#if items.length || $$slots.default}
@@ -44,7 +35,7 @@
       {category}
 
       <slot name="post-title" />
-      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg--l {arrowClass}" />
+      <Svg id="arrow" w="8" h="5" class="arrow-yy00rZ mrg--l {arrowClass}" />
     </h3>
 
     {#if visible || isFiltering}
@@ -60,7 +51,7 @@
                 class:collapsed={!VisibleGroup[metric.group]}
               >
                 {metric.group}
-                <Svg id="arrow" w="8" h="5" class="$style.arrow" />
+                <Svg id="arrow" w="8" h="5" class="arrow-yy00rZ" />
               </h4>
             {/if}
             {#if !metric.group || isFiltering || VisibleGroup[metric.group]}
@@ -88,7 +79,7 @@
     font-weight: 600;
     padding: 0 8px;
   }
-  .collapsed .arrow {
+  .collapsed :global(.arrow-yy00rZ) {
     transform: rotate(180deg);
   }
 
