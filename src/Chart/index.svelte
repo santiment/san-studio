@@ -21,7 +21,7 @@
   export let data: any[]
   export let categories: Record<string, string[]>
   export let colors: Record<string, string>
-  export let domainGroups = undefined
+  export let domainGroups: any = undefined
   export let domainModifier = undefined
   export let scale = linearScale
   export let theme = themes[0]
