@@ -10,7 +10,7 @@
   export let active = false
   export let highlight = false
   export let error: string | undefined = undefined
-  export let colors = undefined
+  export let colors: any = undefined
   export let isLoading = false
   export let onDelete = undefined
   export let node = undefined

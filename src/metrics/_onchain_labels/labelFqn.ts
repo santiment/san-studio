@@ -21,17 +21,29 @@ export function createDynamicLabelFqnMetric(slug: string, labelFqn: string, disp
     return Metric[key]
   }
 
+  // NOTE: Requested by Alex G.
+  if (labelFqn.includes('whale_usd_balance(')) {
+    return null
+  }
+
   let label = displayName || labelFqn.replace(/(:v\d+)/g, '').replace(/(santiment\/)/g, '')
 
-  const [main, mod] = label.split('->')
-  label = humanifyLabelMetricName(getAssetFreeLabelKey(slug, main))
+  // NOTE: Requested by Alex G.
+  if (labelFqn.includes('whale_usd_balance_not_exchange(')) {
+    label = 'Supply Held By Whales (exchanges excluded)'
+  } else {
+    const [main, mod] = label.split('->')
+    label = humanifyLabelMetricName(getAssetFreeLabelKey(slug, main))
 
-  if (mod) label += ` (${humanifyLabelMetricName(mod)})`
+    if (mod) label += ` (${humanifyLabelMetricName(mod)})`
+
+    label = `Label Balance: ${label}`
+  }
 
   const metric = {
     key,
     queryKey: 'labelled_historical_balance',
-    label: `Label Balance: ${label}`,
+    label,
     node: Node.LINE,
     category: MetricCategory.OnChainLabels,
     reqMeta: {

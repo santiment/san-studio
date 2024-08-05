@@ -26,17 +26,17 @@
   export let screen = undefined
   export let onWidget = undefined
   export let onWidgetInit = undefined
-  export let onSubwidget = undefined
+  export let onSubwidget: any = undefined
   export let onChartPointClick = undefined
-  export let onAnonFavoriteClick = undefined
+  export let onAnonFavoriteClick: any = undefined
   export let onModRangeSelect = undefined
   export let onScreenMount = (screen: any) => {}
   export let getExternalWidget = undefined
   export let adjustSelectedMetric = undefined
   export let checkIsMapviewDisabled = undefined
-  export let parseLayoutWidgets = undefined
+  export let parseLayoutWidgets: any = undefined
   export let shareLayoutWidgets = undefined
-  export let InsightsContextStore = undefined
+  export let InsightsContextStore: any = undefined
   export let onSidebarProjectMount = undefined
   export let headerPadding = 65
   export let HistoryEmitter = newHistoryEmitter()
