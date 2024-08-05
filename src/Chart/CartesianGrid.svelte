@@ -1,5 +1,3 @@
-<svelte:options immutable />
-
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { drawCartesianGrid } from 'san-chart/cartesianGrid'

@@ -40,8 +40,10 @@
 </script>
 
 <div class="nav row">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
-    aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \"
+    aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \\"
     class="toggle btn row hv-center expl-tooltip"
     on:click={toggleSidebar}
   >

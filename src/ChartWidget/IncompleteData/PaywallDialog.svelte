@@ -26,17 +26,21 @@
 <Dialog {...$$props} title="Incomplete data">
   <dialog-content class="column">
     <table class="fluid border">
-      <tr class="c-fiord">
-        <th>Metric</th>
-        <th>Period of hidden data</th>
-      </tr>
-
-      {#each restrictionsInfo as { metric, date }}
-        <tr>
-          <td>{metric}</td>
-          <td>{date}</td>
+      <thead>
+        <tr class="c-fiord">
+          <th>Metric</th>
+          <th>Period of hidden data</th>
         </tr>
-      {/each}
+      </thead>
+
+      <tbody>
+        {#each restrictionsInfo as { metric, date }}
+          <tr>
+            <td>{metric}</td>
+            <td>{date}</td>
+          </tr>
+        {/each}
+      </tbody>
     </table>
 
     <p class="c-fiord mrg-l mrg--t">
