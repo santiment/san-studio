@@ -1,21 +1,25 @@
-<script>import { getContext } from 'svelte';
-import { track } from 'san-webkit/lib/analytics';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../../analytics';
-import { getWidget } from './../../ChartWidget/context';
-import { showFullscreenChart } from './FullscreenDialog.svelte';
-const widget = getWidget();
-const closeFullscreen = getContext('fullscreen');
-export let fullscreenMetricsFilter = undefined;
-export let isFullscreened;
-function onFullscreen() {
-    isFullscreened = true;
+<script lang="ts">
+  import { getContext } from 'svelte'
+  import { track } from 'san-webkit/lib/analytics'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { Event } from './../../analytics'
+  import { getWidget } from './../../ChartWidget/context'
+  import { showFullscreenChart } from './FullscreenDialog.svelte'
+
+  const widget = getWidget()
+  const closeFullscreen = getContext('fullscreen')
+
+  export let fullscreenMetricsFilter = undefined
+  export let isFullscreened: boolean
+
+  function onFullscreen() {
+    isFullscreened = true
     showFullscreenChart({
-        widget,
-        fullscreenMetricsFilter,
-    }).then(() => (isFullscreened = false));
-    track.event(Event.Fullscreen);
-}
+      widget,
+      fullscreenMetricsFilter,
+    }).then(() => (isFullscreened = false))
+    track.event(Event.Fullscreen)
+  }
 </script>
 
 <div class="btn-3 mrg-s mrg--l" on:click={closeFullscreen || onFullscreen}>

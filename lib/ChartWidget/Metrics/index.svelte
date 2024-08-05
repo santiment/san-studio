@@ -1,68 +1,75 @@
-<script>import { tick } from 'svelte';
-import { newSortableContext } from 'san-webkit/lib/ui/dnd/sortable';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { queryRestrictedDates } from './../../api/metrics/restrictions';
-import { getAdapterController } from './../../adapter/context';
-import { globals } from './../../stores/globals';
-import { getAutoUpdater } from './../../stores/autoUpdater';
-import { studio } from './../../stores/studio';
-import { getWidget } from './../../ChartWidget/context';
-import Metric from './Metric.svelte';
-import AutoUpdate from './AutoUpdate.svelte';
-import IncompleteData from '../IncompleteData/index.svelte';
-import { Node } from './../../Chart/nodes';
-const { isOnlyChartEmbedded } = getAdapterController();
-const { Metrics, HiddenMetrics, ChartAddons } = getWidget();
-const AutoUpdater = getAutoUpdater();
-const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined;
-export let chart;
-export let metrics, colors, loadings, settingsOpenedMetric;
-export let MetricError, ChartAddonError;
-export let isSingleWidget;
-export let changeStudioPeriod;
-export let onMetricClick, onMetricHover, onMetricDelete, onMetricLock, onMetricSettings;
-function onDragEnd(oldIndex, newIndex) {
-    if (oldIndex === newIndex)
-        return;
-    const newMetrics = metrics.slice();
-    const metric = newMetrics.splice(oldIndex, 1)[0];
-    newMetrics.splice(newIndex, 0, metric);
-    Metrics.set(newMetrics);
-    tick().then(dndContext.ctx.recalcGrid);
-}
-let hoveredMetric;
-let hoverTimer;
-let restrictions;
-const clearHover = () => clearTimeout(hoverTimer);
-$: hasSubscription = $globals.isPro || $globals.isProPlus;
-$: project = $studio;
-$: isMultipleMetricsOnChart = metrics.length > 1;
-$: hiddenMetrics = $HiddenMetrics;
-$: queryRestrictedDates().then((data) => (restrictions = data));
-function hoverMetric(metric) {
-    hoveredMetric = metric;
-    onMetricHover(metric);
-}
-function onMetricEnter(metric) {
-    if (metric.node === Node.REFERENCE)
-        return;
-    clearHover();
-    if (hoveredMetric)
-        return hoverMetric(metric);
-    hoverTimer = window.setTimeout(() => hoverMetric(metric), 120);
-}
-function onMetricLeave() {
-    clearHover();
-    if (hoveredMetric)
-        hoverTimer = window.setTimeout(() => hoverMetric(), 100);
-}
-function isMetricRestricted(metric, restrictions) {
-    var _a;
-    if (!restrictions)
-        return false;
-    const data = restrictions[(_a = metric.queryKey) !== null && _a !== void 0 ? _a : metric.key];
-    return !!(data === null || data === void 0 ? void 0 : data.restrictedFrom) || !!(data === null || data === void 0 ? void 0 : data.restrictedTo);
-}
+<script lang="ts">
+  import { tick } from 'svelte'
+  import { newSortableContext } from 'san-webkit/lib/ui/dnd/sortable'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { queryRestrictedDates } from './../../api/metrics/restrictions'
+  import { getAdapterController } from './../../adapter/context'
+  import { globals } from './../../stores/globals'
+  import { getAutoUpdater } from './../../stores/autoUpdater'
+  import { studio } from './../../stores/studio'
+  import { getWidget } from './../../ChartWidget/context'
+  import Metric from './Metric.svelte'
+  import AutoUpdate from './AutoUpdate.svelte'
+  import IncompleteData from '../IncompleteData/index.svelte'
+  import { Node } from './../../Chart/nodes'
+
+  const { isOnlyChartEmbedded } = getAdapterController()
+  const { Metrics, HiddenMetrics, ChartAddons } = getWidget()
+  const AutoUpdater = getAutoUpdater()
+  const dndContext = $globals.isBeta ? newSortableContext({ onDragEnd }) : undefined
+
+  export let chart
+  export let metrics, colors, loadings, settingsOpenedMetric
+  export let MetricError, ChartAddonError
+  export let isSingleWidget
+  export let changeStudioPeriod
+  export let onMetricClick, onMetricHover, onMetricDelete, onMetricLock, onMetricSettings
+
+  function onDragEnd(oldIndex: number, newIndex: number) {
+    if (oldIndex === newIndex) return
+
+    const newMetrics = metrics.slice()
+    const metric = newMetrics.splice(oldIndex, 1)[0]
+    newMetrics.splice(newIndex, 0, metric)
+
+    Metrics.set(newMetrics)
+    tick().then(dndContext.ctx.recalcGrid)
+  }
+
+  let hoveredMetric
+  let hoverTimer
+  let restrictions
+  const clearHover = () => clearTimeout(hoverTimer)
+
+  $: hasSubscription = $globals.isPro || $globals.isProPlus
+  $: project = $studio
+  $: isMultipleMetricsOnChart = metrics.length > 1
+  $: hiddenMetrics = $HiddenMetrics
+
+  $: queryRestrictedDates().then((data) => (restrictions = data))
+
+  function hoverMetric(metric?: Studio.Metric) {
+    hoveredMetric = metric
+    onMetricHover(metric)
+  }
+  function onMetricEnter(metric: Studio.Metric) {
+    if (metric.node === Node.REFERENCE) return
+
+    clearHover()
+    if (hoveredMetric) return hoverMetric(metric)
+    hoverTimer = window.setTimeout(() => hoverMetric(metric), 120)
+  }
+  function onMetricLeave() {
+    clearHover()
+    if (hoveredMetric) hoverTimer = window.setTimeout(() => hoverMetric(), 100)
+  }
+
+  function isMetricRestricted(metric: Studio.Metric, restrictions) {
+    if (!restrictions) return false
+
+    const data = restrictions[metric.queryKey ?? metric.key]
+    return !!data?.restrictedFrom || !!data?.restrictedTo
+  }
 </script>
 
 <div class="row">

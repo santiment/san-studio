@@ -1,27 +1,32 @@
-<script>import { millify } from 'san-webkit/lib/utils/formatting';
-import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import { studio } from './../stores/studio';
-import { queryProject, queryProjectPriceChange } from './../api/project';
-import { usdFormatter } from './../metrics/formatters';
-import Selector from './Selector.svelte';
-import Change from 'san-webkit/lib/ui/Change.svelte';
-let price = '';
-let change = 0;
-let marketcap = '';
-let projectRank = 0;
-$: ({ slug, ticker, name = slug, logoUrl } = $studio);
-$: queryProject(slug).then(setProject);
-$: queryProjectPriceChange(slug).then(setPriceChange);
-$: isUpChange = change >= 0;
-function setProject(project) {
-    studio.setProject(project);
-}
-function setPriceChange({ priceUsd, percentChange24h, marketcapUsd, rank }) {
-    price = usdFormatter(priceUsd);
-    marketcap = millify(marketcapUsd);
-    change = +(+percentChange24h).toFixed(2);
-    projectRank = rank;
-}
+<script lang="ts">
+  import type { ProjectPriceChange } from './../api/project'
+  import { millify } from 'san-webkit/lib/utils/formatting'
+  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
+  import { studio } from './../stores/studio'
+  import { queryProject, queryProjectPriceChange } from './../api/project'
+  import { usdFormatter } from './../metrics/formatters'
+  import Selector from './Selector.svelte'
+  import Change from 'san-webkit/lib/ui/Change.svelte'
+
+  let price = ''
+  let change = 0
+  let marketcap = ''
+  let projectRank = 0
+
+  $: ({ slug, ticker, name = slug, logoUrl } = $studio)
+  $: queryProject(slug).then(setProject)
+  $: queryProjectPriceChange(slug).then(setPriceChange)
+  $: isUpChange = change >= 0
+
+  function setProject(project: any) {
+    studio.setProject(project)
+  }
+  function setPriceChange({ priceUsd, percentChange24h, marketcapUsd, rank }: ProjectPriceChange) {
+    price = usdFormatter(priceUsd)
+    marketcap = millify(marketcapUsd)
+    change = +(+percentChange24h).toFixed(2)
+    projectRank = rank
+  }
 </script>
 
 <svelte:head>

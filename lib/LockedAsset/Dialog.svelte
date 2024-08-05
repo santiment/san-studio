@@ -1,27 +1,33 @@
-<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import LockedAssetDialog from './Dialog.svelte';
-export const showLockedAssetDialog = (props) => dialogs.showOnce(LockedAssetDialog, props);
+<script context="module" lang="ts">
+  import { dialogs } from 'san-webkit/lib/ui/Dialog'
+  import LockedAssetDialog from './Dialog.svelte'
+
+  export const showLockedAssetDialog = (props) => dialogs.showOnce(LockedAssetDialog, props)
 </script>
 
-<script>import { queryFiatAssets } from 'san-webkit/lib/api/projects';
-import Dialog from 'san-webkit/lib/ui/Dialog';
-import ListOfAssets from 'san-webkit/lib/ui/ListOfAssets/index.svelte';
-import { TABS } from 'san-webkit/lib/ui/ListOfAssets/Tabs.svelte';
-import { FIAT_FUND_ASSETS, FIAT_MONEY_SUPPLY_ASSETS } from '../api/metrics';
-export let onSelect;
-export let DialogCtx;
-const LIST_OF_ASSETS = [
+<script lang="ts">
+  import { queryFiatAssets } from 'san-webkit/lib/api/projects'
+  import Dialog from 'san-webkit/lib/ui/Dialog'
+  import ListOfAssets from 'san-webkit/lib/ui/ListOfAssets/index.svelte'
+  import { TABS } from 'san-webkit/lib/ui/ListOfAssets/Tabs.svelte'
+  import { FIAT_FUND_ASSETS, FIAT_MONEY_SUPPLY_ASSETS } from '../api/metrics'
+
+  export let onSelect
+  export let DialogCtx
+
+  const LIST_OF_ASSETS = [
     ...TABS,
     [
-        'Fiat',
-        () => queryFiatAssets().then((data) => {
-            return data.concat(FIAT_MONEY_SUPPLY_ASSETS).concat(FIAT_FUND_ASSETS);
+      'Fiat',
+      () =>
+        queryFiatAssets().then((data) => {
+          return data.concat(FIAT_MONEY_SUPPLY_ASSETS).concat(FIAT_FUND_ASSETS)
         }),
     ],
-];
+  ]
 </script>
 
-<Dialog {...$$props} title="Select asset" class="dialog-0_iv1J">
+<Dialog {...$$props} title="Select asset" class="$style.dialog">
   <main>
     <ListOfAssets
       tabs={LIST_OF_ASSETS}
@@ -35,7 +41,7 @@ const LIST_OF_ASSETS = [
 </Dialog>
 
 <style>
-  :global(.dialog-0_iv1J) {
+  .dialog {
     width: 400px;
     height: 455px;
     max-width: 400px !important;

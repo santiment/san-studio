@@ -1,74 +1,86 @@
-<script>import { onDestroy, setContext } from 'svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { getWidgets } from './../../../stores/widgets';
-import { selectedItems } from './../../../stores/selector';
-import { widgetsListener } from './../../../stores/widgetsListener';
-import Category from './../../../Sidebar/Category.svelte';
-import Item from './../../../Sidebar/Item.svelte';
-import { showCombineDialog } from './../../../CombineDialog/index.svelte';
-import HoverItem from './HoverItem.svelte';
-import { checkIsFilterMatch } from './../../../metrics/selector/utils';
-const Widgets = getWidgets();
-const unsubWidgets = widgetsListener.subscribe(onWidgetsChange);
-export let searchTerm = '';
-export let isFiltering = false;
-export let onItemClick;
-let metrics = [];
-let MetricWidgets = new Map();
-$: searchedMetrics = searchTerm ? searchMetrics() : metrics;
-function searchMetrics() {
-    return metrics.filter((metric) => checkIsFilterMatch(searchTerm, metric));
-}
-setContext('updateCombinedMetrics', updateMetrics);
-function updateMetrics(metric) {
-    var _a;
-    metrics = metrics;
-    (_a = MetricWidgets.get(metric)) === null || _a === void 0 ? void 0 : _a.forEach(({ Metrics }) => {
-        Metrics.set(Metrics.getValue());
-    });
-}
-function onAdd() {
+<script lang="ts">
+  import { onDestroy, setContext } from 'svelte'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { getWidgets } from './../../../stores/widgets'
+  import { selectedItems } from './../../../stores/selector'
+  import { widgetsListener } from './../../../stores/widgetsListener'
+  import Category from './../../../Sidebar/Category.svelte'
+  import Item from './../../../Sidebar/Item.svelte'
+  import { showCombineDialog } from './../../../CombineDialog/index.svelte'
+  import HoverItem from './HoverItem.svelte'
+  import { checkIsFilterMatch } from './../../../metrics/selector/utils'
+
+  const Widgets = getWidgets()
+  const unsubWidgets = widgetsListener.subscribe(onWidgetsChange)
+
+  export let searchTerm = ''
+  export let isFiltering = false
+  export let onItemClick
+
+  let metrics = [] as any[]
+  let MetricWidgets = new Map()
+
+  $: searchedMetrics = searchTerm ? searchMetrics() : metrics
+
+  function searchMetrics() {
+    return metrics.filter((metric) => checkIsFilterMatch(searchTerm, metric))
+  }
+
+  setContext('updateCombinedMetrics', updateMetrics)
+  function updateMetrics(metric) {
+    metrics = metrics
+    MetricWidgets.get(metric)?.forEach(({ Metrics }) => {
+      Metrics.set(Metrics.getValue())
+    })
+  }
+
+  function onAdd() {
     showCombineDialog({
-        metrics: [],
+      metrics: [],
     }).then((metric) => {
-        if (!metric)
-            return;
-        selectedItems.toggle(metric);
-    });
-}
-function onWidgetsChange() {
-    MetricWidgets = new Map();
-    const linked = new Set();
+      if (!metric) return
+
+      selectedItems.toggle(metric)
+    })
+  }
+
+  function onWidgetsChange() {
+    MetricWidgets = new Map()
+    const linked = new Set()
+
     metrics = Widgets.get().flatMap((widget) => {
-        if (!widget.metrics)
-            return [];
-        return widget.metrics
-            .filter((metric) => {
-            if (!metric.expression)
-                return;
-            const { base = metric } = metric;
-            if (linked.has(base))
-                return;
-            linkMetricWidget(base, widget);
-            linked.add(base);
-            return metric;
+      if (!widget.metrics) return []
+      return widget.metrics
+        .filter((metric) => {
+          if (!metric.expression) return
+
+          const { base = metric } = metric
+          if (linked.has(base)) return
+
+          linkMetricWidget(base, widget)
+          linked.add(base)
+
+          return metric
         })
-            .map((metric) => metric.base || metric);
-    });
-}
-function linkMetricWidget(metric, widget) {
-    let widgets = MetricWidgets.get(metric);
-    if (!widgets)
-        MetricWidgets.set(metric, (widgets = []));
-    widgets.push(widget);
-}
-onDestroy(unsubWidgets);
+        .map((metric) => metric.base || metric)
+    })
+  }
+
+  function linkMetricWidget(metric, widget) {
+    let widgets = MetricWidgets.get(metric)
+
+    if (!widgets) MetricWidgets.set(metric, (widgets = []))
+
+    widgets.push(widget)
+  }
+
+  onDestroy(unsubWidgets)
 </script>
 
 {#if !isFiltering || (isFiltering && searchedMetrics.length)}
   <Category category="Combined metrics" isOpened {isFiltering} arrowClass="mrg-l">
     <svelte:fragment slot="pre-title">
-      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r icon-c6WwtI" />
+      <Svg id="fx" w="16" h="15" class="mrg-s mrg--r $style.icon" />
     </svelte:fragment>
 
     <svelte:fragment slot="post-title">
@@ -89,28 +101,17 @@ onDestroy(unsubWidgets);
   </Category>
 {/if}
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .icon {
+    fill: var(--blue) !important;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-:global(.icon-c6WwtI) {
-  fill: var(--blue) !important;
-}
 
-.btn {
-  --fill: var(--waterloo);
-  --fill-hover: var(--green);
-}
-.btn:hover + :global(svg) {
-  fill: var(--waterloo);
-}</style>
+  .btn {
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
+
+    &:hover + :global(svg) {
+      fill: var(--waterloo);
+    }
+  }
+</style>

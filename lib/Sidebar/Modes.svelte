@@ -1,42 +1,53 @@
-<script context="module">export const Mode = {
+<script lang="ts" context="module">
+  export const Mode = {
     Metrics: 'Metrics',
     Layouts: 'Layouts',
-};
+  } as const
 </script>
 
-<script>import { onDestroy } from 'svelte';
-import { track } from 'san-webkit/lib/analytics';
-import { newGlobalShortcut } from 'san-webkit/lib/utils/events';
-import { CMD } from 'san-webkit/lib/utils/os';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { Event } from './../analytics';
-import { SidewidgetType, getSidewidget } from './../stores/widgets';
-import { showShortcutsDialog } from './../Shortcuts/Dialog.svelte';
-export let mode = Mode.Metrics;
-export let isLocked;
-const Sidewidget = getSidewidget();
-const MODES = [Mode.Metrics, Mode.Layouts];
-function onModeCange(id) {
-    mode = id;
-    track.event(Event.Sidebar, { mode: id.toLowerCase() });
-}
-const onHelpClick = () => { var _a; return (track.event(Event.HelpFeedback), (_a = window.Intercom) === null || _a === void 0 ? void 0 : _a.call(window, 'show')); };
-const toggleSidebar = () => (isLocked = !isLocked);
-const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog);
-const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar);
-onDestroy(() => {
-    removeOpenShortcutsDialogHandler();
-    removeToggleSidebarHandler();
-});
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { track } from 'san-webkit/lib/analytics'
+  import { newGlobalShortcut } from 'san-webkit/lib/utils/events'
+  import { CMD } from 'san-webkit/lib/utils/os'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { Event } from './../analytics'
+  import { SidewidgetType, getSidewidget } from './../stores/widgets'
+  import { showShortcutsDialog } from './../Shortcuts/Dialog.svelte'
+
+  export let mode = Mode.Metrics
+  export let isLocked
+
+  const Sidewidget = getSidewidget()
+  const MODES = [Mode.Metrics, Mode.Layouts]
+
+  function onModeCange(id) {
+    mode = id
+    track.event(Event.Sidebar, { mode: id.toLowerCase() })
+  }
+
+  const onHelpClick = () => (track.event(Event.HelpFeedback), window.Intercom?.('show'))
+
+  const toggleSidebar = () => (isLocked = !isLocked)
+
+  const removeOpenShortcutsDialogHandler = newGlobalShortcut('SHIFT+?', showShortcutsDialog)
+  const removeToggleSidebarHandler = newGlobalShortcut('CMD+\\', toggleSidebar)
+
+  onDestroy(() => {
+    removeOpenShortcutsDialogHandler()
+    removeToggleSidebarHandler()
+  })
 </script>
 
 <div class="nav row">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
-    aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \"
+    aria-label="{isLocked ? 'Hide' : 'Lock'} sidebar | {CMD} + \\"
     class="toggle btn row hv-center expl-tooltip"
     on:click={toggleSidebar}
   >
-    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : 'closed-sMXSTv'} />
+    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : '$style.closed'} />
   </div>
   {#each MODES as id}
     <div class="btn" class:active={mode === id} on:click={() => onModeCange(id)}>
@@ -62,7 +73,7 @@ onDestroy(() => {
     </div>
     <div class="help btn row v-center" on:click={onHelpClick}>
       Help & Feedback
-      <Svg id="chat" w="14" h="16" class="chat-gBO55t mrg-s mrg--t" />
+      <Svg id="chat" w="14" h="16" class="$style.chat mrg-s mrg--t" />
     </div>
   </div>
 </div>
@@ -98,7 +109,7 @@ onDestroy(() => {
     border: none;
     border-bottom: 1px solid var(--porcelain);
   }
-  :global(.closed-sMXSTv) {
+  .closed {
     transform: rotate(180deg);
   }
 
@@ -122,7 +133,7 @@ onDestroy(() => {
     --fill: var(--casper);
     padding: 12px 5px;
   }
-  :global(.chat-gBO55t) {
+  .chat {
     transform: rotate(90deg);
   }
 

@@ -1,17 +1,22 @@
-<script>import { mapview } from './../stores/mapview';
-export let isOpened;
-export let isLocked;
-export let isPeeked;
-let leaving;
-function onEnter() {
-    isPeeked = true;
-    window.clearTimeout(leaving);
-    leaving = undefined;
-}
-function onLeave() {
-    isPeeked = false;
-    leaving = window.setTimeout(() => (leaving = undefined), 200);
-}
+<script lang="ts">
+  import { mapview } from './../stores/mapview'
+
+  export let isOpened
+  export let isLocked
+  export let isPeeked
+
+  let leaving
+
+  function onEnter() {
+    isPeeked = true
+    window.clearTimeout(leaving)
+    leaving = undefined
+  }
+
+  function onLeave() {
+    isPeeked = false
+    leaving = window.setTimeout(() => (leaving = undefined), 200)
+  }
 </script>
 
 {#if !(isLocked || $mapview)}
