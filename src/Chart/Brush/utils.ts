@@ -11,6 +11,7 @@ export function getBrushPlotItems({ items }) {
   brushItems.delete('spent_coin_cost')
   brushItems.delete('trendingDots')
   brushItems.delete('btc_halving')
+  brushItems.delete('cancun_upgrade')
 
   return brushItems
 }
