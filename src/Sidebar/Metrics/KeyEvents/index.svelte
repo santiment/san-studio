@@ -7,7 +7,7 @@
   export let isFiltering = false
   export let onItemClick
 
-  const items = [SelectorNode.btc_halving]
+  const items = [SelectorNode.btc_halving, SelectorNode.cancun_upgrade]
 </script>
 
 <Category category="Key Events" isOpened {isFiltering} {items} {onItemClick}>

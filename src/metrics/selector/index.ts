@@ -28,6 +28,13 @@ export const SelectorNode = {
     type: 'addon',
     noProject: true,
   },
+  cancun_upgrade: {
+    key: 'cancun_upgrade',
+    label: 'Cancun Upgrade',
+    selectorType: SelectorType.ChartAddon,
+    type: 'addon',
+    noProject: true,
+  },
 } as any
 each(Metric, (metric: Studio.Metric, key) => {
   if (lookupReplacement(SelectorNode as any, key)) return
