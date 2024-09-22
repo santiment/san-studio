@@ -30,6 +30,8 @@ To unlock the full potential of Santiment metrics you need to upgrade your accou
 <a
   href="/pricing"
   class="btn-1 btn--orange row h-center fluid body-3 mrg-l mrg--t {upgradeClass}"
+  data-type="upgrade"
+  data-source="chart_incomplete_data"
   on:click={onUpgradeClick}>Upgrade</a
 >
 

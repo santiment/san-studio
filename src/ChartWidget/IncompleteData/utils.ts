@@ -42,8 +42,10 @@ export function trackUpgrade({ e, restrictedMetrics, isLoggedIn, location }: Tra
 
   if (isLoggedIn) {
     e.preventDefault()
+    const node = e.currentTarget as null | HTMLElement
     return showPaymentDialog({
       source: 'charts_incomplete_data_upgrade',
+      triggeredBy: node,
     })
   }
 
