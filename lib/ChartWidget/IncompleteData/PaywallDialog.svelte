@@ -38,7 +38,13 @@ function onUpgradeClick(e) {
       Santiment metrics, click the button below to Upgrade your account to PRO
     </p>
 
-    <a href="/pricing" class="btn-1 btn--orange" on:click={onUpgradeClick}>Learn more</a>
+    <a
+      href="/pricing"
+      class="btn-1 btn--orange"
+      data-type="learn_more"
+      data-source="chart_incomplete_data_dialog"
+      on:click={onUpgradeClick}>Learn more</a
+    >
   </dialog-content>
 </Dialog>
 

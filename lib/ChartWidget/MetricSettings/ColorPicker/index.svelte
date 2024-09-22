@@ -20,7 +20,10 @@ export let suggestions = [
 ];
 export let onChange;
 $: uppercaseColor = color.toUpperCase();
-$: [hue, saturation, brightness] = hexToHsv(color);
+$: colorData = hexToHsv(color);
+$: hue = colorData[0];
+$: saturation = colorData[1];
+$: brightness = colorData[2];
 $: parseHSV(hue, saturation, brightness);
 function parseHSV(hue, saturation, brightness) {
     try {
