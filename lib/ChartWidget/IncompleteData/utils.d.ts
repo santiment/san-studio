@@ -8,7 +8,7 @@ export declare type TrackUpgrageProps = {
     isLoggedIn: boolean;
     location: string;
 };
-export declare function trackUpgrade({ e, restrictedMetrics, isLoggedIn, location }: TrackUpgrageProps): Promise<unknown> | undefined;
+export declare function trackUpgrade({ e, restrictedMetrics, isLoggedIn, location }: TrackUpgrageProps): any;
 export declare type RestrictionInfo = {
     metric: string;
     date: string;
