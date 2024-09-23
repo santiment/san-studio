@@ -1,8 +1,8 @@
 /// <reference types="svelte" />
-export declare type Indicators = Set<{
+export type Indicators = Set<{
     key: string;
 }>;
-export declare type Signals = Studio.Metric[];
+export type Signals = Studio.Metric[];
 export declare function newMetricSignalsStore(defaultValue?: Signals): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<Signals>, invalidate?: import("svelte/store").Invalidator<Signals> | undefined) => import("svelte/store").Unsubscriber;
     set(newMetrics: Studio.Metric[]): void;

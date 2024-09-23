@@ -1,4 +1,4 @@
-declare type NewDrawing = Partial<SAN.Charts.Drawing> & Pick<SAN.Charts.Drawing, 'type'>;
+type NewDrawing = Partial<SAN.Charts.Drawing> & Pick<SAN.Charts.Drawing, 'type'>;
 export declare function newDrawing<T extends NewDrawing>(drawing: T): T;
 export declare function getEventCoordinates(e: MouseEvent): [number, number];
 export declare function newRectHandle(x: number, y: number, width: number, height: number): Path2D;

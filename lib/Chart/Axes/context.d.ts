@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-export declare type ChartAxesStore = ReturnType<typeof newChartAxesStore>;
+export type ChartAxesStore = ReturnType<typeof newChartAxesStore>;
 export declare function newChartAxesStore(defaultEnabled?: Set<Studio.Metric>, defaultDisabled?: Set<Studio.Metric>): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<Set<Studio.Metric>>, invalidate?: import("svelte/store").Invalidator<Set<Studio.Metric>> | undefined) => import("svelte/store").Unsubscriber;
     delete(metric: Studio.Metric): void;

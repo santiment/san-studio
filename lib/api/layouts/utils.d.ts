@@ -4,7 +4,7 @@ export declare const layoutsAccessor: <T>({ layouts }: SAN.API.Query<"layouts", 
 export declare const currentUserLayoutsAccessor: <T>({ currentUser, }: SAN.API.Query<"currentUser", {
     layouts: T;
 } | null>) => T;
-declare type Sortable = {
+type Sortable = {
     updatedAt: string;
 };
 export declare const dateSorter: ({ updatedAt: a }: Sortable, { updatedAt: b }: Sortable) => number;

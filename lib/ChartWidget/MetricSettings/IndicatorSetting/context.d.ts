@@ -1,8 +1,8 @@
 /// <reference types="svelte" />
-export declare type Indicators = Set<{
+export type Indicators = Set<{
     key: string;
 }>;
-export declare type MetricIndicators = {
+export type MetricIndicators = {
     [metricKey: string]: Indicators | undefined;
 };
 export declare function newMetricIndicatorsStore(defaultValue?: MetricIndicators): {

@@ -5,21 +5,21 @@ export declare enum MetricType {
     MergedSupplyDistribution = 3,
     AddressLocked = 4
 }
-export declare type Node<T, K> = T & {
+export type Node<T, K> = T & {
     key: K;
 };
-declare type Nodes = {
+type Nodes = {
     [key: string]: {
         [key: string]: any;
     };
 };
-declare type NodesMap<T extends Nodes, U = Studio.Metric> = {
+type NodesMap<T extends Nodes, U = Studio.Metric> = {
     [K in keyof T]: Node<U, K>;
 };
 export declare const newKey: (...data: any[]) => string;
 export declare function each<T extends Nodes, U>(nodes: T, clb: (node: U, key: string, i: number) => void | any): NodesMap<T, U>;
 export declare function deriveMetric(baseMetric: Studio.Metric, newMetric: Studio.Metric): Studio.Metric;
-declare type Project = {
+type Project = {
     slug: string;
     ticker: string;
 };

@@ -1,10 +1,10 @@
-declare type RestrictionMetric = {
+type RestrictionMetric = {
     name: string;
 };
-declare type RestrictionMetricMinInterval = RestrictionMetric & {
+type RestrictionMetricMinInterval = RestrictionMetric & {
     minInterval: string;
 };
-declare type MetricMinInterval = {
+type MetricMinInterval = {
     [metricKey: string]: RestrictionMetricMinInterval | undefined;
 };
 export declare const queryMinInterval: () => Promise<MetricMinInterval>;

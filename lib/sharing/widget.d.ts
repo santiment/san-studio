@@ -14,7 +14,7 @@ export declare function shareWidget(widget: any): {
     wcsa: number | undefined;
 };
 export declare function parseMetricSettings(settings: any, metrics: any): {};
-declare type ParseCtx = {
+type ParseCtx = {
     parseSubwidgets: (any: any) => any;
 };
 export declare function parseWidget(shared: any, ctx?: ParseCtx): {

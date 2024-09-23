@@ -1,13 +1,13 @@
-export declare type Metric = {
+export type Metric = {
     key: string;
     label: string;
     expression?: string;
     base?: any;
 };
-export declare type CombinedMetric = Metric & {
+export type CombinedMetric = Metric & {
     baseMetrics: Metric[];
 };
-declare type MetricAlias = {
+type MetricAlias = {
     [metricKey: string]: string;
 };
 export declare function newURLQuery(obj: {

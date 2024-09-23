@@ -20,11 +20,11 @@ export declare enum MetricGroup {
     DeFi = "DeFi",
     Miners = "Miners"
 }
-export declare type SelectorNode = {
+export type SelectorNode = {
     key: string;
     label: string;
     group?: string;
 } | Studio.Metric;
-export declare type SelectorGraph = {
+export type SelectorGraph = {
     [K in MetricCategory]: SelectorNode[];
 };

@@ -1,4 +1,4 @@
-export declare type Variables = {
+export type Variables = {
     key: string;
     from: string;
     to: string;

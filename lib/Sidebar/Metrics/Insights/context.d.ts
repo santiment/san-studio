@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-declare type InsightContext = {
+type InsightContext = {
     insight: string | undefined;
     from: string | undefined;
     to: string | undefined;

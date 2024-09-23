@@ -4,7 +4,7 @@ export declare function newAddressSuggestion(address: string): {
     infrastructure?: string;
 };
 export declare const getRecents: () => any[];
-export declare function addRecent({ priceUsd: _, ...item }: {
+export declare function addRecent({ priceUsd, ...item }: {
     [x: string]: any;
     priceUsd: any;
 }): void;

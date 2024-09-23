@@ -7,7 +7,7 @@ declare const OPTIONS: {
     watermark: boolean;
     isWatermarkLessVisible: boolean;
 };
-declare type ChartOptions = typeof OPTIONS;
+type ChartOptions = typeof OPTIONS;
 export declare function newChartOptionsStore({ isCartesianGrid, isWatermarkHidden }?: any): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<{
         scale: typeof linearScale;

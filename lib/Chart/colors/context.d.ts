@@ -1,6 +1,6 @@
 /// <reference types="svelte" />
-export declare type ChartColorsStore = ReturnType<typeof newChartColorsStore>;
-export declare type ChartColors = {
+export type ChartColorsStore = ReturnType<typeof newChartColorsStore>;
+export type ChartColors = {
     [metricKey: string]: string;
 };
 export declare function newChartColorsStore(defaultValue?: ChartColors): {

@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-export declare type MetricsStore = ReturnType<typeof newMetricsStore>;
+export type MetricsStore = ReturnType<typeof newMetricsStore>;
 export declare function newMetricsStore(defaultMetrics?: Studio.Metric[]): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<Studio.Metric[]>, invalidate?: import("svelte/store").Invalidator<Studio.Metric[]> | undefined) => import("svelte/store").Unsubscriber;
     getValue(): Studio.Metric[];

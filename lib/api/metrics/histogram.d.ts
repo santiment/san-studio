@@ -1,4 +1,4 @@
-declare type Histogram = {
+type Histogram = {
     buckets: {
         range: [number, number];
         amount: number;

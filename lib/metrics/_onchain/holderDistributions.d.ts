@@ -1,6 +1,6 @@
 import type { Node } from './../../metrics/utils';
 declare const HOLDER_DISTRIBUTIONS: readonly [readonly ["_0_to_0001", "[0 - 0.001) coins", "_0_to_0.001"], readonly ["_0001_to_001", "[0.001 - 0.01) coins", "_0.001_to_0.01"], readonly ["_001_to_01", "[0.01 - 0.1) coins", "_0.01_to_0.1"], readonly ["_01_to_1", "[0.1 - 1) coins", "_0.1_to_1"], readonly ["_1_to_10", "[1 - 10) coins"], readonly ["_10_to_100", "[10 - 100) coins"], readonly ["_100_to_1k", "[100 - 1,000) coins"], readonly ["_1k_to_10k", "[1,000 - 10,000) coins"], readonly ["_10k_to_100k", "[10,000 - 100,000) coins"], readonly ["_100k_to_1M", "[100,000  - 1,000,000) coins"], readonly ["_1M_to_10M", "[1,000,000 - 10,000,000) coins"], readonly ["_10M_to_100M", "[10,000,000 - 100,000,000) coins"], readonly ["_100M_to_1B", "[100,000,000 - 1,000,000,000) coins"], readonly ["_1B_to_inf", "[1,000,000,000 - infinity) coins"]];
-declare type HolderDistributions<T extends string> = {
+type HolderDistributions<T extends string> = {
     [K in typeof HOLDER_DISTRIBUTIONS[number][0] as `${T}${K}`]: Node<Studio.Metric, `${T}${K}`>;
 };
 export declare const HOLDERS_DISTRIBUTION = "holders_distribution";

@@ -1,11 +1,11 @@
 /// <reference types="svelte" />
-export declare type Drawer = {
+export type Drawer = {
     isDrawing: boolean;
     isNewDrawing: SAN.Charts.NewDrawingType;
     drawings: SAN.Charts.Drawing[];
     selectedLine: undefined | SAN.Charts.Drawing;
 };
-export declare type ChartDrawerStore = ReturnType<typeof newChartDrawerStore>;
+export type ChartDrawerStore = ReturnType<typeof newChartDrawerStore>;
 export declare const setChartDrawer: (chart: ChartDrawerStore) => {
     subscribe: (this: void, run: import("svelte/store").Subscriber<any>, invalidate?: import("svelte/store").Invalidator<any> | undefined) => import("svelte/store").Unsubscriber;
     set: (this: void, value: any) => void;

@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-export declare type MetricSetting = {
+export type MetricSetting = {
     node?: string;
     interval?: string;
     transform?: {
@@ -13,7 +13,7 @@ export declare type MetricSetting = {
     getPreTransformValue?: (...args: any[]) => any;
     __appliedInterval?: boolean;
 };
-export declare type MetricSettings = {
+export type MetricSettings = {
     [metricKey: string]: MetricSetting | undefined;
 };
 export declare function newMetricSettingsStore(defaultValue?: MetricSettings): {

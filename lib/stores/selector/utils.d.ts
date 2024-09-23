@@ -5,18 +5,18 @@ export declare const Selectable: {
     readonly ChartAddons: "chartAddons";
 };
 declare const selectables: ("metrics" | "subwidgets" | "notables" | "chartAddons")[];
-export declare type Selectables = typeof selectables[number];
-export declare type SetOf = {
+export type Selectables = typeof selectables[number];
+export type SetOf = {
     [key in Selectables]: Set<any>;
 } & {
     all: Set<any>;
 };
-export declare type Store = {
+export type Store = {
     [key in Selectables]: any[];
 } & {
     has: (item: any) => boolean;
 };
-declare type SelectablesModifier = (item: any, store: Store, setOf: SetOf, hasItem: boolean) => void;
+type SelectablesModifier = (item: any, store: Store, setOf: SetOf, hasItem: boolean) => void;
 export declare const SelectableModifier: {
     metrics?: SelectablesModifier | undefined;
     subwidgets?: SelectablesModifier | undefined;

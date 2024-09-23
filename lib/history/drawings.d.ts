@@ -1,5 +1,5 @@
 import type { History, Scrollable } from 'san-webkit/lib/ui/history';
-declare type Widget = Scrollable & {
+type Widget = Scrollable & {
     chart: SAN.Charts.Chart;
     ChartDrawer: any;
 };

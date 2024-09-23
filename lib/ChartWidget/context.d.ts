@@ -9,7 +9,7 @@ import { newChartOptionsStore } from './../ChartWidget/Controls/context';
 import { newMetricsStore, newHiddenMetricsStore } from './../ChartWidget/Metrics/context';
 import { newMetricSettingsStore } from './../ChartWidget/MetricSettings/context';
 import { newMetricIndicatorsStore } from './../ChartWidget/MetricSettings/IndicatorSetting/context';
-export declare type ChartWidget = {
+export type ChartWidget = {
     ChartAxes: ReturnType<typeof newChartAxesStore>;
     ChartDrawer: ReturnType<typeof newChartDrawerStore>;
     ChartColors: ReturnType<typeof newChartColorsStore>;
