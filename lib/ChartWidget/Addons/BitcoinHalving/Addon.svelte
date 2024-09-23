@@ -54,6 +54,7 @@ onDestroy(() => {
   div {
     position: absolute;
     transform: translateX(-50%);
+    z-index: 5;
     --expl-left: -70px;
   }
 </style>

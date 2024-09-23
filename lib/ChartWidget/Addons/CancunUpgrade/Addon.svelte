@@ -59,5 +59,6 @@ onDestroy(() => {
     width: 22px;
     height: 22px;
     cursor: pointer;
+    z-index: 5;
   }
 </style>
