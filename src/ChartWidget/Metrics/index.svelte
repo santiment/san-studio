@@ -138,4 +138,10 @@
     flex: 1;
     --tooltip-z-index: 30;
   }
+
+  .btn-2 {
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+  }
 </style>
