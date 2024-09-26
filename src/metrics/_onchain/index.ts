@@ -8,6 +8,7 @@ import { FraxlendMetric } from './fraxlend'
 import { SparkMetric } from './spark'
 import { MorphoMetric } from './morpho'
 import { EthenaMetric } from './ethena'
+import { SkySavingsMetric } from './skySavings'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
@@ -312,6 +313,7 @@ export const OnChainMetric = each(
     LiquityMetric,
     FraxlendMetric,
     EthenaMetric,
+    SkySavingsMetric,
     BeaconMetric,
 
     NFTMetric,
