@@ -70,7 +70,6 @@
     "svelte": "^3.56.0",
     "@santiment-network/chart": "^0.10.19",
     "san-webkit": "https://github.com/santiment/san-webkit",
-    "canvas": "^2.8.0",
     "mathjs": "^9.4.4",
     "air-datepicker": "^3.3.5"
   }
