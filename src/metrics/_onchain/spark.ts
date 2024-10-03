@@ -39,6 +39,20 @@ export const SparkMetric = each(
       formatter: usdFormatter,
       node: 'bar',
     },
+    spark_total_supplied: {
+      label: 'Spark Total Supplied',
+    },
+    spark_total_supplied_usd: {
+      label: 'Spark Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    spark_total_borrowed: {
+      label: 'Spark Total Borrowed',
+    },
+    spark_total_borrowed_usd: {
+      label: 'Spark Total Borrowed in USD',
+      formatter: usdFormatter,
+    },
     spark_supply_apy: {
       label: 'Spark Supply APY',
     },
@@ -65,6 +79,14 @@ export const SparkMetric = each(
       label: 'Spark Protocol Total Repayments in USD',
       formatter: usdFormatter,
       node: 'bar',
+    },
+    spark_protocol_total_supplied_usd: {
+      label: 'Spark Protocol Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    spark_protocol_total_borrowed_usd: {
+      label: 'Spark Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
     },
     spark_active_addresses: {
       label: 'Spark Protocol Active Addresses',
