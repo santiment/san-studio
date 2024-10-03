@@ -1,11 +1,11 @@
-type LayoutUpdates = Partial<Pick<SAN.Layout, 'title' | 'metrics' | 'options'>> & {
+declare type LayoutUpdates = Partial<Pick<SAN.Layout, 'title' | 'metrics' | 'options'>> & {
     isPublic?: boolean;
     projectId?: number | string;
     description?: string;
     metricsJson?: any;
 };
 export declare const updateUserLayout: (id: number, settings: LayoutUpdates) => Promise<SAN.CurrentUserLayout>;
-export type LayoutCreation = Pick<SAN.Layout, 'title' | 'metrics' | 'options'> & {
+export declare type LayoutCreation = Pick<SAN.Layout, 'title' | 'metrics' | 'options'> & {
     projectId: number | string;
     isPublic?: boolean;
     description?: string;

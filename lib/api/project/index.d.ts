@@ -1,4 +1,4 @@
-export type ProjectPriceChange = {
+export declare type ProjectPriceChange = {
     priceUsd: number;
     percentChange24h: number;
     marketcapUsd: number;

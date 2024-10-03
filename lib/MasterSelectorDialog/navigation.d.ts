@@ -1,4 +1,4 @@
-type Context = {
+declare type Context = {
     cursor: number;
     items: any[];
     onSelect: (item: any) => void;

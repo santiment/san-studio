@@ -1,5 +1,5 @@
 import type { Metric as BaseMetricType } from './index';
-export type KeyToMetric = {
+export declare type KeyToMetric = {
     [metricKey: string]: BaseMetricType;
 };
 export declare function parse(queryString: string): {};

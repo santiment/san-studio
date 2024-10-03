@@ -1,7 +1,7 @@
 import { MetricType } from './../metrics/utils';
 export declare function shareMetrics(metrics: Studio.Metric[]): string[];
 export declare function parseMetric(key: string | TupleData[]): any | undefined;
-type TupleData = string | string[];
+declare type TupleData = string | string[];
 export declare function parseMetricKey(key: string): TupleData[];
 export declare function getTupleData(args: string[], cursor?: {
     i: number;

@@ -1,5 +1,5 @@
 import type { LayoutCreation } from './../api/layouts/mutate';
-type Widget = {
+declare type Widget = {
     metrics?: Studio.Metric[];
 };
 export declare function getAllWidgetsMetrics(widgets: Widget[]): Studio.Metric[];

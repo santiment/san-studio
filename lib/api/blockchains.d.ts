@@ -1,4 +1,4 @@
-type BlockchainType = {
+declare type BlockchainType = {
     infrastructure: string;
     slug: string;
     name: string;

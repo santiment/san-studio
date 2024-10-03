@@ -1,4 +1,4 @@
-type Controller = {
+declare type Controller = {
     selectDrawing: (drawing?: SAN.Charts.Drawing) => void;
     startDrawing: () => void;
     stopDrawing: () => void;

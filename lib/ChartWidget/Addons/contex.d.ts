@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-export type MetricsStore = ReturnType<typeof newChartAddonsStore>;
+export declare type MetricsStore = ReturnType<typeof newChartAddonsStore>;
 export declare function newChartAddonsStore(defaultMetrics?: any[]): {
     subscribe: (this: void, run: import("svelte/store").Subscriber<any[]>, invalidate?: import("svelte/store").Invalidator<any[]> | undefined) => import("svelte/store").Unsubscriber;
     getValue(): any[];

@@ -1,6 +1,6 @@
 import type { initChart } from '@santiment-network/chart';
-type SanChart = ReturnType<typeof initChart>;
-export type Chart = SanChart & {
+declare type SanChart = ReturnType<typeof initChart>;
+export declare type Chart = SanChart & {
     plotManager: ReturnType<typeof newPlotManager>;
     tooltip?: any;
     drawTooltip?: (point: any, y: number) => any;
@@ -19,7 +19,7 @@ export type Chart = SanChart & {
 export declare const CONTEXT = "chartManager";
 export declare const setChart: (chart: Chart) => Chart;
 export declare const getChart: () => Chart;
-export type Plotter = (chart: any, scale: any, data: any, colors: any, categories: any) => any;
+export declare type Plotter = (chart: any, scale: any, data: any, colors: any, categories: any) => any;
 export declare function newPlotManager(): {
     items: Map<string, Plotter>;
     delete(id: string): void;

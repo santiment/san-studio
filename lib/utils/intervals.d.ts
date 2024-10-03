@@ -1,4 +1,4 @@
-type Interval = {
+declare type Interval = {
     id: string;
     label: string;
 };

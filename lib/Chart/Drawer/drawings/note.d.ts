@@ -1,4 +1,4 @@
-type NewNote = Partial<Pick<SAN.Charts.Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>>;
+declare type NewNote = Partial<Pick<SAN.Charts.Note, 'text' | 'absCoor' | 'relCoor' | 'ratioCoor'>>;
 export declare function newNote(drawing: NewNote): SAN.Charts.Note;
 export declare function paintNote(chart: SAN.Charts.Chart, drawing: SAN.Charts.Note): void;
 export declare function updateNote({ drawer }: SAN.Charts.Chart, drawing: SAN.Charts.Note): void;

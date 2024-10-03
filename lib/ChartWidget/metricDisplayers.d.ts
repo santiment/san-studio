@@ -1,12 +1,12 @@
 /// <reference types="svelte" />
 import type { addCandlesTooltipPrintable } from '@santiment-network/chart/candles';
-export type ChartMetricDisplayStore = ReturnType<typeof newMetricDisplayersStore>;
-export type MetricDisplayer = {
+export declare type ChartMetricDisplayStore = ReturnType<typeof newMetricDisplayersStore>;
+export declare type MetricDisplayer = {
     formatter?: any;
     axisFormatter?: any;
     metricPrintablePusher?: typeof addCandlesTooltipPrintable;
 };
-export type MetricDisplayers = {
+export declare type MetricDisplayers = {
     [metricKey: string]: MetricDisplayer | undefined;
 };
 export declare function newMetricDisplayersStore(): {

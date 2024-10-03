@@ -12,12 +12,12 @@ export declare const Node: {
 };
 export declare const LINES: Set<"line" | "filledLine" | "gradientLine" | "area">;
 export declare const BARS: Set<"bar" | "greenRedBar">;
-export type ChartNode = typeof Node;
-export type ChartNodes = ChartNode[keyof ChartNode];
+export declare type ChartNode = typeof Node;
+export declare type ChartNodes = ChartNode[keyof ChartNode];
 export declare const NodeAlias: {
     autoWidthBar: "bar";
 };
-export type MetricNodes = {
+export declare type MetricNodes = {
     joinedCategories: string[];
     candles: string[];
     lines: string[];

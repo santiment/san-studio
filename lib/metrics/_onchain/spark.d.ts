@@ -7,11 +7,17 @@ export declare const SparkMetric: {
     spark_action_new_debt_usd: import("../utils").Node<Studio.Metric, "spark_action_new_debt_usd">;
     spark_action_repayments: import("../utils").Node<Studio.Metric, "spark_action_repayments">;
     spark_action_repayments_usd: import("../utils").Node<Studio.Metric, "spark_action_repayments_usd">;
+    spark_total_supplied: import("../utils").Node<Studio.Metric, "spark_total_supplied">;
+    spark_total_supplied_usd: import("../utils").Node<Studio.Metric, "spark_total_supplied_usd">;
+    spark_total_borrowed: import("../utils").Node<Studio.Metric, "spark_total_borrowed">;
+    spark_total_borrowed_usd: import("../utils").Node<Studio.Metric, "spark_total_borrowed_usd">;
     spark_supply_apy: import("../utils").Node<Studio.Metric, "spark_supply_apy">;
     spark_borrow_apy: import("../utils").Node<Studio.Metric, "spark_borrow_apy">;
     spark_total_deposits_usd: import("../utils").Node<Studio.Metric, "spark_total_deposits_usd">;
     spark_total_liquidations_usd: import("../utils").Node<Studio.Metric, "spark_total_liquidations_usd">;
     spark_total_new_debt_usd: import("../utils").Node<Studio.Metric, "spark_total_new_debt_usd">;
     spark_total_repayments_usd: import("../utils").Node<Studio.Metric, "spark_total_repayments_usd">;
+    spark_protocol_total_supplied_usd: import("../utils").Node<Studio.Metric, "spark_protocol_total_supplied_usd">;
+    spark_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "spark_protocol_total_borrowed_usd">;
     spark_active_addresses: import("../utils").Node<Studio.Metric, "spark_active_addresses">;
 };

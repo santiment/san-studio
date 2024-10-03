@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-export type StudioSettings = {
+export declare type StudioSettings = {
     slug: string;
     from: string;
     to: string;

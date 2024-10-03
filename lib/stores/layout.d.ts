@@ -1,5 +1,5 @@
 /// <reference types="svelte" />
-type SelectedLayout = undefined | SAN.Layout;
+declare type SelectedLayout = undefined | SAN.Layout;
 export declare const selectedLayout: {
     set(layout: SelectedLayout): void;
     update(this: void, updater: import("svelte/store").Updater<SelectedLayout>): void;

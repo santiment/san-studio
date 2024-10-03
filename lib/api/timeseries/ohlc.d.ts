@@ -1,4 +1,4 @@
-type Variables = {
+declare type Variables = {
     key: string;
     slug: string;
     from: string;
