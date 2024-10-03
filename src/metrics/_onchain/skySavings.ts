@@ -14,6 +14,9 @@ export const SkySavingsMetric = each(
     sky_savings_total_supplied: {
       label: 'Sky Savings Total Supplied',
     },
+    sky_savings_apy: {
+      label: 'Sky Savings APY',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Sky Savings'
