@@ -45,6 +45,12 @@ function onNewHorizontalRay() {
     }
     ChartDrawer.toggleNewDrawing('hray');
 }
+function onNewVerticalRay() {
+    if ($ChartDrawer.isNewDrawing !== 'vray') {
+        track.event(Event.NewDrawing, { type: 'vray' });
+    }
+    ChartDrawer.toggleNewDrawing('vray');
+}
 function onLineDelete() {
     const { selectedLine } = $ChartDrawer;
     chart.drawer.deleteDrawing(selectedLine);
@@ -90,6 +96,16 @@ onDestroy(() => {
     class:active={$ChartDrawer.isNewDrawing === 'hray'}
     class:disabled={$ChartDrawer.isHidden}
     on:click={onNewHorizontalRay}
+  >
+    <Svg id="hray" w="17" h="5" />
+  </div>
+
+  <div
+    class="btn-3 expl-tooltip vray"
+    aria-label="Vertical Ray"
+    class:active={$ChartDrawer.isNewDrawing === 'vray'}
+    class:disabled={$ChartDrawer.isHidden}
+    on:click={onNewVerticalRay}
   >
     <Svg id="hray" w="17" h="5" />
   </div>
@@ -166,5 +182,9 @@ onDestroy(() => {
 
   .controls :global(.expl-tooltip::before) {
     z-index: 24;
+  }
+
+  .vray :global(svg) {
+    transform: rotate(90deg);
   }
 </style>

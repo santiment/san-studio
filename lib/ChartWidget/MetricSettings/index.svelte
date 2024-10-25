@@ -14,6 +14,7 @@ import PinAxisSetting from './PinAxisSetting.svelte';
 import ExpressionSetting from './ExpressionSetting.svelte';
 import TopHoldersSetting from './TopHoldersSetting.svelte';
 import AxisMaxMinSetting from './AxisMaxMinSetting.svelte';
+import MorphoVaultSettings from './MorphoVaultSettings/index.svelte';
 import { TOP_HOLDERS } from './settings';
 import AddonSettings from '../Addons/Settings.svelte';
 import { ADDONS } from '../Addons/addons';
@@ -50,9 +51,15 @@ const getBase = (metric) => metric.base || metric;
       {#if isNotIndicator && SocialMetric[getBase(metric).key]}
         <SmoothingSetting {metric} />
       {/if}
+
       {#if TOP_HOLDERS.has(metric)}
         <TopHoldersSetting {metric} />
       {/if}
+
+      {#if (metric.base || metric) === Metric.morpho_vaults_total_supplied_usd}
+        <MorphoVaultSettings {metric} />
+      {/if}
+
       <ShowAxisSetting {metric} />
       <PinAxisSetting {metric} />
 

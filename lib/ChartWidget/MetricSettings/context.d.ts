@@ -11,6 +11,7 @@ export declare type MetricSetting = {
     owner?: string;
     preTransform?: (...args: any[]) => any;
     getPreTransformValue?: (...args: any[]) => any;
+    label_fqn?: string;
     __appliedInterval?: boolean;
 };
 export declare type MetricSettings = {

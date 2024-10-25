@@ -6,6 +6,7 @@ import { newDoubleClickHandler, newDrawingSelectHandler, newDrawingDeleteHandler
 import { newDrawingAxesPainter } from './axes';
 import { newLineCreationHandler } from './newLine';
 import { newHorizontalRayCreationHandler } from './drawings/horizontalRay';
+import { newVerticalRayCreationHandler } from './drawings/verticalRay';
 import { hook } from './utils';
 import { getChart } from '../context';
 import { clearCtx } from '../utils';
@@ -27,6 +28,7 @@ const deleteDrawer = ChartDrawer.addDrawer(drawer);
 const NewDrawingHandler = {
     line: newLineCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
     hray: newHorizontalRayCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
+    vray: newVerticalRayCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
 };
 export let metricKey;
 let isNewDrawing = null;

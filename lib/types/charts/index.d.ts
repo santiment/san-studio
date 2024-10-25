@@ -29,8 +29,8 @@ declare namespace SAN {
       redraw: () => void
     }
 
-    type DrawingTypes = 'line' | 'hray' | 'emoji' | 'note'
-    type NewDrawingType = 'line' | 'hray' | null
+    type DrawingTypes = 'line' | 'hray' | 'vray' | 'emoji' | 'note'
+    type NewDrawingType = 'line' | 'hray' | 'vray' | null
 
     interface Drawing {
       type: DrawingTypes
@@ -78,6 +78,13 @@ declare namespace SAN {
       relCoor: [0, number]
       ratioCoor: [0, number]
       shape: Path2D
+    }
+
+    interface VerticalRay extends HorizontalRay {
+      type: 'vray'
+      absCoor: [number, 0]
+      relCoor: [number, 0]
+      ratioCoor: [number, 0]
     }
 
     type EmojiIds = 'rocket' | 'fire' | 'bear' | 'stop' | 'unicorn' | 'bell' | 'poo' | 'rock'
