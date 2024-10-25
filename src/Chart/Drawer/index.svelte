@@ -12,6 +12,7 @@
   import { newDrawingAxesPainter } from './axes'
   import { newLineCreationHandler } from './newLine'
   import { newHorizontalRayCreationHandler } from './drawings/horizontalRay'
+  import { newVerticalRayCreationHandler } from './drawings/verticalRay'
   import { hook } from './utils'
   import { getChart } from '../context'
   import { clearCtx } from '../utils'
@@ -36,6 +37,7 @@
   const NewDrawingHandler = {
     line: newLineCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
     hray: newHorizontalRayCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
+    vray: newVerticalRayCreationHandler(chart, onNewDrawingStart, onNewDrawingEnd),
   } as Record<NonNullable<SAN.Charts.NewDrawingType>, (...args) => any>
 
   export let metricKey: string

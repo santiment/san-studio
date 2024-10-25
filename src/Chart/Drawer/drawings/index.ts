@@ -4,10 +4,12 @@ import { paintEmoji, updateEmoji } from './emoji'
 import { paintNote, updateNote } from './note'
 import { ratioToAbsoluteCoordinates, absoluteToRatioCoordinates } from '../coordinates'
 import { clearCtx } from '../../utils'
+import { paintVerticalRay, updateVerticalRay } from './verticalRay'
 
 const DrawingPainter = {
   line: paintLine,
   hray: paintHorizontalRay,
+  vray: paintVerticalRay,
   emoji: paintEmoji,
   note: paintNote,
 } as Record<
@@ -18,6 +20,7 @@ const DrawingPainter = {
 const DrawingUpdater = {
   line: updateLine,
   hray: updateHorizontalRay,
+  vray: updateVerticalRay,
   emoji: updateEmoji,
   note: updateNote,
 } as Record<
