@@ -5,6 +5,7 @@ import { getLineDragData, lineDragModifier } from './drawings/line'
 import { getEmojiDragData, emojiDragModifier } from './drawings/emoji'
 import { noteDragModifier, handleNoteDoubleClick } from './drawings/note'
 import { horizontalRayDragModifier } from './drawings/horizontalRay'
+import { verticalRayDragModifier } from './drawings/verticalRay'
 
 type Controller = {
   selectDrawing: (drawing?: SAN.Charts.Drawing) => void
@@ -91,6 +92,7 @@ const DrawingDragDataGetter = {
   line: getLineDragData,
   emoji: getEmojiDragData,
   hray: undefined,
+  vray: undefined,
   note: undefined,
 } as Record<SAN.Charts.DrawingTypes, undefined | DragDataGetter>
 
@@ -107,6 +109,7 @@ const DrawingDragModifier = {
   emoji: emojiDragModifier,
   note: noteDragModifier,
   hray: horizontalRayDragModifier,
+  vray: verticalRayDragModifier,
 } as Record<SAN.Charts.DrawingTypes, undefined | DragModifier>
 
 function newDrawingDragHandler(
