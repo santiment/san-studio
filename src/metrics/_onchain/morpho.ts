@@ -64,6 +64,11 @@ export const MorphoMetric = each(
       label: 'Morpho Protocol Active Addresses',
       node: 'bar',
     },
+
+    morpho_vaults_total_supplied_usd: {
+      label: 'Morpho Vaults Total Supplied in USD',
+      formatter: usdFormatter,
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Morpho'

@@ -14,6 +14,8 @@ export type MetricSetting = {
   preTransform?: (...args: any[]) => any
   getPreTransformValue?: (...args: any[]) => any
 
+  label_fqn?: string
+
   __appliedInterval?: boolean
 }
 export type MetricSettings = {

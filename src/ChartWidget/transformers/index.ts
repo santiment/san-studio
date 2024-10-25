@@ -5,6 +5,7 @@ import { transformCandles } from './candles'
 import { transformWeightedSocialMetrics } from './weightedSocial'
 import { transformExchangeSettings } from './exchange'
 import { transformRsiSettings } from './rsi'
+import { transformMorpho } from './morpho'
 
 const IntervalFormatDividend = {
   h: 24,
@@ -40,6 +41,7 @@ export function transformMetricSettings(
   transformWeightedSocialMetrics(metric, metricSettings, studioSettings)
   transformExchangeSettings(metric, metricSettings)
   transformRsiSettings(metric, metricSettings)
+  transformMorpho(metric, metricSettings)
 
   if (key === Metric.dev_activity.key) return transformDevActivity(metricSettings, studioSettings)
 
