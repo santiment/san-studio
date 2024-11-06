@@ -39,6 +39,16 @@ export const FraxlendMetric = each(
       formatter: usdFormatter,
       node: 'bar',
     },
+    fraxlend_total_supplied: {
+      label: 'Fraxlend Total Supplied',
+    },
+    fraxlend_total_supplied_usd: {
+      label: 'Fraxlend Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    fraxlend_total_borrowed_against_collateral: {
+      label: 'Fraxlend Total FRAX Borrowed Against Collateral',
+    },
     fraxlend_borrow_apy: {
       label: 'Fraxlend Borrow APY',
     },
@@ -62,6 +72,13 @@ export const FraxlendMetric = each(
       label: 'Fraxlend Protocol Total Repayments in USD',
       formatter: usdFormatter,
       node: 'bar',
+    },
+    fraxlend_protocol_total_supplied_usd: {
+      label: 'Fraxlend Protocol Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    fraxlend_protocol_total_borrowed: {
+      label: 'Fraxlend Protocol Total FRAX Borrowed',
     },
     fraxlend_active_addresses: {
       label: 'Fraxlend Protocol Active Addresses',
