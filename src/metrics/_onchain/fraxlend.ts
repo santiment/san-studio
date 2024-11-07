@@ -77,8 +77,9 @@ export const FraxlendMetric = each(
       label: 'Fraxlend Protocol Total Supplied in USD',
       formatter: usdFormatter,
     },
-    fraxlend_protocol_total_borrowed: {
-      label: 'Fraxlend Protocol Total FRAX Borrowed',
+    fraxlend_protocol_total_borrowed_usd: {
+      label: 'Fraxlend Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
     },
     fraxlend_active_addresses: {
       label: 'Fraxlend Protocol Active Addresses',
