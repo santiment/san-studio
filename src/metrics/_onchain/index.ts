@@ -293,6 +293,13 @@ export const OnChainMetric = each(
       gini_index: {
         label: 'Gini Index',
       },
+
+      average_transfer_5m: {
+        label: 'Average Transfer',
+      },
+      median_transfer_5m: {
+        label: 'Median Transfer',
+      },
     },
 
     XrpMetric,
