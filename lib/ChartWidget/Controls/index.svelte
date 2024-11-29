@@ -10,7 +10,7 @@ import './../../stores/globals';
 import './../../stores/studio';
 import { recordNewDrawing, recordDeleteDrawing, recordDrawingModified } from './../../history/drawings';
 import { getAdapterController } from './../../adapter/context';
-import sanrSrc from './sanr.svg';
+import './sanr.svg';
 import Emoji from './Emoji.svelte';
 import Note from './Note.svelte';
 import DrawingsVisibility from './DrawingsVisibility.svelte';
@@ -132,6 +132,7 @@ onDestroy(() => {
   {/if}
 
   {#if !noWidgetControls}
+    <!-- 
     <a
       target="_blank"
       rel="noopener noreferrer"
@@ -143,6 +144,7 @@ onDestroy(() => {
       <img src={sanrSrc} alt="sanr" class="mrg-s mrg--r" />
       Create forecast
     </a>
+ -->
 
     <div
       class="btn-3 mrg-s mrg--r expl-tooltip"
