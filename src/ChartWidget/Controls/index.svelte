@@ -144,6 +144,7 @@
   {/if}
 
   {#if !noWidgetControls}
+    <!-- 
     <a
       target="_blank"
       rel="noopener noreferrer"
@@ -155,6 +156,7 @@
       <img src={sanrSrc} alt="sanr" class="mrg-s mrg--r" />
       Create forecast
     </a>
+ -->
 
     <div
       class="btn-3 mrg-s mrg--r expl-tooltip"
