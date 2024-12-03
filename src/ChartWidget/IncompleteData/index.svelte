@@ -1,19 +1,19 @@
 <script lang="ts">
   import type { RestrictionInfo } from 'utils'
 
-  import Tooltip from 'webkit/ui/Tooltip/svelte'
   import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
+  import { getWidget } from '@/ChartWidget/context'
   import Info from './Info.svelte'
-  import { checkShouldShowBanner, closeBanners, formatDate } from './utils'
+  import { formatDate } from './utils'
   import { showPaywallDialog } from './PaywallDialog.svelte'
   import { track } from 'san-webkit/lib/analytics'
-
-  const shouldShowBanner = checkShouldShowBanner()
 
   export let chart = null as null | SAN.Charts.Chart
   export let metrics: any[]
   export let settings: any
+
+  const { HiddenMetrics } = getWidget()
 
   let banner
   let restrictions
@@ -21,7 +21,9 @@
 
   queryRestrictedDates().then((data) => (restrictions = data))
 
+  $: hiddenMetrics = $HiddenMetrics
   $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : []
+  $: visibleRestricted = restrictedMetrics.filter((metric) => !hiddenMetrics.has(metric))
   $: restrictionsInfo = getRestrictionsInfo(restrictedMetrics)
   $: if (banner && chart) {
     chart.canvas.parentNode?.appendChild(banner)
@@ -88,22 +90,17 @@
     <Svg id="crown" w="12" />
     Upgrade for full data
   </button>
+{/if}
 
-  {#if shouldShowBanner && chart}
-    <div class="limit-banner column body-3 hv-center" bind:this={banner}>
-      <button class="close btn" on:click={closeBanners}>
-        <Svg id="close" w="14" />
-      </button>
+{#if visibleRestricted.length && chart}
+  <div class="limit-banner column body-3 hv-center" bind:this={banner}>
+    <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
 
-      <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
-
-      <Info
-        {restrictedMetrics}
-        restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
-        upgradeClass="btn--l"
-      />
-    </div>
-  {/if}
+    <Info
+      {restrictedMetrics}
+      restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
+    />
+  </div>
 {/if}
 
 <style>
