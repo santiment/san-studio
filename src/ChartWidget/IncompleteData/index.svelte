@@ -1,13 +1,10 @@
 <script lang="ts">
-  import type { RestrictionInfo } from 'utils'
+  import type { RestrictionInfo } from './utils'
 
-  import Svg from 'webkit/ui/Svg/svelte'
   import { queryRestrictedDates } from '@/api/metrics/restrictions'
   import { getWidget } from '@/ChartWidget/context'
   import Info from './Info.svelte'
   import { formatDate } from './utils'
-  import { showPaywallDialog } from './PaywallDialog.svelte'
-  import { track } from 'san-webkit/lib/analytics'
 
   export let chart = null as null | SAN.Charts.Chart
   export let metrics: any[]
@@ -53,7 +50,7 @@
     })
   }
 
-  function formatMetrics(restrictionsInfo: RestrictionInfo) {
+  function formatMetrics(restrictionsInfo: RestrictionInfo[]) {
     return restrictionsInfo.map(({ metric, date }) => `${metric} (${date})`)
   }
 
@@ -75,22 +72,7 @@
       ]).has(queryKey)
     )
   }
-
-  function onUpgradeClick() {
-    track.event('charts_upgrade_for_full_data_click')
-    showPaywallDialog(restrictionsInfo, restrictedMetrics)
-  }
 </script>
-
-{#if restrictedMetrics.length}
-  <button
-    class="studio-why-gaps mrg-m mrg--r btn-1 btn--s btn--orange row v-center"
-    on:click={onUpgradeClick}
-  >
-    <Svg id="crown" w="12" />
-    Upgrade for full data
-  </button>
-{/if}
 
 {#if visibleRestricted.length && chart}
   <div class="limit-banner column body-3 hv-center" bind:this={banner}>
@@ -104,23 +86,6 @@
 {/if}
 
 <style>
-  .btn-1 {
-    --color: var(--orange-hover);
-    --color-hover: var(--orange-hover);
-    --bg: var(--orange-pale);
-    --bg-hover: var(--orange-light-1);
-
-    gap: 10px;
-    align-self: flex-end;
-    margin-bottom: 8px;
-  }
-
-  .tooltip {
-    padding: 16px 24px;
-    width: 285px;
-    z-index: 11 !important;
-  }
-
   .limit-banner {
     color: #fff;
     position: absolute;
@@ -132,13 +97,5 @@
     padding: 24px;
     width: 350px;
     text-align: center;
-  }
-
-  .close {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    --fill: #fff;
-    --fill-hover: var(--green);
   }
 </style>
