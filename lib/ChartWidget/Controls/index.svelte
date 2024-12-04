@@ -17,7 +17,6 @@ import DrawingsVisibility from './DrawingsVisibility.svelte';
 import Fullscreen from './Fullscreen.svelte';
 import Embed from './Embed.svelte';
 import { download, downloadPng } from './download';
-import '../IncompleteData/index.svelte';
 import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte';
 const History = getHistoryContext();
 const widget = getWidget();

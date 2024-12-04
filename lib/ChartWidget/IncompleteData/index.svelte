@@ -1,20 +1,19 @@
 <script>var _a;
-import 'san-webkit/lib/ui/Tooltip/svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
 import { queryRestrictedDates } from './../../api/metrics/restrictions';
+import './../../ChartWidget/context';
 import Info from './Info.svelte';
-import { checkShouldShowBanner, closeBanners, formatDate } from './utils';
-import { showPaywallDialog } from './PaywallDialog.svelte';
-import { track } from 'san-webkit/lib/analytics';
-const shouldShowBanner = checkShouldShowBanner();
+import { formatDate } from './utils';
 export let chart = null;
 export let metrics;
 export let settings;
+export let hiddenMetrics;
+export let hideMetric;
 let banner;
 let restrictions;
 let metricRestrictions = null;
 queryRestrictedDates().then((data) => (restrictions = data));
 $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : [];
+$: visibleRestricted = restrictedMetrics.filter((metric) => !hiddenMetrics.has(metric));
 $: restrictionsInfo = getRestrictionsInfo(restrictedMetrics);
 $: if (banner && chart) {
     (_a = chart.canvas.parentNode) === null || _a === void 0 ? void 0 : _a.appendChild(banner);
@@ -59,56 +58,21 @@ function customRestrictions(queryKey, { slug } = {}) {
             'network_growth',
         ]).has(queryKey));
 }
-function onUpgradeClick() {
-    track.event('charts_upgrade_for_full_data_click');
-    showPaywallDialog(restrictionsInfo, restrictedMetrics);
-}
 </script>
 
-{#if restrictedMetrics.length}
-  <button
-    class="studio-why-gaps mrg-m mrg--r btn-1 btn--s btn--orange row v-center"
-    on:click={onUpgradeClick}
-  >
-    <Svg id="crown" w="12" />
-    Upgrade for full data
-  </button>
+{#if visibleRestricted.length && chart}
+  <div class="limit-banner column body-3 hv-center" bind:this={banner}>
+    <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
 
-  {#if shouldShowBanner && chart}
-    <div class="limit-banner column body-3 hv-center" bind:this={banner}>
-      <button class="close btn" on:click={closeBanners}>
-        <Svg id="close" w="14" />
-      </button>
-
-      <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
-
-      <Info
-        {restrictedMetrics}
-        restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
-        upgradeClass="btn--l"
-      />
-    </div>
-  {/if}
+    <Info
+      {restrictedMetrics}
+      restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
+      {hideMetric}
+    />
+  </div>
 {/if}
 
 <style>
-  .btn-1 {
-    --color: var(--orange-hover);
-    --color-hover: var(--orange-hover);
-    --bg: var(--orange-pale);
-    --bg-hover: var(--orange-light-1);
-
-    gap: 10px;
-    align-self: flex-end;
-    margin-bottom: 8px;
-  }
-
-  .tooltip {
-    padding: 16px 24px;
-    width: 285px;
-    z-index: 11 !important;
-  }
-
   .limit-banner {
     color: #fff;
     position: absolute;
@@ -120,13 +84,5 @@ function onUpgradeClick() {
     padding: 24px;
     width: 350px;
     text-align: center;
-  }
-
-  .close {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    --fill: #fff;
-    --fill-hover: var(--green);
   }
 </style>
