@@ -117,7 +117,13 @@
 
   {#if !isOnlyChartEmbedded}
     {#if !hasSubscription}
-      <IncompleteData {chart} metrics={$Metrics} settings={$studio} />
+      <IncompleteData
+        {hiddenMetrics}
+        hideMetric={HiddenMetrics.hide}
+        {chart}
+        metrics={$Metrics}
+        settings={$studio}
+      />
     {:else if $globals.isTrial}
       <a href="/pricing" class="btn-2 btn-1 btn--s btn--orange mrg-m mrg--r">
         <Svg id="crown" w="12" h="9" class="mrg-s mrg--r" />

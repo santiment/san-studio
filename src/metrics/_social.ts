@@ -21,6 +21,7 @@ const TotalSentimentMetric = each(
     sentiment_volume_consumed_total: {
       node: 'filledLine',
       label: 'Weighted sentiment (Total)',
+      queryKey: 'sentiment_weighted_total_1d',
     },
   },
   (metric: Studio.Metric) => {

@@ -18,7 +18,6 @@
   import Fullscreen from './Fullscreen.svelte'
   import Embed from './Embed.svelte'
   import { download, downloadPng } from './download'
-  import IncompleteData from '../IncompleteData/index.svelte'
   import { getOptionsMenuTooltip } from '../OptionsMenuTooltipCtx.svelte'
 
   const History = getHistoryContext()
