@@ -1,13 +1,11 @@
 <script lang="ts">
   import { globals } from '@/stores/globals'
   import { trackUpgrade } from './utils'
-  import { getWidget } from '../context'
 
   export let upgradeClass = ''
   export let restrictions: string[]
   export let restrictedMetrics: Studio.Metric[]
-
-  const { HiddenMetrics } = getWidget()
+  export let hideMetric: (metric: Studio.Metric) => void
 
   function onUpgradeClick(e) {
     trackUpgrade({
@@ -19,7 +17,7 @@
   }
 
   function hideRestrictedMetrics(restrictedMetrics: Studio.Metric[]) {
-    restrictedMetrics.forEach((metric) => HiddenMetrics.hide(metric))
+    restrictedMetrics.forEach((metric) => hideMetric(metric))
   }
 </script>
 

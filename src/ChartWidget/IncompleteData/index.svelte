@@ -9,8 +9,8 @@
   export let chart = null as null | SAN.Charts.Chart
   export let metrics: any[]
   export let settings: any
-
-  const { HiddenMetrics } = getWidget()
+  export let hiddenMetrics: Set<Studio.Metric>
+  export let hideMetric: (metric: Studio.Metric) => void
 
   let banner
   let restrictions
@@ -18,7 +18,6 @@
 
   queryRestrictedDates().then((data) => (restrictions = data))
 
-  $: hiddenMetrics = $HiddenMetrics
   $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : []
   $: visibleRestricted = restrictedMetrics.filter((metric) => !hiddenMetrics.has(metric))
   $: restrictionsInfo = getRestrictionsInfo(restrictedMetrics)
@@ -81,6 +80,7 @@
     <Info
       {restrictedMetrics}
       restrictions={formatMetrics(restrictionsInfo).slice(0, 4).concat('and many others')}
+      {hideMetric}
     />
   </div>
 {/if}
