@@ -31,13 +31,16 @@ function onWidgetClick(widget, e) {
         Widgets.addSubwidgets(widget, $selectedItems.subwidgets);
     }
     if ($selectedItems.chartAddons.length) {
+        widget.ChartAddons = widget.ChartAddons || [];
         widget.ChartAddons.concat($selectedItems.chartAddons);
     }
     if (widget.Metrics) {
         const metrics = fillReferences(new Set(adjustMetrics($selectedItems.metrics)));
         const notables = $selectedItems.notables.slice();
         const redo = () => {
+            widget.Metrics = widget.Metrics || [];
             widget.Metrics.concat(metrics);
+            widget.MetricsSignals = widget.MetricsSignals || [];
             widget.MetricsSignals.concat(notables);
         };
         redo();
