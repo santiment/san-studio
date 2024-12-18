@@ -300,6 +300,22 @@ export const OnChainMetric = each(
       median_transfer_5m: {
         label: 'Median Transfer',
       },
+
+      dex_amm_volume_in_xrp_5min: {
+        label: 'XRPL DEX AMM Volume in XRP',
+      },
+
+      dex_amm_volume_in_usd_5min: {
+        label: 'XRPL DEX AMM Volume in USD',
+      },
+
+      liquidity_in_amm_pools_by_pair: {
+        label: 'Liquidity in XRPL AMM Pool by Pair',
+      },
+
+      liquidity_in_amm_pools_by_asset: {
+        label: 'Liquidity in XRPL AMM Pool by Asset',
+      },
     },
 
     XrpMetric,
