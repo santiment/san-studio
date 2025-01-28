@@ -22,6 +22,5 @@ export const PendleMarketsMetric = each(
   },
   (metric: Studio.Metric) => {
     metric.group = 'Pendle Markets'
-    metric.node = metric.node || Node.BAR
   },
 )
