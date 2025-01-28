@@ -9,6 +9,7 @@ import { SparkMetric } from './spark'
 import { MorphoMetric } from './morpho'
 import { EthenaMetric } from './ethena'
 import { SkySavingsMetric } from './skySavings'
+import { PendleMarketsMetric } from './pendleMarkets'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
 import { MetricCategory } from '@/metrics/graph'
@@ -337,6 +338,7 @@ export const OnChainMetric = each(
     FraxlendMetric,
     EthenaMetric,
     SkySavingsMetric,
+    PendleMarketsMetric,
     BeaconMetric,
 
     NFTMetric,
