@@ -38,7 +38,7 @@ onDestroy(() => {
     class="toggle btn row hv-center expl-tooltip"
     on:click={toggleSidebar}
   >
-    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : 'closed-sMXSTv'} />
+    <Svg id="sidebar" w="12" h="10" class={isLocked ? '' : 'closed-+su3Ae'} />
   </div>
   {#each MODES as id}
     <div class="btn" class:active={mode === id} on:click={() => onModeCange(id)}>
@@ -64,7 +64,7 @@ onDestroy(() => {
     </div>
     <div class="help btn row v-center" on:click={onHelpClick}>
       Help & Feedback
-      <Svg id="chat" w="14" h="16" class="chat-gBO55t mrg-s mrg--t" />
+      <Svg id="chat" w="14" h="16" class="chat-JC1lpY mrg-s mrg--t" />
     </div>
   </div>
 </div>
@@ -100,7 +100,7 @@ onDestroy(() => {
     border: none;
     border-bottom: 1px solid var(--porcelain);
   }
-  :global(.closed-sMXSTv) {
+  :global(.closed-\+su3Ae) {
     transform: rotate(180deg);
   }
 
@@ -124,7 +124,7 @@ onDestroy(() => {
     --fill: var(--casper);
     padding: 12px 5px;
   }
-  :global(.chat-gBO55t) {
+  :global(.chat-JC1lpY) {
     transform: rotate(90deg);
   }
 

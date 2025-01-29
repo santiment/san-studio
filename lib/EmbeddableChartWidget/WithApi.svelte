@@ -72,9 +72,9 @@ AdaptiveLayoutMessage.listen((settings) => {
 <div class="column {className}">
   {#key $minimized$}
     <MetricErrorTooltipCtx>
-      <ChartWidget {widget} class="widget-K4FuzN">
+      <ChartWidget {widget} class="widget-eoz6NP">
         {#if isCalendarEnabled}
-          <Calendar class="s-onsr22" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+          <Calendar class="s-a0o7a7" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
         {/if}
       </ChartWidget>
     </MetricErrorTooltipCtx>
@@ -94,7 +94,7 @@ AdaptiveLayoutMessage.listen((settings) => {
       >
         {$minimized$.minimized ? 'Expand' : 'Minimize'}
 
-        <Svg class="arrow-xdjXLq" id="arrow" w="7" />
+        <Svg class="arrow-GTQhp+" id="arrow" w="7" />
       </button>
     {/if}
 
@@ -121,11 +121,11 @@ AdaptiveLayoutMessage.listen((settings) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-K4FuzN) {
+  :global(.widget-eoz6NP) {
     height: 0 !important;
   }
 
-  :global(.s-onsr22) {
+  :global(.s-a0o7a7) {
     margin-top: -4px;
   }
 
@@ -133,7 +133,7 @@ AdaptiveLayoutMessage.listen((settings) => {
     margin-top: 2px;
   }
 
-  :global(.arrow-xdjXLq) {
+  :global(.arrow-GTQhp\+) {
     transform: rotate(var(--rotated, 180deg));
   }
 

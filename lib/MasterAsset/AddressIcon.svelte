@@ -20,7 +20,7 @@ const InfrastructureAsset = {
 
 <div class="relative row hv-center mrg-s mrg--r">
   <Svg id="report" w="16" />
-  <ProjectIcon slug={infrastructureAsset} size={16} class="project-OdwX2o" />
+  <ProjectIcon slug={infrastructureAsset} size={16} class="project-JwLg4h" />
 </div>
 
 <style>
@@ -33,7 +33,7 @@ const InfrastructureAsset = {
     fill: var(--white);
   }
 
-  :global(.project-OdwX2o) {
+  :global(.project-JwLg4h) {
     position: absolute;
     bottom: 0;
     right: 0;

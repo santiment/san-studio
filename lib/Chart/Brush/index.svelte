@@ -13,7 +13,7 @@ export let onChange;
 export let theme = themes[0];
 const width = chart.canvasWidth;
 const brush = initBrush(chart, width, BRUSH_HEIGHT, chart.theme.brush);
-brush.canvas.classList.add('brush-cYSEnb');
+brush.canvas.classList.add('brush-HK_t36');
 brush.plotBrushData = plotBrushData;
 brush.redraw = redraw;
 brush.updateWidth = updateWidth;
@@ -49,7 +49,7 @@ function redraw() {
 </script>
 
 <style>
-  :global(.brush-cYSEnb) {
+  :global(.brush-HK_t36) {
     border: 1px solid var(--porcelain);
     border-radius: 4px;
   }

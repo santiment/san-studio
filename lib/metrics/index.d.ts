@@ -9,6 +9,7 @@ export declare const RealizedCapHodlWavesTimebounds: {};
 export declare const RealizedCapTimebounds: {};
 export declare const CirculationTimebounds: {};
 export declare const DormantCirculationTimebounds: {};
+export declare const SpentCoinsAgeBandTimebounds: {};
 export declare const MeanAgeTimebounds: {};
 export declare const MeanDollarInvestedAgeTimebounds: {};
 export declare const Eth2StakersRealizedTimebounds: {};

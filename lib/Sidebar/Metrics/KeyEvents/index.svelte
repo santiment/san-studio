@@ -9,12 +9,12 @@ const items = [SelectorNode.btc_halving, SelectorNode.cancun_upgrade];
 
 <Category category="Key Events" isOpened {isFiltering} {items} {onItemClick}>
   <svelte:fragment slot="pre-title">
-    <Svg id="bell-filled" w="15" h="16" class="mrg-s mrg--r icon-9rGhEq" />
+    <Svg id="bell-filled" w="15" h="16" class="mrg-s mrg--r icon-NcTYoF" />
   </svelte:fragment>
 </Category>
 
 <style>
-  :global(.icon-9rGhEq) {
+  :global(.icon-NcTYoF) {
     fill: var(--purple) !important;
   }
 </style>

@@ -17,7 +17,7 @@ function onInput({ target }) {
 
 <!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center fluid {className}">
-  <Svg id="search" w="12" class="search-qlhU2a" />
+  <Svg id="search" w="12" class="search-gZ1iLI" />
   <input type="text" on:input={onInput} {placeholder} {autofocus} />
 </div>
 
@@ -41,7 +41,7 @@ function onInput({ target }) {
     color: var(--black);
   }
 
-  :global(.search-qlhU2a) {
+  :global(.search-gZ1iLI) {
     position: absolute;
     left: 14px;
   }
