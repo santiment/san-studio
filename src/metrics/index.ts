@@ -69,6 +69,25 @@ export const DormantCirculationTimebounds = newTimebounds(
   { key: 'dormant_circulation', label: 'Dormant Circulation' },
 )
 
+export const SpentCoinsAgeBandTimebounds = newTimebounds(
+  Metric.spent_coins_age_band_0d_to_1d,
+  [
+    '1d_to_7d',
+    '7d_to_30d',
+    '30d_to_60d',
+    '60d_to_90d',
+    '90d_to_180d',
+    '180d_to_365d',
+    '365d_to_2y',
+    '2y_to_3y',
+    '3y_to_5y',
+    '5y_to_7y',
+    '7y_to_10y',
+    '10y_to_20y',
+  ],
+  { key: 'spent_coins_age_band', label: 'Spent Coins Age Band' },
+)
+
 const MEAN_AGE_TIMEBOUNDS = ['90d', '180d', '365d', '2y', '3y', '5y']
 export const MeanAgeTimebounds = newTimebounds(Metric.mean_age, MEAN_AGE_TIMEBOUNDS)
 export const MeanDollarInvestedAgeTimebounds = newTimebounds(
@@ -100,6 +119,7 @@ Object.assign(
   MvrvUsdIntradayTimebounds,
   RealizedCapTimebounds,
   RealizedCapHodlWavesTimebounds,
+  SpentCoinsAgeBandTimebounds,
   CirculationTimebounds,
   DormantCirculationTimebounds,
   MeanAgeTimebounds,

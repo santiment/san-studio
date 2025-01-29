@@ -10,6 +10,7 @@ import {
   Eth2StakersRealizedTimebounds,
   Eth2StakersMvrvTimebounds,
   RealizedCapHodlWavesTimebounds,
+  SpentCoinsAgeBandTimebounds,
 } from '@/metrics'
 import { SelectorType } from './types'
 import { SelectorNode } from './index'
@@ -84,6 +85,9 @@ export const Subitems = {
   [Metric.mvrv_usd_intraday.key]: Object.values(MvrvUsdIntradayTimebounds),
   [Metric.realized_value_usd.key]: Object.values(RealizedCapTimebounds),
   [Metric.realized_cap_hodl_waves_0d_to_1d.key]: Object.values(RealizedCapHodlWavesTimebounds),
+
+  [Metric.spent_coins_age_band_0d_to_1d.key]: Object.values(SpentCoinsAgeBandTimebounds),
+
   [Metric.circulation.key]: Object.values(CirculationTimebounds),
   [Metric.dormant_circulation_365d.key]: Object.values(DormantCirculationTimebounds),
   [Metric.mean_age.key]: Object.values(MeanAgeTimebounds),
