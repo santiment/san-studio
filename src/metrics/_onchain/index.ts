@@ -6,6 +6,7 @@ import { CompoundMetric, Compound3Metric } from './compound'
 import { LiquityMetric } from './liquity'
 import { FraxlendMetric } from './fraxlend'
 import { SparkMetric } from './spark'
+import { FluidMetric } from './fluid'
 import { MorphoMetric } from './morpho'
 import { EthenaMetric } from './ethena'
 import { SkySavingsMetric } from './skySavings'
@@ -333,6 +334,7 @@ export const OnChainMetric = each(
     MakerDaoMetric,
     MakerDaoDsrMetric,
     SparkMetric,
+    FluidMetric,
     MorphoMetric,
     LiquityMetric,
     FraxlendMetric,
