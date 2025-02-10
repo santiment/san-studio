@@ -113,7 +113,11 @@
       </button>
     {/if}
 
-    <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
+    <a
+      href="https://app.santiment.net/charts?{queryString}&utm_source=emedded_chart"
+      target="__blank"
+      class="btn caption"
+    >
       <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
       View on Santiment
     </a>
