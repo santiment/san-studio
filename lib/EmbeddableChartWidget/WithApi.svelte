@@ -20,6 +20,7 @@ export let isWithMetricSettings = false;
 export let sharedAccessToken;
 export let isCalendarEnabled = false;
 export let isMinimapEmbedded = false;
+const UTMs = `&utm_source=embedded_chart&utm_content=view_on_santiment`;
 const queryString = getViewOnSantimentLink($studio, widget);
 const AutoUpdater = newAutoUpdaterStore([widget]);
 newHistoryContext({ add: () => { } });
@@ -72,19 +73,36 @@ AdaptiveLayoutMessage.listen((settings) => {
 <div class="column {className}">
   {#key $minimized$}
     <MetricErrorTooltipCtx>
-      <ChartWidget {widget} class="widget-eoz6NP">
+      <ChartWidget {widget} class="widget-nzg3k0">
         {#if isCalendarEnabled}
           <Calendar class="s-a0o7a7" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+        {/if}
+
+        {#if sharedAccessToken}
+          <div class="update-i hv-center btn btn-2 mrg-m mrg--r" on:click={AutoUpdater.update}>
+            <Svg id="refresh" w="12" />
+          </div>
+
+          <a
+            href="https://app.santiment.net/charts?{queryString}{UTMs}"
+            target="__blank"
+            class="btn btn-2 view-on c-black"
+          >
+            <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
+            View on Santiment
+          </a>
         {/if}
       </ChartWidget>
     </MetricErrorTooltipCtx>
   {/key}
 
   <div class="bottom row justify txt-m">
-    <div class="update btn" on:click={AutoUpdater.update}>
-      <Svg id="refresh" w="12" class="mrg-s mrg--r" />
-      Updated {updated || 1} ago
-    </div>
+    {#if !sharedAccessToken}
+      <div class="update btn" on:click={AutoUpdater.update}>
+        <Svg id="refresh" w="12" class="mrg-s mrg--r" />
+        Updated {updated || 1} ago
+      </div>
+    {/if}
 
     {#if $minimized$.controls}
       <button
@@ -94,14 +112,20 @@ AdaptiveLayoutMessage.listen((settings) => {
       >
         {$minimized$.minimized ? 'Expand' : 'Minimize'}
 
-        <Svg class="arrow-GTQhp+" id="arrow" w="7" />
+        <Svg class="arrow-Fx3IJF" id="arrow" w="7" />
       </button>
     {/if}
 
-    <a href="https://app.santiment.net/charts?{queryString}" target="__blank" class="btn caption">
-      <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
-      View on Santiment
-    </a>
+    {#if !sharedAccessToken}
+      <a
+        href="https://app.santiment.net/charts?{queryString}{UTMs}"
+        target="__blank"
+        class="btn caption"
+      >
+        <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
+        View on Santiment
+      </a>
+    {/if}
   </div>
 </div>
 
@@ -114,6 +138,11 @@ AdaptiveLayoutMessage.listen((settings) => {
     font-size: 10px;
   }
 
+  .update-i {
+    width: 32px;
+    padding: 0;
+  }
+
   .btn {
     display: flex;
     align-items: center;
@@ -121,7 +150,7 @@ AdaptiveLayoutMessage.listen((settings) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-eoz6NP) {
+  :global(.widget-nzg3k0) {
     height: 0 !important;
   }
 
@@ -133,11 +162,25 @@ AdaptiveLayoutMessage.listen((settings) => {
     margin-top: 2px;
   }
 
-  :global(.arrow-GTQhp\+) {
+  :global(.arrow-Fx3IJF) {
     transform: rotate(var(--rotated, 180deg));
   }
 
   .minimized {
     --rotated: 0;
+  }
+
+  .view-on {
+    padding: 0 10px 0 10px;
+  }
+
+  .update-i,
+  .view-on {
+    height: 32px;
+    --color: var(--black);
+  }
+
+  .view-on :global(img) {
+    width: 16px;
   }
 </style>

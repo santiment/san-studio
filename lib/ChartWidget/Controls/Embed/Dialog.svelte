@@ -10,6 +10,7 @@ import SelectChart from './SelectChart.svelte';
 import Setting, { PRO_PLUS } from './Setting.svelte';
 import EmbedSetting from './EmbedSetting.svelte';
 import EmbedPreview from './EmbedPreview.svelte';
+import CopyAccessLink from './CopyAccessLink.svelte';
 export let widgets;
 const { ChartOptions } = widgets[0] || {};
 let width = '100%';
@@ -71,6 +72,8 @@ function getIframeSource(code) {
         {isCartesianGrid}
         {isWatermarkHidden}
       />
+
+      <CopyAccessLink widget={Array.isArray(widgets) ? widgets[0] : widgets} />
     </div>
 
     <EmbedPreview src={iframe} />

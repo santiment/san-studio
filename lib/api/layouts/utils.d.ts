@@ -1,6 +1,6 @@
 /// <reference types="./api" />
 export declare const layoutAccessor: <T>({ layout }: SAN.API.Query<"layout", T>) => T;
-export declare const layoutsAccessor: <T>({ layouts }: SAN.API.Query<"layouts", T>) => T;
+export declare const layoutsAccessor: <T>({ layouts }: SAN.API.Query<"layouts", T>) => any[] | T;
 export declare const currentUserLayoutsAccessor: <T>({ currentUser, }: SAN.API.Query<"currentUser", {
     layouts: T;
 } | null>) => T;
