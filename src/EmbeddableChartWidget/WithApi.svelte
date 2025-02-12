@@ -24,6 +24,7 @@
   export let isCalendarEnabled = false
   export let isMinimapEmbedded = false
 
+  const UTMs = `&utm_source=embedded_chart&utm_content=view_on_santiment`
   const queryString = getViewOnSantimentLink($studio, widget)
   const AutoUpdater = newAutoUpdaterStore([widget])
   newHistoryContext({ add: () => {} })
@@ -91,15 +92,32 @@
         {#if isCalendarEnabled}
           <Calendar dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
         {/if}
+
+        {#if sharedAccessToken}
+          <div class="update-i hv-center btn btn-2 mrg-m mrg--r" on:click={AutoUpdater.update}>
+            <Svg id="refresh" w="12" />
+          </div>
+
+          <a
+            href="https://app.santiment.net/charts?{queryString}{UTMs}"
+            target="__blank"
+            class="btn btn-2 view-on c-black"
+          >
+            <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
+            View on Santiment
+          </a>
+        {/if}
       </ChartWidget>
     </MetricErrorTooltipCtx>
   {/key}
 
   <div class="bottom row justify txt-m">
-    <div class="update btn" on:click={AutoUpdater.update}>
-      <Svg id="refresh" w="12" class="mrg-s mrg--r" />
-      Updated {updated || 1} ago
-    </div>
+    {#if !sharedAccessToken}
+      <div class="update btn" on:click={AutoUpdater.update}>
+        <Svg id="refresh" w="12" class="mrg-s mrg--r" />
+        Updated {updated || 1} ago
+      </div>
+    {/if}
 
     {#if $minimized$.controls}
       <button
@@ -113,14 +131,16 @@
       </button>
     {/if}
 
-    <a
-      href="https://app.santiment.net/charts?{queryString}&utm_source=emedded_chart"
-      target="__blank"
-      class="btn caption"
-    >
-      <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
-      View on Santiment
-    </a>
+    {#if !sharedAccessToken}
+      <a
+        href="https://app.santiment.net/charts?{queryString}{UTMs}"
+        target="__blank"
+        class="btn caption"
+      >
+        <img alt="SAN" src={sanSvg} class="mrg-s mrg--r" />
+        View on Santiment
+      </a>
+    {/if}
   </div>
 </div>
 
@@ -131,6 +151,11 @@
 
   .update {
     font-size: 10px;
+  }
+
+  .update-i {
+    width: 32px;
+    padding: 0;
   }
 
   .btn {
@@ -158,5 +183,20 @@
 
   .minimized {
     --rotated: 0;
+  }
+
+  .view-on {
+    padding: 0 10px 0 10px;
+  }
+
+  .update-i,
+  .view-on {
+    height: 32px;
+    --color: var(--black);
+    /*--color-hover: var(--green);*/
+  }
+
+  .view-on :global(img) {
+    width: 16px;
   }
 </style>

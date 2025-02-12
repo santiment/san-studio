@@ -11,6 +11,7 @@ const {
   to,
   slug,
   ticker,
+  sharedAccessToken,
   isUTC,
   isNightMode,
   isWithMetricSettings,
@@ -40,6 +41,7 @@ if (isAdaptiveLayoutMinimized !== undefined) {
 const app = new App({
   target: document.querySelector('body') as Element,
   props: {
+    sharedAccessToken,
     isWithMetricSettings,
     isMinimapEmbedded,
     isCalendarEnabled,
