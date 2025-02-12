@@ -193,7 +193,6 @@
   .view-on {
     height: 32px;
     --color: var(--black);
-    /*--color-hover: var(--green);*/
   }
 
   .view-on :global(img) {
