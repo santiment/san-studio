@@ -5,7 +5,12 @@ export const layoutsAccessor = <T>({ layouts }: SAN.API.Query<'layouts', T>) =>
 
 export const currentUserLayoutsAccessor = <T>({
   currentUser,
-}: SAN.API.Query<'currentUser', null | { layouts: T }>) => (currentUser?.layouts || []) as T
+}: SAN.API.Query<'currentUser', null | { layouts: T }>) =>
+  (currentUser?.layouts || []).map((item: any) => {
+    if (!item.title) item.title = ''
+
+    return item
+  }) as T
 
 type Sortable = { updatedAt: string }
 export const dateSorter = ({ updatedAt: a }: Sortable, { updatedAt: b }: Sortable) =>
