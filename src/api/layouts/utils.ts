@@ -5,7 +5,7 @@ export const layoutsAccessor = <T>({ layouts }: SAN.API.Query<'layouts', T>) =>
 
 export const currentUserLayoutsAccessor = <T>({
   currentUser,
-}: SAN.API.Query<'currentUser', null | { layouts: T }>) =>
+}: SAN.API.Query<'currentUser', null | { layouts: any }>) =>
   (currentUser?.layouts || []).map((item: any) => {
     if (!item.title) item.title = ''
 
