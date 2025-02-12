@@ -3,6 +3,7 @@ import { query } from 'webkit/api'
 export const CURRENT_USER_QUERY = `{
   currentUser {
     id
+    email
     following {
       users {
         id
