@@ -1,7 +1,7 @@
 import { HolderDistributionMetric } from './holderDistributions'
 import { XrpMetric } from './xrp'
 import { MakerDaoMetric, MakerDaoDsrMetric } from './makerDao'
-import { AaveMetric, Aave3Metric } from './aave'
+import { AaveMetric, Aave3Metric, AaveSafetyModuleMetric } from './aave'
 import { CompoundMetric, Compound3Metric } from './compound'
 import { LiquityMetric } from './liquity'
 import { FraxlendMetric } from './fraxlend'
@@ -327,6 +327,7 @@ export const OnChainMetric = each(
     FeesMetric,
 
     Eth2Metric,
+    AaveSafetyModuleMetric,
     AaveMetric,
     Aave3Metric,
     CompoundMetric,
