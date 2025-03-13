@@ -9,4 +9,5 @@
 
 1. Local `master` branch should include all necessary updates
     - Development branches should be based on `master` branch. PRs are merged to `master`; 
-2. Run `npm run lib:publish` (make sure the `master` branch is selected before running the script)
+2. Before publish make sure you are using `latest` version of `node`
+3. Run `npm run lib:publish` (make sure the `master` branch is selected before running the script)
