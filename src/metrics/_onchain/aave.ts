@@ -234,3 +234,34 @@ export const Aave3Metric = each(
     metric.group = 'Aave v3'
   },
 )
+
+export const AaveSafetyModuleMetric = each(
+  {
+    aave_safety_module_amount: {
+      label: 'Aave Safety Module Staked Amount',
+    },
+    aave_safety_module_amount_usd: {
+      label: 'Aave Safety Module Staked Amount in USD',
+      formatter: usdFormatter,
+    },
+    aave_safety_module_emission_usd: {
+      label: 'Aave Safety Module Emission in USD',
+      formatter: usdFormatter,
+    },
+    aave_safety_module_apr: {
+      label: 'Aave Safety Module APR',
+    },
+
+    aave_safety_module_total_amount_usd: {
+      label: 'Aave Safety Module Total Staked Amount in USD',
+      formatter: usdFormatter,
+    },
+    aave_safety_module_total_emission_usd: {
+      label: 'Aave Safety Module Total Emission in USD',
+      formatter: usdFormatter,
+    },
+  },
+  (metric: Studio.Metric) => {
+    metric.group = 'Aave Safety Module'
+  },
+)
