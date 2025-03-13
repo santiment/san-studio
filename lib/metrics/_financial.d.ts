@@ -5,6 +5,7 @@ export declare const FinancialMetric: {
     nft_collection_min_price_usd: import("./utils").Node<Studio.Metric, "nft_collection_min_price_usd">;
     nft_collection_max_price_usd: import("./utils").Node<Studio.Metric, "nft_collection_max_price_usd">;
     nft_collection_avg_price_usd: import("./utils").Node<Studio.Metric, "nft_collection_avg_price_usd">;
+    btc_s_and_p_price_divergence: import("./utils").Node<Studio.Metric, "btc_s_and_p_price_divergence">;
     rsi_4h: import("./utils").Node<Studio.Metric, "rsi_4h">;
     rsi_1d: import("./utils").Node<Studio.Metric, "rsi_1d">;
     rsi_7d: import("./utils").Node<Studio.Metric, "rsi_7d">;

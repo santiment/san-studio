@@ -1,32 +1,39 @@
-<script>import { withScroll } from 'san-webkit/lib/ui/history';
-import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import { getHistoryContext } from './../../../history/ctx';
-import { getWidget } from './../../../ChartWidget/context';
-import Dropdown from '../Dropdown.svelte';
-import { INDICATORS, cacheIndicator } from './utils';
-const History = getHistoryContext();
-const widget = getWidget();
-const { Metrics, MetricIndicators } = widget;
-export let metric;
-$: metricIndicators = metric && $MetricIndicators && MetricIndicators.get(metric.key);
-function getActiveLabels(metricIndicators) {
-    let label = '';
+<script lang="ts">
+  import { withScroll } from 'san-webkit/lib/ui/history'
+  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
+  import { getHistoryContext } from './../../../history/ctx'
+  import { getWidget } from './../../../ChartWidget/context'
+  import Dropdown from '../Dropdown.svelte'
+  import { INDICATORS, cacheIndicator } from './utils'
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { Metrics, MetricIndicators } = widget
+
+  export let metric: Studio.Metric
+
+  $: metricIndicators = metric && $MetricIndicators && MetricIndicators.get(metric.key)
+
+  function getActiveLabels(metricIndicators) {
+    let label = ''
     for (let i = 0; i < INDICATORS.length; i++) {
-        const indicator = INDICATORS[i];
-        if (metricIndicators.has(indicator))
-            label += ', ' + indicator.label;
+      const indicator = INDICATORS[i]
+      if (metricIndicators.has(indicator)) label += ', ' + indicator.label
     }
-    return label.slice(2);
-}
-function onClick(indicator) {
-    const indicatorMetric = cacheIndicator(metric, indicator);
+    return label.slice(2)
+  }
+
+  function onClick(indicator) {
+    const indicatorMetric = cacheIndicator(metric, indicator)
+
     function toggle() {
-        Metrics.toggle(indicatorMetric);
-        MetricIndicators.toggle(metric.key, indicator);
+      Metrics.toggle(indicatorMetric)
+      MetricIndicators.toggle(metric.key, indicator)
     }
-    toggle();
-    History.add('Toggle indicator', withScroll(widget, toggle));
-}
+
+    toggle()
+    History.add('Toggle indicator', withScroll(widget, toggle))
+  }
 </script>
 
 <Dropdown>

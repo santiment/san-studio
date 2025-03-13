@@ -53,3 +53,11 @@ export declare const Aave3Metric: {
     aave_v3_total_protocol_revenue_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_protocol_revenue_usd">;
     aave_v3_total_protocol_cumulative_revenue_usd: import("../utils").Node<Studio.Metric, "aave_v3_total_protocol_cumulative_revenue_usd">;
 };
+export declare const AaveSafetyModuleMetric: {
+    aave_safety_module_amount: import("../utils").Node<Studio.Metric, "aave_safety_module_amount">;
+    aave_safety_module_amount_usd: import("../utils").Node<Studio.Metric, "aave_safety_module_amount_usd">;
+    aave_safety_module_emission_usd: import("../utils").Node<Studio.Metric, "aave_safety_module_emission_usd">;
+    aave_safety_module_apr: import("../utils").Node<Studio.Metric, "aave_safety_module_apr">;
+    aave_safety_module_total_amount_usd: import("../utils").Node<Studio.Metric, "aave_safety_module_total_amount_usd">;
+    aave_safety_module_total_emission_usd: import("../utils").Node<Studio.Metric, "aave_safety_module_total_emission_usd">;
+};

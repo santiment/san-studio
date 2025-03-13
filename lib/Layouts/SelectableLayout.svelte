@@ -1,10 +1,13 @@
-<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte';
-export let layout;
-export let isAuthor = false;
-export let closeDialog;
-export let onClick;
-$: ({ title, isPublic = true, project, metrics } = layout);
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { showLayoutInfoDialog } from './LayoutInfoDialog.svelte'
+
+  export let layout: SAN.Layout
+  export let isAuthor = false
+  export let closeDialog
+  export let onClick
+
+  $: ({ title, isPublic = true, project, metrics } = layout)
 </script>
 
 <div class="layout btn-ghost column h-center" on:click={() => onClick(layout)}>
@@ -13,9 +16,9 @@ $: ({ title, isPublic = true, project, metrics } = layout);
   </div>
   <div class="info row v-center">
     {#if isPublic}
-      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r eye-lzPo+G" /> Public
+      <Svg id="eye" w="14" h="10" class="mrg-s mrg--r $style.eye" /> Public
     {:else}
-      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r eye-lzPo+G" />
+      <Svg id="eye-crossed" w="14" h="15" class="mrg-s mrg--r $style.eye" />
       Private
     {/if}
     ·
@@ -59,7 +62,7 @@ $: ({ title, isPublic = true, project, metrics } = layout);
     --color-hover: var(--green);
   }
 
-  :global(.eye-lzPo\+G) {
+  .eye {
     min-width: 14px;
   }
 

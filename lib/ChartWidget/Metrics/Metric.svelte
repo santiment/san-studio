@@ -1,60 +1,70 @@
-<script>var _a, _b;
-import { onDestroy } from 'svelte';
-import { track } from 'san-webkit/lib/analytics';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip';
-import { Event } from './../../analytics';
-import { queryProjectBlockchain } from './../../api/blockchains';
-import MetricButton from './../../MetricButton.svelte';
-import { getWidget } from './../../ChartWidget/context';
-import { globals } from './../../stores/globals';
-import { getAdapterController } from './../../adapter/context';
-import { SelectorNode } from './../../metrics/selector';
-import { convertBaseProjectMetric } from './utils';
-import MoreMenu from './MoreMenu.svelte';
-import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte';
-import BtcHalvingPic from '../Addons/BitcoinHalving/Pic.svelte';
-const { isEmbedded, isWithMetricSettings = true } = getAdapterController();
-const { Metrics, MetricsSignals } = getWidget();
-const metricErrorTooltip = getMetricErrorTooltip();
-export let metric;
-export let project;
-export let colors;
-export let error, isLoading, isSettingsOpened, isHidden;
-export let onEnter, onLeave, onClick, onDelete, onLock, onSettings;
-export let dndContext;
-export let isMultipleMetricsOnChart;
-export let restricted;
-let isMenuOpened = false;
-let node;
-$: isLocked = !!metric.project;
-$: projectSlug = ((_a = metric.project) === null || _a === void 0 ? void 0 : _a.slug) || project.slug;
-$: ({ isPresenterMode } = $globals);
-$: node && (dndContext === null || dndContext === void 0 ? void 0 : dndContext.addItem(node));
-$: node && useErrorTooltip(node, error);
-$: address = (_b = metric.reqMeta) === null || _b === void 0 ? void 0 : _b.address;
-const onMouseEnter = () => onEnter(metric);
-const onMouseLeave = onLeave;
-function onLockClick() {
-    const settings = Object.assign({}, project);
-    if (Metrics.hasConvertedMetric(metric, settings))
-        return;
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { track } from 'san-webkit/lib/analytics'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip'
+  import { Event } from './../../analytics'
+  import { Blockchain, queryProjectBlockchain } from './../../api/blockchains'
+  import MetricButton from './../../MetricButton.svelte'
+  import { getWidget } from './../../ChartWidget/context'
+  import { globals } from './../../stores/globals'
+  import { getAdapterController } from './../../adapter/context'
+  import { SelectorNode } from './../../metrics/selector'
+  import { convertBaseProjectMetric } from './utils'
+  import MoreMenu from './MoreMenu.svelte'
+  import { getMetricErrorTooltip } from './ErrorTooltipCtx.svelte'
+  import BtcHalvingPic from '../Addons/BitcoinHalving/Pic.svelte'
+
+  const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
+  const { Metrics, MetricsSignals } = getWidget()
+  const metricErrorTooltip = getMetricErrorTooltip()
+
+  export let metric: Studio.Metric
+  export let project
+  export let colors
+  export let error, isLoading, isSettingsOpened, isHidden
+  export let onEnter, onLeave, onClick, onDelete, onLock, onSettings
+  export let dndContext
+  export let isMultipleMetricsOnChart
+  export let restricted
+
+  let isMenuOpened = false
+  let node
+
+  $: isLocked = !!metric.project
+  $: projectSlug = metric.project?.slug || project.slug
+
+  $: ({ isPresenterMode } = $globals)
+  $: node && dndContext?.addItem(node)
+  $: node && useErrorTooltip(node, error)
+  $: address = metric.reqMeta?.address
+
+  const onMouseEnter = () => onEnter(metric)
+  const onMouseLeave = onLeave
+
+  function onLockClick() {
+    const settings = Object.assign({}, project)
+
+    if (Metrics.hasConvertedMetric(metric, settings)) return
+
     if (metric.project) {
-        track.event(Event.UnlockMetric, { metric: metric.key });
+      track.event(Event.UnlockMetric, { metric: metric.key })
+    } else {
+      track.event(Event.LockMetric, { metric: metric.key, asset: project.slug })
     }
-    else {
-        track.event(Event.LockMetric, { metric: metric.key, asset: project.slug });
-    }
-    onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric));
-}
-function useErrorTooltip(node, error) {
+
+    onLock(metric, convertBaseProjectMetric(metric, settings), $Metrics.indexOf(metric))
+  }
+
+  function useErrorTooltip(node: HTMLElement, error?: string) {
     metricErrorTooltip(node, {
-        error,
-        isEnabled: !!error,
-    });
-}
-onDestroy(onMouseLeave);
+      error,
+      isEnabled: !!error,
+    })
+  }
+
+  onDestroy(onMouseLeave)
 </script>
 
 <MetricButton
@@ -92,7 +102,7 @@ onDestroy(onMouseLeave);
   {#if restricted && !isEmbedded}
     <Tooltip let:trigger position="bottom">
       <button use:trigger>
-        <Svg id="error" class="error-zWJ35h mrg-s mrg--l" w="16" />
+        <Svg id="error" class="$style.error mrg-s mrg--l" w="16" />
       </button>
 
       <tooltip slot="tooltip" class="caption night-mode c-black">Restricted: PRO required</tooltip>
@@ -118,7 +128,7 @@ onDestroy(onMouseLeave);
   {#if metric.type !== 'addon'}
     {#await queryProjectBlockchain(projectSlug) then blockchain}
       {#if blockchain}
-        <ProjectIcon slug={blockchain} size={16} class="blockchain-8VSuSv" />
+        <ProjectIcon slug={blockchain} size={16} class="$style.blockchain" />
       {/if}
     {/await}
   {/if}
@@ -150,7 +160,7 @@ onDestroy(onMouseLeave);
     height: 16px;
   }
 
-  :global(.error-zWJ35h) {
+  .error {
     fill: var(--red);
   }
 
@@ -166,7 +176,7 @@ onDestroy(onMouseLeave);
     z-index: 11;
   }
 
-  :global(.blockchain-8VSuSv) {
+  .blockchain {
     position: absolute;
     right: -6px;
     top: -6px;

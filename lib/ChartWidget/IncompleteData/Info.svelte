@@ -1,20 +1,24 @@
-<script>import { globals } from './../../stores/globals';
-import { trackUpgrade } from './utils';
-export let upgradeClass = '';
-export let restrictions;
-export let restrictedMetrics;
-export let hideMetric;
-function onUpgradeClick(e) {
+<script lang="ts">
+  import { globals } from './../../stores/globals'
+  import { trackUpgrade } from './utils'
+
+  export let upgradeClass = ''
+  export let restrictions: string[]
+  export let restrictedMetrics: Studio.Metric[]
+  export let hideMetric: (metric: Studio.Metric) => void
+
+  function onUpgradeClick(e) {
     trackUpgrade({
-        e,
-        restrictedMetrics,
-        isLoggedIn: $globals.isLoggedIn,
-        location: 'banner',
-    });
-}
-function hideRestrictedMetrics(restrictedMetrics) {
-    restrictedMetrics.forEach((metric) => hideMetric(metric));
-}
+      e,
+      restrictedMetrics,
+      isLoggedIn: $globals.isLoggedIn,
+      location: 'banner',
+    })
+  }
+
+  function hideRestrictedMetrics(restrictedMetrics: Studio.Metric[]) {
+    restrictedMetrics.forEach((metric) => hideMetric(metric))
+  }
 </script>
 
 Your plan has limited data period for:

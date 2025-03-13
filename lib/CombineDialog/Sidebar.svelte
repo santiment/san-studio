@@ -1,28 +1,39 @@
-<script>import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte';
-import { queryProjectMetrics } from './../api/metrics';
-import { studio } from './../stores/studio';
-import { globals } from './../stores/globals';
-import { getMetricsSelectorGraph } from './../metrics/selector/utils';
-import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils';
-import Search from './../Sidebar/Search.svelte';
-import ProjectSelector from './ProjectSelector.svelte';
-export let onMetricSelect;
-let availableMetrics = [];
-let searchTerm = '';
-let project;
-$: ({ slug } = $studio);
-$: queryProjectMetrics((project === null || project === void 0 ? void 0 : project.slug) || slug).then((data) => (availableMetrics = data.metrics));
-$: graph = getMetricsSelectorGraph(availableMetrics, Object.assign({}, $globals, project || $studio));
-$: items = (searchTerm, getItems(graph));
-const selectorTypeFilter = ({ selectorType }) => selectorType === undefined;
-const itemsFilter = ({ selectorType, label }) => selectorType === undefined && label.toLowerCase().includes(searchTerm);
-function getItems(graph) {
-    const items = Object.values(graph).flat();
-    return items.filter(searchTerm ? itemsFilter : selectorTypeFilter);
-}
-function onSelect(metric) {
-    onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric);
-}
+<script lang="ts">
+  import VirtualList from 'san-webkit/lib/ui/VirtualList/index.svelte'
+  import { queryProjectMetrics } from './../api/metrics'
+  import { studio } from './../stores/studio'
+  import { globals } from './../stores/globals'
+  import { getMetricsSelectorGraph } from './../metrics/selector/utils'
+  import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils'
+  import Search from './../Sidebar/Search.svelte'
+  import ProjectSelector from './ProjectSelector.svelte'
+
+  export let onMetricSelect
+
+  let availableMetrics = [] as any[]
+  let searchTerm = ''
+  let project
+
+  $: ({ slug } = $studio)
+  $: queryProjectMetrics(project?.slug || slug).then((data) => (availableMetrics = data.metrics))
+  $: graph = getMetricsSelectorGraph(
+    availableMetrics,
+    Object.assign({}, $globals, project || $studio),
+  )
+  $: items = (searchTerm, getItems(graph))
+
+  const selectorTypeFilter = ({ selectorType }) => selectorType === undefined
+  const itemsFilter = ({ selectorType, label }) =>
+    selectorType === undefined && label.toLowerCase().includes(searchTerm)
+
+  function getItems(graph) {
+    const items = Object.values(graph).flat()
+    return items.filter(searchTerm ? itemsFilter : selectorTypeFilter)
+  }
+
+  function onSelect(metric) {
+    onMetricSelect(project ? convertBaseProjectMetric(metric, project) : metric)
+  }
 </script>
 
 <div class="sidebar column">

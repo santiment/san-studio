@@ -13,7 +13,7 @@
     align: 'center',
     position: 'top',
     closeTimeout: 0,
-    class: 'caption dark tooltip-A9bASu',
+    class: 'caption dark tooltip-aKhxGg',
   }
 </script>
 
@@ -26,7 +26,7 @@
 </Context>
 
 <style>
-  :global(.tooltip-A9bASu) {
+  :global(.tooltip-aKhxGg) {
     max-width: 310px;
     z-index: 24;
   }

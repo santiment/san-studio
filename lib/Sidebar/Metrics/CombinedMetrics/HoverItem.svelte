@@ -1,31 +1,37 @@
-<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { getHistoryContext } from './../../../history/ctx';
-import HoverItem from './../../../Sidebar/HoverItem.svelte';
-import ItemLabel from './../../../Sidebar/ItemLabel.svelte';
-import { showCombineDialog } from './../../../CombineDialog/index.svelte';
-import Metric from './../../../CombineDialog/Metric.svelte';
-import { getContext } from 'svelte';
-import { updateCombinedMetric } from './../../../CombineDialog/flow';
-const History = getHistoryContext();
-const updateMetrics = getContext('updateCombinedMetrics');
-export let item;
-export let node;
-export let hoverNode;
-let active = false;
-function onEditClick() {
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { getHistoryContext } from './../../../history/ctx'
+  import HoverItem from './../../../Sidebar/HoverItem.svelte'
+  import ItemLabel from './../../../Sidebar/ItemLabel.svelte'
+  import { showCombineDialog } from './../../../CombineDialog/index.svelte'
+  import Metric from './../../../CombineDialog/Metric.svelte'
+  import { getContext } from 'svelte'
+  import { updateCombinedMetric } from './../../../CombineDialog/flow'
+
+  const History = getHistoryContext()
+  const updateMetrics = getContext('updateCombinedMetrics')
+
+  export let item: any
+  export let node: HTMLElement
+  export let hoverNode: HTMLElement
+
+  let active = false
+
+  function onEditClick() {
     showCombineDialog({ metric: item }).then((updatedMetric) => {
-        if (!updatedMetric)
-            return;
-        updateCombinedMetric(item, updatedMetric, {
-            History,
-            onUpdate,
-        });
-    });
-}
-function onUpdate() {
-    updateMetrics(item);
-}
+      if (!updatedMetric) return
+
+      updateCombinedMetric(item, updatedMetric, {
+        History,
+        onUpdate,
+      })
+    })
+  }
+
+  function onUpdate() {
+    updateMetrics(item)
+  }
 </script>
 
 <HoverItem {node} {hoverNode}>

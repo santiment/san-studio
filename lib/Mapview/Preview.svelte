@@ -1,19 +1,24 @@
-<script>import { getWidgets } from './../stores/widgets';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { getSortableDndCtx } from './dnd';
-const sortableDndCtx = getSortableDndCtx();
-const Widgets = getWidgets();
-let className = '';
-export { className as class };
-export let widget;
-export let isBlocked = false;
-export let isMetricsPhase = false;
-let node;
-$: node && sortableDndCtx.addItem(node);
-function onDeleteClick(e) {
-    e.stopImmediatePropagation();
-    widget.delete();
-}
+<script lang="ts">
+  import { getWidgets } from './../stores/widgets'
+
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { getSortableDndCtx } from './dnd'
+  const sortableDndCtx = getSortableDndCtx()
+  const Widgets = getWidgets()
+
+  let className = ''
+  export { className as class }
+  export let widget
+  export let isBlocked = false
+  export let isMetricsPhase = false
+
+  let node
+  $: node && sortableDndCtx.addItem(node)
+
+  function onDeleteClick(e: MouseEvent) {
+    e.stopImmediatePropagation()
+    widget.delete()
+  }
 </script>
 
 <div

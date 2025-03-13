@@ -1,10 +1,13 @@
-<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { studio } from './../stores/studio';
-export let i;
-export let metric;
-export let onLock, onDelete;
-$: ({ ticker } = $studio);
-$: isLocked = !!metric.project;
+<script lang="ts">
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { studio } from './../stores/studio'
+
+  export let i
+  export let metric
+  export let onLock, onDelete
+
+  $: ({ ticker } = $studio)
+  $: isLocked = !!metric.project
 </script>
 
 <div class="border metric row v-center">

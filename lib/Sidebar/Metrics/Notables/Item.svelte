@@ -1,7 +1,9 @@
-<script>import Item from './../../../Sidebar/Item.svelte';
-import HoverItem from '../HoverItem.svelte';
-export let notable;
-export let onItemClick, onItemEnter, onLeave;
+<script lang="ts">
+  import Item from './../../../Sidebar/Item.svelte'
+  import HoverItem from '../HoverItem.svelte'
+
+  export let notable
+  export let onItemClick, onItemEnter, onLeave
 </script>
 
 <Item

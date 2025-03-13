@@ -1,52 +1,62 @@
-<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
-import LayoutInfoDialog from './LayoutInfoDialog.svelte';
-export const showLayoutInfoDialog = (props) => dialogs.show(LayoutInfoDialog, props);
+<script context="module" lang="ts">
+  import { dialogs } from 'san-webkit/lib/ui/Dialog'
+  import LayoutInfoDialog from './LayoutInfoDialog.svelte'
+
+  export const showLayoutInfoDialog = (props: any): Promise<unknown> =>
+    dialogs.show(LayoutInfoDialog, props)
 </script>
 
-<script>import Dialog from 'san-webkit/lib/ui/Dialog';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import Toggle from 'san-webkit/lib/ui/Toggle.svelte';
-import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
-import { selectedLayout } from './../stores/layout';
-import { updateUserLayout } from './../api/layouts/mutate';
-import LayoutInfo from './LayoutInfo.svelte';
-import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte';
-import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte';
-export let layout;
-export let isAuthor = false;
-export let closeLoadDialog;
-let closeDialog;
-function toggleLayoutPublicity() {
-    const isPublic = !layout.isPublic;
-    layout.isPublic = isPublic;
-    updateUserLayout(layout.id, { isPublic });
-}
-function onUseClick() {
-    selectedLayout.set(layout);
-    closeDialog(false);
-}
-function onEditClick() {
+<script lang="ts">
+  import Dialog from 'san-webkit/lib/ui/Dialog'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import Toggle from 'san-webkit/lib/ui/Toggle.svelte'
+  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
+  import { selectedLayout } from './../stores/layout'
+  import { updateUserLayout } from './../api/layouts/mutate'
+  import LayoutInfo from './LayoutInfo.svelte'
+  import { showNewLayoutDialog, Mode } from './NewLayoutDialog.svelte'
+  import { showDeleteLayoutDialog } from './DeleteLayoutDialog.svelte'
+
+  export let layout: SAN.Layout
+  export let isAuthor = false
+  export let closeLoadDialog
+
+  let closeDialog
+
+  function toggleLayoutPublicity() {
+    const isPublic = !layout.isPublic
+    layout.isPublic = isPublic
+    updateUserLayout(layout.id, { isPublic })
+  }
+
+  function onUseClick() {
+    selectedLayout.set(layout)
+    closeDialog(false)
+  }
+
+  function onEditClick() {
     showNewLayoutDialog({
-        layout,
-        title: 'Edit Chart Layout',
-        mode: Mode.Edit,
-    });
-}
-function onDeleteClick() {
-    showDeleteLayoutDialog({ layout }).then((wasDeleted) => wasDeleted && closeDialog());
-}
+      layout,
+      title: 'Edit Chart Layout',
+      mode: Mode.Edit,
+    })
+  }
+
+  function onDeleteClick() {
+    showDeleteLayoutDialog({ layout }).then((wasDeleted) => wasDeleted && closeDialog())
+  }
 </script>
 
 <Dialog
   {...$$props}
   noBg
   animated={false}
-  class="dialog-T+1oyb"
+  class="$style.dialog"
   onBeforeDialogClose={() => setTimeout(closeLoadDialog)}
   bind:closeDialog
 >
   <div class="title btn" slot="title" on:click={() => closeDialog(true)}>
-    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r arrow-47e+AM" />
+    <Svg id="arrow" w="14" h="8" class="mrg-l mrg--r $style.arrow" />
     {layout.title}
   </div>
 
@@ -76,12 +86,12 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-T\+1oyb) {
+  .dialog {
     width: 600px;
     height: 480px;
   }
 
-  :global(.arrow-47e\+AM) {
+  .arrow {
     transform: rotate(-90deg);
   }
 

@@ -1,68 +1,87 @@
-<script>import { track } from 'san-webkit/lib/analytics';
-import { withScroll } from 'san-webkit/lib/ui/history';
-import Search from 'san-webkit/lib/ui/Search.svelte';
-import { Event } from './../../../analytics';
-import { getHistoryContext } from './../../../history/ctx';
-import { getWidget } from './../../../ChartWidget/context';
-import { debounced } from './../../../ChartWidget/utils';
-import { queryAvailableVaults } from './api';
-import Dropdown from '../Dropdown.svelte';
-import { onMount } from 'svelte';
-import { capitalize } from 'san-webkit/lib/utils/formatting';
-const History = getHistoryContext();
-const widget = getWidget();
-const { MetricSettings } = widget;
-export let metric;
-let loading = true;
-let searchTerm = '';
-$: items = [];
-$: metricSettings = $MetricSettings[metric.key];
-$: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.label_fqn) || '';
-$: searchedItems = searchTerm ? filter(items) : items;
-const loadVaults = debounced(() => {
-    loading = true;
+<script lang="ts">
+  import { track } from 'san-webkit/lib/analytics'
+  import { withScroll } from 'san-webkit/lib/ui/history'
+  import Search from 'san-webkit/lib/ui/Search.svelte'
+  import { Event } from './../../../analytics'
+  import { getHistoryContext } from './../../../history/ctx'
+  import { getWidget } from './../../../ChartWidget/context'
+  import { debounced } from './../../../ChartWidget/utils'
+  import { queryAvailableVaults } from './api'
+  import Dropdown from '../Dropdown.svelte'
+  import { onMount } from 'svelte'
+  import { capitalize } from 'san-webkit/lib/utils/formatting'
+
+  const History = getHistoryContext()
+  const widget = getWidget()
+  const { MetricSettings } = widget
+
+  export let metric: Studio.Metric
+
+  let loading = true
+  let searchTerm = ''
+
+  $: items = []
+  $: metricSettings = $MetricSettings[metric.key]
+  $: metricOwner = metricSettings?.label_fqn || ''
+  $: searchedItems = searchTerm ? filter(items) : items
+
+  const loadVaults = debounced(() => {
+    loading = true
+
     queryAvailableVaults().then((data) => {
-        loading = false;
-        items = data;
-    });
-});
-function onChange(newOwner) {
+      loading = false
+      items = data
+    })
+  })
+
+  function onChange(newOwner) {
     // prettier-ignore
-    track.event(Event.MetricVault, { metric: metric.key, vault: newOwner });
-    const oldOwner = metricOwner;
-    const redo = () => setExchange(metric, newOwner);
-    redo();
-    History.add('Vault change', withScroll(widget, () => setExchange(metric, oldOwner)), withScroll(widget, redo));
-}
-function setExchange(metric, newVault) {
-    const { key, queryKey = key } = metric;
+    track.event(Event.MetricVault, { metric: metric.key, vault: newOwner })
+    const oldOwner = metricOwner
+    const redo = () => setExchange(metric, newOwner)
+
+    redo()
+    History.add(
+      'Vault change',
+      withScroll(widget, () => setExchange(metric, oldOwner)),
+      withScroll(widget, redo),
+    )
+  }
+
+  function setExchange(metric, newVault: string) {
+    const { key, queryKey = key } = metric
+
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
     MetricSettings.set(key, {
-        // queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
-        label_fqn: newVault,
-    });
-}
-function onSearch(e) {
-    const inputNode = e.currentTarget;
-    searchTerm = inputNode.value.trim().toLowerCase();
-}
-function filter(items) {
-    return items.filter((item) => item.toLowerCase().includes(searchTerm));
-}
-function getLabel(labelFqn) {
-    return capitalize(labelFqn.split('->')[1] || '');
-}
-onMount(() => {
-    loadVaults();
-});
+      // queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
+      label_fqn: newVault,
+    })
+  }
+
+  function onSearch(e: InputEvent) {
+    const inputNode = e.currentTarget as HTMLInputElement
+    searchTerm = inputNode.value.trim().toLowerCase()
+  }
+
+  function filter(items) {
+    return items.filter((item) => item.toLowerCase().includes(searchTerm))
+  }
+
+  function getLabel(labelFqn: string) {
+    return capitalize(labelFqn.split('->')[1] || '')
+  }
+
+  onMount(() => {
+    loadVaults()
+  })
 </script>
 
-<Dropdown class="dropdown-oqdWcv">
+<Dropdown class="$style.dropdown">
   Vault: {getLabel(metricOwner)}
 
   <svelte:fragment slot="dropdown">
     <Search
-      class="search-N2Rj3h mrg-s mrg--b"
+      class="$style.search mrg-s mrg--b"
       autofocus
       placeholder="Type to search"
       on:input={onSearch}
@@ -114,11 +133,11 @@ onMount(() => {
     min-width: 165px;
   }
 
-  :global(.search-N2Rj3h) {
+  .search {
     max-width: 170px;
   }
 
-  :global(.dropdown-oqdWcv) {
+  .dropdown {
     --max-height: 230px;
   }
 </style>

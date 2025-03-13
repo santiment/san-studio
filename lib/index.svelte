@@ -1,59 +1,63 @@
-<script>import { onDestroy } from 'svelte';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import { newHistoryContext, newHistoryEmitter } from 'san-webkit/lib/ui/history';
-import { newAppTooltipsCtx, getAppTooltipsCtx } from 'san-webkit/lib/ui/Tooltip/ctx';
-import HistoryAction from './history/Action.svelte';
-import MasterAsset from './MasterAsset/index.svelte';
-import Header from './Header/index.svelte';
-import Widget, { newWidgetViewportObserver } from './Widget/index.svelte';
-import Sidebar from './Sidebar/index.svelte';
-import Mapview from './Mapview/index.svelte';
-import SidewidgetComponent from './Sidewidget/index.svelte';
-import { newTooltipSynchronizer } from './Chart/Tooltip/context';
-import { studio, newLockedAssetStore } from './stores/studio';
-import { initWidgets, initSidewidget } from './stores/widgets';
-import { newAutoUpdaterStore } from './stores/autoUpdater';
-import { widgetsListener } from './stores/widgetsListener';
-import { setAdapterController } from './adapter/context';
-import ChartTooltipContexts from './ChartWidget/TooltipContexts.svelte';
-let className = '';
-export { className as class };
-export let widgets;
-export let sidewidget;
-export let defaultSettings = undefined;
-export let screen = undefined;
-export let onWidget = undefined;
-export let onWidgetInit = undefined;
-export let onSubwidget = undefined;
-export let onChartPointClick = undefined;
-export let onAnonFavoriteClick = undefined;
-export let onModRangeSelect = undefined;
-export let onScreenMount = (screen) => { };
-export let getExternalWidget = undefined;
-export let adjustSelectedMetric = undefined;
-export let checkIsMapviewDisabled = undefined;
-export let parseLayoutWidgets = undefined;
-export let shareLayoutWidgets = undefined;
-export let InsightsContextStore = undefined;
-export let onSidebarProjectMount = undefined;
-export let headerPadding = 65;
-export let HistoryEmitter = newHistoryEmitter();
-export let History = newHistoryContext(HistoryEmitter.set);
-export let title = '';
-export let description = '';
-export let projectName = '';
-export let metricsList = '';
-if (defaultSettings)
-    studio.setProject(defaultSettings);
-const Widgets = initWidgets(widgets, getExternalWidget, History);
-const Sidewidget = initSidewidget(sidewidget);
-const onScreen = () => onScreenMount && onScreenMount(screen);
-window.showLoginPrompt = onAnonFavoriteClick || (() => { });
-window.shareLayoutWidgets = shareLayoutWidgets || (() => []);
-window.parseLayoutWidgets = parseLayoutWidgets || (() => []);
-if (!getAppTooltipsCtx())
-    newAppTooltipsCtx();
-setAdapterController({
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { newHistoryContext, newHistoryEmitter } from 'san-webkit/lib/ui/history'
+  import { newAppTooltipsCtx, getAppTooltipsCtx } from 'san-webkit/lib/ui/Tooltip/ctx'
+  import HistoryAction from './history/Action.svelte'
+  import MasterAsset from './MasterAsset/index.svelte'
+  import Header from './Header/index.svelte'
+  import Widget, { newWidgetViewportObserver } from './Widget/index.svelte'
+  import Sidebar from './Sidebar/index.svelte'
+  import Mapview from './Mapview/index.svelte'
+  import SidewidgetComponent from './Sidewidget/index.svelte'
+  import { newTooltipSynchronizer } from './Chart/Tooltip/context'
+  import { studio, newLockedAssetStore } from './stores/studio'
+  import { initWidgets, initSidewidget } from './stores/widgets'
+  import { newAutoUpdaterStore } from './stores/autoUpdater'
+  import { widgetsListener } from './stores/widgetsListener'
+  import { setAdapterController } from './adapter/context'
+  import ChartTooltipContexts from './ChartWidget/TooltipContexts.svelte'
+
+  let className = ''
+  export { className as class }
+  export let widgets
+  export let sidewidget
+  export let defaultSettings = undefined
+  export let screen = undefined
+  export let onWidget = undefined
+  export let onWidgetInit = undefined
+  export let onSubwidget: any = undefined
+  export let onChartPointClick = undefined
+  export let onAnonFavoriteClick: any = undefined
+  export let onModRangeSelect = undefined
+  export let onScreenMount = (screen: any) => {}
+  export let getExternalWidget = undefined
+  export let adjustSelectedMetric = undefined
+  export let checkIsMapviewDisabled = undefined
+  export let parseLayoutWidgets: any = undefined
+  export let shareLayoutWidgets = undefined
+  export let InsightsContextStore: any = undefined
+  export let onSidebarProjectMount = undefined
+  export let headerPadding = 65
+  export let HistoryEmitter = newHistoryEmitter()
+  export let History = newHistoryContext(HistoryEmitter.set)
+  export let title = ''
+  export let description = ''
+  export let projectName = ''
+  export let metricsList = ''
+
+  if (defaultSettings) studio.setProject(defaultSettings)
+  const Widgets = initWidgets(widgets, getExternalWidget, History)
+  const Sidewidget = initSidewidget(sidewidget)
+  const onScreen = () => onScreenMount && onScreenMount(screen)
+
+  window.showLoginPrompt = onAnonFavoriteClick || (() => {})
+  window.shareLayoutWidgets = shareLayoutWidgets || (() => [])
+  window.parseLayoutWidgets = parseLayoutWidgets || (() => [])
+
+  if (!getAppTooltipsCtx()) newAppTooltipsCtx()
+
+  setAdapterController({
     onSubwidget,
     onWidget,
     onWidgetInit,
@@ -64,23 +68,28 @@ setAdapterController({
     checkIsMapviewDisabled,
     InsightsContextStore,
     adjustSelectedMetric,
-});
-newTooltipSynchronizer();
-newLockedAssetStore();
-const AutoUpdater = newAutoUpdaterStore(Widgets);
-let screenRef;
-$: screenRef && onScreen();
-$: AutoUpdater.check($studio);
-function onWidgetUpdate() {
-    widgetsListener.update();
-}
-const widgetViewportObserver = newWidgetViewportObserver();
-onDestroy(() => {
-    window.showLoginPrompt = undefined;
-    window.shareLayoutWidgets = undefined;
+  })
+  newTooltipSynchronizer()
+  newLockedAssetStore()
+
+  const AutoUpdater = newAutoUpdaterStore(Widgets)
+
+  let screenRef
+  $: screenRef && onScreen()
+  $: AutoUpdater.check($studio)
+
+  function onWidgetUpdate() {
+    widgetsListener.update()
+  }
+
+  const widgetViewportObserver = newWidgetViewportObserver()
+
+  onDestroy(() => {
+    window.showLoginPrompt = undefined
+    window.shareLayoutWidgets = undefined
     // @ts-ignore
-    window.parseLayoutWidgets = undefined;
-});
+    window.parseLayoutWidgets = undefined
+  })
 </script>
 
 <slot />

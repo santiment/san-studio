@@ -1,30 +1,34 @@
-<script>import { newHistoryContext } from 'san-webkit/lib/ui/history';
-import { ONE_MINUTE_IN_MS } from 'san-webkit/lib/utils/dates';
-import Svg from 'san-webkit/lib/ui/Svg/svelte';
-import 'san-webkit/lib/ui/Calendar';
-import { studio } from './../stores/studio';
-import { setAdapterController } from './../adapter/context';
-import { newAutoUpdaterStore } from './../stores/autoUpdater';
-import ChartWidget from './../ChartWidget/index.svelte';
-import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte';
-import { AdaptiveLayoutMessage, getViewOnSantimentLink } from './utils';
-import sanSvg from './san.svg';
-import Calendar from './../Header/Calendar.svelte';
-import { DatesMessage, AssetMessage, ThemeMessage } from './utils';
-import { globals } from './../stores/globals';
-import { minimized$ } from './store';
-let className = '';
-export { className as class };
-export let widget = {};
-export let isWithMetricSettings = false;
-export let sharedAccessToken;
-export let isCalendarEnabled = false;
-export let isMinimapEmbedded = false;
-const UTMs = `&utm_source=embedded_chart&utm_content=view_on_santiment`;
-const queryString = getViewOnSantimentLink($studio, widget);
-const AutoUpdater = newAutoUpdaterStore([widget]);
-newHistoryContext({ add: () => { } });
-setAdapterController({
+<script lang="ts">
+  import { newHistoryContext } from 'san-webkit/lib/ui/history'
+  import { ONE_MINUTE_IN_MS } from 'san-webkit/lib/utils/dates'
+  import Svg from 'san-webkit/lib/ui/Svg/svelte'
+  import { InputCalendar as PresetCalendar } from 'san-webkit/lib/ui/Calendar'
+  import { studio } from './../stores/studio'
+  import { setAdapterController } from './../adapter/context'
+  import { newAutoUpdaterStore } from './../stores/autoUpdater'
+  import ChartWidget from './../ChartWidget/index.svelte'
+  import MetricErrorTooltipCtx from './../ChartWidget/Metrics/ErrorTooltipCtx.svelte'
+  import { AdaptiveLayoutMessage, getViewOnSantimentLink } from './utils'
+  import sanSvg from './san.svg'
+  import Calendar from './../Header/Calendar.svelte'
+  import { DatesMessage, AssetMessage, ThemeMessage } from './utils'
+  import { globals } from './../stores/globals'
+  import { minimized$ } from './store'
+
+  let className = ''
+  export { className as class }
+  export let widget = {}
+  export let isWithMetricSettings = false
+  export let sharedAccessToken: string | undefined
+
+  export let isCalendarEnabled = false
+  export let isMinimapEmbedded = false
+
+  const UTMs = `&utm_source=embedded_chart&utm_content=view_on_santiment`
+  const queryString = getViewOnSantimentLink($studio, widget)
+  const AutoUpdater = newAutoUpdaterStore([widget])
+  newHistoryContext({ add: () => {} })
+  setAdapterController({
     sharedAccessToken,
     isWithMetricSettings,
     noWidgetControls: true,
@@ -32,50 +36,61 @@ setAdapterController({
     isMinimapEmbedded,
     isCalendarEnabled,
     isEmbedded: true,
-});
-let interval;
-$: ({ lastUpdate } = $AutoUpdater);
-// @ts-ignore
-$: updated = (lastUpdate, startInterval());
-$: ({ from, to } = $studio);
-function startInterval() {
-    window.clearInterval(interval);
+  })
+
+  let interval
+
+  $: ({ lastUpdate } = $AutoUpdater)
+  // @ts-ignore
+  $: updated = (lastUpdate, startInterval())
+  $: ({ from, to } = $studio)
+
+  function startInterval() {
+    window.clearInterval(interval)
+
     interval = window.setInterval(() => {
-        const diff = Date.now() - lastUpdate;
-        updated = Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
-    }, 60000);
-    return 'less than a minute';
-}
-function onDateSelect(from, to) {
-    DatesMessage.send({ from: from.toISOString(), to: to.toISOString() });
-}
-DatesMessage.listen(({ from, to }) => {
-    studio.setPeriod(new Date(from), new Date(to));
-});
-AssetMessage.listen((asset) => {
-    studio.setProject(asset);
-});
-ThemeMessage.listen((theme) => {
-    globals.toggle('isNightMode', theme.dark);
-    document.body.classList.toggle('night-mode', theme.dark);
-});
-AdaptiveLayoutMessage.listen((settings) => {
+      const diff = Date.now() - lastUpdate
+      updated = Math.floor(diff / ONE_MINUTE_IN_MS) + 'm'
+    }, 60000)
+
+    return 'less than a minute'
+  }
+
+  function onDateSelect(from: Date, to: Date) {
+    DatesMessage.send({ from: from.toISOString(), to: to.toISOString() })
+  }
+
+  DatesMessage.listen(({ from, to }) => {
+    studio.setPeriod(new Date(from), new Date(to))
+  })
+
+  AssetMessage.listen((asset) => {
+    studio.setProject(asset)
+  })
+
+  ThemeMessage.listen((theme) => {
+    globals.toggle('isNightMode', theme.dark)
+    document.body.classList.toggle('night-mode', theme.dark)
+  })
+
+  AdaptiveLayoutMessage.listen((settings) => {
     minimized$.update((state) => {
-        var _a, _b;
-        const value = Object.assign({}, state);
-        value.minimized = (_a = settings.minimized) !== null && _a !== void 0 ? _a : value.minimized;
-        value.controls = (_b = settings.controls) !== null && _b !== void 0 ? _b : value.controls;
-        return value;
-    });
-});
+      const value = { ...state }
+
+      value.minimized = settings.minimized ?? value.minimized
+      value.controls = settings.controls ?? value.controls
+
+      return value
+    })
+  })
 </script>
 
 <div class="column {className}">
   {#key $minimized$}
     <MetricErrorTooltipCtx>
-      <ChartWidget {widget} class="widget-nzg3k0">
+      <ChartWidget {widget} class="$style.widget">
         {#if isCalendarEnabled}
-          <Calendar class="s-a0o7a7" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+          <Calendar dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
         {/if}
 
         {#if sharedAccessToken}
@@ -112,7 +127,7 @@ AdaptiveLayoutMessage.listen((settings) => {
       >
         {$minimized$.minimized ? 'Expand' : 'Minimize'}
 
-        <Svg class="arrow-Fx3IJF" id="arrow" w="7" />
+        <Svg class="$style.arrow" id="arrow" w="7" />
       </button>
     {/if}
 
@@ -150,11 +165,11 @@ AdaptiveLayoutMessage.listen((settings) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-nzg3k0) {
+  .widget {
     height: 0 !important;
   }
 
-  :global(.s-a0o7a7) {
+  Calendar {
     margin-top: -4px;
   }
 
@@ -162,7 +177,7 @@ AdaptiveLayoutMessage.listen((settings) => {
     margin-top: 2px;
   }
 
-  :global(.arrow-Fx3IJF) {
+  .arrow {
     transform: rotate(var(--rotated, 180deg));
   }
 

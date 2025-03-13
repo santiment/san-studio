@@ -1,100 +1,127 @@
-<script>import { getTodaysEnd } from 'san-webkit/lib/utils/dates';
-import { studio } from './../stores/studio';
-import { FORMATTER } from './../metrics/formatters';
-import { getDefaultTooltipSettings } from './../Chart/utils';
-import { themes } from './../Chart/theme';
-import Addons from './Addons/index.svelte';
-import Chart from './../Chart/index.svelte';
-import Candles from './../Chart/Candles.svelte';
-import Lines from './../Chart/Lines.svelte';
-import Areas from './../Chart/Areas.svelte';
-import Bars from './../Chart/Bars.svelte';
-import GreenRedBars from './../Chart/GreenRedBars.svelte';
-import CartesianGrid from './../Chart/CartesianGrid.svelte';
-import Tooltip from './../Chart/Tooltip/index.svelte';
-import Axes from './../Chart/Axes/index.svelte';
-import { getResponsiveAxesKeys, getXTicksByWidth } from './../Chart/Axes/utils';
-import Brush from './../Chart/Brush/index.svelte';
-import Drawer from './../Chart/Drawer/index.svelte';
-import Watermark from './../Chart/Watermark.svelte';
-import ReferenceDots from './../Chart/ReferenceDots.svelte';
-import TrendingDots from './../Chart/TrendingDots.svelte';
-import { globals } from './../stores/globals';
-import { getAdapterController } from './../adapter/context';
-import { newDomainModifier } from './domain';
-import { getWidget } from './context';
-import { Node } from './../Chart/nodes';
-const widget = getWidget();
-const { isEmbedded, onChartPointClick, onModRangeSelect = () => { } } = getAdapterController();
-const { ChartAxes, ChartOptions, ChartAddons } = widget;
-const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget;
-export let metrics;
-export let data = [];
-export let allTimeData;
-export let colors;
-export let categories;
-export let domainGroups;
-export let from, to;
-export let isFullscreened;
-export let onChart, changeStudioPeriod;
-let chartWidth;
-const getKey = ({ key }) => key;
-$: trendingReferences = metrics.filter((metric) => metric.node === Node.REFERENCE);
-$: ({ ticker } = $studio);
-$: references = $SignalsTimeseries;
-$: axesMetricKeys = Array.from($ChartAxes).map(getKey);
-$: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays);
-$: theme = themes[+$globals.isNightMode];
-$: domainModifier = newDomainModifier(metrics, $MetricSettings, widget);
-$: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key);
-const labelGetter = (ticker, { base, label }) => base ? label : label + ` (${ticker})`;
-function getTooltipSettings(metrics, references, ticker, MetricDisplays) {
-    const metricSettings = getDefaultTooltipSettings();
+<script lang="ts">
+  import { getTodaysEnd } from 'san-webkit/lib/utils/dates'
+  import { studio } from './../stores/studio'
+  import { FORMATTER } from './../metrics/formatters'
+  import { getDefaultTooltipSettings } from './../Chart/utils'
+  import { themes } from './../Chart/theme'
+  import Addons from './Addons/index.svelte'
+  import Chart from './../Chart/index.svelte'
+  import Candles from './../Chart/Candles.svelte'
+  import Lines from './../Chart/Lines.svelte'
+  import Areas from './../Chart/Areas.svelte'
+  import Bars from './../Chart/Bars.svelte'
+  import GreenRedBars from './../Chart/GreenRedBars.svelte'
+  import CartesianGrid from './../Chart/CartesianGrid.svelte'
+  import Tooltip from './../Chart/Tooltip/index.svelte'
+  import Axes from './../Chart/Axes/index.svelte'
+  import { getResponsiveAxesKeys, getXTicksByWidth } from './../Chart/Axes/utils'
+  import Brush from './../Chart/Brush/index.svelte'
+  import Drawer from './../Chart/Drawer/index.svelte'
+  import Watermark from './../Chart/Watermark.svelte'
+  import ReferenceDots from './../Chart/ReferenceDots.svelte'
+  import TrendingDots from './../Chart/TrendingDots.svelte'
+  import { globals } from './../stores/globals'
+  import { getAdapterController } from './../adapter/context'
+  import { newDomainModifier } from './domain'
+  import { getWidget } from './context'
+  import { Node } from './../Chart/nodes'
+
+  const widget = getWidget()
+  const { isEmbedded, onChartPointClick, onModRangeSelect = () => {} } = getAdapterController()
+
+  const { ChartAxes, ChartOptions, ChartAddons } = widget
+  const { MetricSettings, ChartMetricDisplays, SignalsTimeseries } = widget
+
+  export let metrics: Studio.Metric[]
+  export let data = []
+  export let allTimeData
+  export let colors
+  export let categories
+  export let domainGroups
+  export let from, to
+  export let isFullscreened: boolean
+  export let onChart, changeStudioPeriod
+
+  let chartWidth
+
+  const getKey = ({ key }) => key
+
+  $: trendingReferences = metrics.filter((metric) => metric.node === Node.REFERENCE)
+  $: ({ ticker } = $studio)
+  $: references = $SignalsTimeseries
+  $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
+  $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays)
+  $: theme = themes[+$globals.isNightMode]
+  $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
+  $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
+
+  const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
+    base ? label : label + ` (${ticker})`
+  function getTooltipSettings(
+    metrics: Studio.Metric[],
+    references: any[],
+    ticker: string,
+    MetricDisplays,
+  ) {
+    const metricSettings = getDefaultTooltipSettings()
     metrics.forEach((metric) => {
-        var _a, _b;
-        const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric;
-        const metricLabel = (_b = (_a = metric.tooltipLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker, metric)) !== null && _b !== void 0 ? _b : (getLabel || labelGetter)(ticker, metric);
-        metricSettings[key] = Object.assign({
-            label: metricLabel,
-            formatter,
-            axisFormatter,
-            marker,
-        }, MetricDisplays[key]);
-    });
+      const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric
+      const metricLabel =
+        metric.tooltipLabel?.(ticker, metric) ?? (getLabel || labelGetter)(ticker, metric)
+
+      metricSettings[key] = Object.assign(
+        {
+          label: metricLabel,
+          formatter,
+          axisFormatter,
+          marker,
+        },
+        MetricDisplays[key],
+      )
+    })
+
     references.forEach(({ key, label, formatter }) => {
-        metricSettings[key] = {
-            label,
-            formatter,
-        };
-    });
-    return metricSettings;
-}
-function onBrushChange(startIndex, endIndex) {
-    const start = allTimeData[startIndex];
-    const end = allTimeData[endIndex];
+      metricSettings[key] = {
+        label,
+        formatter,
+      }
+    })
+
+    return metricSettings
+  }
+
+  function onBrushChange(startIndex: number, endIndex: number) {
+    const start = allTimeData[startIndex]
+    const end = allTimeData[endIndex]
     if (start && end) {
-        changeStudioPeriod(start.datetime, endIndex === allTimeData.length - 1 ? getTodaysEnd() : end.datetime);
+      changeStudioPeriod(
+        start.datetime,
+        endIndex === allTimeData.length - 1 ? getTodaysEnd() : end.datetime,
+      )
     }
-}
-function onPointClick(point, e) {
-    if (onChartPointClick)
-        onChartPointClick(point, e);
-}
-const RANGE_SELECT_SENSITIVITY = 7;
-function onRangeSelect(start, end, e) {
+  }
+
+  function onPointClick(point, e: MouseEvent) {
+    if (onChartPointClick) onChartPointClick(point, e)
+  }
+
+  const RANGE_SELECT_SENSITIVITY = 7
+  function onRangeSelect(start, end, e: MouseEvent) {
     if (start && end) {
-        const shouldSwap = start.value > end.value;
-        let _start = shouldSwap ? end : start;
-        let _end = shouldSwap ? start : end;
-        const { ctrlKey, metaKey, shiftKey } = e;
-        if (ctrlKey || metaKey || shiftKey) {
-            return onModRangeSelect(_start, _end, e);
-        }
-        if (Math.abs(_start.x - _end.x) < RANGE_SELECT_SENSITIVITY)
-            return;
-        changeStudioPeriod(_start.value, _end.value);
+      const shouldSwap = start.value > end.value
+      let _start = shouldSwap ? end : start
+      let _end = shouldSwap ? start : end
+
+      const { ctrlKey, metaKey, shiftKey } = e
+      if (ctrlKey || metaKey || shiftKey) {
+        return onModRangeSelect(_start, _end, e)
+      }
+
+      if (Math.abs(_start.x - _end.x) < RANGE_SELECT_SENSITIVITY) return
+
+      changeStudioPeriod(_start.value, _end.value)
     }
-}
+  }
 </script>
 
 <Chart
