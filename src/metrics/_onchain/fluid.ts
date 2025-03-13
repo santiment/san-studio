@@ -39,6 +39,16 @@ export const FluidMetric = each(
       formatter: usdFormatter,
       node: 'bar',
     },
+    fluid_total_supplied: {
+      label: 'Fluid Total Supplied',
+    },
+    fluid_total_supplied_usd: {
+      label: 'Fluid Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    fluid_supply_apy: {
+      label: 'Fluid Supply APY',
+    },
 
     fluid_total_deposits_usd: {
       label: 'Fluid Protocol Total Deposits in USD',
@@ -59,6 +69,10 @@ export const FluidMetric = each(
       label: 'Fluid Protocol Total Repayments in USD',
       formatter: usdFormatter,
       node: 'bar',
+    },
+    fluid_protocol_total_supplied_usd: {
+      label: 'Fluid Protocol Total Supplied in USD',
+      formatter: usdFormatter,
     },
     fluid_active_addresses: {
       label: 'Fluid Protocol Active Addresses',
