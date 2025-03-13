@@ -48,6 +48,13 @@ const RSIMetric = each(
   () => {},
 )
 
+const BTCSnPPriceDivergenceMetric = each(
+  {
+    btc_s_and_p_price_divergence: { label: 'BTC and S&P 500 Price Divergence' },
+  },
+  () => {},
+)
+
 export const FinancialMetric = each(
   {
     price_usd: {
@@ -81,6 +88,7 @@ export const FinancialMetric = each(
     },
     ...PriceVolatilityMetric,
     ...RSIMetric,
+    ...BTCSnPPriceDivergenceMetric,
     ...NFTPrices,
   },
   (metric: Studio.Metric) => {
