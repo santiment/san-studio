@@ -1,83 +1,68 @@
-<script context="module" lang="ts">
-  import { dialogs } from 'san-webkit/lib/ui/Dialog'
-  import FullscreenDialog from './index.svelte'
-
-  export const showCombineDialog = (props): Promise<unknown> =>
-    dialogs.show(FullscreenDialog, props)
+<script context="module">import { dialogs } from 'san-webkit/lib/ui/Dialog';
+import FullscreenDialog from './index.svelte';
+export const showCombineDialog = (props) => dialogs.show(FullscreenDialog, props);
 </script>
 
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import Dialog from 'san-webkit/lib/ui/Dialog'
-  import { DialogLock } from 'san-webkit/lib/ui/Dialog/dialogs'
-  import { Event } from './../analytics'
-  import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils'
-  import Chart from './Chart.svelte'
-  import Metric from './Metric.svelte'
-  import { importMath, newExpessionMetric, checkIsExpressionValid } from './utils'
-  import Sidebar from './Sidebar.svelte'
-
-  // TODO: Show dialog on load [@vanguard | Aug 18, 2021]
-  importMath()
-
-  export let DialogPromise: SAN.DialogController
-  export let metric
-  export let metrics = metric && metric.baseMetrics.slice()
-
-  let label = metric ? metric.label : ''
-  let expression = metric ? metric.expression : 'x1 + x2'
-  let isValidExpression = true
-  let isLabelInputDirty = false
-  let isExpressionDirty = false
-  let closeDialog
-
-  $: checkExpression(metrics, expression)
-  $: expressionMetric = metrics.length ? newExpessionMetric(metrics, expression, label) : undefined
-  $: isValid = isValidExpression && label
-  $: colors = expressionMetric && { [expressionMetric.key]: '#14c393' }
-  $: chartMetrics = expressionMetric ? [expressionMetric] : []
-  $: if (isLabelInputDirty || isExpressionDirty) {
-    DialogPromise.locking = DialogLock.WARN
-  }
-
-  let checkExpressionTimer
-  function checkExpression(metrics, expression) {
-    clearTimeout(checkExpressionTimer)
+<script>import { track } from 'san-webkit/lib/analytics';
+import Dialog from 'san-webkit/lib/ui/Dialog';
+import { DialogLock } from 'san-webkit/lib/ui/Dialog/dialogs';
+import { Event } from './../analytics';
+import { convertBaseProjectMetric } from './../ChartWidget/Metrics/utils';
+import Chart from './Chart.svelte';
+import Metric from './Metric.svelte';
+import { importMath, newExpessionMetric, checkIsExpressionValid } from './utils';
+import Sidebar from './Sidebar.svelte';
+// TODO: Show dialog on load [@vanguard | Aug 18, 2021]
+importMath();
+export let DialogPromise;
+export let metric;
+export let metrics = metric && metric.baseMetrics.slice();
+let label = metric ? metric.label : '';
+let expression = metric ? metric.expression : 'x1 + x2';
+let isValidExpression = true;
+let isLabelInputDirty = false;
+let isExpressionDirty = false;
+let closeDialog;
+$: checkExpression(metrics, expression);
+$: expressionMetric = metrics.length ? newExpessionMetric(metrics, expression, label) : undefined;
+$: isValid = isValidExpression && label;
+$: colors = expressionMetric && { [expressionMetric.key]: '#14c393' };
+$: chartMetrics = expressionMetric ? [expressionMetric] : [];
+$: if (isLabelInputDirty || isExpressionDirty) {
+    DialogPromise.locking = DialogLock.WARN;
+}
+let checkExpressionTimer;
+function checkExpression(metrics, expression) {
+    clearTimeout(checkExpressionTimer);
     checkExpressionTimer = setTimeout(() => {
-      isValidExpression = checkIsExpressionValid(metrics, expression)
-    }, 150)
-  }
-
-  function onCombineClick() {
-    DialogPromise.resolve(expressionMetric)
-    closeDialog()
-
+        isValidExpression = checkIsExpressionValid(metrics, expression);
+    }, 150);
+}
+function onCombineClick() {
+    DialogPromise.resolve(expressionMetric);
+    closeDialog();
     track.event(Event.CombineMetrics, {
-      metrics: metrics.map(({ key }) => key) as any,
-    })
-  }
-
-  function onMetricDelete(i: number) {
-    metrics.splice(i, 1)
-    metrics = metrics.slice()
-  }
-
-  function onMetricSelect(metric: Studio.Metric) {
-    metrics = metrics.concat(metric)
-  }
-
-  function onMetricLock(metric: Studio.Metric, i: number, project) {
-    metrics[i] = convertBaseProjectMetric(metric, Object.assign({}, project))
-  }
-
-  track.event(Event.CombineOpened)
+        metrics: metrics.map(({ key }) => key),
+    });
+}
+function onMetricDelete(i) {
+    metrics.splice(i, 1);
+    metrics = metrics.slice();
+}
+function onMetricSelect(metric) {
+    metrics = metrics.concat(metric);
+}
+function onMetricLock(metric, i, project) {
+    metrics[i] = convertBaseProjectMetric(metric, Object.assign({}, project));
+}
+track.event(Event.CombineOpened);
 </script>
 
 <Dialog
   {...$$props}
   bind:closeDialog
   title={metric ? 'Edit combined metric' : 'Combine metrics'}
-  class="$style.dialog"
+  class="dialog-sZtYmF"
 >
   <div class="dialog-content row">
     <Sidebar {metrics} {onMetricSelect} />
@@ -129,16 +114,16 @@
 </Dialog>
 
 <style>
-  .dialog {
+  :global(.dialog-sZtYmF) {
     width: 900px;
     position: relative;
   }
 
-  .dialog-content {
+  :global(.dialog-content) {
     overflow: auto;
   }
 
-  .dialog-body {
+  :global(.dialog-body) {
     flex: 1;
   }
 

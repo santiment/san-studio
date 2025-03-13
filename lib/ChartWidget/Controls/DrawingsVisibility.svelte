@@ -1,23 +1,18 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { Event } from './../../analytics'
-  import { recordDrawingVisibility } from './../../history/drawings'
-  import { getHistoryContext } from './../../history/ctx'
-
-  const History = getHistoryContext()
-
-  export let widget
-  export let ChartDrawer
-
-  $: isActive = $ChartDrawer.isHidden
-
-  function onClick() {
-    const newValue = !isActive
-    ChartDrawer.toggleVisibility(newValue)
-    recordDrawingVisibility(History, widget, newValue)
-    track.event(Event.DrawingsVisibility, { value: isActive })
-  }
+<script>import { track } from 'san-webkit/lib/analytics';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { Event } from './../../analytics';
+import { recordDrawingVisibility } from './../../history/drawings';
+import { getHistoryContext } from './../../history/ctx';
+const History = getHistoryContext();
+export let widget;
+export let ChartDrawer;
+$: isActive = $ChartDrawer.isHidden;
+function onClick() {
+    const newValue = !isActive;
+    ChartDrawer.toggleVisibility(newValue);
+    recordDrawingVisibility(History, widget, newValue);
+    track.event(Event.DrawingsVisibility, { value: isActive });
+}
 </script>
 
 <div

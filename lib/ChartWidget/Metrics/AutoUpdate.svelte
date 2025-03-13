@@ -1,60 +1,49 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import { ONE_SECOND_IN_MS, ONE_MINUTE_IN_MS, ONE_HOUR_IN_MS } from 'san-webkit/lib/utils/dates'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { Event } from './../../analytics'
-
-  export let AutoUpdater
-  export let changeStudioPeriod
-
-  let interval
-  let isOpened = false
-  $: updated = isOpened ? startInterval() : stopInterval()
-
-  function getDiffTime() {
-    const diff = Date.now() - $AutoUpdater.lastUpdate
-
+<script>import { track } from 'san-webkit/lib/analytics';
+import { ONE_SECOND_IN_MS, ONE_MINUTE_IN_MS, ONE_HOUR_IN_MS } from 'san-webkit/lib/utils/dates';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { Event } from './../../analytics';
+export let AutoUpdater;
+export let changeStudioPeriod;
+let interval;
+let isOpened = false;
+$: updated = isOpened ? startInterval() : stopInterval();
+function getDiffTime() {
+    const diff = Date.now() - $AutoUpdater.lastUpdate;
     if (diff < ONE_MINUTE_IN_MS) {
-      return Math.floor(diff / ONE_SECOND_IN_MS) + 's'
+        return Math.floor(diff / ONE_SECOND_IN_MS) + 's';
     }
-
     if (diff < ONE_HOUR_IN_MS) {
-      return Math.floor(diff / ONE_MINUTE_IN_MS) + 'm'
+        return Math.floor(diff / ONE_MINUTE_IN_MS) + 'm';
     }
-
-    return Math.floor(diff / ONE_HOUR_IN_MS) + 'h'
-  }
-
-  function startInterval() {
-    const newDiff = getDiffTime()
-    const timeout = newDiff.endsWith('s') ? 1000 : 60000
+    return Math.floor(diff / ONE_HOUR_IN_MS) + 'h';
+}
+function startInterval() {
+    const newDiff = getDiffTime();
+    const timeout = newDiff.endsWith('s') ? 1000 : 60000;
     interval = window.setInterval(() => {
-      updated = getDiffTime()
-    }, timeout)
-
-    return newDiff
-  }
-
-  function stopInterval() {
-    window.clearInterval(interval)
-    return updated
-  }
-
-  function onClick() {
+        updated = getDiffTime();
+    }, timeout);
+    return newDiff;
+}
+function stopInterval() {
+    window.clearInterval(interval);
+    return updated;
+}
+function onClick() {
     if ($AutoUpdater.isUpdating) {
-      AutoUpdater.update(true)
-    } else {
-      AutoUpdater.enable(changeStudioPeriod)
+        AutoUpdater.update(true);
     }
-
-    track.event(Event.AutoUpdate)
-  }
+    else {
+        AutoUpdater.enable(changeStudioPeriod);
+    }
+    track.event(Event.AutoUpdate);
+}
 </script>
 
 <Tooltip
   bind:isOpened
   dark
-  class="caption $style.tooltip"
+  class="caption tooltip-7UJKfA"
   position="top"
   align="end"
   duration={0}
@@ -118,7 +107,7 @@
     --bg-hover: var(--green-light-2);
   }
 
-  .tooltip {
+  :global(.tooltip-7UJKfA) {
     white-space: nowrap;
   }
 

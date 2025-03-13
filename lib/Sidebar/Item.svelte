@@ -1,28 +1,23 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import ItemLabel from './ItemLabel.svelte'
-
-  let className = ''
-  export { className as class }
-  export let item: any
-  export let HoverItem
-  export let active = false
-  export let isShowingSubitems = true
-  export let onItemEnter = undefined
-  export let onLeave = undefined
-
-  let hovered = null
-  let hoverNode
-
-  $: if (hoverNode) window.__clearHoverItem = clear
-
-  const clear = () => ((hovered = null), onLeave?.())
-  function onMouseEnter({ currentTarget }) {
-    hovered = currentTarget
-    setTimeout(() => currentTarget.nextElementSibling?.matches(':hover') || clear(), 15)
-  }
-
-  onDestroy(() => (window.__clearHoverItem = null))
+<script>import { onDestroy } from 'svelte';
+import ItemLabel from './ItemLabel.svelte';
+let className = '';
+export { className as class };
+export let item;
+export let HoverItem;
+export let active = false;
+export let isShowingSubitems = true;
+export let onItemEnter = undefined;
+export let onLeave = undefined;
+let hovered = null;
+let hoverNode;
+$: if (hoverNode)
+    window.__clearHoverItem = clear;
+const clear = () => ((hovered = null), onLeave === null || onLeave === void 0 ? void 0 : onLeave());
+function onMouseEnter({ currentTarget }) {
+    hovered = currentTarget;
+    setTimeout(() => { var _a; return ((_a = currentTarget.nextElementSibling) === null || _a === void 0 ? void 0 : _a.matches(':hover')) || clear(); }, 15);
+}
+onDestroy(() => (window.__clearHoverItem = null));
 </script>
 
 <div
@@ -52,79 +47,83 @@
   </div>
 {/if}
 
-<style lang="scss">
-  .item {
-    padding: 6px 9px;
-    min-height: 32px;
-    position: relative;
-    background: var(--white);
-    z-index: 2;
-    word-break: break-word;
-
-    &:hover {
-      background: var(--athens);
-      color: var(--green);
-      --fill: var(--white);
-      --bg: var(--green);
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .pro {
-    color: var(--orange);
-
-    &:hover {
-      color: var(--orange-hover);
-      --bg: var(--orange);
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.item {
+  padding: 6px 9px;
+  min-height: 32px;
+  position: relative;
+  background: var(--white);
+  z-index: 2;
+  word-break: break-word;
+}
+.item:hover {
+  background: var(--athens);
+  color: var(--green);
+  --fill: var(--white);
+  --bg: var(--green);
+}
 
-  .subitem {
-    margin-left: 24px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    z-index: 1;
+.pro {
+  color: var(--orange);
+}
+.pro:hover {
+  color: var(--orange-hover);
+  --bg: var(--orange);
+}
 
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      background: var(--porcelain);
-      left: -15px;
-      z-index: -2;
-    }
+.subitem {
+  margin-left: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+.subitem::before, .subitem::after {
+  content: "";
+  position: absolute;
+  background: var(--porcelain);
+  left: -15px;
+  z-index: -2;
+}
+.subitem::before {
+  height: 100%;
+  width: 1px;
+  transform: translateY(-50%);
+}
+.subitem::after {
+  height: 1px;
+  width: 16px;
+}
 
-    &::before {
-      height: 100%;
-      width: 1px;
-      transform: translateY(-50%);
-    }
+.active {
+  color: var(--green);
+}
 
-    &::after {
-      height: 1px;
-      width: 16px;
-    }
-  }
-
-  .active {
-    color: var(--green);
-  }
-
-  .hovered {
-    position: absolute;
-    z-index: 3;
-    box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
-
-    &:hover {
-      --bg: var(--green-light-2);
-      --fill: var(--green);
-      color: var(--green);
-    }
-
-    &.active {
-      --bg: var(--red-light-1);
-      --fill: var(--red);
-      color: var(--color-active-hover, var(--red));
-    }
-  }
-</style>
+.hovered {
+  position: absolute;
+  z-index: 3;
+  box-shadow: 0px 2px 8px rgba(47, 53, 77, 0.16);
+}
+.hovered:hover {
+  --bg: var(--green-light-2);
+  --fill: var(--green);
+  color: var(--green);
+}
+.hovered.active {
+  --bg: var(--red-light-1);
+  --fill: var(--red);
+  color: var(--color-active-hover, var(--red));
+}</style>

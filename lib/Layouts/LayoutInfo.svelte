@@ -1,13 +1,9 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Author from 'san-webkit/lib/ui/Profile/svelte'
-  import { Metric } from './../metrics'
-
-  export let layout: Pick<SAN.Layout, 'project' | 'user' | 'metrics'>
-
-  $: ({ project, user, metrics } = layout)
-
-  const listMetrics = (metricKey: string) => Metric[metricKey]?.label
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Author from 'san-webkit/lib/ui/Profile/svelte';
+import { Metric } from './../metrics';
+export let layout;
+$: ({ project, user, metrics } = layout);
+const listMetrics = (metricKey) => { var _a; return (_a = Metric[metricKey]) === null || _a === void 0 ? void 0 : _a.label; };
 </script>
 
 <div class="label txt-m row v-center">
@@ -29,7 +25,7 @@
   Author
 </div>
 
-<Author {user} class="$style.author" />
+<Author {user} class="author-45dvMp" />
 
 <style>
   .label {
@@ -39,7 +35,7 @@
   }
 
   .value,
-  .author {
+  :global(.author-45dvMp) {
     margin-left: 20px;
   }
 

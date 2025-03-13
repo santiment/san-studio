@@ -1,16 +1,14 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { SidewidgetType, getSidewidget } from './../stores/widgets'
-  import LayoutComment from './LayoutComments/index.svelte'
-  import ExplainMetrics from './ExplainMetrics/index.svelte'
-
-  const Sidewidget = getSidewidget()
-  const closeSidewidget = () => ($Sidewidget = null)
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { SidewidgetType, getSidewidget } from './../stores/widgets';
+import LayoutComment from './LayoutComments/index.svelte';
+import ExplainMetrics from './ExplainMetrics/index.svelte';
+const Sidewidget = getSidewidget();
+const closeSidewidget = () => ($Sidewidget = null);
 </script>
 
 <div class="sidewidget border mrg-l mrg--l column">
   <div class="toggle">
-    <Svg id="sidebar" w="12" h="10" class="btn $style.icon" on:click={closeSidewidget} />
+    <Svg id="sidebar" w="12" h="10" class="btn icon-91At9T" on:click={closeSidewidget} />
   </div>
 
   {#if $Sidewidget === SidewidgetType.LAYOUT_COMMENTS}
@@ -43,7 +41,7 @@
     border-bottom-left-radius: 4px;
   }
 
-  .icon {
+  :global(.icon-91At9T) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
     --bg: var(--white);

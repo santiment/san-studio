@@ -1,96 +1,72 @@
-<script lang="ts">
-  import { track } from 'san-webkit/lib/analytics'
-  import { withScroll } from 'san-webkit/lib/ui/history'
-  import Search from 'san-webkit/lib/ui/Search.svelte'
-  import { Event } from './../../../analytics'
-  import { getHistoryContext } from './../../../history/ctx'
-  import { studio } from './../../../stores/studio'
-  import { getWidget } from './../../../ChartWidget/context'
-  import { debounced } from './../../../ChartWidget/utils'
-  import { Metric } from './../../../metrics'
-  import {
-    ExchangeMetricsDefaults,
-    OpenInterestMetricsDefaults,
-    queryProjectExchanges,
-  } from './utils'
-  import { queryLabelBasedMetricOwners } from './api'
-  import Dropdown from '../Dropdown.svelte'
-
-  const History = getHistoryContext()
-  const widget = getWidget()
-  const { MetricSettings } = widget
-
-  export let metric: Studio.Metric
-
-  let loading = true
-  let isDex = false
-  let searchTerm = ''
-
-  $: isOpenInterestMetric =
+<script>import { track } from 'san-webkit/lib/analytics';
+import { withScroll } from 'san-webkit/lib/ui/history';
+import Search from 'san-webkit/lib/ui/Search.svelte';
+import { Event } from './../../../analytics';
+import { getHistoryContext } from './../../../history/ctx';
+import { studio } from './../../../stores/studio';
+import { getWidget } from './../../../ChartWidget/context';
+import { debounced } from './../../../ChartWidget/utils';
+import { Metric } from './../../../metrics';
+import { ExchangeMetricsDefaults, OpenInterestMetricsDefaults, queryProjectExchanges, } from './utils';
+import { queryLabelBasedMetricOwners } from './api';
+import Dropdown from '../Dropdown.svelte';
+const History = getHistoryContext();
+const widget = getWidget();
+const { MetricSettings } = widget;
+export let metric;
+let loading = true;
+let isDex = false;
+let searchTerm = '';
+$: isOpenInterestMetric =
     metric === Metric.exchange_open_interest ||
-    metric === Metric.funding_rates_aggregated_by_exchange
-  $: metricDefaults = isOpenInterestMetric ? OpenInterestMetricsDefaults : ExchangeMetricsDefaults
-  $: exchanges = metricDefaults.owners
-  $: defaultExchange = metricDefaults.label
-
-  $: metricSettings = $MetricSettings[metric.key]
-  $: metricOwner = metricSettings?.owner || defaultExchange
-  $: getExchanges($studio.slug, isDex)
-  $: searchedExchanges = searchTerm ? filter(exchanges) : exchanges
-
-  const getExchanges = debounced((slug: string, isDex: boolean) => {
-    loading = true
-
+        metric === Metric.funding_rates_aggregated_by_exchange;
+$: metricDefaults = isOpenInterestMetric ? OpenInterestMetricsDefaults : ExchangeMetricsDefaults;
+$: exchanges = metricDefaults.owners;
+$: defaultExchange = metricDefaults.label;
+$: metricSettings = $MetricSettings[metric.key];
+$: metricOwner = (metricSettings === null || metricSettings === void 0 ? void 0 : metricSettings.owner) || defaultExchange;
+$: getExchanges($studio.slug, isDex);
+$: searchedExchanges = searchTerm ? filter(exchanges) : exchanges;
+const getExchanges = debounced((slug, isDex) => {
+    loading = true;
     const promise = isOpenInterestMetric
-      ? queryLabelBasedMetricOwners()
-      : queryProjectExchanges(slug, isDex)
-
+        ? queryLabelBasedMetricOwners()
+        : queryProjectExchanges(slug, isDex);
     promise.then((projectExchanges) => {
-      loading = false
-      exchanges = metricDefaults.owners.concat(projectExchanges)
-    })
-  })
-
-  function onChange(newOwner) {
+        loading = false;
+        exchanges = metricDefaults.owners.concat(projectExchanges);
+    });
+});
+function onChange(newOwner) {
     // prettier-ignore
-    track.event(Event.MetricExchange, { metric: metric.key, exchange: newOwner })
-    const oldOwner = metricOwner
-    const redo = () => setExchange(metric, newOwner)
-
-    redo()
-    History.add(
-      'Exchange change',
-      withScroll(widget, () => setExchange(metric, oldOwner)),
-      withScroll(widget, redo),
-    )
-  }
-
-  function setExchange(metric, newOwner: string) {
-    const { key, queryKey = key } = metric
-
+    track.event(Event.MetricExchange, { metric: metric.key, exchange: newOwner });
+    const oldOwner = metricOwner;
+    const redo = () => setExchange(metric, newOwner);
+    redo();
+    History.add('Exchange change', withScroll(widget, () => setExchange(metric, oldOwner)), withScroll(widget, redo));
+}
+function setExchange(metric, newOwner) {
+    const { key, queryKey = key } = metric;
     if (newOwner === defaultExchange) {
-      metricDefaults.onDefault(MetricSettings, key)
-      return
+        metricDefaults.onDefault(MetricSettings, key);
+        return;
     }
-
     // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
     MetricSettings.set(key, {
-      queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
-      owner: newOwner,
-    })
-  }
-
-  function onSearch(e: InputEvent) {
-    const inputNode = e.currentTarget as HTMLInputElement
-    searchTerm = inputNode.value.trim().toLowerCase()
-  }
-
-  function filter(exchanges) {
-    return exchanges.filter((item) => item.toLowerCase().includes(searchTerm))
-  }
+        queryKey: queryKey + (metric.isRootExchangeKey ? '' : '_per_exchange'),
+        owner: newOwner,
+    });
+}
+function onSearch(e) {
+    const inputNode = e.currentTarget;
+    searchTerm = inputNode.value.trim().toLowerCase();
+}
+function filter(exchanges) {
+    return exchanges.filter((item) => item.toLowerCase().includes(searchTerm));
+}
 </script>
 
-<Dropdown class="$style.dropdown">
+<Dropdown class="dropdown-PshSqW">
   Exchange: {metricOwner}
 
   <svelte:fragment slot="dropdown">
@@ -102,7 +78,7 @@
     </div>
 
     <Search
-      class="$style.search mrg-s mrg--b"
+      class="search-MzH78u mrg-s mrg--b"
       autofocus
       placeholder="Type to search"
       on:input={onSearch}
@@ -154,11 +130,11 @@
     min-width: 165px;
   }
 
-  .search {
+  :global(.search-MzH78u) {
     max-width: 170px;
   }
 
-  .dropdown {
+  :global(.dropdown-PshSqW) {
     --max-height: 230px;
   }
 </style>

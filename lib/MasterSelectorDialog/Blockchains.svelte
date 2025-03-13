@@ -1,22 +1,17 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte'
-  import { queryAvailableBlockchains } from './../api/blockchains'
-
-  export let blockchain = undefined
-  export let inputNode: HTMLInputElement
-
-  let blockchains = []
-  let isOpened = false
-
-  queryAvailableBlockchains().then((data) => (blockchains = data))
-
-  function onBlockchainSelect(selected) {
-    blockchain = selected
-    isOpened = false
-    inputNode.focus()
-  }
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import ProjectIcon from 'san-webkit/lib/ui/ProjectIcon.svelte';
+import { queryAvailableBlockchains } from './../api/blockchains';
+export let blockchain = undefined;
+export let inputNode;
+let blockchains = [];
+let isOpened = false;
+queryAvailableBlockchains().then((data) => (blockchains = data));
+function onBlockchainSelect(selected) {
+    blockchain = selected;
+    isOpened = false;
+    inputNode.focus();
+}
 </script>
 
 <div class="relative mrg-l mrg--r">
@@ -25,8 +20,8 @@
     on="click"
     offsetY={4}
     align="center"
-    class="$style.tooltip"
-    activeClass="$style.active">
+    class="tooltip-y0HZzo"
+    activeClass="active-pMYRLA">
     <button slot="trigger" class="btn-2 btn--s row v-center justify">
       {#if blockchain}
         <div class="row v-center">
@@ -36,7 +31,7 @@
       {:else}
         All blockchains
       {/if}
-      <Svg id="arrow" w="8" h="5" class="$style.arrow mrg-s mrg--l" />
+      <Svg id="arrow" w="8" h="5" class="arrow-ztqt0m mrg-s mrg--l" />
     </button>
 
     <svelte:fragment slot="tooltip">
@@ -58,15 +53,15 @@
     fill: var(--waterloo);
   }
 
-  .active {
+  :global(.active-pMYRLA) {
     --border: var(--green);
   }
 
-  .arrow {
+  :global(.arrow-ztqt0m) {
     transform: rotate(180deg);
   }
 
-  .tooltip {
+  :global(.tooltip-y0HZzo) {
     padding: 8px;
     min-width: 100%;
   }

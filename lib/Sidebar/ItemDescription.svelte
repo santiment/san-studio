@@ -1,30 +1,25 @@
-<script lang="ts">
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte'
-  import { Description, prepareDescription } from './../metrics/description'
-  import { studio } from './../stores/studio'
-  import { getContext } from 'svelte'
-
-  let className = ''
-  export { className as class }
-  export let item
-
-  const documentation = getContext('documentation') || { metrics: {} }
-
-  let trigger
-  let tooltip
-
-  $: staticDescription = Description[item.key]
-  $: docs = documentation.metrics[item.key]
-  $: _description =
-    staticDescription && docs ? `${staticDescription} <br /> ${docs}` : staticDescription
-  $: description = item && (_description || docs)
+<script>import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import Tooltip from 'san-webkit/lib/ui/Tooltip/svelte';
+import { Description, prepareDescription } from './../metrics/description';
+import { studio } from './../stores/studio';
+import { getContext } from 'svelte';
+let className = '';
+export { className as class };
+export let item;
+const documentation = getContext('documentation') || { metrics: {} };
+let trigger;
+let tooltip;
+$: staticDescription = Description[item.key];
+$: docs = documentation.metrics[item.key];
+$: _description =
+    staticDescription && docs ? `${staticDescription} <br /> ${docs}` : staticDescription;
+$: description = item && (_description || docs);
 </script>
 
 {#if description}
   <Tooltip position="right" align="center" openDelay={110}>
     <div slot="trigger" bind:this={trigger}>
-      <Svg id="info" class="{className} $style.info" />
+      <Svg id="info" class="{className} info-JY6p2t" />
     </div>
     <div slot="tooltip" class="description" bind:this={tooltip}>
       <div class="title txt-m mrg-s mrg--b">
@@ -36,7 +31,7 @@
 {/if}
 
 <style>
-  .info:hover {
+  :global(.info-JY6p2t:hover) {
     fill: var(--black);
   }
 

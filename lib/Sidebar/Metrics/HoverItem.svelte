@@ -1,55 +1,50 @@
-<script lang="ts">
-  import { tick } from 'svelte'
-  import { getHistoryContext } from './../../history/ctx'
-  import Svg from 'san-webkit/lib/ui/Svg/svelte'
-  import { favoriteMetrics } from './../../stores/favoriteMetrics'
-  import { globals } from './../../stores/globals'
-  import { getAdapterController } from './../../adapter/context'
-  import HoverItem from './../../Sidebar/HoverItem.svelte'
-  import ItemLabel from '../ItemLabel.svelte'
-  import ItemDescription from '../ItemDescription.svelte'
-
-  const History = getHistoryContext()
-  const { onAnonFavoriteClick } = getAdapterController()
-
-  export let item: any
-  export let node: HTMLElement
-  export let hoverNode: HTMLElement
-
-  let active = false
-
-  $: isFavorited = item && $favoriteMetrics.has(item.key)
-
-  function onFavoriteClick(e: MouseEvent) {
-    e.stopImmediatePropagation()
+<script>import { tick } from 'svelte';
+import { getHistoryContext } from './../../history/ctx';
+import Svg from 'san-webkit/lib/ui/Svg/svelte';
+import { favoriteMetrics } from './../../stores/favoriteMetrics';
+import { globals } from './../../stores/globals';
+import { getAdapterController } from './../../adapter/context';
+import HoverItem from './../../Sidebar/HoverItem.svelte';
+import ItemLabel from '../ItemLabel.svelte';
+import ItemDescription from '../ItemDescription.svelte';
+const History = getHistoryContext();
+const { onAnonFavoriteClick } = getAdapterController();
+export let item;
+export let node;
+export let hoverNode;
+let active = false;
+$: isFavorited = item && $favoriteMetrics.has(item.key);
+function onFavoriteClick(e) {
+    e.stopImmediatePropagation();
     if ($globals.isLoggedIn) {
-      const { key } = item
-      favoriteMetrics.toggle(key)
-      History.add('Toggle favorite', () => favoriteMetrics.toggle(key))
-
-      const { offsetTop } = node
-      const category = node.closest('.category') as HTMLElement
-      return tick().then(() => {
-        const container = category.parentNode as HTMLElement
-        if (container.scrollTop < container.firstElementChild?.offsetHeight) {
-          container.scrollTop += node.offsetTop - offsetTop
-        }
-      })
+        const { key } = item;
+        favoriteMetrics.toggle(key);
+        History.add('Toggle favorite', () => favoriteMetrics.toggle(key));
+        const { offsetTop } = node;
+        const category = node.closest('.category');
+        return tick().then(() => {
+            var _a;
+            const container = category.parentNode;
+            if (container.scrollTop < ((_a = container.firstElementChild) === null || _a === void 0 ? void 0 : _a.offsetHeight)) {
+                container.scrollTop += node.offsetTop - offsetTop;
+            }
+        });
     }
-    if (onAnonFavoriteClick) onAnonFavoriteClick()
-  }
+    if (onAnonFavoriteClick)
+        onAnonFavoriteClick();
+}
 </script>
 
 <HoverItem {node} {hoverNode}>
   <ItemLabel {item} bind:active />
 
   <svelte:fragment slot="right">
-    <ItemDescription {item} class="$style.icon" />
+    <ItemDescription {item} class="icon-4sfiPz" />
 
     {#if item.selectorType === undefined}
       <Svg
         id="star{isFavorited ? '-filled' : ''}"
-        class="$style.icon $style.star mrg-m mrg--l {isFavorited ? '$style.favorited' : ''}"
+        class="icon-4sfiPz star-bD0y6a mrg-m mrg--l {isFavorited ? 'favorited-hRsNzO' : ''}"
         on:click={onFavoriteClick}
       />
     {/if}
@@ -57,20 +52,20 @@
 </HoverItem>
 
 <style>
-  .icon {
+  :global(.icon-4sfiPz) {
     width: 16px;
     height: 16px;
     fill: var(--waterloo);
   }
 
-  .star:hover {
+  :global(.star-bD0y6a:hover) {
     fill: var(--orange);
   }
 
-  .favorited {
+  :global(.favorited-hRsNzO) {
     fill: var(--orange);
   }
-  .favorited:hover {
+  :global(.favorited-hRsNzO:hover) {
     fill: var(--orange-hover);
   }
 </style>
