@@ -34,7 +34,7 @@ function onSelect(widget = widgets) {
       {/if}
     </span>
 
-    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-CxPp7O" />
+    <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-Ib5MH+" />
   </div>
 
   <div slot="tooltip" class="tooltip" bind:this={optionsRef}>
@@ -59,7 +59,7 @@ function onSelect(widget = widgets) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
-  :global(.arrow-CxPp7O) {
+  :global(.arrow-Ib5MH\+) {
     transform: rotate(180deg);
   }
 

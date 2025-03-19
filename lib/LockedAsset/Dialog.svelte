@@ -21,7 +21,7 @@ const LIST_OF_ASSETS = [
 ];
 </script>
 
-<Dialog {...$$props} title="Select asset" class="dialog-+qXx3b">
+<Dialog {...$$props} title="Select asset" class="dialog-gtTNSY">
   <main>
     <ListOfAssets
       tabs={LIST_OF_ASSETS}
@@ -35,7 +35,7 @@ const LIST_OF_ASSETS = [
 </Dialog>
 
 <style>
-  :global(.dialog-\+qXx3b) {
+  :global(.dialog-gtTNSY) {
     width: 400px;
     height: 455px;
     max-width: 400px !important;

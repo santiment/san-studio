@@ -62,7 +62,7 @@ onDestroy(() => {
 <Dialog
   {...$$props}
   title="Load Chart Layout"
-  class="dialog-riCF7g"
+  class="dialog-QyV72s"
   bind:closeDialog
   {onEditableEscaped}
 >
@@ -94,7 +94,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-riCF7g) {
+  :global(.dialog-QyV72s) {
     width: 600px;
     height: 480px;
   }
@@ -124,7 +124,7 @@ onDestroy(() => {
     border-bottom: 1px solid var(--porcelain);
   }
 
-  :global(.dialog-riCF7g) :global(virtual-list-items) {
+  :global(.dialog-QyV72s) :global(virtual-list-items) {
     padding: 12px;
   }
 </style>

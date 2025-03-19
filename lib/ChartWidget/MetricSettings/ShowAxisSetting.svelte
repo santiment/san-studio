@@ -25,13 +25,13 @@ function onClick() {
 <Setting on:click={onClick}>
   Show axis
   <Checkbox
-    class="mrg-s mrg--l {isDisabled ? 'disabled-am3SNT' : ''}"
+    class="mrg-s mrg--l {isDisabled ? 'disabled-YMiS10' : ''}"
     isActive={$ChartAxes.has(metric)}
   />
 </Setting>
 
 <style>
-  :global(.disabled-am3SNT) {
+  :global(.disabled-YMiS10) {
     background-color: var(--porcelain) !important;
     border-color: var(--porcelain) !important;
   }

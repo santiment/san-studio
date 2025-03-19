@@ -18,7 +18,7 @@ $: style = color ? `---fill:${color}` : '';
   {#if isMerging}
     <Checkbox class="mrg-s mrg--r" {isActive} />
   {:else}
-    <Svg id="circle-line" class="line-NlVMf_" w="14" h="10" />
+    <Svg id="circle-line" class="line-gWbuk_" w="14" h="10" />
   {/if}
   {metric.label}
   <slot />
@@ -37,7 +37,7 @@ $: style = color ? `---fill:${color}` : '';
     --color: var(--black) !important;
   }
 
-  :global(.line-NlVMf_) {
+  :global(.line-gWbuk_) {
     margin-right: 10px;
     min-width: 14px;
   }

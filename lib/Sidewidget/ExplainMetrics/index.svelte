@@ -57,7 +57,7 @@ onDestroy(() => {
   <Tooltip bind:isOpened duration={0} on="click" align="start">
     <div slot="trigger" class="selection btn-2 btn--s btn--l row v-center">
       {metric.label}
-      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-V3jWHD" />
+      <Svg id="arrow" w="8" h="4.5" class="mrg-a mrg--l arrow-UFK9VO" />
     </div>
     <div slot="tooltip" class="tooltip">
       {#each metrics as item (item.key)}
@@ -93,7 +93,7 @@ onDestroy(() => {
     padding: 8px;
   }
 
-  :global(.arrow-V3jWHD) {
+  :global(.arrow-UFK9VO) {
     transform: rotate(180deg);
   }
 </style>

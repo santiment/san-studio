@@ -16,9 +16,9 @@ function notify() {
 }
 $: if (node && timer) {
     clearTimeout(popTimer);
-    node.classList.remove('pop-y8IQ3z');
-    node.classList.add('pop-y8IQ3z');
-    popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-y8IQ3z'), 120);
+    node.classList.remove('pop-j9N8LC');
+    node.classList.add('pop-j9N8LC');
+    popTimer = setTimeout(() => node === null || node === void 0 ? void 0 : node.classList.remove('pop-j9N8LC'), 120);
 }
 onDestroy(() => {
     clearTimeout(timer);
@@ -45,7 +45,7 @@ onDestroy(() => {
     transition: transform 100ms;
   }
 
-  :global(.pop-y8IQ3z) {
+  :global(.pop-j9N8LC) {
     transform: translateX(-50%) scale(1.07) !important;
   }
 </style>

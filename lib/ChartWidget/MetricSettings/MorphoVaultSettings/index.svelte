@@ -57,12 +57,12 @@ onMount(() => {
 });
 </script>
 
-<Dropdown class="dropdown-njCvlM">
+<Dropdown class="dropdown-oqdWcv">
   Vault: {getLabel(metricOwner)}
 
   <svelte:fragment slot="dropdown">
     <Search
-      class="search-ScM4sH mrg-s mrg--b"
+      class="search-N2Rj3h mrg-s mrg--b"
       autofocus
       placeholder="Type to search"
       on:input={onSearch}
@@ -114,11 +114,11 @@ onMount(() => {
     min-width: 165px;
   }
 
-  :global(.search-ScM4sH) {
+  :global(.search-N2Rj3h) {
     max-width: 170px;
   }
 
-  :global(.dropdown-njCvlM) {
+  :global(.dropdown-oqdWcv) {
     --max-height: 230px;
   }
 </style>

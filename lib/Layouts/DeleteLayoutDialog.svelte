@@ -22,7 +22,7 @@ function onDeleteClick() {
   {...$$props}
   title="Do you want to delete this layout?"
   bind:closeDialog
-  class="dialog-SvCPap"
+  class="dialog-dtL5sp"
 >
   <div class="dialog-body">
     This action cannot be undone
@@ -34,7 +34,7 @@ function onDeleteClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-SvCPap) {
+  :global(.dialog-dtL5sp) {
     width: 320px;
   }
 </style>

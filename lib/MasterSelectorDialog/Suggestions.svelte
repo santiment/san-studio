@@ -76,7 +76,7 @@ function scrollToCursor() {
 
 <section>
   <VirtualList
-    class="suggestions-8ZBILs {!filtered.length ? 'hide' : ''}"
+    class="suggestions-3xSt2I {!filtered.length ? 'hide' : ''}"
     items={filtered}
     itemHeight={56}
     maxFluidHeight={381}
@@ -113,11 +113,11 @@ function scrollToCursor() {
   }
 }
 */
-:global(.suggestions-8ZBILs) {
+:global(.suggestions-3xSt2I) {
   border-top: 1px solid var(--porcelain);
 }
 
-:global(.suggestions-8ZBILs) :global(.list) {
+:global(.suggestions-3xSt2I) :global(.list) {
   padding: 16px 24px;
 }
 

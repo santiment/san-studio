@@ -25,7 +25,7 @@ function getFavorites(favoritesSet, searchTerm) {
 {#if !isFiltering || (isFiltering && favorites.length)}
   <Category category="Favorites" {isFiltering} isOpened class="favorites">
     <svelte:fragment slot="pre-title">
-      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-BQbrbU" />
+      <Svg id="star-filled" w="16" class="mrg-s mrg--r star-LGdubu" />
     </svelte:fragment>
 
     {#each favorites as item}
@@ -42,7 +42,7 @@ function getFavorites(favoritesSet, searchTerm) {
     padding-left: 8px;
   }
 
-  :global(.star-BQbrbU) {
+  :global(.star-LGdubu) {
     fill: var(--orange);
   }
 </style>

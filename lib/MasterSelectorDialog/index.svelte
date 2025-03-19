@@ -50,9 +50,9 @@ function onEditableEscaped(target, closeDialog) {
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<Dialog {...$$props} noTitle class="dialog-JdOzfO" bind:closeDialog {onEditableEscaped}>
+<Dialog {...$$props} noTitle class="dialog-pOc1cg" bind:closeDialog {onEditableEscaped}>
   <div class="search row v-center nowrap">
-    <Svg id="search" w="16" class="icon-ODAZE9" />
+    <Svg id="search" w="16" class="icon-vEX9kC" />
     <input
       bind:this={inputNode}
       autofocus
@@ -91,7 +91,7 @@ function onEditableEscaped(target, closeDialog) {
   }
 }
 */
-:global(.dialog-JdOzfO) {
+:global(.dialog-pOc1cg) {
   width: 500px;
   max-height: 480px !important;
   border-radius: 10px !important;
@@ -109,7 +109,7 @@ input {
   border-radius: 10px;
 }
 
-:global(.icon-ODAZE9) {
+:global(.icon-vEX9kC) {
   position: absolute;
   top: 20px;
   left: 20px;

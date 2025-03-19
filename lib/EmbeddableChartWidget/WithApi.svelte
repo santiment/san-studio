@@ -73,9 +73,9 @@ AdaptiveLayoutMessage.listen((settings) => {
 <div class="column {className}">
   {#key $minimized$}
     <MetricErrorTooltipCtx>
-      <ChartWidget {widget} class="widget-9l1cnV">
+      <ChartWidget {widget} class="widget-nzg3k0">
         {#if isCalendarEnabled}
-          <Calendar class="s-nb75gj" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
+          <Calendar class="s-a0o7a7" dates={[new Date(from), new Date(to)]} _onDateSelect={onDateSelect} />
         {/if}
 
         {#if sharedAccessToken}
@@ -112,7 +112,7 @@ AdaptiveLayoutMessage.listen((settings) => {
       >
         {$minimized$.minimized ? 'Expand' : 'Minimize'}
 
-        <Svg class="arrow-YJc8XP" id="arrow" w="7" />
+        <Svg class="arrow-Fx3IJF" id="arrow" w="7" />
       </button>
     {/if}
 
@@ -150,11 +150,11 @@ AdaptiveLayoutMessage.listen((settings) => {
     --color-hover: var(--green);
   }
 
-  :global(.widget-9l1cnV) {
+  :global(.widget-nzg3k0) {
     height: 0 !important;
   }
 
-  :global(.s-nb75gj) {
+  :global(.s-a0o7a7) {
     margin-top: -4px;
   }
 
@@ -162,7 +162,7 @@ AdaptiveLayoutMessage.listen((settings) => {
     margin-top: 2px;
   }
 
-  :global(.arrow-YJc8XP) {
+  :global(.arrow-Fx3IJF) {
     transform: rotate(var(--rotated, 180deg));
   }
 

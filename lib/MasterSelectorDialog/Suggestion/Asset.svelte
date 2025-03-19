@@ -14,5 +14,7 @@
   <span class="mrg-xs mrg--r">{name}</span>
   <span class="c-waterloo mrg-xl mrg--r">{ticker}</span>
 
-  <div class="c-waterloo mrg-a mrg--l">{usdFormatter(priceUsd)}</div>
+  {#if priceUsd}
+    <div class="c-waterloo mrg-a mrg--l">{usdFormatter(priceUsd)}</div>
+  {/if}
 </Suggestion>
