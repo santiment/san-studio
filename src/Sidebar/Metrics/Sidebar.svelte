@@ -4,7 +4,7 @@
   import { studio, getLockedAssetStore } from '@/stores/studio'
   import { globals } from '@/stores/globals'
   import LockedAsset from '@/LockedAsset/index.svelte'
-  import { queryAddressMetrics, queryProjectMetrics } from '@/api/metrics'
+  import { indexSorter, queryAddressMetrics, queryProjectMetrics } from '@/api/metrics'
   import { filterSelectorGraph, getMetricsSelectorGraph } from '@/metrics/selector/utils'
   import { DEFAULT_METRICS } from './defaults'
   import HoverItem from './HoverItem.svelte'
@@ -15,7 +15,7 @@
   import CombinedMetrics from './CombinedMetrics/index.svelte'
   import Search from '../Search.svelte'
   import Category from '../Category.svelte'
-  import { setContext } from 'svelte'
+  import { onMount, setContext } from 'svelte'
 
   const LockedAsset$ = getLockedAssetStore() as any
 
@@ -44,6 +44,16 @@
 
     return promise.then(setMetrics)
   }
+
+  onMount(() => {
+    window.__resortSidebarMetrics = () => {
+      setMetrics(metrics.sort(indexSorter))
+    }
+
+    return () => {
+      delete window.__resortSidebarMetrics
+    }
+  })
 </script>
 
 <div class="sidebar-header">
