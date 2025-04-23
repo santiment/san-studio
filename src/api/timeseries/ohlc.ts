@@ -55,13 +55,12 @@ const accessor = ({ ohlc }) => ohlc
 export function queryOHLC(variables: Variables): Promise<any> {
   return query<any>(
     GET_METRIC.replace(
-      'v: value',
-      `v: valueOhlc{
-        o:open
-        h:high
-        c:close
-        l:low
-      }`,
+      'value: "v"',
+      `valueOhlc: "v"
+        open: "o"
+        high: "h"
+        close: "c"
+				low: "l"`,
     ),
     {
       precacher,

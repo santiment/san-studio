@@ -9,10 +9,10 @@ const SIGNAL_QUERY = `
     $interval: interval
   ) {
     getSignal(signal: $signal) {
-      timeseriesData(slug: $slug, from: $from, to: $to, interval: $interval) {
-        d: datetime
-        v: value
-      }
+      timeseriesData:timeseriesDataJson(
+        slug: $slug, from: $from, to: $to, interval: $interval,
+        fields: {datetime: "d" value: "v" }
+      )
     }
   }
 `

@@ -28,7 +28,7 @@ export const GET_METRIC = `
     $ecosystems: [String]
   ) {
     getMetric(metric: $metric) {
-      timeseriesData(
+      timeseriesData:timeseriesDataJson(
         selector: {
           slug: $slug
           address: $nftAddress
@@ -52,10 +52,8 @@ export const GET_METRIC = `
         transform: $transform
         aggregation: $aggregation
         includeIncompleteData: $includeIncompleteData
-      ) {
-        d: datetime
-        v: value
-      }
+        fields: {datetime: "d" value: "v" }
+      )
     }
   }
 `
