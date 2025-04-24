@@ -3,9 +3,8 @@
   import { getChart } from '../context'
   import { clearCtx } from '../utils'
   import { themes } from '../theme'
-  import { setViewedIndicis, getBrushPlotItems } from './utils'
+  import { setViewedIndicis, getBrushPlotItems, BRUSH_HEIGHT } from './utils'
 
-  const BRUSH_HEIGHT = 40
   const chart = getChart()
 
   export let data

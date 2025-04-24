@@ -1,3 +1,5 @@
+export const BRUSH_HEIGHT = 40
+
 export function getBrushPlotItems({ items }) {
   const brushItems = new Map(items)
 
