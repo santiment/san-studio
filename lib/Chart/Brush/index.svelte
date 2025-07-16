@@ -2,8 +2,7 @@
 import { getChart } from '../context';
 import { clearCtx } from '../utils';
 import { themes } from '../theme';
-import { setViewedIndicis, getBrushPlotItems } from './utils';
-const BRUSH_HEIGHT = 40;
+import { setViewedIndicis, getBrushPlotItems, BRUSH_HEIGHT } from './utils';
 const chart = getChart();
 export let data;
 export let categories;

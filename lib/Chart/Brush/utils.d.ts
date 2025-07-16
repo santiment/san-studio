@@ -1,3 +1,4 @@
+export declare const BRUSH_HEIGHT = 40;
 export declare function getBrushPlotItems({ items }: {
     items: any;
 }): Map<unknown, unknown>;

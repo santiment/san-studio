@@ -1,6 +1,7 @@
 <script>var _a;
 import { queryRestrictedDates } from './../../api/metrics/restrictions';
 import './../../ChartWidget/context';
+import { BRUSH_HEIGHT } from './../../Chart/Brush/utils';
 import Info from './Info.svelte';
 import { formatDate } from './utils';
 export let chart = null;
@@ -11,6 +12,7 @@ export let hideMetric;
 let banner;
 let restrictions;
 let metricRestrictions = null;
+const brushHeight = `${BRUSH_HEIGHT}px`;
 queryRestrictedDates().then((data) => (restrictions = data));
 $: restrictedMetrics = restrictions ? filterMetrics(metrics, settings) : [];
 $: visibleRestricted = restrictedMetrics.filter((metric) => !hiddenMetrics.has(metric));
@@ -61,7 +63,11 @@ function customRestrictions(queryKey, { slug } = {}) {
 </script>
 
 {#if visibleRestricted.length && chart}
-  <div class="limit-banner column body-3 hv-center" bind:this={banner}>
+  <div
+    class="limit-banner column body-3 hv-center"
+    style="--brush-height: {brushHeight}"
+    bind:this={banner}
+  >
     <h2 class="h4 txt-m mrg-xl mrg--b">Upgrade For Full Data</h2>
 
     <Info
@@ -77,7 +83,7 @@ function customRestrictions(queryKey, { slug } = {}) {
     color: #fff;
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: var(--brush-height);
     right: 0;
     z-index: 10;
     background: #2f354dcc;
