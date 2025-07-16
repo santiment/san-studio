@@ -10,7 +10,7 @@ export function transformExchangeSettings(
   const baseKey = (metric.base || metric).key
   if (
     baseKey !== Metric.exchange_open_interest.key &&
-    baseKey !== Metric.funding_rates_aggregated_by_exchange
+    baseKey !== Metric.funding_rates_aggregated_by_exchange.key
   ) {
     return
   }
