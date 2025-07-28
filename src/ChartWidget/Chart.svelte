@@ -46,13 +46,20 @@
 
   const getKey = ({ key }) => key
 
+  $: appliedMetricSettings = $MetricSettings
   $: trendingReferences = metrics.filter((metric) => metric.node === Node.REFERENCE)
   $: ({ ticker } = $studio)
   $: references = $SignalsTimeseries
   $: axesMetricKeys = Array.from($ChartAxes).map(getKey)
-  $: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays)
+  $: metricSettings = getTooltipSettings(
+    metrics,
+    references,
+    ticker,
+    $ChartMetricDisplays,
+    appliedMetricSettings,
+  )
   $: theme = themes[+$globals.isNightMode]
-  $: domainModifier = newDomainModifier(metrics, $MetricSettings, widget)
+  $: domainModifier = newDomainModifier(metrics, appliedMetricSettings, widget)
   $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key)
 
   const labelGetter = (ticker: string, { base, label }: Studio.Metric) =>
@@ -62,12 +69,17 @@
     references: any[],
     ticker: string,
     MetricDisplays,
+    appliedMetricSettings,
   ) {
     const metricSettings = getDefaultTooltipSettings()
     metrics.forEach((metric) => {
       const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric
-      const metricLabel =
+      let metricLabel =
         metric.tooltipLabel?.(ticker, metric) ?? (getLabel || labelGetter)(ticker, metric)
+
+      if (appliedMetricSettings[key]?.selector) {
+        metricLabel = metric.label
+      }
 
       metricSettings[key] = Object.assign(
         {

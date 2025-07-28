@@ -17,7 +17,7 @@
   import BtcHalvingPic from '../Addons/BitcoinHalving/Pic.svelte'
 
   const { isEmbedded, isWithMetricSettings = true } = getAdapterController()
-  const { Metrics, MetricsSignals } = getWidget()
+  const { Metrics, MetricsSignals, MetricSettings } = getWidget()
   const metricErrorTooltip = getMetricErrorTooltip()
 
   export let metric: Studio.Metric
@@ -95,7 +95,9 @@
         </div>
       {/if}
     {:else if !metric.indicator && !address}
-      ({project.ticker})
+      {#if $MetricSettings[metric.key]?.selector !== 'text'}
+        ({project.ticker})
+      {/if}
     {/if}
   {/if}
 
