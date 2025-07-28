@@ -39,21 +39,25 @@ export let isFullscreened;
 export let onChart, changeStudioPeriod;
 let chartWidth;
 const getKey = ({ key }) => key;
+$: appliedMetricSettings = $MetricSettings;
 $: trendingReferences = metrics.filter((metric) => metric.node === Node.REFERENCE);
 $: ({ ticker } = $studio);
 $: references = $SignalsTimeseries;
 $: axesMetricKeys = Array.from($ChartAxes).map(getKey);
-$: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays);
+$: metricSettings = getTooltipSettings(metrics, references, ticker, $ChartMetricDisplays, appliedMetricSettings);
 $: theme = themes[+$globals.isNightMode];
-$: domainModifier = newDomainModifier(metrics, $MetricSettings, widget);
+$: domainModifier = newDomainModifier(metrics, appliedMetricSettings, widget);
 $: drawingKey = axesMetricKeys[0] || (metrics[0] && metrics[0].key);
 const labelGetter = (ticker, { base, label }) => base ? label : label + ` (${ticker})`;
-function getTooltipSettings(metrics, references, ticker, MetricDisplays) {
+function getTooltipSettings(metrics, references, ticker, MetricDisplays, appliedMetricSettings) {
     const metricSettings = getDefaultTooltipSettings();
     metrics.forEach((metric) => {
-        var _a, _b;
+        var _a, _b, _c;
         const { key, formatter = FORMATTER, getLabel, axisFormatter, marker } = metric;
-        const metricLabel = (_b = (_a = metric.tooltipLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker, metric)) !== null && _b !== void 0 ? _b : (getLabel || labelGetter)(ticker, metric);
+        let metricLabel = (_b = (_a = metric.tooltipLabel) === null || _a === void 0 ? void 0 : _a.call(metric, ticker, metric)) !== null && _b !== void 0 ? _b : (getLabel || labelGetter)(ticker, metric);
+        if ((_c = appliedMetricSettings[key]) === null || _c === void 0 ? void 0 : _c.selector) {
+            metricLabel = metric.label;
+        }
         metricSettings[key] = Object.assign({
             label: metricLabel,
             formatter,

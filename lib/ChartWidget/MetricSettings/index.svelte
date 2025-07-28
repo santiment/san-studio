@@ -18,6 +18,7 @@ import MorphoVaultSettings from './MorphoVaultSettings/index.svelte';
 import { TOP_HOLDERS } from './settings';
 import AddonSettings from '../Addons/Settings.svelte';
 import { ADDONS } from '../Addons/addons';
+import SocialVolumeSetting from './SocialVolumeSetting.svelte';
 const { isEmbedded } = getAdapterController();
 export let metric;
 $: isNotIndicator = !metric.indicator;
@@ -67,6 +68,10 @@ const getBase = (metric) => metric.base || metric;
 
       {#if !isEmbedded}
         <ExpressionSetting {metric} />
+      {/if}
+
+      {#if metric.key === Metric.social_volume_total.key}
+        <SocialVolumeSetting {metric} />
       {/if}
     {/if}
   </div>
