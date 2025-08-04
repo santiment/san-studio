@@ -10,6 +10,7 @@ import { FluidMetric } from './fluid'
 import { MorphoMetric } from './morpho'
 import { EthenaMetric } from './ethena'
 import { SkySavingsMetric } from './skySavings'
+import { CrvUSDSavingsMetric } from './crvusdSavings'
 import { PendleMarketsMetric } from './pendleMarkets'
 import { Eth2Metric } from './eth2'
 import { ContractAddressMetric } from './contractAddress'
@@ -341,6 +342,7 @@ export const OnChainMetric = each(
     FraxlendMetric,
     EthenaMetric,
     SkySavingsMetric,
+    CrvUSDSavingsMetric,
     PendleMarketsMetric,
     BeaconMetric,
 
