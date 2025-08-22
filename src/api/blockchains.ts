@@ -31,6 +31,7 @@ export const Blockchain = each(
     BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash' },
     Optimism: { slug: 'optimism-ethereum', name: 'Optimism' },
     ICP: { slug: 'internet-computer', name: 'ICP' },
+    Solana: { slug: 'solana', name: 'Solana', ticker: 'SOL' },
   },
   (blockchain: any, infrastructure) => {
     blockchain.infrastructure = infrastructure
