@@ -17,6 +17,7 @@ export declare const Blockchain: {
     BCH: any;
     Optimism: any;
     ICP: any;
+    Solana: any;
 };
 export declare const queryAvailableBlockchains: () => Promise<BlockchainType[]>;
 export declare const queryProjectBlockchain: (slug: string) => Promise<string>;
