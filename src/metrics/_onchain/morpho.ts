@@ -60,6 +60,16 @@ export const MorphoMetric = each(
       formatter: usdFormatter,
       node: 'bar',
     },
+
+    morpho_protocol_total_supplied_usd: {
+      label: 'Morpho Protocol Total Supplied in USD',
+      formatter: usdFormatter,
+    },
+    morpho_protocol_total_borrowed_usd: {
+      label: 'Morpho Protocol Total Borrowed in USD',
+      formatter: usdFormatter,
+    },
+
     morpho_active_addresses: {
       label: 'Morpho Protocol Active Addresses',
       node: 'bar',
