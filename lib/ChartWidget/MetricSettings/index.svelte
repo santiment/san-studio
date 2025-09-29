@@ -57,7 +57,7 @@ const getBase = (metric) => metric.base || metric;
         <TopHoldersSetting {metric} />
       {/if}
 
-      {#if (metric.base || metric) === Metric.morpho_vaults_total_supplied_usd}
+      {#if (metric.base || metric) === Metric.morpho_vaults_total_supplied_usd || (metric.base || metric) === Metric.morpho_vaults_apy}
         <MorphoVaultSettings {metric} />
       {/if}
 

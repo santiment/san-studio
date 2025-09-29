@@ -15,4 +15,5 @@ export declare const MorphoMetric: {
     morpho_protocol_total_borrowed_usd: import("../utils").Node<Studio.Metric, "morpho_protocol_total_borrowed_usd">;
     morpho_active_addresses: import("../utils").Node<Studio.Metric, "morpho_active_addresses">;
     morpho_vaults_total_supplied_usd: import("../utils").Node<Studio.Metric, "morpho_vaults_total_supplied_usd">;
+    morpho_vaults_apy: import("../utils").Node<Studio.Metric, "morpho_vaults_apy">;
 };
