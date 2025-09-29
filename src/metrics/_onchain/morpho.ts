@@ -79,6 +79,10 @@ export const MorphoMetric = each(
       label: 'Morpho Vaults Total Supplied in USD',
       formatter: usdFormatter,
     },
+
+    morpho_vaults_apy: {
+      label: 'Morpho Vaults APY',
+    },
   },
   (metric: Studio.Metric) => {
     metric.group = 'Morpho'
