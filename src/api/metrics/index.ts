@@ -67,12 +67,31 @@ function precacher({ slug } = { slug: 'bitcoin' }) {
 }
 
 export const FIAT_FUND_ASSETS = [
-  { slug: 'gbtc', name: 'GBTC', ticker: 'GBTC' },
-  { slug: 'ibit', name: 'IBIT', ticker: 'IBIT' },
-  { slug: 'fbtc', name: 'FBTC', ticker: 'FBTC' },
-  { slug: 'arkb', name: 'ARKB', ticker: 'ARKB' },
-  { slug: 'btco', name: 'BTCO', ticker: 'BTCO' },
-  { slug: 'bitb', name: 'BITB', ticker: 'BITB' },
+  { slug: 'arkb', name: 'Ark BTC ETF', ticker: 'ARKB' },
+  { slug: 'bitb', name: 'Bitwise BTC ETF', ticker: 'BITB' },
+  { slug: 'brrr', name: 'Valkyrie BTC ETF', ticker: 'BRRR' },
+  { slug: 'bsol', name: 'Bitwise Solana Staking ETF', ticker: 'BWSOL' },
+  { slug: 'btc', name: 'Grayscale BTC ETF mini', ticker: 'BTC' },
+  { slug: 'btco', name: 'Invesco BTC ETF', ticker: 'BTCO' },
+  { slug: 'btcw', name: 'WTree BTC ETF', ticker: 'BTCW' },
+  { slug: 'eth', name: 'Grayscale Ethereum Mini Trust ETF', ticker: 'ETH' },
+  { slug: 'etha', name: 'iShares Ethereum Trust ETF', ticker: 'ETHA' },
+  { slug: 'ethe', name: 'Grayscale Ethereum Trust ETF', ticker: 'ETHE' },
+  { slug: 'ethv', name: 'VanEck Ethereum ETF', ticker: 'ETHV' },
+  { slug: 'ezbtc', name: 'Franklin BTC ETF', ticker: 'EZBC' },
+  { slug: 'ethw', name: 'Bitwise Ethereum ETF', ticker: 'ETHW' },
+  { slug: 'ezet', name: 'Franklin Ethereum ETF', ticker: 'EZET' },
+  { slug: 'fbtc', name: 'Fidelity BTC ETF', ticker: 'FBTC' },
+  { slug: 'feth', name: 'Fidelity Ethereum Fund', ticker: 'FETH' },
+  { slug: 'fsol', name: 'Fidelity Solana Fund ETF', ticker: 'FSOL' },
+  { slug: 'gbtc', name: 'Grayscale BTC ETF', ticker: 'GBTC' },
+  { slug: 'gsol', name: 'Grayscale Solana Trust ETF', ticker: 'GSOL' },
+  { slug: 'hodl', name: 'VanEck BTC ETF', ticker: 'HODL' },
+  { slug: 'ibit', name: 'Blackrock BTC ETF', ticker: 'IBIT' },
+  { slug: 'qeth', name: 'Invesco Galaxy Ethereum ETF', ticker: 'QETH' },
+  { slug: 'teth', name: '21Shares Ethereum ETF', ticker: 'TETH' },
+  { slug: 'tsol', name: '21Shares Solana ETF', ticker: 'TSOL' },
+  { slug: 'vsol', name: 'VanEck Solana ETF', ticker: 'VSOL' },
 ]
 
 export const FIAT_MONEY_SUPPLY_ASSETS = [{ slug: 'm2-money', name: 'M2 Money', ticker: 'M2M' }]
