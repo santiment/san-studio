@@ -6,7 +6,13 @@ import { getMetricMinInterval } from '@/api/metrics/restrictions'
 import { newKey } from '@/metrics/utils'
 import { parseMetricKey } from '@/sharing/metrics'
 
-let math = { evaluate: (_expression: string, _scope: any) => {} }
+let math = {
+  evaluate: (_expression: string, _scope: any) => {},
+  parse: (_expression: string) =>
+    ({
+      traverse: () => {},
+    } as any),
+}
 export function importMath() {
   return import('mathjs/lib/esm/number').then(({ create, all }) => (math = create(all)))
 }
@@ -70,7 +76,9 @@ function getCommonMinInterval(intervals: string[]): string {
 const COMBINED_KEY = 'COMBINED_KEY'
 function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   const mathPromise = importMath()
-  const { key, baseMetrics, expression } = metric
+  const { key, baseMetrics } = metric
+
+  let expression = metric.expression
 
   const minIntervalPromise = Promise.all<string>(
     baseMetrics.flatMap((metric: any) => metric.baseMetrics || metric).map(getMetricMinInterval),
@@ -98,6 +106,24 @@ function fetch(variables, metric: any, cachePolicy?: CachePolicy) {
   )
 
   return mathPromise
+    .then(() => {
+      try {
+        const parsedExpression = math.parse(metric.expression)
+        let shouldSubstituteImplicitOperations = true
+
+        parsedExpression.traverse((node) => {
+          if (node.op === '*' && node.implicit) {
+            node.implicit = false
+            shouldSubstituteImplicitOperations = true
+          }
+        })
+
+        if (shouldSubstituteImplicitOperations) {
+          expression = parsedExpression.toString()
+          metric.expression = expression
+        }
+      } catch (_e) {}
+    })
     .then(() => Promise.all<any[]>(queries))
     .then((allData) => {
       const { offsets, commonLength } = findBoundaries(allData)
