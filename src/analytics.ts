@@ -39,6 +39,8 @@ export const Event = {
   MetricExchange: 'charts_metric_exchange',
   MetricVault: 'charts_metric_vault',
   MetricSettlementCurrency: 'charts_metric_settlement_currency',
+  MetricOwner: 'charts_metric_owner',
+  MetricLabel: 'charts_metric_label',
   MetricInterval: 'charts_metric_interval',
   MetricAxisMaxMin: 'charts_metric_axis_max_min',
 
