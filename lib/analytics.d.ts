@@ -28,6 +28,8 @@ export declare const Event: {
     readonly MetricExchange: "charts_metric_exchange";
     readonly MetricVault: "charts_metric_vault";
     readonly MetricSettlementCurrency: "charts_metric_settlement_currency";
+    readonly MetricOwner: "charts_metric_owner";
+    readonly MetricLabel: "charts_metric_label";
     readonly MetricInterval: "charts_metric_interval";
     readonly MetricAxisMaxMin: "charts_metric_axis_max_min";
     readonly ShowMetricAxis: "charts_show_metric_axis";
