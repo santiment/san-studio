@@ -20,6 +20,7 @@
   import AddonSettings from '../Addons/Settings.svelte'
   import { ADDONS } from '../Addons/addons'
   import SocialVolumeSetting from './SocialVolumeSetting.svelte'
+  import OwnersSetting from './OwnersSetting/index.svelte'
 
   const { isEmbedded } = getAdapterController()
 
@@ -46,6 +47,10 @@
 
       {#if metric === Metric.open_interest_per_settlement_currency || metric === Metric.funding_rates_aggregated_by_settlement_currency}
         <SettlementCurrencySetting {metric} />
+      {/if}
+
+      {#if getBase(metric).key === 'funding_rate'}
+        <OwnersSetting {metric} />
       {/if}
 
       {#if isNotIndicator && !isEmbedded}
