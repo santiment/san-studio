@@ -30,7 +30,10 @@ function onCombineClick() {
 }
 </script>
 
-<Setting on:click={metric.expression ? onExpressionClick : onCombineClick}>
+<Setting
+  class="combine-metric-settings"
+  on:click={() => alert('Formulas are available on modern version only')}
+>
   {#if metric.expression}
     Expression: {metric.expression}
   {:else}
@@ -38,3 +41,9 @@ function onCombineClick() {
     Combine metrics
   {/if}
 </Setting>
+
+<style>
+  :global(.combine-metric-settings) {
+    cursor: not-allowed !important;
+  }
+</style>
