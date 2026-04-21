@@ -62,7 +62,7 @@ function onSave() {
         };
         promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then((layout) => {
             var _a;
-            (_a = window.notifyLayoutSave) === null || _a === void 0 ? void 0 : _a.call(window);
+            (_a = window.notifyLayoutSave) === null || _a === void 0 ? void 0 : _a.call(window, layout);
             return layout;
         });
     }
