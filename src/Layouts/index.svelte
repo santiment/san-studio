@@ -79,7 +79,7 @@
 
       promise = (isAuthor ? updateUserLayout(id, settings) : createUserLayout(settings)).then(
         (layout) => {
-          window.notifyLayoutSave?.()
+          window.notifyLayoutSave?.(layout)
           return layout
         },
       )
