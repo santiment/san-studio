@@ -1,4 +1,9 @@
-<div class="setting row v-center mrg-l mrg--l btn" on:click>
+<script>
+  let className = ''
+  export { className as class }
+</script>
+
+<div class="setting row v-center mrg-l mrg--l btn {className}" on:click>
   <slot />
 </div>
 
