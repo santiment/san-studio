@@ -19,6 +19,7 @@ export function shareDrawings(drawings = []): any[] {
 
     const sharer = DrawingShare[type]
     if (sharer) data = data.concat(sharer(drawing))
+    else data = data.concat([drawing.seriesId, drawing.options])
 
     return data
   })
@@ -35,6 +36,7 @@ export function parseDrawings(drawings: any[][] = []): any[] {
 
     const parser = DrawingParse[type as DrawingTypes]
     if (parser) Object.assign(drawing, parser(data))
+    else Object.assign(drawing, { seriesId: data[0], options: data[1] })
 
     return newDrawing(drawing)
   })
