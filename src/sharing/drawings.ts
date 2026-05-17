@@ -19,7 +19,7 @@ export function shareDrawings(drawings = []): any[] {
 
     const sharer = DrawingShare[type]
     if (sharer) data = data.concat(sharer(drawing))
-    else data = data.concat([drawing.seriesId, drawing.options])
+    else data = data.concat([(drawing as any).seriesId, (drawing as any).options])
 
     return data
   })
