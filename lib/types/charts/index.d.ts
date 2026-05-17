@@ -41,6 +41,8 @@ declare namespace SAN {
       /** [datetime, metric's value, ... x(i), y(i+1), ...]] */
       relCoor: number[]
       handlers: Path2D[]
+      seriesId?: string
+      options?: Record<string, any>
     }
 
     type Drawer = {
